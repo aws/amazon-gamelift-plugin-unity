@@ -1,0 +1,14 @@
+{
+  "ExpandedNodes": [
+    "",
+    "\\GameLift-Unity",
+    "\\GameLift-Unity\\Assets",
+    "\\GameLift-Unity\\Assets\\com.amazonaws.gamelift",
+    "\\GameLift-Unity\\Assets\\com.amazonaws.gamelift\\Tests",
+    "\\GameLift-Unity\\Assets\\com.amazonaws.gamelift\\Tests\\Editor",
+    "\\GameLift-Unity\\Assets\\com.amazonaws.gamelift\\Tests\\Editor\\Integration",
+    "\\GameLift-Unity\\Assets\\com.amazonaws.gamelift\\Tests\\Editor\\Unit"
+  ],
+  "SelectedNode": "\\GameLift-Unity\\Assets\\com.amazonaws.gamelift\\Tests\\Editor\\Unit\\AmazonGameLiftPlugin.Editor.UnitTests.asmdef.meta",
+  "PreviewInSolutionExplorer": false
+}

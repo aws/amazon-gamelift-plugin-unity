@@ -1,0 +1,23 @@
+{
+  "name": "com.amazonaws.gamelift",
+  "displayName": "Amazon GameLift Plugin",
+  "version": "0.1.0",
+  "unity": "2018.4",
+  "description": "",
+  "keywords": [
+    "AWS"
+  ],
+  "dependencies": {
+    "com.unity.nuget.newtonsoft-json": "2.0.0"
+  },
+  "samples": [
+    {
+        "displayName": "Sample Game",
+        "path": "Examples~/SampleGame"
+    },
+    {
+        "displayName": "Custom Scenario",
+        "path": "Examples~/CustomScenario"
+    }
+  ]
+}
