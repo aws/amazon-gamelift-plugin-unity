@@ -1,0 +1,23 @@
+{
+    "name": "SampleGame",
+    "references": [
+        "AmazonGameLiftPlugin.Runtime"
+    ],
+    "optionalUnityReferences": [],
+    "includePlatforms": [
+        "Editor",
+        "WindowsStandalone64"
+    ],
+    "excludePlatforms": [],
+    "allowUnsafeCode": false,
+    "overrideReferences": true,
+    "precompiledReferences": [
+        "AWSSDK.Core.dll",
+        "AWSSDK.GameLift.dll",
+        "AWSSDK.SecurityToken.dll",
+        "GameLiftServerSDKNet45.dll",
+        "AmazonGameLiftPlugin.Core.dll"
+    ],
+    "autoReferenced": true,
+    "defineConstraints": []
+}

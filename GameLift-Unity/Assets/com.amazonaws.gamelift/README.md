@@ -1,4 +1,4 @@
-# Amazon GameLift Plugin for Unity 
+# Amazon GameLift Plugin
 
 ## Overview
 
@@ -37,8 +37,8 @@ When the **com.amazonaws.gamelift.zip** file is downloaded, unzip it. The **com.
 ### Step 3. Import the installation package in your Unity project
 **To import the plugin installation package, do the following:**
 1.	Run Unity and open the project needed.
-2.	Navigate to **Window > Package Manager**.
-3.	In the opened **Package Manager** window, click the **“+”** button and select the **Add package from disk** option.
+2.	Navigate to **Window > Package Manager**. 
+3.	In the opened **Package Manager** window, click the **“+”** button and select the **Add package from disk** option. 
 4.	In the window opened, specify the path to the **package.json** file and click **Open**.
 5.	Once the package is imported, the **GameLift** menu item will be added in the Unity menu bar, and the **GameLift Plugin Settings** window will be opened automatically, and you can start configuring the Amazon GameLift Plugin.
 
@@ -63,32 +63,32 @@ The Amazon GameLift Plugin is compatible only with officially supported versions
 
 ### How to deploy a CloudFormation stack using predefined scenario?
 1.	Open the **Deployment** window by clicking **GameLift > Deployment** in the menu bar.
-2.	In the **Deployment** window, find the scenario needed in the **Select scenario** drop-down list. A brief description of each scenario is displayed below the drop-down.
+2.	In the **Deployment** window, find the scenario needed in the **Select scenario** drop-down list. A brief description of each scenario is displayed below the drop-down. 
 3.	Specify the name of your game in the **Game Name** field.
 4.	Specify your server build root folder path in the **Build Folder Path** field and the game server executable path in the **Build Exe File Path** field (for Single-Region Fleet, Multi-Region, Spot Fleets, and Flex Match scenarios). The region and S3 bucket name which you created during configuring the plugin are displayed below in the appropriate fields.
 5.	Click the **Deploy** button to start deployment. The stack statuses and details will be displayed in the **Current State** section. For more details about CloudFormation stacks and stack status codes, read the AWS CloudfFormation guide: https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/using-cfn-describing-stacks.html
 6.	When the deployment process is completed, the status will be displayed in the **Current State** section.
-	  While deployment is in progress, you can close the **Deployment** window if needed and then open it again. The process will not be interrupted.
-	  You can interrupt the deployment process by clicking the **Cancel** button.
+While deployment is in progress, you can close the **Deployment** window if needed and then open it again. The process will not be interrupted.
+You can interrupt the deployment process by clicking the **Cancel** button.
 7.	If needed, you can redeploy your stack using another scenario or changing deployment parameters.
 
 Note: you can change more scenario parameters in the parameters.json files in the scenario folders. For example, you can pass additional command line parameters with LaunchParametersParameter.
 
 ### How to deploy a custom scenario?
 1.	In Unity 2018.4, you need to open the **com.amazonaws.gamelift\Examples~\CustomScenario** folder of the plugin and import the .unitypackage file into your project.
-	  or
+or
 2. In Unity 2019.1 and newer, open your project in Unity, go to **Window > Package Manager > Amazon GameLift Plugin**; find **Custom Scenario** in the **Samples** section and click **Import**.
 3.	Find the **Custom Scenario** folder in **Assets/Editor/** and customize it as needed.
-4.	Go to the **Deployment** window by clicking the **GameLift > Deployment** menu item.
-
+4.	Go to the **Deployment** window by clicking the **GameLift > Deployment** menu item. 
+ 
 7.	In the **Deployment** window, find the custom scenario in the **Select scenario** drop-down list.
-
+ 
 8.	Specify the name of your game in the **Game Name** field.
 9.	Specify your server build root folder path in the **Build Folder Path** field and the game server executable path in the **Build Exe File Path** field (for Single-Region Fleet, Multi-Region, Spot Fleets, and Flex Match scenarios). The region and S3 bucket name which you created during configuring the plugin are displayed below in the appropriate fields.
 10.	Click the **Deploy** button to start deployment. The stack statuses and details will be displayed in the **Current State** section. For more details about CloudFormation stacks and stack status codes, read the AWS CloudfFormation guide: https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/using-cfn-describing-stacks.html
 11.	When the deployment process is completed, the status will be displayed in the **Current State** section.
-	   While deployment is in progress, you can close the **Deployment** window if needed and then open it again. The process will not be interrupted.
-	   You can interrupt the deployment process by clicking the **Cancel** button.
+While deployment is in progress, you can close the **Deployment** window if needed and then open it again. The process will not be interrupted.
+You can interrupt the deployment process by clicking the **Cancel** button.
 12.	If needed, you can redeploy your stack using another scenario or changing deployment parameters.
 
 Also, you can create the custom scenario manually based on an existing scenario, customize it, and deploy:
@@ -97,59 +97,11 @@ Also, you can create the custom scenario manually based on an existing scenario,
 3.	Open the scenario folder.
 4.	Change the scenario assembly definition name.
 5.	Open the **Deployer.cs** and change:
-	  •	the namespace to a new unique value,
-	  •	the DisplayName property to a new unique value,
-	  •	the ScenarioFolder property value to your relative folder path (starting with Assets),
-	  •	other properties you need.
+•	the namespace to a new unique value,
+•	the DisplayName property to a new unique value,
+•	the ScenarioFolder property value to your relative folder path (starting with Assets),
+•	other properties you need.
 6. Deploy the scenario via the **Deployment** window according to the instruction above.
 
 ### Where to find logs?
 An additional error log file related to the Unity game project can be found in the following location: **logs/amazon-gamelift-plugin-logs[YYYYMMDD].txt**. Note, that the log file is created once a day.
-
-## For contributors
-
-### How to set up the project development environment?
-
-MS Windows OS is required. To build the plugin, you need to install some dependencies. This will require administrator rights on your machine:
-* the .NET SDK https://docs.microsoft.com/en-us/dotnet/core/sdk
-* the .NET 4.5 Developer Pack to build the Server SDK
-* the .NET 4.7.1 Developer Pack to build AmazonGameLiftPlugin.Core
-* and a supported Unity version.
-
-This will require administrator rights on your machine.
-
-You also need to add target Unity editor folder (e.g. **C:\Program Files\Unity\Hub\Editor\<version>\Editor\\**) to the Windows PATH environment variable.
-
-Currently, the .NET 4.5 Developer Pack can only be installed as a part of MS Visual Studio. You can obtain Visual Studio at https://visualstudio.microsoft.com/vs/compare/.
-When you have Visual Studio 2019 installed:
-1. Open the Visual Studio Installer application. You should find your Visual Studio installation.
-2. Press Modify on your installation.
-3. Go to the Individual components tab.
-4. Check ".NET 4.5 Framework targeting pack", and press "Modify".
-
-.NET 4.7.1 Developer Pack can be downloaded at https://dotnet.microsoft.com/download/visual-studio-sdks, or as a part of MS Visual Studio.
-
-The redistributable plugin files are located at **GameLift-Unity\Assets\com.amazonaws.gamelift**.
-If you want to update the sample game, open the GameLift-SampleGame project in Unity and run the main menu command at **Assets > Export Sample**.
-If you want to update the custom scenario sample, open the GameLift-Unity project in Unity and run the main menu command at **Assets > Export Custom Scenario**.
-
-### How to run unit and integration tests?
-
-There is a list of the test types by their location.
-
-* **AmazonGameLiftPlugin.Core**:
-	* Unit tests can be found in the **AmazonGameLiftPlugin.Core.Tests project**. They can be run from your IDE.
-* **GameLift-Unity (plugin)**:
-	* Unit tests can be found at **GameLift-Unity\Assets\com.amazonaws.gamelift\Tests\Editor\Unit**, or in the **AmazonGameLiftPlugin.Editor.UnitTests project** in your IDE. They can be run from the Unity Editor:  **Window > General > Test Runner**.
-* **GameLift-SampleGame**:
-	* Unit tests can be found at **GameLift-SampleGame\Assets\Tests\Editor\Unit**, or in the **SampleTests.Unit project** in your IDE. They can be run from the Unity Editor: **Window > General > Test Runner, EditMode**.
-	* Play mode integration UI tests can be found at **GameLift-SampleGame\Assets\Tests\UI**, or in the **SampleTests.UI project** in your IDE. They can be run from the Unity Editor: **Window > General > Test Runner, PlayMode**. These tests need **GameLift-SampleGame\UiTestSettings.json** filled with your test parameters.
-
-## Security
-
-See [CONTRIBUTING](CONTRIBUTING.md#security-issue-notifications) for more information.
-
-## License
-
-This project is licensed under the Apache-2.0 License.
-

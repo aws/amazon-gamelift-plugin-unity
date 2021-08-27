@@ -1,0 +1,55 @@
+CHANGELOG
+
+# 0.1.0 (08/09/2021)
+## Added:
+- Plugin installation package and the plugin file structure
+- The GameLift item in the Unity menu bar with the following sub-menu items:
+	- Plugin Settings
+	- Local Testing
+	- Deployment
+- The GameLift Plugin Settings window with the following configurations:
+	- .NET
+		- Ability to update the .NET version
+	- JRE
+		- Ability to download JRE
+	- Local Testing
+		- Ability to download GameLift Local
+		- Ability to specify the path to the GameLiftLocal.jar file
+	- AWS profile
+		- Ability to add a new profile
+		- Ability to choose an existing profile
+		- Ability to specify a region
+		- Ability to open the AWS instructions
+	- AWS account bootstrapping
+		- Ability to create a new S3 bucket
+			- Ability to specify an expiration date of the S3 bucket
+		- Ability to choose an existing S3 bucket
+			- Ability to search by the S3 bucket name
+		- Displaying the currently selected S3 bucket
+		- Ability to open the S3 console
+	- Displaying "Configured" and "Not Configured" statuses of the plugin settings
+	- Automatically displaying the GameLift Plugin Settings window when the plugin is not fully configured
+- The Local Testing window providing the following functionality:
+	- Ability to specify the build path
+	- Ability to specify the GL Local port
+- 5 predefined deployment scenario templates:
+	- Auth Only
+	- Single-Region Fleet
+	- Multi-Region Fleets with Queue and Custom Matchmaker
+	- SPOT Fleets with Queue and Custom Matchmaker
+	- FlexMatch
+- The Deployment window providing the following functionality:
+	- Ability to choose a predefined scenario for deployment
+		- Displaying the scenario template description
+		- Ability to open the AWS instructions
+	- Ability to choose a custom scenario for deployment
+	- Ability to specify a game name
+	- Ability to specify a build path
+	- Ability to start deployment
+	- Ability to cancel current deployment
+	- Displaying the stack deployment status and details
+	- Displaying the deployment outcomes (Cognito Client ID, API Gateway Endpoint)
+	- Ability to open the AWS CloudFormation console
+- A game sample for testing the plugin
+- A custom scenario sample
+- Dark/light Unity theme support

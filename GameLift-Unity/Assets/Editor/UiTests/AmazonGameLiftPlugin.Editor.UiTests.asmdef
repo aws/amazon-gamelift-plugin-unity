@@ -1,0 +1,17 @@
+{
+    "name": "AmazonGameLiftPlugin.Editor.UiTests",
+    "references": [
+        "AmazonGameLiftPlugin.Editor",
+        "AmazonGameLiftPlugin.EditorCoreAPI"
+    ],
+    "optionalUnityReferences": [],
+    "includePlatforms": [
+        "Editor"
+    ],
+    "excludePlatforms": [],
+    "allowUnsafeCode": false,
+    "overrideReferences": false,
+    "precompiledReferences": [],
+    "autoReferenced": true,
+    "defineConstraints": []
+}
