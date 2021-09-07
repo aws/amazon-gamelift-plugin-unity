@@ -105,7 +105,9 @@ namespace AmazonGameLift.Editor
             }
         }
 
-        private void SetWindowSize(float height) =>
+        private void SetWindowSize(float height)
+        {
             this.SetConstantSize(new Vector2(x: WindowWidthPixels, y: height));
+        }
     }
 }

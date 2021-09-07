@@ -14,6 +14,7 @@ namespace AmazonGameLift.Editor
     internal class AwsCredentialsCreation
     {
         private readonly CoreApi _coreApi;
+        private readonly ILogger _logger;
         private readonly TextProvider _textProvider;
         private readonly Status _status = new Status();
 
@@ -36,9 +37,10 @@ namespace AmazonGameLift.Editor
         public event Action OnCreated;
 
         public AwsCredentialsCreation(TextProvider textProvider, RegionBootstrap regionBootstrap,
-            CoreApi coreApi = null)
+            CoreApi coreApi, ILogger logger)
         {
-            _coreApi = coreApi ?? CoreApi.SharedInstance;
+            _coreApi = coreApi ?? throw new ArgumentNullException(nameof(coreApi));
+            _logger = logger ?? throw new ArgumentNullException(nameof(logger));
             _textProvider = textProvider ?? throw new ArgumentNullException(nameof(textProvider));
             RegionBootstrap = regionBootstrap ?? throw new ArgumentNullException(nameof(regionBootstrap));
         }
@@ -53,7 +55,7 @@ namespace AmazonGameLift.Editor
 
             if (!response.Success)
             {
-                response.LogError(_textProvider);
+                _logger.LogResponseError(response);
                 return;
             }
 
@@ -83,7 +85,7 @@ namespace AmazonGameLift.Editor
         {
             if (!CanCreate)
             {
-                Debug.LogError(DevStrings.OperationInvalid);
+                _logger.Log(DevStrings.OperationInvalid, LogType.Error);
                 return;
             }
 
@@ -92,7 +94,7 @@ namespace AmazonGameLift.Editor
             if (!response.Success)
             {
                 SetErrorStatus(response.ErrorCode);
-                response.LogError(_textProvider);
+                _logger.LogResponseError(response);
                 return;
             }
 
@@ -101,7 +103,7 @@ namespace AmazonGameLift.Editor
             if (!writeResponse.Success)
             {
                 SetErrorStatus(writeResponse.ErrorCode);
-                writeResponse.LogError(_textProvider);
+                _logger.LogResponseError(writeResponse);
                 return;
             }
 

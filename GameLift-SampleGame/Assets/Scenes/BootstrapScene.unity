@@ -509,6 +509,7 @@ MonoBehaviour:
     type: 3}
   _confirmationSuccessScreenPrefab: {fileID: 114225077124403916, guid: 70de5970b65ecb2468fcce461233b3a7,
     type: 3}
+  _gameLiftSettings: {fileID: 11400000, guid: 5ca82cac3745a13409880728a637e0d9, type: 2}
 --- !u!4 &1943891326
 Transform:
   m_ObjectHideFlags: 0

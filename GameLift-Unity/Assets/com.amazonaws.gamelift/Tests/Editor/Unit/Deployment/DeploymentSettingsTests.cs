@@ -525,7 +525,6 @@ namespace AmazonGameLiftPlugin.Editor.UnitTests
 
             async Task Run()
             {
-                LogAssert.Expect(LogType.Error, "Unknown error ");
                 DeploymentSettings underTest = SetUpStartDeployment(deployerMock =>
                     SetUpDeployerStartDeployment(deployerMock, success: false), waitSuccess, hasGameServer);
 
@@ -543,7 +542,6 @@ namespace AmazonGameLiftPlugin.Editor.UnitTests
 
             async Task Run()
             {
-                LogAssert.Expect(LogType.Exception, "Exception: TestException");
                 const string testMessage = "TestException";
                 await TestWhenRefreshAndScenarioSelectedAndStartDeploymentException(testMessage, hasGameServer, underTest => Assert.IsFalse(underTest.IsDeploymentRunning));
             }
@@ -570,11 +568,6 @@ namespace AmazonGameLiftPlugin.Editor.UnitTests
 
             async Task Run()
             {
-                if (!waitSuccess)
-                {
-                    LogAssert.Expect(LogType.Error, "Unknown error ");
-                }
-
                 DeploymentSettings underTest = SetUpStartDeployment(deployerMock =>
                     SetUpDeployerStartDeployment(deployerMock, success: true), waitSuccess, hasGameServer);
 
@@ -594,7 +587,6 @@ namespace AmazonGameLiftPlugin.Editor.UnitTests
 
             async Task Run()
             {
-                LogAssert.Expect(LogType.Error, "Unknown error ");
                 DeploymentSettings underTest = SetUpStartDeployment(deployerMock =>
                     SetUpDeployerStartDeployment(deployerMock, success: false), waitSuccess, hasGameServer);
 
@@ -613,7 +605,6 @@ namespace AmazonGameLiftPlugin.Editor.UnitTests
 
             async Task Run()
             {
-                LogAssert.Expect(LogType.Exception, "Exception: TestException");
                 const string testMessage = "TestException";
                 await TestWhenRefreshAndScenarioSelectedAndStartDeploymentException(testMessage, hasGameServer, underTest => Assert.IsFalse(underTest.CanCancel));
             }
@@ -786,11 +777,6 @@ namespace AmazonGameLiftPlugin.Editor.UnitTests
 
             async Task Run()
             {
-                if (!waitSuccess)
-                {
-                    LogAssert.Expect(LogType.Error, "Unknown error ");
-                }
-
                 Mock<DeployerBase> deployerMock = null;
 
                 DeploymentSettings underTest = SetUpStartDeployment(mock =>
@@ -1155,8 +1141,6 @@ namespace AmazonGameLiftPlugin.Editor.UnitTests
 
             async Task Run()
             {
-                LogAssert.Expect(LogType.Error, "Unknown error ");
-
                 const string testProfile = "test";
                 const string testScenarioName = "Test Name";
                 const string testRegion = "test-region";
@@ -1466,7 +1450,7 @@ namespace AmazonGameLiftPlugin.Editor.UnitTests
 
             return new DeploymentSettings(scenarioLocator.Object, pathConverter.Object, coreApi.Object,
                 parametersUpdater.Object, TextProviderFactory.Create(), deploymentWaiter.Object,
-                deploymentIdContainer.Object, delayMock.Object);
+                deploymentIdContainer.Object, delayMock.Object, new MockLogger());
         }
 
         private static Mock<PathConverter> GetMockPathConverter(Mock<CoreApi> coreApi = null)
@@ -1483,6 +1467,9 @@ namespace AmazonGameLiftPlugin.Editor.UnitTests
             return new Mock<ScenarioParametersUpdater>(coreApi.Object, factory);
         }
 
-        private static Task<bool> ConfirmChangeSetTask(ConfirmChangesRequest _) => Task.FromResult(true);
+        private static Task<bool> ConfirmChangeSetTask(ConfirmChangesRequest _)
+        {
+            return Task.FromResult(true);
+        }
     }
 }

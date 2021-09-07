@@ -391,8 +391,6 @@ namespace AmazonGameLiftPlugin.Editor.UnitTests
 
             async Task Run()
             {
-                LogAssert.Expect(LogType.Error, "Unknown error ");
-
                 string testBuildExePath = "build" + DateTime.UtcNow.Ticks.ToString();
                 int testPort = UnityEngine.Random.Range(1, ushort.MaxValue);
 
@@ -597,8 +595,6 @@ namespace AmazonGameLiftPlugin.Editor.UnitTests
 
         private static async Task<LocalTest> TestWhenCanStartAndStartAndRunLocalServerFails(Mock<CoreApi> coreApiMock)
         {
-            LogAssert.Expect(LogType.Error, "Unknown error ");
-
             string testBuildExePath = "build" + DateTime.UtcNow.Ticks.ToString();
             int testPort = UnityEngine.Random.Range(1, ushort.MaxValue);
 
@@ -687,9 +683,12 @@ namespace AmazonGameLiftPlugin.Editor.UnitTests
                 .Verifiable();
         }
 
-        private static void SetUpDelayMockWait(Mock<Delay> delayMock) => delayMock.Setup(target => target.Wait(It.IsAny<int>(), It.IsAny<CancellationToken>()))
+        private static void SetUpDelayMockWait(Mock<Delay> delayMock)
+        {
+            delayMock.Setup(target => target.Wait(It.IsAny<int>(), It.IsAny<CancellationToken>()))
                 .Returns(Task.CompletedTask)
                 .Verifiable();
+        }
 
         private static LocalTest GetUnitUnderTest(Mock<CoreApi> coreApi = null, Mock<Delay> delayMock = null)
         {
@@ -702,7 +701,7 @@ namespace AmazonGameLiftPlugin.Editor.UnitTests
                 SetUpDelayMockWait(delayMock);
             }
 
-            return new LocalTest(coreApi.Object, textProvider, delayMock.Object);
+            return new LocalTest(coreApi.Object, textProvider, delayMock.Object, new MockLogger());
         }
     }
 }

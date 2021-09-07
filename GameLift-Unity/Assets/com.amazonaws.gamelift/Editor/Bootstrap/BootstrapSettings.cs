@@ -20,11 +20,14 @@ namespace AmazonGameLift.Editor
     {
         public const int CreationMode = 0;
         public const int SelectionMode = 1;
+        public const int NoneLifeCyclePolicyIndex = 0;
         private const int DefaultLifeCyclePolicyIndex = 0;
         private readonly Status _status = new Status();
         private readonly BucketUrlFormatter _bucketUrlFormatter = new BucketUrlFormatter();
+        private readonly BucketPolicy[] _lifecyclePolicies;
         private readonly TextProvider _textProvider;
         private readonly IBucketNameFormatter _bucketFormatter;
+        private readonly ILogger _logger;
         private readonly CoreApi _coreApi;
         private readonly BootstrapUtility _bootstrapUtility;
         private List<string> _existingBuckets = new List<string>();
@@ -33,7 +36,7 @@ namespace AmazonGameLift.Editor
 
         public IReadOnlyList<string> ExistingBuckets => _existingBuckets;
 
-        public string[] AllLifecyclePolicies { get; }
+        public string[] AllLifecyclePolicyNames { get; }
 
         /// <summary>
         /// Is set by <see cref="Refresh"/>, <see cref="RefreshBucketName"/> or <see cref="RefreshCurrentBucket"/>.
@@ -52,7 +55,7 @@ namespace AmazonGameLift.Editor
         /// <summary>
         /// Generated from <see cref="GameName"/>.
         /// </summary>
-        public string BucketName { get; private set; }
+        public string BucketName { get; set; }
 
         public int LifeCyclePolicyIndex { get; set; }
 
@@ -69,21 +72,29 @@ namespace AmazonGameLift.Editor
 
         public event Action<IReadOnlyList<string>> OnBucketsLoaded = default;
 
-        public BootstrapSettings(IEnumerable<string> policyLifecycles, TextProvider textProvider,
-            IBucketNameFormatter bucketFormatter, CoreApi coreApi = null,
+        public BootstrapSettings(IEnumerable<BucketPolicy> lifecyclePolicies,
+            IEnumerable<string> lifecyclePolicyNames, TextProvider textProvider,
+            IBucketNameFormatter bucketFormatter, ILogger logger, CoreApi coreApi = null,
             BootstrapUtility bootstrapUtility = null)
         {
-            if (policyLifecycles is null)
+            if (lifecyclePolicies is null)
             {
-                throw new ArgumentNullException(nameof(policyLifecycles));
+                throw new ArgumentNullException(nameof(lifecyclePolicies));
             }
 
+            if (lifecyclePolicyNames is null)
+            {
+                throw new ArgumentNullException(nameof(lifecyclePolicyNames));
+            }
+
+            _lifecyclePolicies = lifecyclePolicies.ToArray();
             _textProvider = textProvider ?? throw new ArgumentNullException(nameof(textProvider));
             _bucketFormatter = bucketFormatter ?? throw new ArgumentNullException(nameof(bucketFormatter));
+            _logger = logger ?? throw new ArgumentNullException(nameof(logger));
             _coreApi = coreApi ?? CoreApi.SharedInstance;
             _bootstrapUtility = bootstrapUtility ?? BootstrapUtility.SharedInstance;
             LifeCyclePolicyIndex = DefaultLifeCyclePolicyIndex;
-            AllLifecyclePolicies = policyLifecycles.ToArray();
+            AllLifecyclePolicyNames = lifecyclePolicyNames.ToArray();
         }
 
         public void SetUp()
@@ -124,7 +135,7 @@ namespace AmazonGameLift.Editor
 
             if (createResponse.Success)
             {
-                OnBucketCreated(BucketName);
+                OnBucketCreated(bootstrapResponse.Profile, bootstrapResponse.Region, BucketName);
             }
             else
             {
@@ -136,7 +147,7 @@ namespace AmazonGameLift.Editor
         {
             if (!CanSaveSelectedBucket)
             {
-                Debug.LogError(DevStrings.OperationInvalid);
+                _logger.Log(DevStrings.OperationInvalid, LogType.Error);
                 return;
             }
 
@@ -145,7 +156,7 @@ namespace AmazonGameLift.Editor
             if (!bucketNameResponse.Success)
             {
                 SetErrorStatus(Strings.StatusBootstrapFailedTemplate, bucketNameResponse);
-                bucketNameResponse.LogError(_textProvider);
+                _logger.LogResponseError(bucketNameResponse);
                 return;
             }
 
@@ -167,7 +178,7 @@ namespace AmazonGameLift.Editor
             if (!profileResponse.Success)
             {
                 SetErrorStatus(Strings.StatusGetProfileFailed);
-                profileResponse.LogError(_textProvider);
+                _logger.LogResponseError(profileResponse);
                 return;
             }
 
@@ -176,7 +187,7 @@ namespace AmazonGameLift.Editor
             if (!regionResponse.Success || !_coreApi.IsValidRegion(regionResponse.Value))
             {
                 SetErrorStatus(Strings.StatusGetRegionFailed);
-                regionResponse.LogError(_textProvider);
+                _logger.LogResponseError(regionResponse);
                 return;
             }
 
@@ -185,7 +196,7 @@ namespace AmazonGameLift.Editor
             if (!bucketsResponse.Success)
             {
                 SetErrorStatus(Strings.StatusBootstrapFailedTemplate, bucketsResponse);
-                bucketsResponse.LogError(_textProvider);
+                _logger.LogResponseError(bucketsResponse);
                 return;
             }
 
@@ -233,7 +244,7 @@ namespace AmazonGameLift.Editor
             if (!currentRegionResponse.Success || !_coreApi.IsValidRegion(currentRegionResponse.Value))
             {
                 SetErrorStatus(Strings.StatusGetRegionFailed);
-                currentRegionResponse.LogError(_textProvider);
+                _logger.LogResponseError(currentRegionResponse);
                 return;
             }
 
@@ -243,7 +254,7 @@ namespace AmazonGameLift.Editor
             if (!profileResponse.Success)
             {
                 SetErrorStatus(Strings.StatusGetProfileFailed);
-                profileResponse.LogError(_textProvider);
+                _logger.LogResponseError(profileResponse);
                 return;
             }
 
@@ -252,7 +263,7 @@ namespace AmazonGameLift.Editor
             if (!accountIdResponse.Success)
             {
                 SetErrorStatus(Strings.StatusBootstrapFailedTemplate, accountIdResponse);
-                accountIdResponse.LogError(_textProvider);
+                _logger.LogResponseError(accountIdResponse);
                 return;
             }
 
@@ -283,7 +294,7 @@ namespace AmazonGameLift.Editor
             _status.IsDisplayed = true;
         }
 
-        private void OnBucketCreated(string bucketName)
+        private void OnBucketCreated(string profileName, string region, string bucketName)
         {
             RefreshExistingBuckets();
 
@@ -295,6 +306,18 @@ namespace AmazonGameLift.Editor
                 return;
             }
 
+            BucketPolicy policy = _lifecyclePolicies[LifeCyclePolicyIndex];
+
+            if (policy != BucketPolicy.None)
+            {
+                PutLifecycleConfigurationResponse putPolicyResponse = _coreApi.PutBucketLifecycleConfiguration(profileName, region, bucketName, policy);
+
+                if (!putPolicyResponse.Success)
+                {
+                    _logger.LogResponseError(putPolicyResponse);
+                }
+            }
+
             SetInfoStatus(Strings.StatusBootstrapComplete);
             RefreshCurrentBucket();
         }
@@ -302,7 +325,7 @@ namespace AmazonGameLift.Editor
         private void OnBucketCreationFailure(Response response)
         {
             SetErrorStatus(Strings.StatusBootstrapFailedTemplate, response);
-            response.LogError(_textProvider);
+            _logger.LogResponseError(response);
         }
     }
 }

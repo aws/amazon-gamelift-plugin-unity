@@ -14,10 +14,8 @@ namespace AmazonGameLift.Editor
         private readonly CoreApi _coreApi;
 
         public GameLiftLocalSetting(CoreApi coreApi)
-          : base(Strings.LabelSettingsLocalTestingTitle, Strings.LabelSettingsLocalTestingButton, Strings.TooltipSettingsLocalTesting)
-        {
+          : base(Strings.LabelSettingsLocalTestingTitle, Strings.LabelSettingsLocalTestingButton, Strings.TooltipSettingsLocalTesting) =>
             _coreApi = coreApi ?? throw new System.ArgumentNullException(nameof(coreApi));
-        }
 
         internal override void RunPrimaryAction()
         {

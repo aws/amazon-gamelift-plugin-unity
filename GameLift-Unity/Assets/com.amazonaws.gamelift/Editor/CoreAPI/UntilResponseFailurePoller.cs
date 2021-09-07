@@ -11,10 +11,7 @@ namespace AmazonGameLift.Editor
     {
         private readonly Delay _delay;
 
-        public UntilResponseFailurePoller(Delay delay)
-        {
-            _delay = delay;
-        }
+        public UntilResponseFailurePoller(Delay delay) => _delay = delay;
 
         public async Task<T> Poll<T>(int periodMs, Func<T> action, Predicate<T> stopCondition = null) where T : Response
         {

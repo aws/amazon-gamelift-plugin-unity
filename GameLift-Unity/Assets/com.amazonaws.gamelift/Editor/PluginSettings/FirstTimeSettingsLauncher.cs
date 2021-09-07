@@ -26,11 +26,13 @@ namespace AmazonGameLift.Editor
 
             if (!response.Success)
             {
-                EditorWindow.GetWindow<SettingsWindow>();
+                EditorMenu.ShowPluginSettings();
             }
         }
 
-        internal static void SetSetting() =>
+        internal static void SetSetting()
+        {
             CoreApi.SharedInstance.PutSetting(SettingsKeys.WasSettingsWindowShown, NonEmptyValue);
+        }
     }
 }

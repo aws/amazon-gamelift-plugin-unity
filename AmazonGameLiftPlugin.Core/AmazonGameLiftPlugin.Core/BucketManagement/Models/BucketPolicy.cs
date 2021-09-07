@@ -5,6 +5,7 @@ namespace AmazonGameLiftPlugin.Core.BucketManagement.Models
 {
     public enum BucketPolicy
     {
+        None,
         SevenDaysLifecycle = 7,
         ThirtyDaysLifecycle = 30
     }

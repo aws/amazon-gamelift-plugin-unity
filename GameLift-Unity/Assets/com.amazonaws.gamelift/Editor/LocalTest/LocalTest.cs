@@ -24,7 +24,7 @@ namespace AmazonGameLift.Editor
         private CoreApi _coreApi;
         private TextProvider _textProvider;
         private Delay _delay;
-
+        private ILogger _logger;
         [SerializeField]
         private Status _status = new Status();
 
@@ -56,13 +56,14 @@ namespace AmazonGameLift.Editor
             set => _gameLiftLocalPort = Mathf.Min(Mathf.Max(MinPort, value), MaxPort);
         }
 
-        public LocalTest(CoreApi coreApi, TextProvider textProvider, Delay delay) => Restore(coreApi, textProvider, delay);
+        public LocalTest(CoreApi coreApi, TextProvider textProvider, Delay delay, ILogger logger) => Restore(coreApi, textProvider, delay, logger);
 
-        internal void Restore(CoreApi coreApi, TextProvider textProvider, Delay delay)
+        internal void Restore(CoreApi coreApi, TextProvider textProvider, Delay delay, ILogger logger)
         {
             _coreApi = coreApi ?? throw new ArgumentNullException(nameof(coreApi));
             _textProvider = textProvider ?? throw new ArgumentNullException(nameof(textProvider));
             _delay = delay ?? throw new ArgumentNullException(nameof(delay));
+            _logger = logger ?? throw new ArgumentNullException(nameof(logger));
         }
 
         public void Refresh()
@@ -118,7 +119,7 @@ namespace AmazonGameLift.Editor
                 _status.IsDisplayed = true;
                 string message = string.Format(_textProvider.Get(Strings.StatusLocalTestErrorTemplate), _textProvider.GetError(response.ErrorCode));
                 _status.SetMessage(message, MessageType.Error);
-                response.LogError(_textProvider);
+                _logger.LogResponseError(response);
                 return;
             }
 
@@ -139,7 +140,7 @@ namespace AmazonGameLift.Editor
                 _status.IsDisplayed = true;
                 string message = string.Format(_textProvider.Get(Strings.StatusLocalTestServerErrorTemplate), _textProvider.GetError(serverResponse.ErrorCode));
                 _status.SetMessage(message, MessageType.Error);
-                serverResponse.LogError(_textProvider);
+                _logger.LogResponseError(serverResponse);
                 return;
             }
 

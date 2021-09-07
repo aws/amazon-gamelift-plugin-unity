@@ -12,18 +12,18 @@ namespace AmazonGameLift.Editor
         private const float WindowWidthPixels = 560f;
 #if UNITY_2019_1_OR_NEWER
         private const float WindowSelectionHeightPixels = 320f;
-        private const float WindowCreationHeightPixels = 275f;
+        private const float WindowCreationHeightPixels = 285f;
 #else
         private const float WindowSelectionHeightPixels = 300f;
-        private const float WindowCreationHeightPixels = 260f;
+        private const float WindowCreationHeightPixels = 270f;
 #endif
+        private const float WarningHeightPixels = 45f;
         private const float TopMarginPixels = 15f;
         private const float LeftMarginPixels = 15f;
         private const float RightMarginPixels = 13f;
         private const float SelectionHeightPixels = 110f;
         private const float LabelWidthPixels = 150f;
         private const float VerticalSpacingPixels = 5f;
-
         private HyperLinkButton _consoleHyperLinkButton;
         private TextFilter _bucketsTextFilter;
         private StatusLabel _statusLabel;
@@ -43,6 +43,9 @@ namespace AmazonGameLift.Editor
         private string _tooltipRegion;
         private string _tooltipCurrentBucket;
         private string _labelBucketCosts;
+        private string _policyWarning;
+        private int _cachedPolicy = -1;
+        private bool _needResize;
 
         private void SetUp()
         {
@@ -72,10 +75,13 @@ namespace AmazonGameLift.Editor
             _tooltipRegion = _textProvider.Get(Strings.TooltipDeploymentRegion);
             _tooltipCurrentBucket = _textProvider.Get(Strings.TooltipBootstrapCurrentBucket);
             _labelBucketCosts = _textProvider.Get(Strings.LabelBootstrapBucketCosts);
+            _policyWarning = _textProvider.Get(Strings.LabelBootstrapLifecycleWarning);
         }
 
-        private void OnEnable() =>
+        private void OnEnable()
+        {
             SetUp();
+        }
 
         private void OnDisable()
         {
@@ -163,7 +169,7 @@ namespace AmazonGameLift.Editor
 
         private void DrawCurrentBucket()
         {
-            DrawBucketName(_labelBootstrapCurrentBucket, _bootstrapSettings.CurrentBucketName, _tooltipCurrentBucket);
+            _controlDrawer.DrawReadOnlyText(_labelBootstrapCurrentBucket, _bootstrapSettings.CurrentBucketName, _tooltipCurrentBucket);
 
             if (!_bootstrapSettings.HasCurrentBucket)
             {
@@ -197,24 +203,42 @@ namespace AmazonGameLift.Editor
             }
         }
 
-        private void DrawModeSelection() =>
+        private void DrawModeSelection()
+        {
             _bootstrapSettings.SelectedMode = GUILayout.SelectionGrid(
-              _bootstrapSettings.SelectedMode, _uiModes, 1, EditorStyles.radioButton);
+_bootstrapSettings.SelectedMode, _uiModes, 1, EditorStyles.radioButton);
+        }
 
         private void DrawBucketCreation()
         {
             EditorGUILayout.HelpBox(_labelBucketCosts, MessageType.Warning);
 
-            DrawBucketName(_labelBootstrapBucketName, _bootstrapSettings.BucketName);
+            _bootstrapSettings.BucketName = _controlDrawer.DrawTextField(_labelBootstrapBucketName, _bootstrapSettings.BucketName);
             _controlDrawer.DrawReadOnlyText(_labelBootstrapRegion, _bootstrapSettings.CurrentRegion, _tooltipRegion);
             GUILayout.Space(VerticalSpacingPixels);
 
             _bootstrapSettings.LifeCyclePolicyIndex = _controlDrawer.DrawPopup(
                 _labelBootstrapBucketLifecycle,
-                _bootstrapSettings.LifeCyclePolicyIndex, _bootstrapSettings.AllLifecyclePolicies,
+                _bootstrapSettings.LifeCyclePolicyIndex, _bootstrapSettings.AllLifecyclePolicyNames,
                 _tooltipBootstrapBucketLifecycle);
 
+            if (_cachedPolicy != _bootstrapSettings.LifeCyclePolicyIndex)
+            {
+                _cachedPolicy = _bootstrapSettings.LifeCyclePolicyIndex;
+                _needResize = true;
+            }
+
+            if (_bootstrapSettings.LifeCyclePolicyIndex != BootstrapSettings.NoneLifeCyclePolicyIndex)
+            {
+                EditorGUILayout.HelpBox(_policyWarning, MessageType.Warning);
+            }
+
             GUILayout.Space(VerticalSpacingPixels);
+
+            if (_needResize)
+            {
+                UpdateWindowSize();
+            }
         }
 
         private void DrawBucketSelection()
@@ -228,8 +252,10 @@ namespace AmazonGameLift.Editor
             }
         }
 
-        private void DrawStatus() =>
+        private void DrawStatus()
+        {
             _statusLabel.Draw(_bootstrapSettings.Status.Message, _bootstrapSettings.Status.Type);
+        }
 
         #endregion
 
@@ -242,29 +268,35 @@ namespace AmazonGameLift.Editor
             }
         }
 
-        private void DrawBucketName(string label, string value, string tooltip = null)
-        {
-            _controlDrawer.DrawReadOnlyText(label, value, tooltip);
-        }
-
         private void UpdateWindowSize()
         {
-            if (_bootstrapSettings.SelectedMode == BootstrapSettings.CreationMode)
+            switch (_bootstrapSettings.SelectedMode)
             {
-                SetWindowSize(WindowCreationHeightPixels);
-            }
-            else
-            {
-                SetWindowSize(WindowSelectionHeightPixels);
+                case BootstrapSettings.CreationMode:
+                    float heightPixels = _cachedPolicy == BootstrapSettings.NoneLifeCyclePolicyIndex
+                        ? WindowCreationHeightPixels
+                        : WindowCreationHeightPixels + WarningHeightPixels;
+                    SetWindowSize(heightPixels);
+                    break;
+                default:
+                    SetWindowSize(WindowSelectionHeightPixels);
+                    break;
             }
         }
 
-        private void SetWindowSize(float height) =>
+        private void SetWindowSize(float height)
+        {
             this.SetConstantSize(new Vector2(x: WindowWidthPixels, y: height));
+        }
 
-        private void OnBucketsLoaded(IReadOnlyList<string> buckets) =>
+        private void OnBucketsLoaded(IReadOnlyList<string> buckets)
+        {
             _bucketsTextFilter.SetOptions(buckets);
+        }
 
-        private void OnStatusChanged() => Repaint();
+        private void OnStatusChanged()
+        {
+            Repaint();
+        }
     }
 }

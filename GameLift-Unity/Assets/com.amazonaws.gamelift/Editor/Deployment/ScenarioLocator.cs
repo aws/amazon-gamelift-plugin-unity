@@ -33,7 +33,9 @@ namespace AmazonGameLift.Editor
         }
 
         // <class-name>Proxy is the pattern for dynamic mocked type
-        private static bool IsNonProxyDelpoyerType(Type type) =>
-            type.IsPublic && type.IsSubclassOf(typeof(DeployerBase)) && !type.Name.EndsWith("Proxy");
+        private static bool IsNonProxyDelpoyerType(Type type)
+        {
+            return type.IsPublic && type.IsSubclassOf(typeof(DeployerBase)) && !type.Name.EndsWith("Proxy");
+        }
     }
 }

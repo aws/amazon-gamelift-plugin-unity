@@ -23,13 +23,18 @@ namespace AmazonGameLift.Editor
             UserPoolClientId = userPoolClientId;
         }
 
-        public override bool Equals(object obj) => obj is DeploymentStackInfo info && Equals(info);
+        public override bool Equals(object obj)
+        {
+            return obj is DeploymentStackInfo info && Equals(info);
+        }
 
-        public bool Equals(DeploymentStackInfo other) =>
-            Details == other.Details
-            && Status == other.Status
-            && ApiGatewayEndpoint == other.ApiGatewayEndpoint
-            && UserPoolClientId == other.UserPoolClientId;
+        public bool Equals(DeploymentStackInfo other)
+        {
+            return Details == other.Details
+                && Status == other.Status
+                && ApiGatewayEndpoint == other.ApiGatewayEndpoint
+                && UserPoolClientId == other.UserPoolClientId;
+        }
 
         public override int GetHashCode()
         {

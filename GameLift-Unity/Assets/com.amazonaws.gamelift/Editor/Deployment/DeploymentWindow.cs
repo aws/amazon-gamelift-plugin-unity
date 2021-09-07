@@ -278,7 +278,7 @@ namespace AmazonGameLift.Editor
             }
 
             _previousBootstrapped = _model.IsBootstrapped;
-            _bootstrapWarningHeight =_model.IsBootstrapped ? 0f : 40f;
+            _bootstrapWarningHeight = _model.IsBootstrapped ? 0f : 40f;
             _isSizeDirty = true;
         }
 
@@ -336,11 +336,13 @@ namespace AmazonGameLift.Editor
 
         #endregion
 
-        private bool ConfirmCancel() =>
-            EditorUtility.DisplayDialog(_textProvider.Get(Strings.TitleDeploymentCancelDialog),
+        private bool ConfirmCancel()
+        {
+            return EditorUtility.DisplayDialog(_textProvider.Get(Strings.TitleDeploymentCancelDialog),
                 _textProvider.Get(Strings.LabelDeploymentCancelDialogBody),
                 _textProvider.Get(Strings.LabelDeploymentCancelDialogOkButton),
                 _textProvider.Get(Strings.LabelDeploymentCancelDialogCancelButton));
+        }
 
         private Rect DrawInfo(string text, params GUILayoutOption[] options)
         {
@@ -367,14 +369,20 @@ namespace AmazonGameLift.Editor
             }
         }
 
-        private string DrawTextField(string label, string value) =>
-            EditorGUILayout.TextField(label, value);
+        private string DrawTextField(string label, string value)
+        {
+            return EditorGUILayout.TextField(label, value);
+        }
 
-        private void DrawSeparator() =>
+        private void DrawSeparator()
+        {
             EditorGUILayout.LabelField(string.Empty, GUI.skin.horizontalSlider);
+        }
 
-        private void SetWindowSize(float height) =>
+        private void SetWindowSize(float height)
+        {
             this.SetConstantSize(new Vector2(x: WindowWidthPixels, y: height));
+        }
 
         private Task<bool> ConfirmChangeSet(ConfirmChangesRequest request)
         {
@@ -382,9 +390,15 @@ namespace AmazonGameLift.Editor
             return dialog.SetUp(_stackUpdateModelFactory.Create(request));
         }
 
-        private void OnCurrentStackInfoChanged() => Repaint();
+        private void OnCurrentStackInfoChanged()
+        {
+            Repaint();
+        }
 
-        private void OnStatusChanged() => Repaint();
+        private void OnStatusChanged()
+        {
+            Repaint();
+        }
 
         private void OnAnySettingChanged()
         {

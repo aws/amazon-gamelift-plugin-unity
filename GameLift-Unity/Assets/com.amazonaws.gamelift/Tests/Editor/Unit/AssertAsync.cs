@@ -1,10 +1,8 @@
+// Copyright Amazon.com, Inc. or its affiliates. All Rights Reserved.
+// SPDX-License-Identifier: Apache-2.0
+
 using System;
 using System.Threading.Tasks;
-using AmazonGameLift.Editor;
-using AmazonGameLiftPlugin.Core.DeploymentManagement.Models;
-using AmazonGameLiftPlugin.Core.SettingsManagement.Models;
-using AmazonGameLiftPlugin.Core.Shared;
-using Moq;
 using NUnit.Framework;
 
 namespace AmazonGameLiftPlugin.Editor.UnitTests

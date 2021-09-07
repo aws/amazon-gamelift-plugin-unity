@@ -7,8 +7,11 @@ namespace AmazonGameLift.Editor
 {
     internal class LocalTestFactory
     {
-        public static LocalTest Create(TextProvider textProvider) =>
-            new LocalTest(CoreApi.SharedInstance, textProvider, new Delay());
+        public static LocalTest Create(TextProvider textProvider)
+        {
+            UnityLogger logger = UnityLoggerFactory.Create(textProvider);
+            return new LocalTest(CoreApi.SharedInstance, textProvider, new Delay(), logger);
+        }
 
         public static void Restore(LocalTest target, TextProvider textProvider)
         {
@@ -17,7 +20,8 @@ namespace AmazonGameLift.Editor
                 throw new ArgumentNullException(nameof(target));
             }
 
-            target.Restore(CoreApi.SharedInstance, textProvider, new Delay());
+            UnityLogger logger = UnityLoggerFactory.Create(textProvider);
+            target.Restore(CoreApi.SharedInstance, textProvider, new Delay(), logger);
         }
     }
 }

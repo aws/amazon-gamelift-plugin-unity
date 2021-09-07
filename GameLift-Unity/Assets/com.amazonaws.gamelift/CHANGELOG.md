@@ -1,5 +1,20 @@
 CHANGELOG
 
+# 0.2.1 (09/07/2021)
+
+- Added persistence states to settings UI
+
+# 0.2.0 (08/31/2021)
+
+- Fixed conflicting newtonsoft.json dll with 2020.3LTS Unity
+- Revamped Settings UI
+- Added a "Local Mode" and "GameLift Mode" to enable user to easily select the localhost endpoint
+- Hint users that they are in "Local Mode" when running against server on https://localhost
+- Made the default bucket policy to be "None", and added warning regarding potential fleet creation 
+failure if user selects other bucket policy options, e.g. 3 days or 7 days
+- Allow user to customize S3 bucket name during bootstrap bucket creation
+- Other minor bug fixes and usability/string changes
+
 # 0.1.0 (08/09/2021)
 ## Added:
 - Plugin installation package and the plugin file structure

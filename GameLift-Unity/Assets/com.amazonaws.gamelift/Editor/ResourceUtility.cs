@@ -15,6 +15,7 @@ namespace AmazonGameLift.Editor
         private static GUIStyle s_cachedRadioButtonStyle;
         private static GUIStyle s_cachedHyperLinkStyle;
         private static GUIStyle s_cachedInfoLabelStyle;
+        private static GUIStyle s_cachedTabActiveStyle;
         private static bool s_cachedProSkin;
 
         public static string GetImagePathForCurrentTheme(string assetName)
@@ -24,7 +25,9 @@ namespace AmazonGameLift.Editor
         }
 
         public static string GetImagePath(string assetName)
-            => string.Format("Images/{0}", assetName);
+        {
+            return string.Format("Images/{0}", assetName);
+        }
 
         /// <summary>
         /// Call this only from OnGUI().
@@ -188,6 +191,28 @@ namespace AmazonGameLift.Editor
             return selectedStyle;
         }
 
+        public static GUIStyle GetTabActiveStyle()
+        {
+            ClearCacheIfSkinChanged();
+
+            if (s_cachedTabActiveStyle != null)
+            {
+                return s_cachedTabActiveStyle;
+            }
+
+            var style = new GUIStyle(EditorStyles.miniButton);
+            style.normal.textColor = EditorGUIUtility.isProSkin
+                ? new Color32(0xFF, 0xFF, 0x00, 0xFF)
+                : new Color32(0xFF, 0xFF, 0x0B, 0xFF);
+            s_cachedTabActiveStyle = style;
+            return style;
+        }
+
+        public static GUIStyle GetTabNormalStyle()
+        {
+            return EditorStyles.miniButton;
+        }
+
         private static Texture2D GetSmallTexture(Color color)
         {
             var texture = new Texture2D(1, 1);
@@ -196,10 +221,15 @@ namespace AmazonGameLift.Editor
             return texture;
         }
 
-        private static Color32 GetTextFilterSelectedBackColor() => new Color32(0x33, 0x33, 0xCC, 0xFF);
+        private static Color32 GetTextFilterSelectedBackColor()
+        {
+            return new Color32(0x33, 0x33, 0xCC, 0xFF);
+        }
 
-        private static Color32 GetTextFilterBackColor() =>
-            EditorGUIUtility.isProSkin ? new Color32(0x51, 0x51, 0x51, 0xFF) : new Color32(0xDF, 0xDF, 0xDF, 0xFF);
+        private static Color32 GetTextFilterBackColor()
+        {
+            return EditorGUIUtility.isProSkin ? new Color32(0x51, 0x51, 0x51, 0xFF) : new Color32(0xDF, 0xDF, 0xDF, 0xFF);
+        }
 
         private static void ClearCacheIfSkinChanged()
         {
@@ -215,6 +245,7 @@ namespace AmazonGameLift.Editor
             s_cachedMessageStyles = null;
             s_cachedNotConfiguredStyle = null;
             s_cachedRadioButtonStyle = null;
+            s_cachedTabActiveStyle = null;
         }
     }
 }

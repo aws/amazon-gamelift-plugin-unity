@@ -1,3 +1,6 @@
+// Copyright Amazon.com, Inc. or its affiliates. All Rights Reserved.
+// SPDX-License-Identifier: Apache-2.0
+
 using System;
 using AmazonGameLift.Editor;
 using NUnit.Framework;
@@ -9,12 +12,16 @@ namespace AmazonGameLiftPlugin.Editor.UnitTests
         private readonly BucketUrlFormatter _bucketFormatter = new BucketUrlFormatter();
 
         [Test]
-        public void Format_WhenNullBucketName_ThrowsException() =>
+        public void Format_WhenNullBucketName_ThrowsException()
+        {
             Assert.Throws<ArgumentNullException>(() => _bucketFormatter.Format(null, "any"));
+        }
 
         [Test]
-        public void Format_WhenNullRegion_ThrowsException() =>
+        public void Format_WhenNullRegion_ThrowsException()
+        {
             Assert.Throws<ArgumentNullException>(() => _bucketFormatter.Format("any", null));
+        }
 
         [Test]
         public void Format_WhenLongBucketName_ThrowsException()

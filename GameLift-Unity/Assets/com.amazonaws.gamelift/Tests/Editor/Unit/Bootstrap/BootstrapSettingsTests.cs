@@ -1,3 +1,6 @@
+// Copyright Amazon.com, Inc. or its affiliates. All Rights Reserved.
+// SPDX-License-Identifier: Apache-2.0
+
 using AmazonGameLift.Editor;
 using AmazonGameLiftPlugin.Core.BucketManagement.Models;
 using AmazonGameLiftPlugin.Core.SettingsManagement.Models;
@@ -5,8 +8,6 @@ using AmazonGameLiftPlugin.Core.Shared;
 using Moq;
 using NUnit.Framework;
 using UnityEditor;
-using UnityEngine;
-using UnityEngine.TestTools;
 
 namespace AmazonGameLiftPlugin.Editor.UnitTests
 {
@@ -21,6 +22,7 @@ namespace AmazonGameLiftPlugin.Editor.UnitTests
         {
             var coreApiMock = new Mock<CoreApi>();
             coreApiMock.Verify(target => target.CreateBucket(It.IsAny<string>(), It.IsAny<string>(), It.IsAny<string>()), Times.Never());
+            coreApiMock.Verify(target => target.PutBucketLifecycleConfiguration(It.IsAny<string>(), It.IsAny<string>(), It.IsAny<string>(), It.IsAny<BucketPolicy>()), Times.Never());
 
             var bootstrapUtilityMock = new Mock<BootstrapUtility>(coreApiMock.Object);
             bootstrapUtilityMock.Verify(target => target.GetBootstrapData(), Times.Never());
@@ -38,8 +40,6 @@ namespace AmazonGameLiftPlugin.Editor.UnitTests
         [Test]
         public void CreateBucket_WhenCanCreateAndBootstrapDataNotFound_IsStatusError()
         {
-            LogAssert.Expect(LogType.Error, "Unknown error ");
-
             const string testBucketName = "test-bucket";
             var coreApiMock = new Mock<CoreApi>();
 
@@ -70,8 +70,6 @@ namespace AmazonGameLiftPlugin.Editor.UnitTests
         [Test]
         public void CreateBucket_WhenCanCreateAndBootstrapDataFoundAndCreationFailed_IsStatusError()
         {
-            LogAssert.Expect(LogType.Error, "Unknown error ");
-
             const string testProfile = "test-profile";
             const string testRegion = "test-region";
             const string testBucketName = "test-bucket";
@@ -106,11 +104,9 @@ namespace AmazonGameLiftPlugin.Editor.UnitTests
         [Test]
         public void CreateBucket_WhenCanCreateAndBootstrapDataFoundAndCreationSuccessAndPutSettingFails_IsStatusError()
         {
-            LogAssert.Expect(LogType.Error, "Unknown error ");
-            LogAssert.Expect(LogType.Error, "Unknown error ");
-
-            BootstrapSettings underTest = SetUpCreateBucketSuccess(isPutSettingSuccess: false,
-                out Mock<CoreApi> coreApiMock, out Mock<BootstrapUtility> bootstrapUtilityMock);
+            var coreApiMock = new Mock<CoreApi>();
+            var bootstrapUtilityMock = new Mock<BootstrapUtility>(coreApiMock.Object);
+            BootstrapSettings underTest = SetUpCreateBucketSuccess(isPutSettingSuccess: false, coreApiMock: coreApiMock, bootstrapUtilityMock: bootstrapUtilityMock);
 
             // Act
             underTest.CreateBucket();
@@ -122,14 +118,17 @@ namespace AmazonGameLiftPlugin.Editor.UnitTests
         }
 
         [Test]
-        public void CreateBucket_WhenCanCreateAndBootstrapDataFoundAndCreationSuccessAndPutSettingSuccess_IsStatusInfo()
+        public void CreateBucket_WhenCreationSuccessAndHasNoPolicy_IsStatusInfo()
         {
-            LogAssert.Expect(LogType.Error, "Unknown error ");
+            var coreApiMock = new Mock<CoreApi>();
+            var bootstrapUtilityMock = new Mock<BootstrapUtility>(coreApiMock.Object);
 
-            BootstrapSettings underTest = SetUpCreateBucketSuccess(isPutSettingSuccess: true,
-                out Mock<CoreApi> coreApiMock, out Mock<BootstrapUtility> bootstrapUtilityMock);
+            coreApiMock.Verify(target => target.PutBucketLifecycleConfiguration(It.IsAny<string>(), It.IsAny<string>(), It.IsAny<string>(), It.IsAny<BucketPolicy>()), Times.Never());
+
+            BootstrapSettings underTest = SetUpCreateBucketSuccess(isPutSettingSuccess: true, coreApiMock: coreApiMock, bootstrapUtilityMock: bootstrapUtilityMock);
 
             // Act
+            underTest.LifeCyclePolicyIndex = 0;
             underTest.CreateBucket();
 
             // Assert
@@ -138,12 +137,42 @@ namespace AmazonGameLiftPlugin.Editor.UnitTests
             Assert.AreEqual(MessageType.Info, underTest.Status.Type);
         }
 
-        private static BootstrapSettings SetUpCreateBucketSuccess(bool isPutSettingSuccess, out Mock<CoreApi> coreApiMock, out Mock<BootstrapUtility> bootstrapUtilityMock)
+        [Test]
+        [TestCase(true)]
+        [TestCase(false)]
+        public void CreateBucket_WhenCreationSuccessAndHasPolicyAndPutPolicySuccessParam_IsStatusInfo(bool isPutPolicySuccess)
         {
             const string testProfile = "test-profile";
             const string testRegion = "test-region";
             const string testBucketName = "test-bucket";
-            coreApiMock = new Mock<CoreApi>();
+            var coreApiMock = new Mock<CoreApi>();
+            var bootstrapUtilityMock = new Mock<BootstrapUtility>(coreApiMock.Object);
+
+            var putPolicyResponse = new PutLifecycleConfigurationResponse();
+            putPolicyResponse = isPutPolicySuccess
+                ? Response.Ok(putPolicyResponse)
+                : Response.Fail(putPolicyResponse);
+            coreApiMock.Setup(target => target.PutBucketLifecycleConfiguration(testProfile, testRegion, testBucketName, It.IsAny<BucketPolicy>()))
+                .Returns(putPolicyResponse)
+                .Verifiable();
+
+            BootstrapSettings underTest = SetUpCreateBucketSuccess(isPutSettingSuccess: true, testProfile, testRegion, testBucketName, coreApiMock, bootstrapUtilityMock);
+
+            // Act
+            underTest.LifeCyclePolicyIndex = 1;
+            underTest.CreateBucket();
+
+            // Assert
+            coreApiMock.Verify();
+            bootstrapUtilityMock.Verify();
+            Assert.AreEqual(MessageType.Info, underTest.Status.Type);
+        }
+
+        private static BootstrapSettings SetUpCreateBucketSuccess(bool isPutSettingSuccess,
+            string testProfile = "test-profile", string testRegion = "test-region", string testBucketName = "test-bucket",
+            Mock<CoreApi> coreApiMock = null, Mock<BootstrapUtility> bootstrapUtilityMock = null)
+        {
+            coreApiMock = coreApiMock ?? new Mock<CoreApi>();
             var currentResponse = new GetSettingResponse();
             currentResponse = Response.Fail(currentResponse);
             coreApiMock.Setup(target => target.GetSetting(It.IsAny<string>()))
@@ -164,7 +193,7 @@ namespace AmazonGameLiftPlugin.Editor.UnitTests
                 .Returns(createResponse)
                 .Verifiable();
 
-            bootstrapUtilityMock = new Mock<BootstrapUtility>(coreApiMock.Object);
+            bootstrapUtilityMock = bootstrapUtilityMock ?? new Mock<BootstrapUtility>(coreApiMock.Object);
             var bootstrapResponse = new GetBootstrapDataResponse(testProfile, testRegion);
             bootstrapResponse = Response.Ok(bootstrapResponse);
             bootstrapUtilityMock.Setup(target => target.GetBootstrapData())
@@ -343,8 +372,6 @@ namespace AmazonGameLiftPlugin.Editor.UnitTests
         [Test]
         public void CurrentRegion_WhenRefreshBucketNameAndRegionNotSaved_IsNull()
         {
-            LogAssert.Expect(LogType.Error, "Unknown error ");
-
             var coreApiMock = new Mock<CoreApi>();
 
             var regionResponse = new GetSettingResponse();
@@ -370,8 +397,6 @@ namespace AmazonGameLiftPlugin.Editor.UnitTests
         [Test]
         public void CurrentRegion_WhenRefreshBucketNameAndRegionSavedInvalid_IsNull()
         {
-            LogAssert.Expect(LogType.Error, "Unknown error ");
-
             var coreApiMock = new Mock<CoreApi>();
             coreApiMock.SetUpCoreApiWithBucket(success: true);
             coreApiMock.SetUpCoreApiWithRegion(success: true, valid: false);
@@ -410,8 +435,6 @@ namespace AmazonGameLiftPlugin.Editor.UnitTests
         [Test]
         public void BucketName_WhenRefreshBucketNameAndRegionNotSaved_IsNull()
         {
-            LogAssert.Expect(LogType.Error, "Unknown error ");
-
             var coreApiMock = new Mock<CoreApi>();
             coreApiMock.SetUpCoreApiWithRegion(success: false, valid: false);
 
@@ -429,8 +452,6 @@ namespace AmazonGameLiftPlugin.Editor.UnitTests
         [Test]
         public void BucketName_WhenRefreshBucketNameAndRegionSavedAndInvalid_IsNull()
         {
-            LogAssert.Expect(LogType.Error, "Unknown error ");
-
             var coreApiMock = new Mock<CoreApi>();
             coreApiMock.SetUpCoreApiWithBucket(success: true);
             coreApiMock.SetUpCoreApiWithRegion(success: true, valid: false);
@@ -448,8 +469,6 @@ namespace AmazonGameLiftPlugin.Editor.UnitTests
         [Test]
         public void BucketName_WhenRefreshBucketNameAndCurrentProfileInvalid_IsNull()
         {
-            LogAssert.Expect(LogType.Error, "Unknown error ");
-
             var coreApiMock = new Mock<CoreApi>();
             coreApiMock.SetUpCoreApiForBootstrapSuccess();
             coreApiMock.SetUpCoreApiWithProfile(success: false);
@@ -468,8 +487,6 @@ namespace AmazonGameLiftPlugin.Editor.UnitTests
         [Test]
         public void BucketName_WhenRefreshBucketNameAndAccountIdInvalid_IsNull()
         {
-            LogAssert.Expect(LogType.Error, "Unknown error ");
-
             var coreApiMock = new Mock<CoreApi>();
             coreApiMock.SetUpCoreApiForBootstrapSuccess();
             coreApiMock.SetUpCoreApiWithProfile(success: true);
@@ -531,9 +548,9 @@ namespace AmazonGameLiftPlugin.Editor.UnitTests
             bootstrapUtility = bootstrapUtility ?? new Mock<BootstrapUtility>(coreApi.Object);
             TextProvider textProvider = TextProviderFactory.Create();
 
-            string[] policyLifecycles = new string[] { "7 days", "30 days" };
-            return new BootstrapSettings(policyLifecycles, textProvider, bucketNameFormatterMock.Object,
-                coreApi.Object, bootstrapUtility.Object);
+            string[] policyNames = new string[] { "none", "30 days" };
+            var lifecyclePolicies = new BucketPolicy[] { BucketPolicy.None, BucketPolicy.ThirtyDaysLifecycle };
+            return new BootstrapSettings(lifecyclePolicies, policyNames, textProvider, bucketNameFormatterMock.Object, new MockLogger(), coreApi.Object, bootstrapUtility.Object);
         }
     }
 }

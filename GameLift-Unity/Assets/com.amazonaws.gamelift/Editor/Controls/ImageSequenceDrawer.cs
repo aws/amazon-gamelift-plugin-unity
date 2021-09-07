@@ -35,9 +35,15 @@ namespace AmazonGameLift.Editor
             _delay = framesPerSecond > 0 ? 1f / framesPerSecond : float.MaxValue;
         }
 
-        public void Start() => IsRunning = true;
+        public void Start()
+        {
+            IsRunning = true;
+        }
 
-        public void Stop() => IsRunning = false;
+        public void Stop()
+        {
+            IsRunning = false;
+        }
 
         public void Draw()
         {

@@ -32,6 +32,7 @@ namespace AmazonGameLift.Editor
         private string _gameName;
         private DeploymentStackInfo _currentStackInfo;
         private readonly IDeploymentIdContainer _currentDeploymentId;
+        private readonly ILogger _logger;
         private readonly Status _status = new Status();
 
         public IReadStatus Status => _status;
@@ -131,7 +132,7 @@ namespace AmazonGameLift.Editor
         public event Action CurrentStackInfoChanged;
 
         internal DeploymentSettings(ScenarioLocator scenarioLocator, PathConverter pathConverter,
-            CoreApi coreApi, ScenarioParametersUpdater parametersUpdater, TextProvider textProvider, DeploymentWaiter deploymentWaiter, IDeploymentIdContainer currentDeploymentId, Delay delay)
+            CoreApi coreApi, ScenarioParametersUpdater parametersUpdater, TextProvider textProvider, DeploymentWaiter deploymentWaiter, IDeploymentIdContainer currentDeploymentId, Delay delay, ILogger logger)
         {
             _scenarioLocator = scenarioLocator ?? throw new ArgumentNullException(nameof(scenarioLocator));
             _pathConverter = pathConverter ?? throw new ArgumentNullException(nameof(pathConverter));
@@ -140,6 +141,7 @@ namespace AmazonGameLift.Editor
             _textProvider = textProvider ?? throw new ArgumentNullException(nameof(textProvider));
             _deploymentWaiter = deploymentWaiter ?? throw new ArgumentNullException(nameof(deploymentWaiter));
             _currentDeploymentId = currentDeploymentId ?? throw new ArgumentNullException(nameof(currentDeploymentId));
+            _logger = logger ?? throw new ArgumentNullException(nameof(logger));
             ClearCurrentStackInfo();
             _delayedStackInfoRefresh = new DelayedOperation(RefreshCurrentStackInfo, delay, StackInfoRefreshDelayMs);
         }
@@ -191,14 +193,14 @@ namespace AmazonGameLift.Editor
 
             if (string.IsNullOrEmpty(CurrentProfile))
             {
-                Debug.LogWarning(string.Format(DevStrings.FailedToDescribeStackTemplate, DevStrings.ProfileInvalid));
+                _logger.Log(string.Format(DevStrings.FailedToDescribeStackTemplate, DevStrings.ProfileInvalid), LogType.Warning);
                 ClearCurrentStackInfo();
                 return;
             }
 
             if (!_coreApi.IsValidRegion(CurrentRegion))
             {
-                Debug.LogWarning(string.Format(DevStrings.FailedToDescribeStackTemplate, DevStrings.RegionInvalid));
+                _logger.Log(string.Format(DevStrings.FailedToDescribeStackTemplate, DevStrings.RegionInvalid), LogType.Warning);
                 ClearCurrentStackInfo();
                 return;
             }
@@ -296,21 +298,24 @@ namespace AmazonGameLift.Editor
             if (response.ErrorCode == ErrorCode.StackStatusInvalid
                 || response.ErrorCode == CoreErrorCode.StackDoesNotExist)
             {
-                response.Log(_textProvider);
+                _logger.LogResponseError(response, LogType.Log);
             }
             else
             {
-                response.LogError(_textProvider);
+                _logger.LogResponseError(response);
             }
         }
 
-        public void CancelWaitingForDeployment() => _deploymentWaiter.CancelWaiting();
+        public void CancelWaitingForDeployment()
+        {
+            _deploymentWaiter.CancelWaiting();
+        }
 
         public void CancelDeployment()
         {
             if (!CanCancel)
             {
-                Debug.LogWarning(DevStrings.OperationInvalid);
+                _logger.Log(DevStrings.OperationInvalid, LogType.Warning);
                 return;
             }
 
@@ -322,7 +327,7 @@ namespace AmazonGameLift.Editor
             }
             else
             {
-                response.LogError(_textProvider);
+                _logger.LogResponseError(response);
             }
         }
 
@@ -379,7 +384,7 @@ namespace AmazonGameLift.Editor
                 {
                     if (response.ErrorCode != ErrorCode.OperationCancelled)
                     {
-                        response.LogError(_textProvider);
+                        _logger.LogResponseError(response);
                         string messageTemplate = _textProvider.Get(Strings.StatusDeploymentFailure);
                         string message = string.Format(messageTemplate, _textProvider.GetError(response.ErrorCode));
                         _status.SetMessage(message, MessageType.Error);
@@ -401,7 +406,7 @@ namespace AmazonGameLift.Editor
             catch (Exception ex)
             {
                 _currentDeploymentId.Clear();
-                Debug.LogException(ex);
+                _logger.LogException(ex);
                 string messageTemplate = _textProvider.Get(Strings.StatusDeploymentFailure);
                 string message = string.Format(messageTemplate, ex.Message);
                 _status.SetMessage(message, MessageType.Error);
@@ -416,7 +421,10 @@ namespace AmazonGameLift.Editor
             }
         }
 
-        private void OnDeploymentWaiterInfoUpdated(DeploymentInfo info) => CurrentStackInfo = DeploymentStackInfoFactory.Create(_textProvider, info);
+        private void OnDeploymentWaiterInfoUpdated(DeploymentInfo info)
+        {
+            CurrentStackInfo = DeploymentStackInfoFactory.Create(_textProvider, info);
+        }
 
         private IReadOnlyDictionary<string, string> PrepareGameParameter()
         {
@@ -470,6 +478,9 @@ namespace AmazonGameLift.Editor
             RefreshCurrentStackInfo();
         }
 
-        private void ClearCurrentStackInfo() => CurrentStackInfo = new DeploymentStackInfo(_textProvider.Get(Strings.StatusNothingDeployed));
+        private void ClearCurrentStackInfo()
+        {
+            CurrentStackInfo = new DeploymentStackInfo(_textProvider.Get(Strings.StatusNothingDeployed));
+        }
     }
 }

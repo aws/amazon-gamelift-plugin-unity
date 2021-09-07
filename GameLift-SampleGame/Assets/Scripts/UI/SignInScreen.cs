@@ -16,6 +16,9 @@ public sealed class SignInScreen : FormScreen<SignInScreen.SubmitDelegate>
     [SerializeField]
     private InputField _passwordField;
 
+    [SerializeField]
+    private Text _hintText;
+
     [CanBeNull]
     private Action _onShowSignUp;
 
@@ -34,6 +37,11 @@ public sealed class SignInScreen : FormScreen<SignInScreen.SubmitDelegate>
     internal void SetShowSignUpAction(Action onShowSignUp)
     {
         _onShowSignUp = onShowSignUp;
+    }
+
+    internal void SetHint(string hint)
+    {
+        _hintText.text = hint;
     }
 
     protected override void Submit(SubmitDelegate onSubmit)

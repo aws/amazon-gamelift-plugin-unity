@@ -168,6 +168,9 @@ namespace AmazonGameLift.Editor
             }
         }
 
-        private void OnStatusChanged() => Repaint();
+        private void OnStatusChanged()
+        {
+            Repaint();
+        }
     }
 }

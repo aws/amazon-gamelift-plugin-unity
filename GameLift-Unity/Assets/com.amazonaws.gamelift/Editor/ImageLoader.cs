@@ -50,6 +50,9 @@ namespace AmazonGameLift.Editor
             return Load(ResourceUtility.GetImagePathForCurrentTheme(assetName));
         }
 
-        protected virtual Texture2D Load(string assetPath) => Resources.Load<Texture2D>(assetPath);
+        protected virtual Texture2D Load(string assetPath)
+        {
+            return Resources.Load<Texture2D>(assetPath);
+        }
     }
 }

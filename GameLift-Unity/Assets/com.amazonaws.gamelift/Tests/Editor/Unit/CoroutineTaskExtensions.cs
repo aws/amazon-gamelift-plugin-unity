@@ -17,7 +17,9 @@ namespace AmazonGameLiftPlugin.Editor.UnitTests
             }
 
             while (!task.IsCompleted)
+            {
                 yield return null;
+            }
 
             task.GetAwaiter().GetResult();
         }

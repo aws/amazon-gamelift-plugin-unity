@@ -13,10 +13,7 @@ namespace AmazonGameLift.Editor
         private readonly TextProvider _textProvider;
         private string[] _cachedTexts;
 
-        internal BucketLifecyclePolicyTextProvider(TextProvider textProvider)
-        {
-            _textProvider = textProvider;
-        }
+        internal BucketLifecyclePolicyTextProvider(TextProvider textProvider) => _textProvider = textProvider;
 
         public virtual IEnumerable<string> GetAllLifecyclePolicies()
         {
@@ -36,6 +33,9 @@ namespace AmazonGameLift.Editor
             {
                 switch (policy)
                 {
+                    case BucketPolicy.None:
+                        yield return _textProvider.Get(Strings.LifecycleNone);
+                        break;
                     case BucketPolicy.SevenDaysLifecycle:
                         yield return _textProvider.Get(Strings.LifecycleSevenDays);
                         break;

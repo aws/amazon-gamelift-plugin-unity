@@ -85,7 +85,9 @@ namespace AmazonGameLift.Editor
             return (true, null);
         }
 
-        private bool IsRegionInRange() =>
-            RegionIndex >= 0 && RegionIndex < AllRegions.Length;
+        private bool IsRegionInRange()
+        {
+            return RegionIndex >= 0 && RegionIndex < AllRegions.Length;
+        }
     }
 }

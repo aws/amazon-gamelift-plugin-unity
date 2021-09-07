@@ -441,7 +441,10 @@ namespace AmazonGameLiftPlugin.Editor.UnitTests
                 .Verifiable();
         }
 
-        private static Task<bool> ConfirmChangeSetTask(ConfirmChangesRequest _) => Task.FromResult(true);
+        private static Task<bool> ConfirmChangeSetTask(ConfirmChangesRequest _)
+        {
+            return Task.FromResult(true);
+        }
 
         private static TestedDeployer GetTestedDeployer(Mock<CoreApi> coreApiMock, bool deployReturnsSuccess = true, bool hasGameServer = false)
         {

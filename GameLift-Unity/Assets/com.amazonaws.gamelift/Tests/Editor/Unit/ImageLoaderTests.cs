@@ -1,3 +1,6 @@
+// Copyright Amazon.com, Inc. or its affiliates. All Rights Reserved.
+// SPDX-License-Identifier: Apache-2.0
+
 using System;
 using System.Collections.Generic;
 using AmazonGameLift.Editor;
@@ -46,7 +49,7 @@ namespace AmazonGameLiftPlugin.Editor.UnitTests
 
         [Test, Sequential]
         public void LoadImageSequence_WhenrIncorrectRange_LoadsZeroImages(
-            [Values(-2, -1, 0, 1, 2)] int first,  [Values(-3, -2, -1, 0, 0)] int last)
+            [Values(-2, -1, 0, 1, 2)] int first, [Values(-3, -2, -1, 0, 0)] int last)
         {
             string assetNameBase = "TestBase";
             var mock = new Mock<ImageLoader>();

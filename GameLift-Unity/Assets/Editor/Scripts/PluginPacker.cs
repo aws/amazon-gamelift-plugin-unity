@@ -1,6 +1,7 @@
 // Copyright Amazon.com, Inc. or its affiliates. All Rights Reserved.
 // SPDX-License-Identifier: Apache-2.0
 
+#if UNITY_2019_3_OR_NEWER
 using System.IO;
 using System.Threading;
 using UnityEditor;
@@ -47,3 +48,4 @@ namespace AWS.GameLift.Editor
         }
     }
 }
+#endif
