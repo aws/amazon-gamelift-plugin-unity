@@ -1,4 +1,4 @@
-# Amazon GameLift Plugin
+# Amazon GameLift Plugin for Unity
 
 ## Overview
 
@@ -144,3 +144,11 @@ There is a list of the test types by their location.
 * **GameLift-SampleGame**:
 	* Unit tests can be found at **GameLift-SampleGame\Assets\Tests\Editor\Unit**, or in the **SampleTests.Unit project** in your IDE. They can be run from the Unity Editor: **Window > General > Test Runner, EditMode**. 
 	* Play mode integration UI tests can be found at **GameLift-SampleGame\Assets\Tests\UI**, or in the **SampleTests.UI project** in your IDE. They can be run from the Unity Editor: **Window > General > Test Runner, PlayMode**. These tests need **GameLift-SampleGame\UiTestSettings.json** filled with your test parameters.
+	
+## Security
+
+See [CONTRIBUTING](CONTRIBUTING.md#security-issue-notifications) for more information.
+
+## License
+
+This project is licensed under the Apache-2.0 License.
