@@ -18,6 +18,7 @@ namespace AmazonGameLift.Editor
         public const string LabelBootstrapSelectButton = "LabelBootstrapSelectButton";
         public const string LabelBootstrapBucketCosts = "LabelBootstrapBucketCosts";
         public const string LabelBootstrapBucketName = "LabelBootstrapBucketName";
+        public const string LabelBootstrapLifecycleWarning = "LabelBootstrapLifecycleWarning";
         public const string LabelBootstrapRegion = "LabelBootstrapRegion";
         public const string LabelBootstrapBucketLifecycle = "LabelBootstrapBucketLifecycle";
         public const string LabelCredentialsHelp = "LabelCredentialsHelp";
@@ -42,6 +43,7 @@ namespace AmazonGameLift.Editor
         public const string LabelDeploymentCurrentStack = "LabelDeploymentCurrentStack";
         public const string LabelDeploymentCosts = "LabelDeploymentCosts";
         public const string LabelDeploymentBootstrapWarning = "LabelDeploymentBootstrapWarning";
+        public const string LifecycleNone = "LifecycleNone";
         public const string LifecycleSevenDays = "LifecycleSevenDays";
         public const string LifecycleThirtyDays = "LifecycleThirtyDays";
         public const string StatusDeploymentExePathInvalid = "StatusDeploymentExePathInvalid";
@@ -84,6 +86,18 @@ namespace AmazonGameLift.Editor
         public const string LabelSettingsBootstrapButton = "LabelSettingsBootstrapButton";
         public const string LabelSettingsBootstrapWarning = "LabelSettingsBootstrapWarning";
         public const string LabelSettingsLocalTestingTitle = "LabelSettingsLocalTestingTitle";
+        public const string LabelSettingsDeployTab = "LabelSettingsDeployTab";
+        public const string LabelSettingsTestTab = "LabelSettingsTestTab";
+        public const string LabelSettingsHelpTab = "LabelSettingsHelpTab";
+        public const string LabelSettingsSdkTab = "LabelSettingsSdkTab";
+        public const string LabelSettingsOpenForums = "LabelSettingsOpenForums";
+        public const string LabelSettingsOpenAwsHelp = "LabelSettingsOpenAwsHelp";
+        public const string LabelSettingsOpenDeployment = "LabelSettingsOpenDeployment";
+        public const string LabelSettingsOpenLocalTest = "LabelSettingsOpenLocalTest";
+        public const string LabelSettingsOpenPdf = "LabelSettingsOpenPdf";
+        public const string LabelSettingsPingSdk = "LabelSettingsPingSdk";
+        public const string LabelSettingsReportSecurity = "LabelSettingsReportSecurity";
+        public const string LabelSettingsReportBugs = "LabelSettingsReportBugs";
         public const string LabelStackUpdateCancelButton = "LabelStackUpdateCancelButton";
         public const string LabelStackUpdateCountTemplate = "LabelStackUpdateCountTemplate";
         public const string LabelStackUpdateConfirmButton = "LabelStackUpdateConfirmButton";

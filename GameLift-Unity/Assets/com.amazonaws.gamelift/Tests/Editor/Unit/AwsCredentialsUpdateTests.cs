@@ -128,7 +128,6 @@ namespace AmazonGameLiftPlugin.Editor.UnitTests
         [Test]
         public void Refresh_WhenGetProfilesError_AllPropertiesAreUpdated()
         {
-            LogAssert.Expect(LogType.Error, "TestError ");
             var coreApiMock = new Mock<CoreApi>();
 
             var profilesResponse = new GetProfilesResponse()
@@ -354,7 +353,6 @@ namespace AmazonGameLiftPlugin.Editor.UnitTests
         [Test]
         public void Status_WhenUpdateFailsToSetCurrent_DisplaysError()
         {
-            LogAssert.Expect(LogType.Error, "Unknown error ");
             const string testAccessKeyId = "TestKey";
             const string testSecretKey = "TestSecret";
 
@@ -391,7 +389,6 @@ namespace AmazonGameLiftPlugin.Editor.UnitTests
         [Test]
         public void Status_WhenUpdateFailsToUpdate_DisplaysError()
         {
-            LogAssert.Expect(LogType.Error, "Unknown error ");
             const string testAccessKeyId = "TestKey";
             const string testSecretKey = "TestSecret";
 
@@ -441,7 +438,7 @@ namespace AmazonGameLiftPlugin.Editor.UnitTests
             regionMock.Setup(target => target.Save())
                 .Returns((true, null))
                 .Verifiable();
-            return new AwsCredentialsUpdate(_textProvider, regionMock.Object, coreApi);
+            return new AwsCredentialsUpdate(_textProvider, regionMock.Object, coreApi, new MockLogger());
         }
 
         private void PrepareProfileList(out AwsCredentialsUpdate awsCredentials,

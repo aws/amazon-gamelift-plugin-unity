@@ -15,6 +15,7 @@ namespace AmazonGameLift.Editor
         private readonly string _settingTitle;
         private readonly string _settingTooltip;
         private readonly string _primaryActionDisabledTooltip;
+        private GUIStyle _hintStyle;
 
         protected TextProvider TextProvider { get; }
 
@@ -33,13 +34,25 @@ namespace AmazonGameLift.Editor
 
         public void Draw()
         {
+            if (_hintStyle == null)
+            {
+                _hintStyle = ResourceUtility.GetInfoLabelStyle();
+            }
+
             EditorGUILayout.BeginVertical();
             {
                 EditorGUILayout.BeginHorizontal();
                 {
-                    GUILayout.Label(new GUIContent(_settingTitle, _settingTooltip));
+                    GUILayout.Label(_settingTitle);
                     GUILayout.FlexibleSpace();
                     DrawConfiguredStatus();
+                }
+                EditorGUILayout.EndHorizontal();
+
+                EditorGUILayout.BeginHorizontal();
+                {
+                    GUILayout.Space(5f);
+                    GUILayout.Label(_settingTooltip, _hintStyle);
                 }
                 EditorGUILayout.EndHorizontal();
 

@@ -3,21 +3,22 @@
 
 using AmazonGameLift.Runtime;
 using UnityEditor;
+using UnityEngine;
 
 namespace SampleTests.UI
 {
     internal sealed class GameLiftClientSettingsOverride
     {
         private GameLiftClientSettings _settings;
-        private GameLiftConfiguration _backupConfig;
+        private GameLiftClientSettings _backupConfig;
 
         public void SetUp(TestSettings testSettings)
         {
             _settings = AssetDatabase.LoadAssetAtPath<GameLiftClientSettings>(AssetPaths.GameLiftClientSettings);
-            _backupConfig = _settings.GetConfiguration();
+            _backupConfig = Object.Instantiate(_settings);
             _settings.AwsRegion = testSettings.Region;
             _settings.UserPoolClientId = testSettings.UserPoolClientId;
-            _settings.ApiGatewayEndpoint = testSettings.ApiGatewayEndpoint;
+            _settings.ApiGatewayUrl = testSettings.ApiGatewayEndpoint;
         }
 
         public void TearDown()
@@ -26,7 +27,7 @@ namespace SampleTests.UI
             {
                 _settings.AwsRegion = _backupConfig.AwsRegion;
                 _settings.UserPoolClientId = _backupConfig.UserPoolClientId;
-                _settings.ApiGatewayEndpoint = _backupConfig.ApiGatewayEndpoint;
+                _settings.ApiGatewayUrl = _backupConfig.ApiGatewayUrl;
             }
         }
     }

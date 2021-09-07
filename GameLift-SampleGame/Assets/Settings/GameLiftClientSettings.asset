@@ -12,6 +12,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3d47bf200e3b04b43b938be15f9aabbf, type: 3}
   m_Name: GameLiftClientSettings
   m_EditorClassIdentifier: 
-  AwsRegion: eu-west-1
+  AwsRegion: 
   UserPoolClientId: 
-  ApiGatewayEndpoint: http://localhost:8080
+  ApiGatewayUrl: 
+  ApiGatewayPort: 0
+  LocalUrl: http://localhost
+  LocalPort: 8080
+  IsLocalTest: 0

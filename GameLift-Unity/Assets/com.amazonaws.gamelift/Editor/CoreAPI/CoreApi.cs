@@ -42,17 +42,25 @@ namespace AmazonGameLift.Editor
 
         private readonly IFileWrapper _fileWrapper = new FileWrapper();
 
-        public virtual bool FolderExists(string path) =>
-            _fileWrapper.DirectoryExists(path);
+        public virtual bool FolderExists(string path)
+        {
+            return _fileWrapper.DirectoryExists(path);
+        }
 
-        public virtual string GetUniqueTempFilePath() =>
-            _fileWrapper.GetUniqueTempFilePath();
+        public virtual string GetUniqueTempFilePath()
+        {
+            return _fileWrapper.GetUniqueTempFilePath();
+        }
 
-        public virtual bool FileExists(string path) =>
-            _fileWrapper.FileExists(path);
+        public virtual bool FileExists(string path)
+        {
+            return _fileWrapper.FileExists(path);
+        }
 
-        public virtual void FileDelete(string path) =>
+        public virtual void FileDelete(string path)
+        {
             _fileWrapper.Delete(path);
+        }
 
         public virtual FileReadAllTextResponse FileReadAllText(string path)
         {
@@ -96,8 +104,10 @@ namespace AmazonGameLift.Editor
 
         private readonly IFileZip _fileZip = new FileZip();
 
-        public virtual void Zip(string sourceFolderPath, string targetFilePath) =>
+        public virtual void Zip(string sourceFolderPath, string targetFilePath)
+        {
             _fileZip.Zip(sourceFolderPath, targetFilePath);
+        }
 
         #endregion
 
@@ -185,9 +195,15 @@ namespace AmazonGameLift.Editor
 
         #region S3
 
-        public virtual IEnumerable<string> ListAvailableRegions() => AwsRegionMapper.AvailableRegions();
+        public virtual IEnumerable<string> ListAvailableRegions()
+        {
+            return AwsRegionMapper.AvailableRegions();
+        }
 
-        public virtual bool IsValidRegion(string region) => AwsRegionMapper.IsValidRegion(region);
+        public virtual bool IsValidRegion(string region)
+        {
+            return AwsRegionMapper.IsValidRegion(region);
+        }
 
         public virtual RetrieveAccountIdByCredentialsResponse RetrieveAccountId(string profileName)
         {
@@ -258,8 +274,10 @@ namespace AmazonGameLift.Editor
             return new AmazonS3Wrapper(accessKey, secretKey, region);
         }
 
-        private static IAmazonS3Wrapper CreateDefaultS3Wrapper() =>
-            new AmazonS3Wrapper(string.Empty, string.Empty, string.Empty);
+        private static IAmazonS3Wrapper CreateDefaultS3Wrapper()
+        {
+            return new AmazonS3Wrapper(string.Empty, string.Empty, string.Empty);
+        }
 
         #endregion
 
@@ -267,12 +285,20 @@ namespace AmazonGameLift.Editor
 
         private static readonly DeploymentFormatter s_deploymentFormatter = new DeploymentFormatter();
 
-        public virtual string GetBuildS3Key() => s_deploymentFormatter.GetBuildS3Key();
+        public virtual string GetBuildS3Key()
+        {
+            return s_deploymentFormatter.GetBuildS3Key();
+        }
 
-        public virtual string GetStackName(string gameName) => s_deploymentFormatter.GetStackName(gameName);
+        public virtual string GetStackName(string gameName)
+        {
+            return s_deploymentFormatter.GetStackName(gameName);
+        }
 
-        public virtual string GetServerGamePath(string gameFilePathInBuild) =>
-            s_deploymentFormatter.GetServerGamePath(gameFilePathInBuild);
+        public virtual string GetServerGamePath(string gameFilePathInBuild)
+        {
+            return s_deploymentFormatter.GetServerGamePath(gameFilePathInBuild);
+        }
 
         /// <summary>
         /// Needs AWS credentials set up for <paramref name="profileName"/>.

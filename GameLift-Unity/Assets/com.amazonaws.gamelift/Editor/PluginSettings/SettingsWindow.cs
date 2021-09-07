@@ -1,8 +1,6 @@
 // Copyright Amazon.com, Inc. or its affiliates. All Rights Reserved.
 // SPDX-License-Identifier: Apache-2.0
 
-using System.Collections.Generic;
-using AmazonGameLiftPlugin.Core.SettingsManagement.Models;
 using UnityEditor;
 using UnityEngine;
 
@@ -10,21 +8,33 @@ namespace AmazonGameLift.Editor
 {
     internal class SettingsWindow : EditorWindow
     {
-#if UNITY_2019_1_OR_NEWER
-        private const float WindowHeightPixels = 335f;
-#else
-        private const float WindowHeightPixels = 325f;
-#endif
-
-        private const float WindowWidthPixels = 415f;
         private const float TopMarginPixels = 7f;
         private const float LeftMarginPixels = 17f;
         private const float RightMarginPixels = 13f;
         private const float SpaceBetweenSettingsPixels = 12f;
-        private readonly List<SettingPanel> _settingPanels = new List<SettingPanel>();
         private Settings _settings;
         private StatusLabel _statusLabel;
-        private SettingsStatus _settingsStatus;
+        private SettingPanel _dotNetPanel;
+        private GameLiftSettingPanel _glLocalPanel;
+        private SettingPanel _javaPanel;
+        private SettingPanel _credentialsPanel;
+        private SettingPanel _bootstrapPanel;
+        private ControlDrawer _controlDrawer;
+
+        [SerializeField]
+        private SettingsState _settingsState;
+        private string _labelSdkTab;
+        private string _labelOpenForums;
+        private string _labelOpenAwsHelp;
+        private string _labelReportSecurity;
+        private string _labelPingSdk;
+        private string _labelReportBugs;
+        private string _labelOpenDeployment;
+        private string _labelOpenLocalTest;
+        private string _labelHelpTab;
+        private string _labelOpenPdf;
+        private string _labelTestTab;
+        private string _labelDeployTab;
 
         public static bool IsOpen { get; private set; }
 
@@ -32,18 +42,41 @@ namespace AmazonGameLift.Editor
         {
             var imageLoader = new ImageLoader();
             TextProvider textProvider = TextProviderFactory.Create();
-            List<SettingPanel> settingPanels = SettingsFactory.CreateSettingPanels(textProvider);
+            _labelSdkTab = textProvider.Get(Strings.LabelSettingsSdkTab);
+            _labelDeployTab = textProvider.Get(Strings.LabelSettingsDeployTab);
+            _labelTestTab = textProvider.Get(Strings.LabelSettingsTestTab);
+            _labelHelpTab = textProvider.Get(Strings.LabelSettingsHelpTab);
+            _labelOpenPdf = textProvider.Get(Strings.LabelSettingsOpenPdf);
+            _labelOpenForums = textProvider.Get(Strings.LabelSettingsOpenForums);
+            _labelOpenAwsHelp = textProvider.Get(Strings.LabelSettingsOpenAwsHelp);
+            _labelReportSecurity = textProvider.Get(Strings.LabelSettingsReportSecurity);
+            _labelReportBugs = textProvider.Get(Strings.LabelSettingsReportBugs);
+            _labelOpenDeployment = textProvider.Get(Strings.LabelSettingsOpenDeployment);
+            _labelOpenLocalTest = textProvider.Get(Strings.LabelSettingsOpenLocalTest);
+            _labelPingSdk = textProvider.Get(Strings.LabelSettingsPingSdk);
 
             titleContent = new GUIContent(textProvider.Get(Strings.TitleSettings));
-            this.SetConstantSize(new Vector2(x: WindowWidthPixels, y: WindowHeightPixels));
-            _settingPanels.Clear();
-            _settingPanels.AddRange(settingPanels);
+            minSize = new Vector2(360, 315);
             _statusLabel = new StatusLabel();
+            _controlDrawer = ControlDrawerFactory.Create();
             _settings = Settings.SharedInstance;
+            _dotNetPanel = new SettingPanel(_settings.DotNetSetting, textProvider);
+            _glLocalPanel = new GameLiftSettingPanel(_settings.GameLiftLocalSetting, textProvider);
+            _javaPanel = new SettingPanel(_settings.JavaSetting, textProvider);
+            _credentialsPanel = new SettingPanel(_settings.CredentialsSetting, textProvider);
+            _bootstrapPanel = new SettingPanel(_settings.BootstrapSetting, textProvider);
+
+            if (_settingsState == null)
+            {
+                _settingsState = new SettingsState(_settings, textProvider);
+            }
+            else
+            {
+                _settingsState.Restore(_settings, textProvider);
+            }
+
             _settings.AnySettingChanged += Repaint;
-            _settingsStatus = new SettingsStatus(_settings, textProvider);
             _settings.Refresh();
-            ShowUtility();
         }
 
         private void OnEnable()
@@ -68,31 +101,168 @@ namespace AmazonGameLift.Editor
         {
             GUILayout.Space(TopMarginPixels);
 
-            for (int i = 0; i < _settingPanels.Count; i++)
+            using (new EditorGUILayout.HorizontalScope())
             {
-                using (new EditorGUILayout.HorizontalScope())
-                {
-                    GUILayout.Space(LeftMarginPixels);
-                    _settingPanels[i].Draw();
-                    GUILayout.Space(RightMarginPixels);
-                }
-
-                if (i < _settingPanels.Count - 1)
-                {
-                    GUILayout.Space(SpaceBetweenSettingsPixels);
-                }
+                GUILayout.Space(LeftMarginPixels);
+                EditorGUILayout.LabelField("Amazon GameLift");
+                GUILayout.Space(RightMarginPixels);
             }
 
-            _settingsStatus.Refresh();
-
-            if (_settingsStatus.Status.IsDisplayed)
+            using (new EditorGUILayout.HorizontalScope(GUILayout.ExpandWidth(true)))
             {
-                using (new EditorGUILayout.HorizontalScope())
+                GUILayout.Space(LeftMarginPixels);
+
+                DrawTabHeader(_labelSdkTab, SettingsState.TabSdk);
+                DrawTabHeader(_labelTestTab, SettingsState.TabTest);
+                DrawTabHeader(_labelDeployTab, SettingsState.TabDeploy);
+                GUILayout.FlexibleSpace();
+                DrawTabHeader(_labelHelpTab, SettingsState.TabHelp);
+
+                GUILayout.Space(RightMarginPixels);
+            }
+
+            _controlDrawer.DrawSeparator();
+            DrawActiveTab();
+
+            using (new EditorGUILayout.HorizontalScope())
+            {
+                GUILayout.Space(LeftMarginPixels);
+                string message = _settingsState.Status.IsDisplayed
+                    ? _settingsState.Status.Message
+                    : string.Empty;
+                _statusLabel.Draw(message, _settingsState.Status.Type);
+                GUILayout.Space(RightMarginPixels);
+            }
+
+            _settingsState.Refresh();
+        }
+
+        private void DrawTabHeader(string label, int tabId, float width = 70f)
+        {
+            GUIStyle style = _settingsState.ActiveTab == tabId ? ResourceUtility.GetTabActiveStyle() : ResourceUtility.GetTabNormalStyle();
+            bool pressed = GUILayout.Button(label, style, GUILayout.MaxWidth(width));
+
+            if (pressed)
+            {
+                _settingsState.ActiveTab = tabId;
+            }
+        }
+
+        private void DrawActiveTab()
+        {
+            using (new EditorGUILayout.HorizontalScope())
+            {
+                GUILayout.Space(LeftMarginPixels - 5f);
+
+                using (new EditorGUILayout.VerticalScope())
                 {
-                    GUILayout.Space(LeftMarginPixels);
-                    _statusLabel.Draw(_settingsStatus.Status.Message, _settingsStatus.Status.Type);
-                    GUILayout.Space(RightMarginPixels);
+                    switch (_settingsState.ActiveTab)
+                    {
+                        case SettingsState.TabSdk:
+                            DrawSdkTab();
+                            break;
+                        case SettingsState.TabTest:
+                            DrawTestTab();
+                            break;
+                        case SettingsState.TabDeploy:
+                            DrawDeployTab();
+                            break;
+                        case SettingsState.TabHelp:
+                            DrawHelpTab();
+                            break;
+                        default:
+                            break;
+                    }
                 }
+
+                GUILayout.Space(RightMarginPixels);
+            }
+        }
+
+        private void DrawHelpTab()
+        {
+            bool pressed = GUILayout.Button(_labelOpenPdf);
+
+            if (pressed)
+            {
+                EditorMenu.OpenUserGuidePdf();
+            }
+
+            pressed = GUILayout.Button(_labelOpenForums);
+
+            if (pressed)
+            {
+                EditorMenu.OpenForums();
+            }
+
+            pressed = GUILayout.Button(_labelOpenAwsHelp);
+
+            if (pressed)
+            {
+                EditorMenu.OpenAwsDocumentation();
+            }
+
+            pressed = GUILayout.Button(_labelReportSecurity);
+
+            if (pressed)
+            {
+                EditorMenu.ReportSecurity();
+            }
+
+            pressed = GUILayout.Button(_labelReportBugs);
+
+            if (pressed)
+            {
+                EditorMenu.ReportBugs();
+            }
+        }
+
+        private void DrawDeployTab()
+        {
+            _credentialsPanel.Draw();
+            GUILayout.Space(SpaceBetweenSettingsPixels);
+            _bootstrapPanel.Draw();
+            _controlDrawer.DrawSeparator();
+
+            using (new EditorGUI.DisabledGroupScope(!_settingsState.CanDeploy))
+            {
+                bool pressed = GUILayout.Button(_labelOpenDeployment);
+
+                if (pressed)
+                {
+                    EditorMenu.ShowDeployment();
+                }
+            }
+        }
+
+        private void DrawTestTab()
+        {
+            _glLocalPanel.Draw();
+            GUILayout.Space(SpaceBetweenSettingsPixels);
+            _javaPanel.Draw();
+            _controlDrawer.DrawSeparator();
+
+            using (new EditorGUI.DisabledGroupScope(!_settingsState.CanRunLocalTest))
+            {
+                bool pressed = GUILayout.Button(_labelOpenLocalTest);
+
+                if (pressed)
+                {
+                    EditorMenu.ShowLocalTesting();
+                }
+            }
+        }
+
+        private void DrawSdkTab()
+        {
+            _dotNetPanel.Draw();
+            _controlDrawer.DrawSeparator();
+
+            bool pressed = GUILayout.Button(_labelPingSdk);
+
+            if (pressed)
+            {
+                EditorMenu.PingSdk();
             }
         }
     }

@@ -1,6 +1,8 @@
+// Copyright Amazon.com, Inc. or its affiliates. All Rights Reserved.
+// SPDX-License-Identifier: Apache-2.0
+
 using System;
 using System.Collections.Generic;
-using System.Security.Cryptography;
 using AmazonGameLift.Editor;
 using AmazonGameLiftPlugin.Core.CredentialManagement.Models;
 using AmazonGameLiftPlugin.Core.SettingsManagement.Models;
@@ -8,8 +10,6 @@ using AmazonGameLiftPlugin.Core.Shared;
 using Moq;
 using NUnit.Framework;
 using UnityEditor;
-using UnityEngine;
-using UnityEngine.TestTools;
 
 namespace AmazonGameLiftPlugin.Editor.UnitTests
 {
@@ -111,7 +111,6 @@ namespace AmazonGameLiftPlugin.Editor.UnitTests
         [Test]
         public void Refresh_WhenGetProfilesError_AllPropertiesAreUpdated()
         {
-            LogAssert.Expect(LogType.Error, "Unknown error ");
             var coreApiMock = new Mock<CoreApi>();
 
             GetProfilesResponse profilesResponse = Response.Fail(new GetProfilesResponse());
@@ -276,7 +275,6 @@ namespace AmazonGameLiftPlugin.Editor.UnitTests
         [Test]
         public void Status_WhenCreateFailsToSetCurrent_DisplaysError()
         {
-            LogAssert.Expect(LogType.Error, "Unknown error ");
             const string testProfileName = "TestProfile";
             const string testAccessKeyId = "TestKey";
             const string testSecretKey = "TestSecret";
@@ -310,7 +308,6 @@ namespace AmazonGameLiftPlugin.Editor.UnitTests
         [Test]
         public void Status_WhenCreateFailsToCreate_DisplaysError()
         {
-            LogAssert.Expect(LogType.Error, "Unknown error ");
             const string testProfileName = "TestProfile";
             const string testAccessKeyId = "TestKey";
             const string testSecretKey = "TestSecret";
@@ -374,7 +371,7 @@ namespace AmazonGameLiftPlugin.Editor.UnitTests
                 .Returns((true, null))
                 .Verifiable();
 
-            return new AwsCredentialsCreation(_textProvider, regionMock.Object, coreApi);
+            return new AwsCredentialsCreation(_textProvider, regionMock.Object, coreApi, new MockLogger());
         }
     }
 }

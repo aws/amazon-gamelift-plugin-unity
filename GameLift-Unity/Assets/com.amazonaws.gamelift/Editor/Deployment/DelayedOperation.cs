@@ -36,6 +36,9 @@ namespace AmazonGameLift.Editor
             }
         }
 
-        public void Cancel() => _cancellation?.Cancel();
+        public void Cancel()
+        {
+            _cancellation?.Cancel();
+        }
     }
 }

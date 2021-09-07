@@ -1,7 +1,9 @@
 // Copyright Amazon.com, Inc. or its affiliates. All Rights Reserved.
 // SPDX-License-Identifier: Apache-2.0
 
+using System;
 using System.IO;
+using System.Reflection;
 using UnityEditor;
 using UnityEngine;
 
@@ -17,15 +19,30 @@ namespace AmazonGameLift.Editor
         }
 
         [MenuItem("GameLift/Plugin Settings")]
-        public static void ShowPluginSettings() => EditorWindow.GetWindow<SettingsWindow>();
+        public static void ShowPluginSettings()
+        {
+            Assembly unityEditorAssembly = typeof(UnityEditor.Editor).Assembly;
 
-        [MenuItem("GameLift/Deployment")]
-        public static void ShowDeployment() => EditorWindow.GetWindow<DeploymentWindow>();
+            Type settingsWindowType = unityEditorAssembly.GetType("UnityEditor.SceneHierarchyWindow");
 
-        [MenuItem("GameLift/Local Testing")]
-        public static void ShowLocalTesting() => EditorWindow.GetWindow<LocalTestWindow>();
+            if (settingsWindowType == null)
+            {
+                settingsWindowType = unityEditorAssembly.GetType("UnityEditor.InspectorWindow");
+            }
 
-        [MenuItem("GameLift/Help/Open PDF documentation", priority = 1000)]
+            EditorWindow.GetWindow<SettingsWindow>(settingsWindowType);
+        }
+
+        public static void ShowDeployment()
+        {
+            EditorWindow.GetWindow<DeploymentWindow>();
+        }
+
+        public static void ShowLocalTesting()
+        {
+            EditorWindow.GetWindow<LocalTestWindow>();
+        }
+
         public static void OpenUserGuidePdf()
         {
             string filePackagePath = $"Packages/{Paths.PackageName}/{Paths.PdfGuideFileInPackage}";
@@ -33,28 +50,36 @@ namespace AmazonGameLift.Editor
             Application.OpenURL(url);
         }
 
-        [MenuItem("GameLift/Help/Open AWS GameTech Forums", priority = 1001)]
         public static void OpenForums()
         {
             Application.OpenURL(Urls.AwsGameTechForums);
         }
 
-        [MenuItem("GameLift/Help/Open AWS documentation", priority = 1002)]
         public static void OpenAwsDocumentation()
         {
             Application.OpenURL(Urls.AwsHelpGameLiftUnity);
         }
 
-        [MenuItem("GameLift/Help/Report security vulnerabilities", priority = 1003)]
         public static void ReportSecurity()
         {
             Application.OpenURL(Urls.AwsSecurity);
         }
 
-        [MenuItem("GameLift/Help/Report bugs \u2215 issues", priority = 1004)]
         public static void ReportBugs()
         {
             Application.OpenURL(Urls.GitHubAwsLabs);
+        }
+
+        public static void PingSdk()
+        {
+            string filePackagePath = $"Packages/{Paths.PackageName}/{Paths.ServerSdkDllInPackage}";
+            UnityEngine.Object sdk = AssetDatabase.LoadMainAssetAtPath(filePackagePath);
+
+            if (sdk)
+            {
+                Selection.activeObject = sdk;
+                EditorGUIUtility.PingObject(sdk);
+            }
         }
     }
 }

@@ -10,11 +10,8 @@ namespace AmazonGameLift.Editor
     {
         public string SerializedParameters { get; }
 
-        internal SaveParametersResponse(string serializedParameters)
-        {
-            SerializedParameters = serializedParameters
+        internal SaveParametersResponse(string serializedParameters) => SerializedParameters = serializedParameters
                 ?? throw new ArgumentNullException(nameof(serializedParameters));
-        }
 
         internal SaveParametersResponse()
         {

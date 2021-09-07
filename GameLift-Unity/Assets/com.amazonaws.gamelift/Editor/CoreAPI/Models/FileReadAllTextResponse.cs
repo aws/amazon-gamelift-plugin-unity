@@ -10,11 +10,8 @@ namespace AmazonGameLift.Editor
     {
         public string Text { get; }
 
-        internal FileReadAllTextResponse(string text)
-        {
-            Text = text
+        internal FileReadAllTextResponse(string text) => Text = text
                 ?? throw new ArgumentNullException(nameof(text));
-        }
 
         internal FileReadAllTextResponse()
         {

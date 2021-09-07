@@ -179,6 +179,7 @@ MonoBehaviour:
   _submitResultText: {fileID: 9053835791187100370}
   _emailField: {fileID: 1700599789106291388}
   _passwordField: {fileID: 1605687683000027275}
+  _hintText: {fileID: 5315699773156396977}
 --- !u!225 &225611237894469784
 CanvasGroup:
   m_ObjectHideFlags: 0

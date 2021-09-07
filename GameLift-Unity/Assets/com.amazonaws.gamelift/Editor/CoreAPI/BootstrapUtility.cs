@@ -12,10 +12,7 @@ namespace AmazonGameLift.Editor
 
         public static BootstrapUtility SharedInstance { get; } = new BootstrapUtility();
 
-        internal BootstrapUtility(CoreApi coreApi = null)
-        {
-            _coreApi = coreApi ?? CoreApi.SharedInstance;
-        }
+        internal BootstrapUtility(CoreApi coreApi = null) => _coreApi = coreApi ?? CoreApi.SharedInstance;
 
         public virtual GetBootstrapDataResponse GetBootstrapData()
         {

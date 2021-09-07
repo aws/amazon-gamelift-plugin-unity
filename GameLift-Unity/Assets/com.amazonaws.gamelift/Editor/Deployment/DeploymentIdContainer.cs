@@ -9,10 +9,19 @@ namespace AmazonGameLift.Editor
 
         public bool HasValue => _deploymentId.HasValue;
 
-        public void Clear() => _deploymentId = null;
+        public void Clear()
+        {
+            _deploymentId = null;
+        }
 
-        public DeploymentId Get() => _deploymentId.Value;
+        public DeploymentId Get()
+        {
+            return _deploymentId.Value;
+        }
 
-        public void Set(DeploymentId value) => _deploymentId = value;
+        public void Set(DeploymentId value)
+        {
+            _deploymentId = value;
+        }
     }
 }

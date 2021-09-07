@@ -3,18 +3,41 @@
 
 using System;
 using System.Linq;
+using UnityEngine;
 
 namespace AmazonGameLift.Editor
 {
-    internal sealed class SettingsStatus
+    [Serializable]
+    internal sealed class SettingsState
     {
-        private readonly Status _status = new Status();
-        private readonly TextProvider _textProvider;
-        private readonly Settings _settings;
+        public const int TabSdk = 0;
+        public const int TabTest = 1;
+        public const int TabDeploy = 2;
+        public const int TabHelp = 3;
+
+        private Status _status = new Status();
+        private TextProvider _textProvider;
+        private Settings _settings;
 
         public IReadStatus Status => _status;
 
-        public SettingsStatus(Settings settings, TextProvider textProvider)
+        [field:SerializeField]
+        public int ActiveTab { get; set; }
+
+        public bool CanDeploy =>
+            _settings.CredentialsSetting.IsConfigured
+            && _settings.BootstrapSetting.IsConfigured;
+
+        public bool CanRunLocalTest =>
+            _settings.JavaSetting.IsConfigured
+            && _settings.GameLiftLocalSetting.IsConfigured;
+
+        public SettingsState(Settings settings, TextProvider textProvider)
+        {
+            Restore(settings, textProvider);
+        }
+
+        public void Restore(Settings settings, TextProvider textProvider)
         {
             if (settings is null)
             {

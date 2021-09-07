@@ -20,7 +20,9 @@ namespace AmazonGameLift.Editor
             _width = width;
         }
 
-        protected override void Draw(Texture2D texture) =>
+        protected override void Draw(Texture2D texture)
+        {
             GUILayout.Label(texture, GUILayout.Height(_height), GUILayout.Width(_width));
+        }
     }
 }

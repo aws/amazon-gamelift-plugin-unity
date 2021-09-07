@@ -11,8 +11,10 @@ namespace AmazonGameLift.Editor
     /// </summary>
     internal class ControlDrawer
     {
-        public void DrawSeparator() =>
-          EditorGUILayout.LabelField(string.Empty, GUI.skin.horizontalSlider);
+        public void DrawSeparator()
+        {
+            EditorGUILayout.LabelField(string.Empty, GUI.skin.horizontalSlider);
+        }
 
         public string DrawTextField(string label, string value, string tooltip = null)
         {
@@ -44,8 +46,10 @@ namespace AmazonGameLift.Editor
             return value;
         }
 
-        public int DrawPopup(string label, int selectedIndex, string[] displayedOptions, string tooltip = null) =>
-            EditorGUILayout.Popup(new GUIContent(label, tooltip), selectedIndex, displayedOptions);
+        public int DrawPopup(string label, int selectedIndex, string[] displayedOptions, string tooltip = null)
+        {
+            return EditorGUILayout.Popup(new GUIContent(label, tooltip), selectedIndex, displayedOptions);
+        }
 
         public string DrawFilePathField(string label, string value, string extension, string fileDialogTitle, string tooltip = null)
         {

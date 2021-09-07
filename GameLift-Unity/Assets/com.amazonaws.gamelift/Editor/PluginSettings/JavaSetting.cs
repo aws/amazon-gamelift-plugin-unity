@@ -13,10 +13,8 @@ namespace AmazonGameLift.Editor
         private readonly CoreApi _coreApi;
 
         public JavaSetting(CoreApi coreApi)
-            : base(Strings.LabelSettingsJavaTitle, Strings.LabelSettingsJavaButton, Strings.TooltipSettingsJava)
-        {
+            : base(Strings.LabelSettingsJavaTitle, Strings.LabelSettingsJavaButton, Strings.TooltipSettingsJava) =>
             _coreApi = coreApi ?? throw new System.ArgumentNullException(nameof(coreApi));
-        }
 
         internal override void RunPrimaryAction()
         {

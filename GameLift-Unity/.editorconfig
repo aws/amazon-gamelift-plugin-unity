@@ -74,7 +74,7 @@ csharp_style_var_when_type_is_apparent = true:warning
 
 # Expression-bodied members
 csharp_style_expression_bodied_accessors = true:silent
-csharp_style_expression_bodied_methods = true:silent
+csharp_style_expression_bodied_methods = false:silent
 csharp_style_expression_bodied_constructors = true:silent
 csharp_style_expression_bodied_operators = true:silent
 csharp_style_expression_bodied_properties = true:silent

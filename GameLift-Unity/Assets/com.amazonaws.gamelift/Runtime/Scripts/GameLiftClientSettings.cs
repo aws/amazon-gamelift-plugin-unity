@@ -10,14 +10,23 @@ namespace AmazonGameLift.Runtime
     {
         public string AwsRegion;
         public string UserPoolClientId;
-        public string ApiGatewayEndpoint;
+        public string ApiGatewayUrl;
+        public string LocalUrl = "http://localhost";
+        public ushort LocalPort = 8080;
+        public bool IsLocalTest;
 
-        public GameLiftConfiguration GetConfiguration() =>
-            new GameLiftConfiguration
+        public GameLiftConfiguration GetConfiguration()
+        {
+            string endpoint = IsLocalTest
+                ? $"{LocalUrl}:{LocalPort}"
+                : ApiGatewayUrl;
+            string awsRegion = IsLocalTest ? "eu-west-1" : AwsRegion;
+            return new GameLiftConfiguration
             {
-                ApiGatewayEndpoint = ApiGatewayEndpoint,
-                AwsRegion = AwsRegion,
+                ApiGatewayEndpoint = endpoint,
+                AwsRegion = awsRegion,
                 UserPoolClientId = UserPoolClientId,
             };
+        }
     }
 }

@@ -1,7 +1,9 @@
+// Copyright Amazon.com, Inc. or its affiliates. All Rights Reserved.
+// SPDX-License-Identifier: Apache-2.0
+
 using System.Collections.Generic;
 using AmazonGameLift.Editor;
 using AmazonGameLiftPlugin.Core.CredentialManagement.Models;
-using AmazonGameLiftPlugin.Core.SettingsManagement.Models;
 using AmazonGameLiftPlugin.Core.Shared;
 using Moq;
 using NUnit.Framework;
@@ -81,11 +83,12 @@ namespace AmazonGameLiftPlugin.Editor.UnitTests
             regionMock.Setup(target => target.Refresh())
                 .Verifiable();
 
-            var creationMock = new Mock<AwsCredentialsCreation>(_textProvider, regionMock.Object, coreApi);
+            var mockLogger = new MockLogger();
+            var creationMock = new Mock<AwsCredentialsCreation>(_textProvider, regionMock.Object, coreApi, mockLogger);
             creationMock.Setup(target => target.Refresh())
                 .Verifiable();
 
-            var updateMock = new Mock<AwsCredentialsUpdate>(_textProvider, regionMock.Object, coreApi);
+            var updateMock = new Mock<AwsCredentialsUpdate>(_textProvider, regionMock.Object, coreApi, mockLogger);
             updateMock.Setup(target => target.Refresh())
                 .Verifiable();
 

@@ -1,3 +1,6 @@
+// Copyright Amazon.com, Inc. or its affiliates. All Rights Reserved.
+// SPDX-License-Identifier: Apache-2.0
+
 using System;
 using AmazonGameLift.Editor;
 using NUnit.Framework;
@@ -18,20 +21,28 @@ namespace AmazonGameLiftPlugin.Editor.UnitTests
         private readonly BootstrapBucketFormatter _bucketFormatter = new BootstrapBucketFormatter();
 
         [Test]
-        public void FormatBucketName_WhenNullAccountId_ThrowsException() =>
+        public void FormatBucketName_WhenNullAccountId_ThrowsException()
+        {
             Assert.Throws<ArgumentNullException>(() => _bucketFormatter.FormatBucketName(null, "Any"));
+        }
 
         [Test]
-        public void FormatBucketName_WhenNullRegion_ThrowsException() =>
+        public void FormatBucketName_WhenNullRegion_ThrowsException()
+        {
             Assert.Throws<ArgumentNullException>(() => _bucketFormatter.FormatBucketName("Any", null));
+        }
 
         [Test]
-        public void FormatBucketKey_WhenNullValue_ThrowsException() =>
+        public void FormatBucketKey_WhenNullValue_ThrowsException()
+        {
             Assert.Throws<ArgumentNullException>(() => _bucketFormatter.FormatBucketKey(null));
+        }
 
         [Test]
-        public void ValidateBucketKey_WhenNullValue_ThrowsException() =>
+        public void ValidateBucketKey_WhenNullValue_ThrowsException()
+        {
             Assert.Throws<ArgumentNullException>(() => _bucketFormatter.ValidateBucketKey(null));
+        }
 
         [Test]
         [TestCaseSource(nameof(s_bucketKeyTestCases))]

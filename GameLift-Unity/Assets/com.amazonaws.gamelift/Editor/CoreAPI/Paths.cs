@@ -13,5 +13,6 @@ namespace AmazonGameLift.Editor
         public const string CfnTemplateFileName = "cloudformation.yml";
         public const string ParametersFileName = "parameters.json";
         public const string PdfGuideFileInPackage = "Amazon GameLift Plugin User Guide.pdf";
+        public const string ServerSdkDllInPackage = "Runtime/Plugins/GameLiftServerSDK";
     }
 }

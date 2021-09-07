@@ -6,7 +6,10 @@ namespace AmazonGameLift.Editor
     internal class AwsCredentialsFactory
     {
         public static AwsCredentials Create()
-            => new AwsCredentials(TextProviderFactory.Create());
+        {
+            TextProvider textProvider = TextProviderFactory.Create();
+            return new AwsCredentials(textProvider, UnityLoggerFactory.Create(textProvider));
+        }
     }
 }
 

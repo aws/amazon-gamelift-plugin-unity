@@ -1,3 +1,6 @@
+// Copyright Amazon.com, Inc. or its affiliates. All Rights Reserved.
+// SPDX-License-Identifier: Apache-2.0
+
 using System.Collections.Generic;
 using AmazonGameLift.Editor;
 using AmazonGameLiftPlugin.Core.Shared;
@@ -150,7 +153,7 @@ namespace AmazonGameLiftPlugin.Editor.UnitTests
 
             SetUpCoreApiForFileReadAllTextSuccess(coreApiMock, testFilePath, testParametersInput);
 
-            var writeResponse = Response.Fail(new Response() { ErrorCode = testErrorCode});
+            var writeResponse = Response.Fail(new Response() { ErrorCode = testErrorCode });
             coreApiMock.Setup(target => target.FileWriteAllText(testFilePath, testParametersOutput))
                 .Returns(writeResponse)
                 .Verifiable();
@@ -240,11 +243,13 @@ namespace AmazonGameLiftPlugin.Editor.UnitTests
                 .Verifiable();
         }
 
-        private IReadOnlyDictionary<string, string> PrepareParameters(string gameName) =>
-            new Dictionary<string, string>
+        private IReadOnlyDictionary<string, string> PrepareParameters(string gameName)
+        {
+            return new Dictionary<string, string>
             {
                 { ScenarioParameterKeys.GameName, gameName }
             };
+        }
 
         private ScenarioParametersUpdater GetUnitUnderTest(Mock<CoreApi> coreApi = null,
             Mock<ScenarioParametersEditor> scenarioParametersEditor = null)

@@ -1,3 +1,6 @@
+// Copyright Amazon.com, Inc. or its affiliates. All Rights Reserved.
+// SPDX-License-Identifier: Apache-2.0
+
 using System.Collections.Generic;
 using AmazonGameLift.Editor;
 using AmazonGameLiftPlugin.Core.SettingsManagement.Models;
@@ -67,10 +70,12 @@ namespace AmazonGameLiftPlugin.Editor.UnitTests
             coreApiMock.Setup(target => target.ListAvailableRegions())
                 .Returns(new List<string> { "test-region" });
 
-            var underTest = new RegionBootstrap(coreApiMock.Object);
+            var underTest = new RegionBootstrap(coreApiMock.Object)
+            {
 
-            // Act
-            underTest.RegionIndex = -2;
+                // Act
+                RegionIndex = -2
+            };
 
             // Assert
             coreApiMock.Verify();
@@ -85,10 +90,12 @@ namespace AmazonGameLiftPlugin.Editor.UnitTests
             coreApiMock.Setup(target => target.ListAvailableRegions())
                 .Returns(new List<string> { "test-region" });
 
-            var underTest = new RegionBootstrap(coreApiMock.Object);
+            var underTest = new RegionBootstrap(coreApiMock.Object)
+            {
 
-            // Act
-            underTest.RegionIndex = 0;
+                // Act
+                RegionIndex = 0
+            };
 
             // Assert
             coreApiMock.Verify();

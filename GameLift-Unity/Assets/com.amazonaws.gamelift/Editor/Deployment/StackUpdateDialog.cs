@@ -116,6 +116,9 @@ namespace AmazonGameLift.Editor
             }
         }
 
-        private static string FormatChange(Change change) => $"{change.LogicalId} ({change.ResourceType})";
+        private static string FormatChange(Change change)
+        {
+            return $"{change.LogicalId} ({change.ResourceType})";
+        }
     }
 }

@@ -507,9 +507,10 @@ namespace AmazonGameLiftPlugin.Editor.UnitTests
             return (underTest, response);
         }
 
-        private static DescribeStackResponse[] CreateDescribeStackSequenceResponses(IEnumerable<string> results) =>
-            results.Select(status => Response.Ok(new DescribeStackResponse() { StackStatus = status }))
-                .ToArray();
+        private static DescribeStackResponse[] CreateDescribeStackSequenceResponses(IEnumerable<string> results)
+        {
+            return results.Select(status => Response.Ok(new DescribeStackResponse() { StackStatus = status })).ToArray();
+        }
 
         private static void SetUpCoreApiWithDescribeStackSequence(Mock<CoreApi> coreApiMock,
             string profileName, string region, string stackName,

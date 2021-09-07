@@ -52,7 +52,10 @@ namespace AmazonGameLift.Editor
             _awsCredentials.Creation.Status.Changed += OnStatusChanged;
         }
 
-        private void OnDisable() => _awsCredentials.Creation.Status.Changed -= OnStatusChanged;
+        private void OnDisable()
+        {
+            _awsCredentials.Creation.Status.Changed -= OnStatusChanged;
+        }
 
         private void OnGUI()
         {
@@ -100,6 +103,9 @@ namespace AmazonGameLift.Editor
             }
         }
 
-        private void OnStatusChanged() => Repaint();
+        private void OnStatusChanged()
+        {
+            Repaint();
+        }
     }
 }

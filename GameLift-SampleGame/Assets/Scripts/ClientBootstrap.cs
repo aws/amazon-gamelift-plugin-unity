@@ -7,6 +7,7 @@ using AmazonGameLiftPlugin.Core.UserIdentityManagement.Models;
 using UnityEngine.SceneManagement;
 #endif
 using UnityEngine;
+using AmazonGameLift.Runtime;
 
 public sealed class ClientBootstrap : MonoBehaviour
 {
@@ -32,6 +33,9 @@ public sealed class ClientBootstrap : MonoBehaviour
 
     [SerializeField]
     private ConfirmationSuccessScreen _confirmationSuccessScreenPrefab;
+
+    [SerializeField]
+    private GameLiftClientSettings _gameLiftSettings;
 
 #if !UNITY_SERVER
     private readonly Logger _logger = Logger.SharedInstance;
@@ -63,6 +67,12 @@ public sealed class ClientBootstrap : MonoBehaviour
             _signInScreen.Hide();
             ShowSignUp();
         });
+
+        if (_gameLiftSettings.IsLocalTest)
+        {
+            _signInScreen.SetHint("You are currently running in Local mode. You may enter any email/password to successfully login");
+        }
+
         _signInScreen.Show();
     }
 

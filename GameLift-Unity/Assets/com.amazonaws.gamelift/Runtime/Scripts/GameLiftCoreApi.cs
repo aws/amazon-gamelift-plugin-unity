@@ -120,7 +120,10 @@ namespace AmazonGameLift.Runtime
         private readonly LatencyService _latencyService = new LatencyService(new PingWrapper());
         private readonly LocalGameAdapter _localGame;
 
-        public virtual string[] ListAvailableRegions() => AwsRegionMapper.AvailableRegions().ToArray();
+        public virtual string[] ListAvailableRegions()
+        {
+            return AwsRegionMapper.AvailableRegions().ToArray();
+        }
 
         public virtual Task<GetLatenciesResponse> GetLatencies(string[] regions)
         {

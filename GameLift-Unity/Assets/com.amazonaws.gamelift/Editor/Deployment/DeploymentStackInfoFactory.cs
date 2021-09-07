@@ -35,9 +35,11 @@ namespace AmazonGameLift.Editor
             return new DeploymentStackInfo(status, info.StackStatus, details, apiGatewayEndpoint, userPoolClientId);
         }
 
-        private static string FormatTime(DateTime time) =>
-            time != default
+        private static string FormatTime(DateTime time)
+        {
+            return time != default
                 ? time.ToString("yyyy-MM-dd hh:mm tt")
                 : "-";
+        }
     }
 }
