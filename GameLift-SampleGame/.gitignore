@@ -47,3 +47,6 @@ sysinfo.txt
 *.unitypackage
 
 GameLiftSettings.yaml
+
+Packages/packages-lock.json
+ProjectSettings/*
