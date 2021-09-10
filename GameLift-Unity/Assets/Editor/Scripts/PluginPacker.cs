@@ -13,7 +13,7 @@ namespace AWS.GameLift.Editor
     {
         private static readonly int DEFAULT_POLL_INTERVAL_IN_MS = 100;
 
-        [MenuItem("Assets/Pack Plugin")]
+        [MenuItem("Assets/Pack GameLift Unity Plugin")]
         public static void Pack()
         {
             string pluginDirectory = @"..\GameLift-Unity\Assets\com.amazonaws.gamelift";

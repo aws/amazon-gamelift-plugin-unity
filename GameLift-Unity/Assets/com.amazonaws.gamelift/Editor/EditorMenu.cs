@@ -18,7 +18,7 @@ namespace AmazonGameLift.Editor
             AssetDatabase.ImportPackage(filePackagePath, interactive: true);
         }
 
-        [MenuItem("GameLift/Plugin Settings")]
+        [MenuItem("GameLift/Plugin Settings", priority = 0)]
         public static void ShowPluginSettings()
         {
             Assembly unityEditorAssembly = typeof(UnityEditor.Editor).Assembly;
