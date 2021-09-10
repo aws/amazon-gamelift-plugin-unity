@@ -130,7 +130,6 @@ namespace AmazonGameLift.Editor
             { Strings.LabelSettingsOpenForums, "Open AWS GameTech Forums"},
             { Strings.LabelSettingsOpenDeployment, "Open Deployment UI"},
             { Strings.LabelSettingsOpenLocalTest, "Open Local Test UI"},
-            { Strings.LabelSettingsOpenPdf, "Open PDF documentation"},
             { Strings.LabelSettingsPingSdk, "Ping SDK DLL files location"},
             { Strings.LabelSettingsReportSecurity, "Report security vulnerabilities"},
             { Strings.LabelSettingsReportBugs, "Report bugs/issues"},

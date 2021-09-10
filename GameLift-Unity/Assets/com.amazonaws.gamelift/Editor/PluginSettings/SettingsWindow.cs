@@ -181,39 +181,30 @@ namespace AmazonGameLift.Editor
 
         private void DrawHelpTab()
         {
-            bool pressed = GUILayout.Button(_labelOpenPdf);
-
-            if (pressed)
-            {
-                EditorMenu.OpenUserGuidePdf();
-            }
-
-            pressed = GUILayout.Button(_labelOpenForums);
-
-            if (pressed)
-            {
-                EditorMenu.OpenForums();
-            }
-
-            pressed = GUILayout.Button(_labelOpenAwsHelp);
-
-            if (pressed)
+            if (GUILayout.Button(_labelOpenAwsHelp))
             {
                 EditorMenu.OpenAwsDocumentation();
             }
 
-            pressed = GUILayout.Button(_labelReportSecurity);
+            GUILayout.Space(TopMarginPixels);
 
-            if (pressed)
+            if (GUILayout.Button(_labelOpenForums))
             {
-                EditorMenu.ReportSecurity();
+                EditorMenu.OpenForums();
             }
 
-            pressed = GUILayout.Button(_labelReportBugs);
+            GUILayout.Space(TopMarginPixels);
 
-            if (pressed)
+            if (GUILayout.Button(_labelReportBugs))
             {
                 EditorMenu.ReportBugs();
+            }
+
+            GUILayout.Space(TopMarginPixels);
+
+            if (GUILayout.Button(_labelReportSecurity))
+            {
+                EditorMenu.ReportSecurity();
             }
         }
 

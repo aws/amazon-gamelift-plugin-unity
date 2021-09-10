@@ -17,7 +17,7 @@ namespace AmazonGameLift.Editor
         public const string AwsS3Console = "https://s3.console.aws.amazon.com/s3/home";
         public const string AwsS3BucketTemplate = "https://s3.console.aws.amazon.com/s3/buckets/{0}?region={1}";
         public const string AwsSecurity = "https://aws.amazon.com/security/vulnerability-reporting/";
-        public const string GitHubAwsLabs = "https://github.com/awslabs";
+        public const string GitHubAwsLabs = "https://github.com/awslabs/amazon-gamelift-plugin-unity/issues";
         public const string JavaDownload = "https://www.java.com/en/download/";
     }
 }
