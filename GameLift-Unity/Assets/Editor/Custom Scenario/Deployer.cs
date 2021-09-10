@@ -15,13 +15,15 @@ namespace AmazonGameLift.Custom
         public override string DisplayName => "Custom Scenario";
 
         public override string Description =>
-            "This deployment scenario is a custom one";
+            "This is a custom deployment scenario for you to edit!";
 
         public override string HelpUrl => "";
 
         public override string ScenarioFolder => "Assets/Editor/Custom Scenario";
 
         public override bool HasGameServer => false;
+
+        public override int PreferredUiOrder => 99;
 
         protected override Task<DeploymentResponse> Deploy(DeploymentRequest request)
         {
