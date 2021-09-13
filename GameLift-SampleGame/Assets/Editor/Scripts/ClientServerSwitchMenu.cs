@@ -13,7 +13,7 @@ public static class ClientServerSwitchMenu
     private const string GameScenePath = "Assets/Scenes/GameScene.unity";
     private const string UnityServerDefine = "UNITY_SERVER";
 
-    [MenuItem("GameLift/Configure Sample Client", priority = 9100)]
+    [MenuItem("GameLift/Apply Sample Client Build Settings", priority = 9202)]
     public static void RunClient()
     {
         EditorUserBuildSettings.enableHeadlessMode = false;
@@ -21,7 +21,7 @@ public static class ClientServerSwitchMenu
         Debug.Log("Sample Client has been successfully configured:\n-Sample scenes are added to build settings\n-Scripting define symbols are set\n-Server build has been disabled");
     }
 
-    [MenuItem("GameLift/Configure Sample Server", priority = 9101)]
+    [MenuItem("GameLift/Apply Sample Server Build Settings", priority = 9101)]
     public static void RunServer()
     {
         EditorUserBuildSettings.enableHeadlessMode = true;

@@ -6,5 +6,6 @@ namespace AmazonGameLift.Editor
     internal static class AssetNames
     {
         public const string SpinnerIcon = "Spinner";
+        public const string GameLiftLogo = "GameLiftLogo";
     }
 }

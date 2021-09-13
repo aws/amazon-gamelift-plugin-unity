@@ -219,7 +219,7 @@ namespace AmazonGameLift.Editor
 
         public void Restore()
         {
-            ScenarioIndex = 0;
+            ScenarioIndex = 1; // Selects "Single-Region Fleet" Deployment Scenario by default
             BuildFilePath = null;
             BuildFolderPath = null;
             GetSettingResponse response = _coreApi.GetSetting(SettingsKeys.DeploymentGameName);

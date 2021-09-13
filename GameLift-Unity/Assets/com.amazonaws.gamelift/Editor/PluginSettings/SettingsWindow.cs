@@ -24,6 +24,7 @@ namespace AmazonGameLift.Editor
         private SettingPanel _credentialsPanel;
         private SettingPanel _bootstrapPanel;
         private ControlDrawer _controlDrawer;
+        private Texture2D _gameLiftLogo;
 
         [SerializeField]
         private SettingsState _settingsState;
@@ -58,9 +59,10 @@ namespace AmazonGameLift.Editor
             _labelOpenDeployment = textProvider.Get(Strings.LabelSettingsOpenDeployment);
             _labelOpenLocalTest = textProvider.Get(Strings.LabelSettingsOpenLocalTest);
             _labelPingSdk = textProvider.Get(Strings.LabelSettingsPingSdk);
+            _gameLiftLogo = imageLoader.LoadImage(AssetNames.GameLiftLogo);
 
             titleContent = new GUIContent(textProvider.Get(Strings.TitleSettings));
-            minSize = new Vector2(360, 315);
+            minSize = new Vector2(SettingsWindowMinWidth, SettingsWindowMinHeight);
             _statusLabel = new StatusLabel();
             _controlDrawer = ControlDrawerFactory.Create();
             _settings = Settings.SharedInstance;
@@ -105,12 +107,20 @@ namespace AmazonGameLift.Editor
         {
             GUILayout.Space(TopMarginPixels);
 
-            using (new EditorGUILayout.HorizontalScope())
+            if (_gameLiftLogo)
             {
-                GUILayout.Space(LeftMarginPixels);
-                EditorGUILayout.LabelField("Amazon GameLift");
-                GUILayout.Space(RightMarginPixels);
+                GUILayout.Space(TopMarginPixels);
+                using (new EditorGUILayout.HorizontalScope())
+                {
+                    GUILayout.Space(LeftMarginPixels);
+                    float logoHeight = GameLiftLogoHeight;
+                    float logoWidth = GameLiftLogoHeight / _gameLiftLogo.height * _gameLiftLogo.width;
+                    Rect logoRect = GUILayoutUtility.GetRect(logoWidth, logoHeight, style: GUI.skin.box);
+                    GUI.DrawTexture(logoRect, _gameLiftLogo, ScaleMode.ScaleToFit);
+                    GUILayout.Space(RightMarginPixels);
+                }
             }
+            _controlDrawer.DrawSeparator();
 
             GUILayout.Space(TopMarginPixels);
             using (new EditorGUILayout.HorizontalScope(EditorStyles.toolbar))

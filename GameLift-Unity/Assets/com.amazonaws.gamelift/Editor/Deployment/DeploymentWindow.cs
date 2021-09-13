@@ -87,12 +87,12 @@ namespace AmazonGameLift.Editor
 
             titleContent = new GUIContent(_textProvider.Get(Strings.TitleDeployment));
             _model = DeploymentSettingsFactory.Create();
-            string label = _textProvider.Get(Strings.LabelDeploymentHelp);
-            _deploymentHelpLinkButton = new HyperLinkButton(label, Urls.AwsHelpDeployment, ResourceUtility.GetHyperLinkStyle());
+            string deploymentHelpLabelText = _textProvider.Get(Strings.LabelDeploymentHelp);
+            _deploymentHelpLinkButton = new HyperLinkButton(deploymentHelpLabelText, Urls.AwsHelpDeployment, ResourceUtility.GetHyperLinkStyle());
             _scenarioHelpLinkButton = new HyperLinkButton(_labelScenarioHelp, string.Empty, ResourceUtility.GetHyperLinkStyle());
             _statusLabel = new StatusLabel();
-            string labelCfnConsole = _textProvider.Get(Strings.LabelDeploymentCloudFormationConsole);
-            _cfnConsoleLinkButton = new HyperLinkButton(labelCfnConsole, Urls.AwsCloudFormationConsole, ResourceUtility.GetHyperLinkStyle());
+            string goToCloudFormationConsoleLabelText = _textProvider.Get(Strings.LabelDeploymentCloudFormationConsole);
+            _cfnConsoleLinkButton = new HyperLinkButton(goToCloudFormationConsoleLabelText, Urls.AwsCloudFormationConsole, ResourceUtility.GetHyperLinkStyle());
             SetWindowSize(WindowIdleHeightNoFormPixels);
             _model.Refresh();
             _model.Restore();
