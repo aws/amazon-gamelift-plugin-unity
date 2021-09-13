@@ -120,7 +120,6 @@ namespace AmazonGameLift.Editor
                     GUILayout.Space(RightMarginPixels);
                 }
             }
-            _controlDrawer.DrawSeparator();
 
             GUILayout.Space(TopMarginPixels);
             using (new EditorGUILayout.HorizontalScope(EditorStyles.toolbar))
