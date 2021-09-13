@@ -200,17 +200,16 @@ namespace AmazonGameLift.Editor
                 return s_cachedTabActiveStyle;
             }
 
-            var style = new GUIStyle(EditorStyles.miniButton);
-            style.normal.textColor = EditorGUIUtility.isProSkin
-                ? new Color32(0xFF, 0xFF, 0x00, 0xFF)
-                : new Color32(0xFF, 0xFF, 0x0B, 0xFF);
+            var style = new GUIStyle(EditorStyles.toolbarButton);
+            style.normal.textColor = new Color32(0xFF, 0xBB, 0x00, 0xFF); // Amazon Orange
+            style.hover.textColor = new Color32(0xFF, 0xBB, 0x00, 0xFF); // Amazon Orange
             s_cachedTabActiveStyle = style;
             return style;
         }
 
         public static GUIStyle GetTabNormalStyle()
         {
-            return EditorStyles.miniButton;
+            return EditorStyles.toolbarButton;
         }
 
         private static Texture2D GetSmallTexture(Color color)
