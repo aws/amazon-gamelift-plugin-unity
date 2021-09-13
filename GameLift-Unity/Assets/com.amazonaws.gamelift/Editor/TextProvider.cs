@@ -183,7 +183,7 @@ namespace AmazonGameLift.Editor
             { Strings.TooltipSettingsAwsCredentials, "Setup credentials used for account bootstrapping and CloudFormation deployment."},
             { Strings.TooltipSettingsBootstrap, "Create an S3 bucket to store GameLift build artifacts and lambda function source code."},
             { Strings.TooltipSettingsDotNet, "By clicking on this button, you opt in to change API Compatibility Level of the project to 4.x, which is the version of .NET API that the current GameLift Server SDK supports."},
-            { Strings.TooltipSettingsJava, "Download the latest Java Runtime Environment in order to run GameLift Local"},
+            { Strings.TooltipSettingsJava, "Download the latest Java Runtime Environment in order to run GameLift Local. This setting does not have to be \"Configured\" to run Local Testing due limitations in JDK detection."},
             { Strings.TooltipSettingsLocalTesting, "Download the GameLift Local jar bundled in \"Managed GameLift Server SDK\" on AWS website."},
             { Strings.TooltipBootstrapBucketLifecycle, "Specify an expiration date of your S3 bucket."},
             { Strings.TooltipBootstrapCurrentBucket, "This is the name of the S3 bucket which is used currently."},
