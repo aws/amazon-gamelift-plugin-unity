@@ -1,5 +1,16 @@
 CHANGELOG
 
+# 0.2.2 (09/13/2021)
+
+- Add AWS Logo and retexture toolbar to use the default Unity toolbar styling
+- Enable Local Testing UI regardless if Java is configured (Temp fix to issue #9)
+- Reorder and rename sample game menu items
+- Select "Single-Region Fleet" deployment scenario by default 
+- Removed PDF documentation and related button. Users should go to AWS docs for source of truth
+- Removed redundant files related to deployment scenarios
+- Ensured all files have license file headers
+- Ensured all sample code have MIT-0 license instead of Apache-2.0
+
 # 0.2.1 (09/07/2021)
 
 - Added persistence states to settings UI
