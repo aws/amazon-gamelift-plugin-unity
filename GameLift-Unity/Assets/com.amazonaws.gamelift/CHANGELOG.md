@@ -1,5 +1,11 @@
 CHANGELOG
 
+# 0.2.3 (09/14/2021)
+
+- Update UI Strings
+- Fix NullPointerException when reload plugin with all settings configured
+- Update GameLift Local download URL to the S3 zip file
+
 # 0.2.2 (09/13/2021)
 
 - Add AWS Logo and retexture toolbar to use the default Unity toolbar styling
