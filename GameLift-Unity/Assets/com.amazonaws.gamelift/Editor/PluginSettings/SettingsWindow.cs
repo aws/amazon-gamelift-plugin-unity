@@ -8,6 +8,10 @@ namespace AmazonGameLift.Editor
 {
     internal class SettingsWindow : EditorWindow
     {
+        private const float SettingsWindowMinWidth = 315;
+        private const float SettingsWindowMinHeight = 420;
+        private const float GameLiftLogoHeight = 60;
+        private const float SettingsPanelTopMargin = 15f;
         private const float TopMarginPixels = 7f;
         private const float LeftMarginPixels = 17f;
         private const float RightMarginPixels = 13f;
@@ -108,7 +112,8 @@ namespace AmazonGameLift.Editor
                 GUILayout.Space(RightMarginPixels);
             }
 
-            using (new EditorGUILayout.HorizontalScope(GUILayout.ExpandWidth(true)))
+            GUILayout.Space(TopMarginPixels);
+            using (new EditorGUILayout.HorizontalScope(EditorStyles.toolbar))
             {
                 GUILayout.Space(LeftMarginPixels);
 
@@ -121,7 +126,7 @@ namespace AmazonGameLift.Editor
                 GUILayout.Space(RightMarginPixels);
             }
 
-            _controlDrawer.DrawSeparator();
+            GUILayout.Space(SettingsPanelTopMargin);
             DrawActiveTab();
 
             using (new EditorGUILayout.HorizontalScope())
