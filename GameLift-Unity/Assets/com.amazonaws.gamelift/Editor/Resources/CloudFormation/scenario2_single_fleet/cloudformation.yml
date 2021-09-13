@@ -348,6 +348,9 @@ Resources:
           - ConcurrentExecutions: 1
             LaunchPath: !Ref LaunchPathParameter
             Parameters: !Ref LaunchParametersParameter
+      Tags:
+        - Key: "CreatedBy"
+          Value: "AmazonGameLiftUnityPlugin"
 
   AliasResource:
     Type: "AWS::GameLift::Alias"

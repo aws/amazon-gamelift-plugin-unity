@@ -572,6 +572,9 @@ Resources:
           - ConcurrentExecutions: 1
             LaunchPath: !Ref LaunchPathParameter
             Parameters: !Ref LaunchParametersParameter
+      Tags:
+        - Key: "CreatedBy"
+          Value: "AmazonGameLiftUnityPlugin"
 
   SimpleMatchmakerLambdaFunction:
     Type: "AWS::Lambda::Function"
