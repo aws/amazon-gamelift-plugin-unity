@@ -6,10 +6,10 @@ namespace AmazonGameLift.Editor
     internal static class DevStrings
     {
         public const string BucketNameTooLong = "The bucket name is too long.";
-        public const string OperationInvalid = "The operation is invalid.";
+        public const string OperationInvalid = "There was a problem with the operation.";
         public const string StringNullOrEmpty = "The string is null or empty.";
-        public const string ProfileInvalid = "The AWS profile is invalid.";
-        public const string RegionInvalid = "The AWS region is invalid.";
-        public const string FailedToDescribeStackTemplate = "Failed to refresh stack status. {0}";
+        public const string ProfileInvalid = "The was a problem with the AWS profile.";
+        public const string RegionInvalid = "The was a problem with the AWS Region.";
+        public const string FailedToDescribeStackTemplate = "There was a problem refreshing stack status. {0}";
     }
 }

@@ -62,9 +62,9 @@ namespace AmazonGameLift.Editor
 
         private void EditGameLiftMode(GameLiftClientSettings targetSettings)
         {
-            EditorGUILayout.PropertyField(_remoteUrl, new GUIContent("URL", "API Gateway URL"));
+            EditorGUILayout.PropertyField(_remoteUrl, new GUIContent("API Gateway Endpoint", "API Gateway URL"));
             EditorGUILayout.PropertyField(_region, new GUIContent("AWS Region", "AWS region used for communicating with Cognito and API Gateway"));
-            EditorGUILayout.PropertyField(_poolClientId, new GUIContent("Cognito User Pool Client ID"));
+            EditorGUILayout.PropertyField(_poolClientId, new GUIContent("Cognito Client ID"));
 
             if (string.IsNullOrWhiteSpace(targetSettings.ApiGatewayUrl))
             {

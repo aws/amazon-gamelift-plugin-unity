@@ -6,7 +6,7 @@ using UnityEditor;
 
 public static class GameLiftClientSettingsMenu
 {
-    [MenuItem("GameLift/Show Sample Client Connection Settings", priority = 9201)]
+    [MenuItem("GameLift/Go To Client Connection Settings", priority = 9201)]
     public static void Run()
     {
         GameLiftClientSettings settings = AssetDatabase.LoadAssetAtPath<GameLiftClientSettings>("Assets/Settings/GameLiftClientSettings.asset");
