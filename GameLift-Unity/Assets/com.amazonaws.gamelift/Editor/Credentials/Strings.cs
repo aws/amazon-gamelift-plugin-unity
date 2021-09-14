@@ -94,7 +94,6 @@ namespace AmazonGameLift.Editor
         public const string LabelSettingsOpenAwsHelp = "LabelSettingsOpenAwsHelp";
         public const string LabelSettingsOpenDeployment = "LabelSettingsOpenDeployment";
         public const string LabelSettingsOpenLocalTest = "LabelSettingsOpenLocalTest";
-        public const string LabelSettingsOpenPdf = "LabelSettingsOpenPdf";
         public const string LabelSettingsPingSdk = "LabelSettingsPingSdk";
         public const string LabelSettingsReportSecurity = "LabelSettingsReportSecurity";
         public const string LabelSettingsReportBugs = "LabelSettingsReportBugs";

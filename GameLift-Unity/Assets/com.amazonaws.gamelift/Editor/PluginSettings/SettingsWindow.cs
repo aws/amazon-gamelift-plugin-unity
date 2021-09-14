@@ -37,7 +37,6 @@ namespace AmazonGameLift.Editor
         private string _labelOpenDeployment;
         private string _labelOpenLocalTest;
         private string _labelHelpTab;
-        private string _labelOpenPdf;
         private string _labelTestTab;
         private string _labelDeployTab;
 
@@ -51,7 +50,6 @@ namespace AmazonGameLift.Editor
             _labelDeployTab = textProvider.Get(Strings.LabelSettingsDeployTab);
             _labelTestTab = textProvider.Get(Strings.LabelSettingsTestTab);
             _labelHelpTab = textProvider.Get(Strings.LabelSettingsHelpTab);
-            _labelOpenPdf = textProvider.Get(Strings.LabelSettingsOpenPdf);
             _labelOpenForums = textProvider.Get(Strings.LabelSettingsOpenForums);
             _labelOpenAwsHelp = textProvider.Get(Strings.LabelSettingsOpenAwsHelp);
             _labelReportSecurity = textProvider.Get(Strings.LabelSettingsReportSecurity);
