@@ -201,8 +201,9 @@ namespace AmazonGameLift.Editor
             }
 
             var style = new GUIStyle(EditorStyles.toolbarButton);
-            style.normal.textColor = new Color32(0xFF, 0xBB, 0x00, 0xFF); // Amazon Orange
-            style.hover.textColor = new Color32(0xFF, 0xBB, 0x00, 0xFF); // Amazon Orange
+            style.normal.textColor = new Color32(0xFF, 0xAA, 0x00, 0xFF); // Amazon Orange
+            style.hover.textColor = new Color32(0xFF, 0xAA, 0x00, 0xFF); // Amazon Orange
+            style.fontStyle = FontStyle.Bold;
             s_cachedTabActiveStyle = style;
             return style;
         }
