@@ -141,7 +141,7 @@ namespace AmazonGameLift.Editor
             using (new EditorGUILayout.HorizontalScope())
             {
                 GUILayout.Space(LeftMarginPixels);
-                string message = _settingsState != null && _settingsState.Status != null && _settingsState.Status.IsDisplayed
+                string message = _settingsState.Status.IsDisplayed
                     ? _settingsState.Status.Message
                     : string.Empty;
                 _statusLabel.Draw(message, _settingsState.Status.Type);
