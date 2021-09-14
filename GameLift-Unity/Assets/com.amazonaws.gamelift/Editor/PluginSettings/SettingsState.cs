@@ -15,7 +15,7 @@ namespace AmazonGameLift.Editor
         public const int TabDeploy = 2;
         public const int TabHelp = 3;
 
-        private Status _status = new Status();
+        private Status _status;
         private TextProvider _textProvider;
         private Settings _settings;
 
@@ -54,6 +54,7 @@ namespace AmazonGameLift.Editor
 
             _textProvider = textProvider;
             _settings = settings;
+            _status = new Status();
         }
 
         public void Refresh()
