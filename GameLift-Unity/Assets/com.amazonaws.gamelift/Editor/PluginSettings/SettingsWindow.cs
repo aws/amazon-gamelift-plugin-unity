@@ -10,7 +10,7 @@ namespace AmazonGameLift.Editor
     {
         private const float SettingsWindowMinWidth = 315;
         private const float SettingsWindowMinHeight = 420;
-        private const float GameLiftLogoHeight = 60;
+        private const float GameLiftLogoHeight = 35;
         private const float SettingsPanelTopMargin = 15f;
         private const float TopMarginPixels = 7f;
         private const float LeftMarginPixels = 17f;
@@ -24,9 +24,10 @@ namespace AmazonGameLift.Editor
         private SettingPanel _credentialsPanel;
         private SettingPanel _bootstrapPanel;
         private ControlDrawer _controlDrawer;
-        private Texture2D _gameLiftLogo;
+        private ImageLoader _imageLoader;
 
         [SerializeField]
+        private Texture2D _gameLiftLogo;
         private SettingsState _settingsState;
         private string _labelSdkTab;
         private string _labelOpenForums;
@@ -44,7 +45,7 @@ namespace AmazonGameLift.Editor
 
         private void SetUp()
         {
-            var imageLoader = new ImageLoader();
+            _imageLoader = new ImageLoader();
             TextProvider textProvider = TextProviderFactory.Create();
             _labelSdkTab = textProvider.Get(Strings.LabelSettingsSdkTab);
             _labelDeployTab = textProvider.Get(Strings.LabelSettingsDeployTab);
@@ -57,7 +58,6 @@ namespace AmazonGameLift.Editor
             _labelOpenDeployment = textProvider.Get(Strings.LabelSettingsOpenDeployment);
             _labelOpenLocalTest = textProvider.Get(Strings.LabelSettingsOpenLocalTest);
             _labelPingSdk = textProvider.Get(Strings.LabelSettingsPingSdk);
-            _gameLiftLogo = imageLoader.LoadImage(AssetNames.GameLiftLogo);
 
             titleContent = new GUIContent(textProvider.Get(Strings.TitleSettings));
             minSize = new Vector2(SettingsWindowMinWidth, SettingsWindowMinHeight);
@@ -103,8 +103,17 @@ namespace AmazonGameLift.Editor
 
         private void OnGUI()
         {
-            GUILayout.Space(TopMarginPixels);
+            // HACK: During InitializeOnLoadMethod in FirstTimeSettingsLauncher.cs, Resource.Load() cannot find
+            // the image at "Images/Dark/GameLiftLogo", though subsequent attempts load the image successfully.
+            // This is suspected to be due to a race condition between InitializeOnLoadMethod and readiness
+            // of the Editor Resources.
+            if (_gameLiftLogo == null)
+            {
+                _gameLiftLogo = _imageLoader.LoadImage(AssetNames.GameLiftLogo);
+            }
 
+            // Displays the GameLift Logo
+            GUILayout.Space(TopMarginPixels);
             if (_gameLiftLogo)
             {
                 GUILayout.Space(TopMarginPixels);
@@ -117,8 +126,9 @@ namespace AmazonGameLift.Editor
                     GUI.DrawTexture(logoRect, _gameLiftLogo, ScaleMode.ScaleToFit);
                     GUILayout.Space(RightMarginPixels);
                 }
-            }
+            } 
 
+            // Displays the Settings UI top nav
             GUILayout.Space(TopMarginPixels);
             using (new EditorGUILayout.HorizontalScope(EditorStyles.toolbar))
             {
@@ -133,6 +143,7 @@ namespace AmazonGameLift.Editor
                 GUILayout.Space(RightMarginPixels);
             }
 
+            // Displays the current active panel, e.g. SDK / Testing / Deployment / Help
             GUILayout.Space(SettingsPanelTopMargin);
             DrawActiveTab();
 
