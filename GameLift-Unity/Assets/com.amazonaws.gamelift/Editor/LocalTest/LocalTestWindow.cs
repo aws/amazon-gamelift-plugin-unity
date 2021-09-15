@@ -10,7 +10,7 @@ namespace AmazonGameLift.Editor
 {
     internal class LocalTestWindow : EditorWindow
     {
-        private const float WindowWidthPixels = 550f;
+        private const float WindowWidthPixels = 570f;
 #if UNITY_2019_1_OR_NEWER
         private const float WindowHeightPixels = 140f;
 #else
@@ -19,7 +19,7 @@ namespace AmazonGameLift.Editor
         private const float TopMarginPixels = 15f;
         private const float LeftMarginPixels = 15f;
         private const float RightMarginPixels = 13f;
-        private const float LabelWidthPixels = 160f;
+        private const float LabelWidthPixels = 180f;
         private const float VerticalSpacingPixels = 5f;
 
         private StatusLabel _statusLabel;

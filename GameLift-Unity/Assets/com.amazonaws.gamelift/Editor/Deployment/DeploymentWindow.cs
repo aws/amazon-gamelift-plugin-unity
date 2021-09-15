@@ -9,7 +9,7 @@ namespace AmazonGameLift.Editor
 {
     internal class DeploymentWindow : EditorWindow
     {
-        private const float WindowWidthPixels = 550f;
+        private const float WindowWidthPixels = 600f;
 #if UNITY_2019_1_OR_NEWER
         private const float WindowIdleHeightNoFormPixels = 375f;
 #else
@@ -18,7 +18,7 @@ namespace AmazonGameLift.Editor
         private const float TopMarginPixels = 18f;
         private const float LeftMarginPixels = 15f;
         private const float RightMarginPixels = 13f;
-        private const float LabelWidthPixels = 145f;
+        private const float LabelWidthPixels = 185f;
         private const float VerticalSpacingPixels = 5f;
         private const float SpinnerSizePixels = 23f;
 
