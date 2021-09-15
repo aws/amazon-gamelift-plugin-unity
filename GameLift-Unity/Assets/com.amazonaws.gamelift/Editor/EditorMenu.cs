@@ -43,13 +43,6 @@ namespace AmazonGameLift.Editor
             EditorWindow.GetWindow<LocalTestWindow>();
         }
 
-        public static void OpenUserGuidePdf()
-        {
-            string filePackagePath = $"Packages/{Paths.PackageName}/{Paths.PdfGuideFileInPackage}";
-            string url = Path.GetFullPath(filePackagePath);
-            Application.OpenURL(url);
-        }
-
         public static void OpenForums()
         {
             Application.OpenURL(Urls.AwsGameTechForums);
