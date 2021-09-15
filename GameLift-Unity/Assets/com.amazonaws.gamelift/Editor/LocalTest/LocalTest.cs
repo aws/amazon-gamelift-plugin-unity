@@ -17,7 +17,7 @@ namespace AmazonGameLift.Editor
     [Serializable]
     internal class LocalTest
     {
-        private const int GameLiftReadinessDelayMs = 5000;
+        private const int GameLiftLocalReadinessDelayMs = 10000;
 
         private const int MinPort = 1;
         private const int MaxPort = 65535;
@@ -125,7 +125,7 @@ namespace AmazonGameLift.Editor
 
             IsDeploymentRunning = true;
             _glProcessId = response.ProcessId;
-            await _delay.Wait(GameLiftReadinessDelayMs, cancellationToken);
+            await _delay.Wait(GameLiftLocalReadinessDelayMs, cancellationToken);
 
             // If Stop() was called
             if (!IsDeploymentRunning)
