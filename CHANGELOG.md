@@ -2,6 +2,7 @@ CHANGELOG
 
 # 0.2.4 (09/15/2021)
 - Bump up GameLiftLocal readiness delay to 10 seconds
+- Add "CreatedBy" Tag for plugin-created fleets
 - Move powershell scripts to bin/windows
 - Update UI Strings and font styles for Settings UI
 - Show distinct NextStep label for individual settings UI Panel
