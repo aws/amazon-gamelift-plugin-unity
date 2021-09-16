@@ -189,6 +189,9 @@ namespace AmazonGameLift.Editor
             { Strings.TooltipBootstrapCurrentBucket, "This is the name of the S3 bucket which is used currently."},
             { Strings.StackDetailsTemplate, "Scenario: {1}\r\nGame Name: {2}\r\nAWS Region: {0}\r\nLast Updated: {3}"},
             { Strings.StackStatusTemplate, "Deployment Status: {0}"},
+            { Strings.SettingsUIDeployNextStepLabel, "The Deployment settings are configured. You can continue by building the sample game server then deploying a sample deployment scenario."},
+            { Strings.SettingsUITestNextStepLabel, "The Test settings are configured. You can continue by building the sample game server, and the sample client with local testing configurations, then connect the client to the local server."},
+            { Strings.SettingsUISdkNextStepLabel, "The SDK settings are configured. You can find an usage example by going to \"(Top Menu Bar) > GameLift > Import Sample Game\", and look at \"Assets\\Scripts\\Server\\GameLiftServer.cs\"."},
         };
 
         public string GetError(string errorCode = null)

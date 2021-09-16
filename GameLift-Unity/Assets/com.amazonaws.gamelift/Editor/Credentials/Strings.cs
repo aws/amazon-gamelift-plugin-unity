@@ -143,5 +143,8 @@ namespace AmazonGameLift.Editor
         public const string TitleStackUpdateDialog = "TitleStackUpdateDialog";
         public const string StackStatusTemplate = "StackStatusTemplate";
         public const string StackDetailsTemplate = "StackDetailsTemplate";
+        public const string SettingsUISdkNextStepLabel = "SettingsUISdkNextStepLabel";
+        public const string SettingsUITestNextStepLabel = "SettingsUITestNextStepLabel";
+        public const string SettingsUIDeployNextStepLabel = "SettingsUIDeployNextStepLabel";
     }
 }
