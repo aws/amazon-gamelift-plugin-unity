@@ -1,5 +1,17 @@
 CHANGELOG
 
+# 0.2.4 (09/15/2021)
+- Bump up GameLiftLocal readiness delay to 10 seconds
+- Move powershell scripts to bin/windows
+- Update UI Strings and font styles for Settings UI
+- Show distinct NextStep label for individual settings UI Panel
+- Update Help URLs
+- Add GameLift Server SDK doc link buttons
+- Fix GameLift filepath label truncation
+- Delete unnecessary project settings files
+- Fix NPE in SettingsState
+- Add light-themed GameLift logo
+
 # 0.2.3 (09/14/2021)
 
 - Update UI Strings
