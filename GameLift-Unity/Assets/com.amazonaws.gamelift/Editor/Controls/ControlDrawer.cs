@@ -13,6 +13,7 @@ namespace AmazonGameLift.Editor
     {
         public void DrawSeparator()
         {
+            GUILayout.Space(10f);
             EditorGUILayout.LabelField(string.Empty, GUI.skin.horizontalSlider);
         }
 
