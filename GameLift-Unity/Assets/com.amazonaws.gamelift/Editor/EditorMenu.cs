@@ -48,6 +48,16 @@ namespace AmazonGameLift.Editor
             Application.OpenURL(Urls.AwsGameTechForums);
         }
 
+        public static void OpenGameLiftServerCSharpSdkIntegrationDoc()
+        {
+            Application.OpenURL(Urls.GameLiftServerCSharpSdkIntegrationDoc);
+        }
+
+        public static void OpenGameLiftServerCSharpSdkApiDoc()
+        {
+            Application.OpenURL(Urls.GameLiftServerCSharpSdkApiDoc);
+        }
+
         public static void OpenAwsDocumentation()
         {
             Application.OpenURL(Urls.AwsHelpGameLiftUnity);
