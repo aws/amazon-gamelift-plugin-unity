@@ -1,3 +1,13 @@
+$ROOT_DIR='.'
+$UNITY_PROJECT_PATH=Join-Path $ROOT_DIR 'GameLift-Unity'
+
+if (-Not (Test-Path -Path $UNITY_PROJECT_PATH))
+{
+	echo "'GameLift-Unity' directory is not found in the working directory. Make sure you are executing the script from the project root."
+	Read-Host -Prompt "Press ENTER to continue"
+	exit 1
+}
+
 # 'dotnet' command is included with the .NET SDK https://docs.microsoft.com/en-us/dotnet/core/sdk
 # You need to install the .NET 4.5 Developer Pack to build the Server SDK.
 $RUNTIME_PLUGINS_PATH="GameLift-Unity\Assets\com.amazonaws.gamelift\Runtime\Plugins"
