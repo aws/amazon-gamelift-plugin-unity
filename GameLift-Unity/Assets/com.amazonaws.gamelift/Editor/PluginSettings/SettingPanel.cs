@@ -43,7 +43,7 @@ namespace AmazonGameLift.Editor
             {
                 EditorGUILayout.BeginHorizontal();
                 {
-                    GUILayout.Label(_settingTitle);
+                    GUILayout.Label(_settingTitle, style: EditorStyles.largeLabel);
                     GUILayout.FlexibleSpace();
                     DrawConfiguredStatus();
                 }

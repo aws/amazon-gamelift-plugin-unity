@@ -86,7 +86,7 @@ namespace AmazonGameLift.Editor
             style.normal.textColor = EditorGUIUtility.isProSkin
                 ? new Color32(0x9D, 0x9D, 0x9D, 0xFF)
                 : new Color32(0x30, 0x30, 0x30, 0xFF);
-            style.fontSize = 10;
+            style.fontSize = 11;
             style.wordWrap = true;
             s_cachedInfoLabelStyle = style;
             return style;
@@ -139,7 +139,7 @@ namespace AmazonGameLift.Editor
                 return s_cachedConfiguredStyle;
             }
 
-            var configuredStyle = new GUIStyle();
+            var configuredStyle = new GUIStyle(EditorStyles.largeLabel);
             configuredStyle.normal.textColor = EditorGUIUtility.isProSkin
                 ? new Color32(0x64, 0xD6, 0x97, 0xFF)
                 : new Color32(0x00, 0x46, 0x37, 0xFF);
