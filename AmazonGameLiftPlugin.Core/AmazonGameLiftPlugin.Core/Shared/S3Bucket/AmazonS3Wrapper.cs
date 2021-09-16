@@ -29,6 +29,21 @@ namespace AmazonGameLiftPlugin.Core.Shared.S3Bucket
         public PutBucketResponse PutBucket(string bucketName)
             => _amazonS3Client.PutBucket(bucketName);
 
+        public PutBucketEncryptionResponse PutBucketEncryption(PutBucketEncryptionRequest request)
+            => _amazonS3Client.PutBucketEncryption(request);
+
+        public PutBucketVersioningResponse PutBucketVersioning(PutBucketVersioningRequest request)
+            => _amazonS3Client.PutBucketVersioning(request);
+
+        public PutBucketLoggingResponse PutBucketLogging(PutBucketLoggingRequest request)
+            => _amazonS3Client.PutBucketLogging(request);
+
+        public PutACLResponse PutACL(PutACLRequest request)
+            => _amazonS3Client.PutACL(request);
+
+        public GetACLResponse GetACL(GetACLRequest request)
+            => _amazonS3Client.GetACL(request);
+
         public PutBucketResponse PutBucket(PutBucketRequest request)
         => _amazonS3Client.PutBucket(request);
 

@@ -10,8 +10,8 @@ namespace AmazonGameLift.Editor
     internal class BootstrapWindow : EditorWindow
     {
         private const float WindowWidthPixels = 560f;
-        private const float WindowSelectionHeightPixels = 330f;
-        private const float WindowCreationHeightPixels = 285f;
+        private const float WindowSelectionHeightPixels = 340f;
+        private const float WindowCreationHeightPixels = 300f;
         private const float WarningHeightPixels = 45f;
         private const float TopMarginPixels = 15f;
         private const float LeftMarginPixels = 15f;

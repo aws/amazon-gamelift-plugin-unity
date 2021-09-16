@@ -45,24 +45,145 @@ namespace AmazonGameLiftPlugin.Core.BucketManagement
 
             try
             {
-                PutBucketResponse response = _amazonS3Wrapper.PutBucket(new PutBucketRequest
+                // Create bootstrap bucket
+                PutBucketResponse putBucketResponse = _amazonS3Wrapper.PutBucket(new PutBucketRequest
                 {
                     BucketName = request.BucketName,
                     BucketRegionName = request.Region,
                 });
 
-                if (response.HttpStatusCode == HttpStatusCode.OK)
-                {
-                    return Response.Ok(new CreateBucketResponse());
-                }
-                else
+                if (putBucketResponse.HttpStatusCode != HttpStatusCode.OK)
                 {
                     return Response.Fail(new CreateBucketResponse()
                     {
                         ErrorCode = ErrorCode.AwsError,
-                        ErrorMessage = $"HTTP Status Code {response.HttpStatusCode}"
+                        ErrorMessage = $"HTTP Status Code {putBucketResponse.HttpStatusCode}"
                     });
                 }
+
+                // TODO (#17): Allow users to toggle audit-logging, versioning and encryption on bootstrap bucket
+
+                // Enable bootstrap bucket versioning
+                PutBucketVersioningResponse putBucketVersioningRequest = _amazonS3Wrapper.PutBucketVersioning(new PutBucketVersioningRequest
+                {
+                    BucketName = request.BucketName,
+                    VersioningConfig = new S3BucketVersioningConfig
+                    {
+                        Status = VersionStatus.Enabled
+                    }
+                });
+
+                if (putBucketVersioningRequest.HttpStatusCode != HttpStatusCode.OK)
+                {
+                    return Response.Fail(new CreateBucketResponse()
+                    {
+                        ErrorCode = ErrorCode.AwsError,
+                        ErrorMessage = $"HTTP Status Code {putBucketVersioningRequest.HttpStatusCode}"
+                    });
+                }
+
+                // Enable bootstrap bucket server-side encryption
+                PutBucketEncryptionResponse putBucketEncryptionRequest = _amazonS3Wrapper.PutBucketEncryption(new PutBucketEncryptionRequest
+                {
+                    BucketName = request.BucketName,
+                    ServerSideEncryptionConfiguration = new ServerSideEncryptionConfiguration
+                    {
+                        ServerSideEncryptionRules = new List<ServerSideEncryptionRule>
+                        {
+                            new ServerSideEncryptionRule
+                            {
+                                ServerSideEncryptionByDefault = new ServerSideEncryptionByDefault
+                                {
+                                    ServerSideEncryptionAlgorithm = ServerSideEncryptionMethod.AES256
+                                }
+                            }
+                        }
+                    }
+                });
+
+                if (putBucketEncryptionRequest.HttpStatusCode != HttpStatusCode.OK)
+                {
+                    return Response.Fail(new CreateBucketResponse()
+                    {
+                        ErrorCode = ErrorCode.AwsError,
+                        ErrorMessage = $"HTTP Status Code {putBucketEncryptionRequest.HttpStatusCode}"
+                    });
+                }
+
+                // Create logging bucket for the bootstrap bucket
+                string loggingBucketName = request.BucketName + "-log";
+
+                PutBucketResponse putLoggingBucketResponse = _amazonS3Wrapper.PutBucket(new PutBucketRequest
+                {
+                    BucketName = loggingBucketName,
+                    BucketRegionName = request.Region,
+                });
+
+                if (putLoggingBucketResponse.HttpStatusCode != HttpStatusCode.OK)
+                {
+                    return Response.Fail(new CreateBucketResponse()
+                    {
+                        ErrorCode = ErrorCode.AwsError,
+                        ErrorMessage = $"HTTP Status Code {putLoggingBucketResponse.HttpStatusCode}"
+                    });
+                }
+
+                // Getting Existing ACL of the logging bucket
+                GetACLResponse getACLResponse = _amazonS3Wrapper.GetACL(new GetACLRequest
+                {
+                    BucketName = loggingBucketName
+                });
+
+                if (getACLResponse.HttpStatusCode != HttpStatusCode.OK)
+                {
+                    return Response.Fail(new CreateBucketResponse()
+                    {
+                        ErrorCode = ErrorCode.AwsError,
+                        ErrorMessage = $"HTTP Status Code {getACLResponse.HttpStatusCode}"
+                    });
+                }
+
+                S3AccessControlList s3AccessControlList = getACLResponse.AccessControlList;
+                s3AccessControlList.AddGrant(new S3Grantee { URI = "http://acs.amazonaws.com/groups/s3/LogDelivery" }, S3Permission.WRITE);
+                s3AccessControlList.AddGrant(new S3Grantee { URI = "http://acs.amazonaws.com/groups/s3/LogDelivery" }, S3Permission.READ_ACP);
+
+                // Grant logging access to the logging bucket
+                PutACLResponse putACLResponse = _amazonS3Wrapper.PutACL(new PutACLRequest
+                {
+                    BucketName = loggingBucketName,
+                    AccessControlList = s3AccessControlList
+                });
+
+                if (putACLResponse.HttpStatusCode != HttpStatusCode.OK)
+                {
+                    return Response.Fail(new CreateBucketResponse()
+                    {
+                        ErrorCode = ErrorCode.AwsError,
+                        ErrorMessage = $"HTTP Status Code {putACLResponse.HttpStatusCode}"
+                    });
+                }
+
+                // Enable access logging on the bootstrap bucket using the newly created logging bucket
+                PutBucketLoggingResponse putBucketLoggingRequest = _amazonS3Wrapper.PutBucketLogging(new PutBucketLoggingRequest
+                {
+                    BucketName = request.BucketName,
+                    LoggingConfig = new S3BucketLoggingConfig
+                    {
+                        TargetBucketName = loggingBucketName,
+                        TargetPrefix = "GameLiftBootstrap",
+                    }
+                });
+
+                if (putBucketLoggingRequest.HttpStatusCode != HttpStatusCode.OK)
+                {
+                    return Response.Fail(new CreateBucketResponse()
+                    {
+                        ErrorCode = ErrorCode.AwsError,
+                        ErrorMessage = $"HTTP Status Code {putBucketLoggingRequest.HttpStatusCode}"
+                    });
+                }
+
+                return Response.Ok(new CreateBucketResponse());
             }
             catch (Exception ex)
             {
