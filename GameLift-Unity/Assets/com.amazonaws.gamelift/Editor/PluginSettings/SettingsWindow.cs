@@ -266,7 +266,7 @@ namespace AmazonGameLift.Editor
                 }
             }
 
-            if (_settingsState.CanDeploy)
+            if (_settingsState.CanRunLocalTest)
             {
                 using (new EditorGUILayout.HorizontalScope())
                 {
