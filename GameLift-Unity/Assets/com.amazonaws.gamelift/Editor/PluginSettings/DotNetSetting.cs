@@ -25,6 +25,11 @@ namespace AmazonGameLift.Editor
 
         protected override bool RefreshIsConfigured()
         {
+            return IsApiCompatibilityLevel4X();
+        }
+
+        public static bool IsApiCompatibilityLevel4X()
+        {
             ApiCompatibilityLevel apiLevel = PlayerSettings.GetApiCompatibilityLevel(BuildTargetGroup.Standalone);
             return apiLevel == ApiCompatibilityLevel.NET_4_6;
         }

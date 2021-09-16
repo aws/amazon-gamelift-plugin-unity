@@ -8,14 +8,14 @@ namespace AmazonGameLift.Editor
 {
     internal class SettingsWindow : EditorWindow
     {
-        private const float SettingsWindowMinWidth = 315;
-        private const float SettingsWindowMinHeight = 420;
+        private const float SettingsWindowMinWidth = 320;
+        private const float SettingsWindowMinHeight = 500;
         private const float GameLiftLogoHeight = 35;
         private const float SettingsPanelTopMargin = 15f;
         private const float TopMarginPixels = 7f;
         private const float LeftMarginPixels = 17f;
         private const float RightMarginPixels = 13f;
-        private const float SpaceBetweenSettingsPixels = 12f;
+        private const float SpaceBetweenSettingsPixels = 15f;
         private Settings _settings;
         private StatusLabel _statusLabel;
         private SettingPanel _dotNetPanel;
@@ -25,6 +25,7 @@ namespace AmazonGameLift.Editor
         private SettingPanel _bootstrapPanel;
         private ControlDrawer _controlDrawer;
         private ImageLoader _imageLoader;
+        private TextProvider _textProvider;
 
         [SerializeField]
         private Texture2D _gameLiftLogo;
@@ -46,37 +47,37 @@ namespace AmazonGameLift.Editor
         private void SetUp()
         {
             _imageLoader = new ImageLoader();
-            TextProvider textProvider = TextProviderFactory.Create();
-            _labelSdkTab = textProvider.Get(Strings.LabelSettingsSdkTab);
-            _labelDeployTab = textProvider.Get(Strings.LabelSettingsDeployTab);
-            _labelTestTab = textProvider.Get(Strings.LabelSettingsTestTab);
-            _labelHelpTab = textProvider.Get(Strings.LabelSettingsHelpTab);
-            _labelOpenForums = textProvider.Get(Strings.LabelSettingsOpenForums);
-            _labelOpenAwsHelp = textProvider.Get(Strings.LabelSettingsOpenAwsHelp);
-            _labelReportSecurity = textProvider.Get(Strings.LabelSettingsReportSecurity);
-            _labelReportBugs = textProvider.Get(Strings.LabelSettingsReportBugs);
-            _labelOpenDeployment = textProvider.Get(Strings.LabelSettingsOpenDeployment);
-            _labelOpenLocalTest = textProvider.Get(Strings.LabelSettingsOpenLocalTest);
-            _labelPingSdk = textProvider.Get(Strings.LabelSettingsPingSdk);
+            _textProvider = TextProviderFactory.Create();
+            _labelSdkTab = _textProvider.Get(Strings.LabelSettingsSdkTab);
+            _labelDeployTab = _textProvider.Get(Strings.LabelSettingsDeployTab);
+            _labelTestTab = _textProvider.Get(Strings.LabelSettingsTestTab);
+            _labelHelpTab = _textProvider.Get(Strings.LabelSettingsHelpTab);
+            _labelOpenForums = _textProvider.Get(Strings.LabelSettingsOpenForums);
+            _labelOpenAwsHelp = _textProvider.Get(Strings.LabelSettingsOpenAwsHelp);
+            _labelReportSecurity = _textProvider.Get(Strings.LabelSettingsReportSecurity);
+            _labelReportBugs = _textProvider.Get(Strings.LabelSettingsReportBugs);
+            _labelOpenDeployment = _textProvider.Get(Strings.LabelSettingsOpenDeployment);
+            _labelOpenLocalTest = _textProvider.Get(Strings.LabelSettingsOpenLocalTest);
+            _labelPingSdk = _textProvider.Get(Strings.LabelSettingsPingSdk);
 
-            titleContent = new GUIContent(textProvider.Get(Strings.TitleSettings));
+            titleContent = new GUIContent(_textProvider.Get(Strings.TitleSettings));
             minSize = new Vector2(SettingsWindowMinWidth, SettingsWindowMinHeight);
             _statusLabel = new StatusLabel();
             _controlDrawer = ControlDrawerFactory.Create();
             _settings = Settings.SharedInstance;
-            _dotNetPanel = new SettingPanel(_settings.DotNetSetting, textProvider);
-            _glLocalPanel = new GameLiftSettingPanel(_settings.GameLiftLocalSetting, textProvider);
-            _javaPanel = new SettingPanel(_settings.JavaSetting, textProvider);
-            _credentialsPanel = new SettingPanel(_settings.CredentialsSetting, textProvider);
-            _bootstrapPanel = new SettingPanel(_settings.BootstrapSetting, textProvider);
+            _dotNetPanel = new SettingPanel(_settings.DotNetSetting, _textProvider);
+            _glLocalPanel = new GameLiftSettingPanel(_settings.GameLiftLocalSetting, _textProvider);
+            _javaPanel = new SettingPanel(_settings.JavaSetting, _textProvider);
+            _credentialsPanel = new SettingPanel(_settings.CredentialsSetting, _textProvider);
+            _bootstrapPanel = new SettingPanel(_settings.BootstrapSetting, _textProvider);
 
             if (_settingsState == null)
             {
-                _settingsState = new SettingsState(_settings, textProvider);
+                _settingsState = new SettingsState(_settings, _textProvider);
             }
             else
             {
-                _settingsState.Restore(_settings, textProvider);
+                _settingsState.Restore(_settings, _textProvider);
             }
 
             _settings.AnySettingChanged += Repaint;
@@ -147,25 +148,14 @@ namespace AmazonGameLift.Editor
             GUILayout.Space(SettingsPanelTopMargin);
             DrawActiveTab();
 
-            using (new EditorGUILayout.HorizontalScope())
-            {
-                GUILayout.Space(LeftMarginPixels);
-                string message = _settingsState.Status.IsDisplayed
-                    ? _settingsState.Status.Message
-                    : string.Empty;
-                _statusLabel.Draw(message, _settingsState.Status.Type);
-                GUILayout.Space(RightMarginPixels);
-            }
-
             _settingsState.Refresh();
         }
 
         private void DrawTabHeader(string label, int tabId, float width = 70f)
         {
             GUIStyle style = _settingsState.ActiveTab == tabId ? ResourceUtility.GetTabActiveStyle() : ResourceUtility.GetTabNormalStyle();
-            bool pressed = GUILayout.Button(label, style, GUILayout.MaxWidth(width));
 
-            if (pressed)
+            if (GUILayout.Button(label, style, GUILayout.MaxWidth(width)))
             {
                 _settingsState.ActiveTab = tabId;
             }
@@ -240,11 +230,19 @@ namespace AmazonGameLift.Editor
 
             using (new EditorGUI.DisabledGroupScope(!_settingsState.CanDeploy))
             {
-                bool pressed = GUILayout.Button(_labelOpenDeployment);
-
-                if (pressed)
+                if (GUILayout.Button(_labelOpenDeployment))
                 {
                     EditorMenu.ShowDeployment();
+                }
+                
+            }
+
+            if (_settingsState.CanDeploy)
+            {
+                using (new EditorGUILayout.HorizontalScope())
+                {
+                    GUILayout.Space(5F);
+                    _statusLabel.Draw(_textProvider.Get(Strings.SettingsUIDeployNextStepLabel), MessageType.Info);
                 }
             }
         }
@@ -258,11 +256,18 @@ namespace AmazonGameLift.Editor
 
             using (new EditorGUI.DisabledGroupScope(!_settingsState.CanRunLocalTest))
             {
-                bool pressed = GUILayout.Button(_labelOpenLocalTest);
-
-                if (pressed)
+                if (GUILayout.Button(_labelOpenLocalTest))
                 {
                     EditorMenu.ShowLocalTesting();
+                }
+            }
+
+            if (_settingsState.CanDeploy)
+            {
+                using (new EditorGUILayout.HorizontalScope())
+                {
+                    GUILayout.Space(5F);
+                    _statusLabel.Draw(_textProvider.Get(Strings.SettingsUITestNextStepLabel), MessageType.Info);
                 }
             }
         }
@@ -272,11 +277,18 @@ namespace AmazonGameLift.Editor
             _dotNetPanel.Draw();
             _controlDrawer.DrawSeparator();
 
-            bool pressed = GUILayout.Button(_labelPingSdk);
-
-            if (pressed)
+            if (GUILayout.Button(_labelPingSdk))
             {
                 EditorMenu.PingSdk();
+            }
+
+            if (DotNetSetting.IsApiCompatibilityLevel4X())
+            {
+                using (new EditorGUILayout.HorizontalScope())
+                {
+                    GUILayout.Space(5F);
+                    _statusLabel.Draw(_textProvider.Get(Strings.SettingsUISdkNextStepLabel), MessageType.Info);
+                }
             }
         }
     }
