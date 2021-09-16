@@ -9,13 +9,7 @@ namespace AmazonGameLift.Editor
     internal class AwsCredentialsWindow : EditorWindow
     {
         private const float WindowWidthPixels = 415f;
-#if UNITY_2019_1_OR_NEWER
-        private const float WindowUpdateHeightPixels = 260f;
-        private const float WindowCreationHeightPixels = 260f;
-#else
-        private const float WindowUpdateHeightPixels = 240f;
-        private const float WindowCreationHeightPixels = 240f;
-#endif
+        private const float WindowCreationHeightPixels = 280f;
         private const float TopMarginPixels = 17f;
         private const float LeftMarginPixels = 15f;
         private const float RightMarginPixels = 13f;
