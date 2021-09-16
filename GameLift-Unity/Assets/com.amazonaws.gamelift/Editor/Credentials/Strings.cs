@@ -146,5 +146,7 @@ namespace AmazonGameLift.Editor
         public const string SettingsUISdkNextStepLabel = "SettingsUISdkNextStepLabel";
         public const string SettingsUITestNextStepLabel = "SettingsUITestNextStepLabel";
         public const string SettingsUIDeployNextStepLabel = "SettingsUIDeployNextStepLabel";
+        public const string LabelOpenSdkIntegrationDoc = "LabelOpenSdkIntegrationDoc";
+        public const string LabelOpenSdkApiDoc = "LabelOpenSdkApiDoc";
     }
 }

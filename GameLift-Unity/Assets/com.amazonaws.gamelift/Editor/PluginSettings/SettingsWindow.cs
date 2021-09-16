@@ -41,6 +41,8 @@ namespace AmazonGameLift.Editor
         private string _labelHelpTab;
         private string _labelTestTab;
         private string _labelDeployTab;
+        private string _labelOpenSdkIntegrationDoc;
+        private string _labelOpenSdkApiDoc;
 
         public static bool IsOpen { get; private set; }
 
@@ -59,6 +61,8 @@ namespace AmazonGameLift.Editor
             _labelOpenDeployment = _textProvider.Get(Strings.LabelSettingsOpenDeployment);
             _labelOpenLocalTest = _textProvider.Get(Strings.LabelSettingsOpenLocalTest);
             _labelPingSdk = _textProvider.Get(Strings.LabelSettingsPingSdk);
+            _labelOpenSdkIntegrationDoc = _textProvider.Get(Strings.LabelOpenSdkIntegrationDoc);
+            _labelOpenSdkApiDoc = _textProvider.Get(Strings.LabelOpenSdkApiDoc);
 
             titleContent = new GUIContent(_textProvider.Get(Strings.TitleSettings));
             minSize = new Vector2(SettingsWindowMinWidth, SettingsWindowMinHeight);
@@ -281,6 +285,22 @@ namespace AmazonGameLift.Editor
             {
                 EditorMenu.PingSdk();
             }
+
+            GUILayout.Space(TopMarginPixels);
+
+            if (GUILayout.Button(_labelOpenSdkIntegrationDoc))
+            {
+                EditorMenu.OpenGameLiftServerCSharpSdkIntegrationDoc();
+            }
+
+            GUILayout.Space(TopMarginPixels);
+
+            if (GUILayout.Button(_labelOpenSdkApiDoc))
+            {
+                EditorMenu.OpenGameLiftServerCSharpSdkApiDoc();
+            }
+
+            GUILayout.Space(TopMarginPixels);
 
             if (DotNetSetting.IsApiCompatibilityLevel4X())
             {

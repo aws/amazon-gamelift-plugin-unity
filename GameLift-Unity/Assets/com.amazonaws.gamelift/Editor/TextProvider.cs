@@ -130,7 +130,7 @@ namespace AmazonGameLift.Editor
             { Strings.LabelSettingsOpenForums, "Open AWS GameTech Forums"},
             { Strings.LabelSettingsOpenDeployment, "Open Deployment UI"},
             { Strings.LabelSettingsOpenLocalTest, "Open Local Test UI"},
-            { Strings.LabelSettingsPingSdk, "Show SDK DLL files"},
+            { Strings.LabelSettingsPingSdk, "Show SDK DLL Files"},
             { Strings.LabelSettingsReportSecurity, "Report security vulnerabilities"},
             { Strings.LabelSettingsReportBugs, "Report bugs/issues"},
             { Strings.LabelStackUpdateCancelButton, "Cancel"},
@@ -192,6 +192,8 @@ namespace AmazonGameLift.Editor
             { Strings.SettingsUIDeployNextStepLabel, "The Deployment settings are configured. You can continue by building the sample game server then deploying a sample deployment scenario."},
             { Strings.SettingsUITestNextStepLabel, "The Test settings are configured. You can continue by building the sample game server, and the sample client with local testing configurations, then connect the client to the local server."},
             { Strings.SettingsUISdkNextStepLabel, "The SDK settings are configured. You can find an usage example by going to \"(Top Menu Bar) > GameLift > Import Sample Game\", and look at \"Assets\\Scripts\\Server\\GameLiftServer.cs\"."},
+            { Strings.LabelOpenSdkIntegrationDoc, "Open SDK Integration Guide"},
+            { Strings.LabelOpenSdkApiDoc, "Open SDK API Reference"},
         };
 
         public string GetError(string errorCode = null)
