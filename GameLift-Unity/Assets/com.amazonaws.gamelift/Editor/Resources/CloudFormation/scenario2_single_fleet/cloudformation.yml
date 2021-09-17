@@ -358,6 +358,22 @@ Resources:
         Type: SIMPLE
         FleetId: !Ref FleetResource
 
+  ResultsRequestLambdaFunction:
+    Type: "AWS::Lambda::Function"
+    Properties:
+      Code:
+        S3Bucket: !Ref LambdaZipS3BucketParameter
+        S3Key: !Ref LambdaZipS3KeyParameter
+      Description: Lambda function to handle game requests
+      Environment:
+        Variables:
+          FleetAlias: !Ref AliasResource
+      FunctionName: !Sub ${GameNameParameter}ResultsRequestLambda
+      Handler: results_request.handler
+      MemorySize: 128
+      Role: !GetAtt ResultsRequestLambdaFunctionExecutionRole.Arn
+      Runtime: python3.8
+
   GameRequestLambdaFunction:
     Type: "AWS::Lambda::Function"
     Properties:
@@ -375,35 +391,19 @@ Resources:
       Role: !GetAtt GameRequestLambdaFunctionExecutionRole.Arn
       Runtime: python3.8
 
-  ResultsRequestLambdaFunction:
-    Type: "AWS::Lambda::Function"
+  ResultsRequestLambdaFunctionApiGatewayPermission:
+    Type: "AWS::Lambda::Permission"
     Properties:
-      Code:
-        S3Bucket: !Ref LambdaZipS3BucketParameter
-        S3Key: !Ref LambdaZipS3KeyParameter
-      Description: Lambda function to handle game requests
-      Environment:
-        Variables:
-          FleetAlias: !Ref AliasResource
-      FunctionName: !Sub ${GameNameParameter}ResultsRequestLambda
-      Handler: results_request.handler
-      MemorySize: 128
-      Role: !GetAtt ResultsRequestLambdaFunctionExecutionRole.Arn
-      Runtime: python3.8
+      Action: "lambda:InvokeFunction"
+      FunctionName: !GetAtt ResultsRequestLambdaFunction.Arn
+      Principal: apigateway.amazonaws.com
+      SourceArn: !Sub "arn:aws:execute-api:${AWS::Region}:${AWS::AccountId}:${RestApi}/*/*/*"
 
   GameRequestLambdaFunctionApiGatewayPermission:
     Type: "AWS::Lambda::Permission"
     Properties:
       Action: "lambda:InvokeFunction"
       FunctionName: !GetAtt GameRequestLambdaFunction.Arn
-      Principal: apigateway.amazonaws.com
-      SourceArn: !Sub "arn:aws:execute-api:${AWS::Region}:${AWS::AccountId}:${RestApi}/*/*/*"
-
-  ResultsRequestLambdaFunctionApiGatewayPermission:
-    Type: "AWS::Lambda::Permission"
-    Properties:
-      Action: "lambda:InvokeFunction"
-      FunctionName: !GetAtt ResultsRequestLambdaFunction.Arn
       Principal: apigateway.amazonaws.com
       SourceArn: !Sub "arn:aws:execute-api:${AWS::Region}:${AWS::AccountId}:${RestApi}/*/*/*"
 
