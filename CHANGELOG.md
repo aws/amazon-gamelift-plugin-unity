@@ -1,5 +1,23 @@
 CHANGELOG
 
+# 0.2.5 (09/16/2021)
+
+- Security
+	- Add server-side encryption, versioning and audit-logging during bootstrap bucket creation
+	- Add WAF/WebACL to all CloudFormation templates
+- Testing
+	- Add integ/load tests for CloudFormation templates
+- Documentation
+	- Update help links to the latest 'unity-plug-in.html' URLs
+	- Add README for CloudFormation template development
+	- Update fleet descriptions in CloudFormation templates
+- Bug Fix
+	- Remove fleet tags in CloudFormation templates
+	- Fix local testing NextStep label not showing
+	- Increase height for several UI windows to compensate for the recent font size and margin changes
+	- Require setup steps to be run from root directory; Add more descriptive logs to the setup scripts
+	- Rename several occurrences of "GameLift Unity Plugin" to "GameLift Plugin for Unity"
+
 # 0.2.4 (09/15/2021)
 - Bump up GameLiftLocal readiness delay to 10 seconds
 - Add "CreatedBy" Tag for plugin-created fleets
