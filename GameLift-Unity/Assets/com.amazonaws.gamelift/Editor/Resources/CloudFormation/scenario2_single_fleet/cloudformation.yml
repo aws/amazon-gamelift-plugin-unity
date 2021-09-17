@@ -38,7 +38,7 @@ Parameters:
 
   FleetDescriptionParameter:
     Type: String
-    Default: Sample GameLift Unity game
+    Default: Deployed by the Amazon GameLift Plug-in for Unity.
     Description: Description of the fleet
 
   FleetNameParameter:
