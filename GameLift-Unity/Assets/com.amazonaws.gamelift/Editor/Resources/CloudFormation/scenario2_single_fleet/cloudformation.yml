@@ -93,6 +93,12 @@ Parameters:
     Default: 10
     Description: Maximum number of players per game session
 
+  MaxTransactionsPerFiveMinutesPerIpParameter:
+    Type: Number
+    Default: 100
+    MaxValue: 20000000
+    MinValue: 100
+
 Resources:
   ApiGatewayCloudWatchRole:
     Type: "AWS::IAM::Role"
@@ -253,6 +259,36 @@ Resources:
         - COGNITO
       UserPoolId: !Ref UserPool
 
+  WebACL:
+    Type: "AWS::WAFv2::WebACL"
+    DependsOn:
+      - ApiDeployment
+    Properties:
+      DefaultAction:
+        Allow:
+          {}
+      Description: !Sub "WebACL for game: ${GameNameParameter}"
+      Name: !Sub ${GameNameParameter}WebACL
+      Rules:
+        - Name: !Sub ${GameNameParameter}WebACLPerIpThrottleRule
+          Action:
+            Block:
+              {}
+          Priority: 0
+          Statement:
+            RateBasedStatement:
+              AggregateKeyType: IP
+              Limit: !Ref MaxTransactionsPerFiveMinutesPerIpParameter
+          VisibilityConfig:
+            CloudWatchMetricsEnabled: true
+            MetricName: !Sub ${GameNameParameter}WebACLPerIpThrottleRuleMetrics
+            SampledRequestsEnabled: true
+      Scope: REGIONAL
+      VisibilityConfig:
+        CloudWatchMetricsEnabled: true
+        MetricName: !Sub ${GameNameParameter}WebACLMetrics
+        SampledRequestsEnabled: true
+
   ApiDeployment:
     Type: "AWS::ApiGateway::Deployment"
     DependsOn:
@@ -305,6 +341,19 @@ Resources:
       OperationName: ResultsRequest
       ResourceId: !Ref ResultsRequestApiResource
       RestApiId: !Ref RestApi
+
+  WebACLAssociation:
+    Type: "AWS::WAFv2::WebACLAssociation"
+    DependsOn:
+      - ApiDeployment
+      - WebACL
+    Properties:
+      ResourceArn: !Sub
+        - "arn:aws:apigateway:${REGION}::/restapis/${REST_API_ID}/stages/${STAGE_NAME}"
+        - REGION: !Ref "AWS::Region"
+          REST_API_ID: !Ref RestApi
+          STAGE_NAME: !Ref ApiGatewayStageNameParameter
+      WebACLArn: !GetAtt WebACL.Arn
 
   ServerBuild:
     Type: "AWS::GameLift::Build"

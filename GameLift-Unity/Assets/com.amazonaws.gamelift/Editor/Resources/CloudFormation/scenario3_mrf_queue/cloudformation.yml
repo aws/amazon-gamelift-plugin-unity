@@ -93,6 +93,12 @@ Parameters:
     Default: 60
     Description: Time in seconds before matchmaker times out to wait for enough players to create game session placement
 
+  MaxTransactionsPerFiveMinutesPerIpParameter:
+    Type: Number
+    Default: 100
+    MaxValue: 20000000
+    MinValue: 100
+
   NumPlayersPerGameParameter:
     Type: Number
     Default: 2
@@ -362,6 +368,36 @@ Resources:
         - COGNITO
       UserPoolId: !Ref UserPool
 
+  WebACL:
+    Type: "AWS::WAFv2::WebACL"
+    DependsOn:
+      - ApiDeployment
+    Properties:
+      DefaultAction:
+        Allow:
+          {}
+      Description: !Sub "WebACL for game: ${GameNameParameter}"
+      Name: !Sub ${GameNameParameter}WebACL
+      Rules:
+        - Name: !Sub ${GameNameParameter}WebACLPerIpThrottleRule
+          Action:
+            Block:
+              {}
+          Priority: 0
+          Statement:
+            RateBasedStatement:
+              AggregateKeyType: IP
+              Limit: !Ref MaxTransactionsPerFiveMinutesPerIpParameter
+          VisibilityConfig:
+            CloudWatchMetricsEnabled: true
+            MetricName: !Sub ${GameNameParameter}WebACLPerIpThrottleRuleMetrics
+            SampledRequestsEnabled: true
+      Scope: REGIONAL
+      VisibilityConfig:
+        CloudWatchMetricsEnabled: true
+        MetricName: !Sub ${GameNameParameter}WebACLMetrics
+        SampledRequestsEnabled: true
+
   ApiDeployment:
     Type: "AWS::ApiGateway::Deployment"
     DependsOn:
@@ -455,6 +491,19 @@ Resources:
       MemorySize: 128
       Role: !GetAtt ResultsRequestLambdaFunctionExecutionRole.Arn
       Runtime: python3.8
+
+  WebACLAssociation:
+    Type: "AWS::WAFv2::WebACLAssociation"
+    DependsOn:
+      - ApiDeployment
+      - WebACL
+    Properties:
+      ResourceArn: !Sub
+        - "arn:aws:apigateway:${REGION}::/restapis/${REST_API_ID}/stages/${STAGE_NAME}"
+        - REGION: !Ref "AWS::Region"
+          REST_API_ID: !Ref RestApi
+          STAGE_NAME: !Ref ApiGatewayStageNameParameter
+      WebACLArn: !GetAtt WebACL.Arn
 
   GameSessionEventHandlerLambdaPermission:
     Type: "AWS::Lambda::Permission"
