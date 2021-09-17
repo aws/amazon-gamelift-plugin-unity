@@ -562,6 +562,25 @@ Resources:
       Principal: apigateway.amazonaws.com
       SourceArn: !Sub "arn:aws:execute-api:${AWS::Region}:${AWS::AccountId}:${RestApi}/*/*/*"
 
+  MatchmakingConfiguration:
+    Type: "AWS::GameLift::MatchmakingConfiguration"
+    DependsOn:
+      - GameSessionQueue
+      - MatchmakingRuleSet
+    Properties:
+      AcceptanceRequired: false
+      BackfillMode: MANUAL
+      Description: Matchmaking configuration for sample GameLift game
+      FlexMatchMode: WITH_QUEUE
+      GameSessionQueueArns:
+        - "Fn::GetAtt":
+            - GameSessionQueue
+            - Arn
+      Name: !Sub ${GameNameParameter}MatchmakingConfiguration
+      NotificationTarget: !Ref MatchmakerEventTopic
+      RequestTimeoutSeconds: !Ref MatchmakerTimeoutInSecondsParameter
+      RuleSetName: !Ref MatchmakingRuleSet
+
   C4LargeSpotFleetResource:
     Type: "AWS::GameLift::Fleet"
     Properties:
@@ -669,25 +688,6 @@ Resources:
           - ConcurrentExecutions: 1
             LaunchPath: !Ref LaunchPathParameter
             Parameters: !Ref LaunchParametersParameter
-
-  MatchmakingConfiguration:
-    Type: "AWS::GameLift::MatchmakingConfiguration"
-    DependsOn:
-      - GameSessionQueue
-      - MatchmakingRuleSet
-    Properties:
-      AcceptanceRequired: false
-      BackfillMode: MANUAL
-      Description: Matchmaking configuration for sample GameLift game
-      FlexMatchMode: WITH_QUEUE
-      GameSessionQueueArns:
-        - "Fn::GetAtt":
-            - GameSessionQueue
-            - Arn
-      Name: !Sub ${GameNameParameter}MatchmakingConfiguration
-      NotificationTarget: !Ref MatchmakerEventTopic
-      RequestTimeoutSeconds: !Ref MatchmakerTimeoutInSecondsParameter
-      RuleSetName: !Ref MatchmakingRuleSet
 
   GameRequestLambdaFunction:
     Type: "AWS::Lambda::Function"

@@ -424,14 +424,6 @@ Resources:
           Protocol: lambda
       TopicName: !Sub ${GameNameParameter}GameSessionEventTopic
 
-  GameSessionEventHandlerLambdaPermission:
-    Type: "AWS::Lambda::Permission"
-    Properties:
-      Action: "lambda:InvokeFunction"
-      FunctionName: !Ref GameSessionEventHandlerLambdaFunction
-      Principal: sns.amazonaws.com
-      SourceArn: !Ref GameSessionEventTopic
-
   ResultsRequestApiMethod:
     Type: "AWS::ApiGateway::Method"
     Properties:
@@ -462,6 +454,14 @@ Resources:
       MemorySize: 128
       Role: !GetAtt ResultsRequestLambdaFunctionExecutionRole.Arn
       Runtime: python3.8
+
+  GameSessionEventHandlerLambdaPermission:
+    Type: "AWS::Lambda::Permission"
+    Properties:
+      Action: "lambda:InvokeFunction"
+      FunctionName: !Ref GameSessionEventHandlerLambdaFunction
+      Principal: sns.amazonaws.com
+      SourceArn: !Ref GameSessionEventTopic
 
   ServerBuild:
     Type: "AWS::GameLift::Build"
@@ -537,6 +537,24 @@ Resources:
                 "aws:SourceArn": !GetAtt GameSessionQueue.Arn
       Topics:
         - Ref: GameSessionEventTopic
+
+  SimpleMatchmakerLambdaFunction:
+    Type: "AWS::Lambda::Function"
+    Properties:
+      Code:
+        S3Bucket: !Ref LambdaZipS3BucketParameter
+        S3Key: !Ref LambdaZipS3KeyParameter
+      Description: Lambda function to handle game requests
+      Environment:
+        Variables:
+          MatchmakingRequestTableName: !Ref MatchmakingRequestTable
+          NumPlayersPerGame: !Ref NumPlayersPerGameParameter
+          QueueName: !Ref GameSessionQueue
+      FunctionName: !Sub ${GameNameParameter}SimpleMatchmakerLambda
+      Handler: simple_matchmaker.handler
+      MemorySize: 128
+      Role: !GetAtt SimpleMatchmakerLambdaFunctionExecutionRole.Arn
+      Runtime: python3.8
 
   C4LargeSpotFleetResource:
     Type: "AWS::GameLift::Fleet"
@@ -645,24 +663,6 @@ Resources:
           - ConcurrentExecutions: 1
             LaunchPath: !Ref LaunchPathParameter
             Parameters: !Ref LaunchParametersParameter
-
-  SimpleMatchmakerLambdaFunction:
-    Type: "AWS::Lambda::Function"
-    Properties:
-      Code:
-        S3Bucket: !Ref LambdaZipS3BucketParameter
-        S3Key: !Ref LambdaZipS3KeyParameter
-      Description: Lambda function to handle game requests
-      Environment:
-        Variables:
-          MatchmakingRequestTableName: !Ref MatchmakingRequestTable
-          NumPlayersPerGame: !Ref NumPlayersPerGameParameter
-          QueueName: !Ref GameSessionQueue
-      FunctionName: !Sub ${GameNameParameter}SimpleMatchmakerLambda
-      Handler: simple_matchmaker.handler
-      MemorySize: 128
-      Role: !GetAtt SimpleMatchmakerLambdaFunctionExecutionRole.Arn
-      Runtime: python3.8
 
   SimpleMatchMakerEventSource:
     Type: "AWS::Lambda::EventSourceMapping"
