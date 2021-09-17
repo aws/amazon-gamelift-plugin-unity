@@ -156,7 +156,7 @@ namespace AmazonGameLift.Editor
                 return s_cachedNotConfiguredStyle;
             }
 
-            var notConfiguredStyle = new GUIStyle();
+            var notConfiguredStyle = new GUIStyle(EditorStyles.largeLabel);
             notConfiguredStyle.normal.textColor = EditorGUIUtility.isProSkin
                 ? new Color32(0xFF, 0x94, 0x00, 0xFF)
                 : new Color32(0xB1, 0x0B, 0x0B, 0xFF);
