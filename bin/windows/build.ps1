@@ -13,7 +13,7 @@ $LOG_PATH=Join-Path $BUILD_PATH 'build_log.txt'
 $BUILD_ARTIFACT_PATH_PATTERN=Join-Path $BUILD_PATH 'com.amazonaws.gamelift-*.tar'
 $BUILD_START_TIME = Get-Date
 
-echo "Building Amazon GameLift Unity Plugin artifacts into a tarball file"
+echo "“Building Amazon GameLift Plug-in for Unity artifacts into a tarball file"
 Unity.exe -batchmode -quit -projectPath $UNITY_PROJECT_PATH -logFile $LOG_PATH -executeMethod AWS.GameLift.Editor.PluginPacker.Pack
 
 echo .

@@ -31,7 +31,7 @@ namespace AmazonGameLiftPlugin.Core.DeploymentManagement
                 throw new ArgumentNullException(nameof(gameName));
             }
 
-            return $"GameLiftUnityPlugin-{gameName}";
+            return $"GameLiftPluginForUnity-{gameName}";
         }
 
         public string GetChangeSetName() => $"changeset-{Guid.NewGuid()}";
