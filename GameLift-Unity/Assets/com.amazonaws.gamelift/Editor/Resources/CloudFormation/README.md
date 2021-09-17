@@ -35,6 +35,25 @@
 1. Make any updates to the template and test, then repeat the last 3 steps, i.e. redeploy, wait, test
     * To speed up iteration, you can remove the `Fleet` resource in the template and replace all of its references to a hard-coded resource ID/ARN
 
+## Run Load Test
+
+* Reference: https://aws.amazon.com/blogs/compute/load-testing-a-web-applications-serverless-backend/
+1. Install Artillery: https://artillery.io/docs/guides/getting-started/installing-artillery.html
+1. `cd common/tests`
+1. Get an id-token
+    1. Run `aws configure` to set your default AWS credentials with permissions to your Cognito resources
+    1. Sign-up for a temporary account: `aws cognito-idp sign-up --client-id <your-client-id> --username <temporary-user-name> --password <temporary-password>`
+    1. Confirm the account sign-up: `aws cognito-idp admin-confirm-sign-up --user-pool-id <your-user-pool-id> --username <temporary-user-name>`
+    1. Initiate auth: `aws cognito-idp initiate-auth --client-id <your-client-id> --auth-flow USER_PASSWORD_AUTH --auth-parameters USERNAME=<temporary-user-name>,PASSWORD=<temporary-password>`
+    1. Copy the id-token from `.AuthenticationResult.IdToken`
+1. Modify `loadtest.yml`
+    1. `target` -- Your API gateway endpoint, e.g. `https://1234567xyz.execute-api.us-west-2.amazonaws.com/v1` 
+    1. `Authorization` -- id-token retrieved from the above steps
+1. Run `artillery run loadtest.yml`
+    * Artillery reports every 10 seconds, so you should see `10 * arrivalRate` number of results in each report. For most APIs, you should expect to see 2xx codes; 
+      however, due to the Web Application Firewall throttling rules (See `WebACL` resource in the CloudFormation templates), you will start seeing 403 errors if the
+      requesting rate is too high. This is to be expected!
+
 ## Before you submit a pull request
 
 1. Run `cfn-format --write <scenario_name>/cloudformation.yml`, example: `cfn-format --write scenario1_auth_only/cloudformation.yml`
