@@ -1,0 +1,17 @@
+# Copyright Amazon.com, Inc. or its affiliates. All Rights Reserved.
+# SPDX-License-Identifier: MIT-0
+
+# Usage: `artillery run loadtest.yml` (See CloudFormation/README.md for detailed instructions)
+
+config:
+  target: 'https://<your-app-id>.execute-api.<your-region>.amazonaws.com/<your-app-stage-name>'
+  phases:
+    - duration: 300  # Total time (in seconds) to run load test
+      arrivalRate: 10  # Transactions per second
+  defaults:
+    headers:
+      Authorization: 'Bearer <id-token-starting-with-eyJr>'
+scenarios:
+  - flow:
+    - post:
+        url: '/get_game_connection'
