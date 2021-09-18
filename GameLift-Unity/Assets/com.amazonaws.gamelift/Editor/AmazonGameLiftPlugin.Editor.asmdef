@@ -1,0 +1,19 @@
+{
+    "name": "AmazonGameLiftPlugin.Editor",
+    "references": [
+        "AmazonGameLiftPlugin.EditorCoreAPI",
+        "AmazonGameLiftPlugin.Runtime"
+    ],
+    "optionalUnityReferences": [],
+    "includePlatforms": [
+        "Editor"
+    ],
+    "excludePlatforms": [],
+    "allowUnsafeCode": false,
+    "overrideReferences": true,
+    "precompiledReferences": [
+        "AmazonGameLiftPlugin.Core.dll"
+    ],
+    "autoReferenced": true,
+    "defineConstraints": []
+}

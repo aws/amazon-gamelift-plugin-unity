@@ -1,0 +1,274 @@
+# Copyright Amazon.com, Inc. or its affiliates. All Rights Reserved.
+# SPDX-License-Identifier: MIT-0
+
+AWSTemplateFormatVersion: "2010-09-09"
+
+Description: >
+  This CloudFormation template sets up a minimal game backend service with only 1 functionality -- player
+  authentication. Lambda handler to start a game and view game connection information are stubbed to always
+  return 501 error (Unimplemented).
+
+Parameters:
+  ApiGatewayStageNameParameter:
+    Type: String
+    Default: v2
+    Description: Stage name used in the API endpoint
+
+  GameNameParameter:
+    Type: String
+    Default: MyGame
+    Description: Game name to prepend before resource names
+    MaxLength: 12
+
+  LambdaZipS3BucketParameter:
+    Type: String
+    Description: S3 bucket that stores the lambda function zip
+
+  LambdaZipS3KeyParameter:
+    Type: String
+    Description: S3 key that stores the lambda function zip
+
+Resources:
+  ApiGatewayCloudWatchRole:
+    Type: "AWS::IAM::Role"
+    Properties:
+      AssumeRolePolicyDocument:
+        Version: "2012-10-17"
+        Statement:
+          - Effect: Allow
+            Principal:
+              Service:
+                - apigateway.amazonaws.com
+            Action: "sts:AssumeRole"
+      ManagedPolicyArns:
+        - "arn:aws:iam::aws:policy/service-role/AmazonAPIGatewayPushToCloudWatchLogs"
+
+  Account:
+    Type: "AWS::ApiGateway::Account"
+    Properties:
+      CloudWatchRoleArn: !GetAtt ApiGatewayCloudWatchRole.Arn
+
+  GameRequestLambdaFunctionExecutionRole:
+    Type: "AWS::IAM::Role"
+    Properties:
+      AssumeRolePolicyDocument:
+        Version: "2012-10-17"
+        Statement:
+          - Effect: Allow
+            Principal:
+              Service:
+                - lambda.amazonaws.com
+            Action:
+              - "sts:AssumeRole"
+      ManagedPolicyArns:
+        - "arn:aws:iam::aws:policy/service-role/AWSLambdaBasicExecutionRole"
+      Policies:
+        - PolicyName: !Sub ${GameNameParameter}GameRequestLambdaFunctionGameLiftPolicies
+          PolicyDocument:
+            Version: "2012-10-17"
+            Statement:
+              - Effect: Allow
+                Action:
+                  - "gamelift:CreateGameSession"
+                  - "gamelift:CreatePlayerSession"
+                  - "gamelift:SearchGameSessions"
+                Resource: "*"
+
+  RestApi:
+    Type: "AWS::ApiGateway::RestApi"
+    Properties:
+      Name: !Sub ${GameNameParameter}RestApi
+
+  ResultsRequestLambdaFunctionExecutionRole:
+    Type: "AWS::IAM::Role"
+    Properties:
+      AssumeRolePolicyDocument:
+        Version: "2012-10-17"
+        Statement:
+          - Effect: Allow
+            Principal:
+              Service:
+                - lambda.amazonaws.com
+            Action:
+              - "sts:AssumeRole"
+      ManagedPolicyArns:
+        - "arn:aws:iam::aws:policy/service-role/AWSLambdaBasicExecutionRole"
+      Policies:
+        - PolicyName: !Sub ${GameNameParameter}ResultsRequestLambdaFunctionGameLiftPolicies
+          PolicyDocument:
+            Version: "2012-10-17"
+            Statement:
+              - Effect: Allow
+                Action:
+                  - "gamelift:CreateGameSession"
+                  - "gamelift:CreatePlayerSession"
+                  - "gamelift:SearchGameSessions"
+                Resource: "*"
+
+  UserPool:
+    Type: "AWS::Cognito::UserPool"
+    Properties:
+      AutoVerifiedAttributes:
+        - email
+      EmailConfiguration:
+        EmailSendingAccount: COGNITO_DEFAULT
+      EmailVerificationMessage: "Please verify your email to complete account registration for GameLift Sample Game. Confirmation Code {####}."
+      EmailVerificationSubject: GameLift Sample Game Account Verification
+      Policies:
+        PasswordPolicy:
+          MinimumLength: 8
+          RequireLowercase: true
+          RequireNumbers: true
+          RequireSymbols: true
+          RequireUppercase: true
+      Schema:
+        - Name: email
+          AttributeDataType: String
+          Mutable: false
+          Required: true
+      UserPoolName: !Sub ${GameNameParameter}UserPool
+      UsernameAttributes:
+        - email
+
+  GameRequestApiResource:
+    Type: "AWS::ApiGateway::Resource"
+    Properties:
+      ParentId: !GetAtt RestApi.RootResourceId
+      PathPart: start_game
+      RestApiId: !Ref RestApi
+
+  ResultsRequestApiResource:
+    Type: "AWS::ApiGateway::Resource"
+    Properties:
+      ParentId: !GetAtt RestApi.RootResourceId
+      PathPart: get_game_connection
+      RestApiId: !Ref RestApi
+
+  UserPoolClient:
+    Type: "AWS::Cognito::UserPoolClient"
+    Properties:
+      AccessTokenValidity: 1
+      ClientName: !Sub ${GameNameParameter}UserPoolClient
+      ExplicitAuthFlows:
+        - ALLOW_USER_PASSWORD_AUTH
+        - ALLOW_REFRESH_TOKEN_AUTH
+      GenerateSecret: false
+      IdTokenValidity: 1
+      PreventUserExistenceErrors: ENABLED
+      ReadAttributes:
+        - email
+        - preferred_username
+      RefreshTokenValidity: 30
+      SupportedIdentityProviders:
+        - COGNITO
+      UserPoolId: !Ref UserPool
+
+  ApiDeployment:
+    Type: "AWS::ApiGateway::Deployment"
+    DependsOn:
+      - GameRequestApiMethod
+      - ResultsRequestApiMethod
+    Properties:
+      RestApiId: !Ref RestApi
+      StageDescription:
+        DataTraceEnabled: true
+        LoggingLevel: INFO
+        MetricsEnabled: true
+      StageName: !Ref ApiGatewayStageNameParameter
+
+  Authorizer:
+    Type: "AWS::ApiGateway::Authorizer"
+    Properties:
+      IdentitySource: method.request.header.Authorization
+      Name: CognitoAuthorizer
+      ProviderARNs:
+        - "Fn::GetAtt":
+            - UserPool
+            - Arn
+      RestApiId: !Ref RestApi
+      Type: COGNITO_USER_POOLS
+
+  GameRequestLambdaFunction:
+    Type: "AWS::Lambda::Function"
+    Properties:
+      Code:
+        S3Bucket: !Ref LambdaZipS3BucketParameter
+        S3Key: !Ref LambdaZipS3KeyParameter
+      Description: Lambda function to handle game requests
+      Environment:
+        Variables:
+          GameName: !Ref GameNameParameter
+      FunctionName: !Sub ${GameNameParameter}GameRequestLambda
+      Handler: game_request.handler
+      MemorySize: 128
+      Role: !GetAtt GameRequestLambdaFunctionExecutionRole.Arn
+      Runtime: python3.8
+
+  ResultsRequestLambdaFunction:
+    Type: "AWS::Lambda::Function"
+    Properties:
+      Code:
+        S3Bucket: !Ref LambdaZipS3BucketParameter
+        S3Key: !Ref LambdaZipS3KeyParameter
+      Description: Lambda function to handle game requests
+      Environment:
+        Variables:
+          GameName: !Ref GameNameParameter
+      FunctionName: !Sub ${GameNameParameter}ResultsRequestLambda
+      Handler: results_request.handler
+      MemorySize: 128
+      Role: !GetAtt ResultsRequestLambdaFunctionExecutionRole.Arn
+      Runtime: python3.8
+
+  GameRequestApiMethod:
+    Type: "AWS::ApiGateway::Method"
+    Properties:
+      AuthorizationType: COGNITO_USER_POOLS
+      AuthorizerId: !Ref Authorizer
+      HttpMethod: POST
+      Integration:
+        Type: AWS_PROXY
+        IntegrationHttpMethod: POST
+        Uri: !Sub "arn:aws:apigateway:${AWS::Region}:lambda:path/2015-03-31/functions/${GameRequestLambdaFunction.Arn}/invocations"
+      OperationName: GameRequest
+      ResourceId: !Ref GameRequestApiResource
+      RestApiId: !Ref RestApi
+
+  GameRequestLambdaFunctionApiGatewayPermission:
+    Type: "AWS::Lambda::Permission"
+    Properties:
+      Action: "lambda:InvokeFunction"
+      FunctionName: !GetAtt GameRequestLambdaFunction.Arn
+      Principal: apigateway.amazonaws.com
+      SourceArn: !Sub "arn:aws:execute-api:${AWS::Region}:${AWS::AccountId}:${RestApi}/*/*/*"
+
+  ResultsRequestApiMethod:
+    Type: "AWS::ApiGateway::Method"
+    Properties:
+      AuthorizationType: COGNITO_USER_POOLS
+      AuthorizerId: !Ref Authorizer
+      HttpMethod: POST
+      Integration:
+        Type: AWS_PROXY
+        IntegrationHttpMethod: POST
+        Uri: !Sub "arn:aws:apigateway:${AWS::Region}:lambda:path/2015-03-31/functions/${ResultsRequestLambdaFunction.Arn}/invocations"
+      OperationName: ResultsRequest
+      ResourceId: !Ref ResultsRequestApiResource
+      RestApiId: !Ref RestApi
+
+  ResultsRequestLambdaFunctionApiGatewayPermission:
+    Type: "AWS::Lambda::Permission"
+    Properties:
+      Action: "lambda:InvokeFunction"
+      FunctionName: !GetAtt ResultsRequestLambdaFunction.Arn
+      Principal: apigateway.amazonaws.com
+      SourceArn: !Sub "arn:aws:execute-api:${AWS::Region}:${AWS::AccountId}:${RestApi}/*/*/*"
+
+Outputs:
+  ApiGatewayEndpoint:
+    Description: Url of ApiGateway Endpoint
+    Value: !Sub "https://${RestApi}.execute-api.${AWS::Region}.amazonaws.com/${ApiGatewayStageNameParameter}/"
+
+  UserPoolClientId:
+    Description: Id of UserPoolClient
+    Value: !Ref UserPoolClient

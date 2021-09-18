@@ -1,0 +1,26 @@
+[
+  {
+    "ParameterKey": "GameNameParameter",
+    "ParameterValue": "Scene3Game"
+  },
+  {
+    "ParameterKey": "LaunchPathParameter",
+    "ParameterValue": "C:\\game\\amazon-gamelift-unity.exe"
+  },
+  {
+    "ParameterKey": "LaunchParametersParameter",
+    "ParameterValue": "-debug -logFile \"c:\\game\\server.log\""
+  },
+  {
+    "ParameterKey": "BuildVersionParameter",
+    "ParameterValue": "1"
+  },
+  {
+    "ParameterKey": "BuildOperatingSystemParameter",
+    "ParameterValue": "WINDOWS_2012"
+  },
+  {
+    "ParameterKey": "FleetNameParameter",
+    "ParameterValue": "Multi-Region Fleet"
+  }
+]
