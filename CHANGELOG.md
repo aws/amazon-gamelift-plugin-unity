@@ -1,5 +1,14 @@
 CHANGELOG
 
+# 1.0.0 (09/17/2021)
+
+- Documentation
+	- Update root and sample game READMEs
+	- Delete plugin README in favor of AWS documentation links in the plug-in UI
+	- Update Download GameLiftLocal and JDK instructions in settings UI
+- Bug Fix
+	- Fix "NotConfigured" font style in settings UI
+
 # 0.2.5 (09/16/2021)
 
 - Security
