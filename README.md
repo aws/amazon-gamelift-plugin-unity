@@ -24,16 +24,28 @@ The Amazon GameLift Plug-in for Unity also includes a sample game you can use to
 
 For more information about Amazon GameLift, see  [Amazon GameLift](https://docs.aws.amazon.com/gamelift). For more information about the Amazon GameLift Plug-in for Unity, see [Integrating Games with the Amazon GameLift Plug-in for Unity](https://docs.aws.amazon.com/gamelift/latest/developerguide/unity-plug-in.html).
 
-## Installing  the Amazon GameLift Plug-in for Unity
+## Installing the Amazon GameLift Plug-in for Unity
 
 1. Download the Amazon GameLift Plug-in for Unity. You can find the latest version on the Amazon GameLift Plug-in for Unity Repository page. Under the latest release, select Assets and select the tar file.
 2. Launch Unity and select a project.
 3. On the menu, select **Window**, and then choose **Package Manager**.
 4. In the **Package Manager** tab, under the tab, select **+**, and then choose **Add package from tarball...**.
 5. In the **Select packages on disk** window, navigate to the com.amazonaws.gamelift folder, select the file **com.amazonaws.gamelift-1.0.0.tgz**, and then choose Open.
-6. Once the Plug-in for Unity is loaded, GameLift will be added as a new item on the Unity menu. It may take a few minutes to install and recompile scripts. The GameLift Plug-in Settings tab will automatically open.
-7. Choose **Use .NET 4.x**. This will override the current .NET settings for the project. GameLift Local requires .NET 4.x. You must select .NET 4.x to use the GameLift Local SDK and to test locally unless have already built your game executable.
+6. Once the Plug-in for Unity is loaded, GameLift will be added as a new item on the Unity menu. It may take a few minutes to install and recompile scripts. The **GameLift Plug-in Settings** tab will automatically open.
+7. Go to **SDK** tab, choose **Use .NET 4.x**. This will override the current .NET settings for the project. GameLift Local requires .NET 4.x. You must select .NET 4.x to use the GameLift Server SDK unless have already built your game executable.
 
+## Setting up for Local Testing
+
+1. In Unity, on the **GameLift Plug-in Settings**, select **Test** tab, then **Download GameLift Local**. This will automatically open your web browser and ask where you would like the the testing tools to be downloaded (`GameLift_<Date>.zip`, e.g. `GameLift_06_03_2021.zip`). Some browser may be set to not asking for the download location, so please check your download directory to locate the zip file that was automatically downloaded.
+2. Unzip the file downloaded
+3. Go back to **GameLift Plug-in Settings**, select **GameLift Local Path** to configure the filepath of the `GameLiftLocal.jar` in the plug-in
+4. If you haven't installed JRE, select **Install JRE** to download and install JRE from the official website. If you already have JRE installed, but the plug-in still shows "Not Configured" for JRE, then follow [this guide](https://www.java.com/en/download/help/path.html) to add the JRE `bin` directory to your Windows `PATH` system environment variable.
+   * NOTE: If you have JDK installed instead of JRE, this plug-in still show "Not Configured" for the JRE configuration (See Issue #9). As long as your java PATH is configured correctly in system environment variable (i.e. you are able to execute `java` in command prompt), then you can ignore the "Not Configured" warning.
+5. Open **Local Testing UI**
+6. Set the path to your GameLift SDK integrated server executabe (If you don't have one, see the below section to build a sample game server)
+7. Select **Deploy and Run**
+   * This will automatically execute GameLift Local (via `java -jar <path_to_gamelift_local_jar> -p <port>`), and then after 10 seconds, execute the game server executable
+8. If the GameLift Server SDK is configured correctly in your server executable, you should see `Healthcheck status: true` in GameLift Local terminal
 
 ## Importing and running the sample game
 
@@ -61,13 +73,13 @@ For more information about Amazon GameLift, see  [Amazon GameLift](https://docs.
 
 ## Deploying a Scenario
 
-** First, update your credentials and account bootstrap location: **
+### First, update your credentials and account bootstrap location:
 
 1. Update your credentials. In Unity, in the Plug-in for Unity tab, select the **Deploy** tab,
 and then create new credentials or select existing credentials. 
 2. Update the account bootstrap location. In the **Deploy** pane, select **Update Account Bootstrap**. In the Account Bootstrapping window, you can choose an existing Amazon S3 bucket or create a new Amazon S3 bucket. The bootstrap location is an Amazon S3 bucket used during deployment. It is used to store game server assets and other dependencies. The AWS Region you select for the bucket must be the same Region you will use for the sample scenario deployment.
 
-** Next, deploy a sample scenario: **
+### Next, deploy a sample scenario:
 
 1. In Unity, in the Plug-in for Unity tab, select the **Deploy** tab.
 2. In the Deploy pane, select **Open Deployment UI**.
