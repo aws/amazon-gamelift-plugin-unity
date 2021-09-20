@@ -93,4 +93,7 @@ Clients will report `CLIENT | LOCAL | CONNECTED 1UP`,  `CLIENT | LOCAL | CONNECT
 Clients will report `CLIENT | GAMELIFT | CONNECTED 1UP`,  `CLIENT | GAMELIFT | CONNECTED 2UP`, etc.
 
 
+## Running Tests
 
+1. Unit tests can be found at **GameLift-SampleGame\Assets\Tests\Editor\Unit**, or in the **SampleTests.Unit project** in your IDE. They can be run from the Unity Editor: **Window > General > Test Runner, EditMode**. 
+1. Play mode integration UI tests can be found at **GameLift-SampleGame\Assets\Tests\UI**, or in the **SampleTests.UI project** in your IDE. They can be run from the Unity Editor: **Window > General > Test Runner, PlayMode**. These tests need **GameLift-SampleGame\UiTestSettings.json** filled with your test parameters.
