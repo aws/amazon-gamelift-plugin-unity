@@ -1,7 +1,6 @@
 # Amazon GameLift Plug-in for Unity
 
 ![GitHub release (latest by date)](https://img.shields.io/github/v/release/aws/amazon-gamelift-plugin-unity)
-![GitHub](https://img.shields.io/github/license/aws/amazon-gamelift-plugin-unity)
 ![GitHub all releases](https://img.shields.io/github/downloads/aws/amazon-gamelift-plugin-unity/total)
 ![GitHub release (latest by date)](https://img.shields.io/github/downloads/aws/amazon-gamelift-plugin-unity/latest/total)
 
