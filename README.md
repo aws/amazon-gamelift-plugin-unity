@@ -105,7 +105,28 @@ The Amazon GameLift Plug-in for Unity is compatible only with officially support
 ### Where are the logs?
 An additional error log file related to the Unity game project can be found in the following location: **logs/amazon-gamelift-plugin-logs[YYYYMMDD].txt**. Note, that the log file is created once a day.
 
-## For contributors
+### Why did my deployment fail?
+
+If your deployment failed, go to **AWS CloudFormation console > <failed stack>**, and check out event tab to see which
+resource failed and why.
+
+If you are using the following deployment scenarios:
+- "SPOT Fleets with Queue and Custom Matchmaker"
+- "FlexMatch"
+
+You might encounter "GeneralServiceException", this exception means that your fleet creation failed, and this can happen
+if your AWS account is limited by GameLift (e.g. new account, invalid payment details, etc.). Please go to **GameLift
+AWS console > Service Limits**, and request for limit increase on your account, then work with AWS customer support to
+get your account limit lifted.
+
+### I need help!
+
+If you are blocked, please don't hesitate to reach out for support via:
+* [AWS Support Center](https://console.aws.amazon.com/support/home)
+* [GitHub issues](https://github.com/aws/amazon-gamelift-plugin-unity/issues)
+* [AWS game tech forums](https://forums.awsgametech.com/)
+
+## For GitHub Contributors
 
 ### How to set up the project development environment?
 
