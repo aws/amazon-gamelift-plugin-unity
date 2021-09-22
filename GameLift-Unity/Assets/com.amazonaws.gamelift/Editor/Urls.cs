@@ -10,7 +10,7 @@ namespace AmazonGameLift.Editor
         public const string AwsGameLiftLocal = "https://gamelift-release.s3-us-west-2.amazonaws.com/GameLift_06_03_2021.zip";
         public const string AwsGameTechForums = "https://forums.awsgametech.com/";
         public const string AwsHelpCredentials = "https://docs.aws.amazon.com/general/latest/gr/aws-sec-cred-types.html";
-        public const string AwsHelpDeployment = "https://docs.aws.amazon.com/gamelift/latest/developerguide/unity-plug-in.html";
+        public const string AwsHelpDeployment = "https://docs.aws.amazon.com/gamelift/latest/developerguide/unity-plug-in-scenario.html";
         public const string AwsHelpGameLiftLocal = "https://docs.aws.amazon.com/gamelift/latest/developerguide/integration-testing-local.html";
         public const string AwsHelpGameLiftUnity = "https://docs.aws.amazon.com/gamelift/latest/developerguide/unity-plug-in.html";
         public const string AwsS3Console = "https://s3.console.aws.amazon.com/s3/home";
