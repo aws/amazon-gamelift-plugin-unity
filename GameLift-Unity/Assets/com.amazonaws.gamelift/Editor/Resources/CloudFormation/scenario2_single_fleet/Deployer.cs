@@ -19,7 +19,7 @@ namespace AmazonGameLift.SingleFleet
             + "After player authenticates and start a game via POST /start_game, a lambda handler searches for an existing viable game session with open player slot on the fleet, and if not found, creates a new game session. "
             + "The game client is then expected to poll POST /get_game_connection to receive a viable game session.";
 
-        public override string HelpUrl => "https://docs.aws.amazon.com/gamelift/latest/developerguide/unity-plug-in-sample-game.html";
+        public override string HelpUrl => "https://docs.aws.amazon.com/gamelift/latest/developerguide/unity-plug-in-scenario.html";
 
         public override string ScenarioFolder => "scenario2_single_fleet";
 

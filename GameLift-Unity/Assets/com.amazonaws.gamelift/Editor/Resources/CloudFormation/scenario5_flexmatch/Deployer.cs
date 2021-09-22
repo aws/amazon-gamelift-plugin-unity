@@ -19,7 +19,7 @@ namespace AmazonGameLift.FlexMatch
             + "The template demonstrates best practices in acquiring the matchmaking ticket status, "
             + "by listening to FlexMatch events in conjunction with a low frequency poller to ensure incomplete tickets are periodically pinged and therefore are not discarded by GameLift.";
 
-        public override string HelpUrl => "https://docs.aws.amazon.com/gamelift/latest/developerguide/unity-plug-in-sample-game.html";
+        public override string HelpUrl => "https://docs.aws.amazon.com/gamelift/latest/developerguide/unity-plug-in-scenario.html";
 
         public override string ScenarioFolder => "scenario5_flexmatch";
 
