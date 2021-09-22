@@ -19,7 +19,7 @@ namespace AmazonGameLift.MrfQueue
             + "For simplicity sake, this custom matchmaker form matches by taking the oldest players in the waiting pool and not considering any other factors such as skills or latency. "
             + "Once the group of players to form matches is identified, a lambda function calls GameLift:StartGameSessionPlacement to start a queue placement.";
 
-        public override string HelpUrl => "https://docs.aws.amazon.com/gamelift/latest/developerguide/unity-plug-in.html";
+        public override string HelpUrl => "https://docs.aws.amazon.com/gamelift/latest/developerguide/unity-plug-in-scenario.html";
 
         public override string ScenarioFolder => "scenario3_mrf_queue";
 

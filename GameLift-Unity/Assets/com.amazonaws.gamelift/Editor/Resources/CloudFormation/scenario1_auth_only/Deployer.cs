@@ -18,7 +18,7 @@ namespace AmazonGameLift.AuthOnly
             "This CloudFormation template sets up a minimal game backend service with only 1 functionality -- player authentication. "
             + "Lambda handler to start a game and view game connection information are stubbed to always return 501 error (Unimplemented).";
 
-        public override string HelpUrl => "https://docs.aws.amazon.com/gamelift/latest/developerguide/unity-plug-in.html";
+        public override string HelpUrl => "https://docs.aws.amazon.com/gamelift/latest/developerguide/unity-plug-in-scenario.html";
 
         public override string ScenarioFolder => "scenario1_auth_only";
 
