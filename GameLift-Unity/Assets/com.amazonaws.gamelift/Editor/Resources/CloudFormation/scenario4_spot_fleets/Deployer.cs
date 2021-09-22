@@ -18,7 +18,7 @@ namespace AmazonGameLift.SpotFleets
             "This CloudFormation template sets up the exact same scenario as 'Multi-Region Fleets', except that 3 fleets are created instead of 1, with 2 of the fleets being SPOT fleets containing nuanced instance types. "
             + "This is to demonstrate the best practices in using GameLift queues to keep availability high and cost low.";
 
-        public override string HelpUrl => "https://docs.aws.amazon.com/gamelift/latest/developerguide/unity-plug-in.html";
+        public override string HelpUrl => "https://docs.aws.amazon.com/gamelift/latest/developerguide/unity-plug-in-sample-game.html";
 
         public override string ScenarioFolder => "scenario4_spot_fleets";
 
