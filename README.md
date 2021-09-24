@@ -101,6 +101,10 @@ and then create new credentials or select existing credentials.
 ### What Unity versions are supported?
 The Amazon GameLift Plug-in for Unity is compatible only with officially supported versions of Unity 2019.4 LTS and 2020.3 LTS for Windows.
 
+#### POLL: What platform do you use to develop on Unity?
+[![](https://api.gh-polls.com/poll/01FGCE4ZE0RP9QDEK9GF6P5R1S/Windows)](https://api.gh-polls.com/poll/01FGCE4ZE0RP9QDEK9GF6P5R1S/Windows/vote)
+[![](https://api.gh-polls.com/poll/01FGCE4ZE0RP9QDEK9GF6P5R1S/macOS)](https://api.gh-polls.com/poll/01FGCE4ZE0RP9QDEK9GF6P5R1S/macOS/vote)
+[![](https://api.gh-polls.com/poll/01FGCE4ZE0RP9QDEK9GF6P5R1S/Linux)](https://api.gh-polls.com/poll/01FGCE4ZE0RP9QDEK9GF6P5R1S/Linux/vote)
 
 ### Where are the logs?
 An additional error log file related to the Unity game project can be found in the following location: **logs/amazon-gamelift-plugin-logs[YYYYMMDD].txt**. Note, that the log file is created once a day.
