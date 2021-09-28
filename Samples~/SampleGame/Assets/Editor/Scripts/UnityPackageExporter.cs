@@ -4,10 +4,10 @@
 using System.IO;
 using System.Linq;
 using UnityEditor;
+using UnityEngine;
 
 public static class UnityPackageExporter
 {
-    [MenuItem("Assets/Export Sample")]
     public static void Export()
     {
         var exportedPackageAssetList = Directory.EnumerateDirectories("Assets")
@@ -18,18 +18,25 @@ public static class UnityPackageExporter
             })
             .ToList();
 
+
+        Debug.Log("Exporting Sample Game...");
+
         exportedPackageAssetList.AddRange(Directory.EnumerateFiles("Assets"));
         exportedPackageAssetList.Add("Assets\\Editor\\Scripts\\GameLiftClientSettingsMenu.cs");
         exportedPackageAssetList.Add("Assets\\Editor\\Scripts\\ClientServerSwitchMenu.cs");
 
-        string sampleFolder = @"..\GameLift-Unity\Assets\com.amazonaws.gamelift\Examples~\SampleGame";
+        string outputFolder = @"..";
 
-        if (!Directory.Exists(sampleFolder))
+        if (!Directory.Exists(outputFolder))
         {
-            Directory.CreateDirectory(sampleFolder);
+            Directory.CreateDirectory(outputFolder);
         }
 
-        AssetDatabase.ExportPackage(exportedPackageAssetList.ToArray(), Path.Combine(sampleFolder, "sample.unitypackage"),
+        string outputPath = Path.Combine(outputFolder, "SampleGame.unitypackage");
+
+        AssetDatabase.ExportPackage(exportedPackageAssetList.ToArray(), outputPath,
             ExportPackageOptions.Recurse | ExportPackageOptions.IncludeDependencies);
+
+        Debug.Log("Sample Game exported to " + outputPath);
     }
 }
