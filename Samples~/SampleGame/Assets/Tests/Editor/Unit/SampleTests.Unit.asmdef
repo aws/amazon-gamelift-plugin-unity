@@ -1,0 +1,22 @@
+{
+    "name": "SampleTests.Unit",
+    "references": [
+        "SampleGame",
+        "AmazonGameLiftPlugin.Runtime",
+        "AmazonGameLiftPlugin.Runtime.Core"
+    ],
+    "optionalUnityReferences": [
+        "TestAssemblies"
+    ],
+    "includePlatforms": [
+        "Editor"
+    ],
+    "excludePlatforms": [],
+    "allowUnsafeCode": false,
+    "overrideReferences": false,
+    "precompiledReferences": [
+        "Moq.dll"
+    ],
+    "autoReferenced": true,
+    "defineConstraints": []
+}

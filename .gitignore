@@ -1,2 +1,6 @@
-/build/
 .vs/
+*.dll
+*.unitypackage
+*.tgz
+*.tgz.meta
+SampleGameBuildLog.txt

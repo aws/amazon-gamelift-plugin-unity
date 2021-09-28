@@ -235,28 +235,27 @@ rights on your machine:
 * .NET 4.7.1 Developer Pack to build AmazonGameLiftPlugin.Core. This can be downloaded
   at https://dotnet.microsoft.com/download/visual-studio-sdks, or as a part of MS Visual Studio.
 
-### How to make changes to the plugin UI?
+### How to make changes to the plugin?
 
-1. Clone the **amazon-gamelift-plugin-unity** repository
-2. In Unity Hub, open project, and select `GameLift-Unity` directory as the project root
-3. Make changes to the plugin code, and Unity should recompile after each change
-4. To enable Unity debug mode and set breakpoint in the code,
-   see: https://docs.unity3d.com/Manual/ManagedCodeDebugging.html
-5. Once changes are made, run the Editor unit tests via **Window > General > Test Runner, Edit Mode**
-
-### How to make changes to the Plugin Core Library?
-
-1. Open `AmazonGameLiftPlugin.Core\AmazonGameLiftPlugin.Core.sln` with Visual Studio.
-2. Make changes
-3. Run unit tests in `AmazonGameLiftPlugin.Core.Tests` from Visual Studio
-4. Run `bin\windows\clean.ps1` then `bin\windows\setup.ps` to recompile the core plugin DLL
-5. Follow the above section to verify the changes in plugin UI
+1. Clone the **amazon-gamelift-plugin-unity** repository from GitHub
+1. In Unity Hub, create a new project
+1. Open Unity Package Manager, import project from disk, and select the `package.json` located in the project root
+1. Setup code debugging in Unity: https://docs.unity3d.com/Manual/ManagedCodeDebugging.html, and change Unity project to 
+   Debug Mode
+1. A .sln file should be created in the Unity project root, you can open that with Visual Studio
+1. Make changes to the plugin code, and Unity should recompile after each change
+1. Once changes are made, run the unit tests via **Window > General > Test Runner**
 
 ### How to build and package the plugin?
 
-1. Run `bin\windows\clean.ps1` to delete all dlls and temp files
-3. Run `bin\windows\setup.ps1` to build dlls
-4. Run `bin\windows\build.ps1` to bundle the plugin into a tarball (.tgz) file
+Run `Scripts~\windows\release.ps1` to clean, build and export the plugin into a tarball with a single command.
+
+Alternatively:
+1. Run `Scripts~\windows\clean.ps1` to delete all dlls and temp files (If you want to build faster, you can comment out 
+   `.clean-download-files` execution)
+1. Run `Scripts~\windows\build.ps1` to build dlls and sample game
+1. Run `Scripts~\windows\export.ps1` to export the plugin into a tarball (.tgz) file stored in the project root folder
+
 
 The redistributable Plug-in files are located at **GameLift-Unity\Assets\com.amazonaws.gamelift**. If you want to update
 the sample game, open the GameLift-SampleGame project in Unity and run the main menu command at **Assets > Export

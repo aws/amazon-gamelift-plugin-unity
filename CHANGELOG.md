@@ -1,5 +1,19 @@
 CHANGELOG
 
+# 1.1.0 (09/28/2021)
+- Files
+	- Update project file structure to comply with [Unity standards](https://docs.unity3d.com/Manual/CustomPackages.html)
+		- Move package.json into project root; remove unnecessary Unity project wrapper
+		- Move Core Library under `Runtime`; change .csproj to use the vs2019 convention and updated to use dotnet build tool to resolve dependencies
+		- Move sample game project to `Sample~`
+		- Move scripts to `Scripts~`; modularize scripts and add more fail-fast mechanisms
+		- Use npm to package the plugin tarball
+		- Remove other misc files
+	- Update assembly definition namings to comply with [Unity convention](https://docs.unity3d.com/Manual/cus-tests.html)
+- Documentation
+	- Update and re-format READMEs
+	- Use the correct URL for deployment scenario help link
+
 # 1.0.0 (09/17/2021)
 
 - Documentation

@@ -1,0 +1,18 @@
+{
+    "name": "SampleGame",
+    "references": [
+        "AmazonGameLiftPlugin.Runtime",
+        "AmazonGameLiftPlugin.Runtime.Core"
+    ],
+    "optionalUnityReferences": [],
+    "includePlatforms": [
+        "Editor",
+        "WindowsStandalone64"
+    ],
+    "excludePlatforms": [],
+    "allowUnsafeCode": false,
+    "overrideReferences": false,
+    "precompiledReferences": [],
+    "autoReferenced": true,
+    "defineConstraints": []
+}
