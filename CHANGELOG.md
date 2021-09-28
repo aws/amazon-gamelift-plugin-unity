@@ -11,7 +11,7 @@ CHANGELOG
 		- Remove other misc files
 	- Update assembly definition namings to comply with [Unity convention](https://docs.unity3d.com/Manual/cus-tests.html)
 - Documentation
-	- Update and re-formatt READMEs
+	- Update and re-format READMEs
 	- Use the correct URL for deployment scenario help link
 
 # 1.0.0 (09/17/2021)
