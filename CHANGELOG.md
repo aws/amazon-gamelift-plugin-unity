@@ -13,6 +13,8 @@ CHANGELOG
 - Documentation
 	- Update and re-format READMEs
 	- Use the correct URL for deployment scenario help link
+- Bug Fix
+	- Fix bug where bootstrap S3 buckets show all buckets in all regions, add async loading for S3 bucket loading
 
 # 1.0.0 (09/17/2021)
 

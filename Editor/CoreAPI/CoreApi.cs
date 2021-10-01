@@ -225,8 +225,7 @@ namespace AmazonGameLift.Editor
             var bucketStore = new BucketStore(CreateS3Wrapper(profileName, region));
             var request = new GetBucketsRequest()
             {
-                // TODO: restore if the filter is fixed
-                // Region = region
+                Region = region
             };
             return bucketStore.GetBuckets(request);
         }

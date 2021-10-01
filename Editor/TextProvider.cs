@@ -60,6 +60,7 @@ namespace AmazonGameLift.Editor
             { Strings.LabelBootstrapCreateMode, "Create a new S3 bucket"},
             { Strings.LabelBootstrapBucketLifecycle, "Policy"},
             { Strings.LabelBootstrapLifecycleWarning, "With lifecycle policy configured on the S3 bucket, stale build artifacts in S3 will be deleted automatically, and will cause fleet creation to fail when created with a build referencing the deleted artifacts."},
+            { Strings.LabelBootstrapBucketSelectionLoading, "Loading S3 Buckets..."},
             { Strings.LabelBootstrapRegion, "AWS Region"},
             { Strings.LabelBootstrapSelectButton, "Update"},
             { Strings.LabelBootstrapSelectMode, "Choose existing S3 bucket"},

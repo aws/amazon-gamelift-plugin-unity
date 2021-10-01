@@ -4,6 +4,8 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Threading;
+using System.Threading.Tasks;
 using AmazonGameLiftPlugin.Core.AccountManagement.Models;
 using AmazonGameLiftPlugin.Core.BucketManagement.Models;
 using AmazonGameLiftPlugin.Core.SettingsManagement.Models;
@@ -97,10 +99,9 @@ namespace AmazonGameLift.Editor
             AllLifecyclePolicyNames = lifecyclePolicyNames.ToArray();
         }
 
-        public void SetUp()
+        public async Task SetUp(CancellationToken cancellationToken = default)
         {
-            RefreshExistingBuckets();
-            SelectedMode = _existingBuckets.Count != 0 ? SelectionMode : CreationMode;
+            await RefreshExistingBuckets(cancellationToken);
         }
 
         public void SelectBucket(string name)
@@ -169,40 +170,57 @@ namespace AmazonGameLift.Editor
         /// <summary>
         /// Sets <see cref="IsBucketListLoaded"/> to <c>true</c> when complete.
         /// </summary>
-        public void RefreshExistingBuckets()
+        public async Task RefreshExistingBuckets(CancellationToken cancellationToken = default)
         {
             IsBucketListLoaded = false;
+            _status.IsDisplayed = false;
+            _existingBuckets.Clear();
 
-            GetSettingResponse profileResponse = _coreApi.GetSetting(SettingsKeys.CurrentProfileName);
-
-            if (!profileResponse.Success)
+            try
             {
-                SetErrorStatus(Strings.StatusGetProfileFailed);
-                _logger.LogResponseError(profileResponse);
-                return;
+                GetSettingResponse profileResponse = _coreApi.GetSetting(SettingsKeys.CurrentProfileName);
+
+                if (!profileResponse.Success)
+                {
+                    SetErrorStatus(Strings.StatusGetProfileFailed);
+                    _logger.LogResponseError(profileResponse);
+                    return;
+                }
+
+                GetSettingResponse regionResponse = _coreApi.GetSetting(SettingsKeys.CurrentRegion);
+
+                if (!regionResponse.Success || !_coreApi.IsValidRegion(regionResponse.Value))
+                {
+                    SetErrorStatus(Strings.StatusGetRegionFailed);
+                    _logger.LogResponseError(regionResponse);
+                    return;
+                }
+
+                GetBucketsResponse bucketsResponse = await Task.Run(() => _coreApi.ListBuckets(profileResponse.Value, regionResponse.Value), cancellationToken);
+
+                if (!bucketsResponse.Success)
+                {
+                    SetErrorStatus(Strings.StatusBootstrapFailedTemplate, bucketsResponse);
+                    _logger.LogResponseError(bucketsResponse);
+                    return;
+                }
+
+                _existingBuckets = bucketsResponse.Buckets.ToList();
             }
-
-            GetSettingResponse regionResponse = _coreApi.GetSetting(SettingsKeys.CurrentRegion);
-
-            if (!regionResponse.Success || !_coreApi.IsValidRegion(regionResponse.Value))
+            catch (TaskCanceledException)
             {
-                SetErrorStatus(Strings.StatusGetRegionFailed);
-                _logger.LogResponseError(regionResponse);
-                return;
+                throw;
             }
-
-            GetBucketsResponse bucketsResponse = _coreApi.ListBuckets(profileResponse.Value, regionResponse.Value);
-
-            if (!bucketsResponse.Success)
+            catch (Exception ex)
             {
-                SetErrorStatus(Strings.StatusBootstrapFailedTemplate, bucketsResponse);
-                _logger.LogResponseError(bucketsResponse);
-                return;
+                _logger.LogException(ex);
+                throw;
             }
-
-            _existingBuckets = bucketsResponse.Buckets.ToList();
-            IsBucketListLoaded = true;
-            OnBucketsLoaded?.Invoke(_existingBuckets);
+            finally
+            {
+                IsBucketListLoaded = true;
+                OnBucketsLoaded?.Invoke(_existingBuckets);
+            }
         }
 
         public void Refresh()
@@ -296,8 +314,6 @@ namespace AmazonGameLift.Editor
 
         private void OnBucketCreated(string profileName, string region, string bucketName)
         {
-            RefreshExistingBuckets();
-
             PutSettingResponse bucketNameResponse = _coreApi.PutSetting(SettingsKeys.CurrentBucketName, bucketName);
 
             if (!bucketNameResponse.Success)
