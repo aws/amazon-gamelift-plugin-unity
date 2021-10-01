@@ -19,6 +19,7 @@ namespace AmazonGameLift.Editor
         public const string LabelBootstrapBucketCosts = "LabelBootstrapBucketCosts";
         public const string LabelBootstrapBucketName = "LabelBootstrapBucketName";
         public const string LabelBootstrapLifecycleWarning = "LabelBootstrapLifecycleWarning";
+        public const string LabelBootstrapBucketSelectionLoading = "LabelBootstrapBucketSelectionLoading";
         public const string LabelBootstrapRegion = "LabelBootstrapRegion";
         public const string LabelBootstrapBucketLifecycle = "LabelBootstrapBucketLifecycle";
         public const string LabelCredentialsHelp = "LabelCredentialsHelp";

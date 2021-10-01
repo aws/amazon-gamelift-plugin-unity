@@ -2,6 +2,8 @@
 // SPDX-License-Identifier: Apache-2.0
 
 using System.Collections.Generic;
+using System.Threading;
+using System.Threading.Tasks;
 using UnityEditor;
 using UnityEngine;
 
@@ -16,14 +18,17 @@ namespace AmazonGameLift.Editor
         private const float TopMarginPixels = 15f;
         private const float LeftMarginPixels = 15f;
         private const float RightMarginPixels = 13f;
+        private const float SelectionTextFieldHeight = 20f;
         private const float SelectionHeightPixels = 110f;
         private const float LabelWidthPixels = 150f;
         private const float VerticalSpacingPixels = 5f;
+        private const float SpinnerSizePixels = 23f;
         private HyperLinkButton _consoleHyperLinkButton;
         private TextFilter _bucketsTextFilter;
         private StatusLabel _statusLabel;
         private BootstrapSettings _bootstrapSettings;
         private int _confirmedMode = -1;
+        private ImageSequenceDrawer _spinnerDrawer;
         private ControlDrawer _controlDrawer;
         private TextProvider _textProvider;
 
@@ -38,9 +43,11 @@ namespace AmazonGameLift.Editor
         private string _tooltipRegion;
         private string _tooltipCurrentBucket;
         private string _labelBucketCosts;
+        private string _labelLoading;
         private string _policyWarning;
         private int _cachedPolicy = -1;
         private bool _needResize;
+        private CancellationTokenSource _refreshBucketsCancellation;
 
         private void SetUp()
         {
@@ -50,11 +57,11 @@ namespace AmazonGameLift.Editor
             _bucketsTextFilter = new TextFilter(string.Empty, SelectionHeightPixels);
             _statusLabel = new StatusLabel();
             _controlDrawer = ControlDrawerFactory.Create();
+            _spinnerDrawer = SpinnerDrawerFactory.Create(size: SpinnerSizePixels);
             _consoleHyperLinkButton = new HyperLinkButton(_textProvider.Get(Strings.LabelBootstrapS3Console),
               Urls.AwsS3Console, ResourceUtility.GetHyperLinkStyle());
             _bootstrapSettings.OnBucketsLoaded += OnBucketsLoaded;
             _bootstrapSettings.Status.Changed += OnStatusChanged;
-            _bootstrapSettings.SetUp();
             _uiModes = new[]
             {
                 _textProvider.Get(Strings.LabelBootstrapCreateMode),
@@ -71,6 +78,16 @@ namespace AmazonGameLift.Editor
             _tooltipCurrentBucket = _textProvider.Get(Strings.TooltipBootstrapCurrentBucket);
             _labelBucketCosts = _textProvider.Get(Strings.LabelBootstrapBucketCosts);
             _policyWarning = _textProvider.Get(Strings.LabelBootstrapLifecycleWarning);
+            _labelLoading = _textProvider.Get(Strings.LabelBootstrapBucketSelectionLoading);
+
+            _refreshBucketsCancellation = new CancellationTokenSource();
+            _bootstrapSettings.SetUp(_refreshBucketsCancellation.Token)
+                .ContinueWith(task =>
+                {
+                    _confirmedMode = _bootstrapSettings.SelectedMode;
+                    _bootstrapSettings.RefreshCurrentBucket();
+                    UpdateWindowSize();
+                }, TaskContinuationOptions.ExecuteSynchronously);
         }
 
         private void OnEnable()
@@ -80,6 +97,7 @@ namespace AmazonGameLift.Editor
 
         private void OnDisable()
         {
+            _refreshBucketsCancellation?.Cancel();
             _bootstrapSettings.Status.Changed -= OnStatusChanged;
             _bootstrapSettings.OnBucketsLoaded -= OnBucketsLoaded;
         }
@@ -99,6 +117,22 @@ namespace AmazonGameLift.Editor
                 }
 
                 GUILayout.Space(RightMarginPixels);
+            }
+        }
+        private void OnInspectorUpdate()
+        {
+            if (_bootstrapSettings.IsBucketListLoaded)
+            {
+                _spinnerDrawer.Stop();
+            }
+            else
+            {
+                _spinnerDrawer.Start();
+            }
+
+            if (_spinnerDrawer.IsRunning)
+            {
+                Repaint();
             }
         }
 
@@ -143,17 +177,17 @@ namespace AmazonGameLift.Editor
             }
 
             _confirmedMode = _bootstrapSettings.SelectedMode;
-            _bucketsTextFilter.CurrentText = string.Empty;
-            _bootstrapSettings.SelectBucket(string.Empty);
             _bootstrapSettings.RefreshCurrentBucket();
 
             if (_bootstrapSettings.SelectedMode == BootstrapSettings.CreationMode)
             {
+                _refreshBucketsCancellation?.Cancel();
                 _bootstrapSettings.RefreshBucketName();
             }
             else
             {
-                _bootstrapSettings.RefreshExistingBuckets();
+                _refreshBucketsCancellation = new CancellationTokenSource();
+                _ = _bootstrapSettings.RefreshExistingBuckets(_refreshBucketsCancellation.Token);
             }
 
             GUI.FocusControl(null);
@@ -200,8 +234,7 @@ namespace AmazonGameLift.Editor
 
         private void DrawModeSelection()
         {
-            _bootstrapSettings.SelectedMode = GUILayout.SelectionGrid(
-_bootstrapSettings.SelectedMode, _uiModes, 1, EditorStyles.radioButton);
+            _bootstrapSettings.SelectedMode = GUILayout.SelectionGrid(_bootstrapSettings.SelectedMode, _uiModes, 1, EditorStyles.radioButton);
         }
 
         private void DrawBucketCreation()
@@ -240,11 +273,21 @@ _bootstrapSettings.SelectedMode, _uiModes, 1, EditorStyles.radioButton);
         {
             EditorGUILayout.PrefixLabel(_labelBootstrapBucketName);
 
-            using (new EditorGUILayout.HorizontalScope())
+            if (!_bootstrapSettings.IsBucketListLoaded)
+            {
+
+                using (new EditorGUILayout.HorizontalScope(GUILayout.Height(SelectionHeightPixels + SelectionTextFieldHeight)))
+                {
+                    GUILayout.Label(_labelLoading);
+                    _spinnerDrawer.Draw();
+                }
+            }
+            else
             {
                 _bucketsTextFilter.Draw();
-                _bootstrapSettings.SelectBucket(_bucketsTextFilter.ConfirmedOption);
             }
+
+            _bootstrapSettings.SelectBucket(_bucketsTextFilter.ConfirmedOption);
         }
 
         private void DrawStatus()
@@ -287,6 +330,7 @@ _bootstrapSettings.SelectedMode, _uiModes, 1, EditorStyles.radioButton);
         private void OnBucketsLoaded(IReadOnlyList<string> buckets)
         {
             _bucketsTextFilter.SetOptions(buckets);
+            Repaint();
         }
 
         private void OnStatusChanged()

@@ -13,7 +13,7 @@ namespace AmazonGameLift.Editor
         {
             string key1 = FormatBucketKey(accountId);
             string key2 = FormatBucketKey(region);
-            return $"do-not-delete-gamelift-bootstrap-{key1}-{key2}";
+            return $"gamelift-bootstrap-{key1}-{key2}";
         }
 
         /// <inheritdoc/>

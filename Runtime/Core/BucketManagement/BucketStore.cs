@@ -297,7 +297,7 @@ namespace AmazonGameLiftPlugin.Core.BucketManagement
                                 BucketName = bucketName
                             });
 
-                            if (locationResponse.HttpStatusCode == HttpStatusCode.OK && locationResponse.Location.Value == request.Region)
+                            if (locationResponse.HttpStatusCode == HttpStatusCode.OK && ToBucketRegion(locationResponse) == request.Region)
                             {
                                 buckets.Add(bucketName);
                             }
@@ -327,6 +327,20 @@ namespace AmazonGameLiftPlugin.Core.BucketManagement
                 Logger.LogError(ex, ex.Message);
 
                 return HandleAwsException(ex, () => new GetBucketsResponse());
+            }
+        }
+        private string ToBucketRegion(GetBucketLocationResponse getBucketLocationResponse)
+        {
+            string locationValue = getBucketLocationResponse.Location.Value;
+            // See: https://docs.aws.amazon.com/sdkfornet/v3/apidocs/items/S3/TS3Region.html
+            switch (locationValue)
+            {
+                case "":
+                    return "us-east-1";
+                case "EU":
+                    return "eu-west-1";
+                default:
+                    return locationValue;
             }
         }
 

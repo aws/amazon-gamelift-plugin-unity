@@ -26,6 +26,7 @@ namespace AmazonGameLift.Editor
         private GUIStyle _normalStyle;
         private GUIStyle _selectedStyle;
         private Vector2 _scrollPosition;
+        private Boolean _areOptionsUpdated = false;
 
         public string CurrentText
         {
@@ -56,6 +57,7 @@ namespace AmazonGameLift.Editor
 
             _options = value.ToList();
             _currentText = value.Count == 0 ? _defaultText : string.Empty;
+            _areOptionsUpdated = true;
         }
 
         public void Draw()
@@ -68,6 +70,12 @@ namespace AmazonGameLift.Editor
             EditorGUILayout.BeginVertical();
             {
                 _currentText = EditorGUILayout.TextField(_currentText);
+
+                if (_areOptionsUpdated)
+                {
+                    _filteredOptions = _options.ToArray();
+                    _areOptionsUpdated = false;
+                }
 
                 if (_currentText != _confirmedText)
                 {
