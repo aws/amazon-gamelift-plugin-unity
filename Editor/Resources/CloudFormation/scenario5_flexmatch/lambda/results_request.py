@@ -46,6 +46,9 @@ def handler(event, context):
         }
 
     latest_matchmaking_request = matchmaking_requests['Items'][0]
+
+    print(f'Current Matchmaking Request: {latest_matchmaking_request}')
+
     matchmaking_request_status = latest_matchmaking_request['TicketStatus']
 
     if matchmaking_request_status == MATCHMAKING_STARTED_STATUS:
@@ -58,7 +61,7 @@ def handler(event, context):
         }
     elif matchmaking_request_status == MATCHMAKING_SUCCEEDED_STATUS:
         game_session_connection_info = \
-            dict((k, latest_matchmaking_request[k]) for k in ('IpAddress', 'Port', 'DnsName', 'GameSessionArn'))
+            dict((k, latest_matchmaking_request[k]) for k in ('IpAddress', 'Port', 'DnsName', 'PlayerSessionId', 'GameSessionArn'))
         print(game_session_connection_info)
         return {
             'body': json.dumps(game_session_connection_info),

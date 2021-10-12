@@ -66,6 +66,8 @@ def handler(event, context):
         }
     ).get('Item')
 
+    print(f'Placement: {placement}')
+
     if not placement:
         # start-game-session-placement has just started and no game session event has been received
         return {
@@ -85,7 +87,18 @@ def handler(event, context):
             'statusCode': 500
         }
 
+    player_session_id = parse_player_session_id(player_id, placement)
+    if player_session_id is None:
+        # PlayerSession should always be created and present in the dynamo table for a PlacementFulfilled Event
+        return {
+            'headers': {
+                'Content-Type': 'text/plain'
+            },
+            'statusCode': 500
+        }
+
     game_session_connection_info = dict((k, placement[k]) for k in ('IpAddress', 'Port', 'DnsName', 'GameSessionArn'))
+    game_session_connection_info['PlayerSessionId'] = player_session_id
     return {
         'body': json.dumps(game_session_connection_info),
         'headers': {
@@ -93,3 +106,12 @@ def handler(event, context):
         },
         'statusCode': 200
     }
+
+def parse_player_session_id(player_id, placement):
+    player_sessions = placement['PlayerSessions']
+    print(f'Parsing PlayerSessionId for Player {player_id} in PlayerSessions: {player_sessions}')
+    for player_session in player_sessions:
+        if (player_id == player_session['playerId']) :
+            return player_session['playerSessionId']
+
+    return None
