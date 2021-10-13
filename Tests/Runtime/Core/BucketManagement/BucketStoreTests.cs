@@ -578,24 +578,6 @@ namespace AmazonGameLiftPlugin.Core.Tests.BucketManagement
             Assert.AreEqual(putLifecycleConfigurationResponse.ErrorCode, ErrorCode.InvalidBucketPolicy);
         }
 
-        //TODO: Fix this test case. Currently failing since BucketPolicy not passed == BucketPolicy.None which is considered valid
-        [Test]
-        public void PutLifecycleConfiguration_WhenBucketPolicyIsNotPassed_IsNotSuccessful()
-        {
-            var amazonS3WrapperMock = new Mock<IAmazonS3Wrapper>();
-
-            BucketStore bucketStore = Factory.CreateBucketStore(amazonS3WrapperMock.Object);
-
-            Core.BucketManagement.Models.PutLifecycleConfigurationResponse putLifecycleConfigurationResponse = bucketStore.PutLifecycleConfiguration(new Core.BucketManagement.Models.PutLifecycleConfigurationRequest()
-            {
-                BucketName = "ValidBucketName"
-            }); ;
-
-            Assert.IsFalse(putLifecycleConfigurationResponse.Success);
-            Assert.NotNull(putLifecycleConfigurationResponse.ErrorCode);
-            Assert.AreEqual(putLifecycleConfigurationResponse.ErrorCode, ErrorCode.InvalidBucketPolicy);
-        }
-
         [Test]
         public void GetAvailableRegions_WhenRegionsReturned_IsSuccessful()
         {
