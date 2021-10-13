@@ -30,11 +30,12 @@ def handler(event, context):
 
     oldest_viable_game_session = get_oldest_viable_game_session(gamelift, fleet_alias)
     if oldest_viable_game_session:
-        # TODO: GameLift currently does not support DnsName in SearchGameSessions result. This will be fixed soon.
-        # game_session_connection_info = dict((k, oldest_viable_game_session[k]) for k in ('IpAddress', 'Port', 'DnsName'))
+        player_session = create_player_session(gamelift, oldest_viable_game_session['GameSessionId'], player_id)
 
-        game_session_connection_info = dict((k, oldest_viable_game_session[k]) for k in ('IpAddress', 'Port'))
-        game_session_connection_info['GameSessionArn'] = oldest_viable_game_session['GameSessionId']
+        game_session_connection_info = dict((k, player_session[k]) for k in ('IpAddress', 'Port', 'DnsName', 'PlayerSessionId'))
+        game_session_connection_info['GameSessionArn'] = player_session['GameSessionId']
+        print(f"Connection Info: {game_session_connection_info}")
+
         return {
             'body': json.dumps(game_session_connection_info),
             'headers': {
@@ -60,3 +61,12 @@ def get_oldest_viable_game_session(gamelift, fleet_alias):
     )
     print(f"Received search game session response: {search_game_sessions_response}")
     return next(iter(search_game_sessions_response['GameSessions']), None)
+
+def create_player_session(gamelift, game_session_id, player_id):
+    print(f"Creating PlayerSession session on GameSession: {game_session_id}, PlayerId: {player_id}")
+    create_player_session_response = gamelift.create_player_session(
+        GameSessionId=game_session_id,
+        PlayerId=player_id
+    )
+    print(f"Received create player session response: {create_player_session_response}")
+    return create_player_session_response['PlayerSession']

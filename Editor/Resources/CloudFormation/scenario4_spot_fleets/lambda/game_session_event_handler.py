@@ -27,6 +27,7 @@ def handler(event, context):
     dns_name = message['detail'].get('dnsName')
     port = message['detail'].get('port')
     game_session_arn = message['detail'].get('gameSessionArn')
+    player_sessions = message['detail'].get('placedPlayerSessions')
 
     game_session_placement_table_name = os.environ['GameSessionPlacementTableName']
 
@@ -41,6 +42,7 @@ def handler(event, context):
             'DnsName': dns_name,
             'Port': port,
             'GameSessionArn': game_session_arn,
-            'ExpirationTime': start_time + DEFAULT_TTL_IN_SECONDS
+            'ExpirationTime': start_time + DEFAULT_TTL_IN_SECONDS,
+            'PlayerSessions': player_sessions
         }
     )

@@ -95,9 +95,10 @@ def main():
         print(f"Received game connection info: {game_connection_info}")
         assert game_connection_info['IpAddress'] != ''
         assert game_connection_info['Port'] > 0
-        # TODO: GameLift currently does not support DnsName in SearchGameSessions result. This will be fixed soon.
-        #assert "us-west-2" in game_connection_info['DnsName'], \
-        #    f"Expect {game_connection_info['DnsName']} to contain 'us-west-2'"
+        assert "us-west-2" in game_connection_info['DnsName'], \
+            f"Expect {game_connection_info['DnsName']} to contain 'us-west-2'"
+        assert "psess-" in game_connection_info['PlayerSessionId'], \
+            f"Expect {game_connection_info['PlayerSessionId']} to contain 'psess-'"
         assert "us-west-2" in game_connection_info['GameSessionArn'], \
             f"Expect {game_connection_info['GameSessionArn']} to contain 'us-west-2'"
         print("Verified game connection info:", game_connection_info)

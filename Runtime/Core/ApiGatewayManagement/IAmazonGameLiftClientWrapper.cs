@@ -14,6 +14,8 @@ namespace AmazonGameLiftPlugin.Core.ApiGatewayManagement
                 CancellationToken cancellationToken = default
             );
 
+        Task<CreatePlayerSessionResponse> CreatePlayerSession(CreatePlayerSessionRequest request);
+
         Task<SearchGameSessionsResponse> SearchGameSessions(SearchGameSessionsRequest request);
 
         Task<DescribeGameSessionsResponse> DescribeGameSessions(DescribeGameSessionsRequest request);

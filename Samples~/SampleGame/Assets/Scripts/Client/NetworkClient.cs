@@ -6,6 +6,8 @@ using System;
 using System.Net.Sockets;
 using System.Threading;
 using System.Threading.Tasks;
+using UnityEngine;
+
 
 public class NetworkClient
 {
@@ -36,32 +38,32 @@ public class NetworkClient
         }
     }
 
-    public bool TryConnect(string ip, int port)
+    public bool TryConnect(ConnectionInfo connectionInfo)
     {
         try
         {
-            _client = new TcpClient(ip, port);
-            string msgStr = "CONNECT: server IP " + ip;
+            _client = new TcpClient(connectionInfo.IpAddress, connectionInfo.Port);
+            string msgStr = "CONNECT:" + connectionInfo.Serialize();
             NetworkProtocol.Send(_client, msgStr);
             return true;
         }
         catch (ArgumentNullException e)
         {
             _client = null;
-            _gl.Log.WriteLine(":( CONNECT TO SERVER " + ip + " FAILED: " + e);
+            _gl.Log.WriteLine(":( CONNECT TO SERVER " + connectionInfo.IpAddress + " FAILED: " + e);
             return false;
         }
         catch (SocketException e) // server not available
         {
             _client = null;
 
-            if (ip == LocalHost)
+            if (connectionInfo.IpAddress == LocalHost)
             {
                 _gl.Log.WriteLine(":) CONNECT TO LOCAL SERVER FAILED: PROBABLY NO LOCAL SERVER RUNNING, TRYING GAMELIFT");
             }
             else
             {
-                _gl.Log.WriteLine(":( CONNECT TO SERVER " + ip + "FAILED: " + e + " (ARE YOU ON THE *AMAZON*INTERNAL*NETWORK*?)");
+                _gl.Log.WriteLine(":( CONNECT TO SERVER " + connectionInfo.IpAddress + "FAILED: " + e + " (ARE YOU ON THE *AMAZON*INTERNAL*NETWORK*?)");
             }
 
             return false;

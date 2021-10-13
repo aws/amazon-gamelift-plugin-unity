@@ -37,7 +37,7 @@ namespace AmazonGameLiftPlugin.Core.Tests.ApiGateWayManagement
 
             httpClientMock.Setup(x =>
             x.Post(request.ApiGatewayEndpoint, "RefreshedIdToken", "get_game_connection", null))
-                .ReturnsAsync((HttpStatusCode.OK, @"{""port"":""1"",""ipAddress"":""1.1""}"));
+                .ReturnsAsync((HttpStatusCode.OK, @"{""port"":""1"",""ipAddress"":""1.1"", ""playerSessionId"": ""psess-123""}"));
 
             var sut = new ApiGateway(
                     userIdentity.Object,
@@ -50,6 +50,7 @@ namespace AmazonGameLiftPlugin.Core.Tests.ApiGateWayManagement
             Assert.IsTrue(response.Success);
             Assert.AreEqual("1", response.Port);
             Assert.AreEqual("1.1", response.IpAddress);
+            Assert.AreEqual("psess-123", response.PlayerSessionId);
             Assert.AreEqual("RefreshedIdToken", response.IdToken);
             tokenHandler.Verify();
             httpClientMock.Verify();

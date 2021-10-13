@@ -39,17 +39,18 @@ public sealed class GameLiftClient : IDisposable
         return signOutResponse;
     }
 
-    public async Task<(bool success, string ip, int port)> GetConnectionInfo(CancellationToken cancellationToken = default)
+    public async Task<(bool success, ConnectionInfo connectionInfo)> GetConnectionInfo(CancellationToken cancellationToken = default)
     {
         string ip = null;
         int port = -1;
+        string playerSessionId = null;
 
         GetLatenciesResponse latenciesResponse = await Core.GetLatencies(Core.ListAvailableRegions());
         StartGameResponse startGameResponse = await Core.StartGame(ClientCredentials.IdToken, ClientCredentials.RefreshToken, latenciesResponse.RegionLatencies);
 
         if (!startGameResponse.Success && startGameResponse.ErrorCode != ErrorCode.ConflictError)
         {
-            return (success: false, ip, port);
+            return (success: false, new ConnectionInfo { IpAddress = ip, Port = port, PlayerSessionId = playerSessionId });
         }
 
         _clientCredentials.IdToken = startGameResponse.IdToken;
@@ -63,7 +64,7 @@ public sealed class GameLiftClient : IDisposable
 
             if (!connection.Success)
             {
-                return (success: false, ip, port);
+                return (success: false, new ConnectionInfo { IpAddress = ip, Port = port, PlayerSessionId = playerSessionId });
             }
 
             _clientCredentials.IdToken = connection.IdToken;
@@ -72,7 +73,8 @@ public sealed class GameLiftClient : IDisposable
             {
                 ip = connection.DnsName ?? connection.IpAddress;
                 port = int.Parse(connection.Port);
-                return (success: true, ip, port);
+                playerSessionId = connection.PlayerSessionId;
+                return (success: true, new ConnectionInfo { IpAddress = ip, Port = port, PlayerSessionId = playerSessionId });
             }
 
             await _delay.Wait(delay, cancellationToken);
@@ -81,7 +83,7 @@ public sealed class GameLiftClient : IDisposable
         }
 
         cancellationToken.ThrowIfCancellationRequested();
-        return (success: false, ip, port);
+        return (success: false, new ConnectionInfo { IpAddress = ip, Port = port, PlayerSessionId = playerSessionId });
     }
 
     public void Dispose()
