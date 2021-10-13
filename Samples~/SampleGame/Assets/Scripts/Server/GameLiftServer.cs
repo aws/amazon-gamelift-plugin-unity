@@ -90,6 +90,54 @@ public class GameLiftServer
         }
     }
 
+    public bool AcceptPlayerSession(string playerSessionId)
+    {
+        try
+        {
+            GenericOutcome outcome = GameLiftServerAPI.AcceptPlayerSession(playerSessionId);
+
+            if (outcome.Success)
+            {
+                _logger.Write(":) Accepted Player Session: " + playerSessionId);
+                return true;
+            }
+            else
+            {
+                _logger.Write(":( ACCEPT PLAYER SESSION FAILED. AcceptPlayerSession() returned " + outcome.Error.ToString());
+                return false;
+            }
+        }
+        catch (Exception e)
+        {
+            _logger.Write(":( ACCEPT PLAYER SESSION FAILED. AcceptPlayerSession() exception " + Environment.NewLine + e.Message);
+            return false;
+        }
+    }
+
+    public bool RemovePlayerSession(string playerSessionId)
+    {
+        try
+        {
+            GenericOutcome outcome = GameLiftServerAPI.RemovePlayerSession(playerSessionId);
+
+            if (outcome.Success)
+            {
+                _logger.Write(":) Removed Player Session: " + playerSessionId);
+                return true;
+            }
+            else
+            {
+                _logger.Write(":( REMOVE PLAYER SESSION FAILED. RemovePlayerSession() returned " + outcome.Error.ToString());
+                return false;
+            }
+        }
+        catch (Exception e)
+        {
+            _logger.Write(":( REMOVE PLAYER SESSION FAILED. RemovePlayerSession() exception " + Environment.NewLine + e.Message);
+            return false;
+        }
+    }
+
     private void ProcessReady()
     {
         try

@@ -54,7 +54,7 @@ namespace SampleTests.Unit
                 };
 
                 // Act
-                (bool success, string _, int _) = await underTest.GetConnectionInfo();
+                (bool success, ConnectionInfo _) = await underTest.GetConnectionInfo();
 
                 // Assert
                 coreApiMock.Verify();
@@ -90,7 +90,7 @@ namespace SampleTests.Unit
                 };
 
                 // Act
-                (bool success, string ip, int port) = await underTest.GetConnectionInfo();
+                (bool success, ConnectionInfo connectionInfo) = await underTest.GetConnectionInfo();
 
                 // Assert
                 coreApiMock.Verify();
@@ -123,6 +123,7 @@ namespace SampleTests.Unit
             {
                 const string testIp = "testIp";
                 const string testPort = "8080";
+                const string testPlayerSessionId = "psess-123";
 
                 var delayMock = new Mock<Delay>();
                 SetUpDelayMockWait(delayMock);
@@ -136,6 +137,7 @@ namespace SampleTests.Unit
                     IdToken = _credentials.IdToken,
                     IpAddress = testIp,
                     Port = testPort,
+                    PlayerSessionId = testPlayerSessionId,
                     Ready = false,
                 });
                 GetGameConnectionResponse connectionReadyResponse = Response.Ok(new GetGameConnectionResponse
@@ -143,6 +145,7 @@ namespace SampleTests.Unit
                     IdToken = _credentials.IdToken,
                     IpAddress = testIp,
                     Port = testPort,
+                    PlayerSessionId = testPlayerSessionId,
                     Ready = true,
                 });
 
@@ -162,7 +165,7 @@ namespace SampleTests.Unit
                 };
 
                 // Act
-                (bool success, string ip, int port) info = await underTest.GetConnectionInfo();
+                (bool success, ConnectionInfo connectionInfo) info = await underTest.GetConnectionInfo();
 
                 // Assert
                 coreApiMock.Verify();
@@ -171,8 +174,9 @@ namespace SampleTests.Unit
 
                 if (success)
                 {
-                    Assert.AreEqual(testIp, info.ip);
-                    Assert.AreEqual(testPort, info.port.ToString());
+                    Assert.AreEqual(testIp, info.connectionInfo.IpAddress);
+                    Assert.AreEqual(testPort, info.connectionInfo.Port.ToString());
+                    Assert.AreEqual(testPlayerSessionId, info.connectionInfo.PlayerSessionId);
                 }
             }
         }
@@ -214,12 +218,12 @@ namespace SampleTests.Unit
                 };
 
                 // Act
-                (bool success, string ip, int port) info = await underTest.GetConnectionInfo();
+                (bool success, ConnectionInfo connectionInfo) info = await underTest.GetConnectionInfo();
 
                 // Assert
                 coreApiMock.Verify();
                 delayMock.Verify();
-                Assert.AreEqual(testDns, info.ip);
+                Assert.AreEqual(testDns, info.connectionInfo.IpAddress);
             }
         }
 
