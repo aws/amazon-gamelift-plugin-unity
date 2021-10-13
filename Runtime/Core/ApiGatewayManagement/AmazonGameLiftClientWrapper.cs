@@ -32,6 +32,11 @@ namespace AmazonGameLiftPlugin.Core.ApiGatewayManagement
             return await _amazonGameLiftClient.CreateGameSessionAsync(request);
         }
 
+        public async Task<CreatePlayerSessionResponse> CreatePlayerSession(CreatePlayerSessionRequest request)
+        {
+            return await _amazonGameLiftClient.CreatePlayerSessionAsync(request);
+        }
+
         public async Task<SearchGameSessionsResponse> SearchGameSessions(SearchGameSessionsRequest request)
         {
             return await _amazonGameLiftClient.SearchGameSessionsAsync(request);
