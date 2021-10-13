@@ -1,0 +1,32 @@
+{
+    "name": "AmazonGameLiftPlugin.Runtime.UnitTests",
+    "rootNamespace": "",
+    "references": [
+        "AmazonGameLiftPlugin.Runtime",
+        "AmazonGameLiftPlugin.Runtime.Core",
+        "UnityEngine.TestRunner",
+        "UnityEditor.TestRunner"
+    ],
+    "includePlatforms": [],
+    "excludePlatforms": [],
+    "allowUnsafeCode": false,
+    "overrideReferences": true,
+    "precompiledReferences": [
+        "nunit.framework.dll",
+        "Moq.dll",
+        "AWSSDK.S3.dll",
+        "AWSSDK.Core.dll",
+        "AWSSDK.CloudFormation.dll",
+        "AWSSDK.GameLift.dll",
+        "AWSSDK.CognitoIdentityProvider.dll",
+        "AWSSDK.SecurityToken.dll",
+        "Newtonsoft.Json.dll",
+        "System.Threading.Tasks.Extensions.dll"
+    ],
+    "autoReferenced": false,
+    "defineConstraints": [
+        "UNITY_INCLUDE_TESTS"
+    ],
+    "versionDefines": [],
+    "noEngineReferences": false
+}

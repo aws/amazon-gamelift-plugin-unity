@@ -39,6 +39,39 @@ namespace AmazonGameLiftPlugin.Core.Tests.BucketManagement
                     HttpStatusCode = System.Net.HttpStatusCode.OK
                 }).Verifiable();
 
+            amazonS3WrapperMock.Setup(
+                    x => x.PutBucketVersioning(It.IsAny<PutBucketVersioningRequest>()))
+                .Returns(new PutBucketVersioningResponse()
+                {
+                    HttpStatusCode = System.Net.HttpStatusCode.OK
+                }).Verifiable();
+
+            amazonS3WrapperMock.Setup(
+                    x => x.PutBucketEncryption(It.IsAny<PutBucketEncryptionRequest>()))
+                .Returns(new PutBucketEncryptionResponse()
+                {
+                    HttpStatusCode = System.Net.HttpStatusCode.OK
+                }).Verifiable();
+            amazonS3WrapperMock.Setup(
+                    x => x.GetACL(It.IsAny<GetACLRequest>()))
+                .Returns(new GetACLResponse()
+                {
+                    AccessControlList = new S3AccessControlList(),
+                    HttpStatusCode = System.Net.HttpStatusCode.OK
+                }).Verifiable();
+            amazonS3WrapperMock.Setup(
+                    x => x.PutACL(It.IsAny<PutACLRequest>()))
+                .Returns(new PutACLResponse()
+                {
+                    HttpStatusCode = System.Net.HttpStatusCode.OK
+                }).Verifiable();
+            amazonS3WrapperMock.Setup(
+                    x => x.PutBucketLogging(It.IsAny<PutBucketLoggingRequest>()))
+                .Returns(new PutBucketLoggingResponse()
+                {
+                    HttpStatusCode = System.Net.HttpStatusCode.OK
+                }).Verifiable();
+
             BucketStore bucketStore = Factory.CreateBucketStore(amazonS3WrapperMock.Object);
 
             string validRegion = "us-west-2";
@@ -545,6 +578,7 @@ namespace AmazonGameLiftPlugin.Core.Tests.BucketManagement
             Assert.AreEqual(putLifecycleConfigurationResponse.ErrorCode, ErrorCode.InvalidBucketPolicy);
         }
 
+        //TODO: Fix this test case. Currently failing since BucketPolicy not passed == BucketPolicy.None which is considered valid
         [Test]
         public void PutLifecycleConfiguration_WhenBucketPolicyIsNotPassed_IsNotSuccessful()
         {

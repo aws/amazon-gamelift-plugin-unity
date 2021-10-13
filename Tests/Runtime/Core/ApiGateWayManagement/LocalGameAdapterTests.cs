@@ -17,7 +17,7 @@ namespace AmazonGameLiftPlugin.Core.Tests.ApiGateWayManagement
     public class LocalGameAdapterTests
     {
         [Test]
-        public async Task StartGame_WhenSearchGameSessionReturnsEmptySessions_IsSuccessful()
+        public void StartGame_WhenSearchGameSessionReturnsEmptySessions_IsSuccessful()
         {
             var amazonGameLiftClientWrapperMock = new Mock<IAmazonGameLiftClientWrapper>();
 
@@ -26,14 +26,14 @@ namespace AmazonGameLiftPlugin.Core.Tests.ApiGateWayManagement
 
             var adapter = new LocalGameAdapter(amazonGameLiftClientWrapperMock.Object);
 
-            ApiGatewayManagement.Models.StartGameResponse response = await adapter.StartGame(new ApiGatewayManagement.Models.StartGameRequest());
+            ApiGatewayManagement.Models.StartGameResponse response = adapter.StartGame(new ApiGatewayManagement.Models.StartGameRequest()).Result;
 
             amazonGameLiftClientWrapperMock.Verify();
             Assert.IsTrue(response.Success);
         }
 
         [Test]
-        public async Task StartGame_WhenSearchGameSessionReturnsExistingSession_IsSuccessful()
+        public void StartGame_WhenSearchGameSessionReturnsExistingSession_IsSuccessful()
         {
             var amazonGameLiftClientWrapperMock = new Mock<IAmazonGameLiftClientWrapper>();
 
@@ -47,14 +47,14 @@ namespace AmazonGameLiftPlugin.Core.Tests.ApiGateWayManagement
 
             var adapter = new LocalGameAdapter(amazonGameLiftClientWrapperMock.Object);
 
-            ApiGatewayManagement.Models.StartGameResponse response = await adapter.StartGame(new ApiGatewayManagement.Models.StartGameRequest());
+            ApiGatewayManagement.Models.StartGameResponse response = adapter.StartGame(new ApiGatewayManagement.Models.StartGameRequest()).Result;
 
             amazonGameLiftClientWrapperMock.Verify();
             Assert.IsTrue(response.Success);
         }
 
         [Test]
-        public async Task StartGame_WhenExceptionThrows_IsNotSuccessful()
+        public void StartGame_WhenExceptionThrows_IsNotSuccessful()
         {
             var amazonGameLiftClientWrapperMock = new Mock<IAmazonGameLiftClientWrapper>();
 
@@ -62,7 +62,7 @@ namespace AmazonGameLiftPlugin.Core.Tests.ApiGateWayManagement
 
             var adapter = new LocalGameAdapter(amazonGameLiftClientWrapperMock.Object);
 
-            ApiGatewayManagement.Models.StartGameResponse response = await adapter.StartGame(new ApiGatewayManagement.Models.StartGameRequest());
+            ApiGatewayManagement.Models.StartGameResponse response = adapter.StartGame(new ApiGatewayManagement.Models.StartGameRequest()).Result;
 
             amazonGameLiftClientWrapperMock.Verify();
             Assert.IsFalse(response.Success);
@@ -70,7 +70,7 @@ namespace AmazonGameLiftPlugin.Core.Tests.ApiGateWayManagement
         }
 
         [Test]
-        public async Task GetGameConnection_WhenSearchGameSessionReturnsEmptySessions_IsNotSuccessful()
+        public void GetGameConnection_WhenSearchGameSessionReturnsEmptySessions_IsNotSuccessful()
         {
             var amazonGameLiftClientWrapperMock = new Mock<IAmazonGameLiftClientWrapper>();
 
@@ -78,7 +78,7 @@ namespace AmazonGameLiftPlugin.Core.Tests.ApiGateWayManagement
 
             var adapter = new LocalGameAdapter(amazonGameLiftClientWrapperMock.Object);
 
-            ApiGatewayManagement.Models.GetGameConnectionResponse response = await adapter.GetGameConnection(new ApiGatewayManagement.Models.GetGameConnectionRequest());
+            ApiGatewayManagement.Models.GetGameConnectionResponse response = adapter.GetGameConnection(new ApiGatewayManagement.Models.GetGameConnectionRequest()).Result;
 
             amazonGameLiftClientWrapperMock.Verify();
             Assert.IsFalse(response.Success);
@@ -86,7 +86,7 @@ namespace AmazonGameLiftPlugin.Core.Tests.ApiGateWayManagement
         }
 
         [Test]
-        public async Task GetGameConnection_WhenSearchGameSessionReturnsSession_IsSuccessful()
+        public void GetGameConnection_WhenSearchGameSessionReturnsSession_IsSuccessful()
         {
             var amazonGameLiftClientWrapperMock = new Mock<IAmazonGameLiftClientWrapper>();
 
@@ -105,7 +105,7 @@ namespace AmazonGameLiftPlugin.Core.Tests.ApiGateWayManagement
 
             var adapter = new LocalGameAdapter(amazonGameLiftClientWrapperMock.Object);
 
-            ApiGatewayManagement.Models.GetGameConnectionResponse response = await adapter.GetGameConnection(new ApiGatewayManagement.Models.GetGameConnectionRequest());
+            ApiGatewayManagement.Models.GetGameConnectionResponse response = adapter.GetGameConnection(new ApiGatewayManagement.Models.GetGameConnectionRequest()).Result;
 
             amazonGameLiftClientWrapperMock.Verify();
             Assert.IsTrue(response.Success);
@@ -114,7 +114,7 @@ namespace AmazonGameLiftPlugin.Core.Tests.ApiGateWayManagement
         }
 
         [Test]
-        public async Task GetGameConnection_WhenExceptionThrows_IsNotSuccessful()
+        public void GetGameConnection_WhenExceptionThrows_IsNotSuccessful()
         {
             var amazonGameLiftClientWrapperMock = new Mock<IAmazonGameLiftClientWrapper>();
 
@@ -122,7 +122,7 @@ namespace AmazonGameLiftPlugin.Core.Tests.ApiGateWayManagement
 
             var adapter = new LocalGameAdapter(amazonGameLiftClientWrapperMock.Object);
 
-            ApiGatewayManagement.Models.GetGameConnectionResponse response = await adapter.GetGameConnection(new ApiGatewayManagement.Models.GetGameConnectionRequest());
+            ApiGatewayManagement.Models.GetGameConnectionResponse response = adapter.GetGameConnection(new ApiGatewayManagement.Models.GetGameConnectionRequest()).Result;
 
             amazonGameLiftClientWrapperMock.Verify();
             Assert.IsFalse(response.Success);

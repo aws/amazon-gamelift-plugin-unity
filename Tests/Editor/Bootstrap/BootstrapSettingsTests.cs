@@ -173,11 +173,16 @@ namespace AmazonGameLiftPlugin.Editor.UnitTests
             Mock<CoreApi> coreApiMock = null, Mock<BootstrapUtility> bootstrapUtilityMock = null)
         {
             coreApiMock = coreApiMock ?? new Mock<CoreApi>();
-            var currentResponse = new GetSettingResponse();
-            currentResponse = Response.Fail(currentResponse);
-            coreApiMock.Setup(target => target.GetSetting(It.IsAny<string>()))
-                .Returns(currentResponse)
-                .Verifiable();
+            
+            // GetSettings is only called if PutSettings is successful
+            if (isPutSettingSuccess)
+            {
+                var currentResponse = new GetSettingResponse();
+                currentResponse = Response.Fail(currentResponse);
+                coreApiMock.Setup(target => target.GetSetting(It.IsAny<string>()))
+                    .Returns(currentResponse)
+                    .Verifiable();
+            }
 
             var saveBucketResponse = new PutSettingResponse();
             saveBucketResponse = isPutSettingSuccess
