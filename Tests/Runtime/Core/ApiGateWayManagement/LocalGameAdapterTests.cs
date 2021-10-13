@@ -103,18 +103,30 @@ namespace AmazonGameLiftPlugin.Core.Tests.ApiGateWayManagement
                 }
             }).Verifiable();
 
+            amazonGameLiftClientWrapperMock.Setup(x => x.CreatePlayerSession(It.IsAny<CreatePlayerSessionRequest>())).ReturnsAsync(new CreatePlayerSessionResponse
+            {
+                PlayerSession = new PlayerSession
+                {
+                    IpAddress = "NonEmptyIp",
+                    DnsName = "NonEmptyDns",
+                    Port = 1,
+                    PlayerSessionId = "NonEmptyPlayerSessionId"
+                }
+            }).Verifiable();
+
             var adapter = new LocalGameAdapter(amazonGameLiftClientWrapperMock.Object);
 
             ApiGatewayManagement.Models.GetGameConnectionResponse response = adapter.GetGameConnection(new ApiGatewayManagement.Models.GetGameConnectionRequest()).Result;
 
-            amazonGameLiftClientWrapperMock.Verify();
+            amazonGameLiftClientWrapperMock.VerifyAll();
             Assert.IsTrue(response.Success);
             Assert.AreEqual(response.IpAddress, "NonEmptyIp");
             Assert.AreEqual(response.DnsName, "NonEmptyDns");
+            Assert.AreEqual(response.PlayerSessionId, "NonEmptyPlayerSessionId");
         }
 
         [Test]
-        public void GetGameConnection_WhenExceptionThrows_IsNotSuccessful()
+        public void GetGameConnection_WhenDescribeGameSessionsThrowsException_IsNotSuccessful()
         {
             var amazonGameLiftClientWrapperMock = new Mock<IAmazonGameLiftClientWrapper>();
 
@@ -125,6 +137,35 @@ namespace AmazonGameLiftPlugin.Core.Tests.ApiGateWayManagement
             ApiGatewayManagement.Models.GetGameConnectionResponse response = adapter.GetGameConnection(new ApiGatewayManagement.Models.GetGameConnectionRequest()).Result;
 
             amazonGameLiftClientWrapperMock.Verify();
+            Assert.IsFalse(response.Success);
+            Assert.AreEqual(response.ErrorCode, ErrorCode.UnknownError);
+        }
+
+        [Test]
+        public void GetGameConnection_WhenCreatePlayerSessionThrowsException_IsNotSuccessful()
+        {
+            var amazonGameLiftClientWrapperMock = new Mock<IAmazonGameLiftClientWrapper>();
+
+            amazonGameLiftClientWrapperMock.Setup(x => x.DescribeGameSessions(It.IsAny<DescribeGameSessionsRequest>())).ReturnsAsync(new DescribeGameSessionsResponse
+            {
+                GameSessions = new List<GameSession>
+                {
+                    new GameSession
+                    {
+                        IpAddress = "NonEmptyIp",
+                        DnsName = "NonEmptyDns",
+                        Port = 1
+                    }
+                }
+            }).Verifiable();
+            
+            amazonGameLiftClientWrapperMock.Setup(x => x.CreatePlayerSession(It.IsAny<CreatePlayerSessionRequest>())).Throws(new Exception("Unknown Exception")).Verifiable();
+
+            var adapter = new LocalGameAdapter(amazonGameLiftClientWrapperMock.Object);
+
+            ApiGatewayManagement.Models.GetGameConnectionResponse response = adapter.GetGameConnection(new ApiGatewayManagement.Models.GetGameConnectionRequest()).Result;
+
+            amazonGameLiftClientWrapperMock.VerifyAll();
             Assert.IsFalse(response.Success);
             Assert.AreEqual(response.ErrorCode, ErrorCode.UnknownError);
         }
