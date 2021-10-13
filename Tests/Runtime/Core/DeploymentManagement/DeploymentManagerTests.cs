@@ -968,7 +968,9 @@ namespace AmazonGameLiftPlugin.Core.Tests.DeploymentManagement
 
             fileWrapperMock.Setup(x => x.FileExists(It.IsAny<string>())).Returns(true).Verifiable();
 
-            s3WrapperMock.Setup(x => x.PutObject(It.IsAny<PutObjectRequest>())).Throws(new AmazonS3Exception(new Exception())).Verifiable();
+            s3WrapperMock.Setup(x => x.PutObject(It.IsAny<PutObjectRequest>())).Throws(
+                new AmazonS3Exception("S3Exception", Amazon.Runtime.ErrorType.Sender, "S3Exception", 
+                "", System.Net.HttpStatusCode.BadRequest)).Verifiable();
 
             var deploymentManager = new DeploymentManager(
                     amazonCloudFomrationClientMock.Object,
@@ -1057,7 +1059,9 @@ namespace AmazonGameLiftPlugin.Core.Tests.DeploymentManagement
             var fileWrapperMock = new Mock<IFileWrapper>();
             var fileZipMock = new Mock<IFileZip>();
 
-            amazonCloudFomrationClientMock.Setup(x => x.CancelDeployment(It.IsAny<CancelUpdateStackRequest>())).Throws(new AmazonCloudFormationException("StackDoesNotExist")).Verifiable();
+            amazonCloudFomrationClientMock.Setup(x => x.CancelDeployment(It.IsAny<CancelUpdateStackRequest>())).Throws(
+                new AmazonCloudFormationException("StackDoesNotExist", Amazon.Runtime.ErrorType.Sender, "StackDoesNotExist", 
+                "", System.Net.HttpStatusCode.BadRequest)).Verifiable();
 
             var deploymentManager = new DeploymentManager(
                     amazonCloudFomrationClientMock.Object,
@@ -1086,7 +1090,9 @@ namespace AmazonGameLiftPlugin.Core.Tests.DeploymentManagement
             var fileWrapperMock = new Mock<IFileWrapper>();
             var fileZipMock = new Mock<IFileZip>();
 
-            amazonCloudFomrationClientMock.Setup(x => x.CancelDeployment(It.IsAny<CancelUpdateStackRequest>())).Throws(new TokenAlreadyExistsException("StackDoesNotExist")).Verifiable();
+            amazonCloudFomrationClientMock.Setup(x => x.CancelDeployment(It.IsAny<CancelUpdateStackRequest>())).Throws(
+                new TokenAlreadyExistsException("TokenAlreadyExists", Amazon.Runtime.ErrorType.Sender, "TokenAlreadyExists", 
+                "", System.Net.HttpStatusCode.BadRequest)).Verifiable();
 
             var deploymentManager = new DeploymentManager(
                     amazonCloudFomrationClientMock.Object,
@@ -1167,7 +1173,9 @@ namespace AmazonGameLiftPlugin.Core.Tests.DeploymentManagement
             var fileWrapperMock = new Mock<IFileWrapper>();
             var fileZipMock = new Mock<IFileZip>();
 
-            amazonCloudFomrationClientMock.Setup(x => x.DeleteChangeSet(It.IsAny<DeleteChangeSetRequest>())).Throws(new AmazonCloudFormationException("StackDoesNotExist")).Verifiable();
+            amazonCloudFomrationClientMock.Setup(x => x.DeleteChangeSet(It.IsAny<DeleteChangeSetRequest>())).Throws(
+                new AmazonCloudFormationException("StackDoesNotExist", Amazon.Runtime.ErrorType.Sender, "StackDoesNotExist",
+                "", System.Net.HttpStatusCode.BadRequest)).Verifiable();
 
             var deploymentManager = new DeploymentManager(
                     amazonCloudFomrationClientMock.Object,
@@ -1197,7 +1205,9 @@ namespace AmazonGameLiftPlugin.Core.Tests.DeploymentManagement
             var fileWrapperMock = new Mock<IFileWrapper>();
             var fileZipMock = new Mock<IFileZip>();
 
-            amazonCloudFomrationClientMock.Setup(x => x.DeleteChangeSet(It.IsAny<DeleteChangeSetRequest>())).Throws(new InvalidChangeSetStatusException("StackDoesNotExist")).Verifiable();
+            amazonCloudFomrationClientMock.Setup(x => x.DeleteChangeSet(It.IsAny<DeleteChangeSetRequest>())).Throws(
+                new InvalidChangeSetStatusException("InvalidChangeSetStatus", Amazon.Runtime.ErrorType.Sender, "InvalidChangeSetStatus", 
+                "", System.Net.HttpStatusCode.BadRequest)).Verifiable();
 
             var deploymentManager = new DeploymentManager(
                     amazonCloudFomrationClientMock.Object,
@@ -1279,7 +1289,9 @@ namespace AmazonGameLiftPlugin.Core.Tests.DeploymentManagement
             var fileWrapperMock = new Mock<IFileWrapper>();
             var fileZipMock = new Mock<IFileZip>();
 
-            amazonCloudFomrationClientMock.Setup(x => x.DeleteStack(It.IsAny<DeleteStackRequest>())).Throws(new AmazonCloudFormationException("StackDoesNotExist")).Verifiable();
+            amazonCloudFomrationClientMock.Setup(x => x.DeleteStack(It.IsAny<DeleteStackRequest>())).Throws(
+                new AmazonCloudFormationException("StackDoesNotExist", Amazon.Runtime.ErrorType.Sender, "StackDoesNotExist",
+                "", System.Net.HttpStatusCode.BadRequest)).Verifiable();
 
             var deploymentManager = new DeploymentManager(
                     amazonCloudFomrationClientMock.Object,
@@ -1308,7 +1320,9 @@ namespace AmazonGameLiftPlugin.Core.Tests.DeploymentManagement
             var fileWrapperMock = new Mock<IFileWrapper>();
             var fileZipMock = new Mock<IFileZip>();
 
-            amazonCloudFomrationClientMock.Setup(x => x.DeleteStack(It.IsAny<DeleteStackRequest>())).Throws(new TokenAlreadyExistsException("")).Verifiable();
+            amazonCloudFomrationClientMock.Setup(x => x.DeleteStack(It.IsAny<DeleteStackRequest>())).Throws(
+                new TokenAlreadyExistsException("TokenAlreadyExists", Amazon.Runtime.ErrorType.Sender, "TokenAlreadyExists",
+                "", System.Net.HttpStatusCode.BadRequest)).Verifiable();
 
             var deploymentManager = new DeploymentManager(
                     amazonCloudFomrationClientMock.Object,

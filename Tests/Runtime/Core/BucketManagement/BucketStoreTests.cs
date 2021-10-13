@@ -39,6 +39,39 @@ namespace AmazonGameLiftPlugin.Core.Tests.BucketManagement
                     HttpStatusCode = System.Net.HttpStatusCode.OK
                 }).Verifiable();
 
+            amazonS3WrapperMock.Setup(
+                    x => x.PutBucketVersioning(It.IsAny<PutBucketVersioningRequest>()))
+                .Returns(new PutBucketVersioningResponse()
+                {
+                    HttpStatusCode = System.Net.HttpStatusCode.OK
+                }).Verifiable();
+
+            amazonS3WrapperMock.Setup(
+                    x => x.PutBucketEncryption(It.IsAny<PutBucketEncryptionRequest>()))
+                .Returns(new PutBucketEncryptionResponse()
+                {
+                    HttpStatusCode = System.Net.HttpStatusCode.OK
+                }).Verifiable();
+            amazonS3WrapperMock.Setup(
+                    x => x.GetACL(It.IsAny<GetACLRequest>()))
+                .Returns(new GetACLResponse()
+                {
+                    AccessControlList = new S3AccessControlList(),
+                    HttpStatusCode = System.Net.HttpStatusCode.OK
+                }).Verifiable();
+            amazonS3WrapperMock.Setup(
+                    x => x.PutACL(It.IsAny<PutACLRequest>()))
+                .Returns(new PutACLResponse()
+                {
+                    HttpStatusCode = System.Net.HttpStatusCode.OK
+                }).Verifiable();
+            amazonS3WrapperMock.Setup(
+                    x => x.PutBucketLogging(It.IsAny<PutBucketLoggingRequest>()))
+                .Returns(new PutBucketLoggingResponse()
+                {
+                    HttpStatusCode = System.Net.HttpStatusCode.OK
+                }).Verifiable();
+
             BucketStore bucketStore = Factory.CreateBucketStore(amazonS3WrapperMock.Object);
 
             string validRegion = "us-west-2";
@@ -538,23 +571,6 @@ namespace AmazonGameLiftPlugin.Core.Tests.BucketManagement
             {
                 BucketName = "ValidBucketName",
                 BucketPolicy = (BucketPolicy)invalidBucketPolicy
-            }); ;
-
-            Assert.IsFalse(putLifecycleConfigurationResponse.Success);
-            Assert.NotNull(putLifecycleConfigurationResponse.ErrorCode);
-            Assert.AreEqual(putLifecycleConfigurationResponse.ErrorCode, ErrorCode.InvalidBucketPolicy);
-        }
-
-        [Test]
-        public void PutLifecycleConfiguration_WhenBucketPolicyIsNotPassed_IsNotSuccessful()
-        {
-            var amazonS3WrapperMock = new Mock<IAmazonS3Wrapper>();
-
-            BucketStore bucketStore = Factory.CreateBucketStore(amazonS3WrapperMock.Object);
-
-            Core.BucketManagement.Models.PutLifecycleConfigurationResponse putLifecycleConfigurationResponse = bucketStore.PutLifecycleConfiguration(new Core.BucketManagement.Models.PutLifecycleConfigurationRequest()
-            {
-                BucketName = "ValidBucketName"
             }); ;
 
             Assert.IsFalse(putLifecycleConfigurationResponse.Success);

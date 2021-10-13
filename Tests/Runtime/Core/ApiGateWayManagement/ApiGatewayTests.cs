@@ -18,7 +18,7 @@ namespace AmazonGameLiftPlugin.Core.Tests.ApiGateWayManagement
     public class ApiGatewayTests
     {
         [Test]
-        public async Task GetGameConnection_WhenValidParametersIsPassed_IsSuccessful()
+        public void GetGameConnection_WhenValidParametersIsPassed_IsSuccessful()
         {
             var request = new GetGameConnectionRequest
             {
@@ -45,7 +45,7 @@ namespace AmazonGameLiftPlugin.Core.Tests.ApiGateWayManagement
                     httpClientMock.Object
                 );
 
-            GetGameConnectionResponse response = await sut.GetGameConnection(request);
+            GetGameConnectionResponse response = sut.GetGameConnection(request).Result;
 
             Assert.IsTrue(response.Success);
             Assert.AreEqual("1", response.Port);
@@ -56,7 +56,7 @@ namespace AmazonGameLiftPlugin.Core.Tests.ApiGateWayManagement
         }
 
         [Test]
-        public async Task GetGameConnection_WhenLambdaReturnsNotReady_ReturnsNotReady()
+        public void GetGameConnection_WhenLambdaReturnsNotReady_ReturnsNotReady()
         {
             var request = new GetGameConnectionRequest
             {
@@ -83,7 +83,7 @@ namespace AmazonGameLiftPlugin.Core.Tests.ApiGateWayManagement
                     httpClientMock.Object
                 );
 
-            GetGameConnectionResponse response = await sut.GetGameConnection(request);
+            GetGameConnectionResponse response = sut.GetGameConnection(request).Result;
 
             Assert.IsTrue(response.Success);
             Assert.IsFalse(response.Ready);
@@ -95,7 +95,7 @@ namespace AmazonGameLiftPlugin.Core.Tests.ApiGateWayManagement
         [TestCase("NonEmpty", "", "NonEmpty", "NonEmpty")]
         [TestCase("NonEmpty", "NonEmpty", "", "NonEmpty")]
         [TestCase("NonEmpty", "NonEmpty", "NonEmpty", "")]
-        public async Task GetGameConnection_WhenInValidParametersIsPassed_IsNotSuccessful(
+        public  void GetGameConnection_WhenInValidParametersIsPassed_IsNotSuccessful(
                 string apiGatewayEndpoint,
                 string clientId,
                 string idToken,
@@ -120,14 +120,14 @@ namespace AmazonGameLiftPlugin.Core.Tests.ApiGateWayManagement
                     httpClientMock.Object
                 );
 
-            GetGameConnectionResponse response = await sut.GetGameConnection(request);
+            GetGameConnectionResponse response = sut.GetGameConnection(request).Result;
 
             Assert.IsFalse(response.Success);
             Assert.AreEqual(ErrorCode.InvalidParameters, response.ErrorCode);
         }
 
         [Test]
-        public async Task GetGameConnection_WhenIdTokenIsInvalid_IsNotSuccessful()
+        public void GetGameConnection_WhenIdTokenIsInvalid_IsNotSuccessful()
         {
             var request = new GetGameConnectionRequest
             {
@@ -150,7 +150,7 @@ namespace AmazonGameLiftPlugin.Core.Tests.ApiGateWayManagement
                     httpClientMock.Object
                 );
 
-            GetGameConnectionResponse response = await sut.GetGameConnection(request);
+            GetGameConnectionResponse response = sut.GetGameConnection(request).Result;
 
             tokenHandler.Verify();
             Assert.IsFalse(response.Success);
@@ -158,7 +158,7 @@ namespace AmazonGameLiftPlugin.Core.Tests.ApiGateWayManagement
         }
 
         [Test]
-        public async Task GetGameConnection_WhenApiGatewayReturnsFailure_IsNotSuccessful()
+        public void GetGameConnection_WhenApiGatewayReturnsFailure_IsNotSuccessful()
         {
             var request = new GetGameConnectionRequest
             {
@@ -182,14 +182,14 @@ namespace AmazonGameLiftPlugin.Core.Tests.ApiGateWayManagement
                 );
 
 
-            GetGameConnectionResponse response = await sut.GetGameConnection(request);
+            GetGameConnectionResponse response = sut.GetGameConnection(request).Result;
 
             Assert.IsFalse(response.Success);
             tokenHandler.Verify();
         }
 
         [Test]
-        public async Task StartGame_WhenValidParametersIsPassed_IsSuccessful()
+        public void StartGame_WhenValidParametersIsPassed_IsSuccessful()
         {
             var request = new StartGameRequest
             {
@@ -215,7 +215,7 @@ namespace AmazonGameLiftPlugin.Core.Tests.ApiGateWayManagement
                     httpClientMock.Object
                 );
 
-            StartGameResponse response = await sut.StartGame(request);
+            StartGameResponse response = sut.StartGame(request).Result;
 
             Assert.IsTrue(response.Success);
             Assert.AreEqual("RefreshedIdToken", response.IdToken);
@@ -227,7 +227,7 @@ namespace AmazonGameLiftPlugin.Core.Tests.ApiGateWayManagement
         [TestCase("NonEmpty", "", "NonEmpty", "NonEmpty")]
         [TestCase("NonEmpty", "NonEmpty", "", "NonEmpty")]
         [TestCase("NonEmpty", "NonEmpty", "NonEmpty", "")]
-        public async Task StartGame_WhenInValidParametersIsPassed_IsNotSuccessful(
+        public void StartGame_WhenInValidParametersIsPassed_IsNotSuccessful(
                 string apiGatewayEndpoint,
                 string clientId,
                 string idToken,
@@ -252,14 +252,14 @@ namespace AmazonGameLiftPlugin.Core.Tests.ApiGateWayManagement
                     httpClientMock.Object
                 );
 
-            StartGameResponse response = await sut.StartGame(request);
+            StartGameResponse response = sut.StartGame(request).Result;
 
             Assert.IsFalse(response.Success);
             Assert.AreEqual(ErrorCode.InvalidParameters, response.ErrorCode);
         }
 
         [Test]
-        public async Task StartGame_WhenIdTokenIsInvalid_IsNotSuccessful()
+        public void StartGame_WhenIdTokenIsInvalid_IsNotSuccessful()
         {
             var request = new StartGameRequest
             {
@@ -282,7 +282,7 @@ namespace AmazonGameLiftPlugin.Core.Tests.ApiGateWayManagement
                     httpClientMock.Object
                 );
 
-            StartGameResponse response = await sut.StartGame(request);
+            StartGameResponse response = sut.StartGame(request).Result;
 
             tokenHandler.Verify();
             Assert.IsFalse(response.Success);
@@ -290,7 +290,7 @@ namespace AmazonGameLiftPlugin.Core.Tests.ApiGateWayManagement
         }
 
         [Test]
-        public async Task StartGame_WhenApiGatewayReturnsFailure_IsNotSuccessful()
+        public void StartGame_WhenApiGatewayReturnsFailure_IsNotSuccessful()
         {
             var request = new StartGameRequest
             {
@@ -314,14 +314,14 @@ namespace AmazonGameLiftPlugin.Core.Tests.ApiGateWayManagement
                 );
 
 
-            StartGameResponse response = await sut.StartGame(request);
+            StartGameResponse response = sut.StartGame(request).Result;
 
             Assert.IsFalse(response.Success);
             tokenHandler.Verify();
         }
 
         [Test]
-        public async Task StartGame_WhenApiGatewayReturnsConflict_IsNotSuccessfulAndCodeConflict()
+        public void StartGame_WhenApiGatewayReturnsConflict_IsNotSuccessfulAndCodeConflict()
         {
             var request = new StartGameRequest
             {
@@ -347,7 +347,7 @@ namespace AmazonGameLiftPlugin.Core.Tests.ApiGateWayManagement
                     httpClientMock.Object
                 );
 
-            StartGameResponse response = await sut.StartGame(request);
+            StartGameResponse response = sut.StartGame(request).Result;
 
             Assert.IsFalse(response.Success);
             Assert.AreEqual(ErrorCode.ConflictError, response.ErrorCode);
