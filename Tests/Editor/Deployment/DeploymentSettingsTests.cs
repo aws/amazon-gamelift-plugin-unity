@@ -43,7 +43,7 @@ namespace AmazonGameLiftPlugin.Editor.UnitTests
             underTest.Restore();
 
             // Assert
-            Assert.AreEqual(coreSuccess ? testIndex1 : 0, underTest.ScenarioIndex);
+            Assert.AreEqual(coreSuccess ? testIndex1 : 1, underTest.ScenarioIndex);
         }
 
         [Test]

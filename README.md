@@ -234,10 +234,12 @@ rights on your machine:
     4. Check ".NET 4.5 Framework targeting pack", and press "Modify".
 * .NET 4.7.1 Developer Pack to build AmazonGameLiftPlugin.Core. This can be downloaded
   at https://dotnet.microsoft.com/download/visual-studio-sdks, or as a part of MS Visual Studio.
+* NodeJS/npm: https://nodejs.org/en/download/
 
 ### How to make changes to the plugin?
 
 1. Clone the **amazon-gamelift-plugin-unity** repository from GitHub
+1. Run `Scripts~\windows\release.ps1` to build the plugin and dependent libraries (only needed once)
 1. In Unity Hub, create a new project
 1. Open Unity Package Manager, import project from disk, and select the `package.json` located in the project root
 1. Setup code debugging in Unity: https://docs.unity3d.com/Manual/ManagedCodeDebugging.html, and change Unity project to 
@@ -261,6 +263,21 @@ The redistributable Plug-in files are located at **GameLift-Unity\Assets\com.ama
 the sample game, open the GameLift-SampleGame project in Unity and run the main menu command at **Assets > Export
 Sample**. If you want to update the custom scenario sample, open the GameLift-Unity project in Unity and run the main
 menu command at **Assets > Export Custom Scenario**.
+
+### How to Run Tests
+
+In order to run the plugin tests (after importing the plugin into your project), the package must be enabled for testing. To do this, follow instructions in [Unity Docs](https://docs.unity3d.com/Manual/cus-tests.html#tests) or:
+
+1. Open the Project manifest (located at <project>/Packages/manifest.json)
+1. Verify `com.amazonaws.gamelift` is present as a dependency.
+1. Add to the bottom of the file:
+
+````
+    "testables": [ "com.amazonaws.gamelift" ]
+````
+
+After enabling testing, the project tests can be ran via [Unity Test Runner](https://docs.unity3d.com/2017.4/Documentation/Manual/testing-editortestsrunner.html)
+
 
 ## License
 

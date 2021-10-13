@@ -17,7 +17,7 @@ namespace AmazonGameLiftPlugin.Core.Tests.Latency
     public class LatencyServiceTests
     {
         [Test]
-        public async Task GetLatencies_WhenEndpointIsAccessible_CalculatesCorrectAverageLatencyAndReturns()
+        public void GetLatencies_WhenEndpointIsAccessible_CalculatesCorrectAverageLatencyAndReturns()
         {
             var pingWrapperMock = new Mock<IPingWrapper>();
 
@@ -51,13 +51,13 @@ namespace AmazonGameLiftPlugin.Core.Tests.Latency
             var sut = new LatencyService(pingWrapperMock.Object);
 
             GetLatenciesResponse response =
-                await sut.GetLatencies(new GetLatenciesRequest
+                sut.GetLatencies(new GetLatenciesRequest
                 {
                     Regions = new List<string>()
                     {
                         "us-east-1"
                     }
-                });
+                }).Result;
 
             Assert.IsTrue(response.Success);
             Assert.AreEqual(1, response.RegionLatencies.Count);
@@ -66,41 +66,41 @@ namespace AmazonGameLiftPlugin.Core.Tests.Latency
         }
 
         [Test]
-        public async Task GetLatencies_WhenRegionIsNull_IsNotSuccessful()
+        public void GetLatencies_WhenRegionIsNull_IsNotSuccessful()
         {
             var pingWrapperMock = new Mock<IPingWrapper>();
 
             var sut = new LatencyService(pingWrapperMock.Object);
 
             GetLatenciesResponse response =
-                await sut.GetLatencies(new GetLatenciesRequest
+                sut.GetLatencies(new GetLatenciesRequest
                 {
                     Regions = null
-                });
+                }).Result;
 
             Assert.IsFalse(response.Success);
             Assert.AreEqual(ErrorCode.InvalidParameters, response.ErrorCode);
         }
 
         [Test]
-        public async Task GetLatencies_WhenRegionIsEmpty_IsNotSuccessful()
+        public void GetLatencies_WhenRegionIsEmpty_IsNotSuccessful()
         {
             var pingWrapperMock = new Mock<IPingWrapper>();
 
             var sut = new LatencyService(pingWrapperMock.Object);
 
             GetLatenciesResponse response =
-                await sut.GetLatencies(new GetLatenciesRequest
+                sut.GetLatencies(new GetLatenciesRequest
                 {
                     Regions = new List<string>()
-                });
+                }).Result;
 
             Assert.IsFalse(response.Success);
             Assert.AreEqual(ErrorCode.InvalidParameters, response.ErrorCode);
         }
 
         [Test]
-        public async Task GetLatencies_WhenPingThrows_IsNotSuccessful()
+        public void GetLatencies_WhenPingThrows_IsNotSuccessful()
         {
             var pingWrapperMock = new Mock<IPingWrapper>();
 
@@ -110,10 +110,10 @@ namespace AmazonGameLiftPlugin.Core.Tests.Latency
             var sut = new LatencyService(pingWrapperMock.Object);
 
             GetLatenciesResponse response =
-                await sut.GetLatencies(new GetLatenciesRequest
+                sut.GetLatencies(new GetLatenciesRequest
                 {
                     Regions = new List<string> { "us-east-1" }
-                });
+                }).Result;
 
             Assert.IsFalse(response.Success);
             Assert.AreEqual(ErrorCode.UnknownError, response.ErrorCode);
