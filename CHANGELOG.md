@@ -1,5 +1,18 @@
 CHANGELOG
 
+# 1.1.1 (10/13/2021)
+- Deployment Scenario
+    - Add support to create player session in "Single Region Fleet" deployment scenario
+	- Pass back player session ID in all get_game_connection responses
+- Sample Game
+    - Sample game client now accepts player session ID from get_game_connection responses and pass it to the game server
+	  after establishing a connection
+    - Sample game server now accepts player session ID from client and call AcceptPlayerSession with the provided ID. 
+	  This fixes deployment scenarios not accounting for fulfilled player session slots
+- Testing
+    - Added assembly definition to run plugin unit tests via the Unity test runner
+	- Fixed some unit tests
+
 # 1.1.0 (09/28/2021)
 - Files
 	- Update project file structure to comply with [Unity standards](https://docs.unity3d.com/Manual/CustomPackages.html)
