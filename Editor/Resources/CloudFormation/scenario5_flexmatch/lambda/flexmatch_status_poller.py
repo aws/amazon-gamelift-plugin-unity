@@ -78,6 +78,12 @@ def handler(event, context):
                         }
                     })
                     if ticket_status == 'COMPLETED':
+                        # parse the playerSessionId
+                        matched_player_sessions = ticket.get('GameSessionConnectionInfo', {}).get('MatchedPlayerSessions')
+                        player_session_id = None
+                        if matched_player_sessions is not None and len(matched_player_sessions) == 1:
+                            player_session_id = matched_player_sessions[0].get('PlayerSessionId')
+
                         attribute_updates.update({
                             'IpAddress': {
                                 'Value': ticket.get('GameSessionConnectionInfo', {}).get('IpAddress')
@@ -90,6 +96,9 @@ def handler(event, context):
                             },
                             'GameSessionArn': {
                                 'Value': str(ticket.get('GameSessionConnectionInfo', {}).get('GameSessionArn'))
+                            },
+                            'PlayerSessionId': {
+                                'Value' : str(player_session_id)
                             }
                         })
                 else:

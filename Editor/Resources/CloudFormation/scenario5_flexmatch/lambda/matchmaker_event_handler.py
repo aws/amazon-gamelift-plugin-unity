@@ -39,6 +39,8 @@ def handler(event, context):
     dns_name = message['detail']['gameSessionInfo'].get('dnsName')
     port = str(message['detail']['gameSessionInfo'].get('port'))
     game_session_arn = str(message['detail']['gameSessionInfo'].get('gameSessionArn'))
+    players = message['detail']['gameSessionInfo']['players']
+    players_map = {player.get('playerId'):player.get('playerSessionId') for player in players}
 
     ticket_id_index_name = os.environ['TicketIdIndexName']
 
@@ -59,6 +61,8 @@ def handler(event, context):
 
         matchmaking_request_status = matchmaking_requests['Items'][0]['TicketStatus']
         player_id = matchmaking_requests['Items'][0]['PlayerId']
+        player_session_id = players_map.get(player_id)
+        print(f'Processing Ticket: {ticket_id}, PlayerId: {player_id}, PlayerSessionId: {player_session_id}')
         matchmaking_request_start_time = matchmaking_requests['Items'][0]['StartTime']
 
         if matchmaking_request_status != MATCHMAKING_STARTED_STATUS:
@@ -88,6 +92,9 @@ def handler(event, context):
                 },
                 'GameSessionArn': {
                     'Value': game_session_arn
+                },
+                'PlayerSessionId': {
+                    'Value': player_session_id
                 }
             })
 

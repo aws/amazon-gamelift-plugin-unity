@@ -14,6 +14,7 @@ namespace AmazonGameLiftPlugin.Core.ApiGatewayManagement
     {
         private readonly IAmazonGameLiftClientWrapper _amazonGameLiftClientWrapper;
         private readonly string _fleetId = "fleet-123";
+        private readonly string _playerIdPrefix = "playerId-";
 
         public LocalGameAdapter(IAmazonGameLiftClientWrapper amazonGameLiftClientWrapper)
         {
@@ -33,11 +34,19 @@ namespace AmazonGameLiftPlugin.Core.ApiGatewayManagement
                 {
                     Amazon.GameLift.Model.GameSession oldestGameSession = describeGameSessionsResponse.GameSessions.First();
 
+                    Amazon.GameLift.Model.CreatePlayerSessionResponse createPlayerSessionResponse = await _amazonGameLiftClientWrapper.CreatePlayerSession(new Amazon.GameLift.Model.CreatePlayerSessionRequest
+                    {
+                        GameSessionId = oldestGameSession.GameSessionId,
+                        PlayerId = _playerIdPrefix + Guid.NewGuid().ToString()
+                    });
+                    Amazon.GameLift.Model.PlayerSession playerSession = createPlayerSessionResponse.PlayerSession;
+
                     var response = new GetGameConnectionResponse
                     {
-                        IpAddress = oldestGameSession.IpAddress,
-                        DnsName = oldestGameSession.DnsName,
-                        Port = oldestGameSession.Port.ToString(),
+                        IpAddress = playerSession.IpAddress,
+                        DnsName = playerSession.DnsName,
+                        Port = playerSession.Port.ToString(),
+                        PlayerSessionId = playerSession.PlayerSessionId,
                         Ready = true
                     };
 

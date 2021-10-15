@@ -159,6 +159,7 @@ namespace AmazonGameLiftPlugin.Core.ApiGatewayManagement
                         IpAddress = result.IpAddress,
                         DnsName = result.DnsName,
                         Port = result.Port,
+                        PlayerSessionId = result.PlayerSessionId,
                         IdToken = token
                     });
                 }
