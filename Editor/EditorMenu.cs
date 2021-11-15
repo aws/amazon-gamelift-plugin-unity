@@ -82,6 +82,9 @@ namespace AmazonGameLift.Editor
             {
                 Selection.activeObject = sdk;
                 EditorGUIUtility.PingObject(sdk);
+            } else {
+                Debug.LogError($"Cannot find GameLift SDK DLL in asset path: {filePackagePath}. "
+                        + "Try downloading the Plugin package and import again.");
             }
         }
     }
