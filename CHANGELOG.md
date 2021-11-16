@@ -1,5 +1,10 @@
 CHANGELOG
 
+# 1.2.1 (11/15/2021)
+
+- Mac OS Support
+    - Fix "Ping SDK" button not showing the SDK DLL in Mac OS
+
 # 1.1.1 (10/13/2021)
 
 - Deployment Scenario
