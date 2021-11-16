@@ -2,5 +2,7 @@
 *.dll
 *.unitypackage
 *.tgz
-*.meta
+*.tgz.meta
+*.iml
+*.iml.meta
 SampleGameBuildLog.txt
