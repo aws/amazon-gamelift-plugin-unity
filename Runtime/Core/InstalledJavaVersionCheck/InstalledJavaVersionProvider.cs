@@ -23,7 +23,7 @@ namespace AmazonGameLiftPlugin.Core.JavaCheck
         public CheckInstalledJavaVersionResponse CheckInstalledJavaVersion(CheckInstalledJavaVersionRequest request)
         {
             var processStartInfo = new ProcessStartInfo();
-            processStartInfo.FileName = "java.exe";
+            processStartInfo.FileName = "java";
             processStartInfo.Arguments = " -version";
             processStartInfo.RedirectStandardError = true;
             processStartInfo.UseShellExecute = false;

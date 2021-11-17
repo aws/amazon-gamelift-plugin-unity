@@ -28,12 +28,8 @@ namespace AmazonGameLift.Editor
             _settings.CredentialsSetting.IsConfigured
             && _settings.BootstrapSetting.IsConfigured;
 
-        // TODO (GLIFT-15531, issue #9) Re-enable JRE/JDK check to enable local testing UI
-        // See: https://github.com/awslabs/amazon-gamelift-plugin-unity/issues/9
-        // public bool CanRunLocalTest => _settings.GameLiftLocalSetting.IsConfigured
-        //     && _settings.JavaSetting.IsConfigured;
-        public bool CanRunLocalTest =>
-            _settings.GameLiftLocalSetting.IsConfigured;
+        public bool CanRunLocalTest => _settings.GameLiftLocalSetting.IsConfigured
+            && _settings.JavaSetting.IsConfigured;
 
         public SettingsState(Settings settings, TextProvider textProvider)
         {
