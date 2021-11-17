@@ -4,6 +4,7 @@ CHANGELOG
 
 - Mac OS Support
     - Fix "Ping SDK" button not showing the SDK DLL in Mac OS
+    - Fix JRE/JDK not detectable in Mac OS
 
 # 1.1.1 (10/13/2021)
 
