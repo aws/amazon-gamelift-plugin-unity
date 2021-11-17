@@ -231,7 +231,7 @@ namespace AmazonGameLift.Editor
             {
                 _model.BuildFolderPath = _controlDrawer.DrawFolderPathField(_labelBuildFolderPath,
                     _model.BuildFolderPath, _labelDefaultFolderName, _titleServerFolderDialog);
-                _model.BuildFilePath = _controlDrawer.DrawFilePathField(_labelBuildFilePath, _model.BuildFilePath, "*", _titleServerFileDialog);
+                _model.BuildFilePath = _controlDrawer.DrawFilePathField(_labelBuildFilePath, _model.BuildFilePath, "exe", _titleServerFileDialog);
             }
 
             GUILayout.Space(VerticalSpacingPixels);
