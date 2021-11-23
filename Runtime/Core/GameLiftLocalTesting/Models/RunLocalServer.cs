@@ -9,6 +9,8 @@ namespace AmazonGameLiftPlugin.Core.GameLiftLocalTesting.Models
     {
         public string FilePath { get; set; }
         public bool ShowWindow { get; set; }
+        public string ApplicationProductName { get; set; }
+        public LocalOperatingSystem LocalOperatingSystem { get; set; }
     }
 
     public class RunLocalServerResponse : Response
