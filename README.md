@@ -73,7 +73,7 @@ see [Integrating Games with the Amazon GameLift Plug-in for Unity](https://docs.
    Open.
 6. Once the plug-in is loaded, **GameLift** will be added as a new option on the Unity top menu bar. It may take a few
    minutes to install and recompile scripts. The **GameLift Plug-in Settings** tab will automatically open once the
-   installation and compliation complete.
+   installation and compilation complete.
 7. Go to **GameLift Plug-in Settings > SDK** tab, choose **Use .NET 4.x**. This will override the current API
    compatibility level to 4.x for the Unity project Player Settings. This is required because GameLift Server SDK only
    supports .NET 4.5 currently.
@@ -81,7 +81,7 @@ see [Integrating Games with the Amazon GameLift Plug-in for Unity](https://docs.
 ## Setting up for Local Testing
 
 1. In Unity, on the **GameLift Plug-in Settings**, select **Test** tab, then **Download GameLift Local**. This will
-   automatically open your web browser and ask where you would like the the testing tools to be
+   automatically open your web browser and ask where you would like the testing tools to be
    downloaded (`GameLift_<Date>.zip`, e.g. `GameLift_06_03_2021.zip`). Some browser may be set to not asking for the
    download location, so please check your download directory to locate the zip file that was automatically downloaded.
 2. Unzip the file downloaded
@@ -90,13 +90,12 @@ see [Integrating Games with the Amazon GameLift Plug-in for Unity](https://docs.
 4. If you haven't installed JRE, select **Install JRE** to download and install JRE from the official website. If you
    already have JRE installed, but the plug-in still shows "Not Configured" for JRE, then
    follow [this guide](https://www.java.com/en/download/help/path.html) to add the JRE `bin` directory to your
-   Windows `PATH` system environment variable.
-    * NOTE: If you have JDK installed instead of JRE, this plug-in still show "Not Configured" for the JRE
-      configuration (See Issue #9). As long as your java PATH is configured correctly in system environment variable (
-      i.e. you are able to execute `java` in command prompt), then you can ignore the "Not Configured" warning.
+   `PATH` system environment variable.
 5. Open **Local Testing UI**
-6. Set the path to your GameLift SDK integrated server executabe (If you don't have one, see the below section to build
+6. Set the path to your GameLift SDK integrated server executable (If you don't have one, see the below section to build
    a sample game server)
+   * For game servers built against the Windows platform, this executable should be a `.exe` file
+   * For game servers built against the Mac OS platform, this executable should be a `.app` file 
 7. Select **Deploy and Run**
     * This will automatically execute GameLift Local (via `java -jar <path_to_gamelift_local_jar> -p <port>`), and then
       after 10 seconds, execute the game server executable
@@ -107,14 +106,16 @@ see [Integrating Games with the Amazon GameLift Plug-in for Unity](https://docs.
 
 1. In Unity, on the top menu bar, select **GameLift**, and then choose **Import Sample Game**.
 2. In the **Import Sample Game** window, choose **Import** to import the game and all of its assets and dependencies.
-3. In Unity, on the menu, select **GameLift**, and then choose **Apply Sample Server Build Settings**. After the game
-   server settings are configured, Unity will recompile assets.
+3. In Unity, on the menu, select **GameLift**, and then choose **Apply Windows Sample Server Build Settings**
+   or **Apply MacOS Sample Server Build Settings**. After the game server settings are configured, Unity will recompile
+   assets.
 4. In Unity, on the menu, select **File**, and then choose **Build Settings...**, confirm Server Build is checked,
    choose **Build**, and then select a build folder.
 5. Unity will build the sample game server, placing the executable and required assets in the specified build folder.
 6. Close the build window.
-7. In Unity, on the menu, select **GameLift**, and then choose **Apply Sample Client Build Settings**. After the game
-   client settings are configured, Unity will recompile assets.
+7. In Unity, on the menu, select **GameLift**, and then choose **Apply Windows Sample Client Build Settings**
+   or **Apply MacOS Sample Server Build Settings**. After the game client settings are configured, Unity will recompile
+   assets.
 8. In Unity, on the menu, select **Go To Client Settings**. This will display an Inspector tab on the right side of the
    Unity screen. In the **GameLift Client Settings** tab, choose **Local Testing Mode**.
 9. Build the game client. In Unity, on the menu, select **File**, and then choose **Build Settings...**, confirm **
@@ -155,6 +156,10 @@ see [Integrating Games with the Amazon GameLift Plug-in for Unity](https://docs.
 
 ### Next, deploy a sample scenario:
 
+NOTE: Only Windows server executables are supported in the plugin at the moment. On Mac, you'll need to build the game
+server using Windows platform and use it for deployment, even though your local testing was done using game server built 
+against Mac OS platform.
+
 1. In Unity, in the Plug-in for Unity tab, select the **Deploy** tab.
 2. In the Deploy pane, select **Open Deployment UI**.
 3. In the Deployment window, select a scenario. The **Auth Only** scenario does not require a server executable and can
@@ -184,7 +189,7 @@ see [Integrating Games with the Amazon GameLift Plug-in for Unity](https://docs.
 ### What Unity versions are supported?
 
 The Amazon GameLift Plug-in for Unity is compatible only with officially supported versions of Unity 2019.4 LTS and
-2020.3 LTS for Windows.
+2020.3 LTS for Windows and Mac OS.
 
 ### Where are the logs?
 
