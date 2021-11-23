@@ -37,13 +37,12 @@ public static class ClientServerSwitchMenu
     [MenuItem("GameLift/Apply Windows Sample Client Build Settings", priority = 9202)]
     public static void RunClient()
     {
-# if UNITY_EDITOR_OSX
-        if (!BuildPipeline.IsBuildTargetSupported(BuildTargetGroup.Standalone, BuildTarget.StandaloneOSX))
+        if (!BuildPipeline.IsBuildTargetSupported(BuildTargetGroup.Standalone, BuildTarget.StandaloneWindows64))
         {
             Debug.LogError(MissingWindowsModuleError);
             return;
         }
-# endif
+        EditorUserBuildSettings.SwitchActiveBuildTarget( BuildTargetGroup.Standalone, BuildTarget.StandaloneWindows64 );
 
         EditorUserBuildSettings.enableHeadlessMode = false;
         Switch(RemoveServer);
@@ -53,13 +52,12 @@ public static class ClientServerSwitchMenu
     [MenuItem("GameLift/Apply Windows Sample Server Build Settings", priority = 9101)]
     public static void RunServer()
     {
-# if UNITY_EDITOR_OSX
-        if (!BuildPipeline.IsBuildTargetSupported(BuildTargetGroup.Standalone, BuildTarget.StandaloneOSX))
+        if (!BuildPipeline.IsBuildTargetSupported(BuildTargetGroup.Standalone, BuildTarget.StandaloneWindows64))
         {
             Debug.LogError(MissingWindowsModuleError);
             return;
         }
-# endif
+        EditorUserBuildSettings.SwitchActiveBuildTarget( BuildTargetGroup.Standalone, BuildTarget.StandaloneWindows64 );
 
         EditorUserBuildSettings.enableHeadlessMode = true;
         Switch(AddServer);
