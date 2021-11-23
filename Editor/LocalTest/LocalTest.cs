@@ -38,17 +38,19 @@ namespace AmazonGameLift.Editor
 
         public string GameLiftLocalPath { get; private set; }
 
-        public bool IsFormFilled =>
-            _coreApi.FileExists(BuildExePath) && GameLiftLocalPort > 0;
+        public bool IsBuildExecutablePathFilled =>
+            OperatingSystemUtility.isMacOs() ? _coreApi.FolderExists(BuildExecutablePath) : _coreApi.FileExists(BuildExecutablePath);
+
+        public bool isGameLiftLocalPortValid => GameLiftLocalPort > 0;
 
         public bool IsBootstrapped =>
             GameLiftLocalPath != null && _coreApi.FileExists(GameLiftLocalPath);
 
-        public bool CanStart => !IsDeploymentRunning && IsBootstrapped && IsFormFilled;
+        public bool CanStart => !IsDeploymentRunning && IsBootstrapped && isGameLiftLocalPortValid && IsBuildExecutablePathFilled;
 
         public bool CanStop => IsDeploymentRunning;
 
-        public string BuildExePath { get; set; }
+        public string BuildExecutablePath { get; set; }
 
         public int GameLiftLocalPort
         {
@@ -82,13 +84,13 @@ namespace AmazonGameLift.Editor
 
             if (serverPathResponse.Success)
             {
-                BuildExePath = serverPathResponse.Value;
+                BuildExecutablePath = serverPathResponse.Value;
             }
         }
 
         public void Save()
         {
-            _coreApi.PutSettingOrClear(SettingsKeys.LocalServerPath, BuildExePath);
+            _coreApi.PutSettingOrClear(SettingsKeys.LocalServerPath, BuildExecutablePath);
             _coreApi.PutSetting(SettingsKeys.GameLiftLocalPort, SettingsFormatter.FormatInt(GameLiftLocalPort));
         }
 
@@ -99,8 +101,9 @@ namespace AmazonGameLift.Editor
                 return;
             }
 
-            _coreApi.StopProcess(_glProcessId);
-            _coreApi.StopProcess(_serverProcessId);
+            LocalOperatingSystem localOperatingSystem = OperatingSystemUtility.GetLocalOperatingSystem();
+            _coreApi.StopProcess(_glProcessId, localOperatingSystem);
+            _coreApi.StopProcess(_serverProcessId, localOperatingSystem);
             IsDeploymentRunning = false;
             _status.IsDisplayed = false;
         }
@@ -112,10 +115,15 @@ namespace AmazonGameLift.Editor
                 return;
             }
 
-            StartResponse response = _coreApi.StartGameLiftLocal(GameLiftLocalPath, GameLiftLocalPort);
+            Debug.Log("Running GameLift Local...");
+
+            LocalOperatingSystem localOperatingSystem = OperatingSystemUtility.GetLocalOperatingSystem();
+
+            StartResponse response = _coreApi.StartGameLiftLocal(GameLiftLocalPath, GameLiftLocalPort, localOperatingSystem);
 
             if (!response.Success)
             {
+                Debug.LogError("Error occurred when running GameLift Local...");
                 _status.IsDisplayed = true;
                 string message = string.Format(_textProvider.Get(Strings.StatusLocalTestErrorTemplate), _textProvider.GetError(response.ErrorCode));
                 _status.SetMessage(message, MessageType.Error);
@@ -133,10 +141,13 @@ namespace AmazonGameLift.Editor
                 return;
             }
 
-            RunLocalServerResponse serverResponse = _coreApi.RunLocalServer(BuildExePath);
+            Debug.Log("Running Game Server...");
+
+            RunLocalServerResponse serverResponse = _coreApi.RunLocalServer(BuildExecutablePath, Application.productName, localOperatingSystem);
 
             if (!serverResponse.Success)
             {
+                Debug.LogError("Error occurred when running game server...");
                 _status.IsDisplayed = true;
                 string message = string.Format(_textProvider.Get(Strings.StatusLocalTestServerErrorTemplate), _textProvider.GetError(serverResponse.ErrorCode));
                 _status.SetMessage(message, MessageType.Error);
