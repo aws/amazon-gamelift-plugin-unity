@@ -127,7 +127,7 @@ see [Integrating Games with the Amazon GameLift Plug-in for Unity](https://docs.
     GameLift.
 13. In Unity, in the Plug-in for Unity tab, select the **Test** tab.
 14. In the Test pane, select **Open Local Test UI**.
-15. In the Local Testing window, specify a **Game Server .exe File Path**. The path must include the executable name.
+15. In the Local Testing window, specify a **Game Server .exe/.app File Path**. The path must include the executable name.
     For example, `C:/MyGame/GameServer/MyGameServer.exe`.
 16. Select **Deploy and Run**. The Plug-in for Unity will launch the game server and open a GameLift Local log window.
     The windows will contain log messages including messages sent between the game server and GameLift Local.
