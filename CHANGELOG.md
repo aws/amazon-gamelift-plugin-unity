@@ -3,6 +3,7 @@ CHANGELOG
 # 1.2.1 (11/15/2021)
 
 - Mac OS Support
+    - Add menu options to apply Mac OS sample game settings
     - Fix "Ping SDK" button not showing the SDK DLL in Mac OS
     - Fix JRE/JDK not detectable in Mac OS
     - Fix ".exe" extension not selectable for server build executable path in Mac OS
