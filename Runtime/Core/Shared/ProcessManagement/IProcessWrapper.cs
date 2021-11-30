@@ -9,6 +9,8 @@ namespace AmazonGameLiftPlugin.Core.Shared.ProcessManagement
     {
         string GetProcessOutput(ProcessStartInfo startInfo);
 
+        (int, string) GetProcessIdAndStandardOutput(ProcessStartInfo startInfo);
+
         int Start(ProcessStartInfo processStartInfo);
 
         void Kill(int processId);

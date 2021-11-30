@@ -5,15 +5,10 @@ using AmazonGameLiftPlugin.Core.Shared;
 
 namespace AmazonGameLiftPlugin.Core.GameLiftLocalTesting.Models
 {
-    public class StopRequest
+    public enum LocalOperatingSystem
     {
-        public int ProcessId { get; set; }
-
-        public LocalOperatingSystem LocalOperatingSystem { get; set; }
-    }
-
-    public class StopResponse : Response
-    {
-
+        WINDOWS,
+        MAC_OS,
+        UNSUPPORTED
     }
 }

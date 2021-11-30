@@ -10,6 +10,8 @@ namespace AmazonGameLiftPlugin.Core.GameLiftLocalTesting.Models
         public string GameLiftLocalFilePath { get; set; }
 
         public int Port { get; set; }
+
+        public LocalOperatingSystem LocalOperatingSystem { get; set; }
     }
 
     public class StartResponse : Response

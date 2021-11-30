@@ -15,6 +15,13 @@ namespace AmazonGameLiftPlugin.Core.Shared.ProcessManagement
             return process.Id;
         }
 
+        public (int, string) GetProcessIdAndStandardOutput(ProcessStartInfo startInfo)
+        {
+            var process = Process.Start(startInfo);
+
+            return (process.Id, process.StandardOutput.ReadLine());
+        }
+
         public string GetProcessOutput(ProcessStartInfo startInfo)
         {
             try
