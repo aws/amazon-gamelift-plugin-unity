@@ -77,11 +77,26 @@ namespace AmazonGameLift.Editor
         {
             string filePackagePath = $"Packages/{Paths.PackageName}/{Paths.ServerSdkDllInPackage}";
             UnityEngine.Object sdk = AssetDatabase.LoadMainAssetAtPath(filePackagePath);
+            Type projectBrowser = typeof(UnityEditor.Editor).Assembly.GetType("UnityEditor.ProjectBrowser");
 
-            if (sdk)
+            if (projectBrowser != null) {
+                // Show Project Browser window
+                EditorWindow.GetWindow(projectBrowser).Show();
+            } else {
+                Debug.LogError($"Cannot open the Unity Project Browser window.");
+                return;
+            }
+
+            if (sdk != null)
             {
+                // Show SDK DLL in Unity Inspector
                 Selection.activeObject = sdk;
+
+                // Highlight SDK DLL in Unity Project Browser
                 EditorGUIUtility.PingObject(sdk);
+            } else {
+                Debug.LogError($"Cannot find GameLift SDK DLL in asset path: {filePackagePath}. "
+                        + "Try downloading the Plugin package and import again.");
             }
         }
     }

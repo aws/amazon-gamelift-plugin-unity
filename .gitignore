@@ -3,4 +3,6 @@
 *.unitypackage
 *.tgz
 *.tgz.meta
+*.iml
+*.iml.meta
 SampleGameBuildLog.txt

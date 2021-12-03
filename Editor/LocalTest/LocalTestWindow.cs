@@ -60,7 +60,9 @@ namespace AmazonGameLift.Editor
             _controlDrawer = ControlDrawerFactory.Create();
             this.SetConstantSize(new Vector2(x: WindowWidthPixels, y: WindowHeightPixels));
 
-            _labelServerPath = textProvider.Get(Strings.LabelLocalTestingServerPath);
+            _labelServerPath = OperatingSystemUtility.isMacOs() ?
+                    textProvider.Get(Strings.LabelLocalTestingMacOsServerPath) :
+                    textProvider.Get(Strings.LabelLocalTestingWindowsServerPath);
             _titleServerPathDialog = textProvider.Get(Strings.TitleLocalTestingServerPathDialog);
             _tooltipLocalTestingServerPath = textProvider.Get(Strings.TooltipLocalTestingServerPath);
             _labelLocalTestingPort = textProvider.Get(Strings.LabelLocalTestingPort);
@@ -116,8 +118,8 @@ namespace AmazonGameLift.Editor
 
             using (new EditorGUI.DisabledScope(_model.IsDeploymentRunning))
             {
-                _model.BuildExePath = _controlDrawer.DrawFilePathField(
-                  _labelServerPath, _model.BuildExePath, "exe", _titleServerPathDialog,
+                _model.BuildExecutablePath = _controlDrawer.DrawFilePathField(
+                  _labelServerPath, _model.BuildExecutablePath, "exe,app", _titleServerPathDialog,
                   _tooltipLocalTestingServerPath);
 
                 GUILayout.Space(VerticalSpacingPixels);

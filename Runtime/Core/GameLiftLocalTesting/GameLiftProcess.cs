@@ -22,6 +22,7 @@ namespace AmazonGameLiftPlugin.Core.GameLiftLocalTesting
             _processWrapper = processWrapper;
         }
 
+        // This method starts GameLift Local
         public StartResponse Start(StartRequest request)
         {
             try
@@ -36,13 +37,43 @@ namespace AmazonGameLiftPlugin.Core.GameLiftLocalTesting
 
                 string arg = FormatCommand(request);
 
-                int processId = _processWrapper.Start(new ProcessStartInfo
+                int processId;
+
+                if (request.LocalOperatingSystem == LocalOperatingSystem.MAC_OS)
                 {
-                    UseShellExecute = true,
-                    FileName = "java",
-                    Arguments = arg,
-                    WorkingDirectory = Path.GetDirectoryName(request.GameLiftLocalFilePath)
-                });
+                    // Starts a bash process to run an Apple script, which activates a new Terminal App window,
+                    // and runs the GameLift local jar.
+                    string activateTerminalScript = $"tell application \\\"Terminal\\\" to activate";
+                    string setGameLiftLocalFilePath = $"set GameLiftLocalFilePathEnvVar to \\\"{request.GameLiftLocalFilePath}\\\"";
+                    string runGameLiftLocalJarScript = $"\\\"java -jar \\\" & quoted form of GameLiftLocalFilePathEnvVar & \\\" -p {request.Port.ToString()}\\\"";
+                    string runGameLiftLocal = $"tell application \\\"Terminal\\\" to do script {runGameLiftLocalJarScript}";
+                    string osaScript = $"osascript -e \'{activateTerminalScript}\' -e \'{setGameLiftLocalFilePath}\' -e \'{runGameLiftLocal}\'";
+                    string bashCommand = $" -c \"{osaScript}\"";
+
+                    ProcessStartInfo processStartInfo = new ProcessStartInfo
+                    {
+                        UseShellExecute = false,
+                        RedirectStandardOutput = true,
+                        FileName = "/bin/bash",
+                        CreateNoWindow = false,
+                        Arguments = bashCommand,
+                        WorkingDirectory = Path.GetDirectoryName(request.GameLiftLocalFilePath)
+                    };
+
+                    processId = ExecuteMacOsTerminalCommand(processStartInfo);
+                }
+                else
+                {
+                    ProcessStartInfo processStartInfo = new ProcessStartInfo
+                    {
+                        UseShellExecute = true,
+                        FileName = "java",
+                        Arguments = arg,
+                        WorkingDirectory = Path.GetDirectoryName(request.GameLiftLocalFilePath)
+                    };
+
+                    processId = _processWrapper.Start(processStartInfo);
+                }
 
                 return Response.Ok(new StartResponse
                 {
@@ -58,6 +89,43 @@ namespace AmazonGameLiftPlugin.Core.GameLiftLocalTesting
                     ErrorCode = ErrorCode.UnknownError,
                     ErrorMessage = ex.Message
                 });
+            }
+        }
+
+        private void CloseTerminalWindow(int windowId)
+        {
+            // Starts a bash process to run an Apple script, which tells Terminal App to close a specified window
+            string closeWindowScript = $"tell application \\\"Terminal\\\" to close window id {windowId}";
+            string osaScript = $"osascript -e \'{closeWindowScript}\'";
+            string bashCommand = $" -c \"{osaScript}\"";
+
+            var processStartInfo = new ProcessStartInfo
+            {
+                UseShellExecute = false,
+                RedirectStandardOutput = true,
+                FileName = "/bin/bash",
+                CreateNoWindow = false,
+                Arguments = bashCommand
+            };
+
+            _processWrapper.Start(processStartInfo);
+        }
+
+        private int ExecuteMacOsTerminalCommand(ProcessStartInfo processStartInfo)
+        {
+            (int bashId, string output) = _processWrapper.GetProcessIdAndStandardOutput(processStartInfo);
+            // When running script in Mac OS Terminal App via oascript, Terminal returns the window id as a response,
+            // e.g. "tab 1 of window id 62198". This will be used as the id when we terminate the window.
+            var match = Regex.Match(output, "window id (\\d+)");
+            if (match.Success)
+            {
+                // Return the Terminal app window id
+                return Int32.Parse(match.Groups[1].Value);
+            }
+            else
+            {
+                // Pass back the /bin/bash execution process id as an identifier instead
+                return bashId;
             }
         }
 
@@ -82,7 +150,11 @@ namespace AmazonGameLiftPlugin.Core.GameLiftLocalTesting
         {
             try
             {
-                _processWrapper.Kill(request.ProcessId);
+                if (request.LocalOperatingSystem == LocalOperatingSystem.MAC_OS) {
+                    CloseTerminalWindow(request.ProcessId);
+                } else {
+                    _processWrapper.Kill(request.ProcessId);
+                }
 
                 return Response.Ok(new StopResponse());
             }
@@ -102,7 +174,7 @@ namespace AmazonGameLiftPlugin.Core.GameLiftLocalTesting
         {
             try
             {
-                if (request == null || string.IsNullOrWhiteSpace(request.FilePath))
+                if (request == null || string.IsNullOrWhiteSpace(request.FilePath) || string.IsNullOrWhiteSpace(request.ApplicationProductName))
                 {
                     return Response.Fail(new RunLocalServerResponse
                     {
@@ -110,11 +182,40 @@ namespace AmazonGameLiftPlugin.Core.GameLiftLocalTesting
                     });
                 }
 
-                int processId = _processWrapper.Start(new ProcessStartInfo
+                int processId;
+
+                if (request.LocalOperatingSystem == LocalOperatingSystem.MAC_OS)
                 {
-                    UseShellExecute = request.ShowWindow,
-                    FileName = request.FilePath
-                });
+                    // Starts a bash process to run an Apple script, which activates a new Terminal App window,
+                    // and runs the game server executable in the Unity compiled .app file
+                    string activateTerminalScript = $"tell application \\\"Terminal\\\" to activate";
+                    string setGameServerFilePath = $"set GameServerFilePathEnvVar to \\\"{request.FilePath}/Contents/MacOS/{request.ApplicationProductName}\\\"";
+                    string runGameServerScript = $"GameServerFilePathEnvVar";
+                    string runGameServer = $"tell application \\\"Terminal\\\" to do script {runGameServerScript}";
+                    string osaScript = $"osascript -e \'{activateTerminalScript}\' -e \'{setGameServerFilePath}\' -e \'{runGameServer}\'";
+                    string bashCommand = $" -c \"{osaScript}\"";
+
+                    ProcessStartInfo processStartInfo = new ProcessStartInfo
+                    {
+                        UseShellExecute = false,
+                        RedirectStandardOutput = true,
+                        FileName = "/bin/bash",
+                        CreateNoWindow = false,
+                        Arguments = bashCommand
+                    };
+
+                    processId = ExecuteMacOsTerminalCommand(processStartInfo);
+                }
+                else
+                {
+                    ProcessStartInfo processStartInfo = new ProcessStartInfo
+                    {
+                        UseShellExecute = request.ShowWindow,
+                        FileName = request.FilePath
+                    };
+
+                    processId = _processWrapper.Start(processStartInfo);
+                }
 
                 return Response.Ok(new RunLocalServerResponse
                 {

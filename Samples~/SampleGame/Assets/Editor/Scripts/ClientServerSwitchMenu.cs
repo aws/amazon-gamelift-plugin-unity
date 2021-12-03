@@ -12,21 +12,60 @@ public static class ClientServerSwitchMenu
     private const string BootstrapScenePath = "Assets/Scenes/BootstrapScene.unity";
     private const string GameScenePath = "Assets/Scenes/GameScene.unity";
     private const string UnityServerDefine = "UNITY_SERVER";
+    private const string MissingWindowsModuleError = "Please install Windows build module via UnityHub first. See: https://docs.unity3d.com/Manual/GettingStartedAddingEditorComponents.html";
 
-    [MenuItem("GameLift/Apply Sample Client Build Settings", priority = 9202)]
-    public static void RunClient()
+# if UNITY_EDITOR_OSX
+    [MenuItem("GameLift/Apply MacOS Sample Client Build Settings", priority = 9203)]
+    public static void ConfigureMacOsClient()
     {
         EditorUserBuildSettings.enableHeadlessMode = false;
+        EditorUserBuildSettings.SwitchActiveBuildTarget( BuildTargetGroup.Standalone, BuildTarget.StandaloneOSX );
         Switch(RemoveServer);
-        Debug.Log("Sample Client has been successfully configured:\n-Sample scenes are added to build settings\n-Scripting define symbols are set\n-Server build has been disabled");
+        LogSuccessMessage("Sample Client", "MacOS");
     }
 
-    [MenuItem("GameLift/Apply Sample Server Build Settings", priority = 9101)]
-    public static void RunServer()
+    [MenuItem("GameLift/Apply MacOS Sample Server Build Settings", priority = 9102)]
+    public static void ConfigureMacOsServer()
     {
         EditorUserBuildSettings.enableHeadlessMode = true;
+        EditorUserBuildSettings.SwitchActiveBuildTarget( BuildTargetGroup.Standalone, BuildTarget.StandaloneOSX );
         Switch(AddServer);
-        Debug.Log("Sample Server has been successfully configured:\n-Sample scenes are added to build settings\n-Scripting define symbols are set\n-Server build has been enabled");
+        LogSuccessMessage("Sample Server", "MacOS");
+    }
+# endif
+
+    [MenuItem("GameLift/Apply Windows Sample Client Build Settings", priority = 9202)]
+    public static void RunClient()
+    {
+        if (!BuildPipeline.IsBuildTargetSupported(BuildTargetGroup.Standalone, BuildTarget.StandaloneWindows64))
+        {
+            Debug.LogError(MissingWindowsModuleError);
+            return;
+        }
+        EditorUserBuildSettings.SwitchActiveBuildTarget( BuildTargetGroup.Standalone, BuildTarget.StandaloneWindows64 );
+
+        EditorUserBuildSettings.enableHeadlessMode = false;
+        Switch(RemoveServer);
+        LogSuccessMessage("Sample Client", "Windows");
+    }
+
+    [MenuItem("GameLift/Apply Windows Sample Server Build Settings", priority = 9101)]
+    public static void RunServer()
+    {
+        if (!BuildPipeline.IsBuildTargetSupported(BuildTargetGroup.Standalone, BuildTarget.StandaloneWindows64))
+        {
+            Debug.LogError(MissingWindowsModuleError);
+            return;
+        }
+        EditorUserBuildSettings.SwitchActiveBuildTarget( BuildTargetGroup.Standalone, BuildTarget.StandaloneWindows64 );
+
+        EditorUserBuildSettings.enableHeadlessMode = true;
+        Switch(AddServer);
+        LogSuccessMessage("Sample Server", "Windows");
+    }
+
+    private static void LogSuccessMessage(string name, string platform) {
+        Debug.Log($"{name} has been successfully configured for {platform}. Please go to BuildSettings to build the project.");
     }
 
     private static void Switch(Func<string, string> updateDefines)

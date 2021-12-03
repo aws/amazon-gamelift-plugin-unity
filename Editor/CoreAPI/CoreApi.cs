@@ -485,31 +485,38 @@ namespace AmazonGameLift.Editor
 
         private readonly GameLiftProcess _gameLiftProcess = new GameLiftProcess(s_process);
 
-        public virtual StartResponse StartGameLiftLocal(string gameLiftLocalFilePath, int port)
+        public virtual StartResponse StartGameLiftLocal(string gameLiftLocalFilePath, int port,
+                LocalOperatingSystem localOperatingSystem = LocalOperatingSystem.WINDOWS)
         {
             var request = new StartRequest()
             {
                 GameLiftLocalFilePath = gameLiftLocalFilePath,
-                Port = port
+                Port = port,
+                LocalOperatingSystem = localOperatingSystem
             };
             return _gameLiftProcess.Start(request);
         }
 
-        public virtual StopResponse StopProcess(int processId)
+        public virtual StopResponse StopProcess(int processId,
+                LocalOperatingSystem localOperatingSystem = LocalOperatingSystem.WINDOWS)
         {
             var request = new StopRequest()
             {
-                ProcessId = processId
+                ProcessId = processId,
+                LocalOperatingSystem = localOperatingSystem
             };
             return _gameLiftProcess.Stop(request);
         }
 
-        public virtual RunLocalServerResponse RunLocalServer(string exeFilePath)
+        public virtual RunLocalServerResponse RunLocalServer(string exeFilePath, string applicationProductName,
+                LocalOperatingSystem localOperatingSystem = LocalOperatingSystem.WINDOWS)
         {
             var request = new RunLocalServerRequest()
             {
                 FilePath = exeFilePath,
                 ShowWindow = true,
+                ApplicationProductName = applicationProductName,
+                LocalOperatingSystem = localOperatingSystem
             };
             return _gameLiftProcess.RunLocalServer(request);
         }

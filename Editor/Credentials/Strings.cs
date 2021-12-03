@@ -110,7 +110,8 @@ namespace AmazonGameLift.Editor
         public const string StatusLocalTestRunning = "StatusLocalTestRunning";
         public const string TitleLocalTesting = "TitleLocalTesting";
         public const string LabelLocalTestingHelp = "LabelLocalTestingHelp";
-        public const string LabelLocalTestingServerPath = "LabelLocalTestingServerPath";
+        public const string LabelLocalTestingWindowsServerPath = "LabelLocalTestingWindowsServerPath";
+        public const string LabelLocalTestingMacOsServerPath = "LabelLocalTestingMacOsServerPath";
         public const string TitleLocalTestingServerPathDialog = "TitleLocalTestingServerPathDialog";
         public const string TooltipLocalTestingServerPath = "TooltipLocalTestingServerPath";
         public const string LabelLocalTestingJarPath = "LabelLocalTestingJarPath";
