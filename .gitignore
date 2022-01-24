@@ -6,3 +6,17 @@
 *.iml
 *.iml.meta
 SampleGameBuildLog.txt
+/build/
+
+# Infra
+*.js
+!jest.config.js
+*.d.ts
+node_modules
+
+# CDK asset staging directory
+.cdk.staging
+cdk.out
+
+# Vscode 
+.vscode
