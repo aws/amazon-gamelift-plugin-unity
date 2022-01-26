@@ -217,7 +217,7 @@ namespace AmazonGameLiftPlugin.Core.BucketManagement
 
         public Models.PutLifecycleConfigurationResponse PutLifecycleConfiguration(Models.PutLifecycleConfigurationRequest request)
         {
-            if (!Enum.IsDefined(typeof(BucketPolicy), request.BucketPolicy))
+            if (!Enum.IsDefined(typeof(BucketPolicy), request.BucketPolicy) || request.BucketPolicy == BucketPolicy.None)
             {
                 return Response.Fail(new Models.PutLifecycleConfigurationResponse()
                 {
