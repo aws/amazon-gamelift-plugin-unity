@@ -117,7 +117,7 @@ namespace AmazonGameLiftPlugin.Editor.UnitTests
                 .Returns(exeExists);
 
             LocalTest underTest = GetUnitUnderTest(coreApiMock);
-            underTest.BuildExePath = testBuildExePath;
+            underTest.BuildExecutablePath = testBuildExePath;
             underTest.GameLiftLocalPort = port;
 
             coreApiMock.Verify();
@@ -187,7 +187,7 @@ namespace AmazonGameLiftPlugin.Editor.UnitTests
             LocalTest underTest = GetUnitUnderTest(coreApiMock);
 
             underTest.Refresh();
-            underTest.BuildExePath = testBuildExePath;
+            underTest.BuildExecutablePath = testBuildExePath;
             underTest.GameLiftLocalPort = port;
 
             coreApiMock.Verify();
@@ -272,7 +272,7 @@ namespace AmazonGameLiftPlugin.Editor.UnitTests
 
             LocalTest underTest = GetUnitUnderTest(coreApiMock, delayMock);
             underTest.Refresh();
-            underTest.BuildExePath = testBuildExePath;
+            underTest.BuildExecutablePath = testBuildExePath;
             underTest.GameLiftLocalPort = testPort;
 
             AssertAsync.ThrowsAsync<TaskCanceledException>(async () => await underTest.Start());
@@ -399,7 +399,7 @@ namespace AmazonGameLiftPlugin.Editor.UnitTests
 
                 LocalTest underTest = GetUnitUnderTest(coreApiMock);
                 underTest.Refresh();
-                underTest.BuildExePath = testBuildExePath;
+                underTest.BuildExecutablePath = testBuildExePath;
                 underTest.GameLiftLocalPort = testPort;
 
                 // Act
@@ -449,7 +449,7 @@ namespace AmazonGameLiftPlugin.Editor.UnitTests
                     .Callback(() => underTest.Stop());
 
                 underTest.Refresh();
-                underTest.BuildExePath = testBuildExePath;
+                underTest.BuildExecutablePath = testBuildExePath;
                 underTest.GameLiftLocalPort = testPort;
 
                 // Act
@@ -521,7 +521,7 @@ namespace AmazonGameLiftPlugin.Editor.UnitTests
         public void BuildExePath_WhenNewInstance_IsNull()
         {
             LocalTest underTest = GetUnitUnderTest();
-            Assert.IsNull(underTest.BuildExePath);
+            Assert.IsNull(underTest.BuildExecutablePath);
         }
 
         [Test]
@@ -543,11 +543,11 @@ namespace AmazonGameLiftPlugin.Editor.UnitTests
 
             if (saved)
             {
-                Assert.AreEqual(testBuildExePath, underTest.BuildExePath);
+                Assert.AreEqual(testBuildExePath, underTest.BuildExecutablePath);
             }
             else
             {
-                Assert.IsNull(underTest.BuildExePath);
+                Assert.IsNull(underTest.BuildExecutablePath);
             }
         }
 
@@ -603,7 +603,7 @@ namespace AmazonGameLiftPlugin.Editor.UnitTests
 
             LocalTest underTest = GetUnitUnderTest(coreApiMock);
             underTest.Refresh();
-            underTest.BuildExePath = testBuildExePath;
+            underTest.BuildExecutablePath = testBuildExePath;
             underTest.GameLiftLocalPort = testPort;
 
             // Act
@@ -621,7 +621,7 @@ namespace AmazonGameLiftPlugin.Editor.UnitTests
 
             LocalTest underTest = GetUnitUnderTest(coreApiMock);
             underTest.Refresh();
-            underTest.BuildExePath = testBuildExePath;
+            underTest.BuildExecutablePath = testBuildExePath;
             underTest.GameLiftLocalPort = testPort;
 
             // Act
