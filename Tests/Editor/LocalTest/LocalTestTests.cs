@@ -121,7 +121,7 @@ namespace AmazonGameLiftPlugin.Editor.UnitTests
             underTest.GameLiftLocalPort = port;
 
             coreApiMock.Verify();
-            Assert.AreEqual(expected, underTest.IsFormFilled);
+            Assert.AreEqual(expected, underTest.IsBuildExecutablePathFilled);
         }
 
         #region CanStart
@@ -246,7 +246,7 @@ namespace AmazonGameLiftPlugin.Editor.UnitTests
             async Task Run()
             {
                 Mock<CoreApi> coreApiMock = SetUpCoreApiAnyFileExistsIsFalse();
-                coreApiMock.Verify(target => target.StartGameLiftLocal(It.IsAny<string>(), It.IsAny<int>()), Times.Never());
+                coreApiMock.Verify(target => target.StartGameLiftLocal(It.IsAny<string>(), It.IsAny<int>(), LocalOperatingSystem.WINDOWS), Times.Never());
 
                 LocalTest underTest = GetUnitUnderTest(coreApiMock);
 
@@ -660,7 +660,7 @@ namespace AmazonGameLiftPlugin.Editor.UnitTests
         {
             var response = new StartResponse();
             response = success ? Response.Ok(response) : Response.Fail(response);
-            coreApiMock.Setup(target => target.StartGameLiftLocal(gameLiftLocalFilePath, port))
+            coreApiMock.Setup(target => target.StartGameLiftLocal(gameLiftLocalFilePath, port, LocalOperatingSystem.WINDOWS))
                 .Returns(response)
                 .Verifiable();
         }
@@ -669,7 +669,7 @@ namespace AmazonGameLiftPlugin.Editor.UnitTests
         {
             var response = new RunLocalServerResponse();
             response = success ? Response.Ok(response) : Response.Fail(response);
-            coreApiMock.Setup(target => target.RunLocalServer(exeFilePath))
+            coreApiMock.Setup(target => target.RunLocalServer(exeFilePath, "testApplicationProductName", LocalOperatingSystem.WINDOWS))
                 .Returns(response)
                 .Verifiable();
         }
@@ -678,7 +678,7 @@ namespace AmazonGameLiftPlugin.Editor.UnitTests
         {
             var response = new StopResponse();
             response = success ? Response.Ok(response) : Response.Fail(response);
-            coreApiMock.Setup(target => target.StopProcess(It.IsAny<int>()))
+            coreApiMock.Setup(target => target.StopProcess(It.IsAny<int>(), LocalOperatingSystem.WINDOWS))
                 .Returns(response)
                 .Verifiable();
         }
