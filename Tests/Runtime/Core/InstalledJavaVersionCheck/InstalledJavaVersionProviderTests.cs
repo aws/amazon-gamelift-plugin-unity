@@ -36,6 +36,35 @@ namespace AmazonGameLiftPlugin.Core.Tests.InstalledJavaVersionCheck
         }
 
         [Test]
+        public void CheckInstalledJavaVersion_WhenExpectedJavaVersionIsMultiline_IsSuccessFul()
+        {
+            string output = @"
+                Picked up JAVA_TOOL_OPTIONS: -Dlog4j2.formatMsgNoLookups=true
+                java version ""1.8.0_291""
+                OpenJDK Runtime Environment Corretto-8.322.06.1 (build 1.8.0_322-b06)
+                OpenJDK 64-Bit Server VM Corretto-8.322.06.1 (build 25.322-b06, mixed mode)
+            ";
+
+            var processWrapperMock = new Mock<IProcessWrapper>();
+            processWrapperMock.Setup(x => x.GetProcessOutput(
+                It.IsAny<ProcessStartInfo>())
+            ).Returns(output);
+
+            IInstalledJavaVersionProvider installedJavaVersionProvider =
+                InstalledJavaVersionProviderFactory.Create(processWrapperMock.Object);
+
+            CheckInstalledJavaVersionResponse response =
+                installedJavaVersionProvider.CheckInstalledJavaVersion(new CheckInstalledJavaVersionRequest
+                {
+                    ExpectedMinimumJavaMajorVersion = 8
+                });
+
+            processWrapperMock.Verify();
+            Assert.IsTrue(response.Success, "Request was not successful");
+            Assert.IsTrue(response.IsInstalled);
+        }
+
+        [Test]
         public void CheckInstalledJavaVersion_WhenExpectedJavaVersionIsNotInstalled_IsNotSuccessFul()
         {
             var processWrapperMock = new Mock<IProcessWrapper>();

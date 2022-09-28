@@ -26,9 +26,7 @@ namespace AmazonGameLiftPlugin.Core.Shared.ProcessManagement
         {
             try
             {
-                return Process.Start(startInfo)
-                .StandardError
-                .ReadLine();
+                return Process.Start(startInfo)?.StandardError?.ReadToEnd() ?? "";
             }
             catch (Win32Exception ex)
             {

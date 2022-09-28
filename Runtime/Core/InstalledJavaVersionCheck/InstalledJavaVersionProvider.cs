@@ -44,7 +44,7 @@ namespace AmazonGameLiftPlugin.Core.JavaCheck
                 });
             }
 
-            var outputPattern = new Regex("\\d+\\.\\d+\\.\\d+(?:_\\d+)?\"");
+            var outputPattern = new Regex("(openjdk|java) version \"(\\d+\\.\\d+\\.\\d+(?:_\\d+)?)\"");
 
             Match outputMatch = outputPattern.Match(processOutput);
 
@@ -57,10 +57,11 @@ namespace AmazonGameLiftPlugin.Core.JavaCheck
             }
 
             // example output: java version "1.8.0"
-            string[] outputWords = processOutput
+            var versionLine = outputMatch.Groups[0].ToString();
+            string[] outputWords = versionLine
                 .Split(' ');
 
-            if (outputWords.Length < 3)
+            if (versionLine.Length < 3)
             {
                 return Response.Ok(new CheckInstalledJavaVersionResponse
                 {
