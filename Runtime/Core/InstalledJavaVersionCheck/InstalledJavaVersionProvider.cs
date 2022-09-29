@@ -68,7 +68,7 @@ namespace AmazonGameLiftPlugin.Core.JavaCheck
             //  if majorVersion is 1, we use minorVersion as the majorVersion, since java version had the format 1.?? until java 8
             var majorVersion = outputMatch.Groups["majorVersion"].ToString();
             var minorVersion = outputMatch.Groups["minorVersion"].ToString();
-            var actualMajorVersion = majorVersion.Equals("1") ? minorVersion : majorVersion;
+            var actualMajorVersion = majorVersion.Equals("1") && !String.IsNullOrEmpty(minorVersion) ? minorVersion : majorVersion;
 
             int.TryParse(actualMajorVersion, out int majorVersionAsNumber);
             bool isInstalled = majorVersionAsNumber >= request.ExpectedMinimumJavaMajorVersion;
