@@ -91,5 +91,13 @@ namespace AmazonGameLiftPlugin.Core.Tests.InstalledJavaVersionCheck
             Assert.IsTrue(response.Success, "Request was not successful");
             Assert.IsFalse(response.IsInstalled);
         }
+
+        [Test]
+        public void CheckInstalledJavaVersion_WhenJavaIsEmpty()
+        {
+            var response = GetCheckInstalledJavaVersionResponse("", 8);
+            Assert.IsTrue(response.Success, "Request was not successful");
+            Assert.IsFalse(response.IsInstalled);
+        }
     }
 }
