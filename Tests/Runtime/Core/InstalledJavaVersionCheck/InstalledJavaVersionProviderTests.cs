@@ -75,6 +75,15 @@ namespace AmazonGameLiftPlugin.Core.Tests.InstalledJavaVersionCheck
         }
 
         [Test]
+        public void CheckInstalledJavaVersion_WithSecurityPatch()
+        {
+            var output = "java version \"9.1.1.1\"";
+            var response = GetCheckInstalledJavaVersionResponse(output, 8);
+            Assert.IsTrue(response.Success, "Request was not successful");
+            Assert.IsTrue(response.IsInstalled);
+        }
+
+        [Test]
         public void CheckInstalledJavaVersion_WhenJavaVersionIsTooLow()
         {
             var output = "java version \"1.8.0_291\"";

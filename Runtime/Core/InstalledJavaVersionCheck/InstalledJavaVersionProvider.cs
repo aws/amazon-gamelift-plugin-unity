@@ -20,7 +20,7 @@ namespace AmazonGameLiftPlugin.Core.JavaCheck
             _process = process;
         }
 
-        private CheckInstalledJavaVersionResponse makeResponse(bool installed) {
+        private CheckInstalledJavaVersionResponse CreateCheckInstalledJavaVersionResponse(bool installed) {
             return Response.Ok(new CheckInstalledJavaVersionResponse
                 {
                     IsInstalled = installed
@@ -44,11 +44,11 @@ namespace AmazonGameLiftPlugin.Core.JavaCheck
             catch (Exception ex)
             {
                 Logger.LogError(ex, ex.Message);
-                return makeResponse(false);
+                return CreateCheckInstalledJavaVersionResponse(false);
             }
 
             if (processOutput == null) {
-                return makeResponse(false);
+                return CreateCheckInstalledJavaVersionResponse(false);
             }
 
             // Expected output format:
@@ -62,7 +62,7 @@ namespace AmazonGameLiftPlugin.Core.JavaCheck
             Match outputMatch = outputPattern.Match(processOutput);
 
             if (!outputMatch.Success) {
-                return makeResponse(false);
+                return CreateCheckInstalledJavaVersionResponse(false);
             }
 
             //  if majorVersion is 1, we use minorVersion as the majorVersion, since java version had the format 1.?? until java 8
@@ -70,10 +70,10 @@ namespace AmazonGameLiftPlugin.Core.JavaCheck
             var minorVersion = outputMatch.Groups["minorVersion"].ToString();
             var actualMajorVersion = majorVersion.Equals("1") ? minorVersion : majorVersion;
 
-            bool majorVersionParsed = int.TryParse(actualMajorVersion, out int majorVersionAsNumber);
+            int.TryParse(actualMajorVersion, out int majorVersionAsNumber);
             bool isInstalled = majorVersionAsNumber >= request.ExpectedMinimumJavaMajorVersion;
 
-            return makeResponse(isInstalled);
+            return CreateCheckInstalledJavaVersionResponse(isInstalled);
         }
     }
 }
