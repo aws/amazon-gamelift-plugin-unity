@@ -20,6 +20,13 @@ namespace AmazonGameLiftPlugin.Core.JavaCheck
             _process = process;
         }
 
+        private CheckInstalledJavaVersionResponse makeResponse(bool installed) {
+            return Response.Ok(new CheckInstalledJavaVersionResponse
+                {
+                    IsInstalled = installed
+                });
+        }
+
         public CheckInstalledJavaVersionResponse CheckInstalledJavaVersion(CheckInstalledJavaVersionRequest request)
         {
             var processStartInfo = new ProcessStartInfo();
@@ -29,7 +36,7 @@ namespace AmazonGameLiftPlugin.Core.JavaCheck
             processStartInfo.UseShellExecute = false;
             processStartInfo.CreateNoWindow = true;
 
-            string processOutput = null;
+            string? processOutput = null;
             try
             {
                 processOutput = _process.GetProcessOutput(processStartInfo);
@@ -37,71 +44,36 @@ namespace AmazonGameLiftPlugin.Core.JavaCheck
             catch (Exception ex)
             {
                 Logger.LogError(ex, ex.Message);
-
-                return Response.Ok(new CheckInstalledJavaVersionResponse
-                {
-                    IsInstalled = false
-                });
+                return makeResponse(false);
             }
 
-            var outputPattern = new Regex("(openjdk|java) version \"(\\d+\\.\\d+\\.\\d+(?:_\\d+)?)\"");
+            if (processOutput == null) {
+                return makeResponse(false);
+            }
+
+            // Expected output format:
+            //  (java|openjdk) version "<majorVersion>.<minorVersion>.<build>"
+            //  ex: java version "1.8.0_291"
+            //      openjdk version "1.8.0_322"
+            //      openjdk version "19"
+            //  majorVersion and minorVersion are integers. build can be anything
+            var outputPattern = new Regex("(?:openjdk|java) version \"(?<majorVersion>\\d+)(?:\\.(?<minorVersion>\\d+)(?:\\.[^\"]+))?\"");
 
             Match outputMatch = outputPattern.Match(processOutput);
 
-            if (!outputMatch.Success)
-            {
-                return Response.Ok(new CheckInstalledJavaVersionResponse
-                {
-                    IsInstalled = false
-                });
+            if (!outputMatch.Success) {
+                return makeResponse(false);
             }
 
-            // example output: java version "1.8.0"
-            var versionLine = outputMatch.Groups[0].ToString();
-            string[] outputWords = versionLine
-                .Split(' ');
+            //  if majorVersion is 1, we use minorVersion as the majorVersion, since java version had the format 1.?? until java 8
+            var majorVersion = outputMatch.Groups["majorVersion"].ToString();
+            var minorVersion = outputMatch.Groups["minorVersion"].ToString();
+            var actualMajorVersion = majorVersion.Equals("1") ? minorVersion : majorVersion;
 
-            if (versionLine.Length < 3)
-            {
-                return Response.Ok(new CheckInstalledJavaVersionResponse
-                {
-                    IsInstalled = false
-                });
-            }
-
-            string installedVersion = outputWords[2]
-                .Replace("\"", "");
-
-            var regex = new Regex(@"([0-9]+)");
-            MatchCollection versionNumbers = regex.Matches(installedVersion);
-
-            if (versionNumbers.Count < 2)
-            {
-                return Response.Ok(new CheckInstalledJavaVersionResponse
-                {
-                    IsInstalled = false
-                });
-            }
-
-            //we need to match major version in string like "1.8.0" here major version is 8
-            string majorVersion = versionNumbers[1].Value;
-
-            bool majorVersionParsed = int.TryParse(majorVersion, out int majorVersionAsNumber);
-
-            if (!majorVersionParsed)
-            {
-                return Response.Ok(new CheckInstalledJavaVersionResponse
-                {
-                    IsInstalled = false
-                });
-            }
-
+            bool majorVersionParsed = int.TryParse(actualMajorVersion, out int majorVersionAsNumber);
             bool isInstalled = majorVersionAsNumber >= request.ExpectedMinimumJavaMajorVersion;
 
-            return Response.Ok(new CheckInstalledJavaVersionResponse
-            {
-                IsInstalled = isInstalled
-            });
+            return makeResponse(isInstalled);
         }
     }
 }
