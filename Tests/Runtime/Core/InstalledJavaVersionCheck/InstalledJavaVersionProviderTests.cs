@@ -13,13 +13,11 @@ namespace AmazonGameLiftPlugin.Core.Tests.InstalledJavaVersionCheck
     [TestFixture]
     public class InstalledJavaVersionProviderTests
     {
-        [Test]
-        public void CheckInstalledJavaVersion_WhenExpectedJavaVersionIsInstalled_IsSuccessFul()
-        {
+        private CheckInstalledJavaVersionResponse GetCheckInstalledJavaVersionResponse(string output, int minVersion) {
             var processWrapperMock = new Mock<IProcessWrapper>();
             processWrapperMock.Setup(x => x.GetProcessOutput(
                 It.IsAny<ProcessStartInfo>())
-            ).Returns("java version \"1.8.0_291\"");
+            ).Returns(output);
 
             IInstalledJavaVersionProvider installedJavaVersionProvider =
                 InstalledJavaVersionProviderFactory.Create(processWrapperMock.Object);
@@ -27,54 +25,99 @@ namespace AmazonGameLiftPlugin.Core.Tests.InstalledJavaVersionCheck
             CheckInstalledJavaVersionResponse response =
                 installedJavaVersionProvider.CheckInstalledJavaVersion(new CheckInstalledJavaVersionRequest
                 {
-                    ExpectedMinimumJavaMajorVersion = 8
+                    ExpectedMinimumJavaMajorVersion = minVersion
                 });
 
             processWrapperMock.Verify();
+            return response;
+        }
+
+        [Test]
+        public void CheckInstalledJavaVersion_WhenExpectedJavaVersionIsInstalled()
+        {
+            var output = "java version \"1.8.0_291\"";
+            var response = GetCheckInstalledJavaVersionResponse(output, 8);
             Assert.IsTrue(response.Success, "Request was not successful");
             Assert.IsTrue(response.IsInstalled);
         }
 
         [Test]
-        public void CheckInstalledJavaVersion_WhenExpectedJavaVersionIsNotInstalled_IsNotSuccessFul()
+        public void CheckInstalledJavaVersion_WhenExpectedJavaVersionIsMultiline()
         {
-            var processWrapperMock = new Mock<IProcessWrapper>();
-            processWrapperMock.Setup(x => x.GetProcessOutput(
-                It.IsAny<ProcessStartInfo>())
-            ).Returns("java version \"9.0.1\"");
+            var output = @"
+                Picked up JAVA_TOOL_OPTIONS: -Dlog4j2.formatMsgNoLookups=true
+                openjdk version ""1.8.0_322""
+                OpenJDK Runtime Environment Corretto-8.322.06.1 (build 1.8.0_322-b06)
+                OpenJDK 64-Bit Server VM Corretto-8.322.06.1 (build 25.322-b06, mixed mode)
+            ";
+            var response = GetCheckInstalledJavaVersionResponse(output, 8);
+            Assert.IsTrue(response.Success, "Request was not successful");
+            Assert.IsTrue(response.IsInstalled);
+        }
 
-            IInstalledJavaVersionProvider installedJavaVersionProvider =
-                InstalledJavaVersionProviderFactory.Create(processWrapperMock.Object);
+        [Test]
+        public void CheckInstalledJavaVersion_WhenExpectedJavaVersionUsesAlternateFormat()
+        {
+            var output = "java version \"9.0.1\"";
+            var response = GetCheckInstalledJavaVersionResponse(output, 8);
+            Assert.IsTrue(response.Success, "Request was not successful");
+            Assert.IsTrue(response.IsInstalled);
+        }
 
-            CheckInstalledJavaVersionResponse response =
-                installedJavaVersionProvider.CheckInstalledJavaVersion(new CheckInstalledJavaVersionRequest
-                {
-                    ExpectedMinimumJavaMajorVersion = 8
-                });
+        [Test]
+        public void CheckInstalledJavaVersion_WhenExpectedJavaVersionUsesShortFormat()
+        {
+            var output = "openjdk version \"19\"";
+            var response = GetCheckInstalledJavaVersionResponse(output, 8);
+            Assert.IsTrue(response.Success, "Request was not successful");
+            Assert.IsTrue(response.IsInstalled);
+        }
 
-            processWrapperMock.Verify();
+        [Test]
+        public void CheckInstalledJavaVersion_WhenExpectedJavaVersionUsesShortFormatAndIsV1()
+        {
+            var output = "openjdk version \"1\"";
+            var response = GetCheckInstalledJavaVersionResponse(output, 8);
+            Assert.IsTrue(response.Success, "Request was not successful");
+            Assert.IsFalse(response.IsInstalled);
+
+            var response2 = GetCheckInstalledJavaVersionResponse(output, 1);
+            Assert.IsTrue(response2.Success, "Request was not successful");
+            Assert.IsTrue(response2.IsInstalled);
+        }
+
+        [Test]
+        public void CheckInstalledJavaVersion_WithSecurityPatch()
+        {
+            var output = "java version \"1.09.1.1\"";
+            var response = GetCheckInstalledJavaVersionResponse(output, 8);
+            Assert.IsTrue(response.Success, "Request was not successful");
+            Assert.IsTrue(response.IsInstalled);
+        }
+
+        [Test]
+        public void CheckInstalledJavaVersion_WhenJavaVersionIsTooLow()
+        {
+            var output = "java version \"1.8.0_291\"";
+            var response = GetCheckInstalledJavaVersionResponse(output, 11);
             Assert.IsTrue(response.Success, "Request was not successful");
             Assert.IsFalse(response.IsInstalled);
         }
 
         [Test]
-        public void CheckInstalledJavaVersion_WhenJavaIsNotInstalled_IsNotSuccessFul()
+        public void CheckInstalledJavaVersion_WhenJavaIsNotInstalled()
         {
-            var processWrapperMock = new Mock<IProcessWrapper>();
-            processWrapperMock.Setup(x => x.GetProcessOutput(
-                It.IsAny<ProcessStartInfo>())
-            ).Returns("java \"0.1\"");
+            var output = "java is not installed";
+            var response = GetCheckInstalledJavaVersionResponse(output, 8);
+            Assert.IsTrue(response.Success, "Request was not successful");
+            Assert.IsFalse(response.IsInstalled);
+        }
 
-            IInstalledJavaVersionProvider installedJavaVersionProvider =
-                InstalledJavaVersionProviderFactory.Create(processWrapperMock.Object);
-
-            CheckInstalledJavaVersionResponse response =
-                installedJavaVersionProvider.CheckInstalledJavaVersion(new CheckInstalledJavaVersionRequest
-                {
-                    ExpectedMinimumJavaMajorVersion = 8
-                });
-
-            processWrapperMock.Verify();
+        [Test]
+        public void CheckInstalledJavaVersion_WhenJavaIsEmpty()
+        {
+            var response = GetCheckInstalledJavaVersionResponse("", 8);
+            Assert.IsTrue(response.Success, "Request was not successful");
             Assert.IsFalse(response.IsInstalled);
         }
     }
