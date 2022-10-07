@@ -7,7 +7,7 @@ namespace AmazonGameLiftPlugin.Core.Shared.ProcessManagement
 {
     public interface IProcessWrapper
     {
-        string GetProcessOutput(ProcessStartInfo startInfo);
+        string? GetProcessOutput(ProcessStartInfo startInfo);
 
         (int, string) GetProcessIdAndStandardOutput(ProcessStartInfo startInfo);
 
