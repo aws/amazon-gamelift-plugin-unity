@@ -1,6 +1,11 @@
 CHANGELOG
 
-# 1.2.1 (11/15/2021)
+# 1.2.1 (10/31/2022)
+
+- Update Newtonsoft.Json from 12.0.0 to 13.0.1
+- Fix JDK detection error when JAVA_TOOL_OPTIONS environment variable is set
+
+# 1.2.0 (11/15/2021)
 
 - Mac OS Support
     - Add menu options to apply Mac OS sample game settings
