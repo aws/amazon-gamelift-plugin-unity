@@ -4,6 +4,7 @@
 	<OutDir>.\Plugins</OutDir>
 	<DebugType>none</DebugType>
 	<AssemblyName>Amazon.GameLiftPlugin.Core.tmp</AssemblyName>
+	<LangVersion>8.0</LangVersion>
   </PropertyGroup>
   <ItemGroup>
     <PackageReference Include="AWSSDK.CloudFormation" Version="3.7.3.2" />
