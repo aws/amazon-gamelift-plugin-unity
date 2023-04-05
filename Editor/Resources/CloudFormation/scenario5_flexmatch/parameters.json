@@ -17,10 +17,14 @@
   },
   {
     "ParameterKey": "BuildOperatingSystemParameter",
-    "ParameterValue": "WINDOWS_2012"
+    "ParameterValue": "WINDOWS_2016"
   },
   {
     "ParameterKey": "FleetNameParameter",
     "ParameterValue": "FlexMatch Fleet"
+  },
+  {
+    "ParameterKey": "BuildNameParameter",
+    "ParameterValue": "FlexMatch Fleet Build"
   }
 ]

@@ -17,10 +17,14 @@
   },
   {
     "ParameterKey": "BuildOperatingSystemParameter",
-    "ParameterValue": "WINDOWS_2012"
+    "ParameterValue": "WINDOWS_2016"
   },
   {
     "ParameterKey": "FleetNameParameter",
     "ParameterValue": "Multi-Region Fleet"
+  },
+  {
+    "ParameterKey": "BuildNameParameter",
+    "ParameterValue": "Multi-Region Fleet Build"
   }
 ]
