@@ -36,7 +36,7 @@ namespace AmazonGameLiftPlugin.Core.JavaCheck
             processStartInfo.UseShellExecute = false;
             processStartInfo.CreateNoWindow = true;
 
-            string? processOutput = null;
+            string processOutput = null;
             try
             {
                 processOutput = _process.GetProcessOutput(processStartInfo);
