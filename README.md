@@ -217,6 +217,12 @@ if your AWS account is limited by GameLift (e.g. new account, invalid payment de
 AWS console > Service Limits**, and request for limit increase on your account, then work with AWS customer support to
 get your account limit lifted.
 
+### My CloudFormation stack failed to create Build resource due to error "The WINDOWS_2012 option for the OperatingSystem parameter is deprecated."
+
+Starting from 04/20/2022, WINDOWS_2012 operating system is no longer available on GameLift. Please either update to GameLift Plugin For Unity 
+version 1.3.0 or above, or manually update the `BuildOperatingSystemParameter` in **Editor/Resources/CloudFormation/<YOUR SCENARIO>/parameters.json**
+to use value `WINDOWS_2016` instead of `WINDOWS_2012`.
+
 ### I need help!
 
 If you are blocked, please don't hesitate to reach out for support via:
