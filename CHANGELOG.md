@@ -1,9 +1,9 @@
 CHANGELOG
 
-# 1.3.0 (04/05/2023)
+# 1.3.0 (04/20/2023)
 
 - Update minimum required Unity version from 2019.4 to 2021.3
-- Update CloudFormation templates to use WINDOWS_2016 instead of WINDOWS_2012, due to GameLift deprecating the support for WINDOWS_2012 on 04/20/2023
+- Update CloudFormation templates to use WINDOWS_2016, due to GameLift deprecating the support for WINDOWS_2012 on 04/20/2023
 - Update sample game build logic to use StandaloneBuildSubtarget.Server introduced in [Unity 2021.3.22](https://unity.com/releases/editor/whats-new/2021.3.22)
 - Remove .exe/.app restriction when selecting build executables in Local Testing UI and Deployment UI
 - Update build script to modify C# GameLift Server SDK csproj to remove version specification for Newtonsoft.Json in favor of version defined in package.json. Verified that this fixes the "Could not locate the assembly" issue with Newtonsoft.Json when building the C# GameLift Server SDK.
