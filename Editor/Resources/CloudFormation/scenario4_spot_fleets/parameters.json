@@ -17,10 +17,14 @@
   },
   {
     "ParameterKey": "BuildOperatingSystemParameter",
-    "ParameterValue": "WINDOWS_2012"
+    "ParameterValue": "WINDOWS_2016"
   },
   {
     "ParameterKey": "FleetNameParameter",
     "ParameterValue": "SPOT Fleet"
+  },
+  {
+    "ParameterKey": "BuildNameParameter",
+    "ParameterValue": "SPOT Fleet Build"
   }
 ]
