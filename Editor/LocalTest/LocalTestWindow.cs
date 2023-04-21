@@ -119,7 +119,7 @@ namespace AmazonGameLift.Editor
             using (new EditorGUI.DisabledScope(_model.IsDeploymentRunning))
             {
                 _model.BuildExecutablePath = _controlDrawer.DrawFilePathField(
-                  _labelServerPath, _model.BuildExecutablePath, "exe,app", _titleServerPathDialog,
+                  _labelServerPath, _model.BuildExecutablePath, "", _titleServerPathDialog,
                   _tooltipLocalTestingServerPath);
 
                 GUILayout.Space(VerticalSpacingPixels);

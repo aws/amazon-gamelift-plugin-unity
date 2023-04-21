@@ -14,11 +14,15 @@ public static class ClientServerSwitchMenu
     private const string UnityServerDefine = "UNITY_SERVER";
     private const string MissingWindowsModuleError = "Please install Windows build module via UnityHub first. See: https://docs.unity3d.com/Manual/GettingStartedAddingEditorComponents.html";
 
-# if UNITY_EDITOR_OSX
+#if UNITY_EDITOR_OSX
     [MenuItem("GameLift/Apply MacOS Sample Client Build Settings", priority = 9203)]
     public static void ConfigureMacOsClient()
     {
+#if UNITY_2021_3_OR_NEWER
+        EditorUserBuildSettings.standaloneBuildSubtarget = StandaloneBuildSubtarget.Player;
+#else
         EditorUserBuildSettings.enableHeadlessMode = false;
+#endif
         EditorUserBuildSettings.SwitchActiveBuildTarget( BuildTargetGroup.Standalone, BuildTarget.StandaloneOSX );
         Switch(RemoveServer);
         LogSuccessMessage("Sample Client", "MacOS");
@@ -27,12 +31,16 @@ public static class ClientServerSwitchMenu
     [MenuItem("GameLift/Apply MacOS Sample Server Build Settings", priority = 9102)]
     public static void ConfigureMacOsServer()
     {
+#if UNITY_2021_3_OR_NEWER
+        EditorUserBuildSettings.standaloneBuildSubtarget = StandaloneBuildSubtarget.Server;
+#else
         EditorUserBuildSettings.enableHeadlessMode = true;
+#endif
         EditorUserBuildSettings.SwitchActiveBuildTarget( BuildTargetGroup.Standalone, BuildTarget.StandaloneOSX );
         Switch(AddServer);
         LogSuccessMessage("Sample Server", "MacOS");
     }
-# endif
+#endif
 
     [MenuItem("GameLift/Apply Windows Sample Client Build Settings", priority = 9202)]
     public static void RunClient()
@@ -43,8 +51,11 @@ public static class ClientServerSwitchMenu
             return;
         }
         EditorUserBuildSettings.SwitchActiveBuildTarget( BuildTargetGroup.Standalone, BuildTarget.StandaloneWindows64 );
-
+#if UNITY_2021_3_OR_NEWER
+        EditorUserBuildSettings.standaloneBuildSubtarget = StandaloneBuildSubtarget.Player;
+#else
         EditorUserBuildSettings.enableHeadlessMode = false;
+#endif
         Switch(RemoveServer);
         LogSuccessMessage("Sample Client", "Windows");
     }
@@ -58,8 +69,11 @@ public static class ClientServerSwitchMenu
             return;
         }
         EditorUserBuildSettings.SwitchActiveBuildTarget( BuildTargetGroup.Standalone, BuildTarget.StandaloneWindows64 );
-
+#if UNITY_2021_3_OR_NEWER
+        EditorUserBuildSettings.standaloneBuildSubtarget = StandaloneBuildSubtarget.Server;
+#else
         EditorUserBuildSettings.enableHeadlessMode = true;
+#endif
         Switch(AddServer);
         LogSuccessMessage("Sample Server", "Windows");
     }
