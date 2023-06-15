@@ -6,6 +6,7 @@ using System;
 using System.Collections.Generic;
 using Aws.GameLift;
 using Aws.GameLift.Server;
+using Aws.GameLift.Server.Model;
 using UnityEngine;
 
 public class GameLiftServer
@@ -34,7 +35,8 @@ public class GameLiftServer
 
         try
         {
-            GenericOutcome initOutcome = GameLiftServerAPI.InitSDK();
+            
+            GenericOutcome initOutcome = GameLiftServerAPI.InitSdk(); //InitSDK if net6 version, needs checking
 
             if (initOutcome.Success)
             {
@@ -62,31 +64,13 @@ public class GameLiftServer
             Environment.Exit(0);
         }
 
-        try
+        if (processEnding)
         {
-            GenericOutcome outcome = GameLiftServerAPI.TerminateGameSession();
-
-            if (outcome.Success)
-            {
-                _logger.Write(":) GAME SESSION TERMINATED");
-
-                if (processEnding)
-                {
-                    ProcessEnding();
-                }
-                else
-                {
-                    ProcessReady();
-                }
-            }
-            else
-            {
-                _logger.Write(":( GAME SESSION TERMINATION FAILED. TerminateGameSession() returned " + outcome.Error.ToString());
-            }
+            ProcessEnding();
         }
-        catch (Exception e)
+        else
         {
-            _logger.Write(":( GAME SESSION TERMINATION FAILED. TerminateGameSession() exception " + Environment.NewLine + e.Message);
+            ProcessReady();
         }
     }
 
@@ -191,6 +175,10 @@ public class GameLiftServer
                 {
                     _logger.Write(":( GAME SESSION ACTIVATION FAILED. ActivateGameSession() exception " + Environment.NewLine + e.Message);
                 }
+            },
+            onUpdateGameSession: gameSession =>
+            {
+                _logger.Write($":) GAMELIFT UPDATE SESSION REQUESTED. REASON: {gameSession.UpdateReason}. FOR BACKFILLTICKETID {gameSession.BackfillTicketId}");
             },
             onProcessTerminate: () =>
             {

@@ -112,54 +112,54 @@ namespace AmazonGameLift.Editor
             }
         }
 
-        private float DrawControls()
-        {
-            float uncountedHeight = 0f;
+         private float DrawControls()
+         {
+             float uncountedHeight = 0f;
 
-            using (new EditorGUI.DisabledScope(_model.IsDeploymentRunning))
-            {
-                _model.BuildExecutablePath = _controlDrawer.DrawFilePathField(
-                  _labelServerPath, _model.BuildExecutablePath, "", _titleServerPathDialog,
-                  _tooltipLocalTestingServerPath);
+             using (new EditorGUI.DisabledScope(_model.IsDeploymentRunning))
+             {
+                 _model.BuildExecutablePath = _controlDrawer.DrawFilePathField(
+                   _labelServerPath, _model.BuildExecutablePath, "", _titleServerPathDialog,
+                   _tooltipLocalTestingServerPath);
 
-                GUILayout.Space(VerticalSpacingPixels);
-                float height = _controlDrawer.DrawReadOnlyTextWrapped(_labelGameLiftLocalPath, _model.GameLiftLocalPath);
-                GUILayout.Space(VerticalSpacingPixels + height);
-                _model.GameLiftLocalPort = _controlDrawer.DrawIntField(_labelLocalTestingPort, _model.GameLiftLocalPort, _tooltipPort);
-                uncountedHeight += height;
-            }
+                 GUILayout.Space(VerticalSpacingPixels);
+                 float height = _controlDrawer.DrawReadOnlyTextWrapped(_labelGameLiftLocalPath, _model.GameLiftLocalPath);
+                 GUILayout.Space(VerticalSpacingPixels + height);
+                 _model.GameLiftLocalPort = _controlDrawer.DrawIntField(_labelLocalTestingPort, _model.GameLiftLocalPort, _tooltipPort);
+                 uncountedHeight += height;
+             }
 
-            GUILayout.Space(2 * VerticalSpacingPixels);
-            DrawLink(_helpLinkButton);
-            GUILayout.Space(VerticalSpacingPixels);
+             GUILayout.Space(2 * VerticalSpacingPixels);
+             DrawLink(_helpLinkButton);
+             GUILayout.Space(VerticalSpacingPixels);
 
-            using (new EditorGUILayout.HorizontalScope())
-            {
-                using (new EditorGUI.DisabledScope(!_model.CanStop))
-                {
-                    if (GUILayout.Button(_labelStopButton))
-                    {
-                        _model.Stop();
-                    }
-                }
+             using (new EditorGUILayout.HorizontalScope())
+             {
+                 using (new EditorGUI.DisabledScope(!_model.CanStop))
+                 {
+                     if (GUILayout.Button(_labelStopButton))
+                     {
+                         _model.Stop();
+                     }
+                 }
 
-                using (new EditorGUI.DisabledScope(!_model.CanStart))
-                {
-                    if (GUILayout.Button(_labelStartButton))
-                    {
-                        _ = _model.Start(_cancellation.Token);
-                    }
-                }
-            }
+                 using (new EditorGUI.DisabledScope(!_model.CanStart))
+                 {
+                     if (GUILayout.Button(_labelStartButton))
+                     {
+                         _ = _model.Start(_cancellation.Token);
+                     }
+                 }
+             }
 
-            if (_model.Status.IsDisplayed)
-            {
-                GUILayout.Space(VerticalSpacingPixels / 2f);
-                _statusLabel.Draw(_model.Status.Message, _model.Status.Type);
-            }
+             if (_model.Status.IsDisplayed)
+             {
+                 GUILayout.Space(VerticalSpacingPixels / 2f);
+                 _statusLabel.Draw(_model.Status.Message, _model.Status.Type);
+             }
 
-            return uncountedHeight;
-        }
+             return uncountedHeight;
+         }
 
         private void DrawLink(HyperLinkButton linkButton)
         {

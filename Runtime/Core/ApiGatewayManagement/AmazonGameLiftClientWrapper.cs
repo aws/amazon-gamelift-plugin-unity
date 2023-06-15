@@ -1,27 +1,32 @@
 // Copyright Amazon.com, Inc. or its affiliates. All Rights Reserved.
 // SPDX-License-Identifier: Apache-2.0
 
+using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
 using Amazon.GameLift;
 using Amazon.GameLift.Model;
+using AmazonGameLiftPlugin.Core.CredentialManagement;
+using AmazonGameLiftPlugin.Core.CredentialManagement.Models;
+using AmazonGameLiftPlugin.Core.Shared.FileSystem;
 
 namespace AmazonGameLiftPlugin.Core.ApiGatewayManagement
 {
     public class AmazonGameLiftClientWrapper : IAmazonGameLiftClientWrapper
     {
         private readonly IAmazonGameLift _amazonGameLiftClient;
-        private static readonly string s_dummyAwsAccessKey = "1";
-        private static readonly string s_dummyAwsSecretKey = "1";
+        private readonly string _profileName;
+        
 
         internal AmazonGameLiftClientWrapper(IAmazonGameLift amazonGameLiftClient)
         {
             _amazonGameLiftClient = amazonGameLiftClient;
         }
 
-        public AmazonGameLiftClientWrapper(string localEndpoint)
+        public AmazonGameLiftClientWrapper(string profileName)
         {
-            _amazonGameLiftClient = Create(localEndpoint);
+            _profileName = profileName;
+            _amazonGameLiftClient = Create();
         }
 
         public async Task<CreateGameSessionResponse> CreateGameSessionAsync(
@@ -29,7 +34,7 @@ namespace AmazonGameLiftPlugin.Core.ApiGatewayManagement
                 CancellationToken cancellationToken = default
             )
         {
-            return await _amazonGameLiftClient.CreateGameSessionAsync(request);
+            return await _amazonGameLiftClient.CreateGameSessionAsync(request, cancellationToken);
         }
 
         public async Task<CreatePlayerSessionResponse> CreatePlayerSession(CreatePlayerSessionRequest request)
@@ -42,17 +47,23 @@ namespace AmazonGameLiftPlugin.Core.ApiGatewayManagement
             return await _amazonGameLiftClient.SearchGameSessionsAsync(request);
         }
 
-        public static IAmazonGameLift Create(string localEndpoint)
+        private IAmazonGameLift Create()
         {
-            return new AmazonGameLiftClient(s_dummyAwsAccessKey, s_dummyAwsSecretKey, new AmazonGameLiftConfig
-            {
-                ServiceURL = localEndpoint
-            });
+            var credentials = GetCredentials();
+            return new AmazonGameLiftClient(credentials.AccessKey, credentials.SecretKey);
         }
 
         public async Task<DescribeGameSessionsResponse> DescribeGameSessions(DescribeGameSessionsRequest request)
         {
             return await _amazonGameLiftClient.DescribeGameSessionsAsync(request);
+        }
+
+        private RetriveAwsCredentialsResponse GetCredentials()
+        {
+            ICredentialsStore credentialsStore = new CredentialsStore(new FileWrapper());
+
+            var request = new RetriveAwsCredentialsRequest() { ProfileName = _profileName };
+            return credentialsStore.RetriveAwsCredentials(request);
         }
     }
 }
