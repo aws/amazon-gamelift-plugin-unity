@@ -113,14 +113,14 @@ namespace AmazonGameLift.Editor
         }
 
         private float DrawControls()
-        {
+        { 
             float uncountedHeight = 0f;
 
             using (new EditorGUI.DisabledScope(_model.IsDeploymentRunning))
             {
                 _model.BuildExecutablePath = _controlDrawer.DrawFilePathField(
-                  _labelServerPath, _model.BuildExecutablePath, "", _titleServerPathDialog,
-                  _tooltipLocalTestingServerPath);
+                    _labelServerPath, _model.BuildExecutablePath, "", _titleServerPathDialog,
+                    _tooltipLocalTestingServerPath);
 
                 GUILayout.Space(VerticalSpacingPixels);
                 float height = _controlDrawer.DrawReadOnlyTextWrapped(_labelGameLiftLocalPath, _model.GameLiftLocalPath);

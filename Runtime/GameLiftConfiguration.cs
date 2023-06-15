@@ -9,5 +9,6 @@ namespace AmazonGameLift.Runtime
         public string AwsRegion;
         public string UserPoolClientId;
         public string ApiGatewayEndpoint;
+        public bool IsGameLiftAnywhere;
     }
 }

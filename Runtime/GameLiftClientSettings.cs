@@ -1,7 +1,13 @@
 // Copyright Amazon.com, Inc. or its affiliates. All Rights Reserved.
 // SPDX-License-Identifier: Apache-2.0
 
+using System;
+using System.Linq;
+using System.Net;
+using System.Net.Sockets;
+using Aws.GameLift.Server;
 using UnityEngine;
+using Random = UnityEngine.Random;
 
 namespace AmazonGameLift.Runtime
 {
@@ -11,21 +17,37 @@ namespace AmazonGameLift.Runtime
         public string AwsRegion;
         public string UserPoolClientId;
         public string ApiGatewayUrl;
-        public string LocalUrl = "http://localhost";
-        public ushort LocalPort = 8080;
-        public bool IsLocalTest;
+        
+        public string ComputeName;
+        public string FleetID;
+        public string FleetLocation;
+        public string AuthToken;
+        public string ProfileName;
+        public bool IsAnywhereTest;
 
         public GameLiftConfiguration GetConfiguration()
         {
-            string endpoint = IsLocalTest
-                ? $"{LocalUrl}:{LocalPort}"
-                : ApiGatewayUrl;
-            string awsRegion = IsLocalTest ? "eu-west-1" : AwsRegion;
             return new GameLiftConfiguration
             {
-                ApiGatewayEndpoint = endpoint,
-                AwsRegion = awsRegion,
+                ApiGatewayEndpoint = ApiGatewayUrl,
+                AwsRegion = AwsRegion,
                 UserPoolClientId = UserPoolClientId,
+                IsGameLiftAnywhere = IsAnywhereTest,
+            };
+        }
+
+        public ServerParameters GetStartupParameters()
+        {
+            var webSocketUrl = $"wss://{AwsRegion}.api.amazongamelift.com";
+            var processId = $"fleet-{Math.Floor(Random.value * 100000)}";
+            Debug.Log($"GAMELIFT PROCESS ID = {processId}");
+            return new ServerParameters
+            {
+                FleetId = FleetID,
+                HostId = ComputeName,
+                ProcessId = processId,
+                WebSocketUrl = webSocketUrl,
+                AuthToken = AuthToken
             };
         }
     }
