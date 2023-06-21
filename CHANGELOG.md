@@ -1,5 +1,9 @@
 CHANGELOG
 
+# 1.3.1 (12/06/2023)
+
+- Update minimum required Unity version from 2021.3 to 2022.3
+
 # 1.3.0 (04/20/2023)
 
 - Update minimum required Unity version from 2019.4 to 2021.3
