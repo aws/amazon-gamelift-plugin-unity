@@ -2,19 +2,15 @@
 // SPDX-License-Identifier: Apache-2.0
 
 using System;
-using System.Linq;
-using System.Net;
-using System.Net.Sockets;
 using Aws.GameLift.Server;
 using UnityEngine;
-using Random = UnityEngine.Random;
 
-namespace AmazonGameLift.Runtime
+namespace AmazonGameLiftPlugin.Core
 {
     [CreateAssetMenu(fileName = "GameLiftClientSettings", menuName = "GameLift/Client Settings")]
-    public sealed class GameLiftClientSettings : ScriptableObject
+    public class GameLiftClientSettings : ScriptableObject
     {
-        public string AwsRegion;
+        public string WebSocketUrl;
         public string UserPoolClientId;
         public string ApiGatewayUrl;
         
@@ -30,7 +26,7 @@ namespace AmazonGameLift.Runtime
             return new GameLiftConfiguration
             {
                 ApiGatewayEndpoint = ApiGatewayUrl,
-                AwsRegion = AwsRegion,
+                //AwsRegion = AwsRegion,
                 UserPoolClientId = UserPoolClientId,
                 IsGameLiftAnywhere = IsAnywhereTest,
             };
@@ -38,8 +34,8 @@ namespace AmazonGameLift.Runtime
 
         public ServerParameters GetStartupParameters()
         {
-            var webSocketUrl = $"wss://{AwsRegion}.api.amazongamelift.com";
-            var processId = $"fleet-{Math.Floor(Random.value * 100000)}";
+            var webSocketUrl = WebSocketUrl;
+            var processId = $"process-{Guid.NewGuid()}";
             Debug.Log($"GAMELIFT PROCESS ID = {processId}");
             return new ServerParameters
             {

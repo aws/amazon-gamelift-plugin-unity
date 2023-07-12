@@ -13,14 +13,14 @@ using Logger = AmazonGameLiftPlugin.Core.Shared.Logging.Logger;
 
 namespace AmazonGameLiftPlugin.Core.ApiGatewayManagement 
 {
-    public class GLAGameAdapter : IGameServerAdapter
+    public class AnywhereGameServerAdapter : IGameServerAdapter
     {
         private readonly IAmazonGameLiftClientWrapper _amazonGameLiftClientWrapper;
         private readonly string _fleetId;
         private readonly string _location;
         private readonly string _playerIdPrefix = "playerId-";
         
-        public GLAGameAdapter(IAmazonGameLiftClientWrapper amazonGameLiftClientWrapper,string fleetId, string fleetLocation )
+        public AnywhereGameServerAdapter(IAmazonGameLiftClientWrapper amazonGameLiftClientWrapper,string fleetId, string fleetLocation )
         {
             _amazonGameLiftClientWrapper = amazonGameLiftClientWrapper;
             _location = fleetLocation;
