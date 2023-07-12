@@ -10,17 +10,18 @@ using AmazonGameLiftPlugin.Core.ApiGatewayManagement.Models;
 using AmazonGameLiftPlugin.Core.Shared;
 using UnityEngine;
 using Logger = AmazonGameLiftPlugin.Core.Shared.Logging.Logger;
+using Amazon.GameLift.Model;
 
 namespace AmazonGameLiftPlugin.Core.ApiGatewayManagement 
 {
-    public class GLAGameAdapter : IGameServerAdapter
+    public class AnywhereGameServerAdapter : IGameServerAdapter
     {
         private readonly IAmazonGameLiftClientWrapper _amazonGameLiftClientWrapper;
         private readonly string _fleetId;
         private readonly string _location;
         private readonly string _playerIdPrefix = "playerId-";
         
-        public GLAGameAdapter(IAmazonGameLiftClientWrapper amazonGameLiftClientWrapper,string fleetId, string fleetLocation )
+        public AnywhereGameServerAdapter(IAmazonGameLiftClientWrapper amazonGameLiftClientWrapper, string fleetId, string fleetLocation )
         {
             _amazonGameLiftClientWrapper = amazonGameLiftClientWrapper;
             _location = fleetLocation;
@@ -31,22 +32,21 @@ namespace AmazonGameLiftPlugin.Core.ApiGatewayManagement
         {
             try
             {
-                Amazon.GameLift.Model.DescribeGameSessionsResponse describeGameSessionsResponse = await _amazonGameLiftClientWrapper.DescribeGameSessions(new Amazon.GameLift.Model.DescribeGameSessionsRequest
+                var describeGameSessionsResponse = await _amazonGameLiftClientWrapper.DescribeGameSessions(new DescribeGameSessionsRequest
                 {
                     FleetId = _fleetId,
                     StatusFilter = GameSessionStatus.ACTIVE
                 });
 
+                var oldestGameSession = describeGameSessionsResponse.GameSessions.First();
                 if (describeGameSessionsResponse.GameSessions.Any())
                 {
-                    Amazon.GameLift.Model.GameSession oldestGameSession = describeGameSessionsResponse.GameSessions.First();
-
-                    Amazon.GameLift.Model.CreatePlayerSessionResponse createPlayerSessionResponse = await _amazonGameLiftClientWrapper.CreatePlayerSession(new Amazon.GameLift.Model.CreatePlayerSessionRequest
+                    var createPlayerSessionResponse = await _amazonGameLiftClientWrapper.CreatePlayerSession(new CreatePlayerSessionRequest
                     {
                         GameSessionId = oldestGameSession.GameSessionId,
                         PlayerId = _playerIdPrefix + Guid.NewGuid().ToString()
                     });
-                    Amazon.GameLift.Model.PlayerSession playerSession = createPlayerSessionResponse.PlayerSession;
+                    var playerSession = createPlayerSessionResponse.PlayerSession;
 
                     var response = new GetGameConnectionResponse
                     {
@@ -81,7 +81,7 @@ namespace AmazonGameLiftPlugin.Core.ApiGatewayManagement
         {
             try
             {
-                Amazon.GameLift.Model.DescribeGameSessionsResponse describeGameSessionsResponse = await _amazonGameLiftClientWrapper.DescribeGameSessions(new Amazon.GameLift.Model.DescribeGameSessionsRequest
+                var describeGameSessionsResponse = await _amazonGameLiftClientWrapper.DescribeGameSessions(new DescribeGameSessionsRequest
                 {
                     FleetId = _fleetId,
                     StatusFilter = GameSessionStatus.ACTIVE
@@ -89,7 +89,7 @@ namespace AmazonGameLiftPlugin.Core.ApiGatewayManagement
 
                 if (!describeGameSessionsResponse.GameSessions.Any())
                 {
-                    Amazon.GameLift.Model.CreateGameSessionResponse createGameSessionResponse = await _amazonGameLiftClientWrapper.CreateGameSessionAsync(new Amazon.GameLift.Model.CreateGameSessionRequest
+                    var createGameSessionResponse = await _amazonGameLiftClientWrapper.CreateGameSessionAsync(new CreateGameSessionRequest
                     {
                         MaximumPlayerSessionCount = 4,
                         FleetId = _fleetId,

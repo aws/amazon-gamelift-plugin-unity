@@ -6,6 +6,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using AmazonGameLiftPlugin.Core;
 using AmazonGameLiftPlugin.Core.ApiGatewayManagement;
 using AmazonGameLiftPlugin.Core.ApiGatewayManagement.Models;
 using AmazonGameLiftPlugin.Core.Latency;
@@ -29,10 +30,11 @@ namespace AmazonGameLift.Runtime
             _apiGateway = new ApiGateway(_userIdentity, new JwtTokenExpirationCheck(), new HttpClientWrapper());
             
             var clientSettings = Resources.FindObjectsOfTypeAll<GameLiftClientSettings>()[0];
+            var config = clientSettings.GetGameLiftAnywhereConfiguration();
             if (_configuration.IsGameLiftAnywhere)
             {
-                var gameLiftClientWrapper = new AmazonGameLiftClientWrapper(clientSettings.ProfileName);
-                _anywhereGame = new GLAGameAdapter(gameLiftClientWrapper,clientSettings.FleetID, clientSettings.FleetLocation);
+                var gameLiftClientWrapper = new AmazonGameLiftClientWrapper();
+                _anywhereGame = new AnywhereGameServerAdapter(gameLiftClientWrapper, config.FleetID, config.FleetLocation);
                 _isAnywhereMode = true;
             }
         }
@@ -114,7 +116,7 @@ namespace AmazonGameLift.Runtime
 
         private readonly ApiGateway _apiGateway;
         private readonly LatencyService _latencyService = new LatencyService(new PingWrapper());
-        private readonly GLAGameAdapter _anywhereGame;
+        private readonly AnywhereGameServerAdapter _anywhereGame;
 
         public virtual string[] ListAvailableRegions()
         {
