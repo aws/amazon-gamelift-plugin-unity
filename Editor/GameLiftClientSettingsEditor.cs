@@ -1,7 +1,7 @@
 // Copyright Amazon.com, Inc. or its affiliates. All Rights Reserved.
 // SPDX-License-Identifier: Apache-2.0
 
-using AmazonGameLift.Runtime;
+using AmazonGameLiftPlugin.Core;
 using UnityEditor;
 using UnityEngine;
 
@@ -27,13 +27,7 @@ namespace AmazonGameLift.Editor
             var targetSettings = (GameLiftClientSettings)target;
 
             EditorGUILayout.PropertyField(_isAnywhereTest, new GUIContent("GameLift Anywhere", "GameLift Anywhere Mode"));
-            EditorGUILayout.PropertyField(_region, new GUIContent("AWS Region", "AWS region used for communicating with Cognito and API Gateway"));
-            
-            if (string.IsNullOrWhiteSpace(targetSettings.AwsRegion))
-            {
-                EditorGUILayout.HelpBox("Please set the AWS Region.", MessageType.Warning);
-            }
-            
+
             try
             {
                 if (targetSettings.IsAnywhereTest)
@@ -54,7 +48,6 @@ namespace AmazonGameLift.Editor
         private void OnEnable()
         {
             _remoteUrl = serializedObject.FindProperty(nameof(GameLiftClientSettings.ApiGatewayUrl));
-            _region = serializedObject.FindProperty(nameof(GameLiftClientSettings.AwsRegion));
             _poolClientId = serializedObject.FindProperty(nameof(GameLiftClientSettings.UserPoolClientId));
             
             _isAnywhereTest = serializedObject.FindProperty(nameof(GameLiftClientSettings.IsAnywhereTest));

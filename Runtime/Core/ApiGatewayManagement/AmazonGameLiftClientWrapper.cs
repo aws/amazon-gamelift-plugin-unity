@@ -3,25 +3,27 @@
 
 using System;
 using System.Collections.Generic;
-using System.Diagnostics;
 using System.Linq;
 using System.Net;
 using System.Net.Sockets;
-using System.Text.RegularExpressions;
 using System.Threading;
 using System.Threading.Tasks;
 using Amazon.GameLift;
 using Amazon.GameLift.Model;
+using AmazonGameLiftPlugin.Core.CredentialManagement;
+using AmazonGameLiftPlugin.Core.CredentialManagement.Models;
+using AmazonGameLiftPlugin.Core.Shared.FileSystem;
 using UnityEngine;
-using Debug = UnityEngine.Debug;
 
 namespace AmazonGameLiftPlugin.Core.ApiGatewayManagement
 {
     public class AmazonGameLiftClientWrapper : IAmazonGameLiftClientWrapper
     {
-        private IAmazonGameLift _amazonGameLiftClient;
-        private readonly string _profileName;
-
+        private readonly IAmazonGameLift _amazonGameLiftClient;
+        private string _profileName;
+        
+        #region Client
+        
         internal AmazonGameLiftClientWrapper(IAmazonGameLift amazonGameLiftClient)
         {
             _amazonGameLiftClient = amazonGameLiftClient;
@@ -34,12 +36,6 @@ namespace AmazonGameLiftPlugin.Core.ApiGatewayManagement
             _amazonGameLiftClient = Create();
         }
         
-        public AmazonGameLiftClientWrapper()
-        {
-            _gameLiftClientSettings = Resources.FindObjectsOfTypeAll<GameLiftClientSettings>()[0];
-            _amazonGameLiftClient = Create();
-        }
-
         public async Task<CreateGameSessionResponse> CreateGameSessionAsync(
                 CreateGameSessionRequest request,
                 CancellationToken cancellationToken = default
@@ -66,21 +62,57 @@ namespace AmazonGameLiftPlugin.Core.ApiGatewayManagement
         private IAmazonGameLift Create()
         {
             SetupCredentials();
-            return new AmazonGameLiftClient(_accessKey, _secretAccessKey);
+            return new AmazonGameLiftClient(AccessKey, SecretAccessKey);
         }
-
-        private string _accessKey { get; set; }
-        private string _secretAccessKey { get; set; }
-        private string _computeName { get; set; }
-        private string _fleetId { get; set; }
-        private string _ipAddress { get; set; }
-        private string _locationName { get; set; }
+        #endregion
+        
+        #region Server
+        private string AccessKey { get; set; }
+        private string SecretAccessKey { get; set; }
+        private string ComputeName { get; set; }
+        private string FleetId { get; set; }
+        private string IPAddress { get; set; }
+        private string LocationName { get; set; }
+        
+        private readonly ICredentialsStore _credentialsStore = new CredentialsStore(new FileWrapper());
 
         private readonly GameLiftClientSettings _gameLiftClientSettings;
+        
+        public AmazonGameLiftClientWrapper()
+        {
+            _gameLiftClientSettings = Resources.FindObjectsOfTypeAll<GameLiftClientSettings>()[0];
+            _amazonGameLiftClient = Create();
+        }
 
-        public async Task<ListLocationsResponse> ListLocations(ListLocationsRequest request)
+        private async Task<ListLocationsResponse> ListLocations(ListLocationsRequest request)
         {
             return await _amazonGameLiftClient.ListLocationsAsync(request);
+        }
+
+        private async Task<CreateLocationResponse> CreateLocation(CreateLocationRequest request)
+        {
+            return await _amazonGameLiftClient.CreateLocationAsync(request);
+        }
+
+        private async Task<RegisterComputeResponse> RegisterCompute(RegisterComputeRequest request)
+        {
+            return await _amazonGameLiftClient.RegisterComputeAsync(request);
+        }
+
+        private async Task<GetComputeAuthTokenResponse> GetComputeAuthToken(GetComputeAuthTokenRequest request)
+        {
+            return await _amazonGameLiftClient.GetComputeAuthTokenAsync(request);
+        }
+
+        private Task<CreateFleetResponse> CreateFleet(CreateFleetRequest request)
+        {
+            return _amazonGameLiftClient.CreateFleetAsync(request);
+        }
+        
+        private RetriveAwsCredentialsResponse RetrieveAwsCredentials(string profileName)
+        {
+            var request = new RetriveAwsCredentialsRequest { ProfileName = profileName };
+            return _credentialsStore.RetriveAwsCredentials(request);
         }
         
         public async Task UpdateAuthToken()
@@ -88,179 +120,141 @@ namespace AmazonGameLiftPlugin.Core.ApiGatewayManagement
             try
             {
                 SetupConfiguration();
-                await Task.WhenAll(CreateFleet(), RegisterCompute(), GenerateAuthToken());
-            }
-            catch (UnassignedReferenceException e)
-            {
-                Debug.LogError(e +
-                               " Please Create a GameLift Client Settings Object (Assets>Create>GameLift>Client Settings");
-                throw;
+                await Task.WhenAll(CreateFleet(),RegisterCompute(), GenerateAuthToken());
             }
             catch (Exception e)
             {
-                Debug.LogError("Error Occurred: "+ e);
+                Console.WriteLine(e);
                 throw;
             }
         }
 
-        private Task CreateFleet()
+        private async Task CreateFleet()
         {
-            CreateCustomLocation();
-            //CreateFleetCommand(); //### Add this automation to a unity button when we have UX
-            return Task.CompletedTask;
+            //### Move this entire thing to being UX based.
+            await CreateCustomLocation();
+            //await CreateFleetCommand(); 
         }
-        
-        private Task GenerateAuthToken()
-        {
-            //var authToken = GenerateAuthTokenCommand(); 
-            
-            //Debug.Log("AuthToken Generated: "+ authToken);
-            //_gameLiftClientSettings.AuthToken = authToken;
-            return Task.CompletedTask;
-        }
-        
+
         private void SetupCredentials()
         {
-            _accessKey = RunCliCommandProcess("configure get aws_access_key_id");
-            _secretAccessKey = RunCliCommandProcess("configure get aws_secret_access_key");
+            ServicePointManager.SecurityProtocol = SecurityProtocolType.Tls12;
+            _profileName = _gameLiftClientSettings.ProfileName;
+            var credentials = RetrieveAwsCredentials(_profileName);
+            AccessKey = credentials.AccessKey;
+            SecretAccessKey = credentials.SecretKey;
+            
         }
 
         private void SetupConfiguration()
         {
-            _computeName = _gameLiftClientSettings.ComputeName;
-            _fleetId = _gameLiftClientSettings.FleetID;
-            _ipAddress = Dns.GetHostEntry(Dns.GetHostName())
+            ComputeName = _gameLiftClientSettings.ComputeName;
+            FleetId = _gameLiftClientSettings.FleetID;
+            IPAddress = Dns.GetHostEntry(Dns.GetHostName())
                 .AddressList
                 .FirstOrDefault(ip => ip.AddressFamily == AddressFamily.InterNetwork)?
                 .ToString() ?? "0.0.0.0";
-            _locationName = _gameLiftClientSettings.FleetLocation;
+            LocationName = _gameLiftClientSettings.FleetLocation;
         }
 
-        private static string RunCliCommandProcess(string command)
+        private async Task GenerateAuthToken()
         {
-            const string awsCliPath = "aws";
-
-            var startInfo = new ProcessStartInfo
+            try
             {
-                FileName = awsCliPath,
-                Arguments = command,
-                RedirectStandardOutput = true,
-                UseShellExecute = false,
-                CreateNoWindow = true
-            };
-
-            using var process = Process.Start(startInfo);
-            using var reader = process?.StandardOutput;
-            var output = reader?.ReadToEnd();
-            
-            process?.WaitForExit();
-        
-            return output;
-        }
-
-        private string GenerateAuthTokenCommand()
-        {
-            //Compute the Auth token that we use for the server.
-            var token = RunCliCommand($"gamelift get-compute-auth-token --fleet-id {_fleetId} --compute-name {_computeName}");
-            
-            token = ExtractFromJson(token,"AuthToken");
-            return token;
+                var computeAuthTokenRequest = new GetComputeAuthTokenRequest
+                {
+                    ComputeName = ComputeName,
+                    FleetId = FleetId
+                };
+                var computeAuthTokenResponse = await GetComputeAuthToken(computeAuthTokenRequest);
+                _gameLiftClientSettings.AuthToken = computeAuthTokenResponse.AuthToken;
+            }
+            catch (Exception e)
+            {
+                Console.WriteLine(e);
+                throw;
+            }
         }
 
         private async Task RegisterCompute()
         {
-            DescribeComputeRequest describeComputeRequest = new DescribeComputeRequest()
-            {
-                ComputeName = _computeName,
-                FleetId = _fleetId
-            };
-            
-            var describeComputeResponse = await _amazonGameLiftClient.DescribeComputeAsync(describeComputeRequest);
-            Debug.Log(describeComputeResponse.Compute);
-            
-            // var computeRequest = new RegisterComputeRequest()
-            // {
-            //     ComputeName = _computeName,
-            //     FleetId = _fleetId,
-            //     IpAddress = _ipAddress,
-            //     Location = _locationName
-            // };
-            // var registerComputeResponse = await _amazonGameLiftClient.RegisterComputeAsync(computeRequest);
-            // Debug.Log(registerComputeResponse.ToString());
-            //_gameLiftClientSettings.WebSocketUrl = registerComputeResponse
-            
-            // //Register Compute Name. Makes sure that the compute is registered, will return the same response if the name already exists
-            // var computeInfo = RunCliCommand($"gamelift register-compute --compute-name {_computeName} --fleet-id {_fleetId} --ip-address {_ipAddress} --location custom-{_locationName}");
-            // computeInfo = ExtractFromJson(computeInfo, "GameLiftServiceSdkEndpoint");
-            
-            //_gameLiftClientSettings.WebSocketUrl = computeInfo;
-        }
-
-        private async void CreateCustomLocation()
-        {
+            //Reregistering compute will just return the same compute back to the user.
             try
             {
-                ListLocationsResponse listLocationsResponse = await ListLocations(new ListLocationsRequest
+                var registerComputeRequest = new RegisterComputeRequest()
                 {
-                    Filters = new List<string>() { "CUSTOM" }
-                });
-                
-                Debug.Log(listLocationsResponse.Locations);
+                    ComputeName = ComputeName,
+                    FleetId = FleetId,
+                    IpAddress = IPAddress,
+                    Location = LocationName
+                };
+                var registerComputeResponse = await RegisterCompute(registerComputeRequest);
+                    
+                _gameLiftClientSettings.WebSocketUrl = registerComputeResponse.Compute.GameLiftServiceSdkEndpoint;
             }
             catch (Exception ex)
             {
-                Debug.LogError(ex.Message);
-
-                // return Response.Fail(new StartGameResponse
-                // {
-                //     ErrorCode = ErrorCode.UnknownError,
-                //     ErrorMessage = ex.Message
-                // });
+                Console.WriteLine(ex.Message);
             }
-            
-            
-            //RunCliCommand($"gamelift create-location --location-name custom-{_locationName}");
-        }
-        
-        private void CreateFleetCommand()
-        {
-            var fleet = RunCliCommand($"gamelift create-fleet --name {_computeName} --compute-type ANYWHERE --locations \"Location=custom-{_locationName}\"");
-            _fleetId = ExtractFromJson(fleet, "FleetId");
-            _gameLiftClientSettings.FleetID = _fleetId;
         }
 
-        private static string RunCliCommand(string command)
+        private async Task CreateCustomLocation()
         {
-            var startInfo = new ProcessStartInfo
+            try
             {
-                FileName = "aws.exe",
-                Arguments = command,
-                RedirectStandardOutput = true,
-                UseShellExecute = false,
-                CreateNoWindow = true
-            };
-        
-            var process = new Process();
-            process.StartInfo = startInfo;
-            process.Start();
-
-            var output = process.StandardOutput.ReadToEnd();
-
-            process.WaitForExit();
-        
-            return output;
-        }
-        
-        private static string ExtractFromJson(string jsonString, string fieldToExtract)
-        {
-            // Parse the JSON string and extract the "AuthToken" field
-            var match = Regex.Match(jsonString, $@"""{fieldToExtract}""\s*:\s*""([^""]+)""");
-            if (match.Success && match.Groups.Count > 1)
-            {
-                return match.Groups[1].Value;
+                ServicePointManager.SecurityProtocol = SecurityProtocolType.Tls12;
+                var listLocationsResponse = await ListLocations(new ListLocationsRequest
+                {
+                    Filters = new List<string>{ "CUSTOM" }
+                });
+                
+                var foundLocation = listLocationsResponse.Locations.FirstOrDefault(l => l.LocationName.ToString() == LocationName);
+                
+                if(foundLocation == null)
+                {
+                    var createLocationResponse = await CreateLocation(new CreateLocationRequest()
+                    {
+                        LocationName = LocationName
+                    });
+                    
+                    if (createLocationResponse.HttpStatusCode == HttpStatusCode.OK)
+                    {
+                        Console.WriteLine($"Created Custom Location {LocationName}");
+                    }
+                }
             }
-        
-            return null;
+            catch (Exception ex)
+            {
+                Console.WriteLine(ex.Message);
+            }
         }
+        
+        private async Task CreateFleetCommand()
+        {
+            try
+            {
+                var createFleetRequest = new CreateFleetRequest
+                {
+                    ComputeType = ComputeType.ANYWHERE,
+                    Description = "Created By Amazon GameLift Unity Plugin",
+                    Locations = new List<LocationConfiguration>
+                    {
+                        new()
+                        {
+                            Location = LocationName
+                        }
+                    }
+                };
+                var createFleetResponse = await CreateFleet(createFleetRequest);
+                
+                _gameLiftClientSettings.FleetID = createFleetResponse.FleetAttributes.FleetId;
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine(ex.Message);
+            }
+        }
+        
+        #endregion
     }
 }

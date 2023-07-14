@@ -9,7 +9,7 @@
   <ItemGroup>
     <PackageReference Include="AWSSDK.CloudFormation" Version="3.7.3.2" />
 	<PackageReference Include="AWSSDK.CognitoIdentityProvider" Version="3.7.1.13" />
-    <PackageReference Include="AWSSDK.GameLift" Version="3.7.0.47" />
+    <PackageReference Include="AWSSDK.GameLift" Version="3.7.105.5" />
     <PackageReference Include="AWSSDK.S3" Version="3.7.1.23" />
     <PackageReference Include="AWSSDK.SecurityToken" Version="3.7.1.23" />
     <PackageReference Include="Microsoft.IdentityModel.JsonWebTokens" Version="6.11.1" />
@@ -20,6 +20,7 @@
     <PackageReference Include="Serilog.Sinks.File" Version="5.0.0" />
     <PackageReference Include="System.IdentityModel.Tokens.Jwt" Version="6.11.1" />
     <PackageReference Include="System.IO.Compression.ZipFile" Version="4.3.0" />
+    <PackageReference Include="Unity3D.SDK" Version="2021.1.14.1" />
     <PackageReference Include="YamlDotNet" Version="11.2.0" />
     <PackageReference Include="Moq" Version="4.16.1" />
     <PackageReference Include="Castle.Core" Version="4.4.0" />
@@ -27,6 +28,9 @@
   <ItemGroup>
     <!-- See: https://stackoverflow.com/questions/15241889/i-didnt-find-zipfile-class-in-the-system-io-compression-namespace -->
     <Reference Include="System.IO.Compression.FileSystem" />
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="obj\Debug\net471\" />
   </ItemGroup>
   <Target Name="PostBuild" AfterTargets="Build">
     <RemoveDir Directories="$(BaseIntermediateOutputPath)" /> <!-- obj -->

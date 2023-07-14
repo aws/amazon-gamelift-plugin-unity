@@ -36,7 +36,6 @@ namespace AmazonGameLiftPlugin.Core
         {
             var webSocketUrl = WebSocketUrl;
             var processId = $"process-{Guid.NewGuid()}";
-            Debug.Log($"GAMELIFT PROCESS ID = {processId}");
             return new ServerParameters
             {
                 FleetId = FleetID,
