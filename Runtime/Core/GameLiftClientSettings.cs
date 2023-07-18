@@ -13,7 +13,7 @@ namespace AmazonGameLiftPlugin.Core
         public string WebSocketUrl;
         public string UserPoolClientId;
         public string ApiGatewayUrl;
-        
+        public string AwsRegion;
         public string ComputeName;
         public string FleetID;
         public string FleetLocation;
@@ -26,7 +26,7 @@ namespace AmazonGameLiftPlugin.Core
             return new GameLiftConfiguration
             {
                 ApiGatewayEndpoint = ApiGatewayUrl,
-                //AwsRegion = AwsRegion,
+                AwsRegion = AwsRegion,
                 UserPoolClientId = UserPoolClientId,
                 IsGameLiftAnywhere = IsAnywhereTest,
             };
@@ -34,14 +34,13 @@ namespace AmazonGameLiftPlugin.Core
 
         public ServerParameters GetStartupParameters()
         {
-            var webSocketUrl = WebSocketUrl;
             var processId = $"process-{Guid.NewGuid()}";
             return new ServerParameters
             {
                 FleetId = FleetID,
                 HostId = ComputeName,
                 ProcessId = processId,
-                WebSocketUrl = webSocketUrl,
+                WebSocketUrl = WebSocketUrl,
                 AuthToken = AuthToken
             };
         }

@@ -49,7 +49,7 @@ namespace AmazonGameLift.Editor
         {
             _remoteUrl = serializedObject.FindProperty(nameof(GameLiftClientSettings.ApiGatewayUrl));
             _poolClientId = serializedObject.FindProperty(nameof(GameLiftClientSettings.UserPoolClientId));
-            
+            _region = serializedObject.FindProperty(nameof(GameLiftClientSettings.AwsRegion));
             _isAnywhereTest = serializedObject.FindProperty(nameof(GameLiftClientSettings.IsAnywhereTest));
             _computeName = serializedObject.FindProperty(nameof(GameLiftClientSettings.ComputeName));
             _fleetID = serializedObject.FindProperty(nameof(GameLiftClientSettings.FleetID));
@@ -84,6 +84,7 @@ namespace AmazonGameLift.Editor
         {
             EditorGUILayout.PropertyField(_remoteUrl, new GUIContent("API Gateway Endpoint", "API Gateway URL"));
             EditorGUILayout.PropertyField(_poolClientId, new GUIContent("Cognito Client ID"));
+            EditorGUILayout.PropertyField(_region, new GUIContent("AWS Region"));
 
             if (string.IsNullOrWhiteSpace(targetSettings.ApiGatewayUrl))
             {
@@ -91,6 +92,11 @@ namespace AmazonGameLift.Editor
             }
 
             if (string.IsNullOrWhiteSpace(targetSettings.UserPoolClientId))
+            {
+                EditorGUILayout.HelpBox("Please set the User Pool Client ID.", MessageType.Warning);
+            }
+            
+            if (string.IsNullOrWhiteSpace(targetSettings.AwsRegion))
             {
                 EditorGUILayout.HelpBox("Please set the User Pool Client ID.", MessageType.Warning);
             }
