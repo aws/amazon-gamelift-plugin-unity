@@ -59,10 +59,10 @@ namespace AmazonGameLift.Editor
 
         private void EditAnywhereMode(GameLiftClientSettings targetSettings)
         {
-            EditorGUILayout.PropertyField(_computeName, new GUIContent("GLA Compute Name", "Fleet Compute Name"));
-            EditorGUILayout.PropertyField(_fleetID, new GUIContent("GLA FleetID", "This Fleet Id should match the value generated in the amazon console"));
-            EditorGUILayout.PropertyField(_fleetLocation, new GUIContent("GLA Fleet Location", "This Location should match the value defined in your amazon console"));
-            EditorGUILayout.PropertyField(_profileName, new GUIContent("GLA Profile Name", "This Name should match the value defined by your amazon account"));
+            EditorGUILayout.PropertyField(_computeName, new GUIContent("Compute Name", "Fleet Compute Name"));
+            EditorGUILayout.PropertyField(_fleetID, new GUIContent("FleetID", "This Fleet Id should match the value generated in the amazon console"));
+            EditorGUILayout.PropertyField(_fleetLocation, new GUIContent("Fleet Location", "This Location should match the value defined in your amazon console"));
+            EditorGUILayout.PropertyField(_profileName, new GUIContent("Profile Name", "This Name should match the value defined by your amazon account"));
 
             if (string.IsNullOrWhiteSpace(targetSettings.ComputeName))
             {

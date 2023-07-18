@@ -20,8 +20,10 @@ namespace AmazonGameLiftPlugin.Core.ApiGatewayManagement
     public class AmazonGameLiftClientWrapper : IAmazonGameLiftClientWrapper
     {
         private readonly IAmazonGameLift _amazonGameLiftClient;
-        private string _profileName;
-        
+
+        /// <summary>
+        /// Client region is code dedicated to Amazon GameLift SDK calls made by the game client. 
+        /// </summary>
         #region Client
         
         internal AmazonGameLiftClientWrapper(IAmazonGameLift amazonGameLiftClient)
@@ -31,7 +33,6 @@ namespace AmazonGameLiftPlugin.Core.ApiGatewayManagement
 
         public AmazonGameLiftClientWrapper(string profileName)
         {
-            _profileName = profileName;
             _gameLiftClientSettings = Resources.FindObjectsOfTypeAll<GameLiftClientSettings>()[0];
             _amazonGameLiftClient = Create();
         }
@@ -61,14 +62,16 @@ namespace AmazonGameLiftPlugin.Core.ApiGatewayManagement
 
         private IAmazonGameLift Create()
         {
-            SetupCredentials();
-            return new AmazonGameLiftClient(AccessKey, SecretAccessKey);
+            var credentials = SetupCredentials();
+            return new AmazonGameLiftClient(credentials.AccessKey, credentials.SecretKey);
         }
         #endregion
         
+        
+        /// <summary>
+        /// Server region is code dedicated to Amazon GameLift SDK and AWS SDK calls made by the game server. All of these calls will be done via UI Elements or on Startup. 
+        /// </summary>
         #region Server
-        private string AccessKey { get; set; }
-        private string SecretAccessKey { get; set; }
         private string ComputeName { get; set; }
         private string FleetId { get; set; }
         private string IPAddress { get; set; }
@@ -131,19 +134,16 @@ namespace AmazonGameLiftPlugin.Core.ApiGatewayManagement
 
         private async Task CreateFleet()
         {
-            //### Move this entire thing to being UX based.
+            //TODO Move this entire thing to being UX based. ASG2-49
             await CreateCustomLocation();
             //await CreateFleetCommand(); 
         }
 
-        private void SetupCredentials()
+        private RetriveAwsCredentialsResponse SetupCredentials()
         {
             ServicePointManager.SecurityProtocol = SecurityProtocolType.Tls12;
-            _profileName = _gameLiftClientSettings.ProfileName;
-            var credentials = RetrieveAwsCredentials(_profileName);
-            AccessKey = credentials.AccessKey;
-            SecretAccessKey = credentials.SecretKey;
-            
+            var credentials = RetrieveAwsCredentials(_gameLiftClientSettings.ProfileName);
+            return credentials;
         }
 
         private void SetupConfiguration()

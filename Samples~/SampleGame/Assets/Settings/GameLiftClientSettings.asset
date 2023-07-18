@@ -9,12 +9,15 @@ MonoBehaviour:
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 3d47bf200e3b04b43b938be15f9aabbf, type: 3}
+  m_Script: {fileID: 11500000, guid: 0719e5348ed576445b3d0be5777d493a, type: 3}
   m_Name: GameLiftClientSettings
   m_EditorClassIdentifier: 
-  AwsRegion: 
+  WebSocketUrl: 
   UserPoolClientId: 
   ApiGatewayUrl: 
-  LocalUrl: http://localhost
-  LocalPort: 8080
-  IsLocalTest: 1
+  ComputeName: 
+  FleetID: 
+  FleetLocation: 
+  AuthToken: 
+  ProfileName: 
+  IsAnywhereTest: 0

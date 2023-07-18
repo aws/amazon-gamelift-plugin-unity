@@ -33,7 +33,7 @@ namespace AmazonGameLift.Runtime
             if (_configuration.IsGameLiftAnywhere)
             {
                 var gameLiftClientWrapper = new AmazonGameLiftClientWrapper(clientSettings.ProfileName);
-                _anywhereGame = new AnywhereGameServerAdapter(gameLiftClientWrapper,clientSettings.FleetID, clientSettings.FleetLocation);
+                _anywhereGame = new AnywhereGameServerAdapter(gameLiftClientWrapper, clientSettings.FleetID, clientSettings.FleetLocation);
                 _isAnywhereMode = true;
             }
         }
