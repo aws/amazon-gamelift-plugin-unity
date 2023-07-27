@@ -91,17 +91,15 @@ namespace AmazonGameLift.Editor
                 EditorGUILayout.HelpBox("Please set the API Gateway URL.", MessageType.Warning);
             }
 
+            if (string.IsNullOrWhiteSpace(targetSettings.AwsRegion))
+            {
+                EditorGUILayout.HelpBox("Please set the AWS Region.", MessageType.Warning);
+            }
+            
             if (string.IsNullOrWhiteSpace(targetSettings.UserPoolClientId))
             {
                 EditorGUILayout.HelpBox("Please set the User Pool Client ID.", MessageType.Warning);
             }
-            
-            if (string.IsNullOrWhiteSpace(targetSettings.AwsRegion))
-            {
-                EditorGUILayout.HelpBox("Please set the User Pool Client ID.", MessageType.Warning);
-            }
         }
-        
-        
     }
 }

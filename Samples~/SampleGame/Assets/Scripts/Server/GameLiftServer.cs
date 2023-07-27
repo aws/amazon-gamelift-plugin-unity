@@ -36,7 +36,7 @@ public class GameLiftServer
         try
         {
             
-            GenericOutcome initOutcome = GameLiftServerAPI.InitSDK(); //InitSDK if net6 version, needs checking
+            GenericOutcome initOutcome = GameLiftServerAPI.InitSDK();
 
             if (initOutcome.Success)
             {

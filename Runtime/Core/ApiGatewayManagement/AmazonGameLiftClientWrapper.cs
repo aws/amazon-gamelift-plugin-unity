@@ -20,13 +20,8 @@ namespace AmazonGameLiftPlugin.Core.ApiGatewayManagement
     public class AmazonGameLiftClientWrapper : IAmazonGameLiftClientWrapper
     {
         private readonly IAmazonGameLift _amazonGameLiftClient;
-        
-        
-        
         private readonly ICredentialsStore _credentialsStore = new CredentialsStore(new FileWrapper());
-
         private readonly GameLiftClientSettings _gameLiftClientSettings;
-
         
         /// <summary>
         /// Client region is code dedicated to Amazon GameLift SDK calls made by the game client. 
@@ -73,7 +68,6 @@ namespace AmazonGameLiftPlugin.Core.ApiGatewayManagement
             return new AmazonGameLiftClient(credentials.AccessKey, credentials.SecretKey);
         }
         #endregion
-        
         
         /// <summary>
         /// Server region is code dedicated to Amazon GameLift SDK and AWS SDK calls made by the game server. All of these calls will be done via UI Elements or on Startup. 
@@ -129,7 +123,8 @@ namespace AmazonGameLiftPlugin.Core.ApiGatewayManagement
                 throw;
             }
         }
-        private string IPAddress { get; set; }
+        
+        
         
         private async Task CreateFleet()
         {
@@ -166,10 +161,8 @@ namespace AmazonGameLiftPlugin.Core.ApiGatewayManagement
 
         private async Task RegisterCompute()
         {
-            //Reregistering compute will just return the same compute back to the user.
             try
             {
-                
                 var ipAddress = Dns.GetHostEntry(Dns.GetHostName())
                     .AddressList
                     .FirstOrDefault(ip => ip.AddressFamily == AddressFamily.InterNetwork)?
@@ -203,8 +196,8 @@ namespace AmazonGameLiftPlugin.Core.ApiGatewayManagement
                 });
                 
                 var foundLocation = listLocationsResponse.Locations.FirstOrDefault(l => l.LocationName.ToString() == _gameLiftClientSettings.FleetLocation);
-                
-                if(foundLocation == null)
+
+                if (foundLocation == null)
                 {
                     var createLocationResponse = await CreateLocation(new CreateLocationRequest()
                     {
@@ -248,7 +241,6 @@ namespace AmazonGameLiftPlugin.Core.ApiGatewayManagement
                 Console.WriteLine(ex.Message);
             }
         }
-        
         #endregion
     }
 }
