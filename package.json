@@ -3,7 +3,7 @@
   "displayName": "Amazon GameLift Plugin for Unity",
   "author": "Amazon.com, Inc.",
   "version": "1.3.1",
-  "unity": "2022.3",
+  "unity": "2021.3",
   "description": "The Amazon GameLift Plugin for Unity contains libraries and native UI that makes it easier to access GameLift resources and integrate GameLift into your Unity game. You can use the GameLift Unity Plugin to access GameLift APIs and deploy AWS CloudFormation templates for common gaming scenarios.",
   "documentationUrl": "https://docs.aws.amazon.com/gamelift/latest/developerguide/unity-plug-in.html",
   "changelogUrl": "https://github.com/aws/amazon-gamelift-plugin-unity/blob/main/CHANGELOG.md",
