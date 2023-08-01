@@ -4,6 +4,7 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using Aws.GameLift.Server;
 using UnityEngine;
 using UnityEngine.Serialization;
 
@@ -34,18 +35,18 @@ namespace AmazonGameLiftPlugin.Core
             };
         }
 
-        // public ServerParameters GetStartupParameters()
-        // {
-        //     var processId = $"process-{Guid.NewGuid()}";
-        //     return new ServerParameters
-        //     {
-        //         FleetId = fleetID,
-        //         HostId = computeName,
-        //         ProcessId = processId,
-        //         WebSocketUrl = WebSocketUrl,
-        //         AuthToken = authToken
-        //     };
-        // }
+        public ServerParameters GetStartupParameters()
+        {
+            var processId = $"process-{Guid.NewGuid()}";
+            return new ServerParameters
+            {
+                FleetId = fleetID,
+                HostId = computeName,
+                ProcessId = processId,
+                WebSocketUrl = WebSocketUrl,
+                AuthToken = authToken
+            };
+        }
 
         public GameLiftAnywhereConfiguration GetGameLiftAnywhereConfiguration()
         {
