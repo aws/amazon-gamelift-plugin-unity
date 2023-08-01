@@ -189,7 +189,7 @@ namespace AmazonGameLiftPlugin.Core.GameLiftLocalTesting
                     // Starts a bash process to run an Apple script, which activates a new Terminal App window,
                     // and runs the game server executable in the Unity compiled .app file
                     string activateTerminalScript = $"tell application \\\"Terminal\\\" to activate";
-                    string setGameServerFilePath = $"set GameServerFilePathEnvVar to \\\"{request.FilePath}/Contents/MacOS/{request.ApplicationProductName}\\\"";
+                    string setGameServerFilePath = $"set GameServerFilePathEnvVar to \\\"{request.FilePath}\\\"";
                     string runGameServerScript = $"GameServerFilePathEnvVar";
                     string runGameServer = $"tell application \\\"Terminal\\\" to do script {runGameServerScript}";
                     string osaScript = $"osascript -e \'{activateTerminalScript}\' -e \'{setGameServerFilePath}\' -e \'{runGameServer}\'";
