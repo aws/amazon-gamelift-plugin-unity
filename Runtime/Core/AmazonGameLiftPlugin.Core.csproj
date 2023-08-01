@@ -29,9 +29,6 @@
     <!-- See: https://stackoverflow.com/questions/15241889/i-didnt-find-zipfile-class-in-the-system-io-compression-namespace -->
     <Reference Include="System.IO.Compression.FileSystem" />
   </ItemGroup>
-  <ItemGroup>
-    <Folder Include="obj\Debug\net471\" />
-  </ItemGroup>
   <Target Name="PostBuild" AfterTargets="Build">
     <RemoveDir Directories="$(BaseIntermediateOutputPath)" /> <!-- obj -->
     <!-- This build process is only used to put the AWS SDK DLLs and its dependpencies into a "Plugins" folder,

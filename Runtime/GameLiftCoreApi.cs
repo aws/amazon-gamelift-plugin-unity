@@ -30,10 +30,11 @@ namespace AmazonGameLift.Runtime
             _apiGateway = new ApiGateway(_userIdentity, new JwtTokenExpirationCheck(), new HttpClientWrapper());
             
             var clientSettings = Resources.FindObjectsOfTypeAll<GameLiftClientSettings>()[0];
+            var config = clientSettings.GetGameLiftAnywhereConfiguration();
             if (_configuration.IsGameLiftAnywhere)
             {
-                var gameLiftClientWrapper = new AmazonGameLiftClientWrapper(clientSettings.ProfileName);
-                _anywhereGame = new AnywhereGameServerAdapter(gameLiftClientWrapper, clientSettings.FleetID, clientSettings.FleetLocation);
+                var gameLiftClientWrapper = new AmazonGameLiftClientWrapper();
+                _anywhereGame = new AnywhereGameServerAdapter(gameLiftClientWrapper, config.FleetID, config.FleetLocation);
                 _isAnywhereMode = true;
             }
         }

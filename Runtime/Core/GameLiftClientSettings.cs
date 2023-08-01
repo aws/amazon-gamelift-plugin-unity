@@ -2,24 +2,26 @@
 // SPDX-License-Identifier: Apache-2.0
 
 using System;
-using Aws.GameLift.Server;
+using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
+using UnityEngine.Serialization;
 
 namespace AmazonGameLiftPlugin.Core
 {
     [CreateAssetMenu(fileName = "GameLiftClientSettings", menuName = "GameLift/Client Settings")]
     public class GameLiftClientSettings : ScriptableObject
     {
-        public string WebSocketUrl;
-        public string UserPoolClientId;
-        public string ApiGatewayUrl;
-        public string AwsRegion;
-        public string ComputeName;
-        public string FleetID;
-        public string FleetLocation;
-        public string AuthToken;
-        public string ProfileName;
-        public bool IsAnywhereTest;
+        public string WebSocketUrl { get; set; }
+        public string UserPoolClientId { get; }
+        public string ApiGatewayUrl { get; }
+        public string AwsRegion { get; }
+        public string computeName { get; }
+        public string fleetID { get;  set; }
+        public string fleetLocation { get; }
+        public string authToken { get; set; }
+        public string profileName { get; }
+        public bool IsAnywhereTest { get; }
 
         public GameLiftConfiguration GetConfiguration()
         {
@@ -32,16 +34,29 @@ namespace AmazonGameLiftPlugin.Core
             };
         }
 
-        public ServerParameters GetStartupParameters()
+        // public ServerParameters GetStartupParameters()
+        // {
+        //     var processId = $"process-{Guid.NewGuid()}";
+        //     return new ServerParameters
+        //     {
+        //         FleetId = fleetID,
+        //         HostId = computeName,
+        //         ProcessId = processId,
+        //         WebSocketUrl = WebSocketUrl,
+        //         AuthToken = authToken
+        //     };
+        // }
+
+        public GameLiftAnywhereConfiguration GetGameLiftAnywhereConfiguration()
         {
-            var processId = $"process-{Guid.NewGuid()}";
-            return new ServerParameters
+            return new GameLiftAnywhereConfiguration()
             {
-                FleetId = FleetID,
-                HostId = ComputeName,
-                ProcessId = processId,
-                WebSocketUrl = WebSocketUrl,
-                AuthToken = AuthToken
+                AwsRegion = AwsRegion,
+                AuthToken = authToken,
+                ComputeName = computeName,
+                FleetID = fleetID,
+                FleetLocation = fleetLocation,
+                ProfileName = profileName
             };
         }
     }

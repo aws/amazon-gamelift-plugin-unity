@@ -11,4 +11,15 @@ namespace AmazonGameLiftPlugin.Core
         public string ApiGatewayEndpoint;
         public bool IsGameLiftAnywhere;
     }
+
+    [System.Serializable]
+    public struct GameLiftAnywhereConfiguration
+    {
+        public string AwsRegion;
+        public string ComputeName;
+        public string FleetID;
+        public string FleetLocation;
+        public string AuthToken;
+        public string ProfileName;
+    }
 }

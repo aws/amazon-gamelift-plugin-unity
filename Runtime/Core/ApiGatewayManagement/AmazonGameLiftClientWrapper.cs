@@ -22,22 +22,23 @@ namespace AmazonGameLiftPlugin.Core.ApiGatewayManagement
         private readonly IAmazonGameLift _amazonGameLiftClient;
         private readonly ICredentialsStore _credentialsStore = new CredentialsStore(new FileWrapper());
         private readonly GameLiftClientSettings _gameLiftClientSettings;
-        
-        /// <summary>
-        /// Client region is code dedicated to Amazon GameLift SDK calls made by the game client. 
-        /// </summary>
-        #region Client
+
+        private const string FleetDescription = "Created By Amazon GameLift Unity Plugin";
         
         internal AmazonGameLiftClientWrapper(IAmazonGameLift amazonGameLiftClient)
         {
             _amazonGameLiftClient = amazonGameLiftClient;
         }
 
-        public AmazonGameLiftClientWrapper(string profileName)
+        public AmazonGameLiftClientWrapper()
         {
             _gameLiftClientSettings = Resources.FindObjectsOfTypeAll<GameLiftClientSettings>()[0];
             _amazonGameLiftClient = Create();
         }
+        /// <summary>
+        /// Client region is code dedicated to Amazon GameLift SDK calls made by the game client. 
+        /// </summary>
+        #region Client
         
         public async Task<CreateGameSessionResponse> CreateGameSessionAsync(
                 CreateGameSessionRequest request,
@@ -64,7 +65,9 @@ namespace AmazonGameLiftPlugin.Core.ApiGatewayManagement
 
         private IAmazonGameLift Create()
         {
-            var credentials = SetupCredentials();
+            
+            var config = _gameLiftClientSettings.GetGameLiftAnywhereConfiguration();
+            var credentials = SetupCredentials(config.ProfileName);
             return new AmazonGameLiftClient(credentials.AccessKey, credentials.SecretKey);
         }
         #endregion
@@ -73,12 +76,6 @@ namespace AmazonGameLiftPlugin.Core.ApiGatewayManagement
         /// Server region is code dedicated to Amazon GameLift SDK and AWS SDK calls made by the game server. All of these calls will be done via UI Elements or on Startup. 
         /// </summary>
         #region Server
-        
-        public AmazonGameLiftClientWrapper()
-        {
-            _gameLiftClientSettings = Resources.FindObjectsOfTypeAll<GameLiftClientSettings>()[0];
-            _amazonGameLiftClient = Create();
-        }
 
         private async Task<ListLocationsResponse> ListLocations(ListLocationsRequest request)
         {
@@ -115,7 +112,8 @@ namespace AmazonGameLiftPlugin.Core.ApiGatewayManagement
         {
             try
             {
-                await Task.WhenAll(CreateFleet(), RegisterCompute(), GenerateAuthToken());
+                var config = _gameLiftClientSettings.GetGameLiftAnywhereConfiguration();
+                await GenerateAuthToken(config.ComputeName, config.FleetID);
             }
             catch (Exception e)
             {
@@ -123,34 +121,26 @@ namespace AmazonGameLiftPlugin.Core.ApiGatewayManagement
                 throw;
             }
         }
-        
-        
-        
-        private async Task CreateFleet()
-        {
-            //TODO Move this entire thing to being UX based. ASG2-49
-            await CreateCustomLocation();
-            //await CreateFleetCommand(); 
-        }
 
-        private RetriveAwsCredentialsResponse SetupCredentials()
+        private RetriveAwsCredentialsResponse SetupCredentials(string profileName)
         {
+            var config = _gameLiftClientSettings.GetGameLiftAnywhereConfiguration();
             ServicePointManager.SecurityProtocol = SecurityProtocolType.Tls12;
-            var credentials = RetrieveAwsCredentials(_gameLiftClientSettings.ProfileName);
+            var credentials = RetrieveAwsCredentials(profileName);
             return credentials;
         }
 
-        private async Task GenerateAuthToken()
+        private async Task GenerateAuthToken(string computeName, string fleetId)
         {
             try
             {
                 var computeAuthTokenRequest = new GetComputeAuthTokenRequest
                 {
-                    ComputeName = _gameLiftClientSettings.ComputeName,
-                    FleetId = _gameLiftClientSettings.FleetID
+                    ComputeName = computeName,
+                    FleetId = fleetId
                 };
                 var computeAuthTokenResponse = await GetComputeAuthToken(computeAuthTokenRequest);
-                _gameLiftClientSettings.AuthToken = computeAuthTokenResponse.AuthToken;
+                _gameLiftClientSettings.authToken = computeAuthTokenResponse.AuthToken;
             }
             catch (Exception e)
             {
@@ -159,7 +149,7 @@ namespace AmazonGameLiftPlugin.Core.ApiGatewayManagement
             }
         }
 
-        private async Task RegisterCompute()
+        private async Task RegisterCompute(string computeName, string fleetId, string fleetLocation)
         {
             try
             {
@@ -170,13 +160,13 @@ namespace AmazonGameLiftPlugin.Core.ApiGatewayManagement
                 
                 var registerComputeRequest = new RegisterComputeRequest()
                 {
-                    ComputeName = _gameLiftClientSettings.ComputeName,
-                    FleetId = _gameLiftClientSettings.FleetID,
+                    ComputeName = computeName,
+                    FleetId = fleetId,
                     IpAddress = ipAddress,
-                    Location = _gameLiftClientSettings.FleetLocation
+                    Location = fleetLocation
                 };
                 var registerComputeResponse = await RegisterCompute(registerComputeRequest);
-                    
+                
                 _gameLiftClientSettings.WebSocketUrl = registerComputeResponse.Compute.GameLiftServiceSdkEndpoint;
             }
             catch (Exception ex)
@@ -185,28 +175,27 @@ namespace AmazonGameLiftPlugin.Core.ApiGatewayManagement
             }
         }
 
-        private async Task CreateCustomLocation()
+        private async Task CreateCustomLocationIfNotExists(string fleetLocation)
         {
             try
             {
-                ServicePointManager.SecurityProtocol = SecurityProtocolType.Tls12;
                 var listLocationsResponse = await ListLocations(new ListLocationsRequest
                 {
                     Filters = new List<string>{ "CUSTOM" }
                 });
                 
-                var foundLocation = listLocationsResponse.Locations.FirstOrDefault(l => l.LocationName.ToString() == _gameLiftClientSettings.FleetLocation);
+                var foundLocation = listLocationsResponse.Locations.FirstOrDefault(l => l.LocationName.ToString() == fleetLocation);
 
                 if (foundLocation == null)
                 {
                     var createLocationResponse = await CreateLocation(new CreateLocationRequest()
                     {
-                        LocationName = _gameLiftClientSettings.FleetLocation
+                        LocationName = fleetLocation
                     });
                     
                     if (createLocationResponse.HttpStatusCode == HttpStatusCode.OK)
                     {
-                        Console.WriteLine($"Created Custom Location {_gameLiftClientSettings.FleetLocation}");
+                        Console.WriteLine($"Created Custom Location {fleetLocation}");
                     }
                 }
             }
@@ -216,25 +205,25 @@ namespace AmazonGameLiftPlugin.Core.ApiGatewayManagement
             }
         }
         
-        private async Task CreateFleetCommand()
+        private async Task CreateFleetCommand(ComputeType computeType, string fleetLocation)
         {
             try
             {
                 var createFleetRequest = new CreateFleetRequest
                 {
-                    ComputeType = ComputeType.ANYWHERE,
-                    Description = "Created By Amazon GameLift Unity Plugin",
+                    ComputeType = computeType,
+                    Description = FleetDescription,
                     Locations = new List<LocationConfiguration>
                     {
                         new()
                         {
-                            Location = _gameLiftClientSettings.FleetLocation
+                            Location = fleetLocation
                         }
                     }
                 };
                 var createFleetResponse = await CreateFleet(createFleetRequest);
                 
-                _gameLiftClientSettings.FleetID = createFleetResponse.FleetAttributes.FleetId;
+                _gameLiftClientSettings.fleetID = createFleetResponse.FleetAttributes.FleetId;
             }
             catch (Exception ex)
             {
@@ -244,4 +233,6 @@ namespace AmazonGameLiftPlugin.Core.ApiGatewayManagement
         #endregion
     }
 }
+
+
 
