@@ -26,9 +26,9 @@ Expand-Archive -Force -LiteralPath $TEMP_ZIP_PATH -DestinationPath $TEMP_EXTRACT
 
 echo "Updating Newtonsoft.Json version used to 12.0.3 for compatibility with Unity 2020.3"
 
-(Get-Content $SDK_CSPROJ_PATH).replace('Newtonsoft.Json, Version=9.0.0.0', 'Newtonsoft.Json, Version=12.0.0.0') | Set-Content $SDK_CSPROJ_PATH
-(Get-Content $SDK_CSPROJ_PATH).replace('Newtonsoft.Json.9.0.1', 'Newtonsoft.Json.12.0.3') | Set-Content $SDK_CSPROJ_PATH
-(Get-Content $SDK_PACKAGES_CONFIG_PATH).replace('id="Newtonsoft.Json" version="9.0.1"', 'id="Newtonsoft.Json" version="12.0.3"') | Set-Content $SDK_PACKAGES_CONFIG_PATH
+(Get-Content $SDK_CSPROJ_PATH).replace('Newtonsoft.Json, Version=9.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL', 'Newtonsoft.Json') | Set-Content $SDK_CSPROJ_PATH
+(Get-Content $SDK_CSPROJ_PATH).replace('Newtonsoft.Json.9.0.1', 'Newtonsoft.Json.13.0.1') | Set-Content $SDK_CSPROJ_PATH
+(Get-Content $SDK_PACKAGES_CONFIG_PATH).replace('id="Newtonsoft.Json" version="9.0.1"', 'id="Newtonsoft.Json" version="13.0.1"') | Set-Content $SDK_PACKAGES_CONFIG_PATH
 
 if (-Not (Test-Path -Path $NUGET_EXE_PATH) )
 {
