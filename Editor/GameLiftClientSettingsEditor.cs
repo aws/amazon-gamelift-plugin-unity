@@ -51,10 +51,10 @@ namespace AmazonGameLift.Editor
             _poolClientId = serializedObject.FindProperty(nameof(GameLiftClientSettings.UserPoolClientId));
             _region = serializedObject.FindProperty(nameof(GameLiftClientSettings.AwsRegion));
             _isAnywhereTest = serializedObject.FindProperty(nameof(GameLiftClientSettings.IsAnywhereTest));
-            _computeName = serializedObject.FindProperty(nameof(GameLiftClientSettings.computeName));
-            _fleetID = serializedObject.FindProperty(nameof(GameLiftClientSettings.fleetID));
-            _fleetLocation = serializedObject.FindProperty(nameof(GameLiftClientSettings.fleetLocation));
-            _profileName = serializedObject.FindProperty(nameof(GameLiftClientSettings.profileName));
+            _computeName = serializedObject.FindProperty(nameof(GameLiftClientSettings.ComputeName));
+            _fleetID = serializedObject.FindProperty(nameof(GameLiftClientSettings.FleetID));
+            _fleetLocation = serializedObject.FindProperty(nameof(GameLiftClientSettings.FleetLocation));
+            _profileName = serializedObject.FindProperty(nameof(GameLiftClientSettings.ProfileName));
         }
 
         private void EditAnywhereMode(GameLiftClientSettings targetSettings)
@@ -64,22 +64,22 @@ namespace AmazonGameLift.Editor
             EditorGUILayout.PropertyField(_fleetLocation, new GUIContent("Fleet Location", "This Location should match the value defined in the AWS GameLift Console"));
             EditorGUILayout.PropertyField(_profileName, new GUIContent("Profile Name", "This Name should match the value defined on the users AWS Account"));
 
-            if (string.IsNullOrWhiteSpace(targetSettings.computeName))
+            if (string.IsNullOrWhiteSpace(targetSettings.ComputeName))
             {
                 EditorGUILayout.HelpBox("Please set the Fleet Compute Name.", MessageType.Warning);
             }
 
-            if (string.IsNullOrWhiteSpace(targetSettings.fleetID))
+            if (string.IsNullOrWhiteSpace(targetSettings.FleetID))
             {
                 EditorGUILayout.HelpBox("Please set the FleetID.", MessageType.Warning);
             }
 
-            if (string.IsNullOrWhiteSpace(targetSettings.fleetLocation))
+            if (string.IsNullOrWhiteSpace(targetSettings.FleetLocation))
             {
                 EditorGUILayout.HelpBox("Please set the Fleet Location.", MessageType.Warning);
             }
             
-            if (string.IsNullOrWhiteSpace(targetSettings.profileName))
+            if (string.IsNullOrWhiteSpace(targetSettings.ProfileName))
             {
                 EditorGUILayout.HelpBox("Please set the AWS Profile Name.", MessageType.Warning);
             }

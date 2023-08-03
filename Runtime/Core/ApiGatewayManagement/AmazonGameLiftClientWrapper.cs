@@ -33,7 +33,7 @@ namespace AmazonGameLiftPlugin.Core.ApiGatewayManagement
         public AmazonGameLiftClientWrapper()
         {
             _gameLiftClientSettings = Resources.FindObjectsOfTypeAll<GameLiftClientSettings>()[0];
-            _amazonGameLiftClient = Create();
+            _amazonGameLiftClient = CreateGameLiftClient();
         }
         /// <summary>
         /// Client region is code dedicated to Amazon GameLift SDK calls made by the game client. 
@@ -63,9 +63,8 @@ namespace AmazonGameLiftPlugin.Core.ApiGatewayManagement
             return await _amazonGameLiftClient.DescribeGameSessionsAsync(request);
         }
 
-        private IAmazonGameLift Create()
+        private IAmazonGameLift CreateGameLiftClient()
         {
-            
             var config = _gameLiftClientSettings.GetGameLiftAnywhereConfiguration();
             var credentials = SetupCredentials(config.ProfileName);
             return new AmazonGameLiftClient(credentials.AccessKey, credentials.SecretKey);
@@ -113,7 +112,25 @@ namespace AmazonGameLiftPlugin.Core.ApiGatewayManagement
             try
             {
                 var config = _gameLiftClientSettings.GetGameLiftAnywhereConfiguration();
-                await GenerateAuthToken(config.ComputeName, config.FleetID);
+                _gameLiftClientSettings.AuthToken = await GenerateAuthToken(config.ComputeName, config.FleetID);
+            }
+            catch (Exception e)
+            {
+                Console.WriteLine(e);
+                throw;
+            }
+        }
+
+        public async Task SetupCompute()
+        {
+            var ipAddress = Dns.GetHostEntry(Dns.GetHostName())
+                .AddressList
+                .FirstOrDefault(ip => ip.AddressFamily == AddressFamily.InterNetwork)?
+                .ToString() ?? "0.0.0.0";
+            try
+            {
+                var config = _gameLiftClientSettings.GetGameLiftAnywhereConfiguration();
+                await RegisterCompute(config.ComputeName, config.FleetID,config.FleetLocation, ipAddress);
             }
             catch (Exception e)
             {
@@ -124,13 +141,12 @@ namespace AmazonGameLiftPlugin.Core.ApiGatewayManagement
 
         private RetriveAwsCredentialsResponse SetupCredentials(string profileName)
         {
-            var config = _gameLiftClientSettings.GetGameLiftAnywhereConfiguration();
             ServicePointManager.SecurityProtocol = SecurityProtocolType.Tls12;
             var credentials = RetrieveAwsCredentials(profileName);
             return credentials;
         }
 
-        private async Task GenerateAuthToken(string computeName, string fleetId)
+        private async Task<string> GenerateAuthToken(string computeName, string fleetId)
         {
             try
             {
@@ -140,7 +156,7 @@ namespace AmazonGameLiftPlugin.Core.ApiGatewayManagement
                     FleetId = fleetId
                 };
                 var computeAuthTokenResponse = await GetComputeAuthToken(computeAuthTokenRequest);
-                _gameLiftClientSettings.authToken = computeAuthTokenResponse.AuthToken;
+                return computeAuthTokenResponse.AuthToken;
             }
             catch (Exception e)
             {
@@ -149,15 +165,10 @@ namespace AmazonGameLiftPlugin.Core.ApiGatewayManagement
             }
         }
 
-        private async Task RegisterCompute(string computeName, string fleetId, string fleetLocation)
+        private async Task<string> RegisterCompute(string computeName, string fleetId, string fleetLocation, string ipAddress)
         {
             try
             {
-                var ipAddress = Dns.GetHostEntry(Dns.GetHostName())
-                    .AddressList
-                    .FirstOrDefault(ip => ip.AddressFamily == AddressFamily.InterNetwork)?
-                    .ToString() ?? "0.0.0.0";
-                
                 var registerComputeRequest = new RegisterComputeRequest()
                 {
                     ComputeName = computeName,
@@ -167,11 +178,12 @@ namespace AmazonGameLiftPlugin.Core.ApiGatewayManagement
                 };
                 var registerComputeResponse = await RegisterCompute(registerComputeRequest);
                 
-                _gameLiftClientSettings.WebSocketUrl = registerComputeResponse.Compute.GameLiftServiceSdkEndpoint;
+                return registerComputeResponse.Compute.GameLiftServiceSdkEndpoint;
             }
             catch (Exception ex)
             {
                 Console.WriteLine(ex.Message);
+                throw;
             }
         }
 
@@ -223,7 +235,7 @@ namespace AmazonGameLiftPlugin.Core.ApiGatewayManagement
                 };
                 var createFleetResponse = await CreateFleet(createFleetRequest);
                 
-                _gameLiftClientSettings.fleetID = createFleetResponse.FleetAttributes.FleetId;
+                _gameLiftClientSettings.FleetID = createFleetResponse.FleetAttributes.FleetId;
             }
             catch (Exception ex)
             {
@@ -233,6 +245,3 @@ namespace AmazonGameLiftPlugin.Core.ApiGatewayManagement
         #endregion
     }
 }
-
-
-

@@ -17,16 +17,16 @@ namespace AmazonGameLiftPlugin.Core
         public string UserPoolClientId { get; }
         public string ApiGatewayUrl { get; }
         public string AwsRegion { get; }
-        public string computeName { get; }
-        public string fleetID { get;  set; }
-        public string fleetLocation { get; }
-        public string authToken { get; set; }
-        public string profileName { get; }
+        public string ComputeName { get; }
+        public string FleetID { get;  set; }
+        public string FleetLocation { get; }
+        public string AuthToken { get; set; }
+        public string ProfileName { get; }
         public bool IsAnywhereTest { get; }
 
-        public GameLiftConfiguration GetConfiguration()
+        public GameLiftServerProcessConfiguration GetConfiguration()
         {
-            return new GameLiftConfiguration
+            return new GameLiftServerProcessConfiguration
             {
                 ApiGatewayEndpoint = ApiGatewayUrl,
                 AwsRegion = AwsRegion,
@@ -40,24 +40,24 @@ namespace AmazonGameLiftPlugin.Core
             var processId = $"process-{Guid.NewGuid()}";
             return new ServerParameters
             {
-                FleetId = fleetID,
-                HostId = computeName,
+                FleetId = FleetID,
+                HostId = ComputeName,
                 ProcessId = processId,
                 WebSocketUrl = WebSocketUrl,
-                AuthToken = authToken
+                AuthToken = AuthToken
             };
         }
 
-        public GameLiftAnywhereConfiguration GetGameLiftAnywhereConfiguration()
+        public GameLiftComputeConfiguration GetGameLiftAnywhereConfiguration()
         {
-            return new GameLiftAnywhereConfiguration()
+            return new GameLiftComputeConfiguration()
             {
                 AwsRegion = AwsRegion,
-                AuthToken = authToken,
-                ComputeName = computeName,
-                FleetID = fleetID,
-                FleetLocation = fleetLocation,
-                ProfileName = profileName
+                AuthToken = AuthToken,
+                ComputeName = ComputeName,
+                FleetID = FleetID,
+                FleetLocation = FleetLocation,
+                ProfileName = ProfileName
             };
         }
     }
