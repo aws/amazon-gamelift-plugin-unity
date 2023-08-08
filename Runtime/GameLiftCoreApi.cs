@@ -35,7 +35,7 @@ namespace AmazonGameLift.Runtime
             var fleetLocation = _coreApi.GetSetting("FleetLocation").Value;
             if (_configuration.IsGameLiftAnywhere) //TODO Review this when everything is merged into feature/anywhere.
             {
-                var gameLiftClientWrapper = new AmazonGameLiftWrapper(_coreApi.RetrieveAwsCredentials(_coreApi.GetSetting("CurrentProfileName").Value)); 
+                var gameLiftClientWrapper = new AmazonGameLiftWrapper(_coreApi.RetrieveAwsCredentials(_coreApi.GetSetting(SettingsKeys.CurrentProfileName).Value)); 
                 _anywhereGame = new AnywhereGameServerAdapter(gameLiftClientWrapper, fleetId, fleetLocation);
                 _isAnywhereMode = true;
             }
