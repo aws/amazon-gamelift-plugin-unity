@@ -3,10 +3,11 @@
 
 #if !UNITY_SERVER
 
-using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using AmazonGameLift.Editor;
+using AmazonGameLiftPlugin.Core;
 using AmazonGameLiftPlugin.Core.ApiGatewayManagement;
 using AmazonGameLiftPlugin.Core.ApiGatewayManagement.Models;
 using AmazonGameLiftPlugin.Core.Latency;
@@ -14,40 +15,39 @@ using AmazonGameLiftPlugin.Core.Latency.Models;
 using AmazonGameLiftPlugin.Core.Shared;
 using AmazonGameLiftPlugin.Core.UserIdentityManagement;
 using AmazonGameLiftPlugin.Core.UserIdentityManagement.Models;
+using UnityEngine;
 
 namespace AmazonGameLift.Runtime
 {
     public class GameLiftCoreApi
     {
-        private readonly GameLiftConfiguration _configuration;
-        private readonly bool _isLocalMode;
+        private readonly GameLiftServerProcessConfiguration _configuration;
+        private readonly bool _isAnywhereMode;
+        private CoreApi _coreApi;
 
-        public GameLiftCoreApi(GameLiftConfiguration configuration)
+        protected GameLiftCoreApi(GameLiftServerProcessConfiguration configuration)
         {
             _configuration = configuration;
             _userIdentity = new UserIdentity(new AmazonCognitoIdentityWrapper(configuration.AwsRegion));
             _apiGateway = new ApiGateway(_userIdentity, new JwtTokenExpirationCheck(), new HttpClientWrapper());
-
-            if (_configuration.ApiGatewayEndpoint.StartsWith("https://localhost"))
+            _coreApi = CoreApi.SharedInstance;
+            var fleetId = _coreApi.GetSetting("FleetId").Value;
+            var fleetLocation = _coreApi.GetSetting("FleetLocation").Value;
+            if (_configuration.IsGameLiftAnywhere) //TODO Review this when everything is merged into feature/anywhere.
             {
-                throw new ArgumentException("Invalid configuration: https is not supported by GameLift Local.", nameof(configuration));
-            }
-
-            if (_configuration.ApiGatewayEndpoint.StartsWith("http://localhost"))
-            {
-                var gameLiftClientWrapper = new AmazonGameLiftClientWrapper(_configuration.ApiGatewayEndpoint);
-                _localGame = new LocalGameAdapter(gameLiftClientWrapper);
-                _isLocalMode = true;
+                var gameLiftClientWrapper = new AmazonGameLiftWrapper(_coreApi.RetrieveAwsCredentials(_coreApi.GetSetting("CurrentProfileName").Value)); 
+                _anywhereGame = new AnywhereGameServerAdapter(gameLiftClientWrapper, fleetId, fleetLocation);
+                _isAnywhereMode = true;
             }
         }
-
+        
         #region User Accounts
 
         private readonly IUserIdentity _userIdentity;
 
         public virtual SignUpResponse SignUp(string email, string password)
         {
-            if (_isLocalMode)
+            if (_isAnywhereMode)
             {
                 return Response.Ok(new SignUpResponse());
             }
@@ -63,7 +63,7 @@ namespace AmazonGameLift.Runtime
 
         public virtual ConfirmSignUpResponse ConfirmSignUp(string email, string confirmationCode)
         {
-            if (_isLocalMode)
+            if (_isAnywhereMode)
             {
                 return Response.Ok(new ConfirmSignUpResponse());
             }
@@ -79,7 +79,7 @@ namespace AmazonGameLift.Runtime
 
         public virtual SignInResponse SignIn(string email, string password)
         {
-            if (_isLocalMode)
+            if (_isAnywhereMode)
             {
                 return Response.Ok(new SignInResponse()
                 {
@@ -100,7 +100,7 @@ namespace AmazonGameLift.Runtime
 
         public virtual SignOutResponse SignOut(string accessToken)
         {
-            if (_isLocalMode)
+            if (_isAnywhereMode)
             {
                 return Response.Ok(new SignOutResponse());
             }
@@ -118,7 +118,7 @@ namespace AmazonGameLift.Runtime
 
         private readonly ApiGateway _apiGateway;
         private readonly LatencyService _latencyService = new LatencyService(new PingWrapper());
-        private readonly LocalGameAdapter _localGame;
+        private readonly AnywhereGameServerAdapter _anywhereGame;
 
         public virtual string[] ListAvailableRegions()
         {
@@ -144,11 +144,10 @@ namespace AmazonGameLift.Runtime
                 RefreshToken = refreshToken,
             };
 
-            if (_localGame != null)
+            if (_isAnywhereMode)
             {
-                return _localGame.GetGameConnection(request);
+                return _anywhereGame.GetGameConnection(request);
             }
-
             return _apiGateway.GetGameConnection(request);
         }
 
@@ -163,14 +162,12 @@ namespace AmazonGameLift.Runtime
                 RegionLatencies = latencies
             };
 
-            if (_localGame != null)
+            if (_isAnywhereMode)
             {
-                return _localGame.StartGame(request);
+                return _anywhereGame.StartGame(request);
             }
-
             return _apiGateway.StartGame(request);
         }
-
         #endregion
     }
 }

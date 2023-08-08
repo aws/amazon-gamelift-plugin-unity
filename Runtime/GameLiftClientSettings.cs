@@ -1,6 +1,7 @@
 // Copyright Amazon.com, Inc. or its affiliates. All Rights Reserved.
 // SPDX-License-Identifier: Apache-2.0
 
+using AmazonGameLiftPlugin.Core;
 using UnityEngine;
 
 namespace AmazonGameLift.Runtime
@@ -15,13 +16,13 @@ namespace AmazonGameLift.Runtime
         public ushort LocalPort = 8080;
         public bool IsLocalTest;
 
-        public GameLiftConfiguration GetConfiguration()
+        public GameLiftServerProcessConfiguration GetConfiguration()
         {
             string endpoint = IsLocalTest
                 ? $"{LocalUrl}:{LocalPort}"
                 : ApiGatewayUrl;
             string awsRegion = IsLocalTest ? "eu-west-1" : AwsRegion;
-            return new GameLiftConfiguration
+            return new GameLiftServerProcessConfiguration
             {
                 ApiGatewayEndpoint = endpoint,
                 AwsRegion = awsRegion,
