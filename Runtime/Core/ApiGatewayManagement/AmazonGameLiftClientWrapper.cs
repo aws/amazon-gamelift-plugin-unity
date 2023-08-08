@@ -54,5 +54,30 @@ namespace AmazonGameLiftPlugin.Core.ApiGatewayManagement
         {
             return await _amazonGameLiftClient.DescribeGameSessionsAsync(request);
         }
+        
+        private async Task<ListLocationsResponse> ListLocations(ListLocationsRequest request)
+        {
+            return await _amazonGameLiftClient.ListLocationsAsync(request);
+        }
+
+        private async Task<CreateLocationResponse> CreateLocation(CreateLocationRequest request)
+        {
+            return await _amazonGameLiftClient.CreateLocationAsync(request);
+        }
+
+        private async Task<RegisterComputeResponse> RegisterCompute(RegisterComputeRequest request)
+        {
+            return await _amazonGameLiftClient.RegisterComputeAsync(request);
+        }
+
+        private async Task<GetComputeAuthTokenResponse> GetComputeAuthToken(GetComputeAuthTokenRequest request)
+        {
+            return await _amazonGameLiftClient.GetComputeAuthTokenAsync(request);
+        }
+
+        private Task<CreateFleetResponse> CreateFleet(CreateFleetRequest request)
+        {
+            return _amazonGameLiftClient.CreateFleetAsync(request);
+        }
     }
 }

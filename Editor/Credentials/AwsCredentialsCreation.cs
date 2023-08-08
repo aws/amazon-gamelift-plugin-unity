@@ -11,7 +11,7 @@ using UnityEngine;
 
 namespace AmazonGameLift.Editor
 {
-    internal class AwsCredentialsCreation
+    public class AwsCredentialsCreation
     {
         private readonly CoreApi _coreApi;
         private readonly ILogger _logger;
