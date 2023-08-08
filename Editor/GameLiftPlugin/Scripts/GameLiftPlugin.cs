@@ -38,14 +38,11 @@ public class GameLiftPlugin : EditorWindow
 
     }
 
-    
-    
     [MenuItem("GameLift/GameLift Configuration")]
     public static void ShowWindow()
     {
         var window = GetWindow<GameLiftPlugin>();
         window.titleContent = new GUIContent("GameLift Plugin");
-        
     }
 
     private void CreateGUI()

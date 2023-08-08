@@ -23,7 +23,6 @@ namespace AmazonGameLiftPlugin.Core.ApiGatewayManagement
     {
         private readonly IAmazonGameLift _amazonGameLiftClient;
         private readonly ICredentialsStore _credentialsStore = new CredentialsStore(new FileWrapper());
-        private readonly GameLiftClientSettings _gameLiftClientSettings;
         IAmazonS3Wrapper awsWrapper;
 
         private const string FleetDescription = "Created By Amazon GameLift Unity Plugin";
@@ -69,9 +68,8 @@ namespace AmazonGameLiftPlugin.Core.ApiGatewayManagement
 
         private IAmazonGameLift CreateGameLiftClient()
         {
-            var config = _gameLiftClientSettings.GetGameLiftAnywhereConfiguration();
-            var credentials = SetupCredentials(config.ProfileName);
-            return new AmazonGameLiftClient(credentials.AccessKey, credentials.SecretKey);
+            
+            return new AmazonGameLiftClient("credentials.AccessKey", "credentials.SecretKey"); //TODO use other way
         }
         #endregion
         
@@ -104,21 +102,8 @@ namespace AmazonGameLiftPlugin.Core.ApiGatewayManagement
         {
             return _amazonGameLiftClient.CreateFleetAsync(request);
         }
-        
-        private RetriveAwsCredentialsResponse RetrieveAwsCredentials(string profileName)
-        {
-            var request = new RetriveAwsCredentialsRequest { ProfileName = profileName };
-            return _credentialsStore.RetriveAwsCredentials(request);
-        }
 
-        private RetriveAwsCredentialsResponse SetupCredentials(string profileName)
-        {
-            ServicePointManager.SecurityProtocol = SecurityProtocolType.Tls12;
-            var credentials = RetrieveAwsCredentials(profileName);
-            return credentials;
-        }
-
-        private async Task<string> GenerateAuthToken(string computeName, string fleetId)
+        public async Task<string> GenerateAuthToken(string computeName, string fleetId)
         {
             try
             {
@@ -137,7 +122,7 @@ namespace AmazonGameLiftPlugin.Core.ApiGatewayManagement
             }
         }
 
-        private async Task<string> RegisterCompute(string computeName, string fleetId, string fleetLocation, string ipAddress)
+        public async Task<string> RegisterCompute(string computeName, string fleetId, string fleetLocation, string ipAddress)
         {
             try
             {
@@ -189,7 +174,7 @@ namespace AmazonGameLiftPlugin.Core.ApiGatewayManagement
             }
         }
         
-        private async Task CreateFleet(ComputeType computeType, string fleetLocation)
+        public async Task<string> CreateFleet(ComputeType computeType, string fleetLocation)
         {
             try
             {
@@ -206,12 +191,12 @@ namespace AmazonGameLiftPlugin.Core.ApiGatewayManagement
                     }
                 };
                 var createFleetResponse = await CreateFleet(createFleetRequest);
-                
-                _gameLiftClientSettings.FleetID = createFleetResponse.FleetAttributes.FleetId;
+                return createFleetResponse.FleetAttributes.FleetId;
             }
             catch (Exception ex)
             {
                 Console.WriteLine(ex.Message);
+                throw;
             }
         }
         #endregion

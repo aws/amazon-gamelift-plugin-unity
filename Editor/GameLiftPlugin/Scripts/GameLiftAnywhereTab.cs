@@ -21,7 +21,7 @@ public class GameLiftAnywhereTab : Tab
         GameLiftConfig = gameLiftConfig;
         Root = root;
         TabNumber = 3;
-        _coreApi = null;
+        _coreApi = CoreApi.SharedInstance;
         SetupTab();
     }
 
@@ -122,22 +122,22 @@ public class GameLiftAnywhereTab : Tab
 
     private async Task<bool> CreateAnywhereFleet(string fleetName)
     {
-        // var fleetLocation = "custom-location-1";
-        // var fleetNameResponse = _coreApi.PutSetting(SettingsKeys.FleetName, fleetName);
-        // var customLocationNameResponse = _coreApi.PutSetting(SettingsKeys.CustomLocationName, fleetLocation);
-        // //var authTokenResponse = _coreApi.PutSetting(SettingsKeys.AuthToken, authToken); doesn't happen here might not even need
-        // //TODO Call Create location, create fleet 
-        //
-        // await _gameLiftWrapper.CreateCustomLocationIfNotExists(fleetLocation);
-        // //await _gameLiftWrapper.CreateFleet()
+        var fleetLocation = "custom-location-1";
+        var fleetNameResponse = _coreApi.PutSetting(SettingsKeys.FleetName, fleetName);
+        var customLocationNameResponse = _coreApi.PutSetting(SettingsKeys.CustomLocationName, fleetLocation);
+        //var authTokenResponse = _coreApi.PutSetting(SettingsKeys.AuthToken, authToken); doesn't happen here might not even need
+        //TODO Call Create location, create fleet 
+        
+        await _gameLiftWrapper.CreateCustomLocationIfNotExists(fleetLocation);
+        //await _gameLiftWrapper.CreateFleet()
         return true;
     }
     
     private async Task<bool> RegisterCompute(string computeName, string ipAddress)
     {
-        // await _gameLiftWrapper.SetupCompute(ipAddress);
-        // var computeNameResponse = _coreApi.PutSetting(SettingsKeys.ComputeName, computeName);
-        // var ipAddressResponse = _coreApi.PutSetting(SettingsKeys.IpAddress, ipAddress);
+        await _gameLiftWrapper.SetupCompute(ipAddress);
+        var computeNameResponse = _coreApi.PutSetting(SettingsKeys.ComputeName, computeName);
+        var ipAddressResponse = _coreApi.PutSetting(SettingsKeys.IpAddress, ipAddress);
 
         return true;
     }
