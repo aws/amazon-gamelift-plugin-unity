@@ -15,7 +15,6 @@ MonoBehaviour:
   AwsRegion: 
   UserPoolClientId: 
   ApiGatewayUrl: 
-  ApiGatewayPort: 0
   LocalUrl: http://localhost
   LocalPort: 8080
   IsLocalTest: 0

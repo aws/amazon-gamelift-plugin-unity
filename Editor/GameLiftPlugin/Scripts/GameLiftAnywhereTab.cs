@@ -1,6 +1,8 @@
+using System.Collections.Generic;
 using System.Linq;
 using System.Text.RegularExpressions;
 using System.Threading.Tasks;
+using Amazon.GameLift;
 using AmazonGameLift.Editor;
 using AmazonGameLiftPlugin.Core.ApiGatewayManagement;
 using UnityEditor;
@@ -13,6 +15,8 @@ public class GameLiftAnywhereTab : Tab
     private string _fleetName;
     private string _computeName;
     private string _ipAddress;
+    private string _fleetId;
+    private string _fleetLocation = "custom-location-1";
     private CoreApi _coreApi;
     private AmazonGameLiftWrapper _gameLiftWrapper;
 
@@ -30,20 +34,39 @@ public class GameLiftAnywhereTab : Tab
     {
         var tabName = "Tab3";
         base.SetupTab(tabName, OnTabButtonClicked);
-        
-        
+
+        SetupButtons();
         //var textFieldsList = textFields.Select(textField => textField.value).ToList();
-        
+
     }
 
-    private void SetupFleetButton(Button button) //TODO add to textfield check
+    private void SetupButtons()
     {
-        var textFields = Root.Query<TextField>(null, "FleetText").ToList();
+        var fleetTextField = Root.Q<TextField>(null, "CreateAnywhereFleetField");
+        var fleetTextButton = Root.Q<Button>(null, "CreateAnywhereFleet");
+            
+        fleetTextField.RegisterValueChangedCallback(_ =>  SetupFleetButton(fleetTextField,fleetTextButton));
         
-        var fleetNameValid = textFields.Select(textField => textField.value)
-            .ToList()
-            .All(CheckValidFleetName);
+        var registerComputeTextButton = Root.Q<Button>(null, "CreateAnywhereFleet");
+        var registerComputeTextField = Root.Q<TextField>(null, "RegisterComputeField");
+        
+        
+        var ipTextFields = Root.Query<TextField>(null, "IpAddress").ToList();
+        foreach (var ipField in ipTextFields)
+        {
+            ipField.RegisterValueChangedCallback(_ =>
+                SetupCompute(registerComputeTextField, ipField, registerComputeTextButton));
+        }
+    }
 
+    private void SetupVariables(string ipAddre)
+    {
+        throw new System.NotImplementedException();
+    }
+
+    private void SetupFleetButton(TextField textField, Button button) //TODO add to textfield check
+    {
+        var fleetNameValid = CheckValidFleetName(textField.value);
         ToggleButtons(button, fleetNameValid);
     }
 
@@ -55,12 +78,10 @@ public class GameLiftAnywhereTab : Tab
         return match.Success && text.Length is >= 1 and <= 1024;
     }
 
-    private void SetupCompute(Button button)
+    private void SetupCompute(TextField computeTextName, TextField ipTextField, Button button)
     {
-        var computeTextNameValid = Root.Q<TextField>(null, "ComputeText").value.Length >= 1;
-        var ipTextFieldsValid = Root.Query<TextField>(null, "IpAddress")
-            .ToList()
-            .All(textField => textField.value.Length >= 1);
+        var computeTextNameValid = computeTextName.value.Length >= 1;
+        var ipTextFieldsValid = ipTextField.value.Length >= 1;
 
         if (computeTextNameValid && ipTextFieldsValid)
         {
@@ -105,7 +126,7 @@ public class GameLiftAnywhereTab : Tab
             case "RegisterCompute":
             {
                 ToggleButtons(button, false);
-                var success = await RegisterCompute(_computeName,_ipAddress);
+                var success = await RegisterCompute(_computeName, _fleetId, _fleetLocation, _ipAddress);
                 if(!success)
                 {
                     ToggleButtons(button, true);
@@ -122,23 +143,22 @@ public class GameLiftAnywhereTab : Tab
 
     private async Task<bool> CreateAnywhereFleet(string fleetName)
     {
-        var fleetLocation = "custom-location-1";
+        await _gameLiftWrapper.CreateCustomLocationIfNotExists(_fleetLocation);
+        await _gameLiftWrapper.CreateFleet(ComputeType.ANYWHERE, _fleetLocation);
+
         var fleetNameResponse = _coreApi.PutSetting(SettingsKeys.FleetName, fleetName);
-        var customLocationNameResponse = _coreApi.PutSetting(SettingsKeys.CustomLocationName, fleetLocation);
+        var customLocationNameResponse = _coreApi.PutSetting(SettingsKeys.CustomLocationName, _fleetLocation);
         //var authTokenResponse = _coreApi.PutSetting(SettingsKeys.AuthToken, authToken); doesn't happen here might not even need
-        //TODO Call Create location, create fleet 
         
-        await _gameLiftWrapper.CreateCustomLocationIfNotExists(fleetLocation);
-        //await _gameLiftWrapper.CreateFleet()
-        return true;
+        return fleetNameResponse.Success && customLocationNameResponse.Success;
     }
     
-    private async Task<bool> RegisterCompute(string computeName, string ipAddress)
+    private async Task<bool> RegisterCompute(string computeName, string fleetId, string fleetLocation, string ipAddress)
     {
-        await _gameLiftWrapper.SetupCompute(ipAddress);
+        await _gameLiftWrapper.RegisterCompute(computeName, fleetId, fleetLocation, ipAddress);
         var computeNameResponse = _coreApi.PutSetting(SettingsKeys.ComputeName, computeName);
         var ipAddressResponse = _coreApi.PutSetting(SettingsKeys.IpAddress, ipAddress);
 
-        return true;
+        return computeNameResponse.Success && ipAddressResponse.Success;
     }
 }

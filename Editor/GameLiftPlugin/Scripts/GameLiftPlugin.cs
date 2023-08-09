@@ -8,12 +8,8 @@ using UnityEngine.UIElements;
 
 public class GameLiftPlugin : EditorWindow
 {
-    [SerializeField]
     private VisualTreeAsset m_VisualTreeAsset = default;
 
-    [SerializeField]
-    public Texture2D cursor;
-    
     private VisualElement root;
     public List<Tab> AllTabs = new();
     public List<VisualElement> TabMenus;
@@ -48,6 +44,12 @@ public class GameLiftPlugin : EditorWindow
     private void CreateGUI()
     {
         root = rootVisualElement;
+        m_VisualTreeAsset = Resources.Load<VisualTreeAsset>("EditorWindow/GameLiftPlugin2");
+        if (m_VisualTreeAsset == null)
+        {
+            return;
+        }
+        
         VisualElement uxml = m_VisualTreeAsset.Instantiate();
         root.Add(uxml);
         
@@ -213,8 +215,6 @@ public class GameLiftPlugin : EditorWindow
         var button = root.Q<Button>(fieldName);
         button?.SetEnabled(true);
     }
-    
-    
 }
 
 public struct State
