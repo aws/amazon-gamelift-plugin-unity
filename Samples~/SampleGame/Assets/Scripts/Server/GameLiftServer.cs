@@ -64,24 +64,13 @@ public class GameLiftServer
 
         try
         {
-            GenericOutcome outcome = GameLiftServerAPI.TerminateGameSession();
-
-            if (outcome.Success)
+            if (processEnding)
             {
-                _logger.Write(":) GAME SESSION TERMINATED");
-
-                if (processEnding)
-                {
-                    ProcessEnding();
-                }
-                else
-                {
-                    ProcessReady();
-                }
+                ProcessEnding();
             }
             else
             {
-                _logger.Write(":( GAME SESSION TERMINATION FAILED. TerminateGameSession() returned " + outcome.Error.ToString());
+                ProcessReady();
             }
         }
         catch (Exception e)
