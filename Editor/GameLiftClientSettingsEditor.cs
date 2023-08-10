@@ -10,16 +10,12 @@ namespace AmazonGameLift.Editor
     [CustomEditor(typeof(GameLiftClientSettings))]
     public sealed class GameLiftClientSettingsEditor : UnityEditor.Editor
     {
-        private SerializedProperty _isLocalTest;
-        private SerializedProperty _localPort;
         private SerializedProperty _remoteUrl;
         private SerializedProperty _region;
         private SerializedProperty _poolClientId;
 
         private void OnEnable()
         {
-            _isLocalTest = serializedObject.FindProperty(nameof(GameLiftClientSettings.IsLocalTest));
-            _localPort = serializedObject.FindProperty(nameof(GameLiftClientSettings.LocalPort));
             _remoteUrl = serializedObject.FindProperty(nameof(GameLiftClientSettings.ApiGatewayUrl));
             _region = serializedObject.FindProperty(nameof(GameLiftClientSettings.AwsRegion));
             _poolClientId = serializedObject.FindProperty(nameof(GameLiftClientSettings.UserPoolClientId));
@@ -29,34 +25,13 @@ namespace AmazonGameLift.Editor
         {
             serializedObject.Update();
             var targetSettings = (GameLiftClientSettings)target;
-
-            EditorGUILayout.PropertyField(_isLocalTest, new GUIContent("Local Testing Mode", "Enabling this to make sample game client connect to game server running on localhost"));
-
             try
             {
-                if (targetSettings.IsLocalTest)
-                {
-                    EditLocalMode(targetSettings);
-                }
-                else
-                {
-                    EditGameLiftMode(targetSettings);
-                }
+                EditGameLiftMode(targetSettings);
             }
             finally
             {
                 serializedObject.ApplyModifiedProperties();
-            }
-        }
-
-        private void EditLocalMode(GameLiftClientSettings targetSettings)
-        {
-            EditorGUILayout.LabelField("GameLift Local URL", targetSettings.LocalUrl);
-            EditorGUILayout.PropertyField(_localPort, new GUIContent("GameLift Local Port", "This port should match the port value defined in Local Testing"));
-
-            if (targetSettings.LocalPort == 0)
-            {
-                EditorGUILayout.HelpBox("Please set the GameLift Local port.", MessageType.Warning);
             }
         }
 

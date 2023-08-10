@@ -4,7 +4,7 @@
 namespace AmazonGameLiftPlugin.Core
 {
     [System.Serializable]
-    public struct GameLiftServerProcessConfiguration
+    public struct GameLiftConfiguration
     {
         public string AwsRegion;
         public string UserPoolClientId;

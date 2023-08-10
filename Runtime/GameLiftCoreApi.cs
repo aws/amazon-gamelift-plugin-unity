@@ -21,11 +21,11 @@ namespace AmazonGameLift.Runtime
 {
     public class GameLiftCoreApi
     {
-        private readonly GameLiftServerProcessConfiguration _configuration;
+        private readonly GameLiftConfiguration _configuration;
         private readonly bool _isAnywhereMode;
         private CoreApi _coreApi;
 
-        protected GameLiftCoreApi(GameLiftServerProcessConfiguration configuration)
+        protected GameLiftCoreApi(GameLiftConfiguration configuration)
         {
             _configuration = configuration;
             _userIdentity = new UserIdentity(new AmazonCognitoIdentityWrapper(configuration.AwsRegion));
@@ -40,7 +40,6 @@ namespace AmazonGameLift.Runtime
                 _isAnywhereMode = true;
             }
         }
-        
         #region User Accounts
 
         private readonly IUserIdentity _userIdentity;
