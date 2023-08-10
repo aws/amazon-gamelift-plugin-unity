@@ -35,7 +35,7 @@ namespace AmazonGameLift.Runtime
 
             if (_configuration.ApiGatewayEndpoint.StartsWith("http://localhost"))
             {
-                var gameLiftClientWrapper = new AmazonGameLiftClientWrapper(_configuration.ApiGatewayEndpoint);
+                var gameLiftClientWrapper = new AmazonGameLiftWrapper(_configuration.ApiGatewayEndpoint);
                 _localGame = new LocalGameAdapter(gameLiftClientWrapper);
                 _isLocalMode = true;
             }
