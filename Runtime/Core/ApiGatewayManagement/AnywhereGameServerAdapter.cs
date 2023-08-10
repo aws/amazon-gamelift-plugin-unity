@@ -8,8 +8,7 @@ using System.Threading.Tasks;
 using Amazon.GameLift;
 using AmazonGameLiftPlugin.Core.ApiGatewayManagement.Models;
 using AmazonGameLiftPlugin.Core.Shared;
-using UnityEngine;
-using Logger = AmazonGameLiftPlugin.Core.Shared.Logging.Logger;
+using AmazonGameLiftPlugin.Core.Shared.Logging;
 using Amazon.GameLift.Model;
 
 namespace AmazonGameLiftPlugin.Core.ApiGatewayManagement 
@@ -18,13 +17,13 @@ namespace AmazonGameLiftPlugin.Core.ApiGatewayManagement
     {
         private readonly IAmazonGameLiftClientWrapper _amazonGameLiftClientWrapper;
         private readonly string _fleetId;
-        private readonly string _location;
+        private readonly string _fleetLocation;
         private readonly string _playerIdPrefix = "playerId-";
         
         public AnywhereGameServerAdapter(IAmazonGameLiftClientWrapper amazonGameLiftClientWrapper, string fleetId, string fleetLocation )
         {
             _amazonGameLiftClientWrapper = amazonGameLiftClientWrapper;
-            _location = fleetLocation;
+            _fleetLocation = fleetLocation;
             _fleetId = fleetId;
         }
 
@@ -37,10 +36,10 @@ namespace AmazonGameLiftPlugin.Core.ApiGatewayManagement
                     FleetId = _fleetId,
                     StatusFilter = GameSessionStatus.ACTIVE
                 });
-
-                var oldestGameSession = describeGameSessionsResponse.GameSessions.First();
+                
                 if (describeGameSessionsResponse.GameSessions.Any())
                 {
+                    var oldestGameSession = describeGameSessionsResponse.GameSessions.First();
                     var createPlayerSessionResponse = await _amazonGameLiftClientWrapper.CreatePlayerSession(new CreatePlayerSessionRequest
                     {
                         GameSessionId = oldestGameSession.GameSessionId,
@@ -93,12 +92,12 @@ namespace AmazonGameLiftPlugin.Core.ApiGatewayManagement
                     {
                         MaximumPlayerSessionCount = 4,
                         FleetId = _fleetId,
-                        Location = _location,
+                        Location = _fleetLocation,
                     });
 
                     if (createGameSessionResponse.HttpStatusCode != HttpStatusCode.OK)
                     {
-                        Debug.Log($"Error createGameSessionResponse not working Error Code: {createGameSessionResponse.HttpStatusCode}");
+                        Logger.LogError(new Exception(),"Error createGameSessionResponse not working Error Code: {createGameSessionResponse.HttpStatusCode}");
                     }
                 }
 
