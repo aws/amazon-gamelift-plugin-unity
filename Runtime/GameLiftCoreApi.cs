@@ -6,6 +6,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using Amazon.GameLift;
 using AmazonGameLift.Editor;
 using AmazonGameLiftPlugin.Core;
 using AmazonGameLiftPlugin.Core.ApiGatewayManagement;
@@ -35,7 +36,10 @@ namespace AmazonGameLift.Runtime
             var fleetLocation = _coreApi.GetSetting("FleetLocation").Value;
             if (_configuration.IsGameLiftAnywhere) //TODO Review this when everything is merged into feature/anywhere.
             {
-                var gameLiftClientWrapper = new AmazonGameLiftWrapper(_coreApi.RetrieveAwsCredentials(_coreApi.GetSetting(SettingsKeys.CurrentProfileName).Value)); 
+                var credentialsResponse =
+                    _coreApi.RetrieveAwsCredentials(_coreApi.GetSetting(SettingsKeys.CurrentProfileName).Value);
+                AmazonGameLiftClient gameLiftClient = new AmazonGameLiftClient(credentialsResponse.AccessKey, credentialsResponse.SecretKey);
+                var gameLiftClientWrapper = new AmazonGameLiftWrapper(gameLiftClient); 
                 _anywhereGame = new AnywhereGameServerAdapter(gameLiftClientWrapper, fleetId, fleetLocation);
                 _isAnywhereMode = true;
             }
