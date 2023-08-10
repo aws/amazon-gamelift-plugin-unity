@@ -37,36 +37,31 @@ public class GameLiftAnywhereTab : Tab
 
         SetupButtons();
         //var textFieldsList = textFields.Select(textField => textField.value).ToList();
-
     }
 
     private void SetupButtons()
     {
-        var fleetTextField = Root.Q<TextField>(null, "CreateAnywhereFleetField");
-        var fleetTextButton = Root.Q<Button>(null, "CreateAnywhereFleet");
-            
+        var fleetTextField = Root.Q<TextField>("CreateAnywhereFleetField");
+        var fleetTextButton = Root.Q<Button>("CreateAnywhereFleet");
         fleetTextField.RegisterValueChangedCallback(_ =>  SetupFleetButton(fleetTextField,fleetTextButton));
         
-        var registerComputeTextButton = Root.Q<Button>(null, "CreateAnywhereFleet");
-        var registerComputeTextField = Root.Q<TextField>(null, "RegisterComputeField");
+        var registerComputeTextButton = Root.Q<Button>("RegisterComputeButton");
+        var registerComputeTextField = Root.Q<TextField>("RegisterComputeField");
+        var ipTextFields = Root.Query<TextField>("IpAddress").ToList();
         
-        
-        var ipTextFields = Root.Query<TextField>(null, "IpAddress").ToList();
+        registerComputeTextField.RegisterValueChangedCallback(_ =>
+            SetupCompute(registerComputeTextField, ipTextFields, registerComputeTextButton));
+            
         foreach (var ipField in ipTextFields)
         {
             ipField.RegisterValueChangedCallback(_ =>
-                SetupCompute(registerComputeTextField, ipField, registerComputeTextButton));
+                SetupCompute(registerComputeTextField, ipTextFields, registerComputeTextButton));
         }
     }
 
-    private void SetupVariables(string ipAddre)
+    private void SetupFleetButton(TextField textField, Button button)
     {
-        throw new System.NotImplementedException();
-    }
-
-    private void SetupFleetButton(TextField textField, Button button) //TODO add to textfield check
-    {
-        var fleetNameValid = CheckValidFleetName(textField.value);
+        var fleetNameValid = CheckValidFleetName(textField.value) && textField.value != "GameName-AnywhereFleet";
         ToggleButtons(button, fleetNameValid);
     }
 
@@ -78,19 +73,12 @@ public class GameLiftAnywhereTab : Tab
         return match.Success && text.Length is >= 1 and <= 1024;
     }
 
-    private void SetupCompute(TextField computeTextName, TextField ipTextField, Button button)
+    private void SetupCompute(TextField computeTextName, IEnumerable<TextField> ipTextField, Button button)
     {
         var computeTextNameValid = computeTextName.value.Length >= 1;
-        var ipTextFieldsValid = ipTextField.value.Length >= 1;
-
-        if (computeTextNameValid && ipTextFieldsValid)
-        {
-            ToggleButtons(button, true);
-        }
-        else
-        {
-            ToggleButtons(button, false);
-        }
+        var ipTextFieldsValid = ipTextField.All(text => text.value.Length >= 1);
+        
+        ToggleButtons(button, computeTextNameValid && ipTextFieldsValid);
     }
     
     
@@ -125,11 +113,15 @@ public class GameLiftAnywhereTab : Tab
             }
             case "RegisterCompute":
             {
-                ToggleButtons(button, false);
                 var success = await RegisterCompute(_computeName, _fleetId, _fleetLocation, _ipAddress);
                 if(!success)
                 {
                     ToggleButtons(button, true);
+                }
+                else
+                {
+                    var launchClientButton = Root.Q<Button>("LaunchClient");
+                    ToggleButtons(launchClientButton, true);
                 }
                 break;
             }
