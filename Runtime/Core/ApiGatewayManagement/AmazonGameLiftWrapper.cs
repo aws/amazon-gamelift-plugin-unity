@@ -1,29 +1,17 @@
 // Copyright Amazon.com, Inc. or its affiliates. All Rights Reserved.
 // SPDX-License-Identifier: Apache-2.0
 
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Net;
-using System.Net.Sockets;
 using System.Threading;
 using System.Threading.Tasks;
 using Amazon.GameLift;
 using Amazon.GameLift.Model;
-using AmazonGameLiftPlugin.Core.CredentialManagement;
-using AmazonGameLiftPlugin.Core.CredentialManagement.Models;
-using AmazonGameLiftPlugin.Core.Shared.FileSystem;
-using UnityEngine;
 
 namespace AmazonGameLiftPlugin.Core.ApiGatewayManagement
 {
     public class AmazonGameLiftWrapper : IAmazonGameLiftClientWrapper
     {
         private readonly IAmazonGameLift _amazonGameLiftClient;
-        private readonly ICredentialsStore _credentialsStore = new CredentialsStore(new FileWrapper());
 
-        private const string FleetDescription = "Created By Amazon GameLift Unity Plugin";
-        
         internal AmazonGameLiftWrapper(IAmazonGameLift amazonGameLiftClient)
         {
             _amazonGameLiftClient = amazonGameLiftClient;
