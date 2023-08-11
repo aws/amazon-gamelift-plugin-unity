@@ -20,7 +20,7 @@ namespace AmazonGameLiftPlugin.Core.ApiGatewayManagement
         private readonly string _fleetLocation;
         private readonly string _playerIdPrefix = "playerId-";
         
-        public AnywhereGameServerAdapter(IAmazonGameLiftClientWrapper amazonGameLiftClientWrapper, string fleetId, string fleetLocation )
+        public AnywhereGameServerAdapter(IAmazonGameLiftClientWrapper amazonGameLiftClientWrapper, string fleetId, string fleetLocation)
         {
             _amazonGameLiftClientWrapper = amazonGameLiftClientWrapper;
             _fleetLocation = fleetLocation;
