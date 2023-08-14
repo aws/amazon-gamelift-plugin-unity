@@ -34,14 +34,11 @@ namespace AmazonGameLift.Runtime
             _coreApi = CoreApi.SharedInstance;
             var fleetId = _coreApi.GetSetting("FleetId").Value;
             var fleetLocation = _coreApi.GetSetting("FleetLocation").Value;
-            if (_configuration.IsGameLiftAnywhere) //TODO Review this when everything is merged into feature/anywhere.
+            if (_configuration.IsGameLiftAnywhere)
             {
-                var credentialsResponse =
-                    _coreApi.RetrieveAwsCredentials(_coreApi.GetSetting(SettingsKeys.CurrentProfileName).Value);
-                AmazonGameLiftClient gameLiftClient = new AmazonGameLiftClient(credentialsResponse.AccessKey, credentialsResponse.SecretKey);
-                var gameLiftClientWrapper = new AmazonGameLiftWrapper(gameLiftClient); 
-                _anywhereGame = new AnywhereGameServerAdapter(gameLiftClientWrapper, fleetId, fleetLocation);
-                _isAnywhereMode = true;
+                var gameLiftClientWrapper = new AmazonGameLiftWrapper(_configuration.ApiGatewayEndpoint);
+                _localGame = new LocalGameAdapter(gameLiftClientWrapper);
+                _isLocalMode = true;
             }
         }
         #region User Accounts
