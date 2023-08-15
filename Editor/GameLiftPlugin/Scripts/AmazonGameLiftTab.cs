@@ -1,6 +1,5 @@
 using AmazonGameLift.Editor;
 using UnityEditor;
-using UnityEngine;
 using UnityEngine.UIElements;
 
 public class AmazonGameLiftTab : Tab
@@ -15,11 +14,34 @@ public class AmazonGameLiftTab : Tab
         SetupTab();
     }
 
-
     private void SetupTab()
     {
         var tabName = "Tab1";
         base.SetupTab(tabName, OnTabButtonClicked);
+        SetupBootMenu();
+    }
+    
+    private void SetupBootMenu()
+    {
+        VisualElement targetWizard;
+        switch (_gameLiftConfig.CurrentState.AllProfiles.Length)
+        {
+            case 0:
+                EnableInfoBox("Tab1Help");
+                targetWizard = GetWizard("Cards");
+                break;
+            default:
+            {
+                if (_gameLiftConfig.CurrentState.SelectedBootstrapped == false)
+                {
+                    EnableInfoBox("Tab1Warning");
+                }
+                targetWizard = GetWizard("AccountDetails");
+                break;
+                
+            }
+        }
+        ChangeWizard(targetWizard);
     }
     
     

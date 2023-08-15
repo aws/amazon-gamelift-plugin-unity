@@ -3,6 +3,7 @@ using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
 using AmazonGameLift.Editor;
+using AmazonGameLiftPlugin.Core.Shared;
 using UnityEngine;
 using UnityEngine.UIElements;
 
@@ -41,6 +42,11 @@ public class AWSCredentialsTab : Tab
                 targetWizard = GetWizard("Cards");
                 break;
             case 1:
+                if (GameLiftConfig.CurrentState.SelectedProfile == null)
+                {
+                    EnableInfoBox("Tab2Warning");
+                    //TODO Set SelectedProfile and change dropdown to "Choose Profile" and make all the below labels ---
+                }
                 targetWizard = GameLiftConfig.CurrentState.SelectedBootstrapped == false ? GetWizard("BootstrapMenu") : GetWizard("CompletedProfile");
                 break;
             default:
@@ -52,6 +58,10 @@ public class AWSCredentialsTab : Tab
                 else
                 {
                     targetWizard = GetWizard("BootstrapMenu");
+                    if (GameLiftConfig.CurrentState.SelectedProfile == null)
+                    {
+                        EnableInfoBox("Tab2Warning");
+                    }
                 }
                 break;
             }
@@ -138,7 +148,9 @@ public class AWSCredentialsTab : Tab
     private void UpdateModel(int index)
     {
         GameLiftConfig.UpdateModel.SelectedProfileIndex = index;
+        
         GameLiftConfig.UpdateModel.Update();
+        GameLiftConfig.CurrentState.SelectedProfile = GameLiftConfig.UpdateModel.AllProlfileNames[index];
     }
 
     private void OnTabButtonClicked(ClickEvent evt, Button button)
@@ -174,7 +186,18 @@ public class AWSCredentialsTab : Tab
             {
                 Debug.Log("Bootstrapping Account");
                 //ToggleButtons(button, false);
-                BucketCreation();
+                var bucketResponse = BucketCreation();
+                if (bucketResponse.Success)
+                {
+                    EnableInfoBox("Tab2Success");
+                }
+                else
+                {
+                    var errorBox = Root.Q<VisualElement>("Tab2Error");
+                    errorBox.style.display = DisplayStyle.Flex;
+                    errorBox.Q<Label>().text = bucketResponse.ErrorMessage;
+                    Debug.Log(bucketResponse.ErrorMessage);
+                }
                 break;
             }
         }
@@ -199,12 +222,12 @@ public class AWSCredentialsTab : Tab
         _bootstrapSettings.RefreshCurrentBucket();
     }
 
-    private void BucketCreation()
+    private Response BucketCreation()
     {
         _refreshBucketsCancellation?.Cancel();
         _bootstrapSettings.RefreshBucketName();
         _bootstrapSettings.LifeCyclePolicyIndex = 0;
-        _bootstrapSettings.CreateBucket();
+        return _bootstrapSettings.CreateBucket();
     }
 
     private void BucketSelection()

@@ -82,82 +82,16 @@ public abstract class Tab
     {
         return AllWizardElements.FirstOrDefault(element => element.name == wizardName);
     }
-
-    public VisualElement BuildInfoBox(InfoType infoType, string message, Button actionButton)
+    
+    protected VisualElement GetFoldout(string foldoutName)
     {
-        Color infoColour = Color.blue;
-        Color warningColour = Color.yellow;
-        Color errorColour = Color.red;
-        Color usedColor = default;
-        int iconType = 0;
+        return AllFoldoutElements.FirstOrDefault(element => element.name == foldoutName);
+    }
 
-        switch (infoType)
-        {
-            case InfoType.Info:
-                usedColor = infoColour;
-                iconType = (int)InfoType.Info;
-                break;
-            case InfoType.Warning:
-                usedColor = warningColour;
-                iconType = (int)InfoType.Warning;
-                break;
-            case InfoType.Error:
-                usedColor = errorColour;
-                iconType = (int)InfoType.Error;
-                break;
-        }
-        
 
-        var usedColorFaded = usedColor;
-        usedColorFaded.a = 0.133f;
-        var icon = new VisualElement();
-        
-        
-        var infoBox = new GroupBox
-        {
-            style =
-            {
-                flexDirection = FlexDirection.Row,
-                backgroundColor = usedColorFaded,
-                borderRightColor = infoColour,
-                borderLeftColor = infoColour,
-                borderBottomColor = infoColour,
-                borderTopColor = infoColour
-            }
-        };
-        infoBox.Add(icon);
-        
-        var textBox = new Label
-        {
-            text = message,
-            style =
-            {
-                fontSize = 9,
-                alignContent = Align.Center
-            }
-        };
-        infoBox.Add(textBox);
-
-        infoBox.Add(actionButton);
-        
-        var closeButton = new Button
-        {
-            text = "X",
-            style =
-            {
-                backgroundColor = Color.clear,
-                borderRightColor = Color.clear,
-                borderLeftColor = Color.clear,
-                borderBottomColor = Color.clear,
-                borderTopColor = Color.clear
-            }
-        };
-        closeButton.RegisterCallback<MouseUpEvent>(t =>
-        {
-            infoBox.style.display = DisplayStyle.None;
-        });
-        infoBox.Add(closeButton);
-        return infoBox;
+    protected void EnableInfoBox(string infoBoxClass)
+    {
+        Root.Q<VisualElement>(null, infoBoxClass).style.display = DisplayStyle.Flex;
     }
 
     public enum InfoType

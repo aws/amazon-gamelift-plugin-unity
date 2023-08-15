@@ -27,17 +27,12 @@ namespace AmazonGameLiftPlugin.Core.ApiGatewayManagement
 
         private const string FleetDescription = "Created By Amazon GameLift Unity Plugin";
         
-        internal AmazonGameLiftWrapper(IAmazonGameLift amazonGameLiftClient)
+        public AmazonGameLiftWrapper(IAmazonGameLift amazonGameLiftClient)
         {
             _amazonGameLiftClient = amazonGameLiftClient;
             //awsWrapper.
         }
 
-        public AmazonGameLiftWrapper()
-        {
-            //_gameLiftClientSettings = Resources.FindObjectsOfTypeAll<GameLiftClientSettings>()[0]; //TODO ASG6 Change this to read from coreapi
-            _amazonGameLiftClient = CreateGameLiftClient();
-        }
         /// <summary>
         /// Client region is code dedicated to Amazon GameLift SDK calls made by the game client. 
         /// </summary>
@@ -65,12 +60,6 @@ namespace AmazonGameLiftPlugin.Core.ApiGatewayManagement
         {
             return await _amazonGameLiftClient.DescribeGameSessionsAsync(request);
         }
-
-        private IAmazonGameLift CreateGameLiftClient()
-        {
-            
-            return new AmazonGameLiftClient("credentials.AccessKey", "credentials.SecretKey"); //TODO use other way
-        }
         #endregion
         
         /// <summary>
@@ -78,17 +67,17 @@ namespace AmazonGameLiftPlugin.Core.ApiGatewayManagement
         /// </summary>
         #region Server
 
-        private async Task<ListLocationsResponse> ListLocations(ListLocationsRequest request)
+        public async Task<ListLocationsResponse> ListLocations(ListLocationsRequest request)
         {
             return await _amazonGameLiftClient.ListLocationsAsync(request);
         }
 
-        private async Task<CreateLocationResponse> CreateLocation(CreateLocationRequest request)
+        public async Task<CreateLocationResponse> CreateLocation(CreateLocationRequest request)
         {
             return await _amazonGameLiftClient.CreateLocationAsync(request);
         }
 
-        private async Task<RegisterComputeResponse> RegisterCompute(RegisterComputeRequest request)
+        public async Task<RegisterComputeResponse> RegisterCompute(RegisterComputeRequest request)
         {
             return await _amazonGameLiftClient.RegisterComputeAsync(request);
         }
@@ -98,9 +87,19 @@ namespace AmazonGameLiftPlugin.Core.ApiGatewayManagement
             return await _amazonGameLiftClient.GetComputeAuthTokenAsync(request);
         }
 
-        private Task<CreateFleetResponse> CreateFleet(CreateFleetRequest request)
+        public Task<CreateFleetResponse> CreateFleet(CreateFleetRequest request)
         {
             return _amazonGameLiftClient.CreateFleetAsync(request);
+        }
+        
+        public Task<ListFleetsResponse> ListFleets(ListFleetsRequest request)
+        {
+            return _amazonGameLiftClient.ListFleetsAsync(request);
+        }
+        
+        public Task<DescribeFleetAttributesResponse> DescribeFleets(DescribeFleetAttributesRequest request)
+        {
+            return _amazonGameLiftClient.DescribeFleetAttributesAsync(request);
         }
 
         public async Task<string> GenerateAuthToken(string computeName, string fleetId)
@@ -122,83 +121,7 @@ namespace AmazonGameLiftPlugin.Core.ApiGatewayManagement
             }
         }
 
-        public async Task<string> RegisterCompute(string computeName, string fleetId, string fleetLocation, string ipAddress)
-        {
-            try
-            {
-                var registerComputeRequest = new RegisterComputeRequest()
-                {
-                    ComputeName = computeName,
-                    FleetId = fleetId,
-                    IpAddress = ipAddress,
-                    Location = fleetLocation
-                };
-                var registerComputeResponse = await RegisterCompute(registerComputeRequest);
-                
-                return registerComputeResponse.Compute.GameLiftServiceSdkEndpoint;
-            }
-            catch (Exception ex)
-            {
-                Console.WriteLine(ex.Message);
-                throw;
-            }
-        }
 
-        public async Task CreateCustomLocationIfNotExists(string fleetLocation)
-        {
-            try
-            {
-                var listLocationsResponse = await ListLocations(new ListLocationsRequest
-                {
-                    Filters = new List<string>{ "CUSTOM" }
-                });
-                
-                var foundLocation = listLocationsResponse.Locations.FirstOrDefault(l => l.LocationName.ToString() == fleetLocation);
-
-                if (foundLocation == null)
-                {
-                    var createLocationResponse = await CreateLocation(new CreateLocationRequest()
-                    {
-                        LocationName = fleetLocation
-                    });
-                    
-                    if (createLocationResponse.HttpStatusCode == HttpStatusCode.OK)
-                    {
-                        Console.WriteLine($"Created Custom Location {fleetLocation}");
-                    }
-                }
-            }
-            catch (Exception ex)
-            {
-                Console.WriteLine(ex.Message);
-            }
-        }
-        
-        public async Task<string> CreateFleet(ComputeType computeType, string fleetLocation)
-        {
-            try
-            {
-                var createFleetRequest = new CreateFleetRequest
-                {
-                    ComputeType = computeType,
-                    Description = FleetDescription,
-                    Locations = new List<LocationConfiguration>
-                    {
-                        new()
-                        {
-                            Location = fleetLocation
-                        }
-                    }
-                };
-                var createFleetResponse = await CreateFleet(createFleetRequest);
-                return createFleetResponse.FleetAttributes.FleetId;
-            }
-            catch (Exception ex)
-            {
-                Console.WriteLine(ex.Message);
-                throw;
-            }
-        }
         #endregion
     }
 }

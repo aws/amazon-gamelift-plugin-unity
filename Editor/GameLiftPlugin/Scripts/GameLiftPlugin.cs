@@ -59,6 +59,7 @@ public class GameLiftPlugin : EditorWindow
         SetupTabMenu();
         SetupProfiles();
         SetupTabs();
+        ApplyInfoBoxSettings();
     }
 
     private void TESTADDERROR(Tab tab)
@@ -215,6 +216,15 @@ public class GameLiftPlugin : EditorWindow
         var button = root.Q<Button>(fieldName);
         button?.SetEnabled(true);
     }
+
+    private void ApplyInfoBoxSettings()
+    {
+        var infoBoxes = root.Query<VisualElement>(null, "InfoBox").ToList();
+        foreach (var infoBox in infoBoxes)
+        {
+            infoBox.Q<Button>("CloseInfoBox").RegisterCallback<ClickEvent>(_ => infoBox.style.display = DisplayStyle.None);
+        }
+    }
 }
 
 public struct State
@@ -222,5 +232,5 @@ public struct State
     public bool SelectedBootstrapped;
     public string[] AllProfiles;
     public string SelectedProfile;
-    public bool ActiveFleet;
+    public int SelectedFleetIndex;
 }
