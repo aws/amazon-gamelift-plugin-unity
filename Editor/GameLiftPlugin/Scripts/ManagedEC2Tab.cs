@@ -10,7 +10,29 @@ using UnityEngine.UIElements;
 
 public class ManagedEC2Tab : Tab
 {
-    private GameLiftPlugin GameLiftConfig;
+    private static readonly Dictionary<string, string> OSMappings = new Dictionary<string, string>
+    {
+        { "Amazon Linux 2 (AL2)", "" },
+        { "Amazon Linux 2023 (AL2023)", "" },
+        { "Windows Server 2012 (End of OS support on 10.10.2023)", "" },
+        { "Windows Server 2016", "" }
+    };
+
+    private static readonly Dictionary<int, int> ScenarioMappings = new Dictionary<int, int>
+    {
+        { 0, 1 },
+        { 1, 3 },
+        { 2, 4 }
+    };
+
+    private static readonly Dictionary<int, string> ScenarioShortNames = new Dictionary<int, string>
+    {
+        { 1, "Single-Region" },
+        { 3, "Spot" },
+        { 4, "Flex" }
+    };
+
+	private GameLiftPlugin GameLiftConfig;
     private StackUpdateModelFactory _stackUpdateModelFactory;
     private DeploymentSettings _model;
     public ManagedEC2Tab(VisualElement root, GameLiftPlugin gameLiftConfig)
@@ -100,7 +122,61 @@ public class ManagedEC2Tab : Tab
 
     private void SetupTab()
     {
+        var scenarios = ScenarioLocator.SharedInstance.GetScenarios().ToList();
+        
         var tabName = "Tab4";
+        var scenarioShortName = ScenarioShortNames[_model.ScenarioIndex];
+        var deploymentRadio = Root.Query<Foldout>("DeploymentSelectExpanded").Descendents<RadioButtonGroup>().First();
+        Root.Q<Button>("SingleHelp").RegisterCallback<ClickEvent>(e =>
+        {
+            Application.OpenURL(scenarios[1].HelpUrl);
+        });        
+        Root.Q<Button>("SpotHelp").RegisterCallback<ClickEvent>(e =>
+        {
+            Application.OpenURL(scenarios[3].HelpUrl);
+        });        
+        Root.Q<Button>("FlexHelp").RegisterCallback<ClickEvent>(e =>
+        {
+            Application.OpenURL(scenarios[4].HelpUrl);
+        });
+        
+        deploymentRadio.RegisterValueChangedCallback(e =>
+        {
+            var targetScenario = ScenarioMappings[e.newValue];
+            _model.ScenarioIndex = targetScenario;
+            scenarioShortName = ScenarioShortNames[_model.ScenarioIndex];
+            Root.Query<Foldout>("Parameters").Descendents<VisualElement>("BuildName").Descendents<TextField>().First().value = $"{Application.productName}-{scenarioShortName}-Build";
+            Root.Q<Foldout>("Deploy").text = $"Deploy ({scenarioShortName} Fleet)";
+        });        
+        
+        Root.Q<Foldout>("Parameters").text = $"{Application.productName} parameters";
+        Root.Q<Foldout>("Deploy").text = $"Deploy ({scenarioShortName} Fleet)";
+        
+        Root.Query<Foldout>("Parameters").Descendents<VisualElement>("FleetName").Descendents<TextField>().First().value = $"{Application.productName}-ManagedFleet";
+        Root.Query<Foldout>("Parameters").Descendents<VisualElement>("BuildName").Descendents<TextField>().First().value = $"{Application.productName}-{scenarioShortName}-Build";
+        Root.Query<VisualElement>("BuildOS").Children<DropdownField>().First().RegisterValueChangedCallback(e =>
+        {
+            var osTarget = OSMappings[e.newValue];
+            //TODO: Set OS Target parameter in stackformation template
+        });
+        
+        var gameServerFolder = Root.Q<VisualElement>("GameServerFolder");
+        gameServerFolder.Q<TextField>().value = _model.BuildFolderPath;
+        gameServerFolder.Q<Button>().RegisterCallback<ClickEvent>((e) => 
+        {
+            var value = EditorUtility.OpenFolderPanel("Game Server Build Folder Path", Application.dataPath, "");
+            _model.BuildFolderPath = value;
+            gameServerFolder.Q<TextField>().value = _model.BuildFolderPath;
+        });   
+        
+        var gameServerFile = Root.Q<VisualElement>("GameServerFile");
+        gameServerFile.Q<TextField>().value = _model.BuildFilePath;
+        gameServerFile.Q<Button>().RegisterCallback<ClickEvent>((e) => 
+        {
+            var value = EditorUtility.OpenFilePanel("Game Server Executable Path", Application.dataPath, "");
+            _model.BuildFilePath = value;
+            gameServerFile.Q<TextField>().value = _model.BuildFilePath;
+        });
         base.SetupTab(tabName, OnTabButtonClicked);
     }
     
