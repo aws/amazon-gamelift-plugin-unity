@@ -463,20 +463,21 @@
                         <ui:GroupBox name="GroupBox" style="flex-direction: row; padding-left: 0; margin-left: 0; right: auto; padding-right: 4px;">
                             <ui:Label tabindex="-1" text="Status" display-tooltip-when-elided="true" name="Label" style="font-size: 12px;" />
                             <ui:GroupBox style="width: 75%; margin-top: 0; padding-top: 0; left: 21%; font-size: 14px;">
-                                <ui:Label tabindex="-1" text="foo" display-tooltip-when-elided="true" name="DeployStatusLabel" style="-unity-font-style: bold;" />
+                                <ui:VisualElement name="DeploymentStatusIcon" style="flex-grow: 1;" />
+                                <ui:Label tabindex="-1" text="State" display-tooltip-when-elided="true" name="DeploymentStatusLabel" style="-unity-font-style: bold;" />
                             </ui:GroupBox>
                         </ui:GroupBox>
                         <ui:GroupBox style="flex-direction: row; margin-left: 0; margin-right: 0; margin-top: 0; margin-bottom: 0; padding-left: 0; padding-right: 0; padding-top: 0; padding-bottom: 0;">
                             <ui:Label tabindex="-1" text="AWS Resource Actions" display-tooltip-when-elided="true" style="font-size: 12px; width: 28%; height: 20px; margin-top: 9px; padding-right: 4px; margin-right: 11px;" />
-                            <ui:Button text="Create" display-tooltip-when-elided="true" name="CreateResource" class="Tab4Button DefaultDisabled" style="height: 30px; width: 62px;" />
-                            <ui:Button text="Redeploy" display-tooltip-when-elided="true" name="RedeployResource" class="Tab4Button DefaultDisabled" style="height: 30px; width: 78px;" />
-                            <ui:Button text="Delete" display-tooltip-when-elided="true" name="DeleteResource" class="Tab4Button DefaultDisabled" style="height: 30px; width: 62px;" />
+                            <ui:Button text="Create" display-tooltip-when-elided="true" name="CreateResource" class="Tab4Button" style="height: 30px; width: 62px;" />
+                            <ui:Button text="Redeploy" display-tooltip-when-elided="true" name="RedeployResource" class="Tab4Button" style="height: 30px; width: 78px;" />
+                            <ui:Button text="Delete" display-tooltip-when-elided="true" name="DeleteResource" class="Tab4Button" style="height: 30px; width: 62px;" />
                         </ui:GroupBox>
                     </ui:Foldout>
                     <ui:Foldout text="Launch Client" name="LaunchClient" style="color: rgb(210, 210, 210); display: flex;">
                         <ui:GroupBox style="flex-direction: row; padding-left: 0; margin-left: 0; right: auto;">
                             <ui:Label tabindex="-1" text="Run Game" display-tooltip-when-elided="true" style="font-size: 12px;" />
-                            <ui:Button text="Launch Client" display-tooltip-when-elided="true" focusable="false" name="LaunchClient" class="Tab4Button DefaultDisabled" style="background-color: rgb(88, 88, 88); width: 27%; right: auto; left: 18%; height: 30px; margin-left: 0;" />
+                            <ui:Button text="Launch Client" display-tooltip-when-elided="true" focusable="false" name="LaunchClient" class="Tab4Button" style="background-color: rgb(88, 88, 88); width: 27%; right: auto; left: 18%; height: 30px; margin-left: 0;" />
                         </ui:GroupBox>
                     </ui:Foldout>
                 </ui:GroupBox>

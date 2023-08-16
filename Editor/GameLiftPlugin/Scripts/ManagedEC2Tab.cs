@@ -60,8 +60,10 @@ public class ManagedEC2Tab : Tab
 
     private void OnCurrentStackInfoChanged()
     {
+        UpdateDeploymentButtons();
         UpdateDeploymentStatusText();
     }
+
 
     private void OnAnySettingChanged()
     {
@@ -269,6 +271,19 @@ public class ManagedEC2Tab : Tab
             return DeploymentStates.NotDeployed;
         }
     }
+    
+    private void UpdateDeploymentButtons()
+    {
+        var createButton = Root.Q<Button>("CreateResource");
+        var redeployButton = Root.Q<Button>("RedeployResource");
+        var deleteButton = Root.Q<Button>("DeleteResource");
+        var launchButton = Root.Q<Button>("LaunchClientButton");
+        
+        createButton.SetEnabled(DeploymentStatus == DeploymentStates.NotDeployed);
+        redeployButton.SetEnabled(DeploymentStatus == DeploymentStates.Deployed);
+        deleteButton.SetEnabled(DeploymentStatus == DeploymentStates.Deployed);
+        launchButton.SetEnabled(DeploymentStatus == DeploymentStates.Deployed);
+    }
 
     private void UpdateDeploymentStatusText()
     {
@@ -289,7 +304,7 @@ public class ManagedEC2Tab : Tab
                 textElement.text = "Deleting";
                 break;
             default:
-                throw new ArgumentOutOfRangeException(nameof(DeploymentStatus), DeploymentStatus, null);
+                throw new ArgumentOutOfRangeException();
         }
     }
 
