@@ -19,7 +19,6 @@ namespace AmazonGameLift.Editor
         private Settings _settings;
         private StatusLabel _statusLabel;
         private SettingPanel _dotNetPanel;
-        private GameLiftSettingPanel _glLocalPanel;
         private SettingPanel _javaPanel;
         private SettingPanel _credentialsPanel;
         private SettingPanel _bootstrapPanel;
@@ -59,7 +58,6 @@ namespace AmazonGameLift.Editor
             _labelReportSecurity = _textProvider.Get(Strings.LabelSettingsReportSecurity);
             _labelReportBugs = _textProvider.Get(Strings.LabelSettingsReportBugs);
             _labelOpenDeployment = _textProvider.Get(Strings.LabelSettingsOpenDeployment);
-            _labelOpenLocalTest = _textProvider.Get(Strings.LabelSettingsOpenLocalTest);
             _labelPingSdk = _textProvider.Get(Strings.LabelSettingsPingSdk);
             _labelOpenSdkIntegrationDoc = _textProvider.Get(Strings.LabelOpenSdkIntegrationDoc);
             _labelOpenSdkApiDoc = _textProvider.Get(Strings.LabelOpenSdkApiDoc);
@@ -70,7 +68,6 @@ namespace AmazonGameLift.Editor
             _controlDrawer = ControlDrawerFactory.Create();
             _settings = Settings.SharedInstance;
             _dotNetPanel = new SettingPanel(_settings.DotNetSetting, _textProvider);
-            _glLocalPanel = new GameLiftSettingPanel(_settings.GameLiftLocalSetting, _textProvider);
             _javaPanel = new SettingPanel(_settings.JavaSetting, _textProvider);
             _credentialsPanel = new SettingPanel(_settings.CredentialsSetting, _textProvider);
             _bootstrapPanel = new SettingPanel(_settings.BootstrapSetting, _textProvider);
@@ -178,9 +175,6 @@ namespace AmazonGameLift.Editor
                         case SettingsState.TabSdk:
                             DrawSdkTab();
                             break;
-                        case SettingsState.TabTest:
-                            DrawTestTab();
-                            break;
                         case SettingsState.TabDeploy:
                             DrawDeployTab();
                             break;
@@ -247,31 +241,6 @@ namespace AmazonGameLift.Editor
                 {
                     GUILayout.Space(5F);
                     _statusLabel.Draw(_textProvider.Get(Strings.SettingsUIDeployNextStepLabel), MessageType.Info);
-                }
-            }
-        }
-
-        private void DrawTestTab()
-        {
-            _glLocalPanel.Draw();
-            GUILayout.Space(SpaceBetweenSettingsPixels);
-            _javaPanel.Draw();
-            _controlDrawer.DrawSeparator();
-
-            using (new EditorGUI.DisabledGroupScope(!_settingsState.CanRunLocalTest))
-            {
-                if (GUILayout.Button(_labelOpenLocalTest))
-                {
-                    EditorMenu.ShowLocalTesting();
-                }
-            }
-
-            if (_settingsState.CanRunLocalTest)
-            {
-                using (new EditorGUILayout.HorizontalScope())
-                {
-                    GUILayout.Space(5F);
-                    _statusLabel.Draw(_textProvider.Get(Strings.SettingsUITestNextStepLabel), MessageType.Info);
                 }
             }
         }

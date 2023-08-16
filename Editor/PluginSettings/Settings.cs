@@ -16,8 +16,6 @@ namespace AmazonGameLift.Editor
 
         public DotNetSetting DotNetSetting { get; } = new DotNetSetting();
 
-        public GameLiftLocalSetting GameLiftLocalSetting { get; }
-
         public JavaSetting JavaSetting { get; }
 
         public IEnumerable<Setting> AllSettings { get; }
@@ -28,11 +26,10 @@ namespace AmazonGameLift.Editor
         /// Only for testing.
         /// </summary>
         internal Settings(BootstrapSetting bootstrapSetting, CredentialsSetting credentialsSetting,
-            GameLiftLocalSetting gameLiftLocalSetting, JavaSetting javaSetting)
+            JavaSetting javaSetting)
         {
             BootstrapSetting = bootstrapSetting ?? throw new ArgumentNullException(nameof(bootstrapSetting));
             CredentialsSetting = credentialsSetting ?? throw new System.ArgumentNullException(nameof(credentialsSetting));
-            GameLiftLocalSetting = gameLiftLocalSetting ?? throw new System.ArgumentNullException(nameof(gameLiftLocalSetting));
             JavaSetting = javaSetting ?? throw new System.ArgumentNullException(nameof(javaSetting));
         }
 
@@ -41,14 +38,12 @@ namespace AmazonGameLift.Editor
             CoreApi coreApi = CoreApi.SharedInstance;
             CredentialsSetting = new CredentialsSetting(coreApi);
             BootstrapSetting = new BootstrapSetting(coreApi, CredentialsSetting);
-            GameLiftLocalSetting = new GameLiftLocalSetting(coreApi);
             JavaSetting = new JavaSetting(coreApi);
             AllSettings = new List<Setting>
             {
                 CredentialsSetting,
                 BootstrapSetting,
                 DotNetSetting,
-                GameLiftLocalSetting,
                 JavaSetting
             };
         }

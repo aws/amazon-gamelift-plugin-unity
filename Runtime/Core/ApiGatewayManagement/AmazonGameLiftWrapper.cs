@@ -12,16 +12,14 @@ namespace AmazonGameLiftPlugin.Core.ApiGatewayManagement
     {
         private readonly IAmazonGameLift _amazonGameLiftClient;
 
-        internal AmazonGameLiftWrapper(IAmazonGameLift amazonGameLiftClient)
+        public AmazonGameLiftWrapper(IAmazonGameLift amazonGameLiftClient)
         {
             _amazonGameLiftClient = amazonGameLiftClient;
         }
-
         /// <summary>
         /// Client region is code dedicated to Amazon GameLift SDK calls made by the game client. 
         /// </summary>
         #region Client
-        
         public async Task<CreateGameSessionResponse> CreateGameSessionAsync(
                 CreateGameSessionRequest request,
                 CancellationToken cancellationToken = default
@@ -45,12 +43,10 @@ namespace AmazonGameLiftPlugin.Core.ApiGatewayManagement
             return await _amazonGameLiftClient.DescribeGameSessionsAsync(request);
         }
         #endregion
-        
         /// <summary>
         /// Server region is code dedicated to Amazon GameLift SDK and AWS SDK calls made by the game server. All of these calls will be done via UI Elements or on Startup. 
         /// </summary>
         #region Server
-
         public async Task<ListLocationsResponse> ListLocations(ListLocationsRequest request)
         {
             return await _amazonGameLiftClient.ListLocationsAsync(request);
