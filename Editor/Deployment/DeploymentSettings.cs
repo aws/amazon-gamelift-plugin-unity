@@ -331,6 +331,21 @@ namespace AmazonGameLift.Editor
             }
         }
 
+        public void DeleteDeployment()
+        {
+            var stackName = _coreApi.GetStackName(GameName);
+            var response = _coreApi.DeleteStack(CurrentProfile, CurrentRegion, stackName);
+            
+            if (response.Success)
+            {
+                RefreshCurrentStackInfo();
+            }
+            else
+            {
+                _logger.LogResponseError(response);
+            }
+        }
+
         public async Task StartDeployment(ConfirmChangesDelegate confirmChanges)
         {
             if (confirmChanges is null)

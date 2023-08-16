@@ -53,8 +53,18 @@ public class ManagedEC2Tab : Tab
         _model.Restore();
         _ = _model.WaitForCurrentDeployment();
         Settings.SharedInstance.AnySettingChanged += OnAnySettingChanged;
+        _model.CurrentStackInfoChanged += OnCurrentStackInfoChanged;
+        OnCurrentStackInfoChanged();
     }
-    
+
+    private void OnCurrentStackInfoChanged()
+    {
+        Debug.Log("Franky");
+        var stackStatus = _model.CurrentStackInfo.StackStatus;
+
+        Root.Q<Label>("DeployStatusLabel").text = stackStatus;
+    }
+
     private void OnAnySettingChanged()
     {
         _model.Refresh();
@@ -62,12 +72,12 @@ public class ManagedEC2Tab : Tab
 
     private void UpdateStatus()
     {
-        //_model.CurrentStackInfo.Status deployment status
-        
+        var status = _model.CurrentStackInfo.Status;
+
         // DrawInfo(_model.CurrentStackInfo.Details, GUILayout.Height(55));
         // DrawStackOutput(_labelCognitoClientId, _model.CurrentStackInfo.UserPoolClientId);
         // DrawStackOutput(_labelApiGateway, _model.CurrentStackInfo.ApiGatewayEndpoint);
-        
+
         // if (_model.Status.IsDisplayed)
         // {
         //     _statusLabel.Draw(_model.Status.Message, _model.Status.Type);
@@ -177,6 +187,9 @@ public class ManagedEC2Tab : Tab
             _model.BuildFilePath = value;
             gameServerFile.Q<TextField>().value = _model.BuildFilePath;
         });
+        
+        
+        
         base.SetupTab(tabName, OnTabButtonClicked);
     }
     
@@ -197,6 +210,10 @@ public class ManagedEC2Tab : Tab
             {
                 //TODO Disable this button until resource is created, then call code to create resource
                 ToggleButtons(button, false);
+                if (!_model.CanDeploy)
+                {
+                    break;
+                }
                 _model.StartDeployment(ConfirmChangeSet)
                     .ContinueWith(task =>
                     {
@@ -217,6 +234,18 @@ public class ManagedEC2Tab : Tab
             {
                 //TODO Only show this button when we are deployed, delete resource
                 ToggleButtons(button, false);
+                _model.DeleteDeployment();
+                _waiter.WaitUntilDone(_model).ContinueWith(task =>
+                {
+                    if (task.IsFaulted)
+                    {
+                        Debug.LogException(task.Exception);
+                    }
+                    else
+                    {
+                        _model.RefreshCurrentStackInfo(); 
+                    }
+                });
                 break;
             }
             case "LaunchClient":
@@ -231,7 +260,8 @@ public class ManagedEC2Tab : Tab
     
     private string[] _changes;
     private string[] _changeCount;
-    
+    private Waiter _waiter = new Waiter();
+
     protected TextProvider TextProvider { get; private set; }
     
     public Task<bool> SetUp()
