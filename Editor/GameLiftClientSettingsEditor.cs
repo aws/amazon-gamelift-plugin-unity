@@ -13,21 +13,29 @@ namespace AmazonGameLift.Editor
         private SerializedProperty _remoteUrl;
         private SerializedProperty _region;
         private SerializedProperty _poolClientId;
+        private SerializedProperty _isGameLiftAnywhere;
 
         private void OnEnable()
         {
             _remoteUrl = serializedObject.FindProperty(nameof(GameLiftClientSettings.ApiGatewayUrl));
             _region = serializedObject.FindProperty(nameof(GameLiftClientSettings.AwsRegion));
             _poolClientId = serializedObject.FindProperty(nameof(GameLiftClientSettings.UserPoolClientId));
+            _isGameLiftAnywhere = serializedObject.FindProperty(nameof(GameLiftClientSettings.IsGameLiftAnywhere));
         }
 
         public override void OnInspectorGUI()
         {
             serializedObject.Update();
             var targetSettings = (GameLiftClientSettings)target;
+            
+            EditorGUILayout.PropertyField(_isGameLiftAnywhere, new GUIContent("Use GameLift Anywhere", "Enable this to connect to the Anywhere fleet selected using the GameLift Plugin"));
+            
             try
             {
-                EditGameLiftMode(targetSettings);
+                if (!targetSettings.IsGameLiftAnywhere)
+                {
+                    EditGameLiftMode(targetSettings);
+                }
             }
             finally
             {

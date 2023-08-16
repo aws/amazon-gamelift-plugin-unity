@@ -12,7 +12,7 @@ namespace AmazonGameLiftPlugin.Core.ApiGatewayManagement
     {
         private readonly IAmazonGameLift _amazonGameLiftClient;
 
-        internal AmazonGameLiftWrapper(IAmazonGameLift amazonGameLiftClient)
+        public AmazonGameLiftWrapper(IAmazonGameLift amazonGameLiftClient)
         {
             _amazonGameLiftClient = amazonGameLiftClient;
         }

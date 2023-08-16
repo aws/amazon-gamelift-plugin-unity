@@ -67,6 +67,11 @@ public sealed class ClientBootstrap : MonoBehaviour
             _signInScreen.Hide();
             ShowSignUp();
         });
+        if (_gameLiftSettings.IsGameLiftAnywhere)
+        {
+            _signInScreen.SetHint(
+                "You are currently running in Local mode. You may enter any email/password to successfully login");
+        }
         _signInScreen.Show();
     }
 

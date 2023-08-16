@@ -12,6 +12,7 @@ namespace AmazonGameLift.Runtime
         public string AwsRegion;
         public string UserPoolClientId;
         public string ApiGatewayUrl;
+        public bool IsGameLiftAnywhere;
 
         public GameLiftConfiguration GetConfiguration()
         {
@@ -20,6 +21,7 @@ namespace AmazonGameLift.Runtime
                 ApiGatewayEndpoint = ApiGatewayUrl,
                 AwsRegion = AwsRegion,
                 UserPoolClientId = UserPoolClientId,
+                IsGameLiftAnywhere = IsGameLiftAnywhere
             };
         }
     }
