@@ -1,3 +1,8 @@
+:root {
+    --color-primary: rgb(44, 93, 135);
+    --color-success: rgb(20, 255, 20);
+}
+
 .custom-label {
     font-size: 20px;
     -unity-font-style: bold;
@@ -76,7 +81,7 @@
 .TabMenu {
     flex-grow: 1;
     background-color: rgb(63, 63, 63);
-    max-width: 75%;
+    max-width: 100%;
     left: 25%;
     align-items: auto;
     justify-content: flex-end;
@@ -112,6 +117,11 @@
     margin-bottom: 1px;
     padding-top: 2px;
     padding-bottom: 2px;
+    flex-grow: 1;
+    align-items: center;
+    justify-content: flex-start;
+    flex-basis: auto;
+    width: 100%;
 }
 
 .LearnMoreButton2 {
@@ -137,4 +147,84 @@
     bottom: 8px;
     -unity-font: resource('Font/FontAwesome');
     -unity-font-definition: resource('Font/FontAwesome SDF');
+}
+
+.Tab4Button {
+    height: 30px;
+    background-color: rgb(88, 88, 88);
+}
+
+.Tab4Button.primary {
+    background-color: var(--color-primary);
+}
+
+.ContentSection {
+    color: rgb(210, 210, 210);
+    margin-bottom: 8px;
+    -unity-font-style: normal;
+    font-size: 18px;
+    padding-bottom: 0;
+    padding-right: 16px;
+}
+
+.FormRow {
+    height: 20px;
+    flex-direction: row;
+    -unity-text-align: middle-left;
+    margin-top: 0;
+    padding-top: 0;
+    margin-bottom: 3px;
+    display: flex;
+    margin-left: 0;
+    padding-left: 0;
+    font-size: 12px;
+}
+
+.deploy-status__icon {
+    width: 25px;
+    height: 25px;
+    flex-shrink: 0;
+}
+
+.deploy-status--not-deployed .deploy-status__icon {
+    -unity-background-image-tint-color: rgb(255, 255, 255);
+    background-image: url('project://database/Assets/UnityDefaultRuntimeTheme.tss?fileID=4456449167576933126&guid=d3f6ae6009f54824aa5e45a829bf87aa&type=3#check-dash@2x');
+}
+
+.deploy-status--in-progress .deploy-status__label {
+    color: var(--color-primary);
+}
+
+.deploy-status--in-progress .deploy-status__icon {
+    -unity-background-image-tint-color: var(--color-primary);
+    background-image: url('project://database/Assets/Sprites/UI/Spinner/Spinner%201.png?fileID=2800000&guid=957eaba47d114854dbf4f4596be1a877&type=3#Spinner 1');
+}
+
+.deploy-status--deployed .deploy-status__label {
+    color: var(--color-success);
+}
+
+.deploy-status--deployed .deploy-status__icon {
+    -unity-background-image-tint-color: var(--color-success);
+    background-image: url('project://database/Assets/UnityDefaultRuntimeTheme.tss?fileID=7433338533053954386&guid=d3f6ae6009f54824aa5e45a829bf87aa&type=3#check@2x');
+}
+
+.deploy-status__console-link {
+    align-items: center;
+    padding: 0;
+    border-width: 0 0 1px 0;
+    border-bottom-color: rgb(255, 255, 255);
+    margin-left: 20px;
+    background-color: rgba(0, 0, 0, 0);
+    flex-direction: row;
+    display: none;
+    cursor: link;
+}
+
+.deploy-status--deployed .deploy-status__console-link {
+    display: flex;
+}
+
+.deploy-status--in-progress .deploy-status__console-link {
+    display: flex;
 }

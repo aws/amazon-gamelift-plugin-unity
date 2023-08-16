@@ -3,14 +3,13 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using AmazonGameLift.Editor;
-using AmazonGameLiftPlugin.Core.DeploymentManagement.Models;
 using UnityEditor;
 using UnityEngine;
 using UnityEngine.UIElements;
 
 public class ManagedEC2Tab : Tab
 {
-    private static readonly Dictionary<string, string> OSMappings = new Dictionary<string, string>
+    private static readonly Dictionary<string, string> _osMappings = new Dictionary<string, string>
     {
         { "Amazon Linux 2 (AL2)", "" },
         { "Amazon Linux 2023 (AL2023)", "" },
@@ -18,26 +17,29 @@ public class ManagedEC2Tab : Tab
         { "Windows Server 2016", "" }
     };
 
-    private static readonly Dictionary<int, int> ScenarioMappings = new Dictionary<int, int>
+    private static readonly Dictionary<int, int> _scenarioMappings = new Dictionary<int, int>
     {
         { 0, 1 },
         { 1, 3 },
         { 2, 4 }
     };
 
-    private static readonly Dictionary<int, string> ScenarioShortNames = new Dictionary<int, string>
+    private static readonly Dictionary<int, string> _scenarioShortNames = new Dictionary<int, string>
     {
         { 1, "Single-Region" },
         { 3, "Spot" },
         { 4, "Flex" }
     };
+    private readonly StackUpdateModelFactory _stackUpdateModelFactory;
+    private readonly Waiter _waiter = new Waiter();
 
-	private GameLiftPlugin GameLiftConfig;
-    private StackUpdateModelFactory _stackUpdateModelFactory;
+    private string[] _changeCount;
+
+    private string[] _changes;
     private DeploymentSettings _model;
+
     public ManagedEC2Tab(VisualElement root, GameLiftPlugin gameLiftConfig)
     {
-        GameLiftConfig = gameLiftConfig;
         Root = root;
         TabNumber = 4;
         _stackUpdateModelFactory = new StackUpdateModelFactory(new ChangeSetUrlFormatter());
@@ -46,6 +48,19 @@ public class ManagedEC2Tab : Tab
         SetupDeployment();
         SetupTab();
     }
+
+    private DeploymentStates DeploymentStatus
+    {
+        get
+        {
+            if (_model.IsDeploymentRunning) return DeploymentStates.Deploying;
+            if (_model.CurrentStackInfo.StackStatus == StackStatus.DeleteInProgress) return DeploymentStates.Deleting;
+            if (_model.HasCurrentStack) return DeploymentStates.Deployed;
+            return DeploymentStates.NotDeployed;
+        }
+    }
+
+    protected TextProvider TextProvider { get; private set; }
 
     private void SetupDeployment()
     {
@@ -61,7 +76,7 @@ public class ManagedEC2Tab : Tab
     private void OnCurrentStackInfoChanged()
     {
         UpdateDeploymentButtons();
-        UpdateDeploymentStatusText();
+        UpdateDeploymentStatus();
     }
 
 
@@ -70,9 +85,10 @@ public class ManagedEC2Tab : Tab
         _model.Refresh();
     }
 
+/*
     private void UpdateStatus()
     {
-        var status = _model.CurrentStackInfo.Status;
+        string status = _model.CurrentStackInfo.Status;
 
         // DrawInfo(_model.CurrentStackInfo.Details, GUILayout.Height(55));
         // DrawStackOutput(_labelCognitoClientId, _model.CurrentStackInfo.UserPoolClientId);
@@ -83,7 +99,8 @@ public class ManagedEC2Tab : Tab
         //     _statusLabel.Draw(_model.Status.Message, _model.Status.Type);
         // }
     }
-    
+*/
+
     // private void DrawButtons()
     // {
     //     
@@ -113,7 +130,7 @@ public class ManagedEC2Tab : Tab
     //         }
     //     }
     // }
-    
+
     // private bool ConfirmCancel()
     // {
     //     return EditorUtility.DisplayDialog(_textProvider.Get(Strings.TitleDeploymentCancelDialog),
@@ -133,66 +150,59 @@ public class ManagedEC2Tab : Tab
     private void SetupTab()
     {
         var scenarios = ScenarioLocator.SharedInstance.GetScenarios().ToList();
-        
-        var tabName = "Tab4";
-        var scenarioShortName = ScenarioShortNames[_model.ScenarioIndex];
-        var deploymentRadio = Root.Query<Foldout>("DeploymentSelectExpanded").Descendents<RadioButtonGroup>().First();
-        Root.Q<Button>("SingleHelp").RegisterCallback<ClickEvent>(e =>
-        {
-            Application.OpenURL(scenarios[1].HelpUrl);
-        });        
-        Root.Q<Button>("SpotHelp").RegisterCallback<ClickEvent>(e =>
-        {
-            Application.OpenURL(scenarios[3].HelpUrl);
-        });        
-        Root.Q<Button>("FlexHelp").RegisterCallback<ClickEvent>(e =>
-        {
-            Application.OpenURL(scenarios[4].HelpUrl);
-        });
-        
+
+        string tabName = "Tab4";
+        string scenarioShortName = _scenarioShortNames[_model.ScenarioIndex];
+        RadioButtonGroup deploymentRadio = Root.Query<Foldout>("DeploymentSelectExpanded").Descendents<RadioButtonGroup>().First();
+        Root.Q<Button>("SingleHelp").RegisterCallback<ClickEvent>(_ => { Application.OpenURL(scenarios[1].HelpUrl); });
+        Root.Q<Button>("SpotHelp").RegisterCallback<ClickEvent>(_ => { Application.OpenURL(scenarios[3].HelpUrl); });
+        Root.Q<Button>("FlexHelp").RegisterCallback<ClickEvent>(_ => { Application.OpenURL(scenarios[4].HelpUrl); });
+
         deploymentRadio.RegisterValueChangedCallback(e =>
         {
-            var targetScenario = ScenarioMappings[e.newValue];
+            int targetScenario = _scenarioMappings[e.newValue];
             _model.ScenarioIndex = targetScenario;
-            scenarioShortName = ScenarioShortNames[_model.ScenarioIndex];
-            Root.Query<Foldout>("Parameters").Descendents<VisualElement>("BuildName").Descendents<TextField>().First().value = $"{Application.productName}-{scenarioShortName}-Build";
+            scenarioShortName = _scenarioShortNames[_model.ScenarioIndex];
+            Root.Query<Foldout>("Parameters").Descendents<VisualElement>("BuildName").Descendents<TextField>().First()
+                .value = $"{Application.productName}-{scenarioShortName}-Build";
             Root.Q<Foldout>("Deploy").text = $"Deploy ({scenarioShortName} Fleet)";
-        });        
-        
+        });
+
         Root.Q<Foldout>("Parameters").text = $"{Application.productName} parameters";
         Root.Q<Foldout>("Deploy").text = $"Deploy ({scenarioShortName} Fleet)";
-        
-        Root.Query<Foldout>("Parameters").Descendents<VisualElement>("FleetName").Descendents<TextField>().First().value = $"{Application.productName}-ManagedFleet";
-        Root.Query<Foldout>("Parameters").Descendents<VisualElement>("BuildName").Descendents<TextField>().First().value = $"{Application.productName}-{scenarioShortName}-Build";
+
+        Root.Query<Foldout>("Parameters").Descendents<VisualElement>("FleetName").Descendents<TextField>().First()
+            .value = $"{Application.productName}-ManagedFleet";
+        Root.Query<Foldout>("Parameters").Descendents<VisualElement>("BuildName").Descendents<TextField>().First()
+            .value = $"{Application.productName}-{scenarioShortName}-Build";
         Root.Query<VisualElement>("BuildOS").Children<DropdownField>().First().RegisterValueChangedCallback(e =>
         {
-            var osTarget = OSMappings[e.newValue];
+            string osTarget = _osMappings[e.newValue];
             //TODO: Set OS Target parameter in stackformation template
         });
-        
-        var gameServerFolder = Root.Q<VisualElement>("GameServerFolder");
+
+        VisualElement gameServerFolder = Root.Q<VisualElement>("GameServerFolder");
         gameServerFolder.Q<TextField>().value = _model.BuildFolderPath;
-        gameServerFolder.Q<Button>().RegisterCallback<ClickEvent>((e) => 
+        gameServerFolder.Q<Button>().RegisterCallback<ClickEvent>(_ =>
         {
-            var value = EditorUtility.OpenFolderPanel("Game Server Build Folder Path", Application.dataPath, "");
+            string value = EditorUtility.OpenFolderPanel("Game Server Build Folder Path", Application.dataPath, "");
             _model.BuildFolderPath = value;
             gameServerFolder.Q<TextField>().value = _model.BuildFolderPath;
-        });   
-        
-        var gameServerFile = Root.Q<VisualElement>("GameServerFile");
+        });
+
+        VisualElement gameServerFile = Root.Q<VisualElement>("GameServerFile");
         gameServerFile.Q<TextField>().value = _model.BuildFilePath;
-        gameServerFile.Q<Button>().RegisterCallback<ClickEvent>((e) => 
+        gameServerFile.Q<Button>().RegisterCallback<ClickEvent>(_ =>
         {
-            var value = EditorUtility.OpenFilePanel("Game Server Executable Path", Application.dataPath, "");
+            string value = EditorUtility.OpenFilePanel("Game Server Executable Path", Application.dataPath, "");
             _model.BuildFilePath = value;
             gameServerFile.Q<TextField>().value = _model.BuildFilePath;
         });
-        
-        
-        
+
+
         base.SetupTab(tabName, OnTabButtonClicked);
     }
-    
+
     private void OnTabButtonClicked(ClickEvent evt, Button button)
     {
         Debug.Log(button.name + " Clicked");
@@ -201,8 +211,9 @@ public class ManagedEC2Tab : Tab
             case "ShowMoreScenarios":
             {
                 //TODO Switch from this wizard to expandedversion
-                var currentFoldout = AllFoldoutElements.FirstOrDefault(element => element.name == "DeploymentSelect");
-                var targetFoldout = AllFoldoutElements.FirstOrDefault(element => element.name == "DeploymentSelectExpanded");
+                VisualElement currentFoldout = AllFoldoutElements.FirstOrDefault(element => element.name == "DeploymentSelect");
+                VisualElement targetFoldout =
+                    AllFoldoutElements.FirstOrDefault(element => element.name == "DeploymentSelectExpanded");
                 ChangeFoldout(currentFoldout, targetFoldout);
                 break;
             }
@@ -211,17 +222,11 @@ public class ManagedEC2Tab : Tab
             {
                 //TODO Disable this button until resource is created, then call code to create resource
                 ToggleButtons(button, false);
-                if (!_model.CanDeploy)
-                {
-                    break;
-                }
+                if (!_model.CanDeploy) break;
                 _model.StartDeployment(ConfirmChangeSet)
                     .ContinueWith(task =>
                     {
-                        if (task.IsFaulted)
-                        {
-                            Debug.LogException(task.Exception);
-                        }
+                        if (task.IsFaulted) Debug.LogException(task.Exception);
                     });
                 break;
             }
@@ -232,10 +237,7 @@ public class ManagedEC2Tab : Tab
                 _model.DeleteDeployment();
                 _waiter.WaitUntilDone(_model).ContinueWith(task =>
                 {
-                    if (task.IsFaulted)
-                    {
-                        Debug.LogException(task.Exception);
-                    }
+                    if (task.IsFaulted) Debug.LogException(task.Exception);
                     _model.RefreshCurrentStackInfo();
                 });
                 break;
@@ -248,6 +250,65 @@ public class ManagedEC2Tab : Tab
         }
     }
 
+    private void UpdateDeploymentButtons()
+    {
+
+    }
+
+    private void UpdateDeploymentStatus()
+    {
+        var element = Root.Q(className: "deploy-status");
+        element.EnableInClassList("deploy-status--not-deployed", DeploymentStatus == DeploymentStates.NotDeployed);
+        element.EnableInClassList("deploy-status--in-progress", DeploymentStatus == DeploymentStates.Deleting || DeploymentStatus == DeploymentStates.Deploying);
+        element.EnableInClassList("deploy-status--deployed", DeploymentStatus == DeploymentStates.Deployed);
+
+        var textElement = element.Q<Label>(className:"deploy-status__label");
+        switch (DeploymentStatus)
+        {
+            case DeploymentStates.NotDeployed:
+                textElement.text = "Not Deployed";
+                break;
+            case DeploymentStates.Deploying:
+                textElement.text = "Deploying";
+                break;
+            case DeploymentStates.Deployed:
+                textElement.text = "Deployed";
+                break;
+            case DeploymentStates.Deleting:
+                textElement.text = "Deleting";
+                break;
+            default:
+                throw new ArgumentOutOfRangeException();
+        }
+        
+        element.Q<Button>(className: "deploy-status__console-link").RegisterCallback<ClickEvent>(_ =>
+        {
+            Application.OpenURL(Urls.AwsCloudFormationConsole);
+        });
+        
+        var createButton = Root.Q<Button>("CreateResource");
+        var redeployButton = Root.Q<Button>("RedeployResource");
+        var deleteButton = Root.Q<Button>("DeleteResource");
+        var launchButton = Root.Q<Button>("LaunchClientButton");
+
+        createButton.SetEnabled(DeploymentStatus == DeploymentStates.NotDeployed);
+        redeployButton.SetEnabled(DeploymentStatus == DeploymentStates.Deployed);
+        deleteButton.SetEnabled(DeploymentStatus == DeploymentStates.Deployed);
+        launchButton.SetEnabled(DeploymentStatus == DeploymentStates.Deployed);
+    }
+
+    private Task<bool> SetUp()
+    {
+        var completionSource = new TaskCompletionSource<bool>();
+        return completionSource.Task;
+    }
+
+    private Task<bool> ConfirmChangeSet(ConfirmChangesRequest request)
+    {
+        _stackUpdateModelFactory.Create(request);
+        return SetUp();
+    }
+
     private enum DeploymentStates
     {
         NotDeployed,
@@ -255,73 +316,4 @@ public class ManagedEC2Tab : Tab
         Deployed,
         Deleting
     }
-
-    private DeploymentStates DeploymentStatus
-    {
-        get
-        {
-            if (_model.IsDeploymentRunning) return DeploymentStates.Deploying;
-            if (_model.CurrentStackInfo.StackStatus == StackStatus.DeleteInProgress) return DeploymentStates.Deleting;
-            if (_model.HasCurrentStack) return DeploymentStates.Deployed;
-            return DeploymentStates.NotDeployed;
-        }
-    }
-    
-    private void UpdateDeploymentButtons()
-    {
-        var createButton = Root.Q<Button>("CreateResource");
-        var redeployButton = Root.Q<Button>("RedeployResource");
-        var deleteButton = Root.Q<Button>("DeleteResource");
-        var launchButton = Root.Q<Button>("LaunchClientButton");
-        
-        createButton.SetEnabled(DeploymentStatus == DeploymentStates.NotDeployed);
-        redeployButton.SetEnabled(DeploymentStatus == DeploymentStates.Deployed);
-        deleteButton.SetEnabled(DeploymentStatus == DeploymentStates.Deployed);
-        launchButton.SetEnabled(DeploymentStatus == DeploymentStates.Deployed);
-    }
-
-    private void UpdateDeploymentStatusText()
-    {
-        var icon = Root.Q<VisualElement>();
-        var textElement = Root.Q<Label>("DeploymentStatusLabel");
-        switch (DeploymentStatus)
-        {
-            case DeploymentStates.NotDeployed:
-                textElement.text = "Not Deployed";
-                break;
-            case DeploymentStates.Deploying:                
-                textElement.text = "Deploying";
-                break;
-            case DeploymentStates.Deployed:                
-                textElement.text = "Deployed";
-                break;
-            case DeploymentStates.Deleting:                
-                textElement.text = "Deleting";
-                break;
-            default:
-                throw new ArgumentOutOfRangeException();
-        }
-    }
-
-    protected Action DefaultAction { get; set; }
-    
-    private string[] _changes;
-    private string[] _changeCount;
-    private Waiter _waiter = new Waiter();
-
-    protected TextProvider TextProvider { get; private set; }
-    
-    public Task<bool> SetUp()
-    {
-        var completionSource = new TaskCompletionSource<bool>();
-        DefaultAction = () => completionSource.TrySetResult(false);
-        return completionSource.Task;
-    }
-    
-    private Task<bool> ConfirmChangeSet(ConfirmChangesRequest request)
-    {
-        _stackUpdateModelFactory.Create(request);
-        return SetUp();
-    }
-
 }
