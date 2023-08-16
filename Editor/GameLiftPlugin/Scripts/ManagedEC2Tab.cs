@@ -207,6 +207,7 @@ public class ManagedEC2Tab : Tab
                 break;
             }
             case "CreateResource":
+            case "RedeployResource":
             {
                 //TODO Disable this button until resource is created, then call code to create resource
                 ToggleButtons(button, false);
@@ -222,12 +223,6 @@ public class ManagedEC2Tab : Tab
                             Debug.LogException(task.Exception);
                         }
                     });
-                break;
-            }
-            case "RedeployResource":
-            {
-                //TODO Only show this button when we are deployed, button will redeploy resource
-                ToggleButtons(button, false);
                 break;
             }
             case "DeleteResource":
