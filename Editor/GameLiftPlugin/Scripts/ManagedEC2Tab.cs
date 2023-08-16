@@ -42,6 +42,7 @@ public class ManagedEC2Tab : Tab
         TabNumber = 4;
         _stackUpdateModelFactory = new StackUpdateModelFactory(new ChangeSetUrlFormatter());
         TextProvider = TextProviderFactory.Create();
+        _waiter.InfoUpdated += OnCurrentStackInfoChanged;
         SetupDeployment();
         SetupTab();
     }
@@ -59,10 +60,7 @@ public class ManagedEC2Tab : Tab
 
     private void OnCurrentStackInfoChanged()
     {
-        Debug.Log("Franky");
-        var stackStatus = _model.CurrentStackInfo.StackStatus;
-
-        Root.Q<Label>("DeployStatusLabel").text = stackStatus;
+        UpdateDeploymentStatusText();
     }
 
     private void OnAnySettingChanged()
@@ -241,10 +239,7 @@ public class ManagedEC2Tab : Tab
                     {
                         Debug.LogException(task.Exception);
                     }
-                    else
-                    {
-                        _model.RefreshCurrentStackInfo(); 
-                    }
+                    _model.RefreshCurrentStackInfo();
                 });
                 break;
             }
@@ -255,7 +250,49 @@ public class ManagedEC2Tab : Tab
             }
         }
     }
-    
+
+    private enum DeploymentStates
+    {
+        NotDeployed,
+        Deploying,
+        Deployed,
+        Deleting
+    }
+
+    private DeploymentStates DeploymentStatus
+    {
+        get
+        {
+            if (_model.IsDeploymentRunning) return DeploymentStates.Deploying;
+            if (_model.CurrentStackInfo.StackStatus == StackStatus.DeleteInProgress) return DeploymentStates.Deleting;
+            if (_model.HasCurrentStack) return DeploymentStates.Deployed;
+            return DeploymentStates.NotDeployed;
+        }
+    }
+
+    private void UpdateDeploymentStatusText()
+    {
+        var icon = Root.Q<VisualElement>();
+        var textElement = Root.Q<Label>("DeploymentStatusLabel");
+        switch (DeploymentStatus)
+        {
+            case DeploymentStates.NotDeployed:
+                textElement.text = "Not Deployed";
+                break;
+            case DeploymentStates.Deploying:                
+                textElement.text = "Deploying";
+                break;
+            case DeploymentStates.Deployed:                
+                textElement.text = "Deployed";
+                break;
+            case DeploymentStates.Deleting:                
+                textElement.text = "Deleting";
+                break;
+            default:
+                throw new ArgumentOutOfRangeException(nameof(DeploymentStatus), DeploymentStatus, null);
+        }
+    }
+
     protected Action DefaultAction { get; set; }
     
     private string[] _changes;

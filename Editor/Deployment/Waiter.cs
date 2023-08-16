@@ -8,6 +8,8 @@ namespace AmazonGameLift.Editor
 {
     internal class Waiter
     {
+        public event Action InfoUpdated;
+
         private CoreApi _gameLiftCoreApi;
         private bool _isWaiting;
 
@@ -48,6 +50,7 @@ namespace AmazonGameLift.Editor
                         return response;
                     }
                     
+                    InfoUpdated?.Invoke();
                     return response;
                 },
                 stopCondition: target => !_isWaiting || target.StackStatus.IsStackStatusOperationDone());
