@@ -133,7 +133,7 @@ namespace Editor.GameLiftPlugin.Scripts
                 }
             }
         }
-    
+  
         private void SetupTabMenu()
         {
             var tabButtons = _root.Query<Button>(null, "TabButton").ToList();

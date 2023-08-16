@@ -102,8 +102,7 @@ namespace Editor.GameLiftPlugin.Scripts
             ); 
             _fleetDropdown.index = _gameLiftConfig.CurrentState.SelectedFleetIndex;
         }
-        
-        
+
         private async Task UpdateFleetMenu()
         {
             _fleetsList = await ListFleets();

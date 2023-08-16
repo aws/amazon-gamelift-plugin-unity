@@ -20,6 +20,7 @@ namespace Editor.GameLiftPlugin.Scripts
             _gameLiftConfig = gameLiftConfig;
             Root = root;
             TabNumber = 2;
+            SetupConfigSettings();
             SetupBootstrap();
             SetupTab();
             SetUpForSelectedMode();
@@ -33,6 +34,15 @@ namespace Editor.GameLiftPlugin.Scripts
             dropdownField.index = 0;
             AccountSelection();
             SetupBootMenu();
+        }
+        
+        private void SetupConfigSettings()
+        {
+            var selectedProfile = _gameLiftConfig.CoreApi.GetSetting(SettingsKeys.SelectedProfile);
+            if (selectedProfile.Success)
+            {
+                _gameLiftConfig.CurrentState.SelectedProfile = selectedProfile.Value;
+            }
         }
 
         private void SetupBootMenu()
@@ -115,7 +125,15 @@ namespace Editor.GameLiftPlugin.Scripts
                 accountSelect.choices = _gameLiftConfig.CurrentState.AllProfiles.ToList();
                 if (accountSelect.choices.Contains("default"))
                 {
-                    accountSelect.index = accountSelect.choices.IndexOf("default");
+                    if (_gameLiftConfig.CurrentState.SelectedProfile is "default" or null)
+                    {
+                        accountSelect.index = accountSelect.choices.IndexOf("default");
+                    }
+                    else
+                    {
+                        accountSelect.index =
+                            accountSelect.choices.IndexOf(_gameLiftConfig.CurrentState.SelectedProfile);
+                    }
                 }
             }
         }
@@ -145,8 +163,7 @@ namespace Editor.GameLiftPlugin.Scripts
             }
             UpdateModel(index);
         }
-    
-    
+        
         private void UpdateModel(int index)
         {
             _gameLiftConfig.UpdateModel.SelectedProfileIndex = index;
