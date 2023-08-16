@@ -2,66 +2,69 @@ using AmazonGameLift.Editor;
 using UnityEditor;
 using UnityEngine.UIElements;
 
-public class AmazonGameLiftTab : Tab
+namespace Editor.GameLiftPlugin.Scripts
 {
-    private readonly GameLiftPlugin _gameLiftConfig;
+    public class AmazonGameLiftTab : Tab
+    {
+        private readonly GameLiftPlugin _gameLiftConfig;
 
-    public AmazonGameLiftTab(VisualElement root, GameLiftPlugin gameLiftConfig)
-    {
-        _gameLiftConfig = gameLiftConfig;
-        Root = root;
-        TabNumber = 1;
-        SetupTab();
-    }
-
-    private void SetupTab()
-    {
-        var tabName = "Tab1";
-        base.SetupTab(tabName, OnTabButtonClicked);
-        SetupBootMenu();
-    }
-    
-    private void SetupBootMenu()
-    {
-        VisualElement targetWizard;
-        switch (_gameLiftConfig.CurrentState.AllProfiles.Length)
+        public AmazonGameLiftTab(VisualElement root, GameLiftPlugin gameLiftConfig)
         {
-            case 0:
-                EnableInfoBox("Tab1Help");
-                targetWizard = GetWizard("Cards");
-                break;
-            default:
+            _gameLiftConfig = gameLiftConfig;
+            Root = root;
+            TabNumber = 1;
+            SetupTab();
+        }
+
+        private void SetupTab()
+        {
+            var tabName = "Tab1";
+            base.SetupTab(tabName, OnTabButtonClicked);
+            SetupBootMenu();
+        }
+    
+        private void SetupBootMenu()
+        {
+            VisualElement targetWizard;
+            switch (_gameLiftConfig.CurrentState.AllProfiles.Length)
             {
-                if (_gameLiftConfig.CurrentState.SelectedBootstrapped == false)
+                case 0:
+                    EnableInfoBox("Tab1Help");
+                    targetWizard = GetWizard("Cards");
+                    break;
+                default:
                 {
-                    EnableInfoBox("Tab1Warning");
-                }
-                targetWizard = GetWizard("AccountDetails");
-                break;
+                    if (_gameLiftConfig.CurrentState.SelectedBootstrapped == false)
+                    {
+                        EnableInfoBox("Tab1Warning");
+                    }
+                    targetWizard = GetWizard("AccountDetails");
+                    break;
                 
+                }
             }
+            ChangeWizard(targetWizard);
         }
-        ChangeWizard(targetWizard);
-    }
     
     
-    private void OnTabButtonClicked(ClickEvent evt, Button button)
-    {
-        switch (button.name)
+        private void OnTabButtonClicked(ClickEvent evt, Button button)
         {
-            case "AddProfile":
+            switch (button.name)
             {
-                var targetTab = _gameLiftConfig.TabMenus[1];
-                _gameLiftConfig.ChangeTab(button,targetTab);
-                break;
-            }
-            case "DownloadSampleGame":
-            {
-                var filePackagePath = $"Packages/{Paths.PackageName}/{Paths.SampleGameInPackage}";
-                AssetDatabase.ImportPackage(filePackagePath, interactive: true);
-                break;
+                case "AddProfile":
+                {
+                    var targetTab = _gameLiftConfig.TabMenus[1];
+                    _gameLiftConfig.ChangeTab(button,targetTab);
+                    break;
+                }
+                case "DownloadSampleGame":
+                {
+                    var filePackagePath = $"Packages/{Paths.PackageName}/{Paths.SampleGameInPackage}";
+                    AssetDatabase.ImportPackage(filePackagePath, interactive: true);
+                    break;
+                }
             }
         }
-    }
     
+    }
 }

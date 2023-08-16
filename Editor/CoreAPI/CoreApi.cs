@@ -38,6 +38,12 @@ namespace AmazonGameLift.Editor
             Bootstrapper.Initialize();
         }
 
+        public CoreApi(ISettingsStore settingsStore)
+        {
+            _settingsStore = settingsStore;
+            Bootstrapper.Initialize();
+        }
+
         #region File system
 
         private readonly IFileWrapper _fileWrapper = new FileWrapper();

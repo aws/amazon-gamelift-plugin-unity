@@ -2,235 +2,236 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using AmazonGameLift.Editor;
+using AmazonGameLiftPlugin.Core.SettingsManagement;
+using AmazonGameLiftPlugin.Core.Shared.FileSystem;
 using UnityEditor;
 using UnityEngine;
 using UnityEngine.UIElements;
 
-public class GameLiftPlugin : EditorWindow
+namespace Editor.GameLiftPlugin.Scripts
 {
-    private VisualTreeAsset m_VisualTreeAsset = default;
-
-    private VisualElement root;
-    public List<Tab> AllTabs = new();
-    public List<VisualElement> TabMenus;
-    public VisualElement CurrentTab;
-    private List<Button> _buttons = new();
-
-    private readonly Color _focusColor = new(0.172549f, 0.3647059f, 0.5294118f, 1);
-
-    public readonly AwsCredentialsCreation CreationModel;
-    public readonly AwsCredentialsUpdate UpdateModel;
-    private AwsCredentials _awsCredentials;
-    public string[] allProfileNames;
-
-    public State CurrentState = new();
-
-    private GameLiftPlugin()
+    public class GameLiftPlugin : EditorWindow
     {
-        _awsCredentials = AwsCredentialsFactory.Create();
-        CreationModel = _awsCredentials.Creation;
-        UpdateModel = _awsCredentials.Update;
-        _awsCredentials.SetUp();
+        private VisualTreeAsset _mVisualTreeAsset = default;
 
-    }
+        private VisualElement _root;
+        private readonly List<Tab> _allTabs = new();
+        public List<VisualElement> TabMenus;
+        private VisualElement _currentTab;
+        private readonly List<Button> _buttons = new();
 
-    [MenuItem("GameLift/GameLift Configuration")]
-    public static void ShowWindow()
-    {
-        var window = GetWindow<GameLiftPlugin>();
-        window.titleContent = new GUIContent("GameLift Plugin");
-    }
+        private readonly Color _focusColor = new(0.172549f, 0.3647059f, 0.5294118f, 1);
 
-    private void CreateGUI()
-    {
-        root = rootVisualElement;
-        m_VisualTreeAsset = Resources.Load<VisualTreeAsset>("EditorWindow/GameLiftPlugin2");
-        if (m_VisualTreeAsset == null)
+        public readonly AwsCredentialsCreation CreationModel;
+        public readonly AwsCredentialsUpdate UpdateModel;
+        public string[] allProfileNames;
+
+        public readonly CoreApi CoreApi;
+
+        public State CurrentState = new();
+
+        private GameLiftPlugin()
         {
-            return;
+            var awsCredentials = AwsCredentialsFactory.Create();
+            CreationModel = awsCredentials.Creation;
+            UpdateModel = awsCredentials.Update;
+            awsCredentials.SetUp();
+            var settingsStore = new SettingsStore(new FileWrapper(), settingsFilePath: Paths.PluginConfigurationFile);
+            CoreApi = new CoreApi(settingsStore);
         }
-        
-        VisualElement uxml = m_VisualTreeAsset.Instantiate();
-        root.Add(uxml);
-        
-        SetupLinks();
-        DisableDefaultButtons();
-        SetupTextFieldEvents();
-        SetupTabMenu();
-        SetupProfiles();
-        SetupTabs();
-        ApplyInfoBoxSettings();
-    }
 
-    private void TESTADDERROR(Tab tab)
-    {
-        //root.Add(tab.BuildInfoBox(Tab.InfoType.Info, "sdasdas", new Button()));
-    }
-
-    private void SetupProfiles()
-    {
-        CurrentState.AllProfiles = UpdateModel.AllProlfileNames;
-    }
-
-    private void SetupLinks()
-    {
-        var labels = root.Query<VisualElement>(null,"link").ToList();
-        foreach (var label in labels)
+        [MenuItem("GameLift/GameLift Configuration")]
+        public static void ShowWindow()
         {
-            label.RegisterCallback<MouseUpEvent,VisualElement>(OnLinkClicked,label);
+            var window = GetWindow<GameLiftPlugin>();
+            window.titleContent = new GUIContent("GameLift Plugin");
         }
-    }
 
-    private void DisableDefaultButtons()
-    {
-        var allButtons = root.Query<Button>(null, "DefaultDisabled").ToList();
-        foreach (var button in allButtons)
+        private void CreateGUI()
         {
-            button.SetEnabled(false);
-        }
-    }
-
-    private void SetupTextFieldEvents()
-    {
-        var allTextFields  = root.Query<TextField>().ToList();
-        foreach (var textField in allTextFields)
-        {
-            textField.RegisterValueChangedCallback(OnTextChangeButton);
-        }
-    }
-
-    private void SetupTabs()
-    {
-        foreach (var tab in TabMenus)
-        {
-            switch (tab.name)
+            _root = rootVisualElement;
+            _mVisualTreeAsset = Resources.Load<VisualTreeAsset>("EditorWindow/GameLiftPlugin2");
+            if (_mVisualTreeAsset == null)
             {
-                case "AmazonGameLiftTab":
+                return;
+            }
+        
+            VisualElement uxml = _mVisualTreeAsset.Instantiate();
+            _root.Add(uxml);
+        
+            SetupLinks();
+            DisableDefaultButtons();
+            SetupTextFieldEvents();
+            SetupTabMenu();
+            SetupProfiles();
+            SetupTabs();
+            ApplyInfoBoxSettings();
+        }
+
+        private void SetupProfiles()
+        {
+            CurrentState.AllProfiles = UpdateModel.AllProlfileNames;
+        }
+
+        private void SetupLinks()
+        {
+            var labels = _root.Query<VisualElement>(null,"link").ToList();
+            foreach (var label in labels)
+            {
+                label.RegisterCallback<MouseUpEvent,VisualElement>(OnLinkClicked,label);
+            }
+        }
+
+        private void DisableDefaultButtons()
+        {
+            var allButtons = _root.Query<Button>(null, "DefaultDisabled").ToList();
+            foreach (var button in allButtons)
+            {
+                button.SetEnabled(false);
+            }
+        }
+
+        private void SetupTextFieldEvents()
+        {
+            var allTextFields  = _root.Query<TextField>().ToList();
+            foreach (var textField in allTextFields)
+            {
+                textField.RegisterValueChangedCallback(OnTextChangeButton);
+            }
+        }
+
+        private void SetupTabs()
+        {
+            foreach (var tab in TabMenus)
+            {
+                switch (tab.name)
                 {
-                    var awsGameLiftTab = new AmazonGameLiftTab(root, this);
-                    AllTabs.Add(awsGameLiftTab);
-                    TESTADDERROR(awsGameLiftTab);
-                    break;
-                }
-                case "AWSAccountCredentialsTab":
-                {
-                    var awsCredentialsTab = new AWSCredentialsTab(root, this);
-                    AllTabs.Add(awsCredentialsTab);
-                    break;
-                }
-                case "GameLiftAnywhereTab":
-                {
-                    var gameLiftAnywhereTab = new GameLiftAnywhereTab(root, this);
-                    AllTabs.Add(gameLiftAnywhereTab);
-                    break;
-                }
-                case "ManagedEC2Tab":
-                {
-                    var managedEc2Tab = new ManagedEC2Tab(root, this);
-                    AllTabs.Add(managedEc2Tab);
-                    break;
+                    case "AmazonGameLiftTab":
+                    {
+                        var awsGameLiftTab = new AmazonGameLiftTab(_root, this);
+                        _allTabs.Add(awsGameLiftTab);
+                        break;
+                    }
+                    case "AWSAccountCredentialsTab":
+                    {
+                        var awsCredentialsTab = new AwsCredentialsTab(_root, this);
+                        _allTabs.Add(awsCredentialsTab);
+                        break;
+                    }
+                    case "GameLiftAnywhereTab":
+                    {
+                        var gameLiftAnywhereTab = new GameLiftAnywhereTab(_root, this);
+                        _allTabs.Add(gameLiftAnywhereTab);
+                        break;
+                    }
+                    case "ManagedEC2Tab":
+                    {
+                        var managedEc2Tab = new ManagedEC2Tab(_root, this);
+                        _allTabs.Add(managedEc2Tab);
+                        break;
+                    }
                 }
             }
         }
-    }
     
-    private void SetupTabMenu()
-    {
-        var tabButtons = root.Query<Button>(null, "TabButton").ToList();
-        foreach (var button in tabButtons)
+        private void SetupTabMenu()
         {
-            button.RegisterCallback<ClickEvent, Button>(OnTabButtonPress, button);
-            button.RegisterCallback<MouseOverEvent, Button>(OnTabButtonHover, button);
-            button.RegisterCallback<MouseLeaveEvent, Button>(OnTabButtonHover, button);
-            _buttons.Add(button);
-        }
+            var tabButtons = _root.Query<Button>(null, "TabButton").ToList();
+            foreach (var button in tabButtons)
+            {
+                button.RegisterCallback<ClickEvent, Button>(OnTabButtonPress, button);
+                button.RegisterCallback<MouseOverEvent, Button>(OnTabButtonHover, button);
+                button.RegisterCallback<MouseLeaveEvent, Button>(OnTabButtonHover, button);
+                _buttons.Add(button);
+            }
 
-        _buttons[0].style.backgroundColor = _focusColor;
-        TabMenus = root.Query<VisualElement>(null, "TabMenu").ToList();
-        CurrentTab = TabMenus[0];
-    }
+            _buttons[0].style.backgroundColor = _focusColor;
+            TabMenus = _root.Query<VisualElement>(null, "TabMenu").ToList();
+            _currentTab = TabMenus[0];
+        }
     
-    private void OnTabButtonPress(ClickEvent evt, Button button)
-    {
-        var targetTab = TabMenus.FirstOrDefault(tabMenu => tabMenu.name == button.name + "Tab");
-        ChangeTab(button, targetTab);
-    }
-
-    private void OnTabButtonHover(MouseOverEvent evt, Button button)
-    {
-        if (button.style.backgroundColor != _focusColor)
+        private void OnTabButtonPress(ClickEvent evt, Button button)
         {
-            button.style.backgroundColor = new StyleColor(Color.grey);
+            var targetTab = TabMenus.FirstOrDefault(tabMenu => tabMenu.name == button.name + "Tab");
+            ChangeTab(button, targetTab);
         }
-    }
+
+        private void OnTabButtonHover(MouseOverEvent evt, Button button)
+        {
+            if (button.style.backgroundColor != _focusColor)
+            {
+                button.style.backgroundColor = new StyleColor(Color.grey);
+            }
+        }
     
-    private void OnTabButtonHover(MouseLeaveEvent evt, Button button)
-    {
-        if (button.style.backgroundColor != _focusColor)
+        private void OnTabButtonHover(MouseLeaveEvent evt, Button button)
         {
-            button.style.backgroundColor = new StyleColor(Color.clear);
-        }
-    }
-
-    private void OnLinkClicked(MouseUpEvent evt, VisualElement linkLabel)
-    {
-        if (linkLabel.tooltip != "")
-        {
-            Application.OpenURL(linkLabel.tooltip);
-        }
-        else
-        {
-            Debug.Log("Link clicked But still needs link in tooltip");
-        }
-    }
-
-    public void ChangeTab(Button targetButton, VisualElement targetTab)
-    {
-        if (CurrentTab != null)
-        {
-            CurrentTab.style.display = DisplayStyle.None;
-            foreach (var button in _buttons)
+            if (button.style.backgroundColor != _focusColor)
             {
                 button.style.backgroundColor = new StyleColor(Color.clear);
             }
         }
-        CurrentTab = targetTab;
-        if (CurrentTab != null)
+
+        private void OnLinkClicked(MouseUpEvent evt, VisualElement linkLabel)
         {
-            CurrentTab.style.display = DisplayStyle.Flex;
-            targetButton.style.backgroundColor = new StyleColor(_focusColor);
+            if (linkLabel.tooltip != "")
+            {
+                Application.OpenURL(linkLabel.tooltip);
+            }
+            else
+            {
+                Debug.Log("Link clicked But still needs link in tooltip");
+            }
         }
-    }
+
+        public void ChangeTab(Button targetButton, VisualElement targetTab)
+        {
+            if (_currentTab != null)
+            {
+                _currentTab.style.display = DisplayStyle.None;
+                foreach (var button in _buttons)
+                {
+                    button.style.backgroundColor = new StyleColor(Color.clear);
+                }
+            }
+            _currentTab = targetTab;
+            if (_currentTab != null)
+            {
+                _currentTab.style.display = DisplayStyle.Flex;
+                targetButton.style.backgroundColor = new StyleColor(_focusColor);
+            }
+        }
     
-    private void OnTextChangeButton(ChangeEvent<string> evt)
-    {
-        var fieldName = "";
-        var words = evt.currentTarget.ToString().Split(new[] { ' ', '\t', '\n', '\r' }, StringSplitOptions.RemoveEmptyEntries);
-
-        if (words.Length >= 2)
+        private void OnTextChangeButton(ChangeEvent<string> evt)
         {
-            fieldName =  words[1];
-        }
-        fieldName = fieldName.Substring(0, fieldName.Length-5);
+            var fieldName = "";
+            var words = evt.currentTarget.ToString().Split(new[] { ' ', '\t', '\n', '\r' }, StringSplitOptions.RemoveEmptyEntries);
+
+            if (words.Length >= 2)
+            {
+                fieldName =  words[1];
+            }
+            fieldName = fieldName.Substring(0, fieldName.Length-5);
         
-        var button = root.Q<Button>(fieldName);
-        button?.SetEnabled(true);
-    }
+            var button = _root.Q<Button>(fieldName);
+            button?.SetEnabled(true);
+        }
 
-    private void ApplyInfoBoxSettings()
-    {
-        var infoBoxes = root.Query<VisualElement>(null, "InfoBox").ToList();
-        foreach (var infoBox in infoBoxes)
+        private void ApplyInfoBoxSettings()
         {
-            infoBox.Q<Button>("CloseInfoBox").RegisterCallback<ClickEvent>(_ => infoBox.style.display = DisplayStyle.None);
+            var infoBoxes = _root.Query<VisualElement>(null, "InfoBox").ToList();
+            foreach (var infoBox in infoBoxes)
+            {
+                infoBox.Q<Button>("CloseInfoBox").RegisterCallback<ClickEvent>(_ => infoBox.style.display = DisplayStyle.None);
+            }
         }
     }
-}
 
-public struct State
-{
-    public bool SelectedBootstrapped;
-    public string[] AllProfiles;
-    public string SelectedProfile;
-    public int SelectedFleetIndex;
+    public struct State
+    {
+        public bool SelectedBootstrapped;
+        public string[] AllProfiles;
+        public string SelectedProfile;
+        public int SelectedFleetIndex;
+    }
 }

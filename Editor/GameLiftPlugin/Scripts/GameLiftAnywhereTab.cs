@@ -8,323 +8,409 @@ using Amazon.GameLift;
 using Amazon.GameLift.Model;
 using AmazonGameLift.Editor;
 using AmazonGameLiftPlugin.Core.ApiGatewayManagement;
-using AmazonGameLiftPlugin.Core.Shared;
 using UnityEditor;
 using UnityEngine;
 using UnityEngine.UIElements;
 
-public class GameLiftAnywhereTab : Tab
+namespace Editor.GameLiftPlugin.Scripts
 {
-    private GameLiftPlugin GameLiftConfig;
-    private string _fleetName;
-    private string _computeName;
-    private string _ipAddress;
-    private string _fleetId;
-    private string _fleetLocation = "custom-location-1";
-    private const string FleetDescription = "Created By Amazon GameLift Unity Plugin";
-    private CoreApi _coreApi;
-    private AmazonGameLiftWrapper _gameLiftWrapper;
-    private List<FleetAttributes> fleetsList;
-    private static List<string> fleetNameList = new();
-    private DropdownField fleetDropdown;
-
-    public GameLiftAnywhereTab(VisualElement root, GameLiftPlugin gameLiftConfig)
+    public class GameLiftAnywhereTab : Tab
     {
-        GameLiftConfig = gameLiftConfig;
-        Root = root;
-        TabNumber = 3;
-        _coreApi = CoreApi.SharedInstance;
-        var credentials = _coreApi.RetrieveAwsCredentials(GameLiftConfig.CurrentState.SelectedProfile);
-        AmazonGameLiftClient client = new AmazonGameLiftClient(credentials.AccessKey, credentials.SecretKey);
-        _gameLiftWrapper = new AmazonGameLiftWrapper(client);
-        SetupTab();
-    }
+        private readonly GameLiftPlugin _gameLiftConfig;
+        private string _fleetName;
+        private string _computeName = "ComputerName-ProfileName";
+        private string _ipAddress = "120.120.120.120";
+        private string _fleetId;
+        private const string FleetLocation = "custom-location-1";
+        private const string FleetDescription = "Created By Amazon GameLift Unity Plugin";
+        private readonly AmazonGameLiftWrapper _gameLiftWrapper;
+        private List<FleetAttributes> _fleetsList;
+        private static List<string> fleetNameList = new();
+        private DropdownField _fleetDropdown;
 
-
-    private async void SetupTab()
-    {
-        var tabName = "Tab3";
-        base.SetupTab(tabName, OnTabButtonClicked);
-        
-        SetupButtons();
-        await SetupFleetMenu();
-        SetupBootMenu();
-    }
-    private void SetupBootMenu()
-    {
-        VisualElement targetFoldout;
-        if (fleetsList.Count < 1)
+        public GameLiftAnywhereTab(VisualElement root, GameLiftPlugin gameLiftConfig)
         {
-            targetFoldout = GetFoldout("Connect");
+            _gameLiftConfig = gameLiftConfig;
+            Root = root;
+            TabNumber = 3;
+            var credentials = _gameLiftConfig.CoreApi.RetrieveAwsCredentials(_gameLiftConfig.CurrentState.SelectedProfile);
+            var client = new AmazonGameLiftClient(credentials.AccessKey, credentials.SecretKey);
+            _gameLiftWrapper = new AmazonGameLiftWrapper(client);
+            SetupTab();
         }
-        else
-        {
-            targetFoldout = GetFoldout("Connected");
-        }
-        ChangeFoldout(null, targetFoldout);
-    }
-
-    private async Task SetupFleetMenu()
-    {
-        fleetDropdown = Root.Q<DropdownField>("FleetDropdown");
-        var fleetIdLabel = Root.Q<Label>("FleetIdLabel");
         
-        await UpdateFleetMenu();
-        fleetDropdown.RegisterValueChangedCallback(evt =>
+        private async void SetupTab()
+        {
+            var tabName = "Tab3";
+            base.SetupTab(tabName, OnTabButtonClicked);
+        
+            SetupConfigSettings();
+            SetupButtons();
+            await SetupFleetMenu();
+            SetupBootMenu();
+        }
+
+        private void SetupConfigSettings()
+        {
+            var computeName = _gameLiftConfig.CoreApi.GetSetting(SettingsKeys.ComputeName);
+            if (computeName.Success)
             {
-                GameLiftConfig.CurrentState.SelectedFleetIndex = fleetDropdown.index;
-                var currentFleet = fleetsList[GameLiftConfig.CurrentState.SelectedFleetIndex];
-                fleetIdLabel.text = currentFleet.FleetId;
-                _fleetId = currentFleet.FleetId;
-                _fleetName = currentFleet.Name;
+                _computeName = computeName.Value;
             }
-        ); 
-        fleetDropdown.index = 0; //TODO Save this index in config to read from
-    }
-    
-    private async Task UpdateFleetMenu()
-    {
-        fleetsList = await ListFleets();
-        fleetNameList.Clear();
-        fleetsList.ForEach(fleet => fleetNameList.Add(fleet.Name));
-        fleetDropdown.choices = fleetNameList;
-    }
-
-    private void SetupComputeMenu()
-    {
-        
-    }
-
-    private void SetupButtons()
-    {
-        var fleetTextField = Root.Q<TextField>("CreateAnywhereFleetField");
-        var fleetTextButton = Root.Q<Button>("CreateAnywhereFleet");
-        fleetTextField.RegisterValueChangedCallback(_ =>  SetupFleetButton(fleetTextField,fleetTextButton));
-        
-        var registerComputeTextButton = Root.Q<Button>("RegisterComputeButton");
-        var registerComputeTextField = Root.Q<TextField>("RegisterComputeField");
-        var ipTextFields = Root.Query<TextField>("IpAddress").ToList();
-        
-        registerComputeTextField.RegisterValueChangedCallback(_ =>
-            SetupCompute(registerComputeTextField, ipTextFields, registerComputeTextButton));
             
-        foreach (var ipField in ipTextFields)
-        {
-            ipField.RegisterValueChangedCallback(_ =>
-                SetupCompute(registerComputeTextField, ipTextFields, registerComputeTextButton));
+            var ip =  _gameLiftConfig.CoreApi.GetSetting(SettingsKeys.IpAddress);
+            if (ip.Success)
+            {
+                _ipAddress = ip.Value;
+            }
+            
+            var selectedProfile = _gameLiftConfig.CoreApi.GetSetting(SettingsKeys.SelectedProfile);
+            if (selectedProfile.Success)
+            {
+                _gameLiftConfig.CurrentState.SelectedProfile = selectedProfile.Value;
+            }
+            
+            var fleetIndex = _gameLiftConfig.CoreApi.GetSetting(SettingsKeys.SelectedFleetIndex);
+            if (fleetIndex.Success)
+            {
+                _gameLiftConfig.CurrentState.SelectedFleetIndex = int.Parse(fleetIndex.Value);
+            }
         }
-    }
-
-    private void SetupFleetButton(TextField textField, Button button)
-    {
-        var fleetNameValid = CheckValidFleetName(textField.value) && textField.value != "GameName-AnywhereFleet";
-        _fleetName = textField.value;
-        ToggleButtons(button, fleetNameValid);
-    }
-
-    private static bool CheckValidFleetName(string text)
-    {
-        const string testPattern = "^[a-zA-Z_\\-]+$";
-        var regex = new Regex(testPattern);
-        var match = regex.Match(text);
-        var correctComposition = match.Success && text.Length is >= 1 and <= 1024;
         
-        return correctComposition && fleetNameList.All(fleet => fleet != text);
-    }
-
-    private void SetupCompute(TextField computeTextName, IEnumerable<TextField> ipTextField, Button button)
-    {
-        var computeTextNameValid = computeTextName.value.Length >= 1;
-        var ipAddress = ipTextField.ToList();
-        var ipTextFieldsValid = ipAddress.All(text => text.value.Length >= 1);
-        _ipAddress = String.Join(".", ipAddress);
-        _computeName = computeTextName.value;
-        ToggleButtons(button, computeTextNameValid && ipTextFieldsValid);
-    }
-    
-    
-    private async void OnTabButtonClicked(ClickEvent evt, Button button)
-    {
-        switch (button.name)
+        private void SetupBootMenu()
         {
-            case "CreateAnywhereFleet":
-            {
-                ToggleButtons(button, false);
-                var success = await CreateAnywhereFleet(_fleetName);
-                if (success)
+            var targetFoldout = GetFoldout(_fleetsList.Count < 1 ? "Connect" : "Connected");
+            ChangeFoldout(null, targetFoldout);
+        }
+
+        private async Task SetupFleetMenu()
+        {
+            _fleetDropdown = Root.Q<DropdownField>("FleetDropdown");
+            var fleetIdLabel = Root.Q<Label>("FleetIdLabel");
+        
+            await UpdateFleetMenu();
+            _fleetDropdown.RegisterValueChangedCallback(_ =>
                 {
-                    UpdateFleetMenu();
-                    var currentFoldout = GetFoldout("Connect");
-                    var targetFoldout = GetFoldout("Connected");
-                    ChangeFoldout(currentFoldout, targetFoldout);
+                    _gameLiftConfig.CurrentState.SelectedFleetIndex = _fleetDropdown.index;
+                    var currentFleet = _fleetsList[_gameLiftConfig.CurrentState.SelectedFleetIndex];
+                    fleetIdLabel.text = currentFleet.FleetId;
+                    _fleetId = currentFleet.FleetId;
+                    _fleetName = currentFleet.Name;
+                    _gameLiftConfig.CoreApi.PutSetting(SettingsKeys.SelectedFleetIndex,
+                        _gameLiftConfig.CurrentState.SelectedFleetIndex.ToString());
                 }
-                else
-                {
-                    ToggleButtons(button, true);
-                    Debug.Log("Error creating fleet");
-                }
-                
-                break;
-            }
-            case "CreateAnotherFleet":
+            ); 
+            _fleetDropdown.index = _gameLiftConfig.CurrentState.SelectedFleetIndex;
+        }
+        
+        
+        private async Task UpdateFleetMenu()
+        {
+            _fleetsList = await ListFleets();
+            fleetNameList.Clear();
+            _fleetsList.ForEach(fleet => fleetNameList.Add(fleet.Name));
+            _fleetDropdown.choices = fleetNameList;
+        }
+
+        private void SetupButtons()
+        {
+            var fleetTextField = Root.Q<TextField>("CreateAnywhereFleetField");
+            var fleetTextButton = Root.Q<Button>("CreateAnywhereFleet");
+            fleetTextField.RegisterValueChangedCallback(_ =>  SetupFleetButton(fleetTextField,fleetTextButton));
+        
+            var registerComputeTextButton = Root.Q<Button>("RegisterCompute");
+            var registerComputeTextField = Root.Q<TextField>("RegisterComputeField");
+            var ipTextFields = Root.Query<TextField>("IpAddress").ToList();
+        
+            registerComputeTextField.RegisterValueChangedCallback(_ =>
+                SetupCompute(registerComputeTextField, ipTextFields, registerComputeTextButton));
+            registerComputeTextField.value = _computeName;
+            var index = 0;
+            var currentIp = _ipAddress.Split(".");
+            foreach (var ipField in ipTextFields)
             {
-                var currentFoldout = GetFoldout("Connected");
-                var targetFoldout = GetFoldout("Connect");
-                ChangeFoldout(currentFoldout, targetFoldout);
-                break;
-            }
-            case "RegisterCompute":
-            {
-                var success = await RegisterFleetCompute(_computeName, _fleetId, _fleetLocation, _ipAddress);
-                if(!success)
-                {
-                    ToggleButtons(button, true);
-                }
-                else
-                {
-                    var launchClientButton = Root.Q<Button>("LaunchClient");
-                    ToggleButtons(launchClientButton, true);
-                }
-                break;
-            }
-            case "LaunchClient":
-            {
-                //TODO Launch with Anywhere Mode On
-                EditorApplication.EnterPlaymode();
-                break;
+                ipField.value = currentIp[index];
+                ipField.RegisterValueChangedCallback(_ =>
+                    SetupCompute(registerComputeTextField, ipTextFields, registerComputeTextButton));
+                index++;
             }
         }
-    }
 
-    private async Task<bool> CreateAnywhereFleet(string fleetName)
-    {
-        await CreateCustomLocationIfNotExists(_fleetLocation);
-        var fleetId = await CreateFleet(ComputeType.ANYWHERE, _fleetLocation);
-        var fleetNameResponse = _coreApi.PutSetting(SettingsKeys.FleetName, fleetName);
-        var fleetIdResponse = _coreApi.PutSetting(SettingsKeys.FleetId, fleetId);
-        var customLocationNameResponse = _coreApi.PutSetting(SettingsKeys.CustomLocationName, _fleetLocation);
-        //var authTokenResponse = _coreApi.PutSetting(SettingsKeys.AuthToken, authToken); doesn't happen here might not even need
-        return fleetNameResponse.Success && customLocationNameResponse.Success && fleetIdResponse.Success;
-    }
+        private void SetupFleetButton(TextField textField, Button button)
+        {
+            var fleetNameValid = CheckValidFleetName(textField.value) && textField.value != "GameName-AnywhereFleet";
+            _fleetName = textField.value;
+            ToggleButtons(button, fleetNameValid);
+        }
+
+        private static bool CheckValidFleetName(string text)
+        {
+            const string testPattern = "^[a-zA-Z_\\-]+$";
+            var regex = new Regex(testPattern);
+            var match = regex.Match(text);
+            var correctComposition = match.Success && text.Length is >= 1 and <= 1024;
+        
+            return correctComposition && fleetNameList.All(fleet => fleet != text);
+        }
+
+        private void SetupCompute(TextField computeTextName, IEnumerable<TextField> ipTextField, Button button)
+        {
+            var computeTextNameValid = computeTextName.value.Length >= 1;
+            var ipText = ipTextField.ToList().Select(ipAddressField => ipAddressField.value).ToList();
+            _computeName = computeTextName.value;
+            var ipTextFieldsValid = ipText.All(text => text.Length >= 1);
+            ToggleButtons(button, computeTextNameValid && ipTextFieldsValid);
+        }
     
-    private async Task<bool> RegisterFleetCompute(string computeName, string fleetId, string fleetLocation, string ipAddress)
-    {
-        var webSocketUrl = await RegisterCompute(computeName, fleetId, fleetLocation, ipAddress);
-        var computeNameResponse = _coreApi.PutSetting(SettingsKeys.ComputeName, computeName);
-        var ipAddressResponse = _coreApi.PutSetting(SettingsKeys.IpAddress, ipAddress);
-        var webSocketResponse = _coreApi.PutSetting(SettingsKeys.WebSocketUrl, webSocketUrl);
-
-        return computeNameResponse.Success && ipAddressResponse.Success && webSocketResponse.Success;
-    }
-
-    private async Task CreateCustomLocationIfNotExists(string fleetLocation)
-    {
-        try
+    
+        private async void OnTabButtonClicked(ClickEvent evt, Button button)
         {
-            var listLocationsResponse = await _gameLiftWrapper.ListLocations(new ListLocationsRequest
+            switch (button.name)
             {
-                Filters = new List<string>{ "CUSTOM" }
-            });
-                
-            var foundLocation = listLocationsResponse.Locations.FirstOrDefault(l => l.LocationName.ToString() == fleetLocation);
-
-            if (foundLocation == null)
-            {
-                var createLocationResponse = await _gameLiftWrapper.CreateLocation(new CreateLocationRequest()
+                case "CreateAnywhereFleet":
                 {
-                    LocationName = fleetLocation
-                });
-                    
-                if (createLocationResponse.HttpStatusCode == HttpStatusCode.OK)
-                {
-                    Console.WriteLine($"Created Custom Location {fleetLocation}");
-                }
-            }
-        }
-        catch (Exception ex)
-        {
-            var errorBox = Root.Q<VisualElement>("FleetErrorInfoBox");
-            errorBox.style.display = DisplayStyle.Flex;
-            errorBox.Q<Label>().text = ex.Message;
-        }
-    }
-
-    private async Task<string> CreateFleet(ComputeType computeType, string fleetLocation)
-    {
-        try
-        {
-            var createFleetRequest = new CreateFleetRequest
-            {
-                Name = _fleetName,
-                ComputeType = computeType,
-                Description = FleetDescription,
-                Locations = new List<LocationConfiguration>
-                {
-                    new()
+                    ToggleButtons(button, false);
+                    var success = await CreateAnywhereFleet(_fleetName);
+                    if (success)
                     {
-                        Location = fleetLocation
+                        await UpdateFleetMenu();
+                        var currentFoldout = GetFoldout("Connect");
+                        var targetFoldout = GetFoldout("Connected");
+                        ChangeFoldout(currentFoldout, targetFoldout);
+                    }
+                    else
+                    {
+                        ToggleButtons(button, true);
+                        Debug.Log("Error creating fleet");
+                    }
+                
+                    break;
+                }
+                case "CreateAnotherFleet":
+                {
+                    var currentFoldout = GetFoldout("Connected");
+                    var targetFoldout = GetFoldout("Connect");
+                    ChangeFoldout(currentFoldout, targetFoldout);
+                    break;
+                }
+                case "RegisterCompute":
+                {
+                    var success = await RegisterFleetCompute(_computeName, _fleetId, FleetLocation, _ipAddress);
+                    if(!success)
+                    {
+                        ToggleButtons(button, true);
+                    }
+                    else
+                    {
+                        var cancelButton = Root.Q<Button>("CancelCompute");
+                        cancelButton.style.display = DisplayStyle.Flex;
+                        var statusBox = Root.Q<VisualElement>("StatusBox");
+                        statusBox.style.display = DisplayStyle.Flex;
+                        var launchClientButton = Root.Q<Button>("LaunchClient");
+                        ToggleButtons(launchClientButton, true);
+                    }
+                    break;
+                }
+                case "CancelCompute":
+                {
+                    var success = await DeregisterFleetCompute(_computeName, _fleetId);
+                    if(success)
+                    {
+                        var launchClientButton = Root.Q<Button>("LaunchClient");
+                        ToggleButtons(launchClientButton, false);
+                        var cancelButton = Root.Q<Button>("CancelCompute");
+                        cancelButton.style.display = DisplayStyle.None;
+                        var statusBox = Root.Q<VisualElement>("StatusBox");
+                        statusBox.style.display = DisplayStyle.None;
+                    }
+                    break;
+                }
+                case "LaunchClient":
+                {
+                    //TODO Launch with Anywhere Mode On
+                    EditorApplication.EnterPlaymode();
+                    break;
+                }
+            }
+        }
+
+        private async Task<bool> CreateAnywhereFleet(string fleetName)
+        {
+            var success = await CreateCustomLocationIfNotExists(FleetLocation);
+            if (success)
+            {
+                var fleetId = await CreateFleet(ComputeType.ANYWHERE, FleetLocation);
+                var fleetNameResponse = _gameLiftConfig.CoreApi.PutSetting(SettingsKeys.FleetName, fleetName);
+                var fleetIdResponse = _gameLiftConfig.CoreApi.PutSetting(SettingsKeys.FleetId, fleetId);
+                var customLocationNameResponse = _gameLiftConfig.CoreApi.PutSetting(SettingsKeys.CustomLocationName, FleetLocation);
+                return fleetNameResponse.Success && customLocationNameResponse.Success && fleetIdResponse.Success;
+            }
+        
+            return false;
+        }
+    
+        private async Task<bool> RegisterFleetCompute(string computeName, string fleetId, string fleetLocation, string ipAddress)
+        {
+            var webSocketUrl = await RegisterCompute(computeName, fleetId, fleetLocation, ipAddress);
+            if (webSocketUrl != null)
+            {
+                var computeNameResponse = _gameLiftConfig.CoreApi.PutSetting(SettingsKeys.ComputeName, computeName);
+                var ipAddressResponse = _gameLiftConfig.CoreApi.PutSetting(SettingsKeys.IpAddress, ipAddress);
+                var webSocketResponse = _gameLiftConfig.CoreApi.PutSetting(SettingsKeys.WebSocketUrl, webSocketUrl);
+            
+                return computeNameResponse.Success && ipAddressResponse.Success && webSocketResponse.Success;
+            }
+        
+            return false;
+        }
+    
+        private async Task<bool> DeregisterFleetCompute(string computeName, string fleetId)
+        {
+            var success = await DeregisterCompute(computeName, fleetId);
+            if (success)
+            {
+                var computeNameResponse = _gameLiftConfig.CoreApi.ClearSetting(SettingsKeys.ComputeName);
+                var ipAddressResponse = _gameLiftConfig.CoreApi.ClearSetting(SettingsKeys.IpAddress);
+                var webSocketResponse = _gameLiftConfig.CoreApi.ClearSetting(SettingsKeys.WebSocketUrl);
+                return computeNameResponse.Success && ipAddressResponse.Success && webSocketResponse.Success;
+            }
+        
+            return false;
+        }
+
+        private async Task<bool> CreateCustomLocationIfNotExists(string fleetLocation)
+        {
+            try
+            {
+                var listLocationsResponse = await _gameLiftWrapper.ListLocations(new ListLocationsRequest
+                {
+                    Filters = new List<string>{ "CUSTOM" }
+                });
+                
+                var foundLocation = listLocationsResponse.Locations.FirstOrDefault(l => l.LocationName.ToString() == fleetLocation);
+
+                if (foundLocation == null)
+                {
+                    var createLocationResponse = await _gameLiftWrapper.CreateLocation(new CreateLocationRequest()
+                    {
+                        LocationName = fleetLocation
+                    });
+                    
+                    if (createLocationResponse.HttpStatusCode == HttpStatusCode.OK)
+                    {
+                        Console.WriteLine($"Created Custom Location {fleetLocation}");
                     }
                 }
-            };
-            var createFleetResponse = await _gameLiftWrapper.CreateFleet(createFleetRequest);
-            return createFleetResponse.FleetAttributes.FleetId;
+                return true;
+            }
+            catch (Exception ex)
+            {
+                var errorBox = Root.Q<VisualElement>("FleetErrorInfoBox");
+                errorBox.style.display = DisplayStyle.Flex;
+                errorBox.Q<Label>().text = ex.Message;
+                return false;
+            }
         }
-        catch (Exception ex)
+
+        private async Task<string> CreateFleet(ComputeType computeType, string fleetLocation)
         {
-            var errorBox = Root.Q<VisualElement>("FleetErrorInfoBox");
-            errorBox.style.display = DisplayStyle.Flex;
-            errorBox.Q<Label>().text = ex.Message;
-            Debug.Log(ex.Message);
-            return null;
+            try
+            {
+                var createFleetRequest = new CreateFleetRequest
+                {
+                    Name = _fleetName,
+                    ComputeType = computeType,
+                    Description = FleetDescription,
+                    Locations = new List<LocationConfiguration>
+                    {
+                        new()
+                        {
+                            Location = fleetLocation
+                        }
+                    }
+                };
+                var createFleetResponse = await _gameLiftWrapper.CreateFleet(createFleetRequest);
+                return createFleetResponse.FleetAttributes.FleetId;
+            }
+            catch (Exception ex)
+            {
+                var errorBox = Root.Q<VisualElement>("FleetErrorInfoBox");
+                errorBox.style.display = DisplayStyle.Flex;
+                errorBox.Q<Label>().text = ex.Message;
+                Debug.Log(ex.Message);
+                return null;
+            }
         }
-    }
     
-    private async Task<List<FleetAttributes>> ListFleets()
-    {
-        try
+        private async Task<List<FleetAttributes>> ListFleets()
         {
-            var listFleetRequest = new ListFleetsRequest();
-            var listFleetResponse = await _gameLiftWrapper.ListFleets(listFleetRequest);
-
-            var describeFleetRequest = new DescribeFleetAttributesRequest()
+            try
             {
-                FleetIds = listFleetResponse.FleetIds
-            };
+                var listFleetRequest = new ListFleetsRequest();
+                var listFleetResponse = await _gameLiftWrapper.ListFleets(listFleetRequest);
 
-            var describeFleetResponse = await _gameLiftWrapper.DescribeFleets(describeFleetRequest);
-            return describeFleetResponse.FleetAttributes;
-        }
-        catch (Exception ex)
-        {
-            var errorBox = Root.Q<VisualElement>("FleetErrorInfoBox");
-            errorBox.style.display = DisplayStyle.Flex;
-            errorBox.Q<Label>().text = ex.Message;
-            Debug.Log(ex.Message);
-            return null;
-        }
-    }
+                var describeFleetRequest = new DescribeFleetAttributesRequest()
+                {
+                    FleetIds = listFleetResponse.FleetIds
+                };
 
-    private async Task<string> RegisterCompute(string computeName, string fleetId, string fleetLocation, string ipAddress)
-    {
-        try
-        {
-            var registerComputeRequest = new RegisterComputeRequest()
+                var describeFleetResponse = await _gameLiftWrapper.DescribeFleets(describeFleetRequest);
+                return describeFleetResponse.FleetAttributes;
+            }
+            catch (Exception ex)
             {
-                ComputeName = computeName,
-                FleetId = fleetId,
-                IpAddress = ipAddress,
-                Location = fleetLocation
-            };
-            var registerComputeResponse = await _gameLiftWrapper.RegisterCompute(registerComputeRequest);
+                var errorBox = Root.Q<VisualElement>("FleetErrorInfoBox");
+                errorBox.style.display = DisplayStyle.Flex;
+                errorBox.Q<Label>().text = ex.Message;
+                Debug.Log(ex.Message);
+                return null;
+            }
+        }
+
+        private async Task<string> RegisterCompute(string computeName, string fleetId, string fleetLocation, string ipAddress)
+        {
+            try
+            {
+                var registerComputeRequest = new RegisterComputeRequest()
+                {
+                    ComputeName = computeName,
+                    FleetId = fleetId,
+                    IpAddress = ipAddress,
+                    Location = fleetLocation
+                };
+                var registerComputeResponse = await _gameLiftWrapper.RegisterCompute(registerComputeRequest);
                 
-            return registerComputeResponse.Compute.GameLiftServiceSdkEndpoint;
+                return registerComputeResponse.Compute.GameLiftServiceSdkEndpoint;
+            }
+            catch (Exception ex)
+            {
+                var errorBox = Root.Q<VisualElement>("ComputeErrorInfoBox");
+                errorBox.style.display = DisplayStyle.Flex;
+                errorBox.Q<Label>().text = ex.Message;
+                Debug.Log(ex.Message);
+                return null;
+            }
         }
-        catch (Exception ex)
+    
+        private async Task<bool> DeregisterCompute(string computeName, string fleetId)
         {
-            var errorBox = Root.Q<VisualElement>("ComputeErrorInfoBox");
-            errorBox.style.display = DisplayStyle.Flex;
-            errorBox.Q<Label>().text = ex.Message;
-            return null;
+            try
+            {
+            
+                var deregisterComputeRequest = new DeregisterComputeRequest()
+                {
+                    ComputeName = computeName,
+                    FleetId = fleetId
+                };
+                var deregisterComputeResponse = await _gameLiftWrapper.DeregisterCompute(deregisterComputeRequest);
+
+                return deregisterComputeResponse.HttpStatusCode == HttpStatusCode.OK;
+            }
+            catch (Exception ex)
+            {
+                Debug.Log(ex.Message);
+                return false;
+            }
         }
     }
 }

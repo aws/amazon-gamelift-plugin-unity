@@ -1,5 +1,5 @@
 <ui:UXML xmlns:ui="UnityEngine.UIElements" xmlns:uie="UnityEditor.UIElements" xsi="http://www.w3.org/2001/XMLSchema-instance" engine="UnityEngine.UIElements" editor="UnityEditor.UIElements" noNamespaceSchemaLocation="../../../../../UIElementsSchema/UIElements.xsd" editor-extension-mode="False">
-    <Style src="project://database/Packages/com.amazonaws.gamelift/Editor/Resources/EditorWindow/GameLiftPlugin2.uss?fileID=7433441132597879392&amp;guid=6ab3af0d776744c48b3053137c5d57f7&amp;type=3#GameLiftPlugin2" />
+    <Style src="project://database/Packages/com.amazonaws.gamelift/Editor/Resources/EditorWindow/GameLiftPlugin2.uss?fileID=7433441132597879392&amp;guid=ec2cae24d21b4314189f2183854693e0&amp;type=3#GameLiftPlugin2" />
     <ui:VisualElement name="TabMenu" style="flex-grow: 1; background-color: rgb(51, 51, 51); width: 25%; background-image: none; border-left-width: 2px; border-right-width: 2px; border-top-width: 2px; border-bottom-width: 2px; border-left-color: rgba(69, 69, 69, 0); border-right-color: rgb(69, 69, 69); border-top-color: rgba(69, 69, 69, 0); border-bottom-color: rgba(69, 69, 69, 0); height: 790px; min-height: 100%;">
         <ui:VisualElement name="VisualElement" style="flex-grow: 1; background-color: rgba(0, 0, 0, 0); height: 96%; opacity: 0; max-height: 14px;" />
         <ui:Button text="Amazon GameLift" display-tooltip-when-elided="true" name="AmazonGameLift" class="TabButton" style="font-size: 12%; height: 6%;" />
@@ -290,15 +290,15 @@
                     <ui:Foldout text="Connect to Anywhere Fleet" name="Connected" class="Tab3Foldout" style="color: rgb(210, 210, 210); display: flex; margin-top: 0; font-size: 18px; height: auto; margin-bottom: 20px;">
                         <ui:GroupBox name="FleetDetails" style="display: flex; font-size: 12px; margin-left: 0; padding-left: 0; margin-top: 0; padding-top: 0;">
                             <ui:GroupBox name="Fleet" style="flex-direction: row; height: 20px; margin-bottom: 3px; padding-top: 0; padding-bottom: 0; margin-left: 0; padding-left: 0;">
-                                <ui:Label tabindex="-1" text="Anywhere Fleet" display-tooltip-when-elided="true" style="width: 30%; margin-top: 4px; color: rgb(196, 196, 196);" />
+                                <ui:Label tabindex="-1" text="Anywhere Fleet" display-tooltip-when-elided="true" style="width: 34%; margin-top: 4px; color: rgb(196, 196, 196);" />
                                 <ui:DropdownField index="-1" choices="default" name="FleetDropdown" tabindex="1" style="width: 70%; height: 21px; left: auto; right: 2%;" />
                             </ui:GroupBox>
                             <ui:GroupBox name="FleetId" style="height: 20px; flex-direction: row; -unity-text-align: middle-left; margin-top: 3px; padding-top: 0; margin-bottom: 3px; margin-left: 0; padding-left: 0;">
-                                <ui:Label tabindex="-1" text="Anywhere Fleet ID" display-tooltip-when-elided="true" name="Label" style="width: 30%; margin-top: 4px; color: rgb(196, 196, 196);" />
+                                <ui:Label tabindex="-1" text="Anywhere Fleet ID" display-tooltip-when-elided="true" name="Label" style="width: 34%; margin-top: 4px; color: rgb(196, 196, 196);" />
                                 <ui:Label tabindex="-1" text="fleet-12345678" display-tooltip-when-elided="true" name="FleetIdLabel" style="width: 68%; margin-top: 4px; color: rgb(255, 255, 255); margin-left: 5px; right: 2%;" />
                             </ui:GroupBox>
                             <ui:GroupBox name="FleetStatus" style="height: 20px; flex-direction: row; -unity-text-align: middle-left; margin-top: 0; padding-top: 0; margin-bottom: 8px; margin-left: 0; padding-left: 0;">
-                                <ui:Label tabindex="-1" text="Anywhere Fleet Status" display-tooltip-when-elided="true" name="Label" style="width: 30%; margin-top: 4px; color: rgb(196, 196, 196);" />
+                                <ui:Label tabindex="-1" text="Anywhere Fleet Status" display-tooltip-when-elided="true" name="Label" style="width: 34%; margin-top: 4px; color: rgb(196, 196, 196);" />
                                 <ui:GroupBox style="flex-direction: column; height: 48px; width: 79%; margin-top: 0; padding-top: 0; padding-left: 0; margin-left: 0; right: 2%;">
                                     <ui:GroupBox style="flex-direction: row; margin-left: 0; margin-right: 0; margin-top: 0; margin-bottom: 0; padding-left: 0; padding-right: 0; padding-top: 0; padding-bottom: 0;">
                                         <ui:Label tabindex="-1" text="Active" display-tooltip-when-elided="true" name="Label" class="link" style="width: 12%; margin-top: 4px; color: rgb(88, 188, 97); margin-left: 5px;" />
@@ -317,12 +317,12 @@
                             <ui:Button text="X" display-tooltip-when-elided="true" name="CloseInfoBox" style="align-self: center; align-items: flex-start; justify-content: space-between; flex-direction: column; overflow: hidden; max-width: 40px; border-left-color: rgba(149, 149, 149, 0); border-right-color: rgba(149, 149, 149, 0); border-top-color: rgba(149, 149, 149, 0); border-bottom-color: rgba(149, 149, 149, 0); background-color: rgba(188, 188, 188, 0); padding-left: 0; margin-left: 2px;" />
                         </ui:GroupBox>
                         <ui:GroupBox style="flex-direction: row; margin-left: 0; padding-left: 0; padding-bottom: 0; margin-bottom: 0;">
-                            <ui:Label tabindex="-1" text="Compute Name" display-tooltip-when-elided="true" style="font-size: 12px;" />
-                            <ui:TextField picking-mode="Ignore" value="ComputerName-ProfileName" name="RegisterComputeField" style="margin-bottom: 6px; width: 71%; left: 12%; font-size: 12px; padding-left: 1px;" />
+                            <ui:Label tabindex="-1" text="Compute Name" display-tooltip-when-elided="true" style="font-size: 12px; width: 32%;" />
+                            <ui:TextField picking-mode="Ignore" value="ComputerName-ProfileName" name="RegisterComputeField" style="margin-bottom: 6px; width: 71%; left: auto; font-size: 12px; padding-left: 1px;" />
                         </ui:GroupBox>
                         <ui:GroupBox style="flex-direction: row; padding-left: 0; margin-left: 0; right: auto; padding-top: 0; margin-top: 5px; font-size: 12px; padding-bottom: 0; margin-bottom: 0;">
-                            <ui:Label tabindex="-1" text="IP Address" display-tooltip-when-elided="true" style="font-size: 12px;" />
-                            <ui:GroupBox style="flex-direction: row; margin-top: 0; padding-top: 0; left: 17%;">
+                            <ui:Label tabindex="-1" text="IP Address" display-tooltip-when-elided="true" style="font-size: 12px; width: 31%;" />
+                            <ui:GroupBox style="flex-direction: row; margin-top: 0; padding-top: 0; left: auto;">
                                 <ui:TextField picking-mode="Ignore" value="120" max-length="3" keyboard-type="NumberPad" name="IpAddress" style="margin-bottom: 6px; width: 30px; margin-top: 0;" />
                                 <ui:Label tabindex="-1" text="." display-tooltip-when-elided="true" style="padding-right: 0;" />
                                 <ui:TextField picking-mode="Ignore" value="120" max-length="3" keyboard-type="NumberPad" name="IpAddress" style="margin-bottom: 6px; width: 30px; margin-top: 0;" />
@@ -332,16 +332,19 @@
                                 <ui:TextField picking-mode="Ignore" value="120" max-length="3" keyboard-type="NumberPad" name="IpAddress" style="margin-bottom: 6px; width: 30px; margin-top: 0;" />
                             </ui:GroupBox>
                         </ui:GroupBox>
-                        <ui:GroupBox style="flex-direction: row; padding-left: 0; margin-left: 0; right: auto; padding-top: 0; margin-top: 1px; font-size: 12px;">
+                        <ui:GroupBox name="StatusBox" style="flex-direction: row; padding-left: 0; margin-left: 0; right: auto; padding-top: 0; margin-top: 1px; font-size: 12px; display: none; margin-bottom: 0;">
                             <ui:Label tabindex="-1" text="Status" display-tooltip-when-elided="true" style="font-size: 12px; width: 31%;" />
                             <ui:Label tabindex="-1" text="Registered" display-tooltip-when-elided="true" style="color: rgb(83, 163, 90); padding-left: 10px;" />
                         </ui:GroupBox>
-                        <ui:Button text="Register Compute" display-tooltip-when-elided="true" focusable="false" name="RegisterCompute" class="Tab3Button DefaultDisabled" style="background-color: rgb(88, 88, 88); width: 35%; right: auto; left: 32%; margin-top: 2px; margin-left: 0; padding-left: 11px;" />
+                        <ui:GroupBox style="flex-direction: row; margin-top: 0; padding-top: 0;">
+                            <ui:Button text="Register Compute" display-tooltip-when-elided="true" focusable="false" name="RegisterCompute" class="Tab3Button DefaultDisabled" style="background-color: rgb(88, 88, 88); width: 35%; right: auto; left: 32%; margin-top: 2px; margin-left: 0; padding-left: 11px;" />
+                            <ui:Button text="Cancel Compute" display-tooltip-when-elided="true" focusable="false" name="CancelCompute" class="Tab3Button" style="background-color: rgb(88, 88, 88); width: 35%; right: auto; left: 32%; margin-top: 2px; margin-left: 0; padding-left: 11px; display: none;" />
+                        </ui:GroupBox>
                     </ui:Foldout>
                     <ui:Foldout text="Generate Auth Token - optional" name="AuthToken" style="color: rgb(210, 210, 210); display: flex; font-size: 18px;">
                         <ui:GroupBox style="flex-direction: row; padding-left: 0; margin-left: 0; right: auto;">
-                            <ui:Label tabindex="-1" text="Status" display-tooltip-when-elided="true" name="Label" style="font-size: 12px;" />
-                            <ui:GroupBox style="width: 75%; margin-top: 0; padding-top: 0; left: 21%; font-size: 14px;">
+                            <ui:Label tabindex="-1" text="Status" display-tooltip-when-elided="true" name="Label" style="font-size: 12px; width: 32%;" />
+                            <ui:GroupBox style="width: 75%; margin-top: 0; padding-top: 0; left: auto; font-size: 14px;">
                                 <ui:Label tabindex="-1" text="Not Generated" display-tooltip-when-elided="true" style="-unity-font-style: bold;" />
                                 <ui:Label tabindex="-1" text="The auth token is generated when you launch your game" display-tooltip-when-elided="true" style="padding-right: 0; font-size: 10px;" />
                             </ui:GroupBox>
@@ -349,8 +352,8 @@
                     </ui:Foldout>
                     <ui:Foldout text="Launch Client" name="LaunchClient" style="color: rgb(210, 210, 210); display: flex;">
                         <ui:GroupBox style="flex-direction: row; padding-left: 0; margin-left: 0; right: auto;">
-                            <ui:Label tabindex="-1" text="Run Game" display-tooltip-when-elided="true" style="font-size: 12px;" />
-                            <ui:Button text="Launch Client" display-tooltip-when-elided="true" focusable="false" name="LaunchClient" class="Tab3Button DefaultDisabled" style="background-color: rgb(88, 88, 88); width: 27%; right: auto; left: 18%;" />
+                            <ui:Label tabindex="-1" text="Run Game" display-tooltip-when-elided="true" style="font-size: 12px; width: 33%;" />
+                            <ui:Button text="Launch Client" display-tooltip-when-elided="true" focusable="false" name="LaunchClient" class="Tab3Button DefaultDisabled" style="background-color: rgb(88, 88, 88); width: 27%; right: auto; left: auto;" />
                         </ui:GroupBox>
                     </ui:Foldout>
                 </ui:GroupBox>
