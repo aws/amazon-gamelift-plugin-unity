@@ -40,6 +40,7 @@ public class ManagedEC2Tab : Tab
     private DropdownField _buildOSElement;
     private TextField _buildNameElement;
     private TextField _fleetNameElement;
+    private TextField _launchParamsElement;
 
     public ManagedEC2Tab(VisualElement root, GameLiftPlugin gameLiftConfig)
     {
@@ -125,6 +126,7 @@ public class ManagedEC2Tab : Tab
         _fleetNameElement = Root.Query<Foldout>("Parameters").Descendents<VisualElement>("FleetName").Descendents<TextField>().First();
         _buildNameElement = Root.Query<Foldout>("Parameters").Descendents<VisualElement>("BuildName").Descendents<TextField>().First();
         _buildOSElement = Root.Query<VisualElement>("BuildOS").Children<DropdownField>().First();
+        _launchParamsElement = Root.Query<Foldout>("Parameters").Descendents<VisualElement>("LaunchParameters").Descendents<TextField>().First();
         
         _fleetNameElement.value = $"{Application.productName}-ManagedFleet";
         _buildNameElement.value = $"{Application.productName}-{scenarioShortName}-Build";
@@ -168,8 +170,11 @@ public class ManagedEC2Tab : Tab
             case "CreateResource":
             {
                 ToggleButtons(button, false);
-                _model.BuildOperatingSystem = _buildOSElement.value;                
                 if (!_model.CanDeploy) break;
+                _model.FleetName = _fleetNameElement.value;
+                _model.BuildName = _buildNameElement.value;
+                _model.LaunchParameters = _launchParamsElement.value;
+                _model.BuildOperatingSystem = _osMappings[_buildOSElement.value];
                 _model.StartDeployment(ConfirmChangeSet)
                     .ContinueWith(task =>
                     {
