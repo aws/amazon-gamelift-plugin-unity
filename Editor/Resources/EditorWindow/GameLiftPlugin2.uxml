@@ -106,7 +106,7 @@
             </ui:ScrollView>
         </ui:GroupBox>
     </ui:VisualElement>
-    <ui:VisualElement name="AWSAccountCredentialsTab" class="TabMenu" style="flex-grow: 1; background-color: rgb(63, 63, 63); max-width: 75%; left: 25%; align-items: auto; justify-content: flex-end; max-height: 100%; height: 100%; top: -100%; min-height: 100%; min-width: auto; -unity-background-image-tint-color: rgb(63, 63, 63); opacity: 1; display: none; visibility: visible; overflow: visible;">
+    <ui:VisualElement name="AWSAccountCredentialsTab" class="TabMenu" style="flex-grow: 1; background-color: rgb(63, 63, 63); max-width: 75%; left: 25%; align-items: auto; justify-content: flex-end; max-height: 100%; height: 100%; top: -100%; min-height: 100%; min-width: auto; -unity-background-image-tint-color: rgb(63, 63, 63); opacity: 1; display: flex; visibility: visible; overflow: visible;">
         <ui:GroupBox name="Content" style="width: 75%; height: 100%; position: absolute; top: -6px; left: 0;">
             <ui:ScrollView name="ScrollView" horizontal-scroller-visibility="Hidden" style="top: auto; right: auto; width: 130%; left: 16px; height: 100%;">
                 <ui:GroupBox>
@@ -165,13 +165,13 @@
                     </ui:GroupBox>
                     <ui:GroupBox name="AccessID" style="height: 20px; flex-direction: row; -unity-text-align: middle-left; margin-top: 3px; padding-top: 0; margin-bottom: 3px;">
                         <ui:Label tabindex="-1" text="AWS Access Key" display-tooltip-when-elided="true" name="Label" style="width: 30%; margin-top: 4px; color: rgb(196, 196, 196);" />
-                        <ui:TextField picking-mode="Ignore" password="true" name="AccessID" class="AccountDetailsInput" style="width: 54%; height: 16px;" />
-                        <ui:Button text="Show" display-tooltip-when-elided="true" focusable="false" name="AccessKey" class="Tab2Button" style="height: 16px; width: 10%; margin-bottom: 0; margin-top: 0;" />
+                        <ui:TextField picking-mode="Ignore" password="true" name="AccessKeyField" class="AccountDetailsInput" style="width: 54%; height: 16px;" />
+                        <ui:Button text="Show" display-tooltip-when-elided="true" focusable="false" name="AccessKeyToggleReveal" class="Tab2Button" style="height: 16px; width: 10%; margin-bottom: 0; margin-top: 0;" />
                     </ui:GroupBox>
                     <ui:GroupBox name="SecretKey" style="height: 20px; flex-direction: row; -unity-text-align: middle-left; margin-top: 3px; padding-top: 0; margin-bottom: 3px;">
                         <ui:Label tabindex="-1" text="AWS Secret Key" display-tooltip-when-elided="true" name="Label" style="width: 30%; margin-top: 4px; color: rgb(196, 196, 196);" />
-                        <ui:TextField picking-mode="Ignore" password="true" class="AccountDetailsInput" style="width: 54%; height: 16px;" />
-                        <ui:Button text="Show" display-tooltip-when-elided="true" focusable="false" name="SecretKey" class="Tab2Button" style="height: 16px; width: 10%; padding-top: 8px; padding-bottom: 8px; margin-bottom: 0; margin-top: 0;" />
+                        <ui:TextField picking-mode="Ignore" password="true" name="SecretKeyField" class="AccountDetailsInput" style="width: 54%; height: 16px;" />
+                        <ui:Button text="Show" display-tooltip-when-elided="true" focusable="false" name="SecretKeyToggleReveal" class="Tab2Button" style="height: 16px; width: 10%; padding-top: 8px; padding-bottom: 8px; margin-bottom: 0; margin-top: 0;" />
                     </ui:GroupBox>
                     <ui:GroupBox name="BootstrapStatus" style="height: 20px; flex-direction: row; -unity-text-align: middle-left; margin-top: 3px; padding-top: 0; margin-bottom: 3px;">
                         <ui:Label tabindex="-1" text="AWS Region" display-tooltip-when-elided="true" name="Label" style="width: 30%; margin-top: 4px; color: rgb(196, 196, 196);" />
@@ -235,7 +235,7 @@
             </ui:ScrollView>
         </ui:GroupBox>
     </ui:VisualElement>
-    <ui:VisualElement name="GameLiftAnywhereTab" class="TabMenu" style="flex-grow: 1; background-color: rgb(63, 63, 63); max-width: 75%; left: 25%; align-items: auto; justify-content: flex-end; max-height: 100%; height: 100%; top: -100%; min-height: 100%; min-width: auto; -unity-background-image-tint-color: rgb(63, 63, 63); opacity: 1; display: flex; visibility: visible; overflow: visible;">
+    <ui:VisualElement name="GameLiftAnywhereTab" class="TabMenu" style="flex-grow: 1; background-color: rgb(63, 63, 63); max-width: 75%; left: 25%; align-items: auto; justify-content: flex-end; max-height: 100%; height: 100%; top: -100%; min-height: 100%; min-width: auto; -unity-background-image-tint-color: rgb(63, 63, 63); opacity: 1; display: none; visibility: visible; overflow: visible;">
         <ui:GroupBox name="Content" style="width: 75%; height: 100%; position: absolute; top: -6px; left: 0;">
             <ui:ScrollView name="ScrollView" horizontal-scroller-visibility="Hidden" style="top: auto; right: auto; width: 130%; left: 16px; height: 100%;">
                 <ui:GroupBox name="Header">
