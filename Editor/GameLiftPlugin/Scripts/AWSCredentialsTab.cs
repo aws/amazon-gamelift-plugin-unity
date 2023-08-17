@@ -209,7 +209,24 @@ namespace Editor.GameLiftPlugin.Scripts
                     _gameLiftConfig.OpenS3Popup(_bootstrapSettings.BucketName);
                     break;
                 }
+                case "AccessKeyToggleReveal":
+                {
+                    var accessToggle = Root.Q<TextField>("AccessKeyField");
+                    ToggleHiddenText(accessToggle);
+                    break;
+                }
+                case "SecretKeyToggleReveal":
+                {
+                    var secretToggle = Root.Q<TextField>("SecretKeyField");
+                    ToggleHiddenText(secretToggle);
+                    break;
+                }
             }
+        }
+
+        private void ToggleHiddenText(TextField hiddenField)
+        {
+            hiddenField.isPasswordField = !hiddenField.isPasswordField;
         }
     
         private CancellationTokenSource _refreshBucketsCancellation;
