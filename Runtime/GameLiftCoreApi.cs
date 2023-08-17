@@ -38,7 +38,7 @@ namespace AmazonGameLift.Runtime
                 var credentialsResponse =
                     _coreApi.RetrieveAwsCredentials(_coreApi.GetSetting(SettingsKeys.CurrentProfileName).Value);
                 var gameLiftClient = new AmazonGameLiftClient(credentialsResponse.AccessKey, credentialsResponse.SecretKey);
-                var gameLiftClientWrapper = new AmazonGameLiftWrapper(gameLiftClient); 
+                var gameLiftClientWrapper = new AmazonGameLiftWrapper(gameLiftClient);
                 _gameServerAdapter = new AnywhereGameServerAdapter(gameLiftClientWrapper, fleetId, fleetLocation);
                 _isAnywhereMode = true;
             }

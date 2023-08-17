@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using AmazonGameLift.Editor;
-using AmazonGameLiftPlugin.Core.DeploymentManagement.Models;
+using Editor.GameLiftPlugin.Scripts;
 using UnityEditor;
 using UnityEngine;
 using UnityEngine.UIElements;

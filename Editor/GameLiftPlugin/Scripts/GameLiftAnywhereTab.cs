@@ -160,7 +160,18 @@ namespace Editor.GameLiftPlugin.Scripts
             var ipTextFieldsValid = ipText.All(text => text.Length >= 1);
             ToggleButtons(button, computeTextNameValid && ipTextFieldsValid);
         }
-    
+
+        private void CheckCompute()
+        {
+            var cancelButton = Root.Q<Button>("CancelCompute");
+            cancelButton.style.display = DisplayStyle.Flex;
+            var statusBox = Root.Q<VisualElement>("StatusBox");
+            statusBox.style.display = DisplayStyle.Flex;
+            var launchClientButton = Root.Q<Button>("LaunchClient");
+            ToggleButtons(launchClientButton, true);
+            
+            
+        }
     
         private async void OnTabButtonClicked(ClickEvent evt, Button button)
         {
@@ -201,12 +212,7 @@ namespace Editor.GameLiftPlugin.Scripts
                     }
                     else
                     {
-                        var cancelButton = Root.Q<Button>("CancelCompute");
-                        cancelButton.style.display = DisplayStyle.Flex;
-                        var statusBox = Root.Q<VisualElement>("StatusBox");
-                        statusBox.style.display = DisplayStyle.Flex;
-                        var launchClientButton = Root.Q<Button>("LaunchClient");
-                        ToggleButtons(launchClientButton, true);
+                        CheckCompute();
                     }
                     break;
                 }
@@ -402,6 +408,26 @@ namespace Editor.GameLiftPlugin.Scripts
                     FleetId = fleetId
                 };
                 var deregisterComputeResponse = await _gameLiftWrapper.DeregisterCompute(deregisterComputeRequest);
+
+                return deregisterComputeResponse.HttpStatusCode == HttpStatusCode.OK;
+            }
+            catch (Exception ex)
+            {
+                Debug.Log(ex.Message);
+                return false;
+            }
+        }
+        
+        private async Task<bool> DescribeCompute(string computeName, string fleetId)
+        {
+            try
+            {
+                var deregisterComputeRequest = new DescribeComputeRequest()
+                {
+                    ComputeName = computeName,
+                    FleetId = fleetId
+                };
+                var deregisterComputeResponse = await _gameLiftWrapper.DescribeCompute(deregisterComputeRequest);
 
                 return deregisterComputeResponse.HttpStatusCode == HttpStatusCode.OK;
             }
