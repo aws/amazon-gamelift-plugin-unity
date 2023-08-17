@@ -30,6 +30,8 @@ namespace Editor.GameLiftPlugin.Scripts
             ResetWizard();
         }
 
+        public abstract void OnAccountSelect();
+
         protected void ChangeWizard(VisualElement targetWizard)
         {
             if (CurrentWizard != null)

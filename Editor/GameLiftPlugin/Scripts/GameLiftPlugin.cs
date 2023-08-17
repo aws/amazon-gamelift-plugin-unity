@@ -1,7 +1,9 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using Amazon.GameLift;
 using AmazonGameLift.Editor;
+using AmazonGameLiftPlugin.Core.ApiGatewayManagement;
 using AmazonGameLiftPlugin.Core.SettingsManagement;
 using AmazonGameLiftPlugin.Core.Shared.FileSystem;
 using UnityEditor;
@@ -13,13 +15,15 @@ namespace Editor.GameLiftPlugin.Scripts
     public class GameLiftPlugin : EditorWindow
     {
         private VisualTreeAsset _mVisualTreeAsset = default;
+        private VisualTreeAsset _popupVisualTreeAsset = default;
 
         private VisualElement _root;
+        public VisualElement S3PopUp;
         private readonly List<Tab> _allTabs = new();
         public List<VisualElement> TabMenus;
         private VisualElement _currentTab;
         private readonly List<Button> _buttons = new();
-
+        public AmazonGameLiftWrapper GameLiftWrapper;
         private readonly Color _focusColor = new(0.172549f, 0.3647059f, 0.5294118f, 1);
 
         public readonly AwsCredentialsCreation CreationModel;
@@ -55,22 +59,66 @@ namespace Editor.GameLiftPlugin.Scripts
             {
                 return;
             }
-        
+
             VisualElement uxml = _mVisualTreeAsset.Instantiate();
             _root.Add(uxml);
-        
+       
             SetupLinks();
             DisableDefaultButtons();
             SetupTextFieldEvents();
             SetupTabMenu();
-            SetupProfiles();
+            RefreshProfiles();
             SetupTabs();
             ApplyInfoBoxSettings();
         }
 
-        private void SetupProfiles()
+        public void OpenS3Popup(string bucketName)
         {
+            GameLiftPluginBucketPopup popup = new GameLiftPluginBucketPopup();
+            popup.OpenPopup(this, bucketName);
+        }
+
+        public void SetupWrapper()
+        {
+            var credentials = CoreApi.RetrieveAwsCredentials(CurrentState.SelectedProfile);
+            var client = new AmazonGameLiftClient(credentials.AccessKey, credentials.SecretKey);
+            GameLiftWrapper = new AmazonGameLiftWrapper(client);
+            _allTabs.ForEach(tab => tab.OnAccountSelect());
+        }
+        
+        public void ChangeTab(Button targetButton, VisualElement targetTab)
+        {
+            if (_currentTab != null)
+            {
+                _currentTab.style.display = DisplayStyle.None;
+                foreach (var button in _buttons)
+                {
+                    button.style.backgroundColor = new StyleColor(Color.clear);
+                }
+            }
+            _currentTab = targetTab;
+            if (_currentTab != null)
+            {
+                _currentTab.style.display = DisplayStyle.Flex;
+                targetButton.style.backgroundColor = new StyleColor(_focusColor);
+            }
+        }
+
+        public void RefreshProfiles()
+        {
+            UpdateModel.Refresh();
             CurrentState.AllProfiles = UpdateModel.AllProlfileNames;
+        }
+        
+        public void BootStrapPassthrough(string bucketName)
+        {
+            foreach (var tab in _allTabs)
+            {
+                if (tab is AwsCredentialsTab credentialsTab)
+                {
+                    credentialsTab.BootstrapAccount(bucketName);
+                }
+            }
         }
 
         private void SetupLinks()
@@ -184,24 +232,6 @@ namespace Editor.GameLiftPlugin.Scripts
             }
         }
 
-        public void ChangeTab(Button targetButton, VisualElement targetTab)
-        {
-            if (_currentTab != null)
-            {
-                _currentTab.style.display = DisplayStyle.None;
-                foreach (var button in _buttons)
-                {
-                    button.style.backgroundColor = new StyleColor(Color.clear);
-                }
-            }
-            _currentTab = targetTab;
-            if (_currentTab != null)
-            {
-                _currentTab.style.display = DisplayStyle.Flex;
-                targetButton.style.backgroundColor = new StyleColor(_focusColor);
-            }
-        }
-    
         private void OnTextChangeButton(ChangeEvent<string> evt)
         {
             var fieldName = "";

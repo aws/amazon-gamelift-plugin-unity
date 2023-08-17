@@ -65,6 +65,10 @@ namespace Editor.GameLiftPlugin.Scripts
                 }
             }
         }
-    
+
+        public override void OnAccountSelect()
+        {
+            
+        }
     }
 }

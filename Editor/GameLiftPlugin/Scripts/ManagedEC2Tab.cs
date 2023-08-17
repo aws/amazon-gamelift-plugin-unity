@@ -171,4 +171,8 @@ public class ManagedEC2Tab : Tab
         return SetUp();
     }
 
+    public override void OnAccountSelect()
+    {
+        
+    }
 }

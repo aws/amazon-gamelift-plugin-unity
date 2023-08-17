@@ -13,7 +13,6 @@ namespace Editor.GameLiftPlugin.Scripts
     {
         private readonly GameLiftPlugin _gameLiftConfig;
         private List<TextField> _accountDetailTextFields = new();
-    
 
         public AwsCredentialsTab(VisualElement root, GameLiftPlugin gameLiftConfig)
         {
@@ -32,7 +31,7 @@ namespace Editor.GameLiftPlugin.Scripts
             base.SetupTab(tabName, OnTabButtonClicked);
             var dropdownField = Root.Q<DropdownField>(null, "AccountDetailsInput");
             dropdownField.index = 0;
-            AccountSelection();
+            AccountSelection(true);
             SetupBootMenu();
         }
         
@@ -92,12 +91,13 @@ namespace Editor.GameLiftPlugin.Scripts
             {
                 return false;
             }
-
+            
             _gameLiftConfig.CreationModel.ProfileName = credentials[0];
             _gameLiftConfig.CreationModel.AccessKeyId = credentials[1];
             _gameLiftConfig.CreationModel.SecretKey = credentials[2];
             _gameLiftConfig.CreationModel.RegionBootstrap.RegionIndex = dropdownField.index;
             _gameLiftConfig.CreationModel.Create();
+            AccountSelection(false);
             Debug.Log("Saving Profile");
             return true;
         }
@@ -109,19 +109,21 @@ namespace Editor.GameLiftPlugin.Scripts
             {
                 textField.value = "";
             }
-        
         }
-    
-        private void AccountSelection()
+
+        private void AccountSelection(bool isSetup)
         {
+            _gameLiftConfig.RefreshProfiles();
             var accountSelectFields = Root.Query<DropdownField>(null, "AccountSelection").ToList();
             foreach (var accountSelect in accountSelectFields)
             {
-                accountSelect.RegisterValueChangedCallback(_ =>
+                if (isSetup)
                 {
-                    OnAccountSelect(accountSelect.index);
-                });
-
+                    accountSelect.RegisterValueChangedCallback(_ =>
+                    {
+                        OnAccountSelect(accountSelect.index);
+                    });
+                }
                 accountSelect.choices = _gameLiftConfig.CurrentState.AllProfiles.ToList();
                 if (accountSelect.choices.Contains("default"))
                 {
@@ -157,7 +159,6 @@ namespace Editor.GameLiftPlugin.Scripts
                         break;
                     case "BootstrapStatus":
                         label.text = _bootstrapSettings.BucketName != null ? "Active" : "Inactive";
-                    
                         break;
                 }
             }
@@ -167,7 +168,7 @@ namespace Editor.GameLiftPlugin.Scripts
         private void UpdateModel(int index)
         {
             _gameLiftConfig.UpdateModel.SelectedProfileIndex = index;
-        
+            _gameLiftConfig.SetupWrapper();
             _gameLiftConfig.UpdateModel.Update();
             _gameLiftConfig.CurrentState.SelectedProfile = _gameLiftConfig.UpdateModel.AllProlfileNames[index];
             _gameLiftConfig.CoreApi.PutSetting(SettingsKeys.SelectedProfile, _gameLiftConfig.CurrentState.SelectedProfile);
@@ -204,20 +205,8 @@ namespace Editor.GameLiftPlugin.Scripts
                 }
                 case "BootstrapProfile":
                 {
-                    Debug.Log("Bootstrapping Account");
-                    //ToggleButtons(button, false);
-                    var bucketResponse = BucketCreation();
-                    if (bucketResponse.Success)
-                    {
-                        EnableInfoBox("Tab2Success");
-                    }
-                    else
-                    {
-                        var errorBox = Root.Q<VisualElement>("Tab2Error");
-                        errorBox.style.display = DisplayStyle.Flex;
-                        errorBox.Q<Label>().text = bucketResponse.ErrorMessage;
-                        Debug.Log(bucketResponse.ErrorMessage);
-                    }
+                    _bootstrapSettings.RefreshBucketName();
+                    _gameLiftConfig.OpenS3Popup(_bootstrapSettings.BucketName);
                     break;
                 }
             }
@@ -225,6 +214,22 @@ namespace Editor.GameLiftPlugin.Scripts
     
         private CancellationTokenSource _refreshBucketsCancellation;
         private BootstrapSettings _bootstrapSettings;
+
+        public void BootstrapAccount(string bucketName)
+        {
+            var bucketResponse = BucketCreation(bucketName);
+            if (bucketResponse.Success)
+            {
+                EnableInfoBox("Tab2Success");
+            }
+            else
+            {
+                var errorBox = Root.Q<VisualElement>("Tab2Error");
+                errorBox.style.display = DisplayStyle.Flex;
+                errorBox.Q<Label>().text = bucketResponse.ErrorMessage;
+                Debug.Log(bucketResponse.ErrorMessage);
+            }
+        }
 
         private void SetupBootstrap()
         {
@@ -242,10 +247,10 @@ namespace Editor.GameLiftPlugin.Scripts
             _bootstrapSettings.RefreshCurrentBucket();
         }
 
-        private Response BucketCreation()
+        private Response BucketCreation(string bucketName)
         {
             _refreshBucketsCancellation?.Cancel();
-            _bootstrapSettings.RefreshBucketName();
+            _bootstrapSettings.BucketName = bucketName;
             _bootstrapSettings.LifeCyclePolicyIndex = 0;
             return _bootstrapSettings.CreateBucket();
         }
@@ -264,6 +269,10 @@ namespace Editor.GameLiftPlugin.Scripts
         private void BucketSelection(string selectedBucket)
         {
             _bootstrapSettings.SelectBucket(selectedBucket);
+        }
+
+        public override void OnAccountSelect()
+        {
         }
     }
 }
