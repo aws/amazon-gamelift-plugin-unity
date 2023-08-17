@@ -33,6 +33,7 @@ namespace AmazonGameLift.Runtime
             _coreApi = CoreApi.SharedInstance;
             var fleetId = _coreApi.GetSetting("FleetId").Value;
             var fleetLocation = _coreApi.GetSetting("FleetLocation").Value;
+            //This property is for local testing. If one wants a production Anywhere fleet, one should not use this property and instead update their deployment scenario
             if (_configuration.IsGameLiftAnywhere)
             {
                 var credentialsResponse =
@@ -45,7 +46,6 @@ namespace AmazonGameLift.Runtime
             else
             {
                 _userIdentity = new UserIdentity(new AmazonCognitoIdentityWrapper(configuration.AwsRegion));
-                _apiGateway = new ApiGateway(_userIdentity, new JwtTokenExpirationCheck(), new HttpClientWrapper());
                 _gameServerAdapter = new ApiGateway(_userIdentity, new JwtTokenExpirationCheck(), new HttpClientWrapper());
             }
         }
@@ -124,7 +124,6 @@ namespace AmazonGameLift.Runtime
 
         #region Matchmaking
 
-        private readonly ApiGateway _apiGateway;
         private readonly LatencyService _latencyService = new LatencyService(new PingWrapper());
 
         public virtual string[] ListAvailableRegions()

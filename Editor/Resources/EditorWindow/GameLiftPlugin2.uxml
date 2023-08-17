@@ -12,7 +12,7 @@
         <ui:VisualElement style="flex-grow: 1; background-color: rgba(0, 0, 0, 0); height: 96%; opacity: 0; max-height: 6px;" />
         <ui:Button text="Help &amp; Documentation" display-tooltip-when-elided="true" name="HelpAndDocs" class="TabButton" style="padding-left: 10%; font-size: 12%;" />
     </ui:VisualElement>
-    <ui:VisualElement name="AmazonGameLiftTab" class="TabMenu" style="visibility: visible; display: none; background-color: rgb(63, 63, 63);">
+    <ui:VisualElement name="AmazonGameLiftTab" class="TabMenu" style="visibility: visible; display: flex; background-color: rgb(63, 63, 63);">
         <ui:GroupBox name="Content" style="width: 75%; height: 100%; position: absolute; top: -6px; left: 0;">
             <ui:ScrollView name="ScrollView" horizontal-scroller-visibility="Hidden" style="top: auto; right: auto; width: 130%; left: 16px; height: 100%;">
                 <ui:GroupBox style="display: flex;">
@@ -235,7 +235,7 @@
             </ui:ScrollView>
         </ui:GroupBox>
     </ui:VisualElement>
-    <ui:VisualElement name="GameLiftAnywhereTab" class="TabMenu" style="flex-grow: 1; background-color: rgb(63, 63, 63); max-width: 75%; left: 25%; align-items: auto; justify-content: flex-end; max-height: 100%; height: 100%; top: -100%; min-height: 100%; min-width: auto; -unity-background-image-tint-color: rgb(63, 63, 63); opacity: 1; display: flex; visibility: visible; overflow: visible;">
+    <ui:VisualElement name="GameLiftAnywhereTab" class="TabMenu" style="flex-grow: 1; background-color: rgb(63, 63, 63); max-width: 75%; left: 25%; align-items: auto; justify-content: flex-end; max-height: 100%; height: 100%; top: -100%; min-height: 100%; min-width: auto; -unity-background-image-tint-color: rgb(63, 63, 63); opacity: 1; display: none; visibility: visible; overflow: visible;">
         <ui:GroupBox name="Content" style="width: 75%; height: 100%; position: absolute; top: -6px; left: 0;">
             <ui:ScrollView name="ScrollView" horizontal-scroller-visibility="Hidden" style="top: auto; right: auto; width: 130%; left: 16px; height: 100%;">
                 <ui:GroupBox name="Header">

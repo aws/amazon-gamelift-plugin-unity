@@ -106,6 +106,12 @@ namespace Editor.GameLiftPlugin.Scripts
         private async Task UpdateFleetMenu()
         {
             _fleetsList = await ListFleets();
+            if (_fleetsList.Count >= 1)
+            {
+                var currentFoldout = GetFoldout("Connect");
+                var targetFoldout = GetFoldout("Connected");
+                ChangeFoldout(currentFoldout, targetFoldout);
+            }
             fleetNameList.Clear();
             _fleetsList.ForEach(fleet => fleetNameList.Add(fleet.Name));
             _fleetDropdown.choices = fleetNameList;
@@ -159,9 +165,18 @@ namespace Editor.GameLiftPlugin.Scripts
             _computeName = computeTextName.value;
             var ipTextFieldsValid = ipText.All(text => text.Length >= 1);
             ToggleButtons(button, computeTextNameValid && ipTextFieldsValid);
+            CheckCompute();
         }
 
         private void CheckCompute()
+        {
+            if (DescribeCompute(_computeName, _fleetId).Result)
+            {
+                ComputeSuccess();
+            }
+        }
+
+        private void ComputeSuccess()
         {
             var cancelButton = Root.Q<Button>("CancelCompute");
             cancelButton.style.display = DisplayStyle.Flex;
@@ -169,8 +184,6 @@ namespace Editor.GameLiftPlugin.Scripts
             statusBox.style.display = DisplayStyle.Flex;
             var launchClientButton = Root.Q<Button>("LaunchClient");
             ToggleButtons(launchClientButton, true);
-            
-            
         }
     
         private async void OnTabButtonClicked(ClickEvent evt, Button button)
@@ -212,7 +225,7 @@ namespace Editor.GameLiftPlugin.Scripts
                     }
                     else
                     {
-                        CheckCompute();
+                        ComputeSuccess();
                     }
                     break;
                 }
