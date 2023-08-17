@@ -47,7 +47,8 @@ namespace Editor.GameLiftPlugin.Scripts
         [MenuItem("GameLift/GameLift Configuration")]
         public static void ShowWindow()
         {
-            var window = GetWindow<GameLiftPlugin>();
+            var inspectorType = Type.GetType("UnityEditor.GameView,UnityEditor.dll");
+            EditorWindow window = GetWindow<GameLiftPlugin>(new Type[] {inspectorType});
             window.titleContent = new GUIContent("GameLift Plugin");
         }
 

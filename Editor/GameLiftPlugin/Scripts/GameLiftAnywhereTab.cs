@@ -45,8 +45,18 @@ namespace Editor.GameLiftPlugin.Scripts
             base.SetupTab(tabName, OnTabButtonClicked);
             SetupConfigSettings();
             SetupButtons();
+            SetupAccountDetails();
             await SetupFleetMenu();
             SetupBootMenu();
+        }
+
+        private void SetupAccountDetails()
+        {
+            if (_gameLiftConfig.CurrentState.AllProfiles.Length >= 1)
+            {
+                var targetFoldout = Root.Q<VisualElement>("AccountDetails","Tab3Foldout");
+                ChangeFoldout(null, targetFoldout);
+            }
         }
 
         private void SetupConfigSettings()

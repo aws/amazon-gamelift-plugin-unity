@@ -12,7 +12,7 @@
         <ui:VisualElement style="flex-grow: 1; background-color: rgba(0, 0, 0, 0); height: 96%; opacity: 0; max-height: 6px;" />
         <ui:Button text="Help &amp; Documentation" display-tooltip-when-elided="true" name="HelpAndDocs" class="TabButton" style="padding-left: 10%; font-size: 12%;" />
     </ui:VisualElement>
-    <ui:VisualElement name="AmazonGameLiftTab" class="TabMenu" style="visibility: visible; display: flex; background-color: rgb(63, 63, 63);">
+    <ui:VisualElement name="AmazonGameLiftTab" class="TabMenu" style="visibility: visible; display: none; background-color: rgb(63, 63, 63);">
         <ui:GroupBox name="Content" style="width: 75%; height: 100%; position: absolute; top: -6px; left: 0;">
             <ui:ScrollView name="ScrollView" horizontal-scroller-visibility="Hidden" style="top: auto; right: auto; width: 130%; left: 16px; height: 100%;">
                 <ui:GroupBox style="display: flex;">
@@ -53,7 +53,7 @@
                         <ui:Button text="Add a new Profile" display-tooltip-when-elided="true" name="AddProfile" class="Tab1Button" style="top: 10%; width: 89%; left: 4%; height: 44%; background-color: rgb(44, 93, 135); -unity-text-outline-width: 0; font-size: 10px;" />
                     </ui:GroupBox>
                 </ui:GroupBox>
-                <ui:GroupBox name="AccountDetails" class="Tab1" style="display: none;">
+                <ui:GroupBox name="AccountDetails" class="Tab3" style="display: none;">
                     <ui:Label tabindex="-1" text="AWS Account Details" display-tooltip-when-elided="true" style="font-size: 18px; color: rgb(255, 255, 255);" />
                     <ui:GroupBox name="AWSAccountProfile" style="flex-direction: row; height: 20px; margin-bottom: 3px; padding-top: 0; padding-bottom: 0;">
                         <ui:Label tabindex="-1" text="AWS Account Profile" display-tooltip-when-elided="true" style="width: 30%; margin-top: 4px; color: rgb(196, 196, 196);" />
@@ -157,7 +157,7 @@
                         </ui:GroupBox>
                     </ui:GroupBox>
                 </ui:GroupBox>
-                <ui:GroupBox name="AddNewProfile" class="Tab2" style="display: none;">
+                <ui:GroupBox name="AddNewProfile" class="Tab2" style="display: flex;">
                     <ui:Label tabindex="-1" text="AWS Account Details" display-tooltip-when-elided="true" style="font-size: 18px; color: rgb(255, 255, 255);" />
                     <ui:GroupBox name="AWSAccountProfile" style="flex-direction: row; height: 20px; margin-bottom: 3px; padding-top: 0; padding-bottom: 0;">
                         <ui:Label tabindex="-1" text="AWS Account Profile" display-tooltip-when-elided="true" style="width: 30%; margin-top: 4px; color: rgb(196, 196, 196);" />
@@ -235,7 +235,7 @@
             </ui:ScrollView>
         </ui:GroupBox>
     </ui:VisualElement>
-    <ui:VisualElement name="GameLiftAnywhereTab" class="TabMenu" style="flex-grow: 1; background-color: rgb(63, 63, 63); max-width: 75%; left: 25%; align-items: auto; justify-content: flex-end; max-height: 100%; height: 100%; top: -100%; min-height: 100%; min-width: auto; -unity-background-image-tint-color: rgb(63, 63, 63); opacity: 1; display: none; visibility: visible; overflow: visible;">
+    <ui:VisualElement name="GameLiftAnywhereTab" class="TabMenu" style="flex-grow: 1; background-color: rgb(63, 63, 63); max-width: 75%; left: 25%; align-items: auto; justify-content: flex-end; max-height: 100%; height: 100%; top: -100%; min-height: 100%; min-width: auto; -unity-background-image-tint-color: rgb(63, 63, 63); opacity: 1; display: flex; visibility: visible; overflow: visible;">
         <ui:GroupBox name="Content" style="width: 75%; height: 100%; position: absolute; top: -6px; left: 0;">
             <ui:ScrollView name="ScrollView" horizontal-scroller-visibility="Hidden" style="top: auto; right: auto; width: 130%; left: 16px; height: 100%;">
                 <ui:GroupBox name="Header">
@@ -249,22 +249,22 @@
                     <ui:VisualElement name="Divider" style="flex-grow: 1; background-color: rgba(255, 255, 255, 0.2); width: 95%; height: 1px; -unity-text-outline-width: 0; -unity-text-outline-color: rgb(255, 255, 255); margin-bottom: 0; padding-top: 0; max-width: 100%; max-height: 1px; min-height: 1px;" />
                 </ui:GroupBox>
                 <ui:GroupBox name="AnywhereConfig" style="margin-right: 22px; font-size: 18px;">
-                    <ui:Foldout text="AWS Account Details" name="AccountDetails" class="Tab3Foldout" style="color: rgb(210, 210, 210); display: none; margin-bottom: 0; -unity-font-style: normal; font-size: 18px; padding-bottom: 7px;">
-                        <ui:GroupBox name="AWSAccountProfile" style="flex-direction: row; height: 20px; margin-bottom: 3px; padding-top: 0; padding-bottom: 0; padding-left: 0; margin-left: 0; font-size: 12px;">
+                    <ui:Foldout text="AWS Account Details" name="AccountDetails" class="Tab3Foldout" style="color: rgb(210, 210, 210); display: flex; margin-bottom: 0; -unity-font-style: normal; font-size: 18px; padding-bottom: 7px;">
+                        <ui:GroupBox name="AWSAccountProfile" style="flex-direction: row; height: 20px; margin-bottom: 3px; padding-top: 0; padding-bottom: 0; font-size: 12px;">
                             <ui:Label tabindex="-1" text="AWS Account Profile" display-tooltip-when-elided="true" style="width: 30%; margin-top: 4px; color: rgb(196, 196, 196);" />
-                            <ui:DropdownField index="-1" choices="default" name="DropdownField" tabindex="1" style="width: 70%; height: 21px;" />
+                            <ui:DropdownField index="-1" name="DropdownField" tabindex="1" tooltip="Choose Profile" class="AccountSelection" style="width: 70%; height: 21px;" />
                         </ui:GroupBox>
-                        <ui:GroupBox name="S3Bucket" style="height: 20px; flex-direction: row; -unity-text-align: middle-left; margin-top: 3px; padding-top: 0; margin-bottom: 3px; display: flex; margin-left: 0; padding-left: 0; font-size: 12px;">
+                        <ui:GroupBox name="S3Bucket" style="height: 20px; flex-direction: row; -unity-text-align: middle-left; margin-top: 3px; padding-top: 0; margin-bottom: 3px; font-size: 12px;">
                             <ui:Label tabindex="-1" text="S3 Bucket Name" display-tooltip-when-elided="true" name="Label" style="width: 30%; margin-top: 4px; color: rgb(196, 196, 196);" />
-                            <ui:Label tabindex="-1" text="gamelift-dev-euwe1-bdtxw22" display-tooltip-when-elided="true" name="Label" style="width: 68%; margin-top: 4px; color: rgb(255, 255, 255); margin-left: 5px;" />
+                            <ui:Label tabindex="-1" text="-" display-tooltip-when-elided="true" name="Bucket" class="AccountSelectLabel" style="width: 68%; margin-top: 4px; color: rgb(255, 255, 255); margin-left: 5px;" />
                         </ui:GroupBox>
-                        <ui:GroupBox name="AWSRegion" style="height: 20px; flex-direction: row; -unity-text-align: middle-left; margin-top: 3px; padding-top: 0; margin-bottom: 3px; margin-left: 0; padding-left: 0; font-size: 12px;">
+                        <ui:GroupBox name="AWSRegion" style="height: 20px; flex-direction: row; -unity-text-align: middle-left; margin-top: 3px; padding-top: 0; margin-bottom: 3px; font-size: 12px;">
                             <ui:Label tabindex="-1" text="AWS Region" display-tooltip-when-elided="true" name="Label" style="width: 30%; margin-top: 4px; color: rgb(196, 196, 196);" />
-                            <ui:Label tabindex="-1" text="eu-west-1" display-tooltip-when-elided="true" name="Label" style="width: 68%; margin-top: 4px; color: rgb(255, 255, 255); margin-left: 5px;" />
+                            <ui:Label tabindex="-1" text="-" display-tooltip-when-elided="true" name="Region" class="AccountSelectLabel" style="width: 68%; margin-top: 4px; color: rgb(255, 255, 255); margin-left: 5px;" />
                         </ui:GroupBox>
-                        <ui:GroupBox name="BootstrapStatus" style="height: 20px; flex-direction: row; -unity-text-align: middle-left; margin-top: 3px; padding-top: 0; margin-bottom: 3px; margin-left: 0; padding-left: 0; font-size: 12px;">
+                        <ui:GroupBox name="BootstrapStatus" style="height: 20px; flex-direction: row; -unity-text-align: middle-left; margin-top: 3px; padding-top: 0; margin-bottom: 3px; font-size: 12px;">
                             <ui:Label tabindex="-1" text="Bootstrap Status" display-tooltip-when-elided="true" name="Label" style="width: 30%; margin-top: 4px; color: rgb(196, 196, 196);" />
-                            <ui:Label tabindex="-1" text="Active" display-tooltip-when-elided="true" name="Label" style="width: 68%; margin-top: 4px; color: rgb(88, 188, 97); margin-left: 5px;" />
+                            <ui:Label tabindex="-1" text="-" display-tooltip-when-elided="true" name="BootstrapStatus" class="AccountSelectLabel" style="width: 68%; margin-top: 4px; color: rgb(255, 255, 255); margin-left: 5px;" />
                         </ui:GroupBox>
                     </ui:Foldout>
                     <ui:Foldout text="Integrate GameLift with your game client" name="Description" style="color: rgb(210, 210, 210); display: flex; margin-bottom: 0; -unity-font-style: normal; font-size: 18px;">
@@ -304,7 +304,7 @@
                                         <ui:Label tabindex="-1" text="Active" display-tooltip-when-elided="true" name="Label" class="link" style="width: 12%; margin-top: 4px; color: rgb(88, 188, 97); margin-left: 5px;" />
                                         <ui:Label tabindex="-1" text="View in Amazon GameLift Console" display-tooltip-when-elided="true" style="align-self: center; justify-content: center; align-items: flex-start; padding-top: 5px;" />
                                     </ui:GroupBox>
-                                    <ui:Button text="Create new Anywhere Fleet" display-tooltip-when-elided="true" name="CreateAnotherFleet" style="width: 47%; margin-left: 5px; margin-top: 8px;" />
+                                    <ui:Button text="Create new Anywhere Fleet" display-tooltip-when-elided="true" name="CreateAnotherFleet" class="Tab3Button" style="width: 47%; margin-left: 5px; margin-top: 8px;" />
                                 </ui:GroupBox>
                             </ui:GroupBox>
                         </ui:GroupBox>
@@ -380,22 +380,22 @@
                     <ui:Button text="X" display-tooltip-when-elided="true" name="CloseInfoBox" style="align-self: center; align-items: flex-start; justify-content: space-between; flex-direction: column; overflow: hidden; max-width: 40px; border-left-color: rgba(149, 149, 149, 0); border-right-color: rgba(149, 149, 149, 0); border-top-color: rgba(149, 149, 149, 0); border-bottom-color: rgba(149, 149, 149, 0); background-color: rgba(188, 188, 188, 0); padding-left: 0; margin-left: 2px;" />
                 </ui:GroupBox>
                 <ui:GroupBox name="AnywhereConfig" style="margin-right: 22px; font-size: 18px;">
-                    <ui:Foldout text="AWS Account Details" name="AccountDetails" class="Tab4Foldout" style="color: rgb(210, 210, 210); display: none; margin-bottom: 0; -unity-font-style: normal; font-size: 18px; padding-bottom: 7px;">
-                        <ui:GroupBox name="AWSAccountProfile" style="flex-direction: row; height: 20px; margin-bottom: 3px; padding-top: 0; padding-bottom: 0; padding-left: 0; margin-left: 0; font-size: 12px;">
+                    <ui:Foldout text="AWS Account Details" name="AccountDetails" class="Tab4Foldout" style="color: rgb(210, 210, 210); display: flex; margin-bottom: 0; -unity-font-style: normal; font-size: 18px; padding-bottom: 7px;">
+                        <ui:GroupBox name="AWSAccountProfile" style="flex-direction: row; height: 20px; margin-bottom: 3px; padding-top: 0; padding-bottom: 0; font-size: 12px;">
                             <ui:Label tabindex="-1" text="AWS Account Profile" display-tooltip-when-elided="true" style="width: 30%; margin-top: 4px; color: rgb(196, 196, 196);" />
-                            <ui:DropdownField index="-1" choices="default" name="DropdownField" tabindex="1" style="width: 70%; height: 21px;" />
+                            <ui:DropdownField index="-1" name="DropdownField" tabindex="1" tooltip="Choose Profile" class="AccountSelection" style="width: 70%; height: 21px;" />
                         </ui:GroupBox>
-                        <ui:GroupBox name="S3Bucket" style="height: 20px; flex-direction: row; -unity-text-align: middle-left; margin-top: 3px; padding-top: 0; margin-bottom: 3px; display: flex; margin-left: 0; padding-left: 0; font-size: 12px;">
+                        <ui:GroupBox name="S3Bucket" style="height: 20px; flex-direction: row; -unity-text-align: middle-left; margin-top: 3px; padding-top: 0; margin-bottom: 3px; font-size: 12px;">
                             <ui:Label tabindex="-1" text="S3 Bucket Name" display-tooltip-when-elided="true" name="Label" style="width: 30%; margin-top: 4px; color: rgb(196, 196, 196);" />
-                            <ui:Label tabindex="-1" text="gamelift-dev-euwe1-bdtxw22" display-tooltip-when-elided="true" name="Label" style="width: 68%; margin-top: 4px; color: rgb(255, 255, 255); margin-left: 5px; display: flex;" />
+                            <ui:Label tabindex="-1" text="-" display-tooltip-when-elided="true" name="Bucket" class="AccountSelectLabel" style="width: 68%; margin-top: 4px; color: rgb(255, 255, 255); margin-left: 5px;" />
                         </ui:GroupBox>
-                        <ui:GroupBox name="AWSRegion" style="height: 20px; flex-direction: row; -unity-text-align: middle-left; margin-top: 3px; padding-top: 0; margin-bottom: 3px; margin-left: 0; padding-left: 0; font-size: 12px;">
+                        <ui:GroupBox name="AWSRegion" style="height: 20px; flex-direction: row; -unity-text-align: middle-left; margin-top: 3px; padding-top: 0; margin-bottom: 3px; font-size: 12px;">
                             <ui:Label tabindex="-1" text="AWS Region" display-tooltip-when-elided="true" name="Label" style="width: 30%; margin-top: 4px; color: rgb(196, 196, 196);" />
-                            <ui:Label tabindex="-1" text="eu-west-1" display-tooltip-when-elided="true" name="Label" style="width: 68%; margin-top: 4px; color: rgb(255, 255, 255); margin-left: 5px;" />
+                            <ui:Label tabindex="-1" text="-" display-tooltip-when-elided="true" name="Region" class="AccountSelectLabel" style="width: 68%; margin-top: 4px; color: rgb(255, 255, 255); margin-left: 5px;" />
                         </ui:GroupBox>
-                        <ui:GroupBox name="BootstrapStatus" style="height: 20px; flex-direction: row; -unity-text-align: middle-left; margin-top: 3px; padding-top: 0; margin-bottom: 3px; margin-left: 0; padding-left: 0; font-size: 12px;">
+                        <ui:GroupBox name="BootstrapStatus" style="height: 20px; flex-direction: row; -unity-text-align: middle-left; margin-top: 3px; padding-top: 0; margin-bottom: 3px; font-size: 12px;">
                             <ui:Label tabindex="-1" text="Bootstrap Status" display-tooltip-when-elided="true" name="Label" style="width: 30%; margin-top: 4px; color: rgb(196, 196, 196);" />
-                            <ui:Label tabindex="-1" text="Active" display-tooltip-when-elided="true" name="Label" style="width: 68%; margin-top: 4px; color: rgb(88, 188, 97); margin-left: 5px;" />
+                            <ui:Label tabindex="-1" text="-" display-tooltip-when-elided="true" name="BootstrapStatus" class="AccountSelectLabel" style="width: 68%; margin-top: 4px; color: rgb(255, 255, 255); margin-left: 5px;" />
                         </ui:GroupBox>
                     </ui:Foldout>
                     <ui:Foldout text="Integrate GameLift with your game client" name="Description" style="color: rgb(210, 210, 210); display: flex; margin-bottom: 0; -unity-font-style: normal; font-size: 18px; padding-bottom: 12px;">
