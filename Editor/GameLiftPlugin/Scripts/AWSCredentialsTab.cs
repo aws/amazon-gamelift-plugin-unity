@@ -211,14 +211,12 @@ namespace Editor.GameLiftPlugin.Scripts
                 }
                 case "AccessKeyToggleReveal":
                 {
-                    Debug.Log("accesstoggle");
                     var accessToggle = Root.Q<TextField>("AccessKeyField");
                     ToggleHiddenText(accessToggle);
                     break;
                 }
                 case "SecretKeyToggleReveal":
                 {
-                    Debug.Log("secrettoggle");
                     var secretToggle = Root.Q<TextField>("SecretKeyField");
                     ToggleHiddenText(secretToggle);
                     break;

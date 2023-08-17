@@ -12,7 +12,7 @@
         <ui:VisualElement style="flex-grow: 1; background-color: rgba(0, 0, 0, 0); height: 96%; opacity: 0; max-height: 6px;" />
         <ui:Button text="Help &amp; Documentation" display-tooltip-when-elided="true" name="HelpAndDocs" class="TabButton" style="padding-left: 10%; font-size: 12%;" />
     </ui:VisualElement>
-    <ui:VisualElement name="AmazonGameLiftTab" class="TabMenu" style="visibility: visible; display: none; background-color: rgb(63, 63, 63);">
+    <ui:VisualElement name="AmazonGameLiftTab" class="TabMenu" style="visibility: visible; display: flex; background-color: rgb(63, 63, 63);">
         <ui:GroupBox name="Content" style="width: 75%; height: 100%; position: absolute; top: -6px; left: 0;">
             <ui:ScrollView name="ScrollView" horizontal-scroller-visibility="Hidden" style="top: auto; right: auto; width: 130%; left: 16px; height: 100%;">
                 <ui:GroupBox style="display: flex;">
@@ -106,7 +106,7 @@
             </ui:ScrollView>
         </ui:GroupBox>
     </ui:VisualElement>
-    <ui:VisualElement name="AWSAccountCredentialsTab" class="TabMenu" style="flex-grow: 1; background-color: rgb(63, 63, 63); max-width: 75%; left: 25%; align-items: auto; justify-content: flex-end; max-height: 100%; height: 100%; top: -100%; min-height: 100%; min-width: auto; -unity-background-image-tint-color: rgb(63, 63, 63); opacity: 1; display: flex; visibility: visible; overflow: visible;">
+    <ui:VisualElement name="AWSAccountCredentialsTab" class="TabMenu" style="flex-grow: 1; background-color: rgb(63, 63, 63); max-width: 75%; left: 25%; align-items: auto; justify-content: flex-end; max-height: 100%; height: 100%; top: -100%; min-height: 100%; min-width: auto; -unity-background-image-tint-color: rgb(63, 63, 63); opacity: 1; display: none; visibility: visible; overflow: visible;">
         <ui:GroupBox name="Content" style="width: 75%; height: 100%; position: absolute; top: -6px; left: 0;">
             <ui:ScrollView name="ScrollView" horizontal-scroller-visibility="Hidden" style="top: auto; right: auto; width: 130%; left: 16px; height: 100%;">
                 <ui:GroupBox>
@@ -157,7 +157,7 @@
                         </ui:GroupBox>
                     </ui:GroupBox>
                 </ui:GroupBox>
-                <ui:GroupBox name="AddNewProfile" class="Tab2" style="display: flex;">
+                <ui:GroupBox name="AddNewProfile" class="Tab2" style="display: none;">
                     <ui:Label tabindex="-1" text="AWS Account Details" display-tooltip-when-elided="true" style="font-size: 18px; color: rgb(255, 255, 255);" />
                     <ui:GroupBox name="AWSAccountProfile" style="flex-direction: row; height: 20px; margin-bottom: 3px; padding-top: 0; padding-bottom: 0;">
                         <ui:Label tabindex="-1" text="AWS Account Profile" display-tooltip-when-elided="true" style="width: 30%; margin-top: 4px; color: rgb(196, 196, 196);" />
@@ -204,8 +204,8 @@
                     </ui:GroupBox>
                     <ui:GroupBox style="flex-direction: row; margin-left: 0; padding-left: 2px;">
                         <ui:Button text="Bootstrap Profile" display-tooltip-when-elided="true" name="BootstrapProfile" class="Tab2Button" style="background-color: rgb(44, 93, 135); height: 25px; width: 117px;" />
-                        <ui:Button text="Add another Profile" display-tooltip-when-elided="true" name="CreateProfile" class="Tab2Button" style="height: 25px; width: 128px;" />
-                        <ui:Label tabindex="-1" text="What is bootstrapping?  \uf08e" display-tooltip-when-elided="true" class="link" style="width: auto; height: 15px; background-color: rgba(118, 118, 118, 0); color: rgb(210, 210, 210); font-size: 10px; right: auto; white-space: normal; margin-top: 11px; -unity-font: resource(&apos;Font/FontAwesome&apos;); -unity-paragraph-spacing: 62px; word-spacing: 1px; padding-top: -7px; -unity-text-align: middle-left; margin-right: 14px; align-self: flex-end; justify-content: flex-start; align-items: auto; left: 95px; -unity-font-definition: resource(&apos;Font/FontAwesome SDF&apos;); border-bottom-width: 1px; border-bottom-color: rgb(153, 153, 153);" />
+                        <ui:Button text="Add another Profile" display-tooltip-when-elided="true" name="CreateProfile" class="Tab2Button" style="height: 25px; width: 128px; padding-right: 12px; margin-right: 2px;" />
+                        <ui:Label tabindex="-1" text="What is bootstrapping?  \uf08e" display-tooltip-when-elided="true" class="link" style="width: auto; height: 15px; background-color: rgba(118, 118, 118, 0); color: rgb(210, 210, 210); font-size: 10px; right: auto; white-space: normal; margin-top: 11px; -unity-font: resource(&apos;Font/FontAwesome&apos;); -unity-paragraph-spacing: 62px; word-spacing: 1px; padding-top: -7px; -unity-text-align: middle-left; margin-right: 14px; align-self: flex-end; justify-content: flex-start; align-items: auto; -unity-font-definition: resource(&apos;Font/FontAwesome SDF&apos;); border-bottom-width: 1px; border-bottom-color: rgb(153, 153, 153); left: 24%;" />
                     </ui:GroupBox>
                 </ui:GroupBox>
                 <ui:GroupBox name="CompletedProfile" class="Tab2" style="display: none; padding-right: 24px; padding-top: 0; margin-top: 0;">
