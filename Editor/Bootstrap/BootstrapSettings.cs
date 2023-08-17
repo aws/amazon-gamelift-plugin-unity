@@ -117,11 +117,11 @@ namespace AmazonGameLift.Editor
             _status.IsDisplayed &= string.IsNullOrEmpty(BucketName);
         }
 
-        public void CreateBucket()
+        public Response CreateBucket()
         {
             if (!CanCreate)
             {
-                return;
+                return null;
             }
 
             GetBootstrapDataResponse bootstrapResponse = _bootstrapUtility.GetBootstrapData();
@@ -129,7 +129,7 @@ namespace AmazonGameLift.Editor
             if (!bootstrapResponse.Success)
             {
                 OnBucketCreationFailure(bootstrapResponse);
-                return;
+                return bootstrapResponse;
             }
 
             CreateBucketResponse createResponse = _coreApi.CreateBucket(bootstrapResponse.Profile, bootstrapResponse.Region, BucketName);
@@ -137,10 +137,12 @@ namespace AmazonGameLift.Editor
             if (createResponse.Success)
             {
                 OnBucketCreated(bootstrapResponse.Profile, bootstrapResponse.Region, BucketName);
+                return bootstrapResponse;
             }
             else
             {
                 OnBucketCreationFailure(createResponse);
+                return bootstrapResponse;
             }
         }
 

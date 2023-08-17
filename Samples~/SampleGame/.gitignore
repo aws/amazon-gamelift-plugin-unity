@@ -50,3 +50,4 @@ GameLiftSettings.yaml
 
 Packages/packages-lock.json
 ProjectSettings/*
+/GameLiftConfiguration.yaml

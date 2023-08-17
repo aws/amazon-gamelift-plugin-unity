@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using AmazonGameLift.Editor;
+using Editor.GameLiftPlugin.Scripts;
 using UnityEditor;
 using UnityEngine;
 using UnityEngine.UIElements;
@@ -276,7 +277,12 @@ public class ManagedEC2Tab : Tab
         _stackUpdateModelFactory.Create(request);
         return SetUp();
     }
-
+    
+    public override void OnAccountSelect()
+    {
+        
+    }
+    
     private enum DeploymentStates
     {
         NotDeployed,
@@ -284,4 +290,5 @@ public class ManagedEC2Tab : Tab
         Deployed,
         Deleting
     }
+
 }

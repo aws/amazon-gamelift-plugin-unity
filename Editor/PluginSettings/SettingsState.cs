@@ -28,9 +28,6 @@ namespace AmazonGameLift.Editor
             _settings.CredentialsSetting.IsConfigured
             && _settings.BootstrapSetting.IsConfigured;
 
-        public bool CanRunLocalTest => _settings.GameLiftLocalSetting.IsConfigured
-            && _settings.JavaSetting.IsConfigured;
-
         public SettingsState(Settings settings, TextProvider textProvider)
         {
             Restore(settings, textProvider);

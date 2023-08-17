@@ -5,6 +5,7 @@ using Amazon;
 using Amazon.CognitoIdentityProvider;
 using Amazon.CognitoIdentityProvider.Model;
 using AmazonGameLift.Runtime;
+using AmazonGameLiftPlugin.Core;
 using AmazonGameLiftPlugin.Core.Shared;
 using CoreConfirmSignUpResponse = AmazonGameLiftPlugin.Core.UserIdentityManagement.Models.ConfirmSignUpResponse;
 

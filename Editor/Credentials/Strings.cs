@@ -73,10 +73,6 @@ namespace AmazonGameLift.Editor
         public const string LabelSettingsDotNetTitle = "LabelSettingsDotNetTitle";
         public const string TooltipSettingsDotNet = "TooltipSettingsDotNet";
         public const string LabelSettingsDotNetButton = "LabelSettingsDotNetButton";
-        public const string TooltipSettingsLocalTesting = "TooltipSettingsLocalTesting";
-        public const string LabelSettingsLocalTestingButton = "LabelSettingsLocalTestingButton";
-        public const string LabelSettingsLocalTestingSetPathButton = "LabelSettingsLocalTestingSetPathButton";
-        public const string TitleLocalTestingGameLiftPathDialog = "TitleLocalTestingGameLiftPathDialog";
         public const string LabelSettingsJavaButton = "LabelSettingsJavaButton";
         public const string LabelSettingsJavaTitle = "LabelSettingsJavaTitle";
         public const string TooltipSettingsJava = "TooltipSettingsJava";
@@ -86,7 +82,6 @@ namespace AmazonGameLift.Editor
         public const string LabelSettingsBootstrapTitle = "LabelSettingsBootstrapTitle";
         public const string LabelSettingsBootstrapButton = "LabelSettingsBootstrapButton";
         public const string LabelSettingsBootstrapWarning = "LabelSettingsBootstrapWarning";
-        public const string LabelSettingsLocalTestingTitle = "LabelSettingsLocalTestingTitle";
         public const string LabelSettingsDeployTab = "LabelSettingsDeployTab";
         public const string LabelSettingsTestTab = "LabelSettingsTestTab";
         public const string LabelSettingsHelpTab = "LabelSettingsHelpTab";
@@ -94,7 +89,6 @@ namespace AmazonGameLift.Editor
         public const string LabelSettingsOpenForums = "LabelSettingsOpenForums";
         public const string LabelSettingsOpenAwsHelp = "LabelSettingsOpenAwsHelp";
         public const string LabelSettingsOpenDeployment = "LabelSettingsOpenDeployment";
-        public const string LabelSettingsOpenLocalTest = "LabelSettingsOpenLocalTest";
         public const string LabelSettingsPingSdk = "LabelSettingsPingSdk";
         public const string LabelSettingsReportSecurity = "LabelSettingsReportSecurity";
         public const string LabelSettingsReportBugs = "LabelSettingsReportBugs";
@@ -105,20 +99,6 @@ namespace AmazonGameLift.Editor
         public const string LabelStackUpdateConsoleWarning = "LabelStackUpdateConsoleWarning";
         public const string LabelStackUpdateRemovalHeader = "LabelStackUpdateRemovalHeader";
         public const string LabelStackUpdateQuestion = "LabelStackUpdateQuestion";
-        public const string StatusLocalTestErrorTemplate = "StatusLocalTestErrorTemplate";
-        public const string StatusLocalTestServerErrorTemplate = "StatusLocalTestServerErrorTemplate";
-        public const string StatusLocalTestRunning = "StatusLocalTestRunning";
-        public const string TitleLocalTesting = "TitleLocalTesting";
-        public const string LabelLocalTestingHelp = "LabelLocalTestingHelp";
-        public const string LabelLocalTestingWindowsServerPath = "LabelLocalTestingWindowsServerPath";
-        public const string LabelLocalTestingMacOsServerPath = "LabelLocalTestingMacOsServerPath";
-        public const string TitleLocalTestingServerPathDialog = "TitleLocalTestingServerPathDialog";
-        public const string TooltipLocalTestingServerPath = "TooltipLocalTestingServerPath";
-        public const string LabelLocalTestingJarPath = "LabelLocalTestingJarPath";
-        public const string LabelLocalTestingPort = "LabelLocalTestingPort";
-        public const string TooltipLocalTestingPort = "TooltipLocalTestingPort";
-        public const string LabelLocalTestingStartButton = "LabelLocalTestingStartButton";
-        public const string LabelLocalTestingStopButton = "LabelLocalTestingStopButton";
         public const string LabelDeploymentBucket = "LabelDeploymentBucket";
         public const string LabelDeploymentBuildFilePath = "LabelDeploymentBuildFilePath";
         public const string LabelDeploymentBuildFolderPath = "LabelDeploymentBuildFolderPath";
