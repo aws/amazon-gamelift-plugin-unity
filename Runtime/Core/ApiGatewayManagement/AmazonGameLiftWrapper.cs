@@ -1,43 +1,25 @@
 // Copyright Amazon.com, Inc. or its affiliates. All Rights Reserved.
 // SPDX-License-Identifier: Apache-2.0
 
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Net;
-using System.Net.Sockets;
 using System.Threading;
 using System.Threading.Tasks;
 using Amazon.GameLift;
 using Amazon.GameLift.Model;
-using AmazonGameLiftPlugin.Core.CredentialManagement;
-using AmazonGameLiftPlugin.Core.CredentialManagement.Models;
-using AmazonGameLiftPlugin.Core.Shared.FileSystem;
-using AmazonGameLiftPlugin.Core.Shared.S3Bucket;
-using UnityEngine;
-
 
 namespace AmazonGameLiftPlugin.Core.ApiGatewayManagement
 {
     public class AmazonGameLiftWrapper : IAmazonGameLiftClientWrapper
     {
         private readonly IAmazonGameLift _amazonGameLiftClient;
-        private readonly ICredentialsStore _credentialsStore = new CredentialsStore(new FileWrapper());
-        IAmazonS3Wrapper awsWrapper;
 
-        private const string FleetDescription = "Created By Amazon GameLift Unity Plugin";
-        
         public AmazonGameLiftWrapper(IAmazonGameLift amazonGameLiftClient)
         {
             _amazonGameLiftClient = amazonGameLiftClient;
-            //awsWrapper.
         }
-
         /// <summary>
         /// Client region is code dedicated to Amazon GameLift SDK calls made by the game client. 
         /// </summary>
         #region Client
-        
         public async Task<CreateGameSessionResponse> CreateGameSessionAsync(
                 CreateGameSessionRequest request,
                 CancellationToken cancellationToken = default
@@ -60,13 +42,26 @@ namespace AmazonGameLiftPlugin.Core.ApiGatewayManagement
         {
             return await _amazonGameLiftClient.DescribeGameSessionsAsync(request);
         }
-        #endregion
         
+        public async Task<ListFleetsResponse> ListFleets(ListFleetsRequest request)
+        {
+            return await _amazonGameLiftClient.ListFleetsAsync(request);
+        }
+        
+        public async Task<DescribeFleetAttributesResponse> DescribeFleets(DescribeFleetAttributesRequest request)
+        {
+            return await _amazonGameLiftClient.DescribeFleetAttributesAsync(request);
+        }
+        
+        public async Task<DeregisterComputeResponse> DeregisterCompute(DeregisterComputeRequest request)
+        {
+            return await _amazonGameLiftClient.DeregisterComputeAsync(request);
+        }
+        #endregion
         /// <summary>
         /// Server region is code dedicated to Amazon GameLift SDK and AWS SDK calls made by the game server. All of these calls will be done via UI Elements or on Startup. 
         /// </summary>
         #region Server
-
         public async Task<ListLocationsResponse> ListLocations(ListLocationsRequest request)
         {
             return await _amazonGameLiftClient.ListLocationsAsync(request);
@@ -82,7 +77,7 @@ namespace AmazonGameLiftPlugin.Core.ApiGatewayManagement
             return await _amazonGameLiftClient.RegisterComputeAsync(request);
         }
 
-        private async Task<GetComputeAuthTokenResponse> GetComputeAuthToken(GetComputeAuthTokenRequest request)
+        public async Task<GetComputeAuthTokenResponse> GetComputeAuthToken(GetComputeAuthTokenRequest request)
         {
             return await _amazonGameLiftClient.GetComputeAuthTokenAsync(request);
         }
@@ -91,37 +86,6 @@ namespace AmazonGameLiftPlugin.Core.ApiGatewayManagement
         {
             return _amazonGameLiftClient.CreateFleetAsync(request);
         }
-        
-        public Task<ListFleetsResponse> ListFleets(ListFleetsRequest request)
-        {
-            return _amazonGameLiftClient.ListFleetsAsync(request);
-        }
-        
-        public Task<DescribeFleetAttributesResponse> DescribeFleets(DescribeFleetAttributesRequest request)
-        {
-            return _amazonGameLiftClient.DescribeFleetAttributesAsync(request);
-        }
-
-        public async Task<string> GenerateAuthToken(string computeName, string fleetId)
-        {
-            try
-            {
-                var computeAuthTokenRequest = new GetComputeAuthTokenRequest
-                {
-                    ComputeName = computeName,
-                    FleetId = fleetId
-                };
-                var computeAuthTokenResponse = await GetComputeAuthToken(computeAuthTokenRequest);
-                return computeAuthTokenResponse.AuthToken;
-            }
-            catch (Exception e)
-            {
-                Console.WriteLine(e);
-                throw;
-            }
-        }
-
-
         #endregion
     }
 }

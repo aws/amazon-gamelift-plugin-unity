@@ -38,11 +38,6 @@ namespace AmazonGameLift.Editor
             EditorWindow.GetWindow<DeploymentWindow>();
         }
 
-        public static void ShowLocalTesting()
-        {
-            EditorWindow.GetWindow<LocalTestWindow>();
-        }
-
         public static void OpenForums()
         {
             Application.OpenURL(Urls.AwsGameTechForums);

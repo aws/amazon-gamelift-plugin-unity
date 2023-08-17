@@ -17,21 +17,12 @@ public sealed class ClientSettingsView : MonoBehaviour
 #if !UNITY_SERVER
     private void Start()
     {
-        string message = $"Local Testing Mode: {_gameLiftSettings.IsLocalTest}\n";
-
-        if (_gameLiftSettings.IsLocalTest)
+        if (!_gameLiftSettings.IsGameLiftAnywhere)
         {
-            message += $"GameLift Local URL: {_gameLiftSettings.LocalUrl}\n" +
-            $"GameLift Local Port: {_gameLiftSettings.LocalPort}\n";
+            _text.text = $"AWS Region: {_gameLiftSettings.AwsRegion}\n" +
+                         $"Cognito User Pool Client ID: {_gameLiftSettings.UserPoolClientId}\n" +
+                         $"API Gateway URL: {_gameLiftSettings.ApiGatewayUrl}\n";
         }
-        else
-        {
-            message += $"AWS Region: {_gameLiftSettings.AwsRegion}\n" +
-            $"Cognito User Pool Client ID: {_gameLiftSettings.UserPoolClientId}\n" +
-            $"API Gateway URL: {_gameLiftSettings.ApiGatewayUrl}\n";
-        }
-
-        _text.text = message;
     }
 #endif
 }

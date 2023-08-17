@@ -8,6 +8,7 @@ using System.Collections.Generic;
 using System.Threading;
 using System.Threading.Tasks;
 using AmazonGameLift.Runtime;
+using AmazonGameLiftPlugin.Core;
 using AmazonGameLiftPlugin.Core.ApiGatewayManagement.Models;
 using AmazonGameLiftPlugin.Core.Latency.Models;
 using AmazonGameLiftPlugin.Core.Shared;
