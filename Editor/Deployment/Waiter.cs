@@ -1,6 +1,8 @@
-﻿using System;
+﻿// Copyright Amazon.com, Inc. or its affiliates. All Rights Reserved.
+// SPDX-License-Identifier: Apache-2.0
+
+using System;
 using System.Threading.Tasks;
-using AmazonGameLift.Runtime;
 using AmazonGameLiftPlugin.Core.DeploymentManagement.Models;
 using AmazonGameLiftPlugin.Core.Shared;
 
@@ -67,6 +69,5 @@ namespace AmazonGameLift.Editor
 
             return Response.Ok(new Response());
         }
-
     }
 }

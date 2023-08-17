@@ -169,6 +169,7 @@ public class ManagedEC2Tab : Tab
                 break;
             }
             case "CreateResource":
+            case "RedeployResource":
             {
                 ToggleButtons(button, false);
                 if (!_model.CanDeploy) break;
@@ -180,18 +181,9 @@ public class ManagedEC2Tab : Tab
                     .ContinueWith(task =>
                     {
                         if (task.IsFaulted) Debug.LogException(task.Exception);
-                    });
-                break;
-            }
-            case "RedeployResource":
-            {
-                //TODO Disable this button until resource is created, then call code to create resource
-                ToggleButtons(button, false);
-                if (!_model.CanDeploy) break;
-                _model.StartDeployment(ConfirmChangeSet)
-                    .ContinueWith(task =>
-                    {
-                        if (task.IsFaulted) Debug.LogException(task.Exception);
+                        ToggleButtons(button, true);                    
+                        _model.RefreshCurrentStackInfo();
+
                     });
                 break;
             }
@@ -203,6 +195,7 @@ public class ManagedEC2Tab : Tab
                 _waiter.WaitUntilDone(_model).ContinueWith(task =>
                 {
                     if (task.IsFaulted) Debug.LogException(task.Exception);
+                    ToggleButtons(button, true);
                     _model.RefreshCurrentStackInfo();
                 });
                 break;
@@ -290,5 +283,4 @@ public class ManagedEC2Tab : Tab
         Deployed,
         Deleting
     }
-
 }
