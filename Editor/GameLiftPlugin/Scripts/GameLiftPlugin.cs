@@ -146,7 +146,9 @@ public class GameLiftPlugin : EditorWindow
 
         _buttons[0].style.backgroundColor = _focusColor;
         TabMenus = root.Query<VisualElement>(null, "TabMenu").ToList();
+        TabMenus.ForEach(menu => menu.style.display = DisplayStyle.None);
         CurrentTab = TabMenus[0];
+        CurrentTab.style.display = DisplayStyle.Flex;
     }
     
     private void OnTabButtonPress(ClickEvent evt, Button button)

@@ -68,7 +68,7 @@ namespace AmazonGameLift.Editor
             get => _gameName;
             set => _ = SetGameNameAsync(value);
         }
-
+        
         public string BuildFolderPath { get; set; }
 
         public string BuildFilePath { get; set; }
@@ -119,6 +119,8 @@ namespace AmazonGameLift.Editor
                 CurrentStackInfoChanged?.Invoke();
             }
         }
+
+        public DeployerBase CurrentDeployer => _deployers[ScenarioIndex];
 
         public bool IsDeploymentRunning { get; private set; }
 
@@ -445,7 +447,11 @@ namespace AmazonGameLift.Editor
         {
             return new Dictionary<string, string>
             {
-                { ScenarioParameterKeys.GameName, GameName }
+                { ScenarioParameterKeys.GameName, GameName },
+                { ScenarioParameterKeys.LaunchParameters, LaunchParameters},
+                { ScenarioParameterKeys.BuildOperatingSystem, BuildOperatingSystem},
+                { ScenarioParameterKeys.FleetName, FleetName},
+                { ScenarioParameterKeys.BuildName, BuildName}
             };
         }
 
@@ -456,8 +462,19 @@ namespace AmazonGameLift.Editor
             {
                 { ScenarioParameterKeys.GameName, GameName },
                 { ScenarioParameterKeys.LaunchPath, launchPath },
+                { ScenarioParameterKeys.LaunchParameters, LaunchParameters},
+                { ScenarioParameterKeys.BuildOperatingSystem, BuildOperatingSystem},
+                { ScenarioParameterKeys.FleetName, FleetName},
+                { ScenarioParameterKeys.BuildName, BuildName}
             };
         }
+        public string BuildName { get; set; }
+
+        public string FleetName { get; set; }
+
+        public string LaunchParameters { get; set; }
+        
+        public string BuildOperatingSystem { get; set; }
 
         private string GetExeFilePathInBuildOrNull()
         {

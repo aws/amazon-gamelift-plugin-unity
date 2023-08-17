@@ -37,6 +37,9 @@ public class ManagedEC2Tab : Tab
 
     private string[] _changes;
     private DeploymentSettings _model;
+    private DropdownField _buildOSElement;
+    private TextField _buildNameElement;
+    private TextField _fleetNameElement;
 
     public ManagedEC2Tab(VisualElement root, GameLiftPlugin gameLiftConfig)
     {
@@ -47,7 +50,10 @@ public class ManagedEC2Tab : Tab
         _waiter.InfoUpdated += OnCurrentStackInfoChanged;
         SetupDeployment();
         SetupTab();
+        SetupAccountDetails();
+        GameLiftConfig = gameLiftConfig;
     }
+    public GameLiftPlugin GameLiftConfig { get; set; }
 
     private DeploymentStates DeploymentStatus
     {
@@ -75,7 +81,6 @@ public class ManagedEC2Tab : Tab
 
     private void OnCurrentStackInfoChanged()
     {
-        UpdateDeploymentButtons();
         UpdateDeploymentStatus();
     }
 
@@ -84,60 +89,6 @@ public class ManagedEC2Tab : Tab
     {
         _model.Refresh();
     }
-
-/*
-    private void UpdateStatus()
-    {
-        string status = _model.CurrentStackInfo.Status;
-
-        // DrawInfo(_model.CurrentStackInfo.Details, GUILayout.Height(55));
-        // DrawStackOutput(_labelCognitoClientId, _model.CurrentStackInfo.UserPoolClientId);
-        // DrawStackOutput(_labelApiGateway, _model.CurrentStackInfo.ApiGatewayEndpoint);
-
-        // if (_model.Status.IsDisplayed)
-        // {
-        //     _statusLabel.Draw(_model.Status.Message, _model.Status.Type);
-        // }
-    }
-*/
-
-    // private void DrawButtons()
-    // {
-    //     
-    //         bool disabled = !_model.CanCancel;
-    //
-    //         using (new EditorGUI.DisabledScope(disabled))
-    //         {
-    //             if (GUILayout.Button(_labelCancelButton) && ConfirmCancel())
-    //             {
-    //                 _model.CancelDeployment();
-    //             }
-    //         }
-    //
-    //         using (new EditorGUI.DisabledScope(!_model.CanDeploy))
-    //         {
-    //             if (GUILayout.Button(_labelStartButton))
-    //             {
-    //                 _model.StartDeployment(ConfirmChangeSet)
-    //                     .ContinueWith(task =>
-    //                     {
-    //                         if (task.IsFaulted)
-    //                         {
-    //                             Debug.LogException(task.Exception);
-    //                         }
-    //                     });
-    //             }
-    //         }
-    //     }
-    // }
-
-    // private bool ConfirmCancel()
-    // {
-    //     return EditorUtility.DisplayDialog(_textProvider.Get(Strings.TitleDeploymentCancelDialog),
-    //         _textProvider.Get(Strings.LabelDeploymentCancelDialogBody),
-    //         _textProvider.Get(Strings.LabelDeploymentCancelDialogOkButton),
-    //         _textProvider.Get(Strings.LabelDeploymentCancelDialogCancelButton));
-    // }
 
     private void OnDisable()
     {
@@ -165,21 +116,18 @@ public class ManagedEC2Tab : Tab
             scenarioShortName = _scenarioShortNames[_model.ScenarioIndex];
             Root.Query<Foldout>("Parameters").Descendents<VisualElement>("BuildName").Descendents<TextField>().First()
                 .value = $"{Application.productName}-{scenarioShortName}-Build";
-            Root.Q<Foldout>("Deploy").text = $"Deploy ({scenarioShortName} Fleet)";
+            Root.Q<Foldout>("Deploy").text = $"Deploy ({_model.CurrentDeployer.DisplayName})";
         });
 
         Root.Q<Foldout>("Parameters").text = $"{Application.productName} parameters";
-        Root.Q<Foldout>("Deploy").text = $"Deploy ({scenarioShortName} Fleet)";
+        Root.Q<Foldout>("Deploy").text = $"Deploy ({_model.CurrentDeployer.DisplayName})";
 
-        Root.Query<Foldout>("Parameters").Descendents<VisualElement>("FleetName").Descendents<TextField>().First()
-            .value = $"{Application.productName}-ManagedFleet";
-        Root.Query<Foldout>("Parameters").Descendents<VisualElement>("BuildName").Descendents<TextField>().First()
-            .value = $"{Application.productName}-{scenarioShortName}-Build";
-        Root.Query<VisualElement>("BuildOS").Children<DropdownField>().First().RegisterValueChangedCallback(e =>
-        {
-            string osTarget = _osMappings[e.newValue];
-            //TODO: Set OS Target parameter in stackformation template
-        });
+        _fleetNameElement = Root.Query<Foldout>("Parameters").Descendents<VisualElement>("FleetName").Descendents<TextField>().First();
+        _buildNameElement = Root.Query<Foldout>("Parameters").Descendents<VisualElement>("BuildName").Descendents<TextField>().First();
+        _buildOSElement = Root.Query<VisualElement>("BuildOS").Children<DropdownField>().First();
+        
+        _fleetNameElement.value = $"{Application.productName}-ManagedFleet";
+        _buildNameElement.value = $"{Application.productName}-{scenarioShortName}-Build";
 
         VisualElement gameServerFolder = Root.Q<VisualElement>("GameServerFolder");
         gameServerFolder.Q<TextField>().value = _model.BuildFolderPath;
@@ -194,7 +142,7 @@ public class ManagedEC2Tab : Tab
         gameServerFile.Q<TextField>().value = _model.BuildFilePath;
         gameServerFile.Q<Button>().RegisterCallback<ClickEvent>(_ =>
         {
-            string value = EditorUtility.OpenFilePanel("Game Server Executable Path", Application.dataPath, "");
+            string value = EditorUtility.OpenFilePanel("Game Server Executable Path", _model.BuildFolderPath, "");
             _model.BuildFilePath = value;
             gameServerFile.Q<TextField>().value = _model.BuildFilePath;
         });
@@ -218,6 +166,17 @@ public class ManagedEC2Tab : Tab
                 break;
             }
             case "CreateResource":
+            {
+                ToggleButtons(button, false);
+                _model.BuildOperatingSystem = _buildOSElement.value;                
+                if (!_model.CanDeploy) break;
+                _model.StartDeployment(ConfirmChangeSet)
+                    .ContinueWith(task =>
+                    {
+                        if (task.IsFaulted) Debug.LogException(task.Exception);
+                    });
+                break;
+            }
             case "RedeployResource":
             {
                 //TODO Disable this button until resource is created, then call code to create resource
@@ -249,10 +208,14 @@ public class ManagedEC2Tab : Tab
             }
         }
     }
-
-    private void UpdateDeploymentButtons()
+    
+    private void SetupAccountDetails()
     {
-
+        if (GameLiftConfig.CurrentState.AllProfiles.Length >= 1)
+        {
+            var targetFoldout = Root.Q<VisualElement>("AccountDetails","Tab4Foldout");
+            ChangeFoldout(null, targetFoldout);
+        }
     }
 
     private void UpdateDeploymentStatus()
