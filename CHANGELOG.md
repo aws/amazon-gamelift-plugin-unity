@@ -1,5 +1,10 @@
 CHANGELOG
 
+# 1.3.1 (08/04/2023)
+
+- Add support for Unity version 2022.3
+- Fix local testing UI not able to run MacOS server executables built with "Dedicated Server" platform in Unity 2021 and newer.
+
 # 1.3.0 (04/20/2023)
 
 - Update minimum required Unity version from 2019.4 to 2021.3

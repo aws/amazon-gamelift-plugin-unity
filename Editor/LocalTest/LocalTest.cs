@@ -38,8 +38,7 @@ namespace AmazonGameLift.Editor
 
         public string GameLiftLocalPath { get; private set; }
 
-        public bool IsBuildExecutablePathFilled =>
-            OperatingSystemUtility.isMacOs() ? _coreApi.FolderExists(BuildExecutablePath) : _coreApi.FileExists(BuildExecutablePath);
+        public bool IsBuildExecutablePathFilled => _coreApi.FileExists(BuildExecutablePath);
 
         public bool isGameLiftLocalPortValid => GameLiftLocalPort > 0;
 

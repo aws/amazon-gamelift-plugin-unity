@@ -189,7 +189,7 @@ against Mac OS platform.
 ### What Unity versions are supported?
 
 The Amazon GameLift Plug-in for Unity is compatible only with officially supported versions of Unity 2019.4 LTS,
-2020.3 LTS, 2021.3 LTS for Windows and Mac OS.
+2020.3 LTS, 2021.3, 2022.3 LTS for Windows and Mac OS.
 
 For Unity version 2021.3 and above, "Windows Dedicated Server Build Support" module is required for building the sample
 game server for local testing (on Windows development environment) and deploying to GameLift.
