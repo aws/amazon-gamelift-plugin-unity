@@ -1,3 +1,6 @@
+// Copyright Amazon.com, Inc. or its affiliates. All Rights Reserved.
+// SPDX-License-Identifier: Apache-2.0
+
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading;
@@ -7,18 +10,17 @@ using AmazonGameLiftPlugin.Core.Shared;
 using UnityEngine;
 using UnityEngine.UIElements;
 
-namespace Editor.GameLiftPlugin.Scripts
+namespace Editor.GameLiftConfigurationUI
 {
     public class AwsCredentialsTab : Tab
     {
-        private readonly GameLiftPlugin _gameLiftConfig;
         private List<TextField> _accountDetailTextFields = new();
+        private readonly GameLiftPlugin _gameLiftConfig;
 
         public AwsCredentialsTab(VisualElement root, GameLiftPlugin gameLiftConfig)
         {
             _gameLiftConfig = gameLiftConfig;
             Root = root;
-            TabNumber = 2;
             SetupConfigSettings();
             SetupBootstrap();
             SetupTab();
@@ -27,7 +29,7 @@ namespace Editor.GameLiftPlugin.Scripts
     
         private void SetupTab()
         {
-            var tabName = "Tab2";
+            const string tabName = "Tab2";
             base.SetupTab(tabName, OnTabButtonClicked);
             var dropdownField = Root.Q<DropdownField>(null, "AccountDetailsInput");
             dropdownField.index = 0;
@@ -238,9 +240,11 @@ namespace Editor.GameLiftPlugin.Scripts
             if (bucketResponse.Success)
             {
                 EnableInfoBox("Tab2Success");
+                _gameLiftConfig.CurrentState.SelectedBootstrapped = true;
             }
             else
             {
+                _gameLiftConfig.CurrentState.SelectedBootstrapped = false;
                 var errorBox = Root.Q<VisualElement>("Tab2Error");
                 errorBox.style.display = DisplayStyle.Flex;
                 errorBox.Q<Label>().text = bucketResponse.ErrorMessage;

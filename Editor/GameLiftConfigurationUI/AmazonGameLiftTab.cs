@@ -1,8 +1,11 @@
+// Copyright Amazon.com, Inc. or its affiliates. All Rights Reserved.
+// SPDX-License-Identifier: Apache-2.0
+
 using AmazonGameLift.Editor;
 using UnityEditor;
 using UnityEngine.UIElements;
 
-namespace Editor.GameLiftPlugin.Scripts
+namespace Editor.GameLiftConfigurationUI
 {
     public class AmazonGameLiftTab : Tab
     {
@@ -12,7 +15,6 @@ namespace Editor.GameLiftPlugin.Scripts
         {
             _gameLiftConfig = gameLiftConfig;
             Root = root;
-            TabNumber = 1;
             SetupTab();
         }
 
@@ -45,8 +47,7 @@ namespace Editor.GameLiftPlugin.Scripts
             }
             ChangeWizard(targetWizard);
         }
-    
-    
+
         private void OnTabButtonClicked(ClickEvent evt, Button button)
         {
             switch (button.name)

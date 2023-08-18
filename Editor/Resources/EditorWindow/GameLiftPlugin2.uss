@@ -5,28 +5,16 @@
     height: 100%;
 }
 
-.custom-label {
-    font-size: 20px;
-    -unity-font-style: bold;
-    color: rgb(68, 138, 255);
-}
-
 .TabButton {
     -unity-font: url('project://database/Packages/com.amazonaws.gamelift/Editor/PluginSettings/GameLiftPlugin/Assets/Font/Inter-Regular.otf?fileID=12800000&guid=3a3ab476e5025ad43bbb37916ebaf2b7&type=3#Inter-Regular');
     font-size: 18px;
-    background-color: rgba(188, 188, 188, 0);
+    background-color: rgba(0, 0, 0, 0);
     color: rgb(196, 196, 196);
     -unity-text-align: middle-left;
-    padding-left: 9px;
-    padding-top: 4px;
-    padding-bottom: 4px;
     align-items: stretch;
     justify-content: space-around;
-    border-left-color: rgba(149, 149, 149, 0);
-    border-right-color: rgba(149, 149, 149, 0);
-    border-top-color: rgba(149, 149, 149, 0);
-    border-bottom-color: rgba(149, 149, 149, 0);
-    padding-right: 12px;
+    border-color: rgba(0, 0, 0, 0);
+    padding: 4px 12px 4px 9px;
     height: 32px;
     top: auto;
 }
@@ -37,9 +25,6 @@
 
 .TabButton:focus {
     background-color: rgb(44, 93, 135);
-}
-
-.link {
 }
 
 .TabButton {
@@ -54,14 +39,8 @@
     background-color: rgb(42, 42, 42);
     -unity-text-outline-color: rgb(13, 13, 13);
     -unity-text-outline-width: 1px;
-    border-left-color: rgb(13, 13, 13);
-    border-right-color: rgb(13, 13, 13);
-    border-top-color: rgb(13, 13, 13);
-    border-bottom-color: rgb(13, 13, 13);
-    border-left-width: 1px;
-    border-right-width: 1px;
-    border-top-width: 1px;
-    border-bottom-width: 1px;
+    border-color: rgb(13, 13, 13);
+    border-width: 1;
     padding-right: 0;
     padding-left: 0;
     margin-left: 0;
@@ -75,9 +54,6 @@
 
 .unity-radio-button {
     margin: 0 0 52px 0;
-}
-
-.LearnMoreButton {
 }
 
 .TabMenu {
@@ -98,18 +74,9 @@
 .InfoBox {
     white-space: normal;
     flex-direction: row;
-    border-left-width: 1px;
-    border-right-width: 1px;
-    border-top-width: 1px;
-    border-bottom-width: 1px;
-    border-left-color: rgb(0, 115, 187);
-    border-right-color: rgb(0, 115, 187);
-    border-top-color: rgb(0, 115, 187);
-    border-bottom-color: rgb(0, 115, 187);
-    border-top-left-radius: 1px;
-    border-bottom-left-radius: 1px;
-    border-top-right-radius: 1px;
-    border-bottom-right-radius: 1px;
+    border-width: 1px;
+    border-color: rgb(0, 115, 187);
+    border-radius: 1px;
     background-color: rgba(0, 115, 187, 0.13);
     margin-top: 3px;
     margin-bottom: 1px;
@@ -122,24 +89,15 @@
     width: 100%;
 }
 
-.LearnMoreButton2 {
-    padding-top: 0;
-    margin-top: 5px;
-    padding-bottom: 0;
-    border-bottom-color: rgb(210, 210, 210);
-    border-left-width: 1px;
-    border-right-width: 1px;
-    border-top-width: 1px;
-    border-bottom-width: 1px;
+.LearnMoreButton {
     width: 83px;
-    padding-left: 0;
-    margin-left: 0;
+    padding: 0;
+    margin: 5px 0 0;
+    border-width: 1px;
+    border-bottom-color: rgb(210, 210, 210);
     border-left-color: rgba(210, 210, 210, 0);
     border-right-color: rgba(210, 210, 210, 0);
     border-top-color: rgba(210, 210, 210, 0);
-    padding-right: 0;
-    margin-right: 0;
-    margin-bottom: 0;
     font-size: 12px;
     left: auto;
     bottom: 8px;

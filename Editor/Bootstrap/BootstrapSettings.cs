@@ -34,6 +34,8 @@ namespace AmazonGameLift.Editor
         private readonly BootstrapUtility _bootstrapUtility;
         private List<string> _existingBuckets = new List<string>();
 
+        private const string CannotCreateErrorMessage = "Cannot Create Bucket, Bucket Name is Empty";
+
         public IReadStatus Status => _status;
 
         public IReadOnlyList<string> ExistingBuckets => _existingBuckets;
@@ -121,7 +123,10 @@ namespace AmazonGameLift.Editor
         {
             if (!CanCreate)
             {
-                return null;
+                return new Response()
+                {
+                    ErrorMessage = CannotCreateErrorMessage
+                };
             }
 
             GetBootstrapDataResponse bootstrapResponse = _bootstrapUtility.GetBootstrapData();

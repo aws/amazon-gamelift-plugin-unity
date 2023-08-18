@@ -68,7 +68,7 @@ namespace AmazonGameLift.Editor
             get => _gameName;
             set => _ = SetGameNameAsync(value);
         }
-        
+
         public string BuildFolderPath { get; set; }
 
         public string BuildFilePath { get; set; }
@@ -391,7 +391,7 @@ namespace AmazonGameLift.Editor
             string stackName = _coreApi.GetStackName(GameName);
             var deploymentId = new DeploymentId(CurrentProfile, CurrentRegion, stackName, currentDeployer.DisplayName);
             _currentDeploymentId.Set(deploymentId);
-            
+
             try
             {
                 DeploymentResponse response = await currentDeployer.StartDeployment(ScenarioPath, BuildFolderPath, GameName,

@@ -1,48 +1,49 @@
+// Copyright Amazon.com, Inc. or its affiliates. All Rights Reserved.
+// SPDX-License-Identifier: Apache-2.0
+
 using System.Collections.Generic;
 using System.Linq;
 using UnityEngine.UIElements;
 
-namespace Editor.GameLiftPlugin.Scripts
+namespace Editor.GameLiftConfigurationUI
 {
     public abstract class Tab
     {
-        public List<Button> AllButtons = new();
-        public List<VisualElement> AllWizardElements = new();
-        public List<VisualElement> AllFoldoutElements = new();
-        public List<Label> AllExternalLinks = new();
-        public int TabNumber = 0;
-        public VisualElement TabContainer;
-        public VisualElement Root;
-        public VisualElement CurrentWizard;
-    
+        protected List<VisualElement> AllFoldoutElements = new();
+        protected VisualElement Root;
+        private VisualElement _currentWizard;
+        private List<Button> _allButtons = new();
+        private List<VisualElement> _allWizardElements = new();
 
+        //This is called upon selecting a different profile using the UIs dropdown
+        public abstract void OnAccountSelect();
+        
+        
         protected void SetupTab(string tabName, EventCallback<ClickEvent,Button> onTabButtonClicked)
         {
-            AllButtons = Root.Query<Button>(null, tabName+"Button").ToList();
-            foreach (var button in AllButtons)
+            _allButtons = Root.Query<Button>(null, tabName+"Button").ToList();
+            foreach (var button in _allButtons)
             {
                 button.RegisterCallback(onTabButtonClicked, button);
             }
         
-            AllWizardElements = Root.Query<VisualElement>(null, tabName).ToList();
+            _allWizardElements = Root.Query<VisualElement>(null, tabName).ToList();
             AllFoldoutElements = Root.Query<VisualElement>(null, tabName+"Foldout").ToList();
         
             ResetWizard();
         }
 
-        public abstract void OnAccountSelect();
-
         protected void ChangeWizard(VisualElement targetWizard)
         {
-            if (CurrentWizard != null)
+            if (_currentWizard != null)
             {
-                CurrentWizard.style.display = DisplayStyle.None;
+                _currentWizard.style.display = DisplayStyle.None;
             }
 
-            CurrentWizard = targetWizard;
-            if (CurrentWizard != null)
+            _currentWizard = targetWizard;
+            if (_currentWizard != null)
             {
-                CurrentWizard.style.display = DisplayStyle.Flex;
+                _currentWizard.style.display = DisplayStyle.Flex;
             }
         }
 
@@ -59,29 +60,14 @@ namespace Editor.GameLiftPlugin.Scripts
             }
         }
 
-        protected void ResetWizard()
-        {
-            foreach (var wizardElement in AllWizardElements.Where(wizardElement => wizardElement != null))
-            {
-                wizardElement.style.display = DisplayStyle.None;
-            }
-
-            if (AllWizardElements.Count > 0)
-            {
-                ChangeWizard(AllWizardElements[0]);
-            }
-        
-        }
-
         protected void ToggleButtons(Button button, bool state)
         {
             button.SetEnabled(state);
         }
-
-
+        
         protected VisualElement GetWizard(string wizardName)
         {
-            return AllWizardElements.FirstOrDefault(element => element.name == wizardName);
+            return _allWizardElements.FirstOrDefault(element => element.name == wizardName);
         }
     
         protected VisualElement GetFoldout(string foldoutName)
@@ -89,17 +75,22 @@ namespace Editor.GameLiftPlugin.Scripts
             return AllFoldoutElements.FirstOrDefault(element => element.name == foldoutName);
         }
 
-
         protected void EnableInfoBox(string infoBoxClass)
         {
             Root.Q<VisualElement>(null, infoBoxClass).style.display = DisplayStyle.Flex;
         }
-
-        public enum InfoType
+        
+        private void ResetWizard()
         {
-            Info = 0,
-            Warning = 1,
-            Error = 2
+            foreach (var wizardElement in _allWizardElements.Where(wizardElement => wizardElement != null))
+            {
+                wizardElement.style.display = DisplayStyle.None;
+            }
+
+            if (_allWizardElements.Count > 0)
+            {
+                ChangeWizard(_allWizardElements[0]);
+            }
         }
     }
 }

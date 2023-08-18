@@ -1,3 +1,6 @@
+// Copyright Amazon.com, Inc. or its affiliates. All Rights Reserved.
+// SPDX-License-Identifier: Apache-2.0
+
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -7,16 +10,15 @@ using System.Threading.Tasks;
 using Amazon.GameLift;
 using Amazon.GameLift.Model;
 using AmazonGameLift.Editor;
-using AmazonGameLiftPlugin.Core.ApiGatewayManagement;
 using UnityEditor;
 using UnityEngine;
 using UnityEngine.UIElements;
 
-namespace Editor.GameLiftPlugin.Scripts
+namespace Editor.GameLiftConfigurationUI
 {
     public class GameLiftAnywhereTab : Tab
     {
-        private readonly GameLiftPlugin _gameLiftConfig;
+        private DropdownField _fleetDropdown;
         private string _fleetName;
         private string _computeName = "ComputerName-ProfileName";
         private string _ipAddress = "120.120.120.120";
@@ -24,14 +26,13 @@ namespace Editor.GameLiftPlugin.Scripts
         private const string FleetLocation = "custom-location-1";
         private const string FleetDescription = "Created By Amazon GameLift Unity Plugin";
         private List<FleetAttributes> _fleetsList;
-        private static List<string> fleetNameList = new();
-        private DropdownField _fleetDropdown;
+        private readonly GameLiftPlugin _gameLiftConfig;
+        private static readonly List<string> s_fleetNameList = new();
 
         public GameLiftAnywhereTab(VisualElement root, GameLiftPlugin gameLiftConfig)
         {
             _gameLiftConfig = gameLiftConfig;
             Root = root;
-            TabNumber = 3;
             if (_gameLiftConfig.CurrentState.SelectedProfile != null)
             {
                 _gameLiftConfig.SetupWrapper();
@@ -128,9 +129,9 @@ namespace Editor.GameLiftPlugin.Scripts
                     var targetFoldout = GetFoldout("Connected");
                     ChangeFoldout(currentFoldout, targetFoldout);
                 }
-                fleetNameList.Clear();
-                _fleetsList.ForEach(fleet => fleetNameList.Add(fleet.Name));
-                _fleetDropdown.choices = fleetNameList;
+                s_fleetNameList.Clear();
+                _fleetsList.ForEach(fleet => s_fleetNameList.Add(fleet.Name));
+                _fleetDropdown.choices = s_fleetNameList;
             }
         }
 
@@ -172,7 +173,7 @@ namespace Editor.GameLiftPlugin.Scripts
             var match = regex.Match(text);
             var correctComposition = match.Success && text.Length is >= 1 and <= 1024;
         
-            return correctComposition && fleetNameList.All(fleet => fleet != text);
+            return correctComposition && s_fleetNameList.All(fleet => fleet != text);
         }
 
         private void SetupCompute(TextField computeTextName, IEnumerable<TextField> ipTextField, Button button)

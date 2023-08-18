@@ -1,3 +1,6 @@
+// Copyright Amazon.com, Inc. or its affiliates. All Rights Reserved.
+// SPDX-License-Identifier: Apache-2.0
+
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -10,29 +13,22 @@ using UnityEditor;
 using UnityEngine;
 using UnityEngine.UIElements;
 
-namespace Editor.GameLiftPlugin.Scripts
+namespace Editor.GameLiftConfigurationUI
 {
     public class GameLiftPlugin : EditorWindow
     {
-        private VisualTreeAsset _mVisualTreeAsset = default;
-        private VisualTreeAsset _popupVisualTreeAsset = default;
-
-        private VisualElement _root;
-        public VisualElement S3PopUp;
-        private readonly List<Tab> _allTabs = new();
-        public List<VisualElement> TabMenus;
-        private VisualElement _currentTab;
-        private readonly List<Button> _buttons = new();
-        public AmazonGameLiftWrapper GameLiftWrapper;
-        private readonly Color _focusColor = new(0.172549f, 0.3647059f, 0.5294118f, 1);
-
+        public readonly CoreApi CoreApi;
         public readonly AwsCredentialsCreation CreationModel;
         public readonly AwsCredentialsUpdate UpdateModel;
-        public string[] allProfileNames;
-
-        public readonly CoreApi CoreApi;
-
-        public State CurrentState = new();
+        public List<VisualElement> TabMenus;
+        public State CurrentState;
+        public AmazonGameLiftWrapper GameLiftWrapper;
+        private VisualTreeAsset _mVisualTreeAsset;
+        private VisualElement _root;
+        private VisualElement _currentTab;
+        private List<Tab> _allTabs = new();
+        private readonly List<Button> _buttons = new();
+        private readonly Color _focusColor = new(0.172549f, 0.3647059f, 0.5294118f, 1);
 
         private GameLiftPlugin()
         {
@@ -48,7 +44,7 @@ namespace Editor.GameLiftPlugin.Scripts
         public static void ShowWindow()
         {
             var inspectorType = Type.GetType("UnityEditor.GameView,UnityEditor.dll");
-            EditorWindow window = GetWindow<GameLiftPlugin>(new Type[] {inspectorType});
+            EditorWindow window = GetWindow<GameLiftPlugin>(inspectorType);
             window.titleContent = new GUIContent("GameLift Plugin");
         }
 
@@ -64,18 +60,19 @@ namespace Editor.GameLiftPlugin.Scripts
             VisualElement uxml = _mVisualTreeAsset.Instantiate();
             _root.Add(uxml);
        
+            
             SetupLinks();
             DisableDefaultButtons();
             SetupTextFieldEvents();
             SetupTabMenu();
             RefreshProfiles();
-            SetupTabs();
             ApplyInfoBoxSettings();
+            _allTabs = SetupTabs();
         }
 
         public void OpenS3Popup(string bucketName)
         {
-            GameLiftPluginBucketPopup popup = new GameLiftPluginBucketPopup();
+            var popup = new GameLiftPluginBucketPopup();
             popup.OpenPopup(this, bucketName);
         }
 
@@ -149,40 +146,17 @@ namespace Editor.GameLiftPlugin.Scripts
             }
         }
 
-        private void SetupTabs()
+        private List<Tab> SetupTabs()
         {
-            foreach (var tab in TabMenus)
+            return new List<Tab>
             {
-                switch (tab.name)
-                {
-                    case "AmazonGameLiftTab":
-                    {
-                        var awsGameLiftTab = new AmazonGameLiftTab(_root, this);
-                        _allTabs.Add(awsGameLiftTab);
-                        break;
-                    }
-                    case "AWSAccountCredentialsTab":
-                    {
-                        var awsCredentialsTab = new AwsCredentialsTab(_root, this);
-                        _allTabs.Add(awsCredentialsTab);
-                        break;
-                    }
-                    case "GameLiftAnywhereTab":
-                    {
-                        var gameLiftAnywhereTab = new GameLiftAnywhereTab(_root, this);
-                        _allTabs.Add(gameLiftAnywhereTab);
-                        break;
-                    }
-                    case "ManagedEC2Tab":
-                    {
-                        var managedEc2Tab = new ManagedEC2Tab(_root, this);
-                        _allTabs.Add(managedEc2Tab);
-                        break;
-                    }
-                }
-            }
+                new AmazonGameLiftTab(_root, this),
+                new AwsCredentialsTab(_root, this),
+                new GameLiftAnywhereTab(_root, this),
+                new ManagedEC2Tab(_root, this),
+            };
         }
-  
+
         private void SetupTabMenu()
         {
             var tabButtons = _root.Query<Button>(null, "TabButton").ToList();
@@ -194,12 +168,12 @@ namespace Editor.GameLiftPlugin.Scripts
                 _buttons.Add(button);
             }
 
-        _buttons[0].style.backgroundColor = _focusColor;
-        TabMenus = _root.Query<VisualElement>(null, "TabMenu").ToList();
-        TabMenus.ForEach(menu => menu.style.display = DisplayStyle.None);
-        _currentTab = TabMenus[0];
-        _currentTab.style.display = DisplayStyle.Flex;
-    }
+            _buttons[0].style.backgroundColor = _focusColor;
+            TabMenus = _root.Query<VisualElement>(null, "TabMenu").ToList();
+            TabMenus.ForEach(menu => menu.style.display = DisplayStyle.None);
+            _currentTab = TabMenus[0];
+            _currentTab.style.display = DisplayStyle.Flex;
+        }
     
         private void OnTabButtonPress(ClickEvent evt, Button button)
         {
