@@ -40,14 +40,69 @@ namespace Editor.GameLiftConfigurationUI
             CoreApi = new CoreApi(settingsStore);
         }
 
-        [MenuItem("GameLift/GameLift Configuration")]
+        [MenuItem("Amazon GameLift/Show Amazon GameLift Window", priority = 0)]
         public static void ShowWindow()
         {
-            var inspectorType = Type.GetType("UnityEditor.GameView,UnityEditor.dll");
-            EditorWindow window = GetWindow<GameLiftPlugin>(inspectorType);
-            window.titleContent = new GUIContent("GameLift Plugin");
+            GetWindow();
         }
 
+        public static GameLiftPlugin GetWindow()
+        {
+            var inspectorType = Type.GetType("UnityEditor.GameView,UnityEditor.dll");
+            var window = GetWindow<GameLiftPlugin>(inspectorType);
+            window.titleContent = new GUIContent("Amazon GameLift");
+            return window;
+        }
+
+        [MenuItem("Amazon GameLift/Bring Panel to Front", priority = 1)]
+        public static void Action1()
+        {
+            ShowWindow();
+        }
+
+        [MenuItem("Amazon GameLift/Set AWS Account Profiles", priority = 100)]
+        public static void OpenAccountProfilesTab()
+        {
+            GetWindow().OpenTab("AWSAccountCredentials");
+        }
+
+        [MenuItem("Amazon GameLift/Host with Anywhere", priority = 101)]
+        public static void OpenAnywhereTab()
+        {
+            GetWindow().OpenTab("GameLiftAnywhere");
+        }
+
+        [MenuItem("Amazon GameLift/Host with Managed EC2", priority = 102)]
+        public static void OpenEC2Tab()
+        {
+            GetWindow().OpenTab("ManagedEC2");
+        }
+        
+        [MenuItem("Amazon GameLift/Import Sample Game", priority = 103)]
+        public static void ImportSampleGame()
+        {
+            string filePackagePath = $"Packages/{Paths.PackageName}/{Paths.SampleGameInPackage}";
+            AssetDatabase.ImportPackage(filePackagePath, interactive:true);
+        }
+        
+        [MenuItem("Amazon GameLift/Help/Documentation", priority = 200)]
+        public static void OpenDocumentation()
+        {
+            Application.OpenURL(Urls.AwsHelpGameLiftUnity);
+        }
+
+        [MenuItem("Amazon GameLift/Help/AWS GameTech Forum", priority = 201)]
+        public static void OpenGameTechForums()
+        {
+            Application.OpenURL(Urls.AwsGameTechForums);
+        }
+
+        [MenuItem("Amazon GameLift/Help/Report Issues", priority = 202)]
+        public static void OpenReportIssues()
+        {
+            Application.OpenURL(Urls.GitHubAwsLabs);
+        }
+        
         private void CreateGUI()
         {
             _root = rootVisualElement;
@@ -173,6 +228,13 @@ namespace Editor.GameLiftConfigurationUI
             TabMenus.ForEach(menu => menu.style.display = DisplayStyle.None);
             _currentTab = TabMenus[0];
             _currentTab.style.display = DisplayStyle.Flex;
+        }
+
+        public void OpenTab(string tabName)
+        {
+            var targetTab = _root.Q<Button>(tabName);
+            var targetContent = TabMenus.FirstOrDefault(tab => tab.name == $"{tabName}Tab");
+            ChangeTab(targetTab, targetContent);
         }
     
         private void OnTabButtonPress(ClickEvent evt, Button button)
