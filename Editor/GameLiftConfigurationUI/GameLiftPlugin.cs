@@ -205,7 +205,7 @@ namespace Editor.GameLiftConfigurationUI
         {
             return new List<Tab>
             {
-                new AmazonGameLiftTab(_root, this),
+                new AmazonGameLiftTab(_root, this, new TextProvider()),
                 new AwsCredentialsTab(_root, this),
                 new GameLiftAnywhereTab(_root, this),
                 new ManagedEC2Tab(_root, this),

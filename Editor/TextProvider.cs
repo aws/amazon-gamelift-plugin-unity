@@ -176,6 +176,17 @@ namespace AmazonGameLift.Editor
             { Strings.SettingsUISdkNextStepLabel, "The SDK settings are configured. You can find an usage example by going to \"(Top Menu Bar) > GameLift > Import Sample Game\", and look at \"Assets\\Scripts\\Server\\GameLiftServer.cs\"."},
             { Strings.LabelOpenSdkIntegrationDoc, "Open SDK Integration Guide"},
             { Strings.LabelOpenSdkApiDoc, "Open SDK API Reference"},
+            
+            { Strings.LabelLandingTitle, "Amazon GameLift" },
+            { Strings.LabelLandingDescription, "Amazon GameLift provides solutions for hosting session-based multiplayer game servers in the cloud. This plugin contains libraries and native UI elements that make it easier to integrate Amazon GameLift into your game and to manage your hosting resources. Use the plugin to access the Amazon GameLift APIs and deploy AWS CloudFormation templates for common deployment scenarios.\n\nBuilt on AWS global computing infrastructure, Amazon GameLift helps you deliver high-performance, high-reliability, low-cost game servers that scale to meet player demand." },
+            { Strings.LabelLandingLinks1, "Documentation" },
+            { Strings.LabelLandingLinks2, "Amazon GameTech Forum" },
+            { Strings.LabelLandingLinks3, "Report Issues" },
+            { Strings.LabelLandingLinks4, "Release Notes" },
+            { Strings.LabelLandingSampleTitle, "Try our Sample Game" },
+            { Strings.LabelLandingSampleDescription, "Explore Amazon GameLift with our sample multiplayer game. Study the integration code, set up hosting with Amazon GameLift Anywhere or Managed EC2 fleets, and experiment with hosting features. Import the sample game into your project, and look for it in the project Assets." },
+            { Strings.ButtonLandingSampleImport, "Import Sample Game" },
+
         };
 
         public string GetError(string errorCode = null)

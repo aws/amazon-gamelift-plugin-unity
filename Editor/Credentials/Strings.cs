@@ -130,5 +130,21 @@ namespace AmazonGameLift.Editor
         public const string SettingsUIDeployNextStepLabel = "SettingsUIDeployNextStepLabel";
         public const string LabelOpenSdkIntegrationDoc = "LabelOpenSdkIntegrationDoc";
         public const string LabelOpenSdkApiDoc = "LabelOpenSdkApiDoc";
+        
+        public const string LabelLandingTitle = "LabelLandingTitle";
+        public const string LabelLandingDescription = "LabelLandingDescription";
+        public const string LabelLandingLinks1 = "LabelLandingLinks1";
+        public const string LabelLandingLinks2 = "LabelLandingLinks2";
+        public const string LabelLandingLinks3 = "LabelLandingLinks3";
+        public const string LabelLandingLinks4 = "LabelLandingLinks4";
+        public const string LabelLandingSampleTitle = "LabelLandingSampleTitle";
+        public const string LabelLandingSampleDescription = "LabelLandingSampleDescription";
+        public const string ButtonLandingSampleImport = "ButtonLandingSampleImport";
+
+        public static string Get(string propertyName)
+        {
+            var propertyInfo = typeof(Strings).GetProperty(propertyName);
+            return propertyInfo.GetValue(null, null) as string;
+        }
     }
 }
