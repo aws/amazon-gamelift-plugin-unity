@@ -1,15 +1,26 @@
 :root {
     --color-primary: rgb(44, 93, 135);
     --color-success: rgb(20, 255, 20);
+    --font-size-paragraph : 12px;
+    --font-size-tab-button : 18px;
+    --color-bg-tab : rgba(0, 0, 0, 0);
+    --color-font-tab : rgb(196, 196, 196);
+    --color-bg-tab-hover : rgb(63, 63, 63);
+    --color-bg-tab-focus : rgb(44, 93, 135);
+    --color-bg-card : rgb(42, 42, 42);
+    --color-bg-tab-menu : rgb(63, 63, 63);
+    --color-border-info-box: rgb(0, 115, 187);
+    --color-bg-info-box : rgba(0, 115, 187, 0.13);
+    --color-bg-tab-4 : rgb(88, 88, 88);
     width: 100%;
     height: 100%;
 }
 
 .TabButton {
     -unity-font: url('project://database/Packages/com.amazonaws.gamelift/Editor/PluginSettings/GameLiftPlugin/Assets/Font/Inter-Regular.otf?fileID=12800000&guid=3a3ab476e5025ad43bbb37916ebaf2b7&type=3#Inter-Regular');
-    font-size: 18px;
-    background-color: rgba(0, 0, 0, 0);
-    color: rgb(196, 196, 196);
+    font-size: var(--font-size-tab-button);
+    background-color: var(--color-bg-tab);
+    color: var(--color-font-tab);
     -unity-text-align: middle-left;
     align-items: stretch;
     justify-content: space-around;
@@ -20,11 +31,11 @@
 }
 
 .TabButton:hover {
-    background-color: rgb(63, 63, 63);
+    background-color: var(--color-bg-tab-hover);
 }
 
 .TabButton:focus {
-    background-color: rgb(44, 93, 135);
+    background-color: var(--color-bg-tab-focus);
 }
 
 .TabButton {
@@ -39,7 +50,7 @@
     background-color: rgb(42, 42, 42);
     -unity-text-outline-color: rgb(13, 13, 13);
     -unity-text-outline-width: 1px;
-    border-color: rgb(13, 13, 13);
+    border-color: var(--color-bg-card);
     border-width: 1;
     padding-right: 0;
     padding-left: 0;
@@ -57,13 +68,13 @@
 }
 
 .TabMenu {
-    background-color: rgb(63, 63, 63);
+    background-color: var(--color-bg-tab-menu);
     align-items: flex-start;
     justify-content: flex-end;
     height: auto;
     min-height: 100%;
     min-width: 100%;
-    -unity-background-image-tint-color: rgb(63, 63, 63);
+    -unity-background-image-tint-color: var(--color-bg-tab-menu);
     opacity: 1;
     display: none;
     visibility: visible;
@@ -75,9 +86,9 @@
     white-space: normal;
     flex-direction: row;
     border-width: 1px;
-    border-color: rgb(0, 115, 187);
+    border-color: var(--color-border-info-box);
     border-radius: 1px;
-    background-color: rgba(0, 115, 187, 0.13);
+    background-color: var(--color-bg-info-box);
     margin-top: 3px;
     margin-bottom: 1px;
     padding-top: 2px;
@@ -98,16 +109,17 @@
     border-left-color: rgba(210, 210, 210, 0);
     border-right-color: rgba(210, 210, 210, 0);
     border-top-color: rgba(210, 210, 210, 0);
-    font-size: 12px;
+    font-size: var(--font-size-paragraph);
     left: auto;
     bottom: 8px;
     -unity-font: resource('Font/FontAwesome');
     -unity-font-definition: resource('Font/FontAwesome SDF');
 }
 
+
 .Tab4Button {
     height: 30px;
-    background-color: rgb(88, 88, 88);
+    background-color: var(--color-bg-tab-4);
 }
 
 .Tab4Button.primary {
@@ -133,7 +145,7 @@
     display: flex;
     margin-left: 0;
     padding-left: 0;
-    font-size: 12px;
+    font-size: var(--font-size-paragraph);
 }
 
 .deploy-status__icon {
