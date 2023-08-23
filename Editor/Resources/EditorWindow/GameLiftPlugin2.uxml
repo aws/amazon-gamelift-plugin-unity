@@ -1,19 +1,11 @@
 <ui:UXML xmlns:ui="UnityEngine.UIElements" xmlns:uie="UnityEditor.UIElements" xsi="http://www.w3.org/2001/XMLSchema-instance" engine="UnityEngine.UIElements" editor="UnityEditor.UIElements" noNamespaceSchemaLocation="../../../../../UIElementsSchema/UIElements.xsd" editor-extension-mode="False">
     <Style src="project://database/Packages/com.amazonaws.gamelift/Editor/Resources/EditorWindow/GameLiftPlugin2.uss?fileID=7433441132597879392&amp;guid=4e00ae66dddd01045a87e5a4a420e644&amp;type=3#GameLiftPlugin2" />
+    <ui:Template src="project://database/Packages/com.amazonaws.gamelift/Editor/Resources/EditorWindow/GameLiftPluginTabMenu.uxml" name="TabMenuTemplate"/>
+    <ui:Template src="project://database/Packages/com.amazonaws.gamelift/Editor/Resources/EditorWindow/GameLiftPluginAmazonGameLiftTabDescriptionInfoBox.uxml" name="AmazonGameLiftTabDescriptionInfoBox"/>
     <ui:VisualElement name="Main" style="flex-grow: 0; flex-direction: row; width: 100%; height: 100%; flex-shrink: 0; min-height: auto;">
-        <ui:VisualElement name="TabMenu" style="flex-grow: 1; background-color: rgb(51, 51, 51); width: 25%; background-image: none; border-left-width: 2px; border-right-width: 2px; border-top-width: 2px; border-bottom-width: 2px; border-left-color: rgba(69, 69, 69, 0); border-right-color: rgb(69, 69, 69); border-top-color: rgba(69, 69, 69, 0); border-bottom-color: rgba(69, 69, 69, 0); height: auto; min-height: auto;">
-            <ui:VisualElement name="VisualElement" style="flex-grow: 1; background-color: rgba(0, 0, 0, 0); height: 96%; opacity: 0; max-height: 14px;" />
-            <ui:Button text="Amazon GameLift" display-tooltip-when-elided="true" name="AmazonGameLift" class="TabButton" style="font-size: 12%; height: 6%;" />
-            <ui:VisualElement style="flex-grow: 1; background-color: rgba(0, 0, 0, 0); height: 96%; opacity: 0; max-height: 6px;" />
-            <ui:Button text="AWS Account Credentials" display-tooltip-when-elided="true" name="AWSAccountCredentials" class="TabButton" style="padding-left: 10%; font-size: 12%;" />
-            <ui:VisualElement style="flex-grow: 1; background-color: rgba(0, 0, 0, 0); height: 96%; opacity: 0; max-height: 6px;" />
-            <ui:Button text="GameLift Anywhere" display-tooltip-when-elided="true" name="GameLiftAnywhere" class="TabButton" style="padding-left: 10%; font-size: 12%;" />
-            <ui:VisualElement style="flex-grow: 1; background-color: rgba(0, 0, 0, 0); height: 96%; opacity: 0; max-height: 6px;" />
-            <ui:Button text="Managed EC2" display-tooltip-when-elided="true" name="ManagedEC2" class="TabButton" style="padding-left: 10%; font-size: 12%;" />
-            <ui:VisualElement style="flex-grow: 1; background-color: rgba(0, 0, 0, 0); height: 96%; opacity: 0; max-height: 6px;" />
-            <ui:Button text="Help &amp; Documentation" display-tooltip-when-elided="true" name="HelpAndDocs" class="TabButton" style="padding-left: 10%; font-size: 12%;" />
-        </ui:VisualElement>
+        <ui:Instance template="TabMenuTemplate" name="TabMenu" class="TabButtons"/>
         <ui:ScrollView name="Content" mode="Vertical" horizontal-scroller-visibility="Hidden" style="flex-grow: 0; flex-basis: auto; flex-shrink: 0; min-height: auto; width: 75%; align-items: stretch; justify-content: flex-start; height: auto; overflow: hidden; background-color: rgb(63, 63, 63); margin-left: 0; padding-left: 10px;">
+            <ui:Instance template="AmazonGameLiftTabDescriptionInfoBox" name="DescriptionInfoBox"/>
             <ui:VisualElement name="AmazonGameLiftTab" class="TabMenu" style="visibility: visible; display: none; background-color: rgb(63, 63, 63); align-items: flex-start; justify-content: flex-start;">
                 <ui:GroupBox style="display: flex; height: 141px;">
                     <ui:Label tabindex="-1" text="Amazon GameLift" display-tooltip-when-elided="true" name="LabelLandingTitle" style="width: 832px; height: 32px; background-color: rgba(118, 118, 118, 0); color: rgb(210, 210, 210); font-size: 24%; right: auto;" />
