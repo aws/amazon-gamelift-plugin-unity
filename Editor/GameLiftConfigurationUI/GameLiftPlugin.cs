@@ -114,8 +114,7 @@ namespace Editor.GameLiftConfigurationUI
 
             VisualElement uxml = _mVisualTreeAsset.Instantiate();
             _root.Add(uxml);
-       
-            
+
             SetupLinks();
             DisableDefaultButtons();
             SetupTextFieldEvents();
@@ -127,8 +126,10 @@ namespace Editor.GameLiftConfigurationUI
 
         public void OpenS3Popup(string bucketName)
         {
-            var popup = new GameLiftPluginBucketPopup();
-            popup.OpenPopup(this, bucketName);
+            var popup = CreateInstance<GameLiftPluginBucketPopup>();
+            popup.Init(bucketName);
+            popup.OnConfirm += BootStrapPassthrough;
+            popup.ShowModalUtility();
         }
 
         public void SetupWrapper()
@@ -205,7 +206,7 @@ namespace Editor.GameLiftConfigurationUI
         {
             return new List<Tab>
             {
-                new AmazonGameLiftTab(_root, this, new TextProvider()),
+                new AmazonGameLiftTab(_root, this),
                 new AwsCredentialsTab(_root, this),
                 new GameLiftAnywhereTab(_root, this),
                 new ManagedEC2Tab(_root, this),

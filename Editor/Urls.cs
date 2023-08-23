@@ -13,8 +13,10 @@ namespace AmazonGameLift.Editor
         public const string AwsHelpDeployment = "https://docs.aws.amazon.com/gamelift/latest/developerguide/unity-plug-in-scenario.html";
         public const string AwsHelpGameLiftLocal = "https://docs.aws.amazon.com/gamelift/latest/developerguide/integration-testing-local.html";
         public const string AwsHelpGameLiftUnity = "https://docs.aws.amazon.com/gamelift/latest/developerguide/unity-plug-in.html";
+        public const string AwsFreeTier = "https://aws.amazon.com/free/";
         public const string AwsS3Console = "https://s3.console.aws.amazon.com/s3/home";
         public const string AwsS3BucketTemplate = "https://s3.console.aws.amazon.com/s3/buckets/{0}?region={1}";
+        public const string AwsS3Pricing = "https://aws.amazon.com/s3/pricing/";
         public const string AwsSecurity = "https://aws.amazon.com/security/vulnerability-reporting/";
         public const string GitHubAwsLabs = "https://github.com/awslabs/amazon-gamelift-plugin-unity/issues";
 
@@ -23,5 +25,6 @@ namespace AmazonGameLift.Editor
         public const string JavaDownload = "https://www.java.com/en/download/";
         public const string GameLiftServerCSharpSdkIntegrationDoc = "https://docs.aws.amazon.com/gamelift/latest/developerguide/integration-engines-unity-using.html";
         public const string GameLiftServerCSharpSdkApiDoc = "https://docs.aws.amazon.com/gamelift/latest/developerguide/integration-server-sdk-csharp-ref.html";
+        public const string GameLiftBootstrapInformation = "https://docs.aws.amazon.com/gamelift/latest/developerguide/unity-plug-in-profile.html";
     }
 }

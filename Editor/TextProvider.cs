@@ -61,7 +61,7 @@ namespace AmazonGameLift.Editor
             { Strings.LabelBootstrapBucketLifecycle, "Policy"},
             { Strings.LabelBootstrapLifecycleWarning, "With lifecycle policy configured on the S3 bucket, stale build artifacts in S3 will be deleted automatically, and will cause fleet creation to fail when created with a build referencing the deleted artifacts."},
             { Strings.LabelBootstrapBucketSelectionLoading, "Loading S3 Buckets..."},
-            { Strings.LabelBootstrapRegion, "AWS Region"},
+            { Strings.LabelBootstrapRegionOld, "AWS Region"},
             { Strings.LabelBootstrapSelectButton, "Update"},
             { Strings.LabelBootstrapSelectMode, "Choose existing S3 bucket"},
             { Strings.LabelBootstrapCurrentBucket, "Current S3 bucket"},
@@ -186,6 +186,88 @@ namespace AmazonGameLift.Editor
             { Strings.LabelLandingSampleTitle, "Try our Sample Game" },
             { Strings.LabelLandingSampleDescription, "Explore Amazon GameLift with our sample multiplayer game. Study the integration code, set up hosting with Amazon GameLift Anywhere or Managed EC2 fleets, and experiment with hosting features. Import the sample game into your project, and look for it in the project Assets." },
             { Strings.ButtonLandingSampleImport, "Import Sample Game" },
+            
+            { Strings.LabelAccountTitle, "Manage Your User Profiles"},
+            { Strings.LabelAccountDescription, "Create a profile to link to an AWS account and store your security credentials. Your profile also specifies the AWS Region you want to work in.\nYou can have multiple profiles, but only one can be active at a time. Check your active profile selection on the main page of the Amazon GameLift window."},
+            { Strings.LabelAccountCardNoAccountTitle, "I need a new AWS account for this project"},
+            { Strings.LabelAccountCardNoAccountDescription, "You need an AWS account to work with AWS services. Create a new account, then set up an account user and get security credentials."},
+            { Strings.LabelAccountCardNoAccountDescriptionLink, "Learn More."},
+            { Strings.ButtonAccountCardNoAccount, "Create an AWS Account"},
+            { Strings.LabelAccountHasAccountTitle, "I have an AWS account for this project"},
+            { Strings.LabelAccountHasAccountDescription, "Create a user profile and link it to your AWS account. You need security credentials for an account user."},
+            { Strings.ButtonAccountCardHasAccount, "Create a New Profile"},
+            { Strings.LabelAccountNewProfileTitle, "Create a New Profile"},
+            { Strings.LabelAccountNewProfileName, "Profile name"},
+            { Strings.LabelAccountNewProfileAccessKey, "AWS access key ID"},
+            { Strings.LabelAccountNewProfileSecretKey, "AWS secret key"},
+            { Strings.LabelAccountNewProfileRegion, "AWS Region"},
+            { Strings.LabelAccountNewProfileRegionPlaceholder, "Choose a region"},
+            { Strings.ButtonAccountNewProfileCreate, "Create Profile"},
+            { Strings.ButtonAccountNewProfileCancel, "Cancel"},
+            { Strings.LabelAccountNewProfileHelpLink, "How do I get my AWS credentials?"},
+            
+            { Strings.LabelBootstrapTitle, "Bootstrap Your Profile"},
+            { Strings.LabelBootstrapDescription, "Bootstrap your profile to create an Amazon S3 bucket, which is used to store build artifacts and other material for deploying your game server for hosting. The S3 bucket is created in your profile's AWS Region. Each profile maintains its own S3 bucket."},
+            { Strings.LabelBootstrapPricing, "This action might incur a charge."},
+            { Strings.LabelBootstrapPricingInfo, "See Amazon GameLift pricing"},
+            { Strings.LabelBootstrapPricingFreeTier, "What is AWS Free Tier?"},
+            { Strings.LabelBootstrapProfileInput, "Profile name"},
+            { Strings.LabelBootstrapBucket, "S3 bucket name"},
+            { Strings.LabelBootstrapBucketUnset, "No bucket created"},
+            { Strings.LabelBootstrapRegion, "AWS Region"},
+            { Strings.LabelBootstrapStatus, "Bootstrap status"},
+            { Strings.ButtonBootstrapStart, "Bootstrap Profile"},
+            { Strings.ButtonBootstrapAnotherProfile, "Add Another Profile"},
+            { Strings.LabelBootstrapHelpLink, "What is bootstrapping?"},
+            { Strings.LabelBootstrapWarning, "You haven't bootstrapped a profile yet. To continue working with Amazon GameLift, select a profile and complete the bootstrap process."},
+            { Strings.LabelBootstrapProfilePlaceholder, "Choose a profile"},
+            { Strings.ButtonBootstrapAnotherBucket, "Bootstrap to New S3 Bucket"},
+
+            { Strings.LabelBootstrapPopupWindowTitle, "Allow potential charges for Amazon S3"},
+            { Strings.LabelBootstrapPopupTitle, "Depending on your AWS Free Tier status, you might incur storage costs for your S3 bucket."},
+            { Strings.LabelBootstrapPopupDescription, "Actual charges will depend on your usage. See Amazon S3 pricing."},
+            { Strings.LabelBootstrapPopupBucket, "Bucket name"},
+            { Strings.LabelBootstrapPopupFreeTierLink, "What is AWS Free Tier?"},
+            { Strings.ButtonBootstrapPopupCancel, "Cancel"},
+            { Strings.ButtonBootstrapPopupContinue, "Continue"},
+
+            { Strings.LabelAnywhereTitle, "Host with Amazon GameLift Anywhere"},
+            { Strings.LabelAnywhereDescription, "Set up an Amazon GameLift Anywhere fleet to host game servers using your own hardware. With an Anywhere fleet, Amazon GameLift manages game sessions and placement (including matchmaking), while you control your own server hosting infrastructure under a single managed solution.\n\nCreate an Anywhere fleet for your on-premises or other compute resources. During game development, turn your local workstation into an Anywhere fleet to continuously deploy, test, and iterate your game builds."},
+            { Strings.LabelAnywhereIntegrateTitle, "Integrate Amazon GameLift With Your Game Project"},            
+            { Strings.LabelAnywhereIntegrateDescription, "Use the provided C# libraries to add Amazon GameLift functionality to your game to enable hosting. Working with the sample game? Integration is already done!"},
+            { Strings.LabelAnywhereIntegrateServerLink, "Integrate game server functionality with the Amazon GameLift server SDK"},
+            { Strings.LabelAnywhereIntegrateClientLink, "Integrate game client functionality with the AWS SDK"},
+            { Strings.LabelAnywhereConnectTitle, "Connect to an Anywhere Fleet"},
+            { Strings.LabelAnywhereConnectFleetName, "Fleet name"},
+            { Strings.LabelAnywhereConnectFleetNameHint, ""}, // TODO: Get string for this
+            { Strings.ButtonAnywhereConnectButton, "Create New Anywhere Fleet"},
+            { Strings.LabelAnywhereConnectedFleetID, "Fleet ID"},
+            { Strings.LabelAnywhereConnectedFleetStatus, "Fleet status"},
+            { Strings.LabelAnywhereComputeTitle, "Add Your Compute to the Fleet"},
+            { Strings.LabelAnywhereComputeName, "Compute name"},
+            { Strings.LabelAnywhereComputeIP, "IP address"},
+            { Strings.ButtonAnywhereCompute, "Register Compute"},
+            { Strings.LabelAnywhereAuthTokenTitle, "Generate Auth Token - optional"},
+            { Strings.LabelAnywhereAuthTokenField, "Status"},
+            { Strings.LabelAnywhereAuthTokenFieldNote, "The auth token is generated when you launch your game."},
+            { Strings.LabelAnywhereLaunchClient, "Launch Client"},
+            { Strings.LabelAnywhereLaunchClientField, "Run Game"},
+            { Strings.ButtonAnywhereLaunchClient, "Launch Client"},
+
+
+
+
+
+            
+            
+            
+            
+            
+            
+            
+            
+            
+            { Strings.ButtonRevealFieldText, "Show"}
 
         };
 
