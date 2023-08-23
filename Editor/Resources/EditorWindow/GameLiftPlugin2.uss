@@ -5,6 +5,7 @@
     --font-size-tab-button : 18px;
     --color-bg-tab : rgba(0, 0, 0, 0);
     --color-font-tab : rgb(196, 196, 196);
+    --color-font-link: rgb(76,126,255);
     --color-bg-tab-hover : rgb(63, 63, 63);
     --color-bg-tab-focus : rgb(44, 93, 135);
     --color-bg-card : rgb(42, 42, 42);
