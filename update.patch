@@ -1,0 +1,804 @@
+diff --git a/Editor/GameLiftConfigurationUI.meta b/Editor/GameLiftConfigurationUI.meta
+new file mode 100644
+index 0000000..37b9509
+--- /dev/null
++++ b/Editor/GameLiftConfigurationUI.meta
+@@ -0,0 +1,8 @@
++fileFormatVersion: 2
++guid: 000b7da9b05f38148b076211a6637cd7
++folderAsset: yes
++DefaultImporter:
++  externalObjects: {}
++  userData: 
++  assetBundleName: 
++  assetBundleVariant: 
+diff --git a/Editor/GameLiftConfigurationUI/AWSCredentialsTab.cs.meta b/Editor/GameLiftConfigurationUI/AWSCredentialsTab.cs.meta
+new file mode 100644
+index 0000000..a613622
+--- /dev/null
++++ b/Editor/GameLiftConfigurationUI/AWSCredentialsTab.cs.meta
+@@ -0,0 +1,11 @@
++fileFormatVersion: 2
++guid: 821c5c1c6945c994d9da5144176c5fc2
++MonoImporter:
++  externalObjects: {}
++  serializedVersion: 2
++  defaultReferences: []
++  executionOrder: 0
++  icon: {instanceID: 0}
++  userData: 
++  assetBundleName: 
++  assetBundleVariant: 
+diff --git a/Editor/GameLiftConfigurationUI/AmazonGameLiftTab.cs.meta b/Editor/GameLiftConfigurationUI/AmazonGameLiftTab.cs.meta
+new file mode 100644
+index 0000000..7052962
+--- /dev/null
++++ b/Editor/GameLiftConfigurationUI/AmazonGameLiftTab.cs.meta
+@@ -0,0 +1,11 @@
++fileFormatVersion: 2
++guid: 8ec1e6284f96d804c94b273ed7a443af
++MonoImporter:
++  externalObjects: {}
++  serializedVersion: 2
++  defaultReferences: []
++  executionOrder: 0
++  icon: {instanceID: 0}
++  userData: 
++  assetBundleName: 
++  assetBundleVariant: 
+diff --git a/Editor/GameLiftConfigurationUI/GameLiftAnywhereTab.cs.meta b/Editor/GameLiftConfigurationUI/GameLiftAnywhereTab.cs.meta
+new file mode 100644
+index 0000000..0824712
+--- /dev/null
++++ b/Editor/GameLiftConfigurationUI/GameLiftAnywhereTab.cs.meta
+@@ -0,0 +1,11 @@
++fileFormatVersion: 2
++guid: 656817668a99bc54cb322f8d07f3a2a1
++MonoImporter:
++  externalObjects: {}
++  serializedVersion: 2
++  defaultReferences: []
++  executionOrder: 0
++  icon: {instanceID: 0}
++  userData: 
++  assetBundleName: 
++  assetBundleVariant: 
+diff --git a/Editor/GameLiftConfigurationUI/GameLiftPlugin.cs.meta b/Editor/GameLiftConfigurationUI/GameLiftPlugin.cs.meta
+new file mode 100644
+index 0000000..0aed3fe
+--- /dev/null
++++ b/Editor/GameLiftConfigurationUI/GameLiftPlugin.cs.meta
+@@ -0,0 +1,11 @@
++fileFormatVersion: 2
++guid: 1c7a61fd5fb5513478ca4a7018704641
++MonoImporter:
++  externalObjects: {}
++  serializedVersion: 2
++  defaultReferences: []
++  executionOrder: 0
++  icon: {instanceID: 0}
++  userData: 
++  assetBundleName: 
++  assetBundleVariant: 
+diff --git a/Editor/GameLiftConfigurationUI/GameLiftPluginBucketPopup.cs.meta b/Editor/GameLiftConfigurationUI/GameLiftPluginBucketPopup.cs.meta
+new file mode 100644
+index 0000000..5d95863
+--- /dev/null
++++ b/Editor/GameLiftConfigurationUI/GameLiftPluginBucketPopup.cs.meta
+@@ -0,0 +1,11 @@
++fileFormatVersion: 2
++guid: c1584d421cddda74ebcfc95483532cbf
++MonoImporter:
++  externalObjects: {}
++  serializedVersion: 2
++  defaultReferences: []
++  executionOrder: 0
++  icon: {instanceID: 0}
++  userData: 
++  assetBundleName: 
++  assetBundleVariant: 
+diff --git a/Editor/GameLiftConfigurationUI/Tab.cs.meta b/Editor/GameLiftConfigurationUI/Tab.cs.meta
+new file mode 100644
+index 0000000..f339cf9
+--- /dev/null
++++ b/Editor/GameLiftConfigurationUI/Tab.cs.meta
+@@ -0,0 +1,11 @@
++fileFormatVersion: 2
++guid: a99194b8d94b6954d995e771492da4f3
++MonoImporter:
++  externalObjects: {}
++  serializedVersion: 2
++  defaultReferences: []
++  executionOrder: 0
++  icon: {instanceID: 0}
++  userData: 
++  assetBundleName: 
++  assetBundleVariant: 
+diff --git a/Editor/Resources/EditorWindow.meta b/Editor/Resources/EditorWindow.meta
+new file mode 100644
+index 0000000..f1b64fa
+--- /dev/null
++++ b/Editor/Resources/EditorWindow.meta
+@@ -0,0 +1,8 @@
++fileFormatVersion: 2
++guid: 90d5b7b8820c8f94192252cf93a23a02
++folderAsset: yes
++DefaultImporter:
++  externalObjects: {}
++  userData: 
++  assetBundleName: 
++  assetBundleVariant: 
+diff --git a/Editor/Resources/EditorWindow/GameLiftPlugin2.uss b/Editor/Resources/EditorWindow/GameLiftPlugin2.uss
+index f23c290..fee08ff 100644
+--- a/Editor/Resources/EditorWindow/GameLiftPlugin2.uss
++++ b/Editor/Resources/EditorWindow/GameLiftPlugin2.uss
+@@ -1,15 +1,26 @@
+ :root {
+     --color-primary: rgb(44, 93, 135);
+     --color-success: rgb(20, 255, 20);
++    --font-size-paragraph : 12px;
++    --font-size-tab-button : 18px;
++    --color-bg-tab : rgba(0, 0, 0, 0);
++    --color-font-tab : rgb(196, 196, 196);
++    --color-bg-tab-hover : rgb(63, 63, 63);
++    --color-bg-tab-focus : rgb(44, 93, 135);
++    --color-bg-card : rgb(42, 42, 42);
++    --color-bg-tab-menu : rgb(63, 63, 63);
++    --color-border-info-box: rgb(0, 115, 187);
++    --color-bg-info-box : rgba(0, 115, 187, 0.13);
++    --color-bg-tab-4 : rgb(88, 88, 88);
+     width: 100%;
+     height: 100%;
+ }
+ 
+ .TabButton {
+     -unity-font: url('project://database/Packages/com.amazonaws.gamelift/Editor/PluginSettings/GameLiftPlugin/Assets/Font/Inter-Regular.otf?fileID=12800000&guid=3a3ab476e5025ad43bbb37916ebaf2b7&type=3#Inter-Regular');
+-    font-size: 18px;
+-    background-color: rgba(0, 0, 0, 0);
+-    color: rgb(196, 196, 196);
++    font-size: var(--font-size-tab-button);
++    background-color: var(--color-bg-tab);
++    color: var(--color-font-tab);
+     -unity-text-align: middle-left;
+     align-items: stretch;
+     justify-content: space-around;
+@@ -20,11 +31,11 @@
+ }
+ 
+ .TabButton:hover {
+-    background-color: rgb(63, 63, 63);
++    background-color: var(--color-bg-tab-hover);
+ }
+ 
+ .TabButton:focus {
+-    background-color: rgb(44, 93, 135);
++    background-color: var(--color-bg-tab-focus);
+ }
+ 
+ .TabButton {
+@@ -39,7 +50,7 @@
+     background-color: rgb(42, 42, 42);
+     -unity-text-outline-color: rgb(13, 13, 13);
+     -unity-text-outline-width: 1px;
+-    border-color: rgb(13, 13, 13);
++    border-color: var(--color-bg-card);
+     border-width: 1;
+     padding-right: 0;
+     padding-left: 0;
+@@ -57,13 +68,13 @@
+ }
+ 
+ .TabMenu {
+-    background-color: rgb(63, 63, 63);
++    background-color: var(--color-bg-tab-menu);
+     align-items: flex-start;
+     justify-content: flex-end;
+     height: auto;
+     min-height: 100%;
+     min-width: 100%;
+-    -unity-background-image-tint-color: rgb(63, 63, 63);
++    -unity-background-image-tint-color: var(--color-bg-tab-menu);
+     opacity: 1;
+     display: none;
+     visibility: visible;
+@@ -75,9 +86,9 @@
+     white-space: normal;
+     flex-direction: row;
+     border-width: 1px;
+-    border-color: rgb(0, 115, 187);
++    border-color: var(--color-border-info-box);
+     border-radius: 1px;
+-    background-color: rgba(0, 115, 187, 0.13);
++    background-color: var(--color-bg-info-box);
+     margin-top: 3px;
+     margin-bottom: 1px;
+     padding-top: 2px;
+@@ -98,16 +109,17 @@
+     border-left-color: rgba(210, 210, 210, 0);
+     border-right-color: rgba(210, 210, 210, 0);
+     border-top-color: rgba(210, 210, 210, 0);
+-    font-size: 12px;
++    font-size: var(--font-size-paragraph);
+     left: auto;
+     bottom: 8px;
+     -unity-font: resource('Font/FontAwesome');
+     -unity-font-definition: resource('Font/FontAwesome SDF');
+ }
+ 
++
+ .Tab4Button {
+     height: 30px;
+-    background-color: rgb(88, 88, 88);
++    background-color: var(--color-bg-tab-4);
+ }
+ 
+ .Tab4Button.primary {
+@@ -133,7 +145,7 @@
+     display: flex;
+     margin-left: 0;
+     padding-left: 0;
+-    font-size: 12px;
++    font-size: var(--font-size-paragraph);
+ }
+ 
+ .deploy-status__icon {
+diff --git a/Editor/Resources/EditorWindow/GameLiftPlugin2.uxml b/Editor/Resources/EditorWindow/GameLiftPlugin2.uxml
+index cb7856a..9caa948 100644
+--- a/Editor/Resources/EditorWindow/GameLiftPlugin2.uxml
++++ b/Editor/Resources/EditorWindow/GameLiftPlugin2.uxml
+@@ -28,12 +28,12 @@
+                     <ui:VisualElement name="Divider" style="flex-grow: 1; background-color: rgba(255, 255, 255, 0.2); width: 95%; height: 1px; -unity-text-outline-width: 0; -unity-text-outline-color: rgb(255, 255, 255); margin-bottom: 0; padding-top: 0; max-width: 100%; max-height: 1px; min-height: 1px;" />
+                 </ui:GroupBox>
+                 <ui:GroupBox name="HelpInfoBox" class="InfoBox HelpBox Tab1Help" style="margin-right: 17px; display: none;">
+-                    <ui:VisualElement style="flex-grow: 1; background-color: rgba(0, 0, 0, 0); max-width: 35px; max-height: 35px; align-self: auto; background-image: url(&apos;project://database/Assets/UnityDefaultRuntimeTheme.tss?fileID=-2236324273849735119&amp;guid=24252f1fdba660243bdd32bd42cee5f7&amp;type=3#arrow-left@2x&apos;); min-width: 35px; min-height: 35px;" />
++                    <ui:VisualElement style="flex-grow: 1; background-color: rgba(0, 0, 0, 0); max-width: 35px; max-height: 35px; align-self: auto; background-image: url(&apos;project://database/Assets/UnityDefaultRuntimeTheme.tss?fileID=-2236324273849735119&amp;guid=083c51dc2d0be354489adc8fd3ff6431&amp;type=3#arrow-left@2x&apos;); min-width: 35px; min-height: 35px;" />
+                     <ui:Label tabindex="-1" text="You will need to configure an AWS account profile to use Amazon GameLift." display-tooltip-when-elided="true" style="width: 87%; font-size: 9px; align-self: center;" />
+                     <ui:Button text="X" display-tooltip-when-elided="true" name="CloseInfoBox" style="align-self: center; align-items: flex-start; justify-content: space-between; flex-direction: column; overflow: hidden; max-width: 40px; border-left-color: rgba(149, 149, 149, 0); border-right-color: rgba(149, 149, 149, 0); border-top-color: rgba(149, 149, 149, 0); border-bottom-color: rgba(149, 149, 149, 0); background-color: rgba(188, 188, 188, 0); padding-left: 0; margin-left: 2px;" />
+                 </ui:GroupBox>
+                 <ui:GroupBox name="WarningInfoBox" class="InfoBox WarningBox Tab1Warning" style="margin-right: 17px; background-color: rgba(255, 170, 34, 0.13); border-left-color: rgb(255, 170, 34); border-right-color: rgb(255, 170, 34); border-top-color: rgb(255, 170, 34); border-bottom-color: rgb(255, 170, 34); display: flex; width: 95%;">
+-                    <ui:VisualElement style="flex-grow: 1; background-color: rgba(0, 0, 0, 0); max-width: 35px; max-height: 35px; align-self: auto; background-image: url(&apos;project://database/Assets/UnityDefaultRuntimeTheme.tss?fileID=-2236324273849735119&amp;guid=24252f1fdba660243bdd32bd42cee5f7&amp;type=3#arrow-left@2x&apos;); min-width: 35px; min-height: 35px;" />
++                    <ui:VisualElement style="flex-grow: 1; background-color: rgba(0, 0, 0, 0); max-width: 35px; max-height: 35px; align-self: auto; background-image: url(&apos;project://database/Assets/UnityDefaultRuntimeTheme.tss?fileID=-2236324273849735119&amp;guid=083c51dc2d0be354489adc8fd3ff6431&amp;type=3#arrow-left@2x&apos;); min-width: 35px; min-height: 35px;" />
+                     <ui:Label tabindex="-1" text="Profile configuration is incomplete, navigate to AWS Account Credentials for next steps" display-tooltip-when-elided="true" style="width: 90%; font-size: 9px; align-self: center;" />
+                     <ui:Button text="X" display-tooltip-when-elided="true" name="CloseInfoBox" style="align-self: center; align-items: flex-start; justify-content: space-between; flex-direction: column; overflow: hidden; max-width: 40px; border-left-color: rgba(149, 149, 149, 0); border-right-color: rgba(149, 149, 149, 0); border-top-color: rgba(149, 149, 149, 0); border-bottom-color: rgba(149, 149, 149, 0); background-color: rgba(188, 188, 188, 0); padding-left: 0; margin-left: 2px;" />
+                 </ui:GroupBox>
+@@ -118,17 +118,17 @@
+                     <ui:VisualElement name="Divider" style="flex-grow: 1; background-color: rgba(255, 255, 255, 0.2); width: 95%; height: 1px; -unity-text-outline-width: 0; -unity-text-outline-color: rgb(255, 255, 255); margin-bottom: 0; padding-top: 0; max-width: 100%; max-height: 1px; min-height: 1px;" />
+                 </ui:GroupBox>
+                 <ui:GroupBox name="SuccessInfoBox" class="InfoBox SuccessBox Tab2Success" style="margin-right: 17px; background-color: rgba(88, 188, 97, 0.13); border-left-color: rgb(88, 188, 97); border-right-color: rgb(88, 188, 97); border-top-color: rgb(88, 188, 97); border-bottom-color: rgb(88, 188, 97); display: none;">
+-                    <ui:VisualElement style="flex-grow: 1; background-color: rgba(0, 0, 0, 0); max-width: 35px; max-height: 35px; align-self: auto; background-image: url(&apos;project://database/Assets/UnityDefaultRuntimeTheme.tss?fileID=-2236324273849735119&amp;guid=24252f1fdba660243bdd32bd42cee5f7&amp;type=3#arrow-left@2x&apos;); min-width: 35px; min-height: 35px;" />
++                    <ui:VisualElement style="flex-grow: 1; background-color: rgba(0, 0, 0, 0); max-width: 35px; max-height: 35px; align-self: auto; background-image: url(&apos;project://database/Assets/UnityDefaultRuntimeTheme.tss?fileID=-2236324273849735119&amp;guid=083c51dc2d0be354489adc8fd3ff6431&amp;type=3#arrow-left@2x&apos;); min-width: 35px; min-height: 35px;" />
+                     <ui:Label tabindex="-1" text="Profile configuration and bootstrapping complete" display-tooltip-when-elided="true" style="width: 88%; font-size: 9px; align-self: center;" />
+                     <ui:Button text="X" display-tooltip-when-elided="true" name="CloseInfoBox" style="align-self: center; align-items: flex-start; justify-content: space-between; flex-direction: column; overflow: hidden; max-width: 40px; border-left-color: rgba(149, 149, 149, 0); border-right-color: rgba(149, 149, 149, 0); border-top-color: rgba(149, 149, 149, 0); border-bottom-color: rgba(149, 149, 149, 0); background-color: rgba(188, 188, 188, 0); padding-left: 0; margin-left: 2px;" />
+                 </ui:GroupBox>
+                 <ui:GroupBox name="WarningInfoBox" class="InfoBox WarningBox Tab2Warning" style="margin-right: 17px; background-color: rgba(255, 170, 34, 0.13); border-left-color: rgb(255, 170, 34); border-right-color: rgb(255, 170, 34); border-top-color: rgb(255, 170, 34); border-bottom-color: rgb(255, 170, 34); display: none;">
+-                    <ui:VisualElement style="flex-grow: 1; background-color: rgba(0, 0, 0, 0); max-width: 35px; max-height: 35px; align-self: auto; background-image: url(&apos;project://database/Assets/UnityDefaultRuntimeTheme.tss?fileID=-2236324273849735119&amp;guid=24252f1fdba660243bdd32bd42cee5f7&amp;type=3#arrow-left@2x&apos;); min-width: 35px; min-height: 35px;" />
++                    <ui:VisualElement style="flex-grow: 1; background-color: rgba(0, 0, 0, 0); max-width: 35px; max-height: 35px; align-self: auto; background-image: url(&apos;project://database/Assets/UnityDefaultRuntimeTheme.tss?fileID=-2236324273849735119&amp;guid=083c51dc2d0be354489adc8fd3ff6431&amp;type=3#arrow-left@2x&apos;); min-width: 35px; min-height: 35px;" />
+                     <ui:Label tabindex="-1" text="Profile configuration is incomplete, as profile is not selected" display-tooltip-when-elided="true" style="width: 88%; font-size: 9px; align-self: center;" />
+                     <ui:Button text="X" display-tooltip-when-elided="true" name="CloseInfoBox" style="align-self: center; align-items: flex-start; justify-content: space-between; flex-direction: column; overflow: hidden; max-width: 40px; border-left-color: rgba(149, 149, 149, 0); border-right-color: rgba(149, 149, 149, 0); border-top-color: rgba(149, 149, 149, 0); border-bottom-color: rgba(149, 149, 149, 0); background-color: rgba(188, 188, 188, 0); padding-left: 0; margin-left: 2px;" />
+                 </ui:GroupBox>
+                 <ui:GroupBox name="ErrorInfoBox" class="InfoBox ErrorBox Tab2Error" style="margin-right: 17px; background-color: rgba(250, 39, 39, 0.13); border-left-color: rgb(250, 39, 39); border-right-color: rgb(250, 39, 39); border-top-color: rgb(250, 39, 39); border-bottom-color: rgb(250, 39, 39); display: none;">
+-                    <ui:VisualElement style="flex-grow: 1; background-color: rgba(0, 0, 0, 0); max-width: 35px; max-height: 35px; align-self: auto; background-image: url(&apos;project://database/Assets/UnityDefaultRuntimeTheme.tss?fileID=-2236324273849735119&amp;guid=24252f1fdba660243bdd32bd42cee5f7&amp;type=3#arrow-left@2x&apos;); min-width: 35px; min-height: 35px;" />
++                    <ui:VisualElement style="flex-grow: 1; background-color: rgba(0, 0, 0, 0); max-width: 35px; max-height: 35px; align-self: auto; background-image: url(&apos;project://database/Assets/UnityDefaultRuntimeTheme.tss?fileID=-2236324273849735119&amp;guid=083c51dc2d0be354489adc8fd3ff6431&amp;type=3#arrow-left@2x&apos;); min-width: 35px; min-height: 35px;" />
+                     <ui:Label tabindex="-1" text="S3 Buckets reached maximum limit 100, manage your list of buckets" display-tooltip-when-elided="true" name="Label" style="width: 70%; font-size: 9px; align-self: center;" />
+                     <ui:Button text="View S3 Console \uf08e" display-tooltip-when-elided="true" style="max-height: 40px; align-self: center; background-color: rgb(228, 228, 228); color: rgb(27, 27, 27); font-size: 10px; margin-top: 6px; margin-bottom: 6px; -unity-font: resource(&apos;Font/FontAwesome&apos;); -unity-font-definition: resource(&apos;Font/FontAwesome SDF&apos;);" />
+                     <ui:Button text="X" display-tooltip-when-elided="true" name="CloseInfoBox" style="align-self: center; align-items: flex-start; justify-content: space-between; flex-direction: column; overflow: hidden; max-width: 40px; border-left-color: rgba(149, 149, 149, 0); border-right-color: rgba(149, 149, 149, 0); border-top-color: rgba(149, 149, 149, 0); border-bottom-color: rgba(149, 149, 149, 0); background-color: rgba(188, 188, 188, 0); padding-left: 0; margin-left: 2px;" />
+@@ -212,7 +212,7 @@
+                     <ui:GroupBox name="S3Bucket" style="height: 20px; flex-direction: row; -unity-text-align: middle-left; margin-top: 3px; padding-top: 0; margin-bottom: 3px;">
+                         <ui:Label tabindex="-1" text="S3 Bucket Name" display-tooltip-when-elided="true" name="Label" style="width: 30%; margin-top: 4px; color: rgb(196, 196, 196);" />
+                         <ui:Label tabindex="-1" text="gamelift-dev-euwe1-bdtxw22" display-tooltip-when-elided="true" name="Label" style="width: auto; margin-top: 4px; color: rgb(255, 255, 255); margin-left: 5px;" />
+-                        <ui:Button text="&#10;" display-tooltip-when-elided="true" tooltip="Edit" style="background-color: rgba(188, 188, 188, 0); background-image: url(&apos;project://database/Assets/UnityDefaultRuntimeTheme.tss?fileID=-1304905567622442630&amp;guid=24252f1fdba660243bdd32bd42cee5f7&amp;type=3#arrow-down@2x&apos;); -unity-slice-scale: 0; -unity-text-outline-color: rgba(255, 255, 255, 0); border-left-width: 0; border-right-width: 0; border-top-width: 0; border-bottom-width: 0; padding-left: 0; padding-right: 19px; margin-left: 0; margin-right: 0;" />
++                        <ui:Button text="&#10;" display-tooltip-when-elided="true" tooltip="Edit" style="background-color: rgba(188, 188, 188, 0); background-image: url(&apos;project://database/Assets/UnityDefaultRuntimeTheme.tss?fileID=-1304905567622442630&amp;guid=083c51dc2d0be354489adc8fd3ff6431&amp;type=3#arrow-down@2x&apos;); -unity-slice-scale: 0; -unity-text-outline-color: rgba(255, 255, 255, 0); border-left-width: 0; border-right-width: 0; border-top-width: 0; border-bottom-width: 0; padding-left: 0; padding-right: 19px; margin-left: 0; margin-right: 0;" />
+                     </ui:GroupBox>
+                     <ui:GroupBox name="AWSRegion" style="height: 20px; flex-direction: row; -unity-text-align: middle-left; margin-top: 3px; padding-top: 0; margin-bottom: 3px;">
+                         <ui:Label tabindex="-1" text="AWS Region" display-tooltip-when-elided="true" name="Label" style="width: 30%; margin-top: 4px; color: rgb(196, 196, 196);" />
+@@ -265,7 +265,7 @@
+                     </ui:Foldout>
+                     <ui:Foldout text="Connect to Anywhere Fleet" name="Connect" class="Tab3Foldout" style="color: rgb(210, 210, 210); display: flex; margin-top: 0; font-size: 18px;">
+                         <ui:GroupBox name="FleetErrorInfoBox" class="InfoBox ErrorBox Tab3Error" style="margin-right: 3px; background-color: rgba(250, 39, 39, 0.13); border-left-color: rgb(250, 39, 39); border-right-color: rgb(250, 39, 39); border-top-color: rgb(250, 39, 39); border-bottom-color: rgb(250, 39, 39); left: auto; right: 22px; width: 107%; display: none;">
+-                            <ui:VisualElement style="flex-grow: 1; background-color: rgba(0, 0, 0, 0); max-width: 35px; max-height: 35px; align-self: auto; background-image: url(&apos;project://database/Assets/UnityDefaultRuntimeTheme.tss?fileID=-2236324273849735119&amp;guid=24252f1fdba660243bdd32bd42cee5f7&amp;type=3#arrow-left@2x&apos;); min-width: 35px; min-height: 35px;" />
++                            <ui:VisualElement style="flex-grow: 1; background-color: rgba(0, 0, 0, 0); max-width: 35px; max-height: 35px; align-self: auto; background-image: url(&apos;project://database/Assets/UnityDefaultRuntimeTheme.tss?fileID=-2236324273849735119&amp;guid=083c51dc2d0be354489adc8fd3ff6431&amp;type=3#arrow-left@2x&apos;); min-width: 35px; min-height: 35px;" />
+                             <ui:Label tabindex="-1" text="S3 Buckets reached maximum limit 1000, manage your list of buckets" display-tooltip-when-elided="true" style="width: 67%; font-size: 9px; align-self: center;" />
+                             <ui:Button text="View S3 Console \uf08e" display-tooltip-when-elided="true" style="max-height: 40px; align-self: center; background-color: rgb(228, 228, 228); color: rgb(27, 27, 27); font-size: 10px; margin-top: 6px; margin-bottom: 6px; -unity-font: resource(&apos;Font/FontAwesome&apos;); -unity-font-definition: resource(&apos;Font/FontAwesome SDF&apos;);" />
+                             <ui:Button text="X" display-tooltip-when-elided="true" name="CloseInfoBox" style="align-self: center; align-items: flex-start; justify-content: space-between; flex-direction: column; overflow: hidden; max-width: 40px; border-left-color: rgba(149, 149, 149, 0); border-right-color: rgba(149, 149, 149, 0); border-top-color: rgba(149, 149, 149, 0); border-bottom-color: rgba(149, 149, 149, 0); background-color: rgba(188, 188, 188, 0); padding-left: 0; margin-left: 2px;" />
+@@ -303,7 +303,7 @@
+                     </ui:Foldout>
+                     <ui:Foldout text="Register Compute" name="RegisterCompute" style="color: rgb(210, 210, 210); display: flex; font-size: 18px; margin-bottom: 8px;">
+                         <ui:GroupBox name="ComputeErrorInfoBox" class="InfoBox ErrorBox Tab3Error" style="margin-right: 3px; background-color: rgba(250, 39, 39, 0.13); border-left-color: rgb(250, 39, 39); border-right-color: rgb(250, 39, 39); border-top-color: rgb(250, 39, 39); border-bottom-color: rgb(250, 39, 39); left: auto; right: 22px; width: 107%; display: none;">
+-                            <ui:VisualElement style="flex-grow: 1; background-color: rgba(0, 0, 0, 0); max-width: 35px; max-height: 35px; align-self: auto; background-image: url(&apos;project://database/Assets/UnityDefaultRuntimeTheme.tss?fileID=-2236324273849735119&amp;guid=24252f1fdba660243bdd32bd42cee5f7&amp;type=3#arrow-left@2x&apos;); min-width: 35px; min-height: 35px;" />
++                            <ui:VisualElement style="flex-grow: 1; background-color: rgba(0, 0, 0, 0); max-width: 35px; max-height: 35px; align-self: auto; background-image: url(&apos;project://database/Assets/UnityDefaultRuntimeTheme.tss?fileID=-2236324273849735119&amp;guid=083c51dc2d0be354489adc8fd3ff6431&amp;type=3#arrow-left@2x&apos;); min-width: 35px; min-height: 35px;" />
+                             <ui:Label tabindex="-1" text="You have reached the maximum limit of 1000 computes, manage your &#10;compute." display-tooltip-when-elided="true" style="width: 67%; font-size: 9px; align-self: center;" />
+                             <ui:Button text="View S3 Console \uf08e" display-tooltip-when-elided="true" style="max-height: 40px; align-self: center; background-color: rgb(228, 228, 228); color: rgb(27, 27, 27); font-size: 10px; margin-top: 6px; margin-bottom: 6px; -unity-font: resource(&apos;Font/FontAwesome&apos;); -unity-font-definition: resource(&apos;Font/FontAwesome SDF&apos;);" />
+                             <ui:Button text="X" display-tooltip-when-elided="true" name="CloseInfoBox" style="align-self: center; align-items: flex-start; justify-content: space-between; flex-direction: column; overflow: hidden; max-width: 40px; border-left-color: rgba(149, 149, 149, 0); border-right-color: rgba(149, 149, 149, 0); border-top-color: rgba(149, 149, 149, 0); border-bottom-color: rgba(149, 149, 149, 0); background-color: rgba(188, 188, 188, 0); padding-left: 0; margin-left: 2px;" />
+@@ -362,7 +362,7 @@
+                     <ui:VisualElement name="Divider" style="flex-grow: 1; background-color: rgba(255, 255, 255, 0.2); width: 95%; height: 1px; -unity-text-outline-width: 0; -unity-text-outline-color: rgb(255, 255, 255); margin-bottom: 0; padding-top: 0; max-width: 100%; max-height: 1px; min-height: 1px;" />
+                 </ui:GroupBox>
+                 <ui:GroupBox name="HelpInfoBox" class="InfoBox HelpBox Tab4Help" style="width: 99%;">
+-                    <ui:VisualElement style="flex-grow: 1; background-color: rgba(0, 0, 0, 0); max-width: 35px; max-height: 35px; align-self: auto; background-image: url(&apos;project://database/Assets/UnityDefaultRuntimeTheme.tss?fileID=-2236324273849735119&amp;guid=24252f1fdba660243bdd32bd42cee5f7&amp;type=3#arrow-left@2x&apos;); min-width: 35px; min-height: 35px;" />
++                    <ui:VisualElement style="flex-grow: 1; background-color: rgba(0, 0, 0, 0); max-width: 35px; max-height: 35px; align-self: auto; background-image: url(&apos;project://database/Assets/UnityDefaultRuntimeTheme.tss?fileID=-2236324273849735119&amp;guid=083c51dc2d0be354489adc8fd3ff6431&amp;type=3#arrow-left@2x&apos;); min-width: 35px; min-height: 35px;" />
+                     <ui:Label tabindex="-1" text="You will need to configure an AWS account profile to use Amazon GameLift." display-tooltip-when-elided="true" style="width: 62%; font-size: 9px; align-self: center;" />
+                     <ui:Button text="Configure AWS Account" display-tooltip-when-elided="true" style="max-height: 40px; align-self: center;" />
+                     <ui:Button text="X" display-tooltip-when-elided="true" name="CloseInfoBox" style="align-self: center; align-items: flex-start; justify-content: space-between; flex-direction: column; overflow: hidden; max-width: 40px; border-left-color: rgba(149, 149, 149, 0); border-right-color: rgba(149, 149, 149, 0); border-top-color: rgba(149, 149, 149, 0); border-bottom-color: rgba(149, 149, 149, 0); background-color: rgba(188, 188, 188, 0); padding-left: 0; margin-left: 2px;" />
+@@ -441,12 +441,12 @@
+                             <ui:GroupBox name="GameServerFolder" style="margin-left: 0; margin-right: 4px; margin-top: 3px; margin-bottom: 3px; padding-left: 0; padding-right: 0; padding-top: 0; padding-bottom: 0; flex-direction: row;">
+                                 <ui:Label tabindex="-1" text="Game Server Folder" display-tooltip-when-elided="true" name="Label" style="width: 30%; margin-top: 4px; color: rgb(196, 196, 196);" />
+                                 <ui:TextField picking-mode="Ignore" value="..." style="width: 65%; margin-left: 0; height: 20px;" />
+-                                <ui:Button style="flex-grow: 1; background-color: rgba(0, 0, 0, 0); background-image: url(&apos;project://database/Assets/UnityDefaultRuntimeTheme.tss?fileID=-1304905567622442630&amp;guid=24252f1fdba660243bdd32bd42cee5f7&amp;type=3#arrow-down@2x&apos;);" />
++                                <ui:Button style="flex-grow: 1; background-color: rgba(0, 0, 0, 0); background-image: url(&apos;project://database/Assets/UnityDefaultRuntimeTheme.tss?fileID=-1304905567622442630&amp;guid=083c51dc2d0be354489adc8fd3ff6431&amp;type=3#arrow-down@2x&apos;);" />
+                             </ui:GroupBox>
+                             <ui:GroupBox name="GameServerFile" style="margin-left: 0; margin-right: 4px; margin-top: 3px; margin-bottom: 3px; padding-left: 0; padding-right: 0; padding-top: 0; padding-bottom: 0; flex-direction: row;">
+                                 <ui:Label tabindex="-1" text="Game Server file (.exe)" display-tooltip-when-elided="true" name="Label" style="width: 30%; margin-top: 4px; color: rgb(196, 196, 196);" />
+                                 <ui:TextField picking-mode="Ignore" value="..." style="width: 65%; margin-left: 0; height: 20px;" />
+-                                <ui:Button style="flex-grow: 1; background-color: rgba(0, 0, 0, 0); background-image: url(&apos;project://database/Assets/UnityDefaultRuntimeTheme.tss?fileID=-1304905567622442630&amp;guid=24252f1fdba660243bdd32bd42cee5f7&amp;type=3#arrow-down@2x&apos;);" />
++                                <ui:Button style="flex-grow: 1; background-color: rgba(0, 0, 0, 0); background-image: url(&apos;project://database/Assets/UnityDefaultRuntimeTheme.tss?fileID=-1304905567622442630&amp;guid=083c51dc2d0be354489adc8fd3ff6431&amp;type=3#arrow-down@2x&apos;);" />
+                             </ui:GroupBox>
+                         </ui:GroupBox>
+                     </ui:Foldout>
+diff --git a/Editor/Resources/EditorWindow/GameLiftPluginBucketPopup.uss b/Editor/Resources/EditorWindow/GameLiftPluginBucketPopup.uss
+index 218263a..d474ef0 100644
+--- a/Editor/Resources/EditorWindow/GameLiftPluginBucketPopup.uss
++++ b/Editor/Resources/EditorWindow/GameLiftPluginBucketPopup.uss
+@@ -1,5 +1,7 @@
++/*
+ .custom-label {
+     font-size: 20px;
+     -unity-font-style: bold;
+     color: rgb(68, 138, 255);
+-}
+\ No newline at end of file
++}
++*/
+\ No newline at end of file
+diff --git a/Editor/Resources/EditorWindow/GameLiftPluginBucketPopup.uss.meta b/Editor/Resources/EditorWindow/GameLiftPluginBucketPopup.uss.meta
+new file mode 100644
+index 0000000..58482d8
+--- /dev/null
++++ b/Editor/Resources/EditorWindow/GameLiftPluginBucketPopup.uss.meta
+@@ -0,0 +1,11 @@
++fileFormatVersion: 2
++guid: 598f5c8d4f439714faf0dbc7f2d7628a
++ScriptedImporter:
++  internalIDToNameTable: []
++  externalObjects: {}
++  serializedVersion: 2
++  userData: 
++  assetBundleName: 
++  assetBundleVariant: 
++  script: {fileID: 12385, guid: 0000000000000000e000000000000000, type: 0}
++  disableValidation: 0
+diff --git a/Editor/Resources/EditorWindow/GameLiftPluginBucketPopup.uxml.meta b/Editor/Resources/EditorWindow/GameLiftPluginBucketPopup.uxml.meta
+new file mode 100644
+index 0000000..2794047
+--- /dev/null
++++ b/Editor/Resources/EditorWindow/GameLiftPluginBucketPopup.uxml.meta
+@@ -0,0 +1,10 @@
++fileFormatVersion: 2
++guid: f547f42f6492ad0438fe0f780b0c5de9
++ScriptedImporter:
++  internalIDToNameTable: []
++  externalObjects: {}
++  serializedVersion: 2
++  userData: 
++  assetBundleName: 
++  assetBundleVariant: 
++  script: {fileID: 13804, guid: 0000000000000000e000000000000000, type: 0}
+diff --git a/Editor/Resources/Font.meta b/Editor/Resources/Font.meta
+new file mode 100644
+index 0000000..721f3d8
+--- /dev/null
++++ b/Editor/Resources/Font.meta
+@@ -0,0 +1,8 @@
++fileFormatVersion: 2
++guid: d3026b7c1cc94b1418db0d1fc87c3182
++folderAsset: yes
++DefaultImporter:
++  externalObjects: {}
++  userData: 
++  assetBundleName: 
++  assetBundleVariant: 
+diff --git a/Runtime/Core/ApiGatewayManagement/AnywhereGameServerAdapter.cs.meta b/Runtime/Core/ApiGatewayManagement/AnywhereGameServerAdapter.cs.meta
+new file mode 100644
+index 0000000..0f1b570
+--- /dev/null
++++ b/Runtime/Core/ApiGatewayManagement/AnywhereGameServerAdapter.cs.meta
+@@ -0,0 +1,11 @@
++fileFormatVersion: 2
++guid: 4b97d8f99da6448479efdb7085f51736
++MonoImporter:
++  externalObjects: {}
++  serializedVersion: 2
++  defaultReferences: []
++  executionOrder: 0
++  icon: {instanceID: 0}
++  userData: 
++  assetBundleName: 
++  assetBundleVariant: 
+diff --git a/Runtime/Core/Plugins/Plugins.meta b/Runtime/Core/Plugins/Plugins.meta
+new file mode 100644
+index 0000000..41e3e19
+--- /dev/null
++++ b/Runtime/Core/Plugins/Plugins.meta
+@@ -0,0 +1,8 @@
++fileFormatVersion: 2
++guid: 1771970a087aa97449d734964787af87
++folderAsset: yes
++DefaultImporter:
++  externalObjects: {}
++  userData: 
++  assetBundleName: 
++  assetBundleVariant: 
+diff --git a/Runtime/Core/Plugins/AWSSDK.CloudFormation.dll.meta b/Runtime/Core/Plugins/Plugins/AWSSDK.CloudFormation.dll.meta
+similarity index 100%
+rename from Runtime/Core/Plugins/AWSSDK.CloudFormation.dll.meta
+rename to Runtime/Core/Plugins/Plugins/AWSSDK.CloudFormation.dll.meta
+diff --git a/Runtime/Core/Plugins/AWSSDK.CognitoIdentityProvider.dll.meta b/Runtime/Core/Plugins/Plugins/AWSSDK.CognitoIdentityProvider.dll.meta
+similarity index 100%
+rename from Runtime/Core/Plugins/AWSSDK.CognitoIdentityProvider.dll.meta
+rename to Runtime/Core/Plugins/Plugins/AWSSDK.CognitoIdentityProvider.dll.meta
+diff --git a/Runtime/Core/Plugins/AWSSDK.Core.dll.meta b/Runtime/Core/Plugins/Plugins/AWSSDK.Core.dll.meta
+similarity index 100%
+rename from Runtime/Core/Plugins/AWSSDK.Core.dll.meta
+rename to Runtime/Core/Plugins/Plugins/AWSSDK.Core.dll.meta
+diff --git a/Runtime/Core/Plugins/AWSSDK.GameLift.dll.meta b/Runtime/Core/Plugins/Plugins/AWSSDK.GameLift.dll.meta
+similarity index 100%
+rename from Runtime/Core/Plugins/AWSSDK.GameLift.dll.meta
+rename to Runtime/Core/Plugins/Plugins/AWSSDK.GameLift.dll.meta
+diff --git a/Runtime/Core/Plugins/AWSSDK.S3.dll.meta b/Runtime/Core/Plugins/Plugins/AWSSDK.S3.dll.meta
+similarity index 100%
+rename from Runtime/Core/Plugins/AWSSDK.S3.dll.meta
+rename to Runtime/Core/Plugins/Plugins/AWSSDK.S3.dll.meta
+diff --git a/Runtime/Core/Plugins/AWSSDK.SecurityToken.dll.meta b/Runtime/Core/Plugins/Plugins/AWSSDK.SecurityToken.dll.meta
+similarity index 100%
+rename from Runtime/Core/Plugins/AWSSDK.SecurityToken.dll.meta
+rename to Runtime/Core/Plugins/Plugins/AWSSDK.SecurityToken.dll.meta
+diff --git a/Runtime/Core/Plugins/Castle.Core.dll.meta b/Runtime/Core/Plugins/Plugins/Castle.Core.dll.meta
+similarity index 100%
+rename from Runtime/Core/Plugins/Castle.Core.dll.meta
+rename to Runtime/Core/Plugins/Plugins/Castle.Core.dll.meta
+diff --git a/Runtime/Core/Plugins/Microsoft.IdentityModel.JsonWebTokens.dll.meta b/Runtime/Core/Plugins/Plugins/Microsoft.IdentityModel.JsonWebTokens.dll.meta
+similarity index 100%
+rename from Runtime/Core/Plugins/Microsoft.IdentityModel.JsonWebTokens.dll.meta
+rename to Runtime/Core/Plugins/Plugins/Microsoft.IdentityModel.JsonWebTokens.dll.meta
+diff --git a/Runtime/Core/Plugins/Microsoft.IdentityModel.Logging.dll.meta b/Runtime/Core/Plugins/Plugins/Microsoft.IdentityModel.Logging.dll.meta
+similarity index 100%
+rename from Runtime/Core/Plugins/Microsoft.IdentityModel.Logging.dll.meta
+rename to Runtime/Core/Plugins/Plugins/Microsoft.IdentityModel.Logging.dll.meta
+diff --git a/Runtime/Core/Plugins/Microsoft.IdentityModel.Tokens.dll.meta b/Runtime/Core/Plugins/Plugins/Microsoft.IdentityModel.Tokens.dll.meta
+similarity index 100%
+rename from Runtime/Core/Plugins/Microsoft.IdentityModel.Tokens.dll.meta
+rename to Runtime/Core/Plugins/Plugins/Microsoft.IdentityModel.Tokens.dll.meta
+diff --git a/Runtime/Core/Plugins/Moq.dll.meta b/Runtime/Core/Plugins/Plugins/Moq.dll.meta
+similarity index 100%
+rename from Runtime/Core/Plugins/Moq.dll.meta
+rename to Runtime/Core/Plugins/Plugins/Moq.dll.meta
+diff --git a/Runtime/Core/Plugins/Serilog.Sinks.File.dll.meta b/Runtime/Core/Plugins/Plugins/Serilog.Sinks.File.dll.meta
+similarity index 100%
+rename from Runtime/Core/Plugins/Serilog.Sinks.File.dll.meta
+rename to Runtime/Core/Plugins/Plugins/Serilog.Sinks.File.dll.meta
+diff --git a/Runtime/Core/Plugins/Serilog.dll.meta b/Runtime/Core/Plugins/Plugins/Serilog.dll.meta
+similarity index 100%
+rename from Runtime/Core/Plugins/Serilog.dll.meta
+rename to Runtime/Core/Plugins/Plugins/Serilog.dll.meta
+diff --git a/Runtime/Core/Plugins/System.IdentityModel.Tokens.Jwt.dll.meta b/Runtime/Core/Plugins/Plugins/System.IdentityModel.Tokens.Jwt.dll.meta
+similarity index 100%
+rename from Runtime/Core/Plugins/System.IdentityModel.Tokens.Jwt.dll.meta
+rename to Runtime/Core/Plugins/Plugins/System.IdentityModel.Tokens.Jwt.dll.meta
+diff --git a/Runtime/Core/Plugins/System.Threading.Tasks.Extensions.dll.meta b/Runtime/Core/Plugins/Plugins/System.Threading.Tasks.Extensions.dll.meta
+similarity index 100%
+rename from Runtime/Core/Plugins/System.Threading.Tasks.Extensions.dll.meta
+rename to Runtime/Core/Plugins/Plugins/System.Threading.Tasks.Extensions.dll.meta
+diff --git a/Runtime/Core/Plugins/YamlDotNet.dll.meta b/Runtime/Core/Plugins/Plugins/YamlDotNet.dll.meta
+similarity index 100%
+rename from Runtime/Core/Plugins/YamlDotNet.dll.meta
+rename to Runtime/Core/Plugins/Plugins/YamlDotNet.dll.meta
+diff --git a/Runtime/Plugins/GameLiftServerSDKNet45.dll.meta b/Runtime/Plugins/GameLiftServerSDKNet45.dll.meta
+deleted file mode 100644
+index d56dc71..0000000
+--- a/Runtime/Plugins/GameLiftServerSDKNet45.dll.meta
++++ /dev/null
+@@ -1,33 +0,0 @@
+-fileFormatVersion: 2
+-guid: 0385ffa1cdc4e0c479dd4f5f9251fd88
+-PluginImporter:
+-  externalObjects: {}
+-  serializedVersion: 2
+-  iconMap: {}
+-  executionOrder: {}
+-  defineConstraints: []
+-  isPreloaded: 0
+-  isOverridable: 1
+-  isExplicitlyReferenced: 0
+-  validateReferences: 1
+-  platformData:
+-  - first:
+-      Any: 
+-    second:
+-      enabled: 1
+-      settings: {}
+-  - first:
+-      Editor: Editor
+-    second:
+-      enabled: 0
+-      settings:
+-        DefaultValueInitialized: true
+-  - first:
+-      Windows Store Apps: WindowsStoreApps
+-    second:
+-      enabled: 0
+-      settings:
+-        CPU: AnyCPU
+-  userData: 
+-  assetBundleName: 
+-  assetBundleVariant: 
+diff --git a/Runtime/Plugins/Google.Protobuf.dll.meta b/Runtime/Plugins/Google.Protobuf.dll.meta
+deleted file mode 100644
+index fd45e6b..0000000
+--- a/Runtime/Plugins/Google.Protobuf.dll.meta
++++ /dev/null
+@@ -1,33 +0,0 @@
+-fileFormatVersion: 2
+-guid: 8e70ab12ff7f0fc458442b857ba8672f
+-PluginImporter:
+-  externalObjects: {}
+-  serializedVersion: 2
+-  iconMap: {}
+-  executionOrder: {}
+-  defineConstraints: []
+-  isPreloaded: 0
+-  isOverridable: 1
+-  isExplicitlyReferenced: 0
+-  validateReferences: 1
+-  platformData:
+-  - first:
+-      Any: 
+-    second:
+-      enabled: 1
+-      settings: {}
+-  - first:
+-      Editor: Editor
+-    second:
+-      enabled: 0
+-      settings:
+-        DefaultValueInitialized: true
+-  - first:
+-      Windows Store Apps: WindowsStoreApps
+-    second:
+-      enabled: 0
+-      settings:
+-        CPU: AnyCPU
+-  userData: 
+-  assetBundleName: 
+-  assetBundleVariant: 
+diff --git a/Runtime/Plugins/System.Buffers.dll.meta b/Runtime/Plugins/System.Buffers.dll.meta
+deleted file mode 100644
+index 7faf0db..0000000
+--- a/Runtime/Plugins/System.Buffers.dll.meta
++++ /dev/null
+@@ -1,33 +0,0 @@
+-fileFormatVersion: 2
+-guid: d636a8a8db41b4d45a85ba6948bfb6a5
+-PluginImporter:
+-  externalObjects: {}
+-  serializedVersion: 2
+-  iconMap: {}
+-  executionOrder: {}
+-  defineConstraints: []
+-  isPreloaded: 0
+-  isOverridable: 1
+-  isExplicitlyReferenced: 0
+-  validateReferences: 1
+-  platformData:
+-  - first:
+-      Any: 
+-    second:
+-      enabled: 1
+-      settings: {}
+-  - first:
+-      Editor: Editor
+-    second:
+-      enabled: 0
+-      settings:
+-        DefaultValueInitialized: true
+-  - first:
+-      Windows Store Apps: WindowsStoreApps
+-    second:
+-      enabled: 0
+-      settings:
+-        CPU: AnyCPU
+-  userData: 
+-  assetBundleName: 
+-  assetBundleVariant: 
+diff --git a/Runtime/Plugins/System.Collections.Immutable.dll.meta b/Runtime/Plugins/System.Collections.Immutable.dll.meta
+deleted file mode 100644
+index c2a9968..0000000
+--- a/Runtime/Plugins/System.Collections.Immutable.dll.meta
++++ /dev/null
+@@ -1,33 +0,0 @@
+-fileFormatVersion: 2
+-guid: 5e43ef1150e75614cbb350870c0aa0b1
+-PluginImporter:
+-  externalObjects: {}
+-  serializedVersion: 2
+-  iconMap: {}
+-  executionOrder: {}
+-  defineConstraints: []
+-  isPreloaded: 0
+-  isOverridable: 1
+-  isExplicitlyReferenced: 0
+-  validateReferences: 1
+-  platformData:
+-  - first:
+-      Any: 
+-    second:
+-      enabled: 1
+-      settings: {}
+-  - first:
+-      Editor: Editor
+-    second:
+-      enabled: 0
+-      settings:
+-        DefaultValueInitialized: true
+-  - first:
+-      Windows Store Apps: WindowsStoreApps
+-    second:
+-      enabled: 0
+-      settings:
+-        CPU: AnyCPU
+-  userData: 
+-  assetBundleName: 
+-  assetBundleVariant: 
+diff --git a/Runtime/Plugins/System.Memory.dll.meta b/Runtime/Plugins/System.Memory.dll.meta
+deleted file mode 100644
+index 816afaf..0000000
+--- a/Runtime/Plugins/System.Memory.dll.meta
++++ /dev/null
+@@ -1,33 +0,0 @@
+-fileFormatVersion: 2
+-guid: de7c4337b811fa34aa9d3f645e073ccb
+-PluginImporter:
+-  externalObjects: {}
+-  serializedVersion: 2
+-  iconMap: {}
+-  executionOrder: {}
+-  defineConstraints: []
+-  isPreloaded: 0
+-  isOverridable: 1
+-  isExplicitlyReferenced: 0
+-  validateReferences: 1
+-  platformData:
+-  - first:
+-      Any: 
+-    second:
+-      enabled: 1
+-      settings: {}
+-  - first:
+-      Editor: Editor
+-    second:
+-      enabled: 0
+-      settings:
+-        DefaultValueInitialized: true
+-  - first:
+-      Windows Store Apps: WindowsStoreApps
+-    second:
+-      enabled: 0
+-      settings:
+-        CPU: AnyCPU
+-  userData: 
+-  assetBundleName: 
+-  assetBundleVariant: 
+diff --git a/Runtime/Plugins/System.Runtime.CompilerServices.Unsafe.dll.meta b/Runtime/Plugins/System.Runtime.CompilerServices.Unsafe.dll.meta
+deleted file mode 100644
+index 78f7e58..0000000
+--- a/Runtime/Plugins/System.Runtime.CompilerServices.Unsafe.dll.meta
++++ /dev/null
+@@ -1,33 +0,0 @@
+-fileFormatVersion: 2
+-guid: 3dbb5f6c20eaf9a48a61825dd96f97e8
+-PluginImporter:
+-  externalObjects: {}
+-  serializedVersion: 2
+-  iconMap: {}
+-  executionOrder: {}
+-  defineConstraints: []
+-  isPreloaded: 0
+-  isOverridable: 1
+-  isExplicitlyReferenced: 0
+-  validateReferences: 1
+-  platformData:
+-  - first:
+-      Any: 
+-    second:
+-      enabled: 1
+-      settings: {}
+-  - first:
+-      Editor: Editor
+-    second:
+-      enabled: 0
+-      settings:
+-        DefaultValueInitialized: true
+-  - first:
+-      Windows Store Apps: WindowsStoreApps
+-    second:
+-      enabled: 0
+-      settings:
+-        CPU: AnyCPU
+-  userData: 
+-  assetBundleName: 
+-  assetBundleVariant: 
+diff --git a/Runtime/Plugins/log4net.dll.meta b/Runtime/Plugins/log4net.dll.meta
+deleted file mode 100644
+index 55239e8..0000000
+--- a/Runtime/Plugins/log4net.dll.meta
++++ /dev/null
+@@ -1,33 +0,0 @@
+-fileFormatVersion: 2
+-guid: b9ffbccbf4b71034a8c36ea8966f4a4d
+-PluginImporter:
+-  externalObjects: {}
+-  serializedVersion: 2
+-  iconMap: {}
+-  executionOrder: {}
+-  defineConstraints: []
+-  isPreloaded: 0
+-  isOverridable: 1
+-  isExplicitlyReferenced: 0
+-  validateReferences: 1
+-  platformData:
+-  - first:
+-      Any: 
+-    second:
+-      enabled: 1
+-      settings: {}
+-  - first:
+-      Editor: Editor
+-    second:
+-      enabled: 0
+-      settings:
+-        DefaultValueInitialized: true
+-  - first:
+-      Windows Store Apps: WindowsStoreApps
+-    second:
+-      enabled: 0
+-      settings:
+-        CPU: AnyCPU
+-  userData: 
+-  assetBundleName: 
+-  assetBundleVariant: 
+diff --git a/Runtime/Plugins/websocket-sharp.dll.meta b/Runtime/Plugins/websocket-sharp.dll.meta
+deleted file mode 100644
+index 75a8da5..0000000
+--- a/Runtime/Plugins/websocket-sharp.dll.meta
++++ /dev/null
+@@ -1,33 +0,0 @@
+-fileFormatVersion: 2
+-guid: fb00a8ae1d6e6954a8d44c0d0f140cad
+-PluginImporter:
+-  externalObjects: {}
+-  serializedVersion: 2
+-  iconMap: {}
+-  executionOrder: {}
+-  defineConstraints: []
+-  isPreloaded: 0
+-  isOverridable: 1
+-  isExplicitlyReferenced: 0
+-  validateReferences: 1
+-  platformData:
+-  - first:
+-      Any: 
+-    second:
+-      enabled: 1
+-      settings: {}
+-  - first:
+-      Editor: Editor
+-    second:
+-      enabled: 0
+-      settings:
+-        DefaultValueInitialized: true
+-  - first:
+-      Windows Store Apps: WindowsStoreApps
+-    second:
+-      enabled: 0
+-      settings:
+-        CPU: AnyCPU
+-  userData: 
+-  assetBundleName: 
+-  assetBundleVariant: 

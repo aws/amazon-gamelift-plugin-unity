@@ -1,0 +1,50 @@
+/*<ui:VisualElement name="VisualElement" style="flex-grow: 1; background-color: rgba(0, 0, 0, 0); height: 96%; opacity: 0; max-height: 14px;" />
+        <ui:Button text="Amazon GameLift" display-tooltip-when-elided="true" name="AmazonGameLift" class="TabButton" style="font-size: 12%; height: 6%;" />
+        <ui:VisualElement style="flex-grow: 1; background-color: rgba(0, 0, 0, 0); height: 96%; opacity: 0; max-height: 6px;" />
+        <ui:Button text="AWS Account Credentials" display-tooltip-when-elided="true" name="AWSAccountCredentials" class="TabButton" style="padding-left: 10%; font-size: 12%;" />
+        <ui:VisualElement style="flex-grow: 1; background-color: rgba(0, 0, 0, 0); height: 96%; opacity: 0; max-height: 6px;" />
+        <ui:Button text="GameLift Anywhere" display-tooltip-when-elided="true" name="GameLiftAnywhere" class="TabButton" style="padding-left: 10%; font-size: 12%;" />
+        <ui:VisualElement style="flex-grow: 1; background-color: rgba(0, 0, 0, 0); height: 96%; opacity: 0; max-height: 6px;" />
+        <ui:Button text="Managed EC2" display-tooltip-when-elided="true" name="ManagedEC2" class="TabButton" style="padding-left: 10%; font-size: 12%;" />
+        <ui:VisualElement style="flex-grow: 1; background-color: rgba(0, 0, 0, 0); height: 96%; opacity: 0; max-height: 6px;" />
+        <ui:Button text="Help &amp; Documentation" display-tooltip-when-elided="true" name="HelpAndDocs" class="TabButton" style="padding-left: 10%; font-size: 12%;" />
+        */
+
+.Divider{
+    flex-grow: 1;
+    background-color: rgba(0, 0, 0, 0);
+    height: 96%;
+    opacity: 0;
+    max-height: 6px;
+}
+
+.DividerTop{
+    max-height : 14px;
+}
+
+/*
+.TabButton{
+    padding-left: 10%;
+    font-size: 12%;
+}
+*/
+
+.TabButton {
+    -unity-font: url('project://database/Packages/com.amazonaws.gamelift/Editor/PluginSettings/GameLiftPlugin/Assets/Font/Inter-Regular.otf?fileID=12800000&guid=3a3ab476e5025ad43bbb37916ebaf2b7&type=3#Inter-Regular');
+    font-size: var(--font-size-tab-button);
+    background-color: var(--color-bg-tab);
+    color: var(--color-font-tab);
+    -unity-text-align: middle-left;
+    align-items: stretch;
+    justify-content: space-around;
+    border-color: rgba(0, 0, 0, 0);
+    padding: 4px 12px 4px 9px;
+    height: 32px;
+    height: 6%;
+    top: auto;
+}
+
+.TabButtonTop{
+    height: 6%;
+}
+

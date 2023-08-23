@@ -2,7 +2,7 @@
     --color-primary: rgb(44, 93, 135);
     --color-success: rgb(20, 255, 20);
     --font-size-paragraph : 12px;
-    --font-size-tab-button : 18px;
+    --font-size-tab-button : 12px;
     --color-bg-tab : rgba(0, 0, 0, 0);
     --color-font-tab : rgb(196, 196, 196);
     --color-bg-tab-hover : rgb(63, 63, 63);
@@ -81,6 +81,25 @@
     overflow: visible;
     flex-grow: 1;
 }
+
+.TabButtons{
+    flex-grow: 1; 
+    background-color: rgb(51, 51, 51); 
+    width: 25%; background-image: none; 
+    border-left-width: 2px; 
+    border-right-width: 2px; 
+    border-top-width: 2px; 
+    border-bottom-width: 2px; 
+    border-left-color: rgba(69, 69, 69, 0); 
+    border-right-color: rgb(69, 69, 69); 
+    border-top-color: rgba(69, 69, 69, 0); 
+    border-bottom-color: rgba(69, 69, 69, 0); 
+    height: auto; 
+    min-height: auto;
+}
+
+
+
 
 .InfoBox {
     white-space: normal;
@@ -196,3 +215,6 @@
 .deploy-status--in-progress .deploy-status__console-link {
     display: flex;
 }
+
+
+
