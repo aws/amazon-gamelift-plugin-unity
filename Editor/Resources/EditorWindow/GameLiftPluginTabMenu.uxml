@@ -1,13 +1,13 @@
 <ui:UXML xmlns:ui="UnityEngine.UIElements" xmlns:uie="UnityEditor.UIElements" editor-extension-mode="False">
- <Style src="project://database/Packages/com.amazonaws.gamelift/Editor/Resources/EditorWindow/GameLiftPluginTabMenu.uss"/>    
-        <ui:VisualElement name="VisualElement" class="Divider DividerTop" />
-        <ui:Button text="Amazon GameLift" display-tooltip-when-elided="true" name="AmazonGameLift" class="TabButton"/>
-        <ui:VisualElement class="Divider"/>
-        <ui:Button text="AWS Account Credentials" display-tooltip-when-elided="true" name="AWSAccountCredentials" class="TabButton"/>
-        <ui:VisualElement class="Divider"/>
-        <ui:Button text="GameLift Anywhere" display-tooltip-when-elided="true" name="GameLiftAnywhere" class="TabButton"/>
-        <ui:VisualElement class="Divider"/>
-        <ui:Button text="Managed EC2" display-tooltip-when-elided="true" name="ManagedEC2" class="TabButton"/>
-        <ui:VisualElement class="Divider"/>
-        <ui:Button text="Help &amp; Documentation" display-tooltip-when-elided="true" name="HelpAndDocs" class="TabButton"/>
+    <Style src="project://database/Packages/com.amazonaws.gamelift/Editor/Resources/EditorWindow/GameLiftPluginTabMenu.uss"/>    
+    <ui:VisualElement name="VisualElement" class="Divider DividerTop" />
+    <ui:Button text="Amazon GameLift" display-tooltip-when-elided="true" name="AmazonGameLift" class="TabButton"/>
+    <ui:VisualElement class="Divider"/>
+    <ui:Button text="AWS Account Credentials" display-tooltip-when-elided="true" name="AWSAccountCredentials" class="TabButton"/>
+    <ui:VisualElement class="Divider"/>
+    <ui:Button text="GameLift Anywhere" display-tooltip-when-elided="true" name="GameLiftAnywhere" class="TabButton"/>
+    <ui:VisualElement class="Divider"/>
+    <ui:Button text="Managed EC2" display-tooltip-when-elided="true" name="ManagedEC2" class="TabButton"/>
+    <ui:VisualElement class="Divider"/>
+    <ui:Button text="Help &amp; Documentation" display-tooltip-when-elided="true" name="HelpAndDocs" class="TabButton"/>
 </ui:UXML>

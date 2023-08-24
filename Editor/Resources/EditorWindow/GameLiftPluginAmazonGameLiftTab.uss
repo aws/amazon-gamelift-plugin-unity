@@ -1,0 +1,9 @@
+.DescriptionBox{
+	display: flex;
+	height: 141px;
+}
+
+.InfoBox{
+
+}
+
