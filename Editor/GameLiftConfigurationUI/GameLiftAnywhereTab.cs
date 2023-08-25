@@ -37,6 +37,7 @@ namespace Editor.GameLiftConfigurationUI
             {
                 _gameLiftConfig.SetupWrapper();
             }
+
             SetupTab();
         }
 
