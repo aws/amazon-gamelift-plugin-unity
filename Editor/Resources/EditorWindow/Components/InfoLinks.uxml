@@ -1,0 +1,12 @@
+<ui:UXML xmlns:ui="UnityEngine.UIElements">
+    <Style src="InfoLinks.uss"/>
+    <ui:VisualElement name="LinkBox" class="LinkBox">
+        <ui:Label text="View Documentation" name="LabelLandingLinks1" class="LinkBox__Link"/>
+        <ui:VisualElement class="LinkBox__Separator"/>
+        <ui:Label text="Release Notes" name="LabelLandingLinks2" class="LinkBox__Link"/>
+        <ui:VisualElement class="LinkBox__Separator"/>
+        <ui:Label text="Troubleshooting" name="LabelLandingLinks3" class="LinkBox__Link"/>
+        <ui:VisualElement class="LinkBox__Separator"/>
+        <ui:Label text="Report Issues" name="LabelLandingLinks4" class="LinkBox__Link"/>
+    </ui:VisualElement>
+</ui:UXML>

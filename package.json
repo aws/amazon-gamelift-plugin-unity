@@ -4,7 +4,7 @@
   "author": "Amazon.com, Inc.",
   "version": "1.3.1",
   "unity": "2021.3",
-  "description": "The Amazon GameLift Plugin for Unity contains libraries and native UI that makes it easier to access GameLift resources and integrate GameLift into your Unity game. You can use the GameLift Unity Plugin to access GameLift APIs and deploy AWS CloudFormation templates for common gaming scenarios.",
+  "description": "Amazon GameLift provides solutions for hosting session-based multiplayer game servers in the cloud. This plugin contains libraries and native UI elements that make it easier to integrate Amazon GameLift into your game and to manage your hosting resources. Use the plugin to access the Amazon GameLift APIs and deploy AWS CloudFormation templates for common deployment scenarios.",
   "documentationUrl": "https://docs.aws.amazon.com/gamelift/latest/developerguide/unity-plug-in.html",
   "changelogUrl": "https://github.com/aws/amazon-gamelift-plugin-unity/blob/main/CHANGELOG.md",
   "licensesUrl": "https://github.com/aws/amazon-gamelift-plugin-unity/blob/main/LICENSE.md",

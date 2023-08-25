@@ -1,0 +1,13 @@
+<ui:UXML xmlns:ui="UnityEngine.UIElements">
+    <Style src="./GameLiftPluginTabMenu.uss"/>
+    <ui:VisualElement name="VisualElement" class="Divider DividerTop"/>
+    <ui:Button text="Amazon GameLift" name="AmazonGameLift" class="TabButton"/>
+    <ui:VisualElement class="Divider"/>
+    <ui:Button text="AWS Account Credentials" name="AWSAccountCredentials" class="TabButton"/>
+    <ui:VisualElement class="Divider"/>
+    <ui:Button text="GameLift Anywhere" name="GameLiftAnywhere" class="TabButton"/>
+    <ui:VisualElement class="Divider"/>
+    <ui:Button text="Managed EC2" name="ManagedEC2" class="TabButton"/>
+    <ui:VisualElement class="Divider"/>
+    <ui:Button text="Help &amp; Documentation" name="HelpAndDocs" class="TabButton"/>
+</ui:UXML>

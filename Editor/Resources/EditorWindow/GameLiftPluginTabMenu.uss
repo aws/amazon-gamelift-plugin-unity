@@ -1,0 +1,31 @@
+.Divider{
+    flex-grow: 1;
+    background-color: rgba(0, 0, 0, 0);
+    height: 96%;
+    opacity: 0;
+    max-height: 6px;
+}
+
+.DividerTop{
+    max-height : 14px;
+}
+
+.TabButton {
+    -unity-font: url('/Assets/Font/Inter-Regular.otf');
+    font-size: var(--font-size-tab-button);
+    background-color: var(--color-bg-tab);
+    color: var(--color-font-tab);
+    -unity-text-align: middle-left;
+    align-items: stretch;
+    justify-content: space-around;
+    border-color: rgba(0, 0, 0, 0);
+    padding: 4px 12px 4px 9px;
+    height: 32px;
+    height: 6%;
+    top: auto;
+}
+
+.TabButtonTop{
+    height: 6%;
+}
+
