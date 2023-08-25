@@ -98,9 +98,6 @@
     min-height: auto;
 }
 
-
-
-
 .InfoBox {
     white-space: normal;
     flex-direction: row;

@@ -1,9 +1,295 @@
+.AmazonGameLiftTab{
+	visibility: visible;
+	display: none;
+	background-color: rgb(63, 63, 63);
+	align-items: flex-start;
+	justify-content: flex-start;
+	width: 100%;
+	height: 100%;
+}
+
 .DescriptionBox{
 	display: flex;
 	height: 141px;
 }
 
-.InfoBox{
-
+.TabTitle{
+	width: 832px;
+	height: 32px;
+	background-color: rgba(118, 118, 118, 0);
+	color: rgb(210, 210, 210);
+	font-size: 24px;
+	right: auto;
 }
+
+.TabDescription{
+	width: auto;
+	height: auto;
+	background-color: rgba(118, 118, 118, 0);
+	color: rgb(210, 210, 210);
+	font-size: var(--font-size-paragraph);
+	right: auto;
+	white-space: normal;
+	margin-top: 11px;
+	-unity-font: url(&apos;visible&apos;);
+	-unity-paragraph-spacing: 62px;
+	word-spacing: 1px;
+	padding-top: -7px;
+	-unity-text-align: middle-left;
+	padding-right: 12px;
+}
+
+.HelpBox{
+	margin-right: 17px;
+	display: none;
+}
+
+.HelpDivider{
+	flex-grow: 1;
+	background-color: rgba(0, 0, 0, 0);
+	max-width: 35px;
+	max-height: 35px;
+	align-self: auto;
+	background-image: url(&apos;project://database/Assets/UnityDefaultRuntimeTheme.tss?fileID=-2236324273849735119&amp;guid=083c51dc2d0be354489adc8fd3ff6431&amp;type=3#arrow-left@2x&apos;);
+	min-width: 35px;
+	min-height: 35px;
+}
+
+.HelpInfoLabel{
+	width: 87%;
+	font-size: 9px;
+	align-self: center;
+}
+
+.HelpInfoButton{
+	align-self: center;
+	align-items: flex-start;
+	justify-content: space-between;
+	flex-direction: column;
+	overflow: hidden;
+	max-width: 40px;
+	border-left-color: rgba(149, 149, 149, 0);
+	border-right-color: rgba(149, 149, 149, 0);
+	border-top-color: rgba(149, 149, 149, 0);
+	border-bottom-color: rgba(149, 149, 149, 0);
+	background-color: rgba(188, 188, 188, 0);
+	padding-left: 0;
+	margin-left: 2px;
+}
+
+.WarningBox{
+	margin-right: 17px;
+	background-color: rgba(255, 170, 34, 0.13);
+	border-left-color: rgb(255, 170, 34);
+	border-right-color: rgb(255, 170, 34);
+	border-top-color: rgb(255, 170, 34);
+	border-bottom-color: rgb(255, 170, 34);
+	display: flex;
+	width: 95%;
+}
+
+.WarningInfoDivider{
+	flex-grow: 1; 
+	background-color: rgba(0, 0, 0, 0);
+	max-width: 35px;
+	max-height: 35px;
+	align-self: auto;
+	background-image: url(&apos;project://database/Assets/UnityDefaultRuntimeTheme.tss?fileID=-2236324273849735119&amp;guid=083c51dc2d0be354489adc8fd3ff6431&amp;type=3#arrow-left@2x&apos;); 
+	min-width: 35px;
+	min-height: 35px;
+}
+
+.WarningInfoLabel{
+	width: 90%;
+	font-size: 9px;
+	align-self: center;
+}
+
+.WarningInfoButton{
+	align-self: center;
+	align-items: flex-start;
+	justify-content: space-between; 
+	flex-direction: column;
+	overflow: hidden;
+	max-width: 40px;
+	border-left-color: rgba(149, 149, 149, 0);
+	border-right-color: rgba(149, 149, 149, 0);
+	border-top-color: rgba(149, 149, 149, 0);
+	border-bottom-color: rgba(149, 149, 149, 0);
+	background-color: rgba(188, 188, 188, 0);
+	padding-left: 0;
+	margin-left: 2px;
+}
+
+.Tab1{
+	/*height: 12%;*/
+	margin-left: 0;
+	padding-left: 0;
+	margin-right: 0;
+	margin-top: 6px;
+	margin-bottom: 11px;
+	padding-top: 0;
+	padding-bottom: 0;
+	/*flex-direction: row;*/
+	display: none;
+}
+
+.AccountDetailsTab{
+	display: flex;
+	width: 95%;
+	margin-top: 0;
+	padding-top: 5px;
+}
+
+.NoAccountBox{
+	flex-direction: row;
+	height: 31%;
+	align-items: auto;
+	justify-content: space-between;
+	align-self: auto;
+	margin-left: 0;
+	margin-right: 0;
+	padding-left: 0;
+}
+
+.NoAccountDivider{
+	flex-grow: 1;
+	background-color: rgba(0, 0, 0, 0);
+	background-image: url(&apos;visible&apos;);
+	width: 50px;
+	height: 45px;
+	scale: 0.5 0.5;
+	align-self: stretch;
+	align-items: stretch;
+	justify-content: space-around;
+	flex-wrap: wrap;
+	flex-direction: row;
+	-unity-text-align: upper-left;
+	bottom: 19px;
+}
+
+.NoAccountLabel{
+	-unity-text-outline-width: 0;
+	color: rgb(255, 255, 255);
+	flex-wrap: wrap;
+	flex-direction: row;
+	width: 80%;
+	font-size: 12px;
+	align-self: center;
+	align-items: stretch;
+	justify-content: flex-start;
+	margin-left: 0;
+	padding-left: 0;
+	margin-right: 0;
+	padding-right: 2px;
+	height: 20px;
+}
+
+.NoAccountButton{
+	top: 10%;
+	width: 89%;
+	left: 4%;
+	height: 44%;
+	background-color: rgb(88, 88, 88);
+	-unity-text-outline-width: 0;
+	font-size: 10px;
+	/*-unity-font: url(&apos;project://database/Packages/com.amazonaws.gamelift/Editor/Resources/Font/FontAwesome.otf?fileID=12800000&amp;guid=dfc9e998d3d89b446b3cba03d4fd299e&amp;type=3#FontAwesome&apos;);*/
+	/*-unity-font-definition: url(&apos;project://database/Packages/com.amazonaws.gamelift/Editor/Resources/Font/FontAwesome%20SDF.asset?fileID=11400000&amp;guid=7988bd2e399ef74448fbf2f411333210&amp;type=2#FontAwesome SDF&apos;);*/
+}
+
+.HaveAnAccountCard{
+	margin-right: 0;
+	margin-left: 10px;
+	height: auto;
+}
+
+.HaveAccountBox{
+	flex-direction: row;
+	height: 31%;
+	align-items: auto;
+	justify-content: space-between;
+	align-self: auto;
+	margin-left: 0;
+	margin-right: 0;
+	padding-left: 0;
+}
+
+.HaveAccountDivider{
+	flex-grow: 1;
+	background-color: rgba(0, 0, 0, 0);
+	background-image: url(&apos;visible&apos;);
+	width: 50px;
+	height: 45px;
+	scale: 0.5 0.5;
+	align-self: stretch;
+	align-items: stretch;
+	justify-content: space-around;
+	flex-wrap: wrap;
+	flex-direction: row;
+	-unity-text-align: upper-left;
+	bottom: 19px;
+}
+
+.HaveAccountLabel{
+	-unity-text-outline-width: 0; 
+	color: rgb(255, 255, 255);
+	flex-wrap: wrap;
+	flex-direction: row;
+	width: 80%;
+	font-size: 12px;
+	align-self: center;
+	align-items: stretch;
+	justify-content: flex-start;
+	margin-left: 0;
+	padding-left: 0;
+	margin-right: 0;
+	padding-right: 2px;
+	height: 20px;
+}
+
+.HaveAccountButton{
+	top: 10%;
+	width: 89%;
+	left: 4%;
+	height: 44%;
+	background-color: rgb(44, 93, 135);
+	-unity-text-outline-width: 0;
+	font-size: 10px;
+}
+
+.AcountLabelDetailsLabel{
+	font-size: 18px;
+	color: rgb(255, 255, 255);
+}
+
+.AWSAccountProfileBox{
+	flex-direction: row;
+	height: 20px;
+	margin-bottom: 3px;
+	padding-top: 0;
+	padding-bottom: 0;
+}
+
+.AWSAccountProfileLabel{
+	width: 30%;
+	margin-top: 4px;
+	color: rgb(196, 196, 196);
+}
+
+.AccountSelection{
+	width: 70%;
+	height: 21px;
+	display : flex;
+}
+
+.S3BucketBox{
+	height: 20px;
+	flex-direction: row;
+	-unity-text-align: middle-left;
+	margin-top: 3px;
+	padding-top: 0;
+	margin-bottom: 3px;
+}
+
+
 
