@@ -20,7 +20,7 @@ namespace AmazonGameLift.Editor
         public const string LabelBootstrapBucketName = "LabelBootstrapBucketName";
         public const string LabelBootstrapLifecycleWarning = "LabelBootstrapLifecycleWarning";
         public const string LabelBootstrapBucketSelectionLoading = "LabelBootstrapBucketSelectionLoading";
-        public const string LabelBootstrapRegion = "LabelBootstrapRegion";
+        public const string LabelBootstrapRegionOld = "LabelBootstrapRegionOld";
         public const string LabelBootstrapBucketLifecycle = "LabelBootstrapBucketLifecycle";
         public const string LabelCredentialsHelp = "LabelCredentialsHelp";
         public const string LabelCredentialsRegion = "LabelCredentialsRegion";
@@ -130,5 +130,90 @@ namespace AmazonGameLift.Editor
         public const string SettingsUIDeployNextStepLabel = "SettingsUIDeployNextStepLabel";
         public const string LabelOpenSdkIntegrationDoc = "LabelOpenSdkIntegrationDoc";
         public const string LabelOpenSdkApiDoc = "LabelOpenSdkApiDoc";
+        
+        public const string LabelLandingTitle = "LabelLandingTitle";
+        public const string LabelLandingDescription = "LabelLandingDescription";
+        public const string LabelLandingLinks1 = "LabelLandingLinks1";
+        public const string LabelLandingLinks2 = "LabelLandingLinks2";
+        public const string LabelLandingLinks3 = "LabelLandingLinks3";
+        public const string LabelLandingLinks4 = "LabelLandingLinks4";
+        public const string LabelLandingSampleTitle = "LabelLandingSampleTitle";
+        public const string LabelLandingSampleDescription = "LabelLandingSampleDescription";
+        public const string ButtonLandingSampleImport = "ButtonLandingSampleImport";
+        
+        public const string LabelAccountTitle = "LabelAccountTitle";
+        public const string LabelAccountDescription = "LabelAccountDescription";
+        public const string LabelAccountCardNoAccountTitle = "LabelAccountCardNoAccountTitle";
+        public const string LabelAccountCardNoAccountDescription = "LabelAccountCardNoAccountDescription";
+        public const string LabelAccountCardNoAccountDescriptionLink = "LabelAccountCardNoAccountDescriptionLink";
+        public const string ButtonAccountCardNoAccount = "ButtonAccountCardNoAccount";
+        public const string LabelAccountHasAccountTitle = "LabelAccountHasAccountTitle";
+        public const string LabelAccountHasAccountDescription = "LabelAccountHasAccountDescription";
+        public const string ButtonAccountCardHasAccount = "ButtonAccountCardHasAccount";
+        public const string LabelAccountNewProfileTitle = "LabelAccountNewProfileTitle";
+        public const string LabelAccountNewProfileName = "LabelAccountNewProfileName";
+        public const string LabelAccountNewProfileAccessKey = "LabelAccountNewProfileAccessKey";
+        public const string LabelAccountNewProfileSecretKey = "LabelAccountNewProfileSecretKey";
+        public const string LabelAccountNewProfileRegion = "LabelAccountNewProfileRegion";
+        public const string LabelAccountNewProfileRegionPlaceholder = "LabelAccountNewProfileRegionPlaceholder";
+        public const string ButtonAccountNewProfileCreate = "ButtonAccountNewProfileCreate";
+        public const string ButtonAccountNewProfileCancel = "ButtonAccountNewProfileCancel";
+        public const string LabelAccountNewProfileHelpLink = "LabelAccountNewProfileHelpLink";
+        
+        public const string LabelBootstrapTitle = "LabelBootstrapTitle";
+        public const string LabelBootstrapDescription = "LabelBootstrapDescription";
+        public const string LabelBootstrapPricing = "LabelBootstrapPricing";
+        public const string LabelBootstrapPricingInfo = "LabelBootstrapPricingInfo";
+        public const string LabelBootstrapPricingFreeTier = "LabelBootstrapPricingFreeTier";
+        public const string LabelBootstrapProfileInput = "LabelBootstrapProfileInput";
+        public const string LabelBootstrapBucket = "LabelBootstrapBucket";
+        public const string LabelBootstrapBucketUnset = "LabelBootstrapBucketUnset";
+        public const string LabelBootstrapRegion = "LabelBootstrapRegion";
+        public const string LabelBootstrapStatus = "LabelBootstrapStatus";
+        public const string ButtonBootstrapStart = "ButtonBootstrapStart";
+        public const string ButtonBootstrapAnotherProfile = "ButtonBootstrapAnotherProfile";
+        public const string LabelBootstrapHelpLink = "LabelBootstrapHelpLink";
+        public const string LabelBootstrapWarning = "LabelBootstrapWarning";
+        public const string LabelBootstrapProfilePlaceholder = "LabelBootstrapProfilePlaceholder";
+        public const string ButtonBootstrapAnotherBucket = "ButtonBootstrapAnotherBucket";
+        
+        public const string LabelBootstrapPopupWindowTitle = "LabelBootstrapPopupWindowTitle";
+        public const string LabelBootstrapPopupTitle = "LabelBootstrapPopupTitle";
+        public const string LabelBootstrapPopupDescription = "LabelBootstrapPopupDescription";
+        public const string LabelBootstrapPopupBucket = "LabelBootstrapPopupBucket";
+        public const string LabelBootstrapPopupFreeTierLink = "LabelBootstrapPopupFreeTierLink";
+        public const string ButtonBootstrapPopupCancel = "ButtonBootstrapPopupCancel";
+        public const string ButtonBootstrapPopupContinue = "ButtonBootstrapPopupContinue";
+        
+        public const string LabelAnywhereTitle = "LabelAnywhereTitle";
+        public const string LabelAnywhereDescription = "LabelAnywhereDescription";
+        public const string LabelAnywhereIntegrateTitle = "LabelAnywhereIntegrateTitle";
+        public const string LabelAnywhereIntegrateDescription = "LabelAnywhereIntegrateDescription";
+        public const string LabelAnywhereIntegrateServerLink = "LabelAnywhereIntegrateServerLink";
+        public const string LabelAnywhereIntegrateClientLink = "LabelAnywhereIntegrateClientLink";
+        public const string LabelAnywhereConnectTitle = "LabelAnywhereConnectTitle";
+        public const string LabelAnywhereConnectFleetName = "LabelAnywhereConnectFleetName";
+        public const string LabelAnywhereConnectFleetNameHint = "LabelAnywhereConnectFleetNameHint";
+        public const string ButtonAnywhereConnectButton = "ButtonAnywhereConnectButton";
+        public const string LabelAnywhereConnectedFleetID = "LabelAnywhereConnectedFleetID";
+        public const string LabelAnywhereConnectedFleetStatus = "LabelAnywhereConnectedFleetStatus";
+        public const string LabelAnywhereComputeTitle = "LabelAnywhereComputeTitle";
+        public const string LabelAnywhereComputeName = "LabelAnywhereComputeName";
+        public const string LabelAnywhereComputeIP = "LabelAnywhereComputeIP";
+        public const string ButtonAnywhereCompute = "ButtonAnywhereCompute";
+        public const string LabelAnywhereAuthTokenTitle = "LabelAnywhereAuthTokenTitle";
+        public const string LabelAnywhereAuthTokenField = "LabelAnywhereAuthTokenField";
+        public const string LabelAnywhereAuthTokenFieldNote = "LabelAnywhereAuthTokenFieldNote";
+        public const string LabelAnywhereLaunchClient = "LabelAnywhereLaunchClient";
+        public const string LabelAnywhereLaunchClientField = "LabelAnywhereLaunchClientField";
+        public const string ButtonAnywhereLaunchClient = "ButtonAnywhereLaunchClient";
+
+        public const string ButtonRevealFieldText = "ButtonRevealFieldText";
+
+        public static string Get(string propertyName)
+        {
+            var propertyInfo = typeof(Strings).GetProperty(propertyName);
+            return propertyInfo.GetValue(null, null) as string;
+        }
     }
 }

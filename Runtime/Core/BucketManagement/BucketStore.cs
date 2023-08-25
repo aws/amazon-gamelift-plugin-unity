@@ -117,6 +117,8 @@ namespace AmazonGameLiftPlugin.Core.BucketManagement
                 {
                     BucketName = loggingBucketName,
                     BucketRegionName = request.Region,
+                    CannedACL = S3CannedACL.LogDeliveryWrite,
+                    ObjectOwnership = ObjectOwnership.BucketOwnerPreferred
                 });
 
                 if (putLoggingBucketResponse.HttpStatusCode != HttpStatusCode.OK)

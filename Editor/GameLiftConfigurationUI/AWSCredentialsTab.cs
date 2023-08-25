@@ -25,8 +25,55 @@ namespace Editor.GameLiftConfigurationUI
             SetupBootstrap();
             SetupTab();
             SetUpForSelectedMode();
+            SetupAccountSection();
+
+            Root.Q<Label>("S3BucketNameLabel").text = _bootstrapSettings.CurrentBucketName ??
+                                                      TextProvider.Get(Strings.LabelBootstrapBucketUnset);
         }
-    
+
+        private void SetupAccountSection()
+        {
+            SetLabelText(Strings.LabelAccountTitle);
+            SetLabelText(Strings.LabelAccountDescription);
+            SetLabelText(Strings.LabelAccountCardNoAccountTitle);
+            SetLabelText(Strings.LabelAccountCardNoAccountDescription);
+            SetLabelText(Strings.LabelAccountHasAccountTitle);
+            SetLabelText(Strings.LabelAccountHasAccountDescription);
+            SetLabelText(Strings.LabelAccountNewProfileTitle);
+            SetLabelText(Strings.LabelAccountNewProfileName);
+            SetLabelText(Strings.LabelAccountNewProfileAccessKey);
+            SetLabelText(Strings.LabelAccountNewProfileSecretKey);
+            SetLabelText(Strings.LabelAccountNewProfileRegion);
+            SetLabelText(Strings.LabelAccountNewProfileRegionPlaceholder);
+            SetLabelText(Strings.LabelAccountNewProfileSecretKey);
+            SetLabelText(Strings.LabelAccountNewProfileSecretKey);
+
+            SetLabelTextAndLink(Strings.LabelAccountCardNoAccountDescriptionLink, "");
+            SetLabelTextAndLink(Strings.LabelAccountNewProfileHelpLink, "");
+
+            SetButtonLabelAndAction(Strings.ButtonAccountCardNoAccount,
+                _ => { Application.OpenURL(""); }); // TODO: Get final url for this
+            SetButtonLabelAndAction(Strings.ButtonAccountCardHasAccount,
+                _ => { ChangeWizard(GetWizard("AddNewProfile")); });
+            SetButtonLabelAndAction(Strings.ButtonAccountNewProfileCreate, _ =>
+            {
+                if (SaveProfile())
+                {
+                    var targetWizard = GetWizard("BootstrapMenu");
+                    ChangeWizard(targetWizard);
+                }
+                else
+                {
+                    Debug.Log("Error");
+                }
+            });
+            SetButtonLabelAndAction(Strings.ButtonAccountNewProfileCancel, _ =>
+            {
+                ClearCredentials();
+                SetupBootMenu();
+            });
+        }
+
         private void SetupTab()
         {
             const string tabName = "Tab2";
@@ -36,13 +83,17 @@ namespace Editor.GameLiftConfigurationUI
             AccountSelection(true);
             SetupBootMenu();
         }
-        
+
         private void SetupConfigSettings()
         {
             var selectedProfile = _gameLiftConfig.CoreApi.GetSetting(SettingsKeys.SelectedProfile);
             if (selectedProfile.Success)
             {
                 _gameLiftConfig.CurrentState.SelectedProfile = selectedProfile.Value;
+            }
+            else
+            {
+                _gameLiftConfig.CurrentState.SelectedProfile = _gameLiftConfig.CurrentState.AllProfiles.First();
             }
         }
 
@@ -60,13 +111,18 @@ namespace Editor.GameLiftConfigurationUI
                         EnableInfoBox("Tab2Warning");
                         //TODO Set SelectedProfile and change dropdown to "Choose Profile" and make all the below labels ---
                     }
-                    targetWizard = _gameLiftConfig.CurrentState.SelectedBootstrapped == false ? GetWizard("BootstrapMenu") : GetWizard("CompletedProfile");
+
+                    targetWizard = _gameLiftConfig.CurrentState.SelectedBootstrapped == false
+                        ? GetWizard("BootstrapMenu")
+                        : GetWizard("CompletedProfile");
                     break;
                 default:
                 {
                     if (_gameLiftConfig.CurrentState.AllProfiles.Any(profile => profile == "default"))
                     {
-                        targetWizard = _gameLiftConfig.CurrentState.SelectedBootstrapped == false ? GetWizard("BootstrapMenu") : GetWizard("CompletedProfile");
+                        targetWizard = _gameLiftConfig.CurrentState.SelectedBootstrapped == false
+                            ? GetWizard("BootstrapMenu")
+                            : GetWizard("CompletedProfile");
                     }
                     else
                     {
@@ -76,9 +132,11 @@ namespace Editor.GameLiftConfigurationUI
                             EnableInfoBox("Tab2Warning");
                         }
                     }
+
                     break;
                 }
             }
+
             ChangeWizard(targetWizard);
         }
 
@@ -86,14 +144,14 @@ namespace Editor.GameLiftConfigurationUI
         {
             _accountDetailTextFields = Root.Query<TextField>(null, "AccountDetailsInput").ToList();
             var dropdownField = Root.Q<DropdownField>(null, "AccountDetailsInput");
-        
+
             var credentials = _accountDetailTextFields.Select(textField => textField.value).ToList();
 
             if (credentials.Any(credential => credential == ""))
             {
                 return false;
             }
-            
+
             _gameLiftConfig.CreationModel.ProfileName = credentials[0];
             _gameLiftConfig.CreationModel.AccessKeyId = credentials[1];
             _gameLiftConfig.CreationModel.SecretKey = credentials[2];
@@ -104,7 +162,7 @@ namespace Editor.GameLiftConfigurationUI
             return true;
         }
 
-        private void CLearCredentials()
+        private void ClearCredentials()
         {
             _accountDetailTextFields = Root.Query<TextField>(null, "AccountDetailsInput").ToList();
             foreach (var textField in _accountDetailTextFields)
@@ -121,11 +179,9 @@ namespace Editor.GameLiftConfigurationUI
             {
                 if (isSetup)
                 {
-                    accountSelect.RegisterValueChangedCallback(_ =>
-                    {
-                        OnAccountSelect(accountSelect.index);
-                    });
+                    accountSelect.RegisterValueChangedCallback(_ => { OnAccountSelect(accountSelect.index); });
                 }
+
                 accountSelect.choices = _gameLiftConfig.CurrentState.AllProfiles.ToList();
                 if (accountSelect.choices.Contains("default"))
                 {
@@ -150,30 +206,35 @@ namespace Editor.GameLiftConfigurationUI
             {
                 switch (label.name)
                 {
-                    case "Bucket":
+                    case "S3BucketNameLabel":
                         label.text = _bootstrapSettings.BucketName ?? "No Bucket Created";
                         break;
                     case "Region":
                         if (_gameLiftConfig.UpdateModel.RegionBootstrap.RegionIndex >= 0)
                         {
-                            label.text = _gameLiftConfig.UpdateModel.RegionBootstrap.AllRegions[_gameLiftConfig.UpdateModel.RegionBootstrap.RegionIndex];
+                            label.text =
+                                _gameLiftConfig.UpdateModel.RegionBootstrap.AllRegions[
+                                    _gameLiftConfig.UpdateModel.RegionBootstrap.RegionIndex];
                         }
+
                         break;
                     case "BootstrapStatus":
                         label.text = _bootstrapSettings.BucketName != null ? "Active" : "Inactive";
                         break;
                 }
             }
+
             UpdateModel(index);
         }
-        
+
         private void UpdateModel(int index)
         {
             _gameLiftConfig.UpdateModel.SelectedProfileIndex = index;
             _gameLiftConfig.SetupWrapper();
             _gameLiftConfig.UpdateModel.Update();
             _gameLiftConfig.CurrentState.SelectedProfile = _gameLiftConfig.UpdateModel.AllProlfileNames[index];
-            _gameLiftConfig.CoreApi.PutSetting(SettingsKeys.SelectedProfile, _gameLiftConfig.CurrentState.SelectedProfile);
+            _gameLiftConfig.CoreApi.PutSetting(SettingsKeys.SelectedProfile,
+                _gameLiftConfig.CurrentState.SelectedProfile);
         }
 
         private void OnTabButtonClicked(ClickEvent evt, Button button)
@@ -188,7 +249,7 @@ namespace Editor.GameLiftConfigurationUI
                 }
                 case "Cancel":
                 {
-                    CLearCredentials();
+                    ClearCredentials();
                     SetupBootMenu();
                     break;
                 }
@@ -203,6 +264,7 @@ namespace Editor.GameLiftConfigurationUI
                     {
                         Debug.Log("Error");
                     }
+
                     break;
                 }
                 case "BootstrapProfile":
@@ -230,7 +292,7 @@ namespace Editor.GameLiftConfigurationUI
         {
             hiddenField.isPasswordField = !hiddenField.isPasswordField;
         }
-    
+
         private CancellationTokenSource _refreshBucketsCancellation;
         private BootstrapSettings _bootstrapSettings;
 
@@ -241,6 +303,8 @@ namespace Editor.GameLiftConfigurationUI
             {
                 EnableInfoBox("Tab2Success");
                 _gameLiftConfig.CurrentState.SelectedBootstrapped = true;
+                BucketSelection(bucketName);
+                
             }
             else
             {
@@ -257,10 +321,33 @@ namespace Editor.GameLiftConfigurationUI
             _bootstrapSettings = BootstrapSettingsFactory.Create();
             _refreshBucketsCancellation = new CancellationTokenSource();
             _bootstrapSettings.SetUp(_refreshBucketsCancellation.Token)
-                .ContinueWith(_ =>
-                {
-                    _bootstrapSettings.RefreshCurrentBucket();
-                }, TaskContinuationOptions.ExecuteSynchronously);
+                .ContinueWith(_ => { _bootstrapSettings.RefreshCurrentBucket(); },
+                    TaskContinuationOptions.ExecuteSynchronously);
+
+            SetLabelText(Strings.LabelBootstrapTitle);
+            SetLabelText(Strings.LabelBootstrapDescription);
+            SetLabelText(Strings.LabelBootstrapPricing);
+            SetLabelText(Strings.LabelBootstrapProfileInput);
+            SetLabelText(Strings.LabelBootstrapBucket);
+            SetLabelText(Strings.LabelBootstrapBucketUnset);
+            SetLabelText(Strings.LabelBootstrapRegion);
+            SetLabelText(Strings.LabelBootstrapStatus);
+            SetLabelText(Strings.LabelBootstrapWarning);
+            SetLabelText(Strings.LabelBootstrapProfilePlaceholder);
+
+            SetLabelTextAndLink(Strings.LabelBootstrapPricingInfo, Urls.GameLiftBootstrapInformation);
+            SetLabelTextAndLink(Strings.LabelBootstrapPricingFreeTier, Urls.AwsFreeTier);
+            SetLabelTextAndLink(Strings.LabelBootstrapHelpLink, Urls.GameLiftBootstrapInformation);
+
+            SetButtonLabelAndAction(Strings.ButtonBootstrapStart, _ =>
+            {
+                // _bootstrapSettings.RefreshBucketName();
+                _gameLiftConfig.OpenS3Popup(_bootstrapSettings.BucketName);
+            });
+            SetButtonLabelAndAction(Strings.ButtonBootstrapAnotherProfile,
+                _ => { ChangeWizard(GetWizard("AddNewProfile")); });
+            SetButtonLabelAndAction(Strings.ButtonBootstrapAnotherBucket,
+                _ => { }); // TODO: Add or find functionality for this
         }
 
         private void SetUpForSelectedMode()
@@ -290,6 +377,8 @@ namespace Editor.GameLiftConfigurationUI
         private void BucketSelection(string selectedBucket)
         {
             _bootstrapSettings.SelectBucket(selectedBucket);
+            _bootstrapSettings.SaveSelectedBucket();
+            Root.Q<Label>("S3BucketNameLabel").text = selectedBucket;
         }
 
         public override void OnAccountSelect()

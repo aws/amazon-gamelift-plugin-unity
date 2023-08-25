@@ -1,0 +1,20 @@
+.LinkBox {
+    flex-direction: row;
+    margin-bottom: 8px;
+    height: 20px;
+    flex: 0 0 auto;
+}
+
+.LinkBox__Link {
+    background-color: rgba(118, 118, 118, 0);
+    color: var(--color-font-link);
+    font-size: 10px;
+    -unity-text-align: middle-left;
+}
+
+.LinkBox__Separator {
+    background-color: rgb(84, 84, 84);
+    width: 1px;
+    margin-right: 20px;
+    margin-left: 20px;
+}
