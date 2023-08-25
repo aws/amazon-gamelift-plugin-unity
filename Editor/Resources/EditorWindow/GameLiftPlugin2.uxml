@@ -4,6 +4,9 @@
     <ui:Template name="InfoLinks" src="./Components/InfoLinks.uxml" />
     <ui:Template name="AnywhereTab" src="./Tabs/AnywhereTab.uxml" />
     <Style src="project://database/Packages/com.amazonaws.gamelift/Editor/Resources/EditorWindow/GameLiftPlugin2.uss?fileID=7433441132597879392&amp;guid=4e00ae66dddd01045a87e5a4a420e644&amp;type=3#GameLiftPlugin2" />
+    <ui:Template src="project://database/Packages/com.amazonaws.gamelift/Editor/Resources/EditorWindow/GameLiftPluginTabMenu.uxml" name="TabMenuTemplate"/>
+    <ui:Template src="project://database/Packages/com.amazonaws.gamelift/Editor/Resources/EditorWindow/GameLiftPluginAmazonGameLiftTab.uxml" name="AmazonGameLiftTabTemplate"/>
+    <ui:Template src="project://database/Packages/com.amazonaws.gamelift/Editor/Resources/EditorWindow/GameLiftPluginAWSAccountCredentialsTab.uxml" name="AWSAccountCredentialsTabTemplate"/>
     <ui:VisualElement name="Main" style="flex-grow: 0; flex-direction: row; width: 100%; height: 100%; flex-shrink: 0; min-height: auto;">
         <ui:Instance template="TabMenuTemplate" name="TabMenu" class="TabButtons" />
         <ui:ScrollView name="Content" mode="Vertical" horizontal-scroller-visibility="Hidden" style="flex-grow: 0; flex-basis: auto; flex-shrink: 0; min-height: auto; width: 75%; align-items: stretch; justify-content: flex-start; height: auto; overflow: hidden; background-color: rgb(63, 63, 63); margin-left: 0; padding-left: 10px;">
@@ -91,9 +94,10 @@
                         </ui:GroupBox>
                     </ui:GroupBox>
                 </ui:GroupBox>
-            </ui:VisualElement>
-            <ui:VisualElement name="AWSAccountCredentialsTab" class="TabMenu" style="display: none;">
-                <ui:GroupBox style="height: 101px;">
+            </ui:VisualElement>-->
+            <ui:Instance template="AWSAccountCredentialsTabTemplate" name="AWSAccountCredentialsTab"/>
+            <!--<ui:VisualElement name="AWSAccountCredentialsTab" class="TabMenu" style="display: none;">
+                <ui:GroupBox style="display: flex; height: 101px;">
                     <ui:Label tabindex="-1" text="Configure your AWS Account" display-tooltip-when-elided="true" name="Title" style="width: 832px; height: 32px; background-color: rgba(118, 118, 118, 0); color: rgb(210, 210, 210); font-size: 24%; right: auto;" />
                     <ui:Label tabindex="-1" text="AWS Account Credentials are used for any account bootstrapping and CloudFormation deployments." display-tooltip-when-elided="true" name="Description" style="width: auto; height: auto; background-color: rgba(118, 118, 118, 0); color: rgb(210, 210, 210); font-size: 12%; right: auto; white-space: normal; margin-top: 11px; -unity-font: url(&apos;project://database/Packages/com.amazonaws.gamelift/Editor/PluginSettings/GameLiftPlugin/Assets/Font/Inter-Regular.otf?fileID=12800000&amp;guid=3a3ab476e5025ad43bbb37916ebaf2b7&amp;type=3#Inter-Regular&apos;); -unity-paragraph-spacing: 62px; word-spacing: 1px; padding-top: -7px; -unity-text-align: middle-left; padding-right: 12px;" />
                     <ui:GroupBox name="LinkBox" style="flex-direction: row; margin-left: 0; padding-left: 0; padding-top: 0; margin-top: 0;">

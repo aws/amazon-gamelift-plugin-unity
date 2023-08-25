@@ -83,6 +83,22 @@
     flex-grow: 1;
 }
 
+.TabButtons{
+    flex-grow: 1; 
+    background-color: rgb(51, 51, 51); 
+    width: 25%; background-image: none; 
+    border-left-width: 2px; 
+    border-right-width: 2px; 
+    border-top-width: 2px; 
+    border-bottom-width: 2px; 
+    border-left-color: rgba(69, 69, 69, 0); 
+    border-right-color: rgb(69, 69, 69); 
+    border-top-color: rgba(69, 69, 69, 0); 
+    border-bottom-color: rgba(69, 69, 69, 0); 
+    height: auto; 
+    min-height: auto;
+}
+
 .InfoBox {
     white-space: normal;
     flex-direction: row;
@@ -197,3 +213,6 @@
 .deploy-status--in-progress .deploy-status__console-link {
     display: flex;
 }
+
+
+
