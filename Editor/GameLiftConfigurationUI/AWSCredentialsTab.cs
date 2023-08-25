@@ -26,6 +26,9 @@ namespace Editor.GameLiftConfigurationUI
             SetupTab();
             SetUpForSelectedMode();
             SetupAccountSection();
+
+            Root.Q<Label>("S3BucketNameLabel").text = _bootstrapSettings.CurrentBucketName ??
+                                                      TextProvider.Get(Strings.LabelBootstrapBucketUnset);
         }
 
         private void SetupAccountSection()
@@ -203,7 +206,7 @@ namespace Editor.GameLiftConfigurationUI
             {
                 switch (label.name)
                 {
-                    case "Bucket":
+                    case "S3BucketNameLabel":
                         label.text = _bootstrapSettings.BucketName ?? "No Bucket Created";
                         break;
                     case "Region":
@@ -300,6 +303,8 @@ namespace Editor.GameLiftConfigurationUI
             {
                 EnableInfoBox("Tab2Success");
                 _gameLiftConfig.CurrentState.SelectedBootstrapped = true;
+                BucketSelection(bucketName);
+                
             }
             else
             {
@@ -372,6 +377,8 @@ namespace Editor.GameLiftConfigurationUI
         private void BucketSelection(string selectedBucket)
         {
             _bootstrapSettings.SelectBucket(selectedBucket);
+            _bootstrapSettings.SaveSelectedBucket();
+            Root.Q<Label>("S3BucketNameLabel").text = selectedBucket;
         }
 
         public override void OnAccountSelect()

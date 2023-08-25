@@ -45,6 +45,7 @@ namespace Editor.GameLiftConfigurationUI
             var tabName = "Tab3";
             base.SetupTab(tabName, OnTabButtonClicked);
             SetupConfigSettings();
+            SetupText();
             SetupButtons();
             SetupAccountDetails();
             await SetupFleetMenu();
@@ -55,7 +56,7 @@ namespace Editor.GameLiftConfigurationUI
         {
             if (_gameLiftConfig.CurrentState.AllProfiles.Length >= 1)
             {
-                var targetFoldout = Root.Q<VisualElement>("AccountDetails","Tab3Foldout");
+                var targetFoldout = Root.Q<VisualElement>("AccountDetails", "Tab3Foldout");
                 ChangeFoldout(null, targetFoldout);
             }
         }
@@ -67,26 +68,26 @@ namespace Editor.GameLiftConfigurationUI
             {
                 _computeName = computeName.Value;
             }
-            
-            var ip =  _gameLiftConfig.CoreApi.GetSetting(SettingsKeys.IpAddress);
+
+            var ip = _gameLiftConfig.CoreApi.GetSetting(SettingsKeys.IpAddress);
             if (ip.Success)
             {
                 _ipAddress = ip.Value;
             }
-            
+
             var selectedProfile = _gameLiftConfig.CoreApi.GetSetting(SettingsKeys.SelectedProfile);
             if (selectedProfile.Success)
             {
                 _gameLiftConfig.CurrentState.SelectedProfile = selectedProfile.Value;
             }
-            
+
             var fleetIndex = _gameLiftConfig.CoreApi.GetSetting(SettingsKeys.SelectedFleetIndex);
             if (fleetIndex.Success)
             {
                 _gameLiftConfig.CurrentState.SelectedFleetIndex = int.Parse(fleetIndex.Value);
             }
         }
-        
+
         private void SetupBootMenu()
         {
             var targetFoldout = GetFoldout(_fleetsList.Count < 1 ? "Connect" : "Connected");
@@ -102,7 +103,7 @@ namespace Editor.GameLiftConfigurationUI
         {
             _fleetDropdown = Root.Q<DropdownField>("FleetDropdown");
             var fleetIdLabel = Root.Q<Label>("FleetIdLabel");
-        
+
             await UpdateFleetMenu();
             _fleetDropdown.RegisterValueChangedCallback(_ =>
                 {
@@ -114,7 +115,7 @@ namespace Editor.GameLiftConfigurationUI
                     _gameLiftConfig.CoreApi.PutSetting(SettingsKeys.SelectedFleetIndex,
                         _gameLiftConfig.CurrentState.SelectedFleetIndex.ToString());
                 }
-            ); 
+            );
             _fleetDropdown.index = _gameLiftConfig.CurrentState.SelectedFleetIndex;
         }
 
@@ -129,22 +130,61 @@ namespace Editor.GameLiftConfigurationUI
                     var targetFoldout = GetFoldout("Connected");
                     ChangeFoldout(currentFoldout, targetFoldout);
                 }
+
                 s_fleetNameList.Clear();
                 _fleetsList.ForEach(fleet => s_fleetNameList.Add(fleet.Name));
                 _fleetDropdown.choices = s_fleetNameList;
             }
         }
 
+        private void SetupText()
+        {
+            SetLabelText(Strings.LabelAnywhereTitle);
+            SetLabelText(Strings.LabelAnywhereDescription);
+            SetFoldoutText(Strings.LabelAnywhereIntegrateTitle);
+            SetLabelText(Strings.LabelAnywhereIntegrateDescription);
+            SetFoldoutText(Strings.LabelAnywhereConnectTitle);
+            SetLabelText(Strings.LabelAnywhereConnectFleetName);
+            SetLabelText(Strings.LabelAnywhereConnectFleetNameHint);
+            SetLabelText(Strings.LabelAnywhereConnectedFleetID);
+            SetLabelText(Strings.LabelAnywhereConnectedFleetStatus);
+            SetFoldoutText(Strings.LabelAnywhereComputeTitle);
+            SetLabelText(Strings.LabelAnywhereComputeName);
+            SetLabelText(Strings.LabelAnywhereComputeIP);
+            SetFoldoutText(Strings.LabelAnywhereAuthTokenTitle);
+            SetLabelText(Strings.LabelAnywhereAuthTokenField);
+            SetLabelText(Strings.LabelAnywhereAuthTokenFieldNote);
+            SetFoldoutText(Strings.LabelAnywhereLaunchClient);
+            SetLabelText(Strings.LabelAnywhereLaunchClientField);
+
+            SetLabelTextAndLink(Strings.LabelAnywhereIntegrateServerLink, "");
+            SetLabelTextAndLink(Strings.LabelAnywhereIntegrateClientLink, "");
+
+            SetButtonLabelAndAction(Strings.ButtonAnywhereConnectButton, async _ =>
+            {
+                var success = await CreateAnywhereFleet(_fleetName);
+            });
+            SetButtonLabelAndAction(Strings.ButtonAnywhereCompute, async _ =>
+            {
+                var success = await RegisterFleetCompute(_computeName, _fleetId, FleetLocation, _ipAddress);
+                if (success)
+                {
+                    ComputeSuccess();
+                }
+            });
+            SetButtonLabelAndAction(Strings.ButtonAnywhereLaunchClient, _ => { });
+        }
+
         private void SetupButtons()
         {
             var fleetTextField = Root.Q<TextField>("CreateAnywhereFleetField");
-            var fleetTextButton = Root.Q<Button>("CreateAnywhereFleet");
-            fleetTextField.RegisterValueChangedCallback(_ =>  SetupFleetButton(fleetTextField,fleetTextButton));
-        
-            var registerComputeTextButton = Root.Q<Button>("RegisterCompute");
+            var fleetTextButton = Root.Q<Button>("ButtonAnywhereConnectButton");
+            fleetTextField.RegisterValueChangedCallback(_ => SetupFleetButton(fleetTextField, fleetTextButton));
+
+            var registerComputeTextButton = Root.Q<Button>("ButtonAnywhereCompute");
             var registerComputeTextField = Root.Q<TextField>("RegisterComputeField");
             var ipTextFields = Root.Query<TextField>("IpAddress").ToList();
-        
+
             registerComputeTextField.RegisterValueChangedCallback(_ =>
                 SetupCompute(registerComputeTextField, ipTextFields, registerComputeTextButton));
             registerComputeTextField.value = _computeName;
@@ -172,7 +212,7 @@ namespace Editor.GameLiftConfigurationUI
             var regex = new Regex(testPattern);
             var match = regex.Match(text);
             var correctComposition = match.Success && text.Length is >= 1 and <= 1024;
-        
+
             return correctComposition && s_fleetNameList.All(fleet => fleet != text);
         }
 
@@ -203,7 +243,7 @@ namespace Editor.GameLiftConfigurationUI
             var launchClientButton = Root.Q<Button>("LaunchClient");
             ToggleButtons(launchClientButton, true);
         }
-    
+
         private async void OnTabButtonClicked(ClickEvent evt, Button button)
         {
             switch (button.name)
@@ -224,7 +264,7 @@ namespace Editor.GameLiftConfigurationUI
                         ToggleButtons(button, true);
                         Debug.Log("Error creating fleet");
                     }
-                
+
                     break;
                 }
                 case "CreateAnotherFleet":
@@ -237,7 +277,7 @@ namespace Editor.GameLiftConfigurationUI
                 case "RegisterCompute":
                 {
                     var success = await RegisterFleetCompute(_computeName, _fleetId, FleetLocation, _ipAddress);
-                    if(!success)
+                    if (!success)
                     {
                         ToggleButtons(button, true);
                     }
@@ -245,12 +285,13 @@ namespace Editor.GameLiftConfigurationUI
                     {
                         ComputeSuccess();
                     }
+
                     break;
                 }
                 case "CancelCompute":
                 {
                     var success = await DeregisterFleetCompute(_computeName, _fleetId);
-                    if(success)
+                    if (success)
                     {
                         var launchClientButton = Root.Q<Button>("LaunchClient");
                         ToggleButtons(launchClientButton, false);
@@ -259,6 +300,7 @@ namespace Editor.GameLiftConfigurationUI
                         var statusBox = Root.Q<VisualElement>("StatusBox");
                         statusBox.style.display = DisplayStyle.None;
                     }
+
                     break;
                 }
                 case "LaunchClient":
@@ -280,16 +322,20 @@ namespace Editor.GameLiftConfigurationUI
                     var fleetId = await CreateFleet(ComputeType.ANYWHERE, FleetLocation);
                     var fleetNameResponse = _gameLiftConfig.CoreApi.PutSetting(SettingsKeys.FleetName, fleetName);
                     var fleetIdResponse = _gameLiftConfig.CoreApi.PutSetting(SettingsKeys.FleetId, fleetId);
-                    var customLocationNameResponse = _gameLiftConfig.CoreApi.PutSetting(SettingsKeys.CustomLocationName, FleetLocation);
+                    var customLocationNameResponse =
+                        _gameLiftConfig.CoreApi.PutSetting(SettingsKeys.CustomLocationName, FleetLocation);
                     return fleetNameResponse.Success && customLocationNameResponse.Success && fleetIdResponse.Success;
                 }
+
                 return false;
             }
+
             Debug.Log("Error: Missing Account Profile");
             return false;
         }
-    
-        private async Task<bool> RegisterFleetCompute(string computeName, string fleetId, string fleetLocation, string ipAddress)
+
+        private async Task<bool> RegisterFleetCompute(string computeName, string fleetId, string fleetLocation,
+            string ipAddress)
         {
             var webSocketUrl = await RegisterCompute(computeName, fleetId, fleetLocation, ipAddress);
             if (webSocketUrl != null)
@@ -297,13 +343,13 @@ namespace Editor.GameLiftConfigurationUI
                 var computeNameResponse = _gameLiftConfig.CoreApi.PutSetting(SettingsKeys.ComputeName, computeName);
                 var ipAddressResponse = _gameLiftConfig.CoreApi.PutSetting(SettingsKeys.IpAddress, ipAddress);
                 var webSocketResponse = _gameLiftConfig.CoreApi.PutSetting(SettingsKeys.WebSocketUrl, webSocketUrl);
-            
+
                 return computeNameResponse.Success && ipAddressResponse.Success && webSocketResponse.Success;
             }
-        
+
             return false;
         }
-    
+
         private async Task<bool> DeregisterFleetCompute(string computeName, string fleetId)
         {
             var success = await DeregisterCompute(computeName, fleetId);
@@ -314,7 +360,7 @@ namespace Editor.GameLiftConfigurationUI
                 var webSocketResponse = _gameLiftConfig.CoreApi.ClearSetting(SettingsKeys.WebSocketUrl);
                 return computeNameResponse.Success && ipAddressResponse.Success && webSocketResponse.Success;
             }
-        
+
             return false;
         }
 
@@ -324,23 +370,26 @@ namespace Editor.GameLiftConfigurationUI
             {
                 var listLocationsResponse = await _gameLiftConfig.GameLiftWrapper.ListLocations(new ListLocationsRequest
                 {
-                    Filters = new List<string>{ "CUSTOM" }
+                    Filters = new List<string> { "CUSTOM" }
                 });
-                
-                var foundLocation = listLocationsResponse.Locations.FirstOrDefault(l => l.LocationName.ToString() == fleetLocation);
+
+                var foundLocation =
+                    listLocationsResponse.Locations.FirstOrDefault(l => l.LocationName.ToString() == fleetLocation);
 
                 if (foundLocation == null)
                 {
-                    var createLocationResponse = await _gameLiftConfig.GameLiftWrapper.CreateLocation(new CreateLocationRequest()
-                    {
-                        LocationName = fleetLocation
-                    });
-                    
+                    var createLocationResponse = await _gameLiftConfig.GameLiftWrapper.CreateLocation(
+                        new CreateLocationRequest()
+                        {
+                            LocationName = fleetLocation
+                        });
+
                     if (createLocationResponse.HttpStatusCode == HttpStatusCode.OK)
                     {
                         Console.WriteLine($"Created Custom Location {fleetLocation}");
                     }
                 }
+
                 return true;
             }
             catch (Exception ex)
@@ -381,7 +430,7 @@ namespace Editor.GameLiftConfigurationUI
                 return null;
             }
         }
-    
+
         private async Task<List<FleetAttributes>> ListFleets()
         {
             try
@@ -407,7 +456,8 @@ namespace Editor.GameLiftConfigurationUI
             }
         }
 
-        private async Task<string> RegisterCompute(string computeName, string fleetId, string fleetLocation, string ipAddress)
+        private async Task<string> RegisterCompute(string computeName, string fleetId, string fleetLocation,
+            string ipAddress)
         {
             try
             {
@@ -418,8 +468,9 @@ namespace Editor.GameLiftConfigurationUI
                     IpAddress = ipAddress,
                     Location = fleetLocation
                 };
-                var registerComputeResponse = await _gameLiftConfig.GameLiftWrapper.RegisterCompute(registerComputeRequest);
-                
+                var registerComputeResponse =
+                    await _gameLiftConfig.GameLiftWrapper.RegisterCompute(registerComputeRequest);
+
                 return registerComputeResponse.Compute.GameLiftServiceSdkEndpoint;
             }
             catch (Exception ex)
@@ -431,7 +482,7 @@ namespace Editor.GameLiftConfigurationUI
                 return null;
             }
         }
-    
+
         private async Task<bool> DeregisterCompute(string computeName, string fleetId)
         {
             try
@@ -441,7 +492,8 @@ namespace Editor.GameLiftConfigurationUI
                     ComputeName = computeName,
                     FleetId = fleetId
                 };
-                var deregisterComputeResponse = await _gameLiftConfig.GameLiftWrapper.DeregisterCompute(deregisterComputeRequest);
+                var deregisterComputeResponse =
+                    await _gameLiftConfig.GameLiftWrapper.DeregisterCompute(deregisterComputeRequest);
 
                 return deregisterComputeResponse.HttpStatusCode == HttpStatusCode.OK;
             }
@@ -451,7 +503,7 @@ namespace Editor.GameLiftConfigurationUI
                 return false;
             }
         }
-        
+
         private async Task<bool> DescribeCompute(string computeName, string fleetId)
         {
             try
@@ -461,7 +513,8 @@ namespace Editor.GameLiftConfigurationUI
                     ComputeName = computeName,
                     FleetId = fleetId
                 };
-                var deregisterComputeResponse = await _gameLiftConfig.GameLiftWrapper.DescribeCompute(deregisterComputeRequest);
+                var deregisterComputeResponse =
+                    await _gameLiftConfig.GameLiftWrapper.DescribeCompute(deregisterComputeRequest);
 
                 return deregisterComputeResponse.HttpStatusCode == HttpStatusCode.OK;
             }

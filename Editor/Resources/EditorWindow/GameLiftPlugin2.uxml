@@ -2,6 +2,7 @@
     <ui:Template name="TabMenuTemplate" src="./GameLiftPluginTabMenu.uxml" />
     <ui:Template name="AmazonGameLiftTabDescriptionInfoBox" src="./GameLiftPluginAmazonGameLiftTabDescriptionInfoBox.uxml" />
     <ui:Template name="InfoLinks" src="./Components/InfoLinks.uxml" />
+    <ui:Template name="AnywhereTab" src="./Tabs/AnywhereTab.uxml" />
     <Style src="project://database/Packages/com.amazonaws.gamelift/Editor/Resources/EditorWindow/GameLiftPlugin2.uss?fileID=7433441132597879392&amp;guid=4e00ae66dddd01045a87e5a4a420e644&amp;type=3#GameLiftPlugin2" />
     <ui:VisualElement name="Main" style="flex-grow: 0; flex-direction: row; width: 100%; height: 100%; flex-shrink: 0; min-height: auto;">
         <ui:Instance template="TabMenuTemplate" name="TabMenu" class="TabButtons" />
@@ -216,127 +217,7 @@
                     </ui:GroupBox>
                 </ui:GroupBox>
             </ui:VisualElement>
-            <ui:VisualElement name="GameLiftAnywhereTab" class="TabMenu" style="display: none;">
-                <ui:GroupBox name="Header" style="display: flex; height: 130px;">
-                    <ui:Label tabindex="-1" text="GameLift Anywhere" display-tooltip-when-elided="true" name="Title" style="width: 832px; height: 32px; background-color: rgba(118, 118, 118, 0); color: rgb(210, 210, 210); font-size: 24%; right: auto;" />
-                    <ui:Label tabindex="-1" text="Amazon GameLift Anywhere fleets use your existing infrastructure to host game servers while Amazon GameLift manages your matchmaking and queues.&#10;You can integrate Anywhere and Managed EC2 fleets in matchmaker and game session queues to manage matchmaking and game placement." display-tooltip-when-elided="true" name="Description" style="width: auto; height: auto; background-color: rgba(118, 118, 118, 0); color: rgb(210, 210, 210); font-size: 12%; right: auto; white-space: normal; margin-top: 11px; -unity-font: url(&apos;project://database/Packages/com.amazonaws.gamelift/Editor/PluginSettings/GameLiftPlugin/Assets/Font/Inter-Regular.otf?fileID=12800000&amp;guid=3a3ab476e5025ad43bbb37916ebaf2b7&amp;type=3#Inter-Regular&apos;); -unity-paragraph-spacing: 62px; word-spacing: 1px; padding-top: -7px; -unity-text-align: middle-left; padding-right: 12px;" />
-                    <ui:GroupBox name="LinkBox" style="flex-direction: row; margin-left: 0; padding-left: 0; padding-top: 0; margin-top: 0;">
-                        <ui:Label tabindex="-1" text="View Documentation" display-tooltip-when-elided="true" name="Label" class="link" style="width: auto; height: 19px; background-color: rgba(118, 118, 118, 0); color: rgb(76, 126, 255); font-size: 10px; right: auto; white-space: normal; margin-top: 11px; -unity-font: url(&apos;project://database/Packages/com.amazonaws.gamelift/Editor/PluginSettings/GameLiftPlugin/Assets/Font/Inter-Regular.otf?fileID=12800000&amp;guid=3a3ab476e5025ad43bbb37916ebaf2b7&amp;type=3#Inter-Regular&apos;); -unity-paragraph-spacing: 62px; word-spacing: 1px; padding-top: -7px; -unity-text-align: middle-left; margin-right: 14px;" />
-                        <ui:VisualElement style="flex-grow: 1; background-color: rgb(82, 82, 82); width: 1px; min-width: 1px; max-width: 0;" />
-                        <ui:Label tabindex="-1" text="Troubleshooting" display-tooltip-when-elided="true" class="link" style="width: auto; height: 19px; background-color: rgba(118, 118, 118, 0); color: rgb(76, 126, 255); font-size: 10px; right: auto; white-space: normal; margin-top: 11px; -unity-font: url(&apos;project://database/Packages/com.amazonaws.gamelift/Editor/PluginSettings/GameLiftPlugin/Assets/Font/Inter-Regular.otf?fileID=12800000&amp;guid=3a3ab476e5025ad43bbb37916ebaf2b7&amp;type=3#Inter-Regular&apos;); -unity-paragraph-spacing: 62px; word-spacing: 1px; padding-top: -7px; -unity-text-align: middle-left; margin-left: 14px;" />
-                    </ui:GroupBox>
-                    <ui:VisualElement name="Divider" style="flex-grow: 1; background-color: rgba(255, 255, 255, 0.2); width: 95%; height: 1px; -unity-text-outline-width: 0; -unity-text-outline-color: rgb(255, 255, 255); margin-bottom: 0; padding-top: 0; max-width: 100%; max-height: 1px; min-height: 1px;" />
-                </ui:GroupBox>
-                <ui:GroupBox name="AnywhereConfig" style="margin-right: 22px; font-size: 18px; display: flex;">
-                    <ui:Foldout text="AWS Account Details" name="AccountDetails" class="Tab3Foldout" style="color: rgb(210, 210, 210); display: flex; margin-bottom: 0; -unity-font-style: normal; font-size: 18px; padding-bottom: 7px;">
-                        <ui:GroupBox name="AWSAccountProfile" style="flex-direction: row; height: 20px; margin-bottom: 3px; padding-top: 0; padding-bottom: 0; font-size: 12px;">
-                            <ui:Label tabindex="-1" text="AWS Account Profile" display-tooltip-when-elided="true" style="width: 30%; margin-top: 4px; color: rgb(196, 196, 196);" />
-                            <ui:DropdownField index="-1" name="DropdownField" tabindex="1" tooltip="Choose Profile" class="AccountSelection" style="width: 60%; height: 21px;" />
-                        </ui:GroupBox>
-                        <ui:GroupBox name="S3Bucket" style="height: 20px; flex-direction: row; -unity-text-align: middle-left; margin-top: 3px; padding-top: 0; margin-bottom: 3px; font-size: 12px;">
-                            <ui:Label tabindex="-1" text="S3 Bucket Name" display-tooltip-when-elided="true" name="Label" style="width: 30%; margin-top: 4px; color: rgb(196, 196, 196);" />
-                            <ui:Label tabindex="-1" text="-" display-tooltip-when-elided="true" name="Bucket" class="AccountSelectLabel" style="width: 68%; margin-top: 4px; color: rgb(255, 255, 255); margin-left: 5px;" />
-                        </ui:GroupBox>
-                        <ui:GroupBox name="AWSRegion" style="height: 20px; flex-direction: row; -unity-text-align: middle-left; margin-top: 3px; padding-top: 0; margin-bottom: 3px; font-size: 12px;">
-                            <ui:Label tabindex="-1" text="AWS Region" display-tooltip-when-elided="true" name="Label" style="width: 30%; margin-top: 4px; color: rgb(196, 196, 196);" />
-                            <ui:Label tabindex="-1" text="-" display-tooltip-when-elided="true" name="Region" class="AccountSelectLabel" style="width: 68%; margin-top: 4px; color: rgb(255, 255, 255); margin-left: 5px;" />
-                        </ui:GroupBox>
-                        <ui:GroupBox name="BootstrapStatus" style="height: 20px; flex-direction: row; -unity-text-align: middle-left; margin-top: 3px; padding-top: 0; margin-bottom: 3px; font-size: 12px;">
-                            <ui:Label tabindex="-1" text="Bootstrap Status" display-tooltip-when-elided="true" name="Label" style="width: 30%; margin-top: 4px; color: rgb(196, 196, 196);" />
-                            <ui:Label tabindex="-1" text="-" display-tooltip-when-elided="true" name="BootstrapStatus" class="AccountSelectLabel" style="width: 68%; margin-top: 4px; color: rgb(255, 255, 255); margin-left: 5px;" />
-                        </ui:GroupBox>
-                    </ui:Foldout>
-                    <ui:Foldout text="Integrate GameLift with your game client" name="Description" style="color: rgb(210, 210, 210); display: flex; margin-bottom: 0; -unity-font-style: normal; font-size: 18px;">
-                        <ui:Label tabindex="-1" text="Add the Amazon GameLift server SDK to your game server and add code to communicate with the GameLift hosting service. If you&apos;re working with the Amazon GameLift sample game, this integration is already done." display-tooltip-when-elided="true" style="color: rgb(210, 210, 210); white-space: normal; font-size: 12px;" />
-                        <ui:Label tabindex="-1" text="Setup Amazon GameLift on a backend service \uf08e" display-tooltip-when-elided="true" name="Label" class="link" style="width: 256px; height: 15px; background-color: rgba(118, 118, 118, 0); color: rgb(210, 210, 210); font-size: 12px; right: auto; white-space: normal; margin-top: 11px; -unity-font: resource(&apos;Font/FontAwesome&apos;); -unity-paragraph-spacing: 62px; word-spacing: 1px; padding-top: 0; -unity-text-align: middle-left; margin-right: 14px; margin-bottom: 12px; -unity-font-definition: resource(&apos;Font/FontAwesome SDF&apos;); border-bottom-width: 1px; border-bottom-color: rgb(210, 210, 210);" />
-                    </ui:Foldout>
-                    <ui:Foldout text="Connect to Anywhere Fleet" name="Connect" class="Tab3Foldout" style="color: rgb(210, 210, 210); display: flex; margin-top: 0; font-size: 18px;">
-                        <ui:GroupBox name="FleetErrorInfoBox" class="InfoBox ErrorBox Tab3Error" style="margin-right: 3px; background-color: rgba(250, 39, 39, 0.13); border-left-color: rgb(250, 39, 39); border-right-color: rgb(250, 39, 39); border-top-color: rgb(250, 39, 39); border-bottom-color: rgb(250, 39, 39); left: auto; right: 22px; width: 107%; display: none;">
-                            <ui:VisualElement style="flex-grow: 1; background-color: rgba(0, 0, 0, 0); max-width: 35px; max-height: 35px; align-self: auto; background-image: url(&apos;project://database/Assets/UnityDefaultRuntimeTheme.tss?fileID=-2236324273849735119&amp;guid=083c51dc2d0be354489adc8fd3ff6431&amp;type=3#arrow-left@2x&apos;); min-width: 35px; min-height: 35px;" />
-                            <ui:Label tabindex="-1" text="S3 Buckets reached maximum limit 1000, manage your list of buckets" display-tooltip-when-elided="true" style="width: 67%; font-size: 9px; align-self: center;" />
-                            <ui:Button text="View S3 Console \uf08e" display-tooltip-when-elided="true" style="max-height: 40px; align-self: center; background-color: rgb(228, 228, 228); color: rgb(27, 27, 27); font-size: 10px; margin-top: 6px; margin-bottom: 6px; -unity-font: resource(&apos;Font/FontAwesome&apos;); -unity-font-definition: resource(&apos;Font/FontAwesome SDF&apos;);" />
-                            <ui:Button text="X" display-tooltip-when-elided="true" name="CloseInfoBox" style="align-self: center; align-items: flex-start; justify-content: space-between; flex-direction: column; overflow: hidden; max-width: 40px; border-left-color: rgba(149, 149, 149, 0); border-right-color: rgba(149, 149, 149, 0); border-top-color: rgba(149, 149, 149, 0); border-bottom-color: rgba(149, 149, 149, 0); background-color: rgba(188, 188, 188, 0); padding-left: 0; margin-left: 2px;" />
-                        </ui:GroupBox>
-                        <ui:GroupBox style="flex-direction: row; padding-left: 0; margin-left: 0; right: auto;">
-                            <ui:Label tabindex="-1" text="Fleet Name" display-tooltip-when-elided="true" style="font-size: 12px;" />
-                            <ui:GroupBox style="width: 75%; margin-top: 0; padding-top: 0; left: 15%;">
-                                <ui:TextField picking-mode="Ignore" value="GameName-AnywhereFleet" name="CreateAnywhereFleetField" style="margin-bottom: 6px; font-size: 12px; width: 60%;" />
-                                <ui:Label tabindex="-1" text="Fleet Name must have 1–1024 characters. Valid characters are A-Z, a-z, 0-9, _ and - (hyphen)" display-tooltip-when-elided="true" style="font-size: 8px; padding-bottom: 11px; left: 4px;" />
-                                <ui:Button text="Create Anywhere Fleet" display-tooltip-when-elided="true" focusable="false" name="CreateAnywhereFleet" class="Tab3Button DefaultDisabled" style="background-color: rgb(44, 93, 135); width: 50%; right: auto; left: 2px;" />
-                            </ui:GroupBox>
-                        </ui:GroupBox>
-                    </ui:Foldout>
-                    <ui:Foldout text="Connect to Anywhere Fleet" name="Connected" class="Tab3Foldout" style="color: rgb(210, 210, 210); display: none; margin-top: 0; font-size: 18px; height: auto; margin-bottom: 20px;">
-                        <ui:GroupBox name="FleetDetails" style="display: flex; font-size: 12px; margin-left: 0; padding-left: 0; margin-top: 0; padding-top: 0;">
-                            <ui:GroupBox name="Fleet" style="flex-direction: row; height: 20px; margin-bottom: 3px; padding-top: 0; padding-bottom: 0; margin-left: 0; padding-left: 0;">
-                                <ui:Label tabindex="-1" text="Anywhere Fleet" display-tooltip-when-elided="true" style="width: 34%; margin-top: 4px; color: rgb(196, 196, 196);" />
-                                <ui:DropdownField index="-1" choices="default" name="FleetDropdown" tabindex="1" style="width: 70%; height: 21px; left: auto; right: 2%;" />
-                            </ui:GroupBox>
-                            <ui:GroupBox name="FleetId" style="height: 20px; flex-direction: row; -unity-text-align: middle-left; margin-top: 3px; padding-top: 0; margin-bottom: 3px; margin-left: 0; padding-left: 0;">
-                                <ui:Label tabindex="-1" text="Anywhere Fleet ID" display-tooltip-when-elided="true" name="Label" style="width: 34%; margin-top: 4px; color: rgb(196, 196, 196);" />
-                                <ui:Label tabindex="-1" text="fleet-12345678" display-tooltip-when-elided="true" name="FleetIdLabel" style="width: 68%; margin-top: 4px; color: rgb(255, 255, 255); margin-left: 5px; right: 2%;" />
-                            </ui:GroupBox>
-                            <ui:GroupBox name="FleetStatus" style="height: 20px; flex-direction: row; -unity-text-align: middle-left; margin-top: 0; padding-top: 0; margin-bottom: 8px; margin-left: 0; padding-left: 0;">
-                                <ui:Label tabindex="-1" text="Anywhere Fleet Status" display-tooltip-when-elided="true" name="Label" style="width: 34%; margin-top: 4px; color: rgb(196, 196, 196);" />
-                                <ui:GroupBox style="flex-direction: column; height: 48px; width: 79%; margin-top: 0; padding-top: 0; padding-left: 0; margin-left: 0; right: 2%;">
-                                    <ui:GroupBox style="flex-direction: row; margin-left: 0; margin-right: 0; margin-top: 0; margin-bottom: 0; padding-left: 0; padding-right: 0; padding-top: 0; padding-bottom: 0;">
-                                        <ui:Label tabindex="-1" text="Active" display-tooltip-when-elided="true" name="Label" class="link" style="width: 12%; margin-top: 4px; color: rgb(88, 188, 97); margin-left: 5px;" />
-                                        <ui:Label tabindex="-1" text="View in Amazon GameLift Console" display-tooltip-when-elided="true" style="align-self: center; justify-content: center; align-items: flex-start; padding-top: 5px;" />
-                                    </ui:GroupBox>
-                                    <ui:Button text="Create new Anywhere Fleet" display-tooltip-when-elided="true" name="CreateAnotherFleet" class="Tab3Button" style="width: 47%; margin-left: 5px; margin-top: 8px;" />
-                                </ui:GroupBox>
-                            </ui:GroupBox>
-                        </ui:GroupBox>
-                    </ui:Foldout>
-                    <ui:Foldout text="Register Compute" name="RegisterCompute" style="color: rgb(210, 210, 210); display: flex; font-size: 18px; margin-bottom: 8px;">
-                        <ui:GroupBox name="ComputeErrorInfoBox" class="InfoBox ErrorBox Tab3Error" style="margin-right: 3px; background-color: rgba(250, 39, 39, 0.13); border-left-color: rgb(250, 39, 39); border-right-color: rgb(250, 39, 39); border-top-color: rgb(250, 39, 39); border-bottom-color: rgb(250, 39, 39); left: auto; right: 22px; width: 107%; display: none;">
-                            <ui:VisualElement style="flex-grow: 1; background-color: rgba(0, 0, 0, 0); max-width: 35px; max-height: 35px; align-self: auto; background-image: url(&apos;project://database/Assets/UnityDefaultRuntimeTheme.tss?fileID=-2236324273849735119&amp;guid=083c51dc2d0be354489adc8fd3ff6431&amp;type=3#arrow-left@2x&apos;); min-width: 35px; min-height: 35px;" />
-                            <ui:Label tabindex="-1" text="You have reached the maximum limit of 1000 computes, manage your &#10;compute." display-tooltip-when-elided="true" style="width: 67%; font-size: 9px; align-self: center;" />
-                            <ui:Button text="View S3 Console \uf08e" display-tooltip-when-elided="true" style="max-height: 40px; align-self: center; background-color: rgb(228, 228, 228); color: rgb(27, 27, 27); font-size: 10px; margin-top: 6px; margin-bottom: 6px; -unity-font: resource(&apos;Font/FontAwesome&apos;); -unity-font-definition: resource(&apos;Font/FontAwesome SDF&apos;);" />
-                            <ui:Button text="X" display-tooltip-when-elided="true" name="CloseInfoBox" style="align-self: center; align-items: flex-start; justify-content: space-between; flex-direction: column; overflow: hidden; max-width: 40px; border-left-color: rgba(149, 149, 149, 0); border-right-color: rgba(149, 149, 149, 0); border-top-color: rgba(149, 149, 149, 0); border-bottom-color: rgba(149, 149, 149, 0); background-color: rgba(188, 188, 188, 0); padding-left: 0; margin-left: 2px;" />
-                        </ui:GroupBox>
-                        <ui:GroupBox style="flex-direction: row; margin-left: 0; padding-left: 0; padding-bottom: 0; margin-bottom: 0;">
-                            <ui:Label tabindex="-1" text="Compute Name" display-tooltip-when-elided="true" style="font-size: 12px; width: 32%;" />
-                            <ui:TextField picking-mode="Ignore" value="ComputerName-ProfileName" name="RegisterComputeField" style="margin-bottom: 6px; width: 60%; left: auto; font-size: 12px; padding-left: 1px;" />
-                        </ui:GroupBox>
-                        <ui:GroupBox style="flex-direction: row; padding-left: 0; margin-left: 0; right: auto; padding-top: 0; margin-top: 5px; font-size: 12px; padding-bottom: 0; margin-bottom: 0;">
-                            <ui:Label tabindex="-1" text="IP Address" display-tooltip-when-elided="true" style="font-size: 12px; width: 31%;" />
-                            <ui:GroupBox style="flex-direction: row; margin-top: 0; padding-top: 0; left: auto;">
-                                <ui:TextField picking-mode="Ignore" value="120" max-length="3" keyboard-type="NumberPad" name="IpAddress" style="margin-bottom: 6px; width: 30px; margin-top: 0;" />
-                                <ui:Label tabindex="-1" text="." display-tooltip-when-elided="true" style="padding-right: 0;" />
-                                <ui:TextField picking-mode="Ignore" value="120" max-length="3" keyboard-type="NumberPad" name="IpAddress" style="margin-bottom: 6px; width: 30px; margin-top: 0;" />
-                                <ui:Label tabindex="-1" text="." display-tooltip-when-elided="true" style="padding-right: 0;" />
-                                <ui:TextField picking-mode="Ignore" value="120" max-length="3" keyboard-type="NumberPad" name="IpAddress" style="margin-bottom: 6px; width: 30px; margin-top: 0;" />
-                                <ui:Label tabindex="-1" text="." display-tooltip-when-elided="true" style="padding-right: 0;" />
-                                <ui:TextField picking-mode="Ignore" value="120" max-length="3" keyboard-type="NumberPad" name="IpAddress" style="margin-bottom: 6px; width: 30px; margin-top: 0;" />
-                            </ui:GroupBox>
-                        </ui:GroupBox>
-                        <ui:GroupBox name="StatusBox" style="flex-direction: row; padding-left: 0; margin-left: 0; right: auto; padding-top: 0; margin-top: 1px; font-size: 12px; display: none; margin-bottom: 0;">
-                            <ui:Label tabindex="-1" text="Status" display-tooltip-when-elided="true" style="font-size: 12px; width: 31%;" />
-                            <ui:Label tabindex="-1" text="Registered" display-tooltip-when-elided="true" style="color: rgb(83, 163, 90); padding-left: 10px;" />
-                        </ui:GroupBox>
-                        <ui:GroupBox style="flex-direction: row; margin-top: 0; padding-top: 0;">
-                            <ui:Button text="Register Compute" display-tooltip-when-elided="true" focusable="false" name="RegisterCompute" class="Tab3Button DefaultDisabled" style="background-color: rgb(88, 88, 88); width: 35%; right: auto; left: 32%; margin-top: 2px; margin-left: 0; padding-left: 11px;" />
-                            <ui:Button text="Cancel Compute" display-tooltip-when-elided="true" focusable="false" name="CancelCompute" class="Tab3Button" style="background-color: rgb(88, 88, 88); width: 35%; right: auto; left: 32%; margin-top: 2px; margin-left: 0; padding-left: 11px; display: none;" />
-                        </ui:GroupBox>
-                    </ui:Foldout>
-                    <ui:Foldout text="Generate Auth Token - optional" name="AuthToken" style="color: rgb(210, 210, 210); display: flex; font-size: 18px;">
-                        <ui:GroupBox style="flex-direction: row; padding-left: 0; margin-left: 0; right: auto;">
-                            <ui:Label tabindex="-1" text="Status" display-tooltip-when-elided="true" name="Label" style="font-size: 12px; width: 32%;" />
-                            <ui:GroupBox style="width: 60%; margin-top: 0; padding-top: 0; left: auto; font-size: 14px;">
-                                <ui:Label tabindex="-1" text="Not Generated" display-tooltip-when-elided="true" style="-unity-font-style: bold;" />
-                                <ui:Label tabindex="-1" text="The auth token is generated when you launch your game" display-tooltip-when-elided="true" style="padding-right: 0; font-size: 10px;" />
-                            </ui:GroupBox>
-                        </ui:GroupBox>
-                    </ui:Foldout>
-                    <ui:Foldout text="Launch Client" name="LaunchClient" style="color: rgb(210, 210, 210); display: flex;">
-                        <ui:GroupBox style="flex-direction: row; padding-left: 0; margin-left: 0; right: auto;">
-                            <ui:Label tabindex="-1" text="Run Game" display-tooltip-when-elided="true" style="font-size: 12px; width: 33%;" />
-                            <ui:Button text="Launch Client" display-tooltip-when-elided="true" focusable="false" name="LaunchClient" class="Tab3Button DefaultDisabled" style="background-color: rgb(88, 88, 88); width: 27%; right: auto; left: auto;" />
-                        </ui:GroupBox>
-                    </ui:Foldout>
-                </ui:GroupBox>
-            </ui:VisualElement>
+            <ui:Instance template="AnywhereTab" />
             <ui:VisualElement name="ManagedEC2Tab" class="TabMenu" style="display: none;">
                 <ui:GroupBox name="Header" style="height: 116px;">
                     <ui:Label tabindex="-1" text="Managed EC2" display-tooltip-when-elided="true" name="Title" style="width: 832px; height: 32px; background-color: rgba(118, 118, 118, 0); color: rgb(210, 210, 210); font-size: 24%; right: auto;" />

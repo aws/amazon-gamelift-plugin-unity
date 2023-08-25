@@ -89,6 +89,12 @@ namespace Editor.GameLiftConfigurationUI
             if (label != default) label.text = TextProvider.Get(labelName);
         }
 
+        protected void SetFoldoutText(string labelName) 
+        {
+            var label = Root.Q<Foldout>(labelName);
+            if (label != null) label.text = TextProvider.Get(labelName);
+        }
+
         protected void SetLabelTextAndLink(string labelName, string linkUrl)
         {
             var label = Root.Q<Label>(labelName);

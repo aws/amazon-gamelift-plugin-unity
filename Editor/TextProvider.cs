@@ -239,7 +239,7 @@ namespace AmazonGameLift.Editor
             { Strings.LabelAnywhereIntegrateClientLink, "Integrate game client functionality with the AWS SDK"},
             { Strings.LabelAnywhereConnectTitle, "Connect to an Anywhere Fleet"},
             { Strings.LabelAnywhereConnectFleetName, "Fleet name"},
-            { Strings.LabelAnywhereConnectFleetNameHint, ""}, // TODO: Get string for this
+            { Strings.LabelAnywhereConnectFleetNameHint, "Fleet Name must have 1–1024 characters. Valid characters are A-Z, a-z, 0-9, _ and - (hyphen)"},
             { Strings.ButtonAnywhereConnectButton, "Create New Anywhere Fleet"},
             { Strings.LabelAnywhereConnectedFleetID, "Fleet ID"},
             { Strings.LabelAnywhereConnectedFleetStatus, "Fleet status"},
