@@ -21,7 +21,6 @@ namespace Editor.Resources.EditorWindow
         private VisualElement _currentTab;
         private List<Button> _tabButtons;
         private List<VisualElement> _tabContent;
-        private readonly TextProvider _textProvider = TextProviderFactory.Create();
 
         private const string TabContentSelectedClassName = "TabContent--selected";
         private const string TabButtonSelectedClassName = "TabButton--selected";
