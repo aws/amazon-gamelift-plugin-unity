@@ -2,6 +2,7 @@
 // SPDX-License-Identifier: Apache-2.0
 
 using AmazonGameLift.Editor;
+using UnityEngine;
 using UnityEngine.UIElements;
 
 namespace Editor.Resources.EditorWindow.Pages
@@ -18,9 +19,28 @@ namespace Editor.Resources.EditorWindow.Pages
             
             container.Add(uxml);
             ApplyText();
+            
+            _container.Q<Button>("CreateAccount").RegisterCallback<ClickEvent>(_ => onCreateAccountClicked());
+            _container.Q<Button>("AddProfile").RegisterCallback<ClickEvent>(_ => onAddProfileClicked());
+            _container.Q<Button>("DownloadSampleGame").RegisterCallback<ClickEvent>(_ => onImportSampleClicked());
         }
 
-        public void ApplyText()
+        private void onCreateAccountClicked()
+        {
+            Application.OpenURL(""); // TODO: Confirm URL for this button
+        }
+
+        private void onAddProfileClicked()
+        {
+            GameLiftPlugin.OpenAccountProfilesTab();
+        }
+
+        private void onImportSampleClicked()
+        {
+            GameLiftPlugin.ImportSampleGame();
+        }
+
+        private void ApplyText()
         {
             var l = new ElementLocalizer(_container);
             l.SetElementText("LandingPageHeader", Strings.LandingPageHeader);
