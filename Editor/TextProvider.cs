@@ -181,7 +181,7 @@ namespace AmazonGameLift.Editor
             { Strings.TabCredentials, "AWS User Profiles" },
             { Strings.TabAnywhere, "GameLift Anywhere" },
             { Strings.TabEC2, "Managed EC2" },
-            { Strings.TabHelp, "Help & Documentation" },
+            { Strings.TabHelp, "Learning Resources" },
         };
 
         public string GetError(string errorCode = null)
