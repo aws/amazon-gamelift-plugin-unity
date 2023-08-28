@@ -111,6 +111,8 @@ namespace Editor.Resources.EditorWindow
             _tabContent = _root.Query(className: TabContentClassName).ToList();
 
             _tabButtons.ForEach(button => button.RegisterCallback<ClickEvent>(_ => { OpenTab(button.name); }));
+            
+            OpenTab("Landing");
         }
 
         private void ApplyText()
