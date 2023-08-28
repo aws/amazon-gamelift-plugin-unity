@@ -3,7 +3,9 @@
 
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using AmazonGameLift.Editor;
+using Editor.Resources.EditorWindow.Pages;
 using UnityEditor;
 using UnityEngine;
 using UnityEngine.UIElements;
@@ -114,20 +116,12 @@ namespace Editor.Resources.EditorWindow
 
         private void ApplyText()
         {
-            SetElementText("Landing", Strings.TabLanding);
-            SetElementText("Credentials", Strings.TabCredentials);
-            SetElementText("Anywhere", Strings.TabAnywhere);
-            SetElementText("EC2", Strings.TabEC2);
-            SetElementText("Help", Strings.TabHelp);
-        }
-
-        private void SetElementText(string elementName, string text)
-        {
-            var button = _root.Q<TextElement>(elementName);
-            if (button != default)
-            {
-                button.text = _textProvider.Get(text);
-            }
+            var l = new ElementLocalizer(_root);
+            l.SetElementText("Landing", Strings.TabLanding);
+            l.SetElementText("Credentials", Strings.TabCredentials);
+            l.SetElementText("Anywhere", Strings.TabAnywhere);
+            l.SetElementText("EC2", Strings.TabEC2);
+            l.SetElementText("Help", Strings.TabHelp);
         }
 
         private void OpenTab(string tabName)
