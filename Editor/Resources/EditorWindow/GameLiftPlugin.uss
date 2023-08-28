@@ -1,0 +1,54 @@
+:root {
+    height: 100%;
+    width: 100%;
+    
+    --color-menu-background: #333333;
+    --color-content-background: #3F3F3F;
+    --color-button-primary: #2C5D87;
+    --color-button-hover: #386082;
+}
+
+.main {
+    flex-direction: row;
+    height: 100%;
+    width: 100%;
+}
+
+.main__menu {
+    width: 25%;
+    padding-top: 20px;
+    background-color: var(--color-menu-background);
+}
+
+.main__content {
+    width: 75%;
+    background-color: var(--color-content-background);
+}
+
+.TabButton {
+    font-size: 18px;
+    -unity-text-align: middle-left;
+    padding: 0 12px 0 20px;
+    margin: 0 0 12px 0;
+    background-color: rgba(0,0,0,0);
+    border-radius: 0;
+    border-width: 0;
+    height: 24px;
+}
+
+.TabButton:hover {
+    background-color: var(--color-button-hover);
+}
+
+.TabButton--selected {
+    background-color: var(--color-button-primary);
+}
+
+.TabContent {
+    display: none;
+}
+
+.TabContent--selected {
+    display: flex;
+}
+
