@@ -130,5 +130,11 @@ namespace AmazonGameLift.Editor
         public const string SettingsUIDeployNextStepLabel = "SettingsUIDeployNextStepLabel";
         public const string LabelOpenSdkIntegrationDoc = "LabelOpenSdkIntegrationDoc";
         public const string LabelOpenSdkApiDoc = "LabelOpenSdkApiDoc";
+        
+        public const string TabLanding = "TabLanding";
+        public const string TabCredentials = "TabCredentials";
+        public const string TabAnywhere = "TabAnywhere";
+        public const string TabEC2 = "TabEC2";
+        public const string TabHelp = "TabHelp";
     }
 }

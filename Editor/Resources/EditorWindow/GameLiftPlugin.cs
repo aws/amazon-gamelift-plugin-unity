@@ -99,15 +99,35 @@ namespace Editor.Resources.EditorWindow
             }
 
             VisualElement uxml = _mVisualTreeAsset.Instantiate();
-
-            _textProvider.ApplyText(uxml);
-
             _root.Add(uxml);
+            
+            ApplyText();
+
+            var contentContainer = _root.Q(className: "main__content");
+            var landingPage = new LandingPage(contentContainer, _textProvider);
 
             _tabButtons = _root.Query<Button>(className: TabButtonClassName).ToList();
             _tabContent = _root.Query(className: TabContentClassName).ToList();
 
             _tabButtons.ForEach(button => button.RegisterCallback<ClickEvent>(_ => { OpenTab(button.name); }));
+        }
+
+        private void ApplyText()
+        {
+            SetElementText("Landing", Strings.TabLanding);
+            SetElementText("Credentials", Strings.TabCredentials);
+            SetElementText("Anywhere", Strings.TabAnywhere);
+            SetElementText("EC2", Strings.TabEC2);
+            SetElementText("Help", Strings.TabHelp);
+        }
+
+        private void SetElementText(string elementName, string text)
+        {
+            var button = _root.Q<TextElement>(elementName);
+            if (button != default)
+            {
+                button.text = _textProvider.Get(text);
+            }
         }
 
         private void OpenTab(string tabName)

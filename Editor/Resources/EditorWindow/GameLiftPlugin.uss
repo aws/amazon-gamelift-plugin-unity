@@ -6,6 +6,8 @@
     --color-content-background: #3F3F3F;
     --color-button-primary: #2C5D87;
     --color-button-hover: #386082;
+    
+    --font-size-menu: 18px;
 }
 
 .main {
@@ -15,18 +17,18 @@
 }
 
 .main__menu {
-    width: 25%;
+    width: 230px;
     padding-top: 20px;
     background-color: var(--color-menu-background);
 }
 
 .main__content {
-    width: 75%;
+    flex-grow: 1;
     background-color: var(--color-content-background);
 }
 
 .TabButton {
-    font-size: 18px;
+    font-size: var(--font-size-menu);
     -unity-text-align: middle-left;
     padding: 0 12px 0 20px;
     margin: 0 0 12px 0;
