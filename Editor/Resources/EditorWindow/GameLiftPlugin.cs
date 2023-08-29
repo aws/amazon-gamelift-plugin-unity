@@ -104,7 +104,6 @@ namespace Editor.Resources.EditorWindow
             ApplyText();
 
             var contentContainer = _root.Q(className: "main__content");
-            var landingPage = new LandingPage(contentContainer, _textProvider);
 
             _tabButtons = _root.Query<Button>(className: TabButtonClassName).ToList();
             _tabContent = _root.Query(className: TabContentClassName).ToList();
