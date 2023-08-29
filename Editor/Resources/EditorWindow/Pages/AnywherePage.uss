@@ -28,7 +28,7 @@
 .foldout .unity-foldout__toggle {
     margin: 0 0 24px 0;
 }
-.h{display: none;}
+
 .foldout__content {
     color: var(--color-foldout-content);    
     margin-bottom: 12px;
@@ -61,6 +61,26 @@
 
 .form-row__input {
     flex: 1 0 auto;
+    font-size: var(--font-size-text-input);
+}
+
+.form-row__input--inline {
+    flex-direction: row;
+}
+
+.form-row__text-display {
+    padding: 2px;
+}
+
+.form-row__input--no-label {
+    flex-direction: row;
+    margin-left: 240px;
+    padding-left: 24px;
+}
+
+.form-row__input--no-label > * {
+    flex-direction: row;
+    margin-right: 12px;
 }
 
 .form-row__input .button {
@@ -75,6 +95,14 @@
     border-color: var(--color-card-border);
     background-color: var(--color-text-input-background);
     font-size: var(--font-size-text-input);
+}
+
+.text-input--tiny {
+    width: 50px;
+}
+
+.text-input--centered {
+    -unity-text-align: middle-center;
 }
 
 .text-input:hover {
@@ -94,6 +122,7 @@
     padding: 0;
     border-width: 0;
     background-color: rgba(0,0,0,0);
+    flex-grow: 0;
 }
 
 .input-hint {
@@ -101,6 +130,7 @@
 }
 
 .dropdown {
+    margin: 0;
     padding: 4px 8px 4px 8px;
     border-width: 2px;
     border-radius: 4px;
@@ -114,4 +144,9 @@
     padding: 0;
     border-width: 0;
     background-color: rgba(0,0,0,0);
+}
+
+.ip-spacer {
+    margin: 0 4px 0 4px;
+    padding-top: 8px;
 }
