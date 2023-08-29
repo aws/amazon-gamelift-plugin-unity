@@ -4,6 +4,7 @@
     font-size: 16px;
     
     --color-menu-background: #333333;
+    --color-menu-border: #4c4c4c;
     --color-content-background: #3F3F3F;
     --color-button: #585858;
     --color-button-primary: #2C5D87;
@@ -28,6 +29,8 @@
     padding-top: 20px;
     background-color: var(--color-menu-background);
     flex: 0 0 auto;
+    border-right-color: var(--color-menu-border);
+    border-right-width: 2px;
 }
 
 .main__content {
