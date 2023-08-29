@@ -9,11 +9,13 @@
     --color-button: #585858;
     --color-button-primary: #2C5D87;
     --color-button-hover: #386082;
+    --color-button-border: #242424;
     --color-font-content: #d2d2d2;
     
     --font-size-menu: 18px;
     --font-size-header: 32px;
     --font-size-description: 16px;
+    --font-size-button: 18px;
     
     --content-width: 920px;
 }
@@ -90,10 +92,13 @@ Label {
 .button {
     border-radius: 4px;
     border-width: 2px;
-    border-color: #242424;
+    border-color: var(--color-button-border);
     padding: 6px 24px 6px 24px;
     margin: 0;
     background-color: var(--color-button);
+    flex: 0 0 auto;
+    align-self: flex-start;
+    font-size: var(--font-size-button);
 }
 
 .button--primary {

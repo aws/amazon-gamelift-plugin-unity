@@ -1,0 +1,117 @@
+﻿:root {
+    --color-foldout-title: #e4e4e4;
+    --color-foldout-content: #d2d2d2;
+    --color-input-label: #c4c4c4;
+    --color-text-input-background: #2a2a2a;
+    --color-input-error: #f30303;
+    
+    --font-size-foldout: 24px;
+    --font-size-foldout-content: 16px;
+    --font-size-input-hint: 12px;
+    --font-size-text-input: 18px;
+}
+
+.foldout {
+    font-size: var(--font-size-foldout-content);
+    color: var(--color-foldout-title);
+    margin: 24px 0 0 0;
+}
+
+.foldout--hidden {
+    display: none;
+}
+
+.foldout .unity-foldout__text {
+    font-size: var(--font-size-foldout);
+}
+
+.foldout .unity-foldout__toggle {
+    margin: 0 0 24px 0;
+}
+.h{display: none;}
+.foldout__content {
+    color: var(--color-foldout-content);    
+    margin-bottom: 12px;
+}
+
+.foldout__links {
+    flex-direction: row;
+    justify-content: space-around;
+}
+
+.foldout__link {
+    border-bottom-color: var(--color-foldout-content);
+    border-bottom-width: 1px;
+    font-size: var(--font-size-foldout-content);
+}
+
+.form-row {
+    flex-direction: row;
+    align-items: center;
+}
+
+.form-row__label {
+    width: 240px;
+    height: 32px;
+    margin-right: 24px;
+    color: var(--color-input-label);
+    font-size: var(--font-size-text-input);
+    -unity-text-align: middle-left;
+}
+
+.form-row__input {
+    flex: 1 0 auto;
+}
+
+.form-row__input .button {
+    margin-top: 12px;
+}
+
+.text-input {
+    margin: 0 0 8px 0;
+    padding: 4px 8px 4px 8px;
+    border-width: 2px;
+    border-radius: 4px;
+    border-color: var(--color-card-border);
+    background-color: var(--color-text-input-background);
+    font-size: var(--font-size-text-input);
+}
+
+.text-input:hover {
+    border-color: var(--color-button-hover);
+}
+
+.text-input:focus {
+    border-color: var(--color-button-primary);
+}
+
+.text-input--error {
+    border-color: var(--color-input-error);
+}
+
+.text-input > .unity-text-field__input {
+    margin: 0;
+    padding: 0;
+    border-width: 0;
+    background-color: rgba(0,0,0,0);
+}
+
+.input-hint {
+    font-size: var(--font-size-input-hint);
+}
+
+.dropdown {
+    padding: 4px 8px 4px 8px;
+    border-width: 2px;
+    border-radius: 4px;
+    border-color: #242424;
+    background-color: #585858;
+    align-self: stretch;
+    font-size: var(--font-size-text-input);
+}
+
+.dropdown > .unity-popup-field__input {
+    padding: 0;
+    border-width: 0;
+    background-color: rgba(0,0,0,0);
+}

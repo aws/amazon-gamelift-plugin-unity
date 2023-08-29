@@ -20,6 +20,14 @@ namespace Editor.Resources.EditorWindow
             {
                 element.text = _textProvider.Get(textKey);
             }
+            else
+            {
+                var foldout = _root.Q<Foldout>(elementName);
+                if (foldout != default)
+                {
+                    foldout.text = _textProvider.Get(textKey);
+                }
+            }
         }
     }
 }

@@ -1,0 +1,88 @@
+﻿<ui:UXML xmlns:ui="UnityEngine.UIElements" xmlns:uie="UnityEditor.UIElements" xsi="http://www.w3.org/2001/XMLSchema-instance" noNamespaceSchemaLocation="../../../../../../UIElementsSchema/UIElements.xsd" editor-extension-mode="False">
+    <Style src="./AnywherePage.uss" />
+    <ui:VisualElement name="AnywhereTab" class="TabContent">        
+        <ui:Label name="LabelAnywhereTitle" class="TabContent__header h" text="GameLift Anywhere" />
+        <ui:Label name="LabelAnywhereDescription" class="TabContent__description h" text="Amazon GameLift Anywhere fleets use your existing infrastructure to host game servers while Amazon GameLift manages your matchmaking and queues.&#10;You can integrate Anywhere and Managed EC2 fleets in matchmaker and game session queues to manage matchmaking and game placement." />
+        <ui:Foldout name="AccountDetails" class="foldout h" text="AWS Account Details" >
+        </ui:Foldout>
+        <ui:Foldout name="LabelAnywhereIntegrateTitle" class="foldout h" text="Integrate GameLift with your game client" >
+            <ui:Label name="LabelAnywhereIntegrateDescription" class="foldout__content" text="Add the Amazon GameLift server SDK to your game server and add code to communicate with the GameLift hosting service. If you&apos;re working with the Amazon GameLift sample game, this integration is already done." />
+            <ui:VisualElement class="foldout__links">
+                <ui:Label name="LabelAnywhereIntegrateServerLink" text="Setup Amazon GameLift on a backend service \uf08e" class="foldout__link"  />
+                <ui:Label name="LabelAnywhereIntegrateClientLink" text="Setup Amazon GameLift client \uf08e" class="foldout__link"  />
+            </ui:VisualElement>
+        </ui:Foldout>
+        <ui:Foldout name="LabelAnywhereConnectNoFleet" class="foldout" text="Connect to Anywhere Fleet" >
+            <ui:VisualElement name="AnywhereFleetName" class="form-row">
+                <ui:Label name="LabelAnywhereConnectFleetName" class="form-row__label" text="Fleet Name"  />
+                <ui:VisualElement class="form-row__input">
+                    <ui:TextField name="CreateAnywhereFleetField" class="text-input" value="GameName-AnywhereFleet"  />
+                    <ui:Label name="LabelAnywhereConnectFleetNameHint" class="input-hint" text="Fleet Name must have 1–1024 characters. Valid characters are A-Z, a-z, 0-9, _ and - (hyphen)"  />
+                    <ui:Button name="ButtonAnywhereConnectButton" class="button button--primary" text="Create Anywhere Fleet" />
+                </ui:VisualElement>
+            </ui:VisualElement>                
+        </ui:Foldout>
+        <ui:Foldout name="LabelAnywhereConnectFleets" class="foldout" text="Connect to Anywhere Fleet" >
+            <ui:VisualElement name="AnywhereFleetName" class="form-row">
+                <ui:Label name="LabelAnywhereConnectFleetsName" class="form-row__label" text="Fleet Name"  />
+                <ui:DropdownField name="CreateAnywhereFleetField" class="form-row__input dropdown" choices="Test, Test, Test"/>
+            </ui:VisualElement>
+            <ui:VisualElement name="AnywhereFleetID" class="form-row form-row__hidden">
+                <ui:Label name="LabelAnywhereConnectedFleetID" text="Fleet ID" />
+                <ui:Label name="LabelAnywhereConnectedFleetIDValue" text="1234567890" />
+            </ui:VisualElement>
+            <ui:VisualElement name="AnywhereFleetStatus" class="form-row form-row__hidden">
+                <ui:Label name="LabelAnywhereConnectedFleetStatus" text="Fleet status" />
+                <ui:Label name="LabelAnywhereConnectedFleetStatusValue" text="Connected" />
+            </ui:VisualElement>                    
+        </ui:Foldout>
+        <ui:Foldout name="LabelAnywhereComputeTitle" class="foldout" text="Register Compute" >
+            <!-- Template this -->
+            <ui:VisualElement name="ComputeErrorInfoBox" class="InfoBox ErrorBox Tab3Error" >
+                <ui:VisualElement  />
+                <ui:Label text="You have reached the maximum limit of 1000 computes, manage your &#10;compute."  />
+                <ui:Button text="View S3 Console \uf08e"  />
+                <ui:Button text="X" name="CloseInfoBox"  />
+            </ui:VisualElement>
+            <ui:VisualElement >
+                <ui:Label name="LabelAnywhereComputeName" text="Compute Name"  />
+                <ui:TextField value="ComputerName-ProfileName" name="RegisterComputeField"  />
+            </ui:VisualElement>
+            <ui:VisualElement >
+                <ui:Label name="LabelAnywhereComputeIP" text="IP Address"  />
+                <ui:VisualElement >
+                    <ui:TextField value="120" max-length="3" keyboard-type="NumberPad" name="IpAddress"  />
+                    <ui:Label text="."  />
+                    <ui:TextField value="120" max-length="3" keyboard-type="NumberPad" name="IpAddress"  />
+                    <ui:Label text="."  />
+                    <ui:TextField value="120" max-length="3" keyboard-type="NumberPad" name="IpAddress"  />
+                    <ui:Label text="."  />
+                    <ui:TextField value="120" max-length="3" keyboard-type="NumberPad" name="IpAddress"  />
+                </ui:VisualElement>
+            </ui:VisualElement>
+            <ui:VisualElement name="StatusBox" >
+                <ui:Label text="Status"  />
+                <ui:Label text="Registered"  />
+            </ui:VisualElement>
+            <ui:VisualElement >
+                <ui:Button name="ButtonAnywhereCompute" text="Register Compute" class="Tab3Button DefaultDisabled"  />
+                <ui:Button text="Cancel Compute" name="CancelCompute" class="Tab3Button"  />
+            </ui:VisualElement>
+        </ui:Foldout>
+        <ui:Foldout name="LabelAnywhereAuthTokenTitle" class="foldout" text="Generate Auth Token - optional" >
+            <ui:VisualElement >
+                <ui:Label name="LabelAnywhereAuthTokenField" text="Status"  />
+                <ui:VisualElement >
+                    <ui:Label text="Not Generated"  />
+                    <ui:Label name="LabelAnywhereAuthTokenFieldNote" text="The auth token is generated when you launch your game"  />
+                </ui:VisualElement>
+            </ui:VisualElement>
+        </ui:Foldout>
+        <ui:Foldout name="LabelAnywhereLaunchClient" class="foldout" text="Launch Client" >
+            <ui:VisualElement >
+                <ui:Label name="LabelAnywhereLaunchClientField" text="Run Game"  />
+                <ui:Button name="ButtonAnywhereLaunchClient" text="Launch Client" class="Tab3Button DefaultDisabled"  />
+            </ui:VisualElement>
+        </ui:Foldout>
+    </ui:VisualElement>            
+</ui:UXML>

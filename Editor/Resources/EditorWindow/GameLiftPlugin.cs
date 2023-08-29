@@ -21,6 +21,8 @@ namespace Editor.Resources.EditorWindow
         private VisualElement _currentTab;
         private List<Button> _tabButtons;
         private List<VisualElement> _tabContent;
+        private AwsCredentials _awsCredentials;
+        private readonly TextProvider _textProvider = TextProviderFactory.Create();
 
         private const string TabContentSelectedClassName = "TabContent--selected";
         private const string TabButtonSelectedClassName = "TabButton--selected";
@@ -106,23 +108,32 @@ namespace Editor.Resources.EditorWindow
 
             var contentContainer = _root.Q(className: "main__content").Children().First();
             var landingPage = new LandingPage(contentContainer);
+            var anywherePage = new AnywherePage(contentContainer);
 
             _tabButtons = _root.Query<Button>(className: TabButtonClassName).ToList();
             _tabContent = _root.Query(className: TabContentClassName).ToList();
 
             _tabButtons.ForEach(button => button.RegisterCallback<ClickEvent>(_ => { OpenTab(button.name); }));
             
-            OpenTab("Landing");
+            OpenAnywhereTab();
         }
 
         private void ApplyText()
         {
-            var l = new ElementLocalizer(_root);
-            l.SetElementText("Landing", Strings.TabLanding);
-            l.SetElementText("Credentials", Strings.TabCredentials);
-            l.SetElementText("Anywhere", Strings.TabAnywhere);
-            l.SetElementText("EC2", Strings.TabEC2);
-            l.SetElementText("Help", Strings.TabHelp);
+            SetElementText("Landing", Strings.TabLanding);
+            SetElementText("Credentials", Strings.TabCredentials);
+            SetElementText("Anywhere", Strings.TabAnywhere);
+            SetElementText("EC2", Strings.TabEC2);
+            SetElementText("Help", Strings.TabHelp);
+        }
+
+        private void SetElementText(string elementName, string text)
+        {
+            var button = _root.Q<TextElement>(elementName);
+            if (button != default)
+            {
+                button.text = _textProvider.Get(text);
+            }
         }
 
         private void OpenTab(string tabName)
