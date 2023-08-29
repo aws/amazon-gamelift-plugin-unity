@@ -1,0 +1,13 @@
+<ui:UXML xmlns:ui="UnityEngine.UIElements" xmlns:uie="UnityEditor.UIElements" xsi="http://www.w3.org/2001/XMLSchema-instance" engine="UnityEngine.UIElements" editor="UnityEditor.UIElements" noNamespaceSchemaLocation="../../../../../UIElementsSchema/UIElements.xsd" editor-extension-mode="False">
+    <Style src="project://database/Packages/com.amazonaws.gamelift/Editor/Resources/EditorWindow/Pages/GameLiftPluginBucketPopup.uss?fileID=7433441132597879392&amp;guid=5ec89f4b8cb28084b8cca20cda5c26ff&amp;type=3#GameLiftPluginBucketPopup" />
+    <ui:VisualElement style="flex-grow: 0; color: rgb(196, 196, 196); flex-shrink: 0; padding-top: 16px; padding-right: 12px; padding-bottom: 16px; padding-left: 12px; -unity-font: url(&apos;project://database/Assets/UnityDefaultRuntimeTheme.tss?fileID=2230732570650464555&amp;guid=24252f1fdba660243bdd32bd42cee5f7&amp;type=3#NotInter-Regular&apos;);">
+        <ui:Label name="LabelBootstrapPopupTitle" text="You might incur charges for creating an S3 Bucket..." display-tooltip-when-elided="true" style="font-size: 14px; -unity-font-style: bold; margin-left: 0; padding-left: 0; -unity-font: resource(&apos;Font/Inter-Regular&apos;); flex-wrap: nowrap; white-space: normal;" />
+        <ui:Label name="LabelBootstrapPopupDescription" text="Check and see if you have exceeded the AWS Free Tier usage &#10;limits or your period expired." display-tooltip-when-elided="true" style="font-size: 14px; margin-top: 8px; margin-bottom: 8px; padding-left: 0; margin-left: 0; white-space: normal;" />
+        <ui:TextField name="LabelBootstrapPopupBucket" label="Bucket Name" value="gamelift-bootstrap-012345678912-eu-west-1" style="font-size: 14px; margin-left: 0; margin-top: 5px; margin-bottom: 5px;" />
+        <ui:VisualElement style="flex-grow: 1; flex-direction: row; margin-top: 12px;">
+            <ui:Label name="LabelBootstrapPopupFreeTierLink" text="View AWS Pricing List \uf08e" display-tooltip-when-elided="true" style="width: auto; border-bottom-color: rgb(255, 255, 255); border-bottom-width: 1px; margin-right: auto;" />
+            <ui:Button text="Cancel" display-tooltip-when-elided="true" name="ButtonBootstrapPopupCancel" style="width: 20%;" />
+            <ui:Button text="Continue" display-tooltip-when-elided="true" name="ButtonBootstrapPopupContinue" style="width: 20%;" />
+        </ui:VisualElement>
+    </ui:VisualElement>
+</ui:UXML>

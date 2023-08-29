@@ -7,7 +7,7 @@ using CoreErrorCode = AmazonGameLiftPlugin.Core.Shared.ErrorCode;
 
 namespace AmazonGameLift.Editor
 {
-    internal sealed class TextProvider
+    public sealed class TextProvider
     {
         private readonly Dictionary<string, string> _errorMessagesByCode = new Dictionary<string, string>
         {
@@ -182,6 +182,33 @@ namespace AmazonGameLift.Editor
             { Strings.TabAnywhere, "GameLift Anywhere" },
             { Strings.TabEC2, "Managed EC2" },
             { Strings.TabHelp, "Learning Resources" },
+            
+            { Strings.LabelAccountTitle, "Manage Your User Profiles"},
+            { Strings.LabelAccountDescription, "Create a profile to link to an AWS account and store your security credentials. Your profile also specifies the AWS Region you want to work in.\nYou can have multiple profiles, but only one can be active at a time. Check your active profile selection on the main page of the Amazon GameLift window."},
+            { Strings.LabelAccountCardNoAccountTitle, "I need a new AWS account for this project"},
+            { Strings.LabelAccountCardNoAccountDescription, "You need an AWS account to work with AWS services. Create a new account, then set up an account user and get security credentials."},
+            { Strings.LabelAccountCardNoAccountDescriptionLink, "Learn More."},
+            { Strings.ButtonAccountCardNoAccount, "Create an AWS Account"},
+            { Strings.LabelAccountHasAccountTitle, "I have an AWS account for this project"},
+            { Strings.LabelAccountHasAccountDescription, "Create a user profile and link it to your AWS account. You need security credentials for an account user."},
+            { Strings.ButtonAccountCardHasAccount, "Create a New Profile"},
+            { Strings.LabelAccountNewProfileTitle, "Create a New Profile"},
+            { Strings.LabelAccountNewProfileName, "Profile name"},
+            { Strings.LabelAccountNewProfileAccessKey, "AWS access key ID"},
+            { Strings.LabelAccountNewProfileSecretKey, "AWS secret key"},
+            { Strings.LabelAccountNewProfileRegion, "AWS Region"},
+            { Strings.LabelAccountNewProfileRegionPlaceholder, "Choose a region"},
+            { Strings.ButtonAccountNewProfileCreate, "Create Profile"},
+            { Strings.ButtonAccountNewProfileCancel, "Cancel"},
+            { Strings.LabelAccountNewProfileHelpLink, "How do I get my AWS credentials?"},
+            
+            { Strings.LabelBootstrapPopupWindowTitle, "Allow potential charges for Amazon S3"},
+            { Strings.LabelBootstrapPopupTitle, "Depending on your AWS Free Tier status, you might incur storage costs for your S3 bucket."},
+            { Strings.LabelBootstrapPopupDescription, "Actual charges will depend on your usage. See Amazon S3 pricing."},
+            { Strings.LabelBootstrapPopupBucket, "Bucket name"},
+            { Strings.LabelBootstrapPopupFreeTierLink, "What is AWS Free Tier?"},
+            { Strings.ButtonBootstrapPopupCancel, "Cancel"},
+            { Strings.ButtonBootstrapPopupContinue, "Continue"},
         };
 
         public string GetError(string errorCode = null)

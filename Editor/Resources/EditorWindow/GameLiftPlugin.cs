@@ -3,7 +3,12 @@
 
 using System;
 using System.Collections.Generic;
+using System.Linq;
+using Amazon.GameLift;
 using AmazonGameLift.Editor;
+using AmazonGameLiftPlugin.Core.ApiGatewayManagement;
+using Editor.GameLiftConfigurationUI;
+using Editor.Resources.EditorWindow.Pages;
 using UnityEditor;
 using UnityEngine;
 using UnityEngine.UIElements;
@@ -19,12 +24,17 @@ namespace Editor.Resources.EditorWindow
         private VisualElement _currentTab;
         private List<Button> _tabButtons;
         private List<VisualElement> _tabContent;
-        private readonly TextProvider _textProvider = TextProviderFactory.Create();
-
+        private AwsUserProfilesPage _userProfilesPage;
         private const string TabContentSelectedClassName = "TabContent--selected";
         private const string TabButtonSelectedClassName = "TabButton--selected";
         private const string TabButtonClassName = "TabButton";
         private const string TabContentClassName = "TabContent";
+        
+        public AmazonGameLiftWrapper GameLiftWrapper;
+        public State CurrentState;
+        public CoreApi CoreApi;
+        public AwsCredentialsCreation CreationModel;
+        public AwsCredentialsUpdate UpdateModel;
 
         private static GameLiftPlugin GetWindow()
         {
@@ -100,33 +110,34 @@ namespace Editor.Resources.EditorWindow
 
             VisualElement uxml = _mVisualTreeAsset.Instantiate();
             _root.Add(uxml);
-            
             ApplyText();
 
-            var contentContainer = _root.Q(className: "main__content");
+            CoreApi = CoreApi.SharedInstance;
+            var awsCredentials = AwsCredentialsFactory.Create();
+            CreationModel = awsCredentials.Creation;
+            UpdateModel = awsCredentials.Update;
+            RefreshProfiles();
+            
+            var contentContainer = _root.Q(className: "main__content").Children().First();
+            var landingPage = new LandingPage(contentContainer);
+            _userProfilesPage = new AwsUserProfilesPage(contentContainer,this);
 
             _tabButtons = _root.Query<Button>(className: TabButtonClassName).ToList();
             _tabContent = _root.Query(className: TabContentClassName).ToList();
 
             _tabButtons.ForEach(button => button.RegisterCallback<ClickEvent>(_ => { OpenTab(button.name); }));
+
+            OpenTab("Landing");
         }
 
         private void ApplyText()
         {
-            SetElementText("Landing", Strings.TabLanding);
-            SetElementText("Credentials", Strings.TabCredentials);
-            SetElementText("Anywhere", Strings.TabAnywhere);
-            SetElementText("EC2", Strings.TabEC2);
-            SetElementText("Help", Strings.TabHelp);
-        }
-
-        private void SetElementText(string elementName, string text)
-        {
-            var button = _root.Q<TextElement>(elementName);
-            if (button != default)
-            {
-                button.text = _textProvider.Get(text);
-            }
+            var l = new ElementLocalizer(_root);
+            l.SetElementText("Landing", Strings.TabLanding);
+            l.SetElementText("Credentials", Strings.TabCredentials);
+            l.SetElementText("Anywhere", Strings.TabAnywhere);
+            l.SetElementText("EC2", Strings.TabEC2);
+            l.SetElementText("Help", Strings.TabHelp);
         }
 
         private void OpenTab(string tabName)
@@ -155,5 +166,39 @@ namespace Editor.Resources.EditorWindow
                 }
             });
         }
+        
+        public void RefreshProfiles()
+        {
+            UpdateModel.Refresh();
+            CurrentState.AllProfiles = UpdateModel.AllProlfileNames;
+        }
+        
+        public void SetupWrapper()
+        {
+            var credentials = CoreApi.RetrieveAwsCredentials(CurrentState.SelectedProfile);
+            var client = new AmazonGameLiftClient(credentials.AccessKey, credentials.SecretKey);
+            GameLiftWrapper = new AmazonGameLiftWrapper(client);
+        }
+        
+        public void OpenS3Popup(string bucketName)
+        {
+            var popup = CreateInstance<GameLiftPluginBucketPopup>();
+            popup.Init(bucketName);
+            popup.OnConfirm += BootStrapPassthrough;
+            popup.ShowModalUtility();
+        }
+
+        private void BootStrapPassthrough(string bucketName)
+        {
+            _userProfilesPage.BootstrapAccount(bucketName);
+        }
+    }
+    
+    public struct State
+    {
+        public bool SelectedBootstrapped;
+        public string[] AllProfiles;
+        public string SelectedProfile;
+        public int SelectedFleetIndex;
     }
 }

@@ -16,5 +16,6 @@ namespace AmazonGameLift.Editor
         public const string DeploymentBuildFilePath = "DeploymentBuildFilePath";
         public const string DeploymentBuildFolderPath = "DeploymentBuildFolderPath";
         public const string WasSettingsWindowShown = "WasSettingsWindowShown";
+        public const string SelectedProfile = "SelectedProfile";
     }
 }
