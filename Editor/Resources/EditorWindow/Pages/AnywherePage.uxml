@@ -24,6 +24,7 @@
             <ui:VisualElement class="form-row ">
                 <ui:VisualElement class="form-row__input form-row__input--no-label">
                     <ui:Button name="ButtonAnywhereConnectButton" class="button button--primary" text="Create Anywhere Fleet" />
+                    <ui:Button name="AnywhereFleetCancelButton" class="button h" text="Cancel" />
                 </ui:VisualElement>
             </ui:VisualElement>
         </ui:Foldout>
@@ -43,7 +44,6 @@
             <ui:VisualElement name="AnywhereFleetButtons" class="form-row form-row__hidden">
                 <ui:VisualElement class="form-row__input form-row__input--no-label">
                     <ui:Button name="AnywhereFleetCreateNewButton" class="button button--primary" text="Create New Anywhere Fleet" />
-                    <ui:Button name="AnywhereFleetCancelButton" class="button h" text="Cancel" />
                 </ui:VisualElement>
             </ui:VisualElement>
         </ui:Foldout>
