@@ -51,7 +51,7 @@
         <ui:Foldout name="LabelAnywhereComputeTitle" class="foldout" text="Register Compute" >
             <ui:VisualElement class="form-row" >
                 <ui:Label name="LabelAnywhereComputeName" class="form-row__label" text="Compute Name"  />
-                <ui:TextField value="ComputerName-ProfileName" class="form-row__input text-input" name="RegisterComputeField"  />
+                <ui:TextField name="RegisterComputeField" class="form-row__input text-input" value="ComputerName-ProfileName" />
             </ui:VisualElement>
             <ui:VisualElement class="form-row">
                 <ui:Label name="LabelAnywhereComputeIP" class="form-row__label" text="IP Address"  />
@@ -65,14 +65,15 @@
                     <ui:TextField name="IpAddress" class="text-input text-input--tiny text-input--centered" value="120" max-length="3" keyboard-type="NumberPad"   />
                 </ui:VisualElement>
             </ui:VisualElement>
-            <ui:VisualElement name="StatusBox" class="form-row" >
+            <ui:VisualElement name="AnywhereComputeStatusBox" class="form-row" >
                 <ui:Label class="form-row__label" text="Status"  />
                 <ui:Label class="form-row__text-display" text="Registered"  />
             </ui:VisualElement>
             <ui:VisualElement class="form-row" >
                 <ui:VisualElement class="form-row__input form-row__input--no-label">                    
                     <ui:Button name="ButtonAnywhereCompute" class="button button--primary" text="Register Compute" />
-                    <ui:Button name="CancelCompute" class="button" text="Cancel Compute" />
+                    <ui:Button name="ButtonAnywhereNewCompute" class="button" text="Register new Compute" />
+                    <ui:Button name="ButtonAnywhereCancelCompute" class="button" text="Cancel Compute" />
                 </ui:VisualElement>
             </ui:VisualElement>
         </ui:Foldout>

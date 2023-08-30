@@ -9,7 +9,6 @@ namespace Editor.Resources.EditorWindow.Pages
     {
         private readonly VisualElement _container;
 
-
         private DropdownField _fleetNameDropdown;
 
         public AnywherePage(VisualElement container)
@@ -22,6 +21,8 @@ namespace Editor.Resources.EditorWindow.Pages
             ApplyText();
 
             var fleetInput = new ConnectToFleetInput(container, ConnectToFleetInput.FleetStatus.CreatingInitial);
+            var computeInput =
+                new RegisterComputeInput(container, RegisterComputeInput.ComputeStatus.RegisteringInitial);
         }
 
 

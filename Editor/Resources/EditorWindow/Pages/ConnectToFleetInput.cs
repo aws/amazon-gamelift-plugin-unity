@@ -2,10 +2,8 @@
 
 namespace Editor.Resources.EditorWindow.Pages
 {
-    public class ConnectToFleetInput
+    public class ConnectToFleetInput : StatefulInput
     {
-        private const string InactiveClassName = "foldout--hidden";
-        
         private readonly VisualElement _fleetNameInput;
         private readonly VisualElement _fleetNameDropdownContainer;
         private readonly VisualElement _fleetID;
@@ -58,10 +56,7 @@ namespace Editor.Resources.EditorWindow.Pages
             UpdateGUI();
         }
 
-        private static void Hide(VisualElement element) => element.AddToClassList(InactiveClassName);
-        private static void Show(VisualElement element) => element.RemoveFromClassList(InactiveClassName);
-
-        private void UpdateGUI()
+        protected sealed override void UpdateGUI()
         {
             switch (_fleetState)
             {
