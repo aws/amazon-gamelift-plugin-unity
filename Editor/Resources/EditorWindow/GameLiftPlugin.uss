@@ -8,6 +8,12 @@
     --color-button-hover: #386082;
     
     --font-size-menu: 18px;
+
+    --color-card-border: rgb(13, 13, 13);
+    --color-card-background: rgb(42, 42, 42);
+    --font-size-card: 16px;
+    --font-size-card-button: 18px;
+    --font-size-sample: 16px;
 }
 
 .main {
@@ -52,5 +58,64 @@
 
 .TabContent--selected {
     display: flex;
+}
+
+.card {
+    padding: 0 12px 29px 5px;
+    border-width: 2px;
+    border-color: var(--color-card-border);
+    flex-basis: 42%;
+    margin-right: 24px;
+}
+
+.card {
+    background-color: var(--color-card-background);
+}
+
+.card--small {
+    padding: 0;
+    margin: 0 0 13px 6px ;
+    flex-direction: row;
+    flex-basis: auto;
+}
+
+.card__icon--small {
+    flex-grow: 1;
+    background-color: rgba(0, 0, 0, 0);
+    width: 50px;
+    height: 50px;
+    scale: 0.5 0.5;
+    align-self: stretch;
+    align-items: stretch;
+    justify-content: space-around;
+    flex-wrap: wrap;
+    flex-direction: row;
+    -unity-text-align: upper-left;
+    bottom: 5px;
+    max-width: none;
+    min-width: 50px;
+    left: auto;
+    right: 9px;
+    min-height: 50px;
+}
+
+.card__text--small {
+    -unity-text-outline-width: 0;
+    color: rgb(255, 255, 255);
+    flex-wrap: wrap;
+    flex-direction: row;
+    width: 70%;
+    font-size: 10px;
+    align-self: center;
+    align-items: stretch;
+    justify-content: flex-start;
+    margin-left: 0;
+    padding-left: 0;
+    margin-right: 0;
+    padding-right: 2px;
+    height: 100%;
+    right: 17px;
+    top: auto;
+    -unity-text-align: middle-left;
 }
 
