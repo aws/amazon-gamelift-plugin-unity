@@ -30,20 +30,6 @@ namespace Editor.Resources.EditorWindow.Pages
             _registerNewButton.RegisterCallback<ClickEvent>(_ => OnRegisterNewButtonClicked());
             _cancelButton.RegisterCallback<ClickEvent>(_ => OnCancelButtonClicked());
 
-            container.Q<Button>("frankfrank").RegisterCallback<ClickEvent>(_ =>
-            {
-                _computeState = _computeState switch
-                {
-                    ComputeStatus.Disabled => ComputeStatus.RegisteringInitial,
-                    ComputeStatus.RegisteringInitial => ComputeStatus.Registering,
-                    ComputeStatus.Registering => ComputeStatus.Registered,
-                    ComputeStatus.Registered => ComputeStatus.Disabled,
-                    _ => throw new ArgumentOutOfRangeException()
-                };
-                UpdateGUI();
-            });
-
-
             UpdateGUI();
         }
 
