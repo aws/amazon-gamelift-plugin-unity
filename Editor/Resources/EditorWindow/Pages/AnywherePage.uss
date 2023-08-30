@@ -3,6 +3,7 @@
     --color-foldout-content: #d2d2d2;
     --color-input-label: #c4c4c4;
     --color-text-input-background: #2a2a2a;
+    --color-text-input-border: #0d0d0d;
     --color-input-error: #f30303;
     
     --font-size-foldout: 24px;
@@ -92,7 +93,7 @@
     padding: 4px 8px 4px 8px;
     border-width: 2px;
     border-radius: 4px;
-    border-color: var(--color-card-border);
+    border-color: var(--color-text-input-border);
     background-color: var(--color-text-input-background);
     font-size: var(--font-size-text-input);
 }
