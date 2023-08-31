@@ -1,10 +1,8 @@
 ﻿// Copyright Amazon.com, Inc. or its affiliates. All Rights Reserved.
 // SPDX-License-Identifier: Apache-2.0
 
-using System;
 using System.Collections.Generic;
 using AmazonGameLift.Editor;
-using UnityEditor;
 using UnityEngine;
 using UnityEngine.UIElements;
 
@@ -12,7 +10,7 @@ namespace Editor.Resources.EditorWindow
 {
     public class GameLiftPlugin : UnityEditor.EditorWindow
     {
-        [SerializeField] private Texture icon;
+        [SerializeField] internal Texture icon;
 
         private VisualTreeAsset _mVisualTreeAsset;
         private VisualElement _root;
@@ -25,69 +23,6 @@ namespace Editor.Resources.EditorWindow
         private const string TabButtonSelectedClassName = "TabButton--selected";
         private const string TabButtonClassName = "TabButton";
         private const string TabContentClassName = "TabContent";
-
-        private static GameLiftPlugin GetWindow()
-        {
-            var inspectorType = Type.GetType("UnityEditor.GameView,UnityEditor.dll");
-            var window = GetWindow<GameLiftPlugin>(inspectorType);
-            window.titleContent = new GUIContent("Amazon GameLift", window.icon);
-            return window;
-        }
-
-        [MenuItem("Amazon GameLift/Show Amazon GameLift Window", priority = 0)]
-        public static void ShowWindow()
-        {
-            GetWindow();
-        }
-
-        [MenuItem("Amazon GameLift/Bring Panel to Front", priority = 1)]
-        public static void FocusPanel()
-        {
-            ShowWindow();
-        }
-
-        [MenuItem("Amazon GameLift/Set AWS Account Profiles", priority = 100)]
-        public static void OpenAccountProfilesTab()
-        {
-            GetWindow().OpenTab("Credentials");
-        }
-
-        [MenuItem("Amazon GameLift/Host with Anywhere", priority = 101)]
-        public static void OpenAnywhereTab()
-        {
-            GetWindow().OpenTab("Anywhere");
-        }
-
-        [MenuItem("Amazon GameLift/Host with Managed EC2", priority = 102)]
-        public static void OpenEC2Tab()
-        {
-            GetWindow().OpenTab("EC2");
-        }
-
-        [MenuItem("Amazon GameLift/Import Sample Game", priority = 103)]
-        public static void ImportSampleGame()
-        {
-            string filePackagePath = $"Packages/{Paths.PackageName}/{Paths.SampleGameInPackage}";
-            AssetDatabase.ImportPackage(filePackagePath, interactive: true);
-        }
-
-        [MenuItem("Amazon GameLift/Help/Documentation", priority = 200)]
-        public static void OpenDocumentation()
-        {
-            Application.OpenURL(Urls.AwsHelpGameLiftUnity);
-        }
-
-        [MenuItem("Amazon GameLift/Help/AWS GameTech Forum", priority = 201)]
-        public static void OpenGameTechForums()
-        {
-            Application.OpenURL(Urls.AwsGameTechForums);
-        }
-
-        [MenuItem("Amazon GameLift/Help/Report Issues", priority = 202)]
-        public static void OpenReportIssues()
-        {
-            Application.OpenURL(Urls.GitHubAwsLabs);
-        }
 
         private void CreateGUI()
         {
@@ -129,7 +64,7 @@ namespace Editor.Resources.EditorWindow
             }
         }
 
-        private void OpenTab(string tabName)
+        internal void OpenTab(string tabName)
         {
             _tabContent.ForEach(page =>
             {
