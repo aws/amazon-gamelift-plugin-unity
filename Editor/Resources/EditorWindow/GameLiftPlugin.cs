@@ -109,6 +109,7 @@ namespace Editor.Resources.EditorWindow
             var contentContainer = _root.Q(className: "main__content").Children().First();
             var landingPage = new LandingPage(contentContainer);
             var anywherePage = new AnywherePage(contentContainer);
+            var ec2Page = new EC2Page(contentContainer);
 
             _tabButtons = _root.Query<Button>(className: TabButtonClassName).ToList();
             _tabContent = _root.Query(className: TabContentClassName).ToList();

@@ -17,9 +17,6 @@
                 <ui:VisualElement name="CredentialsTab" class="TabContent">
                     <ui:Label text="Credentials" />
                 </ui:VisualElement>
-                <ui:VisualElement name="EC2Tab" class="TabContent">
-                    <ui:Label text="Managed EC2" />
-                </ui:VisualElement>
                 <ui:VisualElement name="HelpTab" class="TabContent">
                     <ui:Label text="Help" />
                 </ui:VisualElement>

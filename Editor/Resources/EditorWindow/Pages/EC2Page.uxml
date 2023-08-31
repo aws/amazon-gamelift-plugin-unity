@@ -1,0 +1,92 @@
+﻿<ui:UXML xmlns:ui="UnityEngine.UIElements" xmlns:uie="UnityEditor.UIElements" xsi="http://www.w3.org/2001/XMLSchema-instance" noNamespaceSchemaLocation="../../../../../../UIElementsSchema/UIElements.xsd" editor-extension-mode="False">
+    <Style src="./EC2Page.uss" />
+    <ui:VisualElement name="EC2Tab" class="TabContent">
+        <ui:Label name="Title" class="TabContent__header" text="Managed EC2" />
+        <ui:Label name="Description" class="TabContent__description" text="Managed EC2 fleets use Amazon EC2 instances to host your game servers.&#10;Amazon GameLift manages the instances and removes the burden of hardware and software management from hosting your games." />
+        <ui:Foldout name="Description" class="foldout" text="Integrate GameLift with your game client">
+            <ui:Label class="foldout__content" text="Add the Amazon GameLift server SDK to your game server and add code to communicate with the GameLift hosting service. If you&apos;re working with the Amazon GameLift sample game, this integration is already done."   />
+            <ui:Label name="Label" class="foldout__link" text="Setup Amazon GameLift on a backend service \uf08e" />
+        </ui:Foldout>
+        <ui:Foldout name="DeploymentSelectExpanded" class="foldout" text="Select Deployment Scenario" >
+            <ui:GroupBox>
+                <ui:VisualElement class="form-row" >
+                    <ui:Label name="Label" class="form-row__label" text="Single-Region Fleet" />
+                    <ui:VisualElement class="form-row__input">
+                        <ui:RadioButton class="form-row__radio-button" text="Creates a game backend service with a single Amazon GameLift fleet."   />
+                        <ui:Label name="SingleHelp" class="form-row__text-display input-hint foldout__link" text="Learn More  \uf08e" />
+                    </ui:VisualElement>
+                </ui:VisualElement>                
+                <ui:VisualElement class="form-row">                    
+                    <ui:Label name="Label" class="form-row__label" text="Spot Fleet" />
+                    <ui:VisualElement class="form-row__input">
+                        <ui:RadioButton class="form-row__radio-button" text="Forms matches by using Amazon GameLift queues and a custom matchmaker and configures three fleets." />
+                        <ui:Label name="SpotHelp" class="form-row__text-display input-hint foldout__link" text="Learn More  \uf08e" />
+                    </ui:VisualElement>
+                </ui:VisualElement>
+                <ui:VisualElement class="form-row">
+                    <ui:Label name="Label" class="form-row__label" text="Flex Match" />
+                    <ui:VisualElement class="form-row__input">
+                        <ui:RadioButton class="form-row__radio-button" text="Uses FlexMatch, a managed matchmaking service, to match game players together."   />
+                        <ui:Label name="FlexHelp" class="form-row__text-display input-hint foldout__link" text="Learn More  \uf08e"/>
+                    </ui:VisualElement>
+                </ui:VisualElement>
+                <ui:VisualElement class="form-row form-row__input form-row__input--no-label">
+                    <ui:Button name="ShowMoreScenarios" class="button" text="Show more Options" />
+                </ui:VisualElement>
+            </ui:GroupBox>
+        </ui:Foldout>
+        <ui:Foldout name="Parameters" class="foldout" text="[GameName] parameters">
+            <ui:VisualElement name="FleetName" class="form-row" >
+                <ui:Label name="Label" class="form-row__label" text="Fleet Name" />
+                <ui:TextField name="EC2FleetNameInput" class="form-row__input text-input" value="GameName-ManagedFleet" />
+            </ui:VisualElement>
+            <ui:VisualElement name="BuildName" class="form-row" >
+                <ui:Label name="Label" class="form-row__label" text="Build Name" />
+                <ui:TextField class="form-row__input text-input" value="GameName-SingleRegion-Build"  />
+            </ui:VisualElement>
+            <ui:VisualElement name="LaunchParameters" class="form-row" >
+                <ui:Label name="Label" class="form-row__label" text="Launch Parameters" />
+                <ui:TextField class="form-row__input text-input" value="-debug -logFile \&quot;c:\game\\\server.log\"  />
+            </ui:VisualElement>
+            <ui:VisualElement name="BuildOS" class="form-row" >
+                <ui:Label class="form-row__label" text="Build Operating System"/>
+                <ui:DropdownField name="DropdownField" class="dropdown form-row__input" index="-1" choices="Amazon Linux 2 (AL2), Amazon Linux 2023 (AL2023), Windows Server 2012 (End of OS support on 10.10.2023), Windows Server 2016" />
+            </ui:VisualElement>
+            <ui:VisualElement name="GameServerFolder" class="form-row" >
+                <ui:Label name="Label" class="form-row__label" text="Game Server Folder" />
+                <ui:TextField class="form-row__input text-input" value="..."  />
+                <ui:Button text="x" />
+            </ui:VisualElement>
+            <ui:VisualElement name="GameServerFile" class="form-row" >
+                <ui:Label name="Label" class="form-row__label" text="Game Server file (.exe)" />
+                <ui:TextField class="form-row__input text-input" value="..."  />
+                <ui:Button text="x" />
+            </ui:VisualElement>
+        </ui:Foldout>
+        <ui:Foldout name="Deploy" class="foldout" text="Deploy (Single-region Fleet)">
+            <ui:Label class="foldout__description form-row" text="Deploying GameLift can take up to 30-40 minutes"   />
+            <ui:Label class="foldout__description form-row" text="Deploying and running various AWS resources in the CloudFormation template will incur costs to your account. See AWS Pricing Plan for details on the costs for each resource in the CloudFormation template." />
+            <ui:VisualElement class="form-row" >
+                <ui:Label name="Label" class="form-row__label" text="Status" />
+                <ui:VisualElement name="DeploymentStatus" class="form-row__input deploy-status deploy-status--deployed" >
+                    <ui:VisualElement name="DeploymentStatusIcon" class="deployStatus test deploy-status__icon" />
+                    <ui:Label text="State"  name="DeploymentStatusLabel" class="deploy-status__label"  />
+                </ui:VisualElement>
+            </ui:VisualElement>
+            <ui:VisualElement class="form-row" >
+                <ui:Label class="form-row__label" text="AWS Resource Actions"   />
+                <ui:VisualElement class="form-row__input form-row__input--inline">
+                    <ui:Button name="CreateResource" class="button button--primary" text="Create"/>
+                    <ui:Button name="RedeployResource" class="button" text="Redeploy"/>
+                    <ui:Button name="DeleteResource" class="button" text="Delete" />
+                </ui:VisualElement>
+            </ui:VisualElement>
+        </ui:Foldout>
+        <ui:Foldout name="LaunchClient" class="foldout" text="Launch Client">
+            <ui:VisualElement class="form-row" >
+                <ui:Label class="form-row__label" text="Run Game"   />
+                <ui:Button name="LaunchClientButton" class="button button--primary" text="Launch Client" />
+            </ui:VisualElement>
+        </ui:Foldout>
+    </ui:VisualElement>
+</ui:UXML>
