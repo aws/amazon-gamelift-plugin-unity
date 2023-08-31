@@ -11,14 +11,12 @@ namespace AmazonGameLift.Editor
 {
     internal static class EditorMenu
     {
-        [MenuItem("GameLift/Import Sample Game", priority = 8000)]
         public static void ImportSampleGame()
         {
             string filePackagePath = $"Packages/{Paths.PackageName}/{Paths.SampleGameInPackage}";
             AssetDatabase.ImportPackage(filePackagePath, interactive: true);
         }
 
-        [MenuItem("GameLift/Plugin Settings", priority = 0)]
         public static void ShowPluginSettings()
         {
             Assembly unityEditorAssembly = typeof(UnityEditor.Editor).Assembly;
