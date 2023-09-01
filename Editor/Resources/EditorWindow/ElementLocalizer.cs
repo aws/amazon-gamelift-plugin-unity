@@ -1,4 +1,7 @@
-﻿using AmazonGameLift.Editor;
+﻿// Copyright Amazon.com, Inc. or its affiliates. All Rights Reserved.
+// SPDX-License-Identifier: Apache-2.0
+
+using AmazonGameLift.Editor;
 using UnityEngine.UIElements;
 
 namespace Editor.Resources.EditorWindow
