@@ -11,7 +11,7 @@
             <ui:VisualElement class="Divider" />
             <ui:Button text="GameLift Anywhere" name="Anywhere" class="TabButton" />
             <ui:VisualElement class="Divider" />
-            <ui:Button text="Managed EC2" name="EC2" class="TabButton" />
+            <ui:Button text="Managed EC2" name="ManagedEC2" class="TabButton" />
             <ui:VisualElement class="Divider" />
             <ui:Button text="Help &amp; Documentation" name="Help" class="TabButton" />
         </ui:VisualElement>
@@ -25,7 +25,7 @@
             <ui:VisualElement name="AnywhereTab" class="TabContent">
                 <ui:Label text="Anywhere" />
             </ui:VisualElement>
-            <ui:VisualElement name="EC2Tab" class="TabContent">
+            <ui:VisualElement name="ManagedEC2Tab" class="TabContent">
                 <ui:Label text="Managed EC2" />
             </ui:VisualElement>
             <ui:VisualElement name="HelpTab" class="TabContent">

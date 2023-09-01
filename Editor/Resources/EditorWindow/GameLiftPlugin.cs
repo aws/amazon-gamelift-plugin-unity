@@ -115,7 +115,7 @@ namespace Editor.Resources.EditorWindow
             l.SetElementText("Landing", Strings.TabLanding);
             l.SetElementText("Credentials", Strings.TabCredentials);
             l.SetElementText("Anywhere", Strings.TabAnywhere);
-            l.SetElementText("EC2", Strings.TabManagedEC2);
+            l.SetElementText("ManagedEC2", Strings.TabManagedEC2);
             l.SetElementText("Help", Strings.TabHelp);
         }
 
@@ -160,7 +160,7 @@ namespace Editor.Resources.EditorWindow
             public const string Landing = "Landing";
             public const string Credentials = "Credentials";
             public const string Anywhere = "Anywhere";
-            public const string ManagedEC2 = "EC2";
+            public const string ManagedEC2 = "ManagedEC2";
             public const string Help = "Help";
         }
     }
