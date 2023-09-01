@@ -111,11 +111,12 @@ namespace Editor.Resources.EditorWindow
 
         private void ApplyText()
         {
-            SetElementText("Landing", Strings.TabLanding);
-            SetElementText("Credentials", Strings.TabCredentials);
-            SetElementText("Anywhere", Strings.TabAnywhere);
-            SetElementText("EC2", Strings.TabManagedEC2);
-            SetElementText("Help", Strings.TabHelp);
+            var l = new ElementLocalizer(_root);
+            l.SetElementText("Landing", Strings.TabLanding);
+            l.SetElementText("Credentials", Strings.TabCredentials);
+            l.SetElementText("Anywhere", Strings.TabAnywhere);
+            l.SetElementText("EC2", Strings.TabManagedEC2);
+            l.SetElementText("Help", Strings.TabHelp);
         }
 
         private void SetElementText(string elementName, string text)
