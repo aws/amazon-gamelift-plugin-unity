@@ -145,10 +145,12 @@ namespace AmazonGameLift.Editor
         public const string LabelHelpAwsForum = "LabelHelpAwsForum";
         public const string LabelHelpEstimatingTitle = "LabelHelpEstimatingTitle";
         public const string LabelHelpEstimatingDescription = "LabelHelpEstimatingDescription";
-        public const string LabelHelpLearnMore = "LabelHelpLearnMore";
         public const string LabelHelpFleetIqTitle = "LabelHelpFleetIqTitle";
         public const string LabelHelpFleetIqDescription = "LabelHelpFleetIqDescription";
         public const string LabelHelpFlexMatchTitle = "LabelHelpFlexMatchTitle";
         public const string LabelHelpFlexMatchDescription = "LabelHelpFlexMatchDescription";
+        public const string LabelEstimatingHelpLearnMore = "LabelEstimatingHelpLearnMore";
+        public const string LabelFleetIqHelpLearnMore = "LabelFleetIqHelpLearnMore";
+        public const string LabelFlexMatchHelpLearnMore = "LabelFlexMatchHelpLearnMore";
     }
 }

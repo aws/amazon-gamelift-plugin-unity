@@ -185,17 +185,20 @@ namespace AmazonGameLift.Editor
             
             { Strings.LabelHelpTitle, "Help & Documentation" },
             { Strings.LabelHelpTitleDescription, "Learn how to integrate and deploy games for hosting on GameLift. The GameLift service manages game server deployment, operation, and scaling. You can deploy custom-built game servers or use GameLift Realtime Servers to configure lightweight game servers for your game." },
-            { Strings.LabelHelpReportIssues, "Report Issues" },
-            { Strings.LabelHelpDocumentation, "Documentation" },
-            { Strings.LabelHelpVideoTutorials, "Video Tutorials" },
-            { Strings.LabelHelpAwsForum, "AWS Forum" },
+            { Strings.LabelHelpReportIssues, "Report Issues \uf086" },
+            { Strings.LabelHelpDocumentation, "Documentation \uf086" },
+            { Strings.LabelHelpVideoTutorials, "Video Tutorials \uf086" },
+            { Strings.LabelHelpAwsForum, "AWS Forum \uf086" },
             { Strings.LabelHelpEstimatingTitle, "Estimating Price" },
             { Strings.LabelHelpEstimatingDescription, "With AWS Pricing Calculator, you can create a pricing estimate for Amazon GameLift. You don't need an AWS account or in-depth knowledge of AWS to use the calculator." },
-            { Strings.LabelHelpLearnMore, "Learn More \uf086" },
+            
             { Strings.LabelHelpFleetIqTitle, "Amazon GameLift FleetIQ" },
             { Strings.LabelHelpFleetIqDescription, "Amazon GameLift FleetIQ optimizes the use of low-cost Amazon EC2 Spot Instances for cloud-based game hosting. With Amazon GameLift FleetIQ, you can work directly with your hosting resources in Amazon EC2 and Amazon EC2 Auto Scaling while taking advantage of Amazon GameLift optimizations to deliver inexpensive, resilient game hosting for your players." },
             { Strings.LabelHelpFlexMatchTitle, "Amazon GameLift FlexMatch" },
             { Strings.LabelHelpFlexMatchDescription, "Amazon GameLift FlexMatch is a customizable matchmaking service for multiplayer games. With FlexMatch, you can build a custom set of rules that defines what a multiplayer match looks like for your game, and determines how to evaluate and select compatible players for each match." },
+            { Strings.LabelEstimatingHelpLearnMore, $"Learn More \uf086" },
+            { Strings.LabelFleetIqHelpLearnMore, "Learn More \uf086" },
+            { Strings.LabelFlexMatchHelpLearnMore, "Learn More \uf086" },
         };
 
         public string GetError(string errorCode = null)

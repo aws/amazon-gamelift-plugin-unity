@@ -32,7 +32,7 @@ namespace Editor.Resources.EditorWindow.Pages
 
         private void onEstimatingLearnMoreClicked()
         {
-            //onLinkClicked(Urls.);
+            //onLinkClicked(Urls.); TODO still need links for this
         }
 
         private void onFleetIqLearnMoreClicked()
@@ -56,12 +56,13 @@ namespace Editor.Resources.EditorWindow.Pages
             l.SetElementText("LabelHelpAwsForum", Strings.LabelHelpAwsForum);
             l.SetElementText("LabelHelpEstimatingTitle", Strings.LabelHelpEstimatingTitle);
             l.SetElementText("LabelHelpEstimatingDescription", Strings.LabelHelpEstimatingDescription);
-            l.SetElementText("LabelHelpLearnMore", Strings.LabelHelpLearnMore); //TODO Sepereate these out into specifics or add class so you can tell them apart
             l.SetElementText("LabelHelpFleetIqTitle", Strings.LabelHelpFleetIqTitle);
             l.SetElementText("LabelHelpFleetIqDescription", Strings.LabelHelpFleetIqDescription);
             l.SetElementText("LabelHelpFlexMatchTitle", Strings.LabelHelpFlexMatchTitle);
             l.SetElementText("LabelHelpFlexMatchDescription", Strings.LabelHelpFlexMatchDescription);
-            
+            l.SetElementText("LabelEstimatingHelpLearnMore", Strings.LabelEstimatingHelpLearnMore);
+            l.SetElementText("LabelFleetIqHelpLearnMore", Strings.LabelFleetIqHelpLearnMore);
+            l.SetElementText("LabelFlexMatchHelpLearnMore", Strings.LabelFlexMatchHelpLearnMore);
         }
     }
 }
