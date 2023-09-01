@@ -20,7 +20,7 @@
 }
 
 .main__menu {
-    width: 230px;
+    width: 240px;
     padding-top: 20px;
     background-color: var(--color-menu-background);
 }
