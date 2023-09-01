@@ -49,19 +49,19 @@ namespace Editor.Resources.EditorWindow
         [MenuItem("Amazon GameLift/Set AWS Account Profiles", priority = 100)]
         public static void OpenAccountProfilesTab()
         {
-            GetWindow().OpenTab("Credentials");
+            GetWindow().OpenTab(Pages.Credentials);
         }
 
         [MenuItem("Amazon GameLift/Host with Anywhere", priority = 101)]
         public static void OpenAnywhereTab()
         {
-            GetWindow().OpenTab("Anywhere");
+            GetWindow().OpenTab(Pages.Anywhere);
         }
 
         [MenuItem("Amazon GameLift/Host with Managed EC2", priority = 102)]
         public static void OpenEC2Tab()
         {
-            GetWindow().OpenTab("EC2");
+            GetWindow().OpenTab(Pages.ManagedEC2);
         }
 
         [MenuItem("Amazon GameLift/Import Sample Game", priority = 103)]
@@ -154,6 +154,15 @@ namespace Editor.Resources.EditorWindow
                     button.AddToClassList(TabButtonSelectedClassName);
                 }
             });
+        }
+
+        private static class Pages
+        {
+            public const string Landing = "Landing";
+            public const string Credentials = "Credentials";
+            public const string Anywhere = "Anywhere";
+            public const string ManagedEC2 = "EC2";
+            public const string Help = "Help";
         }
     }
 }
