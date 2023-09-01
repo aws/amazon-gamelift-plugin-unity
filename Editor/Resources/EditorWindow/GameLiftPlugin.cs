@@ -14,7 +14,7 @@ namespace Editor.Resources.EditorWindow
     {
         [SerializeField] private Texture icon;
 
-        private VisualTreeAsset _mVisualTreeAsset;
+        private VisualTreeAsset _visualTreeAsset;
         private VisualElement _root;
         private VisualElement _currentTab;
         private List<Button> _tabButtons;
@@ -92,13 +92,13 @@ namespace Editor.Resources.EditorWindow
         private void CreateGUI()
         {
             _root = rootVisualElement;
-            _mVisualTreeAsset = UnityEngine.Resources.Load<VisualTreeAsset>("EditorWindow/GameLiftPlugin");
-            if (_mVisualTreeAsset == null)
+            _visualTreeAsset = UnityEngine.Resources.Load<VisualTreeAsset>("EditorWindow/GameLiftPlugin");
+            if (_visualTreeAsset == null)
             {
                 return;
             }
 
-            VisualElement uxml = _mVisualTreeAsset.Instantiate();
+            VisualElement uxml = _visualTreeAsset.Instantiate();
             _root.Add(uxml);
             
             ApplyText();
