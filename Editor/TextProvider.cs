@@ -180,7 +180,7 @@ namespace AmazonGameLift.Editor
             { Strings.TabLanding, "Amazon GameLift" },
             { Strings.TabCredentials, "AWS User Profiles" },
             { Strings.TabAnywhere, "GameLift Anywhere" },
-            { Strings.TabEC2, "Managed EC2" },
+            { Strings.TabManagedEC2, "Managed EC2" },
             { Strings.TabHelp, "Learning Resources" },
         };
 

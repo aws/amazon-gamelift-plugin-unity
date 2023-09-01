@@ -116,7 +116,7 @@ namespace Editor.Resources.EditorWindow
             SetElementText("Landing", Strings.TabLanding);
             SetElementText("Credentials", Strings.TabCredentials);
             SetElementText("Anywhere", Strings.TabAnywhere);
-            SetElementText("EC2", Strings.TabEC2);
+            SetElementText("EC2", Strings.TabManagedEC2);
             SetElementText("Help", Strings.TabHelp);
         }
 
