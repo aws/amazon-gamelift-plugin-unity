@@ -17,9 +17,6 @@
     border-color: var(--color-card-border);
     flex-basis: 42%;
     margin-right: 24px;
-}
-
-.card {
     background-color: var(--color-card-background);
 }
 

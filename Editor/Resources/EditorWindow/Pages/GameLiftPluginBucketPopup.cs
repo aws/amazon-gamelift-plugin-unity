@@ -15,6 +15,8 @@ namespace Editor.GameLiftConfigurationUI
         private VisualElement _root;
         private readonly TextProvider _textProvider = TextProviderFactory.Create();
         public Action<string> OnConfirm;
+        private const float PopupWidth = 500f;
+        private const float PopupHeight = 160f;
         
         public void OnEnable()
         {
@@ -22,9 +24,8 @@ namespace Editor.GameLiftConfigurationUI
             m_VisualTreeAsset = UnityEngine.Resources.Load<VisualTreeAsset>("EditorWindow/Pages/GameLiftPluginBucketPopup");
             _root.Add(m_VisualTreeAsset.Instantiate());
             titleContent = new GUIContent(_textProvider.Get(Strings.LabelBootstrapPopupWindowTitle));
-            maxSize = new Vector2(500f, 160f);
+            maxSize = new Vector2(PopupWidth, PopupHeight);
             minSize = maxSize;
-            
         }
         
         public void Init(string bucketName)
@@ -35,8 +36,8 @@ namespace Editor.GameLiftConfigurationUI
             _root.Q<TextField>(Strings.LabelBootstrapPopupBucket).label =
                 _textProvider.Get(Strings.LabelBootstrapPopupBucket);
 
-            var labelLink = _root.Q<Label>(Strings.LabelBootstrapPopupFreeTierLink);
-            labelLink.text = _textProvider.Get(Strings.LabelBootstrapPopupFreeTierLink);
+            var labelLink = _root.Q<Label>(Strings.LinkBootstrapPopupFreeTier);
+            labelLink.text = _textProvider.Get(Strings.LinkBootstrapPopupFreeTier);
             labelLink.RegisterCallback<ClickEvent>(_ => Application.OpenURL(Urls.AwsFreeTier));
 
             var bucketNameTextField = _root.Q<TextField>(Strings.LabelBootstrapPopupBucket);

@@ -19,7 +19,7 @@ namespace Editor.Resources.EditorWindow.Pages
         private readonly GameLiftPlugin _gameLiftConfig;
         private readonly VisualElement _container;
 
-        private VisualElement currentElement;
+        private VisualElement _currentElement;
 
         public AwsUserProfilesPage(VisualElement container, GameLiftPlugin gameLiftConfig)
         {
@@ -41,20 +41,20 @@ namespace Editor.Resources.EditorWindow.Pages
         private void ApplyText()
         {
             var l = new ElementLocalizer(_container);
-            l.SetElementText("LabelAccountTitle", Strings.LabelAccountTitle);
-            l.SetElementText("LabelAccountDescription", Strings.LabelAccountDescription);
+            l.SetElementText("LabelAccountCardNewAccountTitle", Strings.LabelAccountCardNewAccountTitle);
+            l.SetElementText("LabelAccountCardNewAccountDescription", Strings.LabelAccountCardNewAccountDescription);
             l.SetElementText("LabelAccountCardNoAccountTitle", Strings.LabelAccountCardNoAccountTitle);
             l.SetElementText("LabelAccountCardNoAccountDescription", Strings.LabelAccountCardNoAccountDescription);
-            l.SetElementText("LabelAccountHasAccountTitle", Strings.LabelAccountHasAccountTitle);
-            l.SetElementText("LabelAccountHasAccountDescription", Strings.LabelAccountHasAccountDescription);
+            l.SetElementText("LabelAccountHasAccountTitle", Strings.LabelAccountCardNewAccountTitle);
+            l.SetElementText("LabelAccountHasAccountDescription", Strings.LabelAccountCardNewAccountDescription);
             l.SetElementText("LabelAccountNewProfileTitle", Strings.LabelAccountNewProfileTitle);
             l.SetElementText("LabelAccountNewProfileName", Strings.LabelAccountNewProfileName);
             l.SetElementText("LabelAccountNewProfileAccessKey", Strings.LabelAccountNewProfileAccessKey);
             l.SetElementText("LabelAccountNewProfileSecretKey", Strings.LabelAccountNewProfileSecretKey);
             l.SetElementText("LabelAccountNewProfileRegion", Strings.LabelAccountNewProfileRegion);
-            l.SetElementText("LabelAccountNewProfileRegionPlaceholder", Strings.LabelAccountNewProfileRegionPlaceholder);
-            l.SetElementText("LabelAccountCardNoAccountDescriptionLink", Strings.LabelAccountCardNoAccountDescriptionLink);
-            l.SetElementText("LabelAccountNewProfileHelpLink", Strings.LabelAccountNewProfileHelpLink);
+            l.SetElementText("DropdownAccountNewProfileRegionPlaceholder", Strings.DropdownAccountNewProfileRegionPlaceholder);
+            l.SetElementText("LinkAccountCardNoAccountDescription", Strings.LinkAccountCardNoAccountDescription);
+            l.SetElementText("LinkAccountNewProfileHelp", Strings.LinkAccountNewProfileHelp);
             l.SetElementText("ButtonAccountCardNoAccount", Strings.ButtonAccountCardNoAccount);
             l.SetElementText("ButtonAccountCardHasAccount", Strings.ButtonAccountCardHasAccount);
             l.SetElementText("ButtonAccountNewProfileCreate", Strings.ButtonAccountNewProfileCreate);
@@ -71,7 +71,7 @@ namespace Editor.Resources.EditorWindow.Pages
             l.SetElementText("LabelBootstrapProfilePlaceholder", Strings.LabelBootstrapProfilePlaceholder);
             l.SetElementText("LabelBootstrapPricingInfo", Strings.LabelBootstrapPricingInfo);
             l.SetElementText("LabelBootstrapPricingFreeTier", Strings.LabelBootstrapPricingFreeTier);
-            l.SetElementText("LabelBootstrapHelpLink", Strings.LabelBootstrapHelpLink);
+            l.SetElementText("LinkBootstrapHelp", Strings.LinkBootstrapHelp);
             l.SetElementText("ButtonBootstrapStart", Strings.ButtonBootstrapStart);
             l.SetElementText("ButtonBootstrapAnotherProfile", Strings.ButtonBootstrapAnotherProfile);
             l.SetElementText("ButtonBootstrapAnotherBucket", Strings.ButtonBootstrapAnotherBucket);
@@ -143,7 +143,7 @@ namespace Editor.Resources.EditorWindow.Pages
 
         private void SetupConfigSettings()
         {
-            var selectedProfile = _gameLiftConfig.CoreApi.GetSetting(SettingsKeys.SelectedProfile);
+            var selectedProfile = _gameLiftConfig.CoreApi.GetSetting(SettingsKeys.CurrentProfileName);
             if (selectedProfile.Success)
             {
                 _gameLiftConfig.CurrentState.SelectedProfile = selectedProfile.Value;
@@ -288,7 +288,7 @@ namespace Editor.Resources.EditorWindow.Pages
             _gameLiftConfig.SetupWrapper();
             _gameLiftConfig.UpdateModel.Update();
             _gameLiftConfig.CurrentState.SelectedProfile = _gameLiftConfig.UpdateModel.AllProlfileNames[index];
-            _gameLiftConfig.CoreApi.PutSetting(SettingsKeys.SelectedProfile,
+            _gameLiftConfig.CoreApi.PutSetting(SettingsKeys.CurrentProfileName,
                 _gameLiftConfig.CurrentState.SelectedProfile);
         }
 
@@ -308,7 +308,6 @@ namespace Editor.Resources.EditorWindow.Pages
                 _container.Q<VisualElement>(null, "Tab2Success").style.display = DisplayStyle.Flex;
                 _gameLiftConfig.CurrentState.SelectedBootstrapped = true;
                 BucketSelection(bucketName);
-                
             }
             else
             {
@@ -362,15 +361,15 @@ namespace Editor.Resources.EditorWindow.Pages
 
         private void ChangeWizard(VisualElement targetWizard)
         {
-            if (currentElement != null)
+            if (_currentElement != null)
             {
-                currentElement.style.display = DisplayStyle.None;
+                _currentElement.style.display = DisplayStyle.None;
             }
 
-            currentElement = targetWizard;
-            if (currentElement != null)
+            _currentElement = targetWizard;
+            if (_currentElement != null)
             {
-                currentElement.style.display = DisplayStyle.Flex;
+                _currentElement.style.display = DisplayStyle.Flex;
             }
         }
 

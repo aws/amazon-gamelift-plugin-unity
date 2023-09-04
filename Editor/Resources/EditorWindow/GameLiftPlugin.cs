@@ -32,10 +32,18 @@ namespace Editor.Resources.EditorWindow
         
         public AmazonGameLiftWrapper GameLiftWrapper;
         public State CurrentState;
-        public CoreApi CoreApi;
-        public AwsCredentialsCreation CreationModel;
-        public AwsCredentialsUpdate UpdateModel;
+        public readonly CoreApi CoreApi;
+        public readonly AwsCredentialsCreation CreationModel;
+        public readonly AwsCredentialsUpdate UpdateModel;
 
+        private GameLiftPlugin()
+        {
+            CoreApi = CoreApi.SharedInstance;
+            var awsCredentials = AwsCredentialsFactory.Create();
+            CreationModel = awsCredentials.Creation;
+            UpdateModel = awsCredentials.Update;
+        }
+        
         private static GameLiftPlugin GetWindow()
         {
             var inspectorType = Type.GetType("UnityEditor.GameView,UnityEditor.dll");
@@ -111,15 +119,12 @@ namespace Editor.Resources.EditorWindow
             VisualElement uxml = _mVisualTreeAsset.Instantiate();
             _root.Add(uxml);
             ApplyText();
-
-            CoreApi = CoreApi.SharedInstance;
-            var awsCredentials = AwsCredentialsFactory.Create();
-            CreationModel = awsCredentials.Creation;
-            UpdateModel = awsCredentials.Update;
+            
             RefreshProfiles();
             
             var contentContainer = _root.Q(className: "main__content").Children().First();
-            var landingPage = new LandingPage(contentContainer);
+            //var landingPage = new LandingPage(contentContainer);
+            
             _userProfilesPage = new AwsUserProfilesPage(contentContainer,this);
 
             _tabButtons = _root.Query<Button>(className: TabButtonClassName).ToList();
@@ -184,11 +189,11 @@ namespace Editor.Resources.EditorWindow
         {
             var popup = CreateInstance<GameLiftPluginBucketPopup>();
             popup.Init(bucketName);
-            popup.OnConfirm += BootStrapPassthrough;
+            popup.OnConfirm += BootstrapAccount;
             popup.ShowModalUtility();
         }
 
-        private void BootStrapPassthrough(string bucketName)
+        private void BootstrapAccount (string bucketName)
         {
             _userProfilesPage.BootstrapAccount(bucketName);
         }
@@ -199,6 +204,5 @@ namespace Editor.Resources.EditorWindow
         public bool SelectedBootstrapped;
         public string[] AllProfiles;
         public string SelectedProfile;
-        public int SelectedFleetIndex;
     }
 }
