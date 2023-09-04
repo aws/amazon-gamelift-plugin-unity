@@ -196,9 +196,9 @@ namespace AmazonGameLift.Editor
             { Strings.LabelHelpFleetIqDescription, "Amazon GameLift FleetIQ optimizes the use of low-cost Amazon EC2 Spot Instances for cloud-based game hosting. With Amazon GameLift FleetIQ, you can work directly with your hosting resources in Amazon EC2 and Amazon EC2 Auto Scaling while taking advantage of Amazon GameLift optimizations to deliver inexpensive, resilient game hosting for your players." },
             { Strings.LabelHelpFlexMatchTitle, "Amazon GameLift FlexMatch" },
             { Strings.LabelHelpFlexMatchDescription, "Amazon GameLift FlexMatch is a customizable matchmaking service for multiplayer games. With FlexMatch, you can build a custom set of rules that defines what a multiplayer match looks like for your game, and determines how to evaluate and select compatible players for each match." },
-            { Strings.LabelEstimatingHelpLearnMore, $"Learn More \uf086" },
-            { Strings.LabelFleetIqHelpLearnMore, "Learn More \uf086" },
-            { Strings.LabelFlexMatchHelpLearnMore, "Learn More \uf086" },
+            { Strings.LabelHelpEstimatingLearnMore, "Learn More \uf086" },
+            { Strings.LabelHelpFleetIqLearnMore, "Learn More \uf086" },
+            { Strings.LabelHelpFlexMatchLearnMore, "Learn More \uf086" },
         };
 
         public string GetError(string errorCode = null)

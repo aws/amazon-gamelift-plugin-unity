@@ -20,29 +20,29 @@ namespace Editor.Resources.EditorWindow.Pages
             container.Add(uxml);
             ApplyText();
             
-            // _container.Q<Button>("CreateAccount").RegisterCallback<ClickEvent>(_ => onCreateAccountClicked());
-            // _container.Q<Button>("AddProfile").RegisterCallback<ClickEvent>(_ => onAddProfileClicked());
-            // _container.Q<Button>("DownloadSampleGame").RegisterCallback<ClickEvent>(_ => onImportSampleClicked());
+            _container.Q<Label>(Strings.LabelHelpEstimatingLearnMore).RegisterCallback<ClickEvent>(_ => OnEstimatingLearnMoreClicked());
+            _container.Q<Label>(Strings.LabelHelpFleetIqLearnMore).RegisterCallback<ClickEvent>(_ => OnFleetIqLearnMoreClicked());
+            _container.Q<Label>(Strings.LabelHelpFlexMatchLearnMore).RegisterCallback<ClickEvent>(_ => OnFlexMatchLearnMoreClicked());
         }
 
-        private void onLinkClicked(string url)
+        private void OnLinkClicked(string url)
         {
             Application.OpenURL(url);
         }
 
-        private void onEstimatingLearnMoreClicked()
+        private void OnEstimatingLearnMoreClicked()
         {
-            //onLinkClicked(Urls.); TODO still need links for this
+            OnLinkClicked(""); //TODO <ASG6> still need links for this. Has been requested.
         }
 
-        private void onFleetIqLearnMoreClicked()
+        private void OnFleetIqLearnMoreClicked()
         {
-            onLinkClicked("");
+            OnLinkClicked(""); //TODO <ASG6> still need links for this. Has been requested
         }
         
-        private void onFlexMatchLearnMoreClicked()
+        private void OnFlexMatchLearnMoreClicked()
         {
-            onLinkClicked("");
+            OnLinkClicked(""); //TODO <ASG6> still need links for this. Has been requested.
         }
 
         private void ApplyText()
@@ -60,9 +60,9 @@ namespace Editor.Resources.EditorWindow.Pages
             l.SetElementText("LabelHelpFleetIqDescription", Strings.LabelHelpFleetIqDescription);
             l.SetElementText("LabelHelpFlexMatchTitle", Strings.LabelHelpFlexMatchTitle);
             l.SetElementText("LabelHelpFlexMatchDescription", Strings.LabelHelpFlexMatchDescription);
-            l.SetElementText("LabelEstimatingHelpLearnMore", Strings.LabelEstimatingHelpLearnMore);
-            l.SetElementText("LabelFleetIqHelpLearnMore", Strings.LabelFleetIqHelpLearnMore);
-            l.SetElementText("LabelFlexMatchHelpLearnMore", Strings.LabelFlexMatchHelpLearnMore);
+            l.SetElementText("LabelEstimatingHelpLearnMore", Strings.LabelHelpEstimatingLearnMore);
+            l.SetElementText("LabelFleetIqHelpLearnMore", Strings.LabelHelpFleetIqLearnMore);
+            l.SetElementText("LabelFlexMatchHelpLearnMore", Strings.LabelHelpFlexMatchLearnMore);
         }
     }
 }

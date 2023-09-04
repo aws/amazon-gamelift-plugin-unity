@@ -149,8 +149,8 @@ namespace AmazonGameLift.Editor
         public const string LabelHelpFleetIqDescription = "LabelHelpFleetIqDescription";
         public const string LabelHelpFlexMatchTitle = "LabelHelpFlexMatchTitle";
         public const string LabelHelpFlexMatchDescription = "LabelHelpFlexMatchDescription";
-        public const string LabelEstimatingHelpLearnMore = "LabelEstimatingHelpLearnMore";
-        public const string LabelFleetIqHelpLearnMore = "LabelFleetIqHelpLearnMore";
-        public const string LabelFlexMatchHelpLearnMore = "LabelFlexMatchHelpLearnMore";
+        public const string LabelHelpEstimatingLearnMore  = "LabelHelpEstimatingLearnMore";
+        public const string LabelHelpFleetIqLearnMore  = "LabelHelpFleetIqLearnMore";
+        public const string LabelHelpFlexMatchLearnMore  = "LabelHelpFlexMatchLearnMore";
     }
 }
