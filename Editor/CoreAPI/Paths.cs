@@ -6,6 +6,7 @@ namespace AmazonGameLift.Editor
     public static class Paths
     {
         public const string PluginSettingsFile = "GameLiftSettings.yaml";
+        public const string PluginConfigurationFile = "GameLiftConfiguration.yaml";
         public const string PackageName = "com.amazonaws.gamelift";
         public const string SampleGameInPackage = "Samples~/SampleGame.unitypackage";
         public const string ScenariosRootInPackage = "Editor/Resources/CloudFormation";

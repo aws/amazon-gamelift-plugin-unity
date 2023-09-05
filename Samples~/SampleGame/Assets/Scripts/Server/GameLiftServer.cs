@@ -26,7 +26,7 @@ public class GameLiftServer
     {
         _gl = gl ?? throw new ArgumentNullException(nameof(gl));
         _logger = logger ?? throw new ArgumentNullException(nameof(logger));
-        _coreApi = new CoreApi("GameLiftConfiguration.yaml");
+        _coreApi = new CoreApi(Paths.PluginConfigurationFile);
     }
 
     // The port must be in the range of open ports for the fleet

@@ -31,7 +31,7 @@ namespace AmazonGameLift.Runtime
         protected GameLiftCoreApi(GameLiftConfiguration configuration)
         {
             _configuration = configuration;
-            _coreApi = new CoreApi("GameLiftConfiguration.yaml");
+            _coreApi = new CoreApi(Paths.PluginConfigurationFile);
             var fleetId = _coreApi.GetSetting(SettingsKeys.FleetId).Value;
             var fleetLocation = _coreApi.GetSetting(SettingsKeys.FleetLocation).Value;
             if (_configuration.IsGameLiftAnywhere)
