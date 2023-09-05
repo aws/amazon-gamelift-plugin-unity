@@ -58,7 +58,7 @@ else
 
 echo "Building GameLift Server SDK..."
 dotnet restore "$SDK_PATH\GameLiftServerSDK.sln" --packages "$SDK_PATH\packages"
-dotnet build "$SDK_PATH\src\GameLiftServerSDK\GameLiftServerSDK.csproj" --configuration Release -r 4.6.2 --output "$RUNTIME_PLUGINS_PATH"
+dotnet build "$SDK_PATH\src\GameLiftServerSDK\GameLiftServerSDK.csproj" --configuration Release -f net462 --output "$RUNTIME_PLUGINS_PATH"
 
 # Newtonsoft.json is deleted in favor of the Newtonsoft.json dependency in Unity. See "com.unity.nuget.newtonsoft-json: x.x.x" dependency in package.json.
 
