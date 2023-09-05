@@ -4,6 +4,10 @@
 #if UNITY_SERVER
 using System;
 using System.Collections.Generic;
+using Amazon;
+using Amazon.GameLift;
+using Amazon.GameLift.Model;
+using AmazonGameLift.Editor;
 using Aws.GameLift;
 using Aws.GameLift.Server;
 using UnityEngine;
@@ -16,11 +20,13 @@ public class GameLiftServer
     private int _port;
     private bool _isConnected;
     private string _logFilePath;
+    private readonly CoreApi _coreApi;
 
     public GameLiftServer(GameLift gl, Logger logger)
     {
         _gl = gl ?? throw new ArgumentNullException(nameof(gl));
         _logger = logger ?? throw new ArgumentNullException(nameof(logger));
+        _coreApi = new CoreApi("GameLiftConfiguration.yaml");
     }
 
     // The port must be in the range of open ports for the fleet
@@ -34,7 +40,21 @@ public class GameLiftServer
 
         try
         {
-            GenericOutcome initOutcome = GameLiftServerAPI.InitSDK();
+            var websocketUrl = _coreApi.GetSetting(SettingsKeys.WebsocketUrl).Value;
+            var fleetID = _coreApi.GetSetting(SettingsKeys.FleetId).Value;
+            var computeName = _coreApi.GetSetting(SettingsKeys.ComputeName).Value;
+
+#if UNITY_EDITOR
+            var credentialsResponse =
+                _coreApi.RetrieveAwsCredentials(_coreApi.GetSetting(SettingsKeys.CurrentProfileName).Value);
+            var region = _coreApi.GetSetting(SettingsKeys.CurrentRegion).Value;
+            var gameLiftClient = new AmazonGameLiftClient(credentialsResponse.AccessKey, credentialsResponse.SecretKey, RegionEndpoint.GetBySystemName(region));
+            authToken ??= gameLiftClient.GetComputeAuthTokenAsync(new GetComputeAuthTokenRequest { ComputeName = computeName, FleetId = fleetID}).Result.AuthToken;
+#endif
+            var serverParams =
+                new ServerParameters(websocketUrl, Application.productName, computeName, fleetID, authToken);
+
+            GenericOutcome initOutcome = GameLiftServerAPI.InitSDK(serverParams);
 
             if (initOutcome.Success)
             {
@@ -45,12 +65,14 @@ public class GameLiftServer
             {
                 SetConnected(false);
 
-                _logger.Write(":( SERVER NOT IN A FLEET. GameLiftServerAPI.InitSDK() returned " + Environment.NewLine + initOutcome.Error.ErrorMessage);
+                _logger.Write(":( SERVER NOT IN A FLEET. GameLiftServerAPI.InitSDK() returned " + Environment.NewLine +
+                              initOutcome.Error.ErrorMessage);
             }
         }
         catch (Exception e)
         {
-            _logger.Write(":( SERVER NOT IN A FLEET. GameLiftServerAPI.InitSDK() exception " + Environment.NewLine + e.Message);
+            _logger.Write(":( SERVER NOT IN A FLEET. GameLiftServerAPI.InitSDK() exception " + Environment.NewLine +
+                          e.Message);
         }
     }
 
@@ -64,29 +86,19 @@ public class GameLiftServer
 
         try
         {
-            GenericOutcome outcome = GameLiftServerAPI.TerminateGameSession();
-
-            if (outcome.Success)
+            if (processEnding)
             {
-                _logger.Write(":) GAME SESSION TERMINATED");
-
-                if (processEnding)
-                {
-                    ProcessEnding();
-                }
-                else
-                {
-                    ProcessReady();
-                }
+                ProcessEnding();
             }
             else
             {
-                _logger.Write(":( GAME SESSION TERMINATION FAILED. TerminateGameSession() returned " + outcome.Error.ToString());
+                ProcessReady();
             }
         }
         catch (Exception e)
         {
-            _logger.Write(":( GAME SESSION TERMINATION FAILED. TerminateGameSession() exception " + Environment.NewLine + e.Message);
+            _logger.Write(":( GAME SESSION TERMINATION FAILED. TerminateGameSession() exception " +
+                          Environment.NewLine + e.Message);
         }
     }
 
@@ -103,13 +115,15 @@ public class GameLiftServer
             }
             else
             {
-                _logger.Write(":( ACCEPT PLAYER SESSION FAILED. AcceptPlayerSession() returned " + outcome.Error.ToString());
+                _logger.Write(":( ACCEPT PLAYER SESSION FAILED. AcceptPlayerSession() returned " +
+                              outcome.Error.ToString());
                 return false;
             }
         }
         catch (Exception e)
         {
-            _logger.Write(":( ACCEPT PLAYER SESSION FAILED. AcceptPlayerSession() exception " + Environment.NewLine + e.Message);
+            _logger.Write(":( ACCEPT PLAYER SESSION FAILED. AcceptPlayerSession() exception " + Environment.NewLine +
+                          e.Message);
             return false;
         }
     }
@@ -127,13 +141,15 @@ public class GameLiftServer
             }
             else
             {
-                _logger.Write(":( REMOVE PLAYER SESSION FAILED. RemovePlayerSession() returned " + outcome.Error.ToString());
+                _logger.Write(":( REMOVE PLAYER SESSION FAILED. RemovePlayerSession() returned " +
+                              outcome.Error.ToString());
                 return false;
             }
         }
         catch (Exception e)
         {
-            _logger.Write(":( REMOVE PLAYER SESSION FAILED. RemovePlayerSession() exception " + Environment.NewLine + e.Message);
+            _logger.Write(":( REMOVE PLAYER SESSION FAILED. RemovePlayerSession() exception " + Environment.NewLine +
+                          e.Message);
             return false;
         }
     }
@@ -152,7 +168,8 @@ public class GameLiftServer
             }
             else
             {
-                _logger.Write(":( PROCESSREADY FAILED. ProcessReady() returned " + processReadyOutcome.Error.ToString());
+                _logger.Write(":( PROCESSREADY FAILED. ProcessReady() returned " +
+                              processReadyOutcome.Error.ToString());
             }
         }
         catch (Exception e)
@@ -184,13 +201,21 @@ public class GameLiftServer
                     }
                     else
                     {
-                        _logger.Write(":( GAME SESSION ACTIVATION FAILED. ActivateGameSession() returned " + outcome.Error.ToString());
+                        _logger.Write(":( GAME SESSION ACTIVATION FAILED. ActivateGameSession() returned " +
+                                      outcome.Error.ToString());
                     }
                 }
                 catch (Exception e)
                 {
-                    _logger.Write(":( GAME SESSION ACTIVATION FAILED. ActivateGameSession() exception " + Environment.NewLine + e.Message);
+                    _logger.Write(":( GAME SESSION ACTIVATION FAILED. ActivateGameSession() exception " +
+                                  Environment.NewLine + e.Message);
                 }
+            },
+            onUpdateGameSession: session =>
+            {
+                _logger.Write(":) GAME SESSION UPDATED");
+                _logger.Write(":) UPDATE REASON - " + session.UpdateReason);
+                _logger.Write(":) GameSession: " + JsonUtility.ToJson(session.GameSession));
             },
             onProcessTerminate: () =>
             {
@@ -204,7 +229,7 @@ public class GameLiftServer
                 return true;
             },
             _port, // tell the GameLift service which port to connect to this process on.
-                   // unless we manage this there can only be one process per server.
+            // unless we manage this there can only be one process per server.
             logParameters);
     }
 
