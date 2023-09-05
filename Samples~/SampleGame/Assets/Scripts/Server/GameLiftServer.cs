@@ -24,7 +24,7 @@ public class GameLiftServer
     }
 
     // The port must be in the range of open ports for the fleet
-    public void Start(int port, string logFilePath = null)
+    public void Start(int port, string authToken = null, string logFilePath = null)
     {
         _logFilePath = logFilePath;
         _port = port;
