@@ -3,7 +3,8 @@
     "references": [
         "AmazonGameLiftPlugin.Runtime",
         "AmazonGameLiftPlugin.Runtime.Core",
-        "AmazonGameLiftPlugin.EditorCoreAPI"
+        "AmazonGameLiftPlugin.EditorCoreAPI",
+        "AmazonGameLiftSDKPlugin.Runtime"
     ],
     "optionalUnityReferences": [],
     "includePlatforms": [
