@@ -52,7 +52,7 @@ public class GameLiftServer
             authToken ??= gameLiftClient.GetComputeAuthTokenAsync(new GetComputeAuthTokenRequest { ComputeName = computeName, FleetId = fleetID}).Result.AuthToken;
 #endif
             var serverParams =
-                new ServerParameters(websocketUrl, Application.productName, computeName, fleetID, authToken);
+                new ServerParameters(websocketUrl, $"{Application.productName}-{Guid.NewGuid()}", computeName, fleetID, authToken);
 
             GenericOutcome initOutcome = GameLiftServerAPI.InitSDK(serverParams);
 
