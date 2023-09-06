@@ -5,30 +5,30 @@
     <Style src="./GameLiftPlugin.uss" />
     <ui:VisualElement name="Main" class="main">
         <ui:VisualElement class="main__menu">
-            <ui:Button text="Amazon GameLift" name="Landing" class="TabButton" />
+            <ui:Button text="Amazon GameLift" name="Landing" class="tab__button" />
             <ui:VisualElement class="Divider" />
-            <ui:Button text="AWS Account Credentials" name="Credentials" class="TabButton" />
+            <ui:Button text="AWS Account Credentials" name="Credentials" class="tab__button" />
             <ui:VisualElement class="Divider" />
-            <ui:Button text="GameLift Anywhere" name="Anywhere" class="TabButton" />
+            <ui:Button text="GameLift Anywhere" name="Anywhere" class="tab__button" />
             <ui:VisualElement class="Divider" />
-            <ui:Button text="Managed EC2" name="ManagedEC2" class="TabButton" />
+            <ui:Button text="Managed EC2" name="ManagedEC2" class="tab__button" />
             <ui:VisualElement class="Divider" />
-            <ui:Button text="Help &amp; Documentation" name="Help" class="TabButton" />
+            <ui:Button text="Help &amp; Documentation" name="Help" class="tab__button" />
         </ui:VisualElement>
         <ui:ScrollView name="Content" horizontal-scroller-visibility="Hidden" class="main__content">
-            <ui:VisualElement name="LandingTab" class="TabContent">
+            <ui:VisualElement name="LandingTab" class="tab__content">
                 <ui:Label text="Landing" />
             </ui:VisualElement>
-            <ui:VisualElement name="CredentialsTab" class="TabContent">
+            <ui:VisualElement name="CredentialsTab" class="tab__content">
                 <ui:Label text="Credentials" />
             </ui:VisualElement>
-            <ui:VisualElement name="AnywhereTab" class="TabContent">
+            <ui:VisualElement name="AnywhereTab" class="tab__content">
                 <ui:Label text="Anywhere" />
             </ui:VisualElement>
-            <ui:VisualElement name="ManagedEC2Tab" class="TabContent">
+            <ui:VisualElement name="ManagedEC2Tab" class="tab__content">
                 <ui:Label text="Managed EC2" />
             </ui:VisualElement>
-            <ui:VisualElement name="HelpTab" class="TabContent">
+            <ui:VisualElement name="HelpTab" class="tab__content">
                 <ui:Label text="Help" />
             </ui:VisualElement>
         </ui:ScrollView>

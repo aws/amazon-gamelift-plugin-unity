@@ -21,10 +21,10 @@ namespace Editor.Resources.EditorWindow
         private List<VisualElement> _tabContent;
         private readonly TextProvider _textProvider = TextProviderFactory.Create();
 
-        private const string TabContentSelectedClassName = "TabContent--selected";
-        private const string TabButtonSelectedClassName = "TabButton--selected";
-        private const string TabButtonClassName = "TabButton";
-        private const string TabContentClassName = "TabContent";
+        private const string TabContentSelectedClassName = "tab__content--selected";
+        private const string TabButtonSelectedClassName = "tab__button--selected";
+        private const string TabButtonClassName = "tab__button";
+        private const string TabContentClassName = "tab__content";
 
         private static GameLiftPlugin GetWindow()
         {

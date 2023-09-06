@@ -30,7 +30,7 @@
     background-color: var(--color-content-background);
 }
 
-.TabButton {
+.tab__button {
     font-size: var(--font-size-menu);
     -unity-text-align: middle-left;
     padding: 0 12px 0 20px;
@@ -41,19 +41,19 @@
     height: 24px;
 }
 
-.TabButton:hover {
+.tab__button:hover {
     background-color: var(--color-button-hover);
 }
 
-.TabButton--selected {
+.tab__button--selected {
     background-color: var(--color-button-primary);
 }
 
-.TabContent {
+.tab__content {
     display: none;
 }
 
-.TabContent--selected {
+.tab__content--selected {
     display: flex;
 }
 
