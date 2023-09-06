@@ -147,6 +147,27 @@ namespace AmazonGameLift.Editor
         public const string LandingPageSampleDescription = "LandingPageSampleDescription";
         public const string LandingPageSampleButton = "LandingPageSampleButton";
         
-        
+        public const string LabelAnywhereTitle = "LabelAnywhereTitle";
+        public const string LabelAnywhereDescription = "LabelAnywhereDescription";
+        public const string LabelAnywhereIntegrateTitle = "LabelAnywhereIntegrateTitle";
+        public const string LabelAnywhereIntegrateDescription = "LabelAnywhereIntegrateDescription";
+        public const string LabelAnywhereIntegrateServerLink = "LabelAnywhereIntegrateServerLink";
+        public const string LabelAnywhereIntegrateClientLink = "LabelAnywhereIntegrateClientLink";
+        public const string LabelAnywhereConnectTitle = "LabelAnywhereConnectTitle";
+        public const string LabelAnywhereConnectFleetName = "LabelAnywhereConnectFleetName";
+        public const string LabelAnywhereConnectFleetNameHint = "LabelAnywhereConnectFleetNameHint";
+        public const string ButtonAnywhereConnectButton = "ButtonAnywhereConnectButton";
+        public const string LabelAnywhereConnectedFleetID = "LabelAnywhereConnectedFleetID";
+        public const string LabelAnywhereConnectedFleetStatus = "LabelAnywhereConnectedFleetStatus";
+        public const string LabelAnywhereComputeTitle = "LabelAnywhereComputeTitle";
+        public const string LabelAnywhereComputeName = "LabelAnywhereComputeName";
+        public const string LabelAnywhereComputeIP = "LabelAnywhereComputeIP";
+        public const string ButtonAnywhereCompute = "ButtonAnywhereCompute";
+        public const string LabelAnywhereAuthTokenTitle = "LabelAnywhereAuthTokenTitle";
+        public const string LabelAnywhereAuthTokenField = "LabelAnywhereAuthTokenField";
+        public const string LabelAnywhereAuthTokenFieldNote = "LabelAnywhereAuthTokenFieldNote";
+        public const string LabelAnywhereLaunchClient = "LabelAnywhereLaunchClient";
+        public const string LabelAnywhereLaunchClientField = "LabelAnywhereLaunchClientField";
+        public const string ButtonAnywhereLaunchClient = "ButtonAnywhereLaunchClient";
     }
 }

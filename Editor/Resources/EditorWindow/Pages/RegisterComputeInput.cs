@@ -1,5 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
+using AmazonGameLift.Editor;
 using UnityEngine.UIElements;
 
 namespace Editor.Resources.EditorWindow.Pages
@@ -14,11 +16,21 @@ namespace Editor.Resources.EditorWindow.Pages
         private readonly Button _registerNewButton;
         private readonly Button _cancelButton;
         private readonly VisualElement _computeStatus;
+        private readonly VisualElement _container;
+        private readonly GameLiftRequestAdapter _requestAdapter;
+        private readonly ConnectToFleetInput _fleetDetails;
+        private readonly GameLiftPlugin _gameLiftPlugin;
 
-        public RegisterComputeInput(VisualElement container, ComputeStatus initialState)
+        private string _computeName = "ComputerName-ProfileName";
+        private string _ipAddress = "120.120.120.120";
+
+        public RegisterComputeInput(VisualElement container, GameLiftPlugin gameLiftPlugin, ConnectToFleetInput  fleetDetails, ComputeStatus initialState)
         {
             _computeState = initialState;
-
+            _fleetDetails = fleetDetails;
+            _gameLiftPlugin = gameLiftPlugin;
+            _requestAdapter = new GameLiftRequestAdapter(_gameLiftPlugin);
+            _gameLiftPlugin.SetupWrapper();
             _computeNameInput = container.Q<TextField>("RegisterComputeField");
             _ipInputs = container.Query<TextField>("IpAddress").ToList();
             _computeStatus = container.Q("AnywhereComputeStatusBox");
@@ -26,19 +38,48 @@ namespace Editor.Resources.EditorWindow.Pages
             _registerNewButton = container.Q<Button>("ButtonAnywhereNewCompute");
             _cancelButton = container.Q<Button>("ButtonAnywhereCancelCompute");
 
-            _registerButton.RegisterCallback<ClickEvent>(_ => OnRegisterButtonClicked());
-            _registerNewButton.RegisterCallback<ClickEvent>(_ => OnRegisterNewButtonClicked());
-            _cancelButton.RegisterCallback<ClickEvent>(_ => OnCancelButtonClicked());
-
+            RegisterCallbacks();
+            SetupConfigSettings();
             UpdateGUI();
         }
 
-        private void OnRegisterButtonClicked()
+        private void RegisterCallbacks()
+        {
+            _registerButton.RegisterCallback<ClickEvent>(_ => OnRegisterButtonClicked());
+            _registerNewButton.RegisterCallback<ClickEvent>(_ => OnRegisterNewButtonClicked());
+            _cancelButton.RegisterCallback<ClickEvent>(_ => OnCancelButtonClicked());
+            
+            _computeNameInput.RegisterValueChangedCallback(_ =>
+                SetupCompute(_computeNameInput, _ipInputs, _registerButton));
+            _computeNameInput.value = _computeName;
+            
+            var index = 0;
+            var currentIp = _ipAddress.Split(".");
+            foreach (var ipField in _ipInputs)
+            {
+                ipField.value = currentIp[index];
+                ipField.RegisterValueChangedCallback(_ =>
+                    SetupCompute(_computeNameInput, _ipInputs, _registerButton));
+                index++;
+            }
+        }
+
+        private async void OnRegisterButtonClicked()
         {
             if (_computeState is ComputeStatus.RegisteringInitial or ComputeStatus.Registering)
             {
-                // TODO: Add functionality
-                _computeState = ComputeStatus.Registered;
+                if (CheckCompute())
+                {
+                    _computeState = ComputeStatus.Registered;
+                }
+                else
+                {
+                    var success = await _requestAdapter.RegisterFleetCompute(_computeName, _fleetDetails.FleetId, GameLiftRequestAdapter.FleetLocation, _ipAddress);
+                    if (success)
+                    {
+                        _computeState = ComputeStatus.Registered;
+                    }
+                }
             }
 
             UpdateGUI();
@@ -48,7 +89,6 @@ namespace Editor.Resources.EditorWindow.Pages
         {
             if (_computeState is ComputeStatus.Registered)
             {
-                // TODO: Add functionality
                 _computeState = ComputeStatus.Registering;
             }
 
@@ -59,7 +99,6 @@ namespace Editor.Resources.EditorWindow.Pages
         {
             if (_computeState is ComputeStatus.Registering)
             {
-                // TODO: Add functionality
                 _computeState = ComputeStatus.Registered;
             }
 
@@ -70,6 +109,57 @@ namespace Editor.Resources.EditorWindow.Pages
         {
             _computeNameInput.isReadOnly = value;
             _ipInputs.ForEach(input => input.isReadOnly = value);
+        }
+        
+        private void SetupCompute(TextField computeTextName, IEnumerable<TextField> ipTextField, Button button)
+        {
+             var computeTextNameValid = computeTextName.value.Length >= 1;
+            var ipText = ipTextField.ToList().Select(ipAddressField => ipAddressField.value).ToList();
+            _computeName = computeTextName.value;
+            var ipTextFieldsValid = ipText.All(text => text.Length >= 1) && ipText.All(s=> int.TryParse(s, out _));
+
+            button.SetEnabled(computeTextNameValid && ipTextFieldsValid);
+        }
+
+        private bool CheckCompute()
+        {
+            if (_fleetDetails != null && _computeName != null && _fleetDetails.FleetId != null)
+            {
+                if (_requestAdapter.DescribeCompute(_computeName, _fleetDetails.FleetId).Result)
+                {
+                    _computeState = ComputeStatus.Registered;
+                    return true;
+                }
+            }
+
+            return false;
+        }
+        
+        private void SetupConfigSettings()
+        {
+            var computeName = _gameLiftPlugin.CoreApi.GetSetting(SettingsKeys.ComputeName);
+            if (computeName.Success)
+            {
+                _computeName = computeName.Value;
+            }
+
+            var ip = _gameLiftPlugin.CoreApi.GetSetting(SettingsKeys.IpAddress);
+            if (ip.Success)
+            {
+                _ipAddress = ip.Value;
+            }
+
+            var selectedProfile = _gameLiftPlugin.CoreApi.GetSetting(SettingsKeys.SelectedProfile);
+            if (selectedProfile.Success)
+            {
+                _gameLiftPlugin.CurrentState.SelectedProfile = selectedProfile.Value;
+            }
+
+            var fleetIndex = _gameLiftPlugin.CoreApi.GetSetting(SettingsKeys.SelectedFleetIndex);
+            if (fleetIndex.Success)
+            {
+                _gameLiftPlugin.CurrentState.SelectedFleetIndex = int.Parse(fleetIndex.Value);
+            }
         }
 
         protected sealed override void UpdateGUI()

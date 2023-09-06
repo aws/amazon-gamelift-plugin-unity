@@ -42,6 +42,26 @@ namespace AmazonGameLiftPlugin.Core.ApiGatewayManagement
         {
             return await _amazonGameLiftClient.DescribeGameSessionsAsync(request);
         }
+        
+        public async Task<ListFleetsResponse> ListFleets(ListFleetsRequest request)
+        {
+            return await _amazonGameLiftClient.ListFleetsAsync(request);
+        }
+        
+        public async Task<DescribeFleetAttributesResponse> DescribeFleets(DescribeFleetAttributesRequest request)
+        {
+            return await _amazonGameLiftClient.DescribeFleetAttributesAsync(request);
+        }
+        
+        public async Task<DeregisterComputeResponse> DeregisterCompute(DeregisterComputeRequest request)
+        {
+            return await _amazonGameLiftClient.DeregisterComputeAsync(request);
+        }
+        
+        public async Task<DescribeComputeResponse> DescribeCompute(DescribeComputeRequest request)
+        {
+            return await _amazonGameLiftClient.DescribeComputeAsync(request);
+        }
         #endregion
         /// <summary>
         /// Server region is code dedicated to Amazon GameLift SDK and AWS SDK calls made by the game server. All of these calls will be done via UI Elements or on Startup. 
