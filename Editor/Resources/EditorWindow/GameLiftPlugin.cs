@@ -12,7 +12,7 @@ namespace Editor.Resources.EditorWindow
 {
     public class GameLiftPlugin : UnityEditor.EditorWindow
     {
-        [SerializeField] private Texture icon;
+        [SerializeField] private Texture _icon;
 
         private VisualTreeAsset _visualTreeAsset;
         private VisualElement _root;
@@ -30,7 +30,7 @@ namespace Editor.Resources.EditorWindow
         {
             var inspectorType = Type.GetType("UnityEditor.GameView,UnityEditor.dll");
             var window = GetWindow<GameLiftPlugin>(inspectorType);
-            window.titleContent = new GUIContent("Amazon GameLift", window.icon);
+            window.titleContent = new GUIContent("Amazon GameLift", window._icon);
             return window;
         }
 
