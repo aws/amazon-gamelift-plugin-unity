@@ -30,7 +30,9 @@ namespace Editor.Resources.EditorWindow.Pages
                 Debug.Log($"Fleet type changed to {value}");
             };
 
+            _parameters = new FleetParameters { FleetName = "Bananas" };
             container.Q<Foldout>("EC2ParametersSection").text = $"{Application.productName} parameters";
+            var fleetParamsInput = new FleetParametersInput(container, _parameters);
         }
 
         private void ApplyText()
