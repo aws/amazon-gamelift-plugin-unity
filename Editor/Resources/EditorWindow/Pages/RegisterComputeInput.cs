@@ -68,17 +68,10 @@ namespace Editor.Resources.EditorWindow.Pages
         {
             if (_computeState is ComputeStatus.RegisteringInitial or ComputeStatus.Registering)
             {
-                if (CheckCompute())
+                var success = await _requestAdapter.RegisterFleetCompute(_computeName, _fleetDetails.FleetId, GameLiftRequestAdapter.FleetLocation, _ipAddress);
+                if (success)
                 {
                     _computeState = ComputeStatus.Registered;
-                }
-                else
-                {
-                    var success = await _requestAdapter.RegisterFleetCompute(_computeName, _fleetDetails.FleetId, GameLiftRequestAdapter.FleetLocation, _ipAddress);
-                    if (success)
-                    {
-                        _computeState = ComputeStatus.Registered;
-                    }
                 }
             }
 
@@ -121,20 +114,6 @@ namespace Editor.Resources.EditorWindow.Pages
             button.SetEnabled(computeTextNameValid && ipTextFieldsValid);
         }
 
-        private bool CheckCompute()
-        {
-            if (_fleetDetails != null && _computeName != null && _fleetDetails.FleetId != null)
-            {
-                if (_requestAdapter.DescribeCompute(_computeName, _fleetDetails.FleetId).Result)
-                {
-                    _computeState = ComputeStatus.Registered;
-                    return true;
-                }
-            }
-
-            return false;
-        }
-        
         private void SetupConfigSettings()
         {
             var computeName = _gameLiftPlugin.CoreApi.GetSetting(SettingsKeys.ComputeName);

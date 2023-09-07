@@ -4,7 +4,9 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using Amazon.GameLift;
 using AmazonGameLift.Editor;
+using AmazonGameLiftPlugin.Core.ApiGatewayManagement;
 using Editor.Resources.EditorWindow.Pages;
 using UnityEditor;
 using UnityEngine;
@@ -22,6 +24,7 @@ namespace Editor.Resources.EditorWindow
         private List<Button> _tabButtons;
         private List<VisualElement> _tabContent;
         private AwsCredentials _awsCredentials;
+        public AmazonGameLiftWrapper GameLiftWrapper;
         private readonly TextProvider _textProvider = TextProviderFactory.Create();
 
         private const string TabContentSelectedClassName = "TabContent--selected";
@@ -108,7 +111,7 @@ namespace Editor.Resources.EditorWindow
 
             var contentContainer = _root.Q(className: "main__content").Children().First();
             var landingPage = new LandingPage(contentContainer);
-            var anywherePage = new AnywherePage(contentContainer);
+            var anywherePage = new AnywherePage(contentContainer, this);
 
             _tabButtons = _root.Query<Button>(className: TabButtonClassName).ToList();
             _tabContent = _root.Query(className: TabContentClassName).ToList();
@@ -162,5 +165,25 @@ namespace Editor.Resources.EditorWindow
                 }
             });
         }
+        public State CurrentState;
+        public CoreApi CoreApi;
+        public void SetupWrapper()
+        {
+            CurrentState = new State();
+            CurrentState.SelectedProfile = "GameliftAnywhereTester";
+            CurrentState.SelectedFleetIndex = -1;
+            CoreApi = CoreApi.SharedInstance;
+            var credentials = CoreApi.RetrieveAwsCredentials(CurrentState.SelectedProfile);
+            var client = new AmazonGameLiftClient(credentials.AccessKey, credentials.SecretKey);
+            GameLiftWrapper = new AmazonGameLiftWrapper(client);
+        }
+    }
+    
+    public struct State
+    {
+        public bool SelectedBootstrapped;
+        public string[] AllProfiles;
+        public string SelectedProfile;
+        public int SelectedFleetIndex;
     }
 }

@@ -53,10 +53,11 @@ namespace Editor.Resources.EditorWindow.Pages
             UpdateGUI();
         }
 
-        private void OnCreateNewFleetClicked()
+        private async Task OnCreateNewFleetClicked()
         {
             if (_fleetState is FleetStatus.Selected or FleetStatus.Selecting)
             {
+                await UpdateFleetMenu();
                 _fleetState = FleetStatus.Creating;
             }
             
@@ -84,8 +85,8 @@ namespace Editor.Resources.EditorWindow.Pages
         {
             container.Q<Button>("ButtonAnywhereConnectButton").RegisterCallback<ClickEvent>(async _ => 
                 await OnAnywhereConnectClicked(_fleetNameInput.text));
-            container.Q<Button>("AnywhereFleetCreateNewButton").RegisterCallback<ClickEvent>(_ => 
-                OnCreateNewFleetClicked());
+            container.Q<Button>("AnywhereFleetCreateNewButton").RegisterCallback<ClickEvent>(async _ => 
+                await OnCreateNewFleetClicked());
             _fleetNameDropdownContainer.RegisterValueChangedCallback(evt => OnSelectFleetDropdown());
             _cancelButton.RegisterCallback<ClickEvent>(_ => OnCancelButtonClicked());
         }
