@@ -15,8 +15,8 @@
                         <ui:RadioButton name="EC2SingleFleetRadio" class="form-row__radio-button" text="Creates a game backend service with a single Amazon GameLift fleet."   />
                         <ui:Label name="SingleHelp" class="form-row__text-display input-hint foldout__link" text="Learn More  \uf08e" />
                     </ui:VisualElement>
-                </ui:VisualElement>                
-                <ui:VisualElement name="FleetTypeRadioButton2Group" class="form-row">                    
+                </ui:VisualElement>
+                <ui:VisualElement name="FleetTypeRadioButton2Group" class="form-row">
                     <ui:Label name="Label" class="form-row__label" text="Spot Fleet" />
                     <ui:VisualElement class="form-row__input">
                         <ui:RadioButton name="EC2SpotFleetRadio" class="form-row__radio-button" text="Forms matches by using Amazon GameLift queues and a custom matchmaker and configures three fleets." />

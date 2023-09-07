@@ -11,6 +11,7 @@ namespace Editor.Resources.EditorWindow.Pages
         private readonly VisualElement _container;
         private string _fleetName;
         private FleetType _fleetType;
+        private readonly FleetParameters _parameters;
 
         public EC2Page(VisualElement container)
         {
@@ -22,8 +23,12 @@ namespace Editor.Resources.EditorWindow.Pages
             ApplyText();
 
             _fleetType = FleetType.SingleRegion; // TODO: Read from storage
-            var fleetTypeInput = new FleetTypeInput(container, FleetTypeInput.InputState.Initial, _fleetType);
-            fleetTypeInput.OnValueChanged += value => Debug.Log($"Fleet type changed to {value}");
+            var fleetTypeInput = new FleetTypeInput(container, FleetTypeInput.InputState.Initial, _fleetType, true);
+            fleetTypeInput.SetEnabled(true);
+            fleetTypeInput.OnValueChanged += value =>
+            {
+                Debug.Log($"Fleet type changed to {value}");
+            };
 
             container.Q<Foldout>("EC2ParametersSection").text = $"{Application.productName} parameters";
         }
@@ -31,14 +36,6 @@ namespace Editor.Resources.EditorWindow.Pages
         private void ApplyText()
         {
             var l = new ElementLocalizer(_container);
-            // l.SetElementText("LabelAnywhereIntegrateTitle", "");
         }
-    }
-
-    public enum FleetType
-    {
-        SingleRegion = 0,
-        SpotFleet = 1,
-        FlexMatch = 2
     }
 }

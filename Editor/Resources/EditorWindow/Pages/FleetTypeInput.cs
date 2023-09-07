@@ -16,11 +16,13 @@ namespace Editor.Resources.EditorWindow.Pages
         public Action<FleetType> OnValueChanged;
         public FleetType FleetType { get; private set; }
 
-        public FleetTypeInput(VisualElement container, InputState initialState, FleetType initialValue)
+        public FleetTypeInput(VisualElement container, InputState initialState, FleetType initialValue, bool enabled)
         {
             _container = container;
             _inputState = initialState;
             FleetType = initialValue;
+            _enabled = enabled;
+            _container.SetEnabled(_enabled);
 
             _radio2Group = container.Q("FleetTypeRadioButton2Group");
             _radio3Group = container.Q("FleetTypeRadioButton3Group");
