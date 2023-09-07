@@ -6,6 +6,7 @@ namespace Editor.Resources.EditorWindow.Pages
     internal class FleetTypeInput : StatefulInput
     {
         private InputState _inputState;
+        private bool _enabled;
 
         private readonly VisualElement _container;
         private readonly VisualElement _radio2Group;
@@ -15,10 +16,11 @@ namespace Editor.Resources.EditorWindow.Pages
         public Action<FleetType> OnValueChanged;
         public FleetType FleetType { get; private set; }
 
-        public FleetTypeInput(VisualElement container, InputState initialValue)
+        public FleetTypeInput(VisualElement container, InputState initialState, FleetType initialValue)
         {
             _container = container;
-            _inputState = initialValue;
+            _inputState = initialState;
+            FleetType = initialValue;
 
             _radio2Group = container.Q("FleetTypeRadioButton2Group");
             _radio3Group = container.Q("FleetTypeRadioButton3Group");
@@ -33,16 +35,22 @@ namespace Editor.Resources.EditorWindow.Pages
                 _inputState = InputState.Expanded;
                 UpdateGUI();
             });
-            
+
             UpdateGUI();
         }
 
         internal enum InputState
         {
             Initial,
-            Expanded
+            Expanded,
         }
 
+        public void SetEnabled(bool value)
+        {
+            _enabled = value;
+            _container.SetEnabled(_enabled);
+        }
+        
         private void SetupRadioButton(string elementName, bool value, FleetType radioValue)
         {
             var radio = _container.Q<RadioButton>(elementName);
@@ -50,7 +58,7 @@ namespace Editor.Resources.EditorWindow.Pages
             radio.value = value;
             radio.RegisterValueChangedCallback(v =>
             {
-                if (v.newValue)
+                if (_enabled && v.newValue)
                 {
                     FleetType = radioValue;
                     OnValueChanged?.Invoke(FleetType);

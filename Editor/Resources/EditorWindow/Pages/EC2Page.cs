@@ -21,7 +21,8 @@ namespace Editor.Resources.EditorWindow.Pages
             container.Add(uxml);
             ApplyText();
 
-            var fleetTypeInput = new FleetTypeInput(container, FleetTypeInput.InputState.Initial);
+            _fleetType = FleetType.SingleRegion; // TODO: Read from storage
+            var fleetTypeInput = new FleetTypeInput(container, FleetTypeInput.InputState.Initial, _fleetType);
             fleetTypeInput.OnValueChanged += value => Debug.Log($"Fleet type changed to {value}");
 
             container.Q<Foldout>("EC2ParametersSection").text = $"{Application.productName} parameters";
