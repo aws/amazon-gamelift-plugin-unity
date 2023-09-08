@@ -41,7 +41,7 @@
     display: none;
 }
 
-.tab__content--selected {
+.tab__content.tab__content--selected {
     display: flex;
 }
 
