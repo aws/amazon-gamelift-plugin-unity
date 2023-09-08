@@ -4,11 +4,12 @@
 using System;
 using System.Collections.Generic;
 using AmazonGameLift.Editor;
+using Editor.Resources.EditorWindow;
 using UnityEditor;
 using UnityEngine;
 using UnityEngine.UIElements;
 
-namespace Editor.Resources.EditorWindow
+namespace Editor.Window
 {
     public class GameLiftPlugin : UnityEditor.EditorWindow
     {
