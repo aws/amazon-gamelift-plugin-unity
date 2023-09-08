@@ -16,19 +16,19 @@
             <ui:Button text="Help &amp; Documentation" name="Help" class="tab__button" />
         </ui:VisualElement>
         <ui:ScrollView name="Content" horizontal-scroller-visibility="Hidden" class="main__content">
-            <ui:VisualElement name="LandingTab" class="tab__content">
+            <ui:VisualElement name="LandingContent" class="tab__content">
                 <ui:Label text="Landing" />
             </ui:VisualElement>
-            <ui:VisualElement name="CredentialsTab" class="tab__content">
+            <ui:VisualElement name="CredentialsContent" class="tab__content">
                 <ui:Label text="Credentials" />
             </ui:VisualElement>
-            <ui:VisualElement name="AnywhereTab" class="tab__content">
+            <ui:VisualElement name="AnywhereContent" class="tab__content">
                 <ui:Label text="Anywhere" />
             </ui:VisualElement>
-            <ui:VisualElement name="ManagedEC2Tab" class="tab__content">
+            <ui:VisualElement name="ManagedEC2Content" class="tab__content">
                 <ui:Label text="Managed EC2" />
             </ui:VisualElement>
-            <ui:VisualElement name="HelpTab" class="tab__content">
+            <ui:VisualElement name="HelpContent" class="tab__content">
                 <ui:Label text="Help" />
             </ui:VisualElement>
         </ui:ScrollView>
