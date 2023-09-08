@@ -100,7 +100,7 @@ namespace Editor.Window
 
             VisualElement uxml = _visualTreeAsset.Instantiate();
             _root.Add(uxml);
-            
+
             ApplyText();
 
             _tabButtons = _root.Query<Button>(className: TabButtonClassName).ToList();
@@ -123,25 +123,25 @@ namespace Editor.Window
         {
             _tabContent.ForEach(page =>
             {
-                if (!page.name.StartsWith(tabName))
+                if (page.name == $"{tabName}Content")
                 {
-                    page.RemoveFromClassList(TabContentSelectedClassName);
+                    page.AddToClassList(TabContentSelectedClassName);
                 }
                 else
                 {
-                    page.AddToClassList(TabContentSelectedClassName);
+                    page.RemoveFromClassList(TabContentSelectedClassName);
                 }
             });
 
             _tabButtons.ForEach(button =>
             {
-                if (button.name != tabName)
+                if (button.name == tabName)
                 {
-                    button.RemoveFromClassList(TabButtonSelectedClassName);
+                    button.AddToClassList(TabButtonSelectedClassName);
                 }
                 else
                 {
-                    button.AddToClassList(TabButtonSelectedClassName);
+                    button.RemoveFromClassList(TabButtonSelectedClassName);
                 }
             });
         }
