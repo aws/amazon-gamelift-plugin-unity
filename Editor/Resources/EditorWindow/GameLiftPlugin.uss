@@ -1,6 +1,11 @@
 /* Copyright Amazon.com, Inc. or its affiliates. All Rights Reserved. */
 /* SPDX-License-Identifier: Apache-2.0 */
 
+:root {
+    height: 100%;
+    width: 100%;
+}
+
 .main {
     flex-direction: row;
     height: 100%;

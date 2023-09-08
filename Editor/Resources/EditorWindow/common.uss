@@ -2,9 +2,6 @@
 /* SPDX-License-Identifier: Apache-2.0 */
 
 :root {
-    height: 100%;
-    width: 100%;
-
     --color-background-accent: #333333;
     --color-background-primary: #3F3F3F;
     --color-button-primary: #2C5D87;
