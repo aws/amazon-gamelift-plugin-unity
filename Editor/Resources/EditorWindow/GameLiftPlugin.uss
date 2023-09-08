@@ -1,13 +1,10 @@
+/* Copyright Amazon.com, Inc. or its affiliates. All Rights Reserved. */
+/* SPDX-License-Identifier: Apache-2.0 */
+@import './common.uss';
+
 :root {
     height: 100%;
     width: 100%;
-    
-    --color-menu-background: #333333;
-    --color-content-background: #3F3F3F;
-    --color-button-primary: #2C5D87;
-    --color-button-hover: #386082;
-    
-    --font-size-menu: 18px;
 }
 
 .main {
@@ -17,18 +14,18 @@
 }
 
 .main__menu {
-    width: 230px;
+    width: 240px;
     padding-top: 20px;
-    background-color: var(--color-menu-background);
+    background-color: var(--color-background-accent);
 }
 
 .main__content {
     flex-grow: 1;
-    background-color: var(--color-content-background);
+    background-color: var(--color-background-primary);
 }
 
-.TabButton {
-    font-size: var(--font-size-menu);
+.tab__button {
+    font-size: var(--font-size-large);
     -unity-text-align: middle-left;
     padding: 0 12px 0 20px;
     margin: 0 0 12px 0;
@@ -38,19 +35,19 @@
     height: 24px;
 }
 
-.TabButton:hover {
+.tab__button:hover {
     background-color: var(--color-button-hover);
 }
 
-.TabButton--selected {
+.tab__button--selected {
     background-color: var(--color-button-primary);
 }
 
-.TabContent {
+.tab__content {
     display: none;
 }
 
-.TabContent--selected {
+.tab__content.tab__content--selected {
     display: flex;
 }
 
