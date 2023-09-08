@@ -19,7 +19,7 @@ namespace Editor.Resources.EditorWindow
         public void SetElementText(string elementName, string textKey)
         {
             var element = _root.Q<TextElement>(elementName);
-            if (element != default)
+            if (element != null)
             {
                 element.text = _textProvider.Get(textKey);
             }
