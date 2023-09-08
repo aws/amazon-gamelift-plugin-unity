@@ -13,7 +13,7 @@ namespace Editor.Window
 {
     public class GameLiftPlugin : UnityEditor.EditorWindow
     {
-        [SerializeField] private Texture _icon;
+        [SerializeField] internal Texture _icon;
 
         private VisualTreeAsset _visualTreeAsset;
         private VisualElement _root;
@@ -25,69 +25,6 @@ namespace Editor.Window
         private const string TabButtonSelectedClassName = "tab__button--selected";
         private const string TabButtonClassName = "tab__button";
         private const string TabContentClassName = "tab__content";
-
-        private static GameLiftPlugin GetWindow()
-        {
-            var inspectorType = Type.GetType("UnityEditor.GameView,UnityEditor.dll");
-            var window = GetWindow<GameLiftPlugin>(inspectorType);
-            window.titleContent = new GUIContent("Amazon GameLift", window._icon);
-            return window;
-        }
-
-        [MenuItem("Amazon GameLift/Show Amazon GameLift Window", priority = 0)]
-        public static void ShowWindow()
-        {
-            GetWindow();
-        }
-
-        [MenuItem("Amazon GameLift/Bring Panel to Front", priority = 1)]
-        public static void FocusPanel()
-        {
-            ShowWindow();
-        }
-
-        [MenuItem("Amazon GameLift/Set AWS Account Profiles", priority = 100)]
-        public static void OpenAccountProfilesTab()
-        {
-            GetWindow().OpenTab(Pages.Credentials);
-        }
-
-        [MenuItem("Amazon GameLift/Host with Anywhere", priority = 101)]
-        public static void OpenAnywhereTab()
-        {
-            GetWindow().OpenTab(Pages.Anywhere);
-        }
-
-        [MenuItem("Amazon GameLift/Host with Managed EC2", priority = 102)]
-        public static void OpenEC2Tab()
-        {
-            GetWindow().OpenTab(Pages.ManagedEC2);
-        }
-
-        [MenuItem("Amazon GameLift/Import Sample Game", priority = 103)]
-        public static void ImportSampleGame()
-        {
-            string filePackagePath = $"Packages/{Paths.PackageName}/{Paths.SampleGameInPackage}";
-            AssetDatabase.ImportPackage(filePackagePath, interactive: true);
-        }
-
-        [MenuItem("Amazon GameLift/Help/Documentation", priority = 200)]
-        public static void OpenDocumentation()
-        {
-            Application.OpenURL(Urls.AwsHelpGameLiftUnity);
-        }
-
-        [MenuItem("Amazon GameLift/Help/AWS GameTech Forum", priority = 201)]
-        public static void OpenGameTechForums()
-        {
-            Application.OpenURL(Urls.AwsGameTechForums);
-        }
-
-        [MenuItem("Amazon GameLift/Help/Report Issues", priority = 202)]
-        public static void OpenReportIssues()
-        {
-            Application.OpenURL(Urls.GitHubAwsLabs);
-        }
 
         private void CreateGUI()
         {
@@ -119,7 +56,7 @@ namespace Editor.Window
             l.SetElementText(Pages.Help, Strings.TabHelp);
         }
 
-        private void OpenTab(string tabName)
+        internal void OpenTab(string tabName)
         {
             _tabContent.ForEach(page =>
             {

@@ -1,5 +1,9 @@
-﻿using System;
+﻿// Copyright Amazon.com, Inc. or its affiliates. All Rights Reserved.
+// SPDX-License-Identifier: Apache-2.0
+
+using System;
 using AmazonGameLift.Editor;
+using Editor.Window;
 using UnityEditor;
 using UnityEngine;
 
@@ -11,7 +15,7 @@ namespace Editor.Resources.EditorWindow
         {
             var inspectorType = Type.GetType("UnityEditor.GameView,UnityEditor.dll");
             var window = UnityEditor.EditorWindow.GetWindow<GameLiftPlugin>(inspectorType);
-            window.titleContent = new GUIContent("Amazon GameLift", window.icon);
+            window.titleContent = new GUIContent("Amazon GameLift", window._icon);
             return window;
         }
 
