@@ -5,12 +5,12 @@
     height: 100%;
     width: 100%;
     
-    --color-menu-background: #333333;
-    --color-content-background: #3F3F3F;
+    --color-background-accent: #333333;
+    --color-background-primary: #3F3F3F;
     --color-button-primary: #2C5D87;
     --color-button-hover: #386082;
     
-    --font-size-menu: 18px;
+    --font-size-large: 18px;
 }
 
 .main {
@@ -22,16 +22,16 @@
 .main__menu {
     width: 240px;
     padding-top: 20px;
-    background-color: var(--color-menu-background);
+    background-color: var(--color-background-accent);
 }
 
 .main__content {
     flex-grow: 1;
-    background-color: var(--color-content-background);
+    background-color: var(--color-background-primary);
 }
 
 .tab__button {
-    font-size: var(--font-size-menu);
+    font-size: var(--font-size-large);
     -unity-text-align: middle-left;
     padding: 0 12px 0 20px;
     margin: 0 0 12px 0;
