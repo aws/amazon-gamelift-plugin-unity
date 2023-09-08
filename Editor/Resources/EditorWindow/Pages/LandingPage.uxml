@@ -1,34 +1,32 @@
 ﻿<ui:UXML xmlns:ui="UnityEngine.UIElements" >
     <Style src="./LandingPage.uss" />
-    <ui:VisualElement name="LandingTab" class="TabContent">        
-        <ui:Label name="LandingPageHeader" class="TabContent__header" text="Amazon GameLift"/>
-        <ui:Label name="LandingPageDescription" class="TabContent__description" text="Amazon GameLift is a dedicated game server hosting solution that deploys, operates, and scales cloud servers for multiplayer games.&#10;Whether you’re looking for a fully managed solution, or just the feature you need, GameLift leverages the power of AWS to deliver the best latency possible, low player wait times, and maximum cost savings."/>
-        <ui:VisualElement name="Divider"  />        
-        <ui:VisualElement class="cards">
-            <ui:VisualElement class="card">
-                <ui:VisualElement class="card__content">
-                    <ui:Image class="card__icon" />
-                    <ui:Label name="LandingPageNoAccountCardText" class="card__text" text="I don&apos;t have an AWS account" />
-                </ui:VisualElement>
-                <ui:Button class="button card__button" text="Create an AWS Account   \uf08e" name="CreateAccount" />
+    <ui:Label name="LandingPageHeader" class="TabContent__header" text="Amazon GameLift"/>
+    <ui:Label name="LandingPageDescription" class="TabContent__description" text="Amazon GameLift is a dedicated game server hosting solution that deploys, operates, and scales cloud servers for multiplayer games.&#10;Whether you’re looking for a fully managed solution, or just the feature you need, GameLift leverages the power of AWS to deliver the best latency possible, low player wait times, and maximum cost savings."/>
+    <ui:VisualElement name="Divider"  />        
+    <ui:VisualElement class="cards">
+        <ui:VisualElement class="card">
+            <ui:VisualElement class="card__content">
+                <ui:Image class="card__icon" />
+                <ui:Label name="LandingPageNoAccountCardText" class="card__text" text="I don&apos;t have an AWS account" />
             </ui:VisualElement>
-            <ui:VisualElement class="card card--last">
-                <ui:VisualElement class="card__content">
-                    <ui:Image class="card__icon" />
-                    <ui:Label name="LandingPageAccountCardText" class="card__text" text="I have an AWS account" />
-                </ui:VisualElement>
-                <ui:Button class="button button--primary card__button" text="Add a new Profile" name="AddProfile" />
+            <ui:Button class="button card__button" text="Create an AWS Account   \uf08e" name="CreateAccount" />
+        </ui:VisualElement>
+        <ui:VisualElement class="card card--last">
+            <ui:VisualElement class="card__content">
+                <ui:Image class="card__icon" />
+                <ui:Label name="LandingPageAccountCardText" class="card__text" text="I have an AWS account" />
             </ui:VisualElement>
-        </ui:VisualElement>        
-        <ui:VisualElement class="sample">
-            <ui:Label name="LandingPageSampleHeader" class="sample__header" text="Try our Sample Game" />
-            <ui:VisualElement class="sample__content">
-                <ui:Image class="sample__image"/>
-                <ui:VisualElement class="sample__text">
-                    <ui:Label name="LandingPageSampleDescription" text="Test out our sample multiplayer game with GameLift Anywhere." />
-                    <ui:Button name="DownloadSampleGame" class="button sample__button" text="Import" />
-                </ui:VisualElement>
+            <ui:Button class="button button--primary card__button" text="Add a new Profile" name="AddProfile" />
+        </ui:VisualElement>
+    </ui:VisualElement>        
+    <ui:VisualElement class="sample">
+        <ui:Label name="LandingPageSampleHeader" class="sample__header" text="Try our Sample Game" />
+        <ui:VisualElement class="sample__content">
+            <ui:Image class="sample__image"/>
+            <ui:VisualElement class="sample__text">
+                <ui:Label name="LandingPageSampleDescription" text="Test out our sample multiplayer game with GameLift Anywhere." />
+                <ui:Button name="DownloadSampleGame" class="button sample__button" text="Import" />
             </ui:VisualElement>
-        </ui:VisualElement>        
-    </ui:VisualElement>
+        </ui:VisualElement>
+    </ui:VisualElement>        
 </ui:UXML>

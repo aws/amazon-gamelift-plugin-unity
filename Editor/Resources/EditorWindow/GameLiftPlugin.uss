@@ -79,7 +79,7 @@
     font-size: var(--font-size-description);
 }
 
-.TabContent > * {
+.TabContent > * > * {
     margin-bottom: 12px;
 }
 

@@ -18,9 +18,9 @@ namespace Editor.Resources.EditorWindow
 
         private VisualTreeAsset _mVisualTreeAsset;
         private VisualElement _root;
-        private VisualElement _currentTab;
         private List<Button> _tabButtons;
         private List<VisualElement> _tabContent;
+        private VisualElement _tabContentContainer;
 
         private const string TabContentSelectedClassName = "TabContent--selected";
         private const string TabButtonSelectedClassName = "TabButton--selected";
@@ -101,17 +101,17 @@ namespace Editor.Resources.EditorWindow
 
             VisualElement uxml = _mVisualTreeAsset.Instantiate();
             _root.Add(uxml);
-            
+
             ApplyText();
 
-            var contentContainer = _root.Q(className: "main__content").Children().First();
-            var landingPage = new LandingPage(contentContainer);
+            _tabContentContainer = _root.Q(className: "main__content");
+            var landingPage = new LandingPage(SetupTab("Landing"));
 
             _tabButtons = _root.Query<Button>(className: TabButtonClassName).ToList();
             _tabContent = _root.Query(className: TabContentClassName).ToList();
 
             _tabButtons.ForEach(button => button.RegisterCallback<ClickEvent>(_ => { OpenTab(button.name); }));
-            
+
             OpenTab("Landing");
         }
 
@@ -123,6 +123,17 @@ namespace Editor.Resources.EditorWindow
             l.SetElementText("Anywhere", Strings.TabAnywhere);
             l.SetElementText("EC2", Strings.TabEC2);
             l.SetElementText("Help", Strings.TabHelp);
+        }
+
+        private VisualElement SetupTab(string tabName)
+        {
+            var container = new VisualElement
+            {
+                name = $"{tabName}Tab",
+            };
+            container.AddToClassList(TabContentClassName);
+            _tabContentContainer.Add(container);
+            return container;
         }
 
         private void OpenTab(string tabName)
