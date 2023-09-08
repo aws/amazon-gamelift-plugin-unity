@@ -6,10 +6,6 @@
 :root {
     --color-card-border: #0d0d0d;
     --color-card-background: #2a2a2a;
-    
-    --font-size-card: 16px;
-    --font-size-card-button: 18px;
-    --font-size-sample: 16px;
 }
 
 .cards {
@@ -41,13 +37,13 @@
 }
 
 .card__text {
-    font-size: var(--font-size-card);
+    font-size: var(--font-size-default);
     -unity-text-align: middle-left;
     flex: 1 1 auto;
 }
 
 .card__button {
-    font-size: var(--font-size-card-button);
+    font-size: var(--font-size-large);
 }
 
 .sample__header {
@@ -72,5 +68,5 @@
 
 .sample__button {
     margin-top: 8px;
-    font-size: var(--font-size-sample);
+    font-size: var(--font-size-default);
 }
