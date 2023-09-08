@@ -1,3 +1,5 @@
+@import "./common.uss";
+
 :root {
     --color-card-border: #0d0d0d;
     --color-card-background: #2a2a2a;

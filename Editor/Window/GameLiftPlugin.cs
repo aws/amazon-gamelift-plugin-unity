@@ -5,6 +5,7 @@ using System;
 using System.Collections.Generic;
 using AmazonGameLift.Editor;
 using Editor.Resources.EditorWindow;
+using Editor.Resources.EditorWindow.Pages;
 using UnityEditor;
 using UnityEngine;
 using UnityEngine.UIElements;
@@ -20,7 +21,9 @@ namespace Editor.Window
         private VisualElement _currentTab;
         private List<Button> _tabButtons;
         private List<VisualElement> _tabContent;
+        private VisualElement _tabContentContainer;
 
+        private const string MainContentClassName = "main__content";
         private const string TabContentSelectedClassName = "tab__content--selected";
         private const string TabButtonSelectedClassName = "tab__button--selected";
         private const string TabButtonClassName = "tab__button";
@@ -102,6 +105,9 @@ namespace Editor.Window
             _root.Add(uxml);
 
             ApplyText();
+            
+            _tabContentContainer = _root.Q(className: MainContentClassName);
+            var landingPage = new LandingPage(SetupTab(Pages.Landing));
 
             _tabButtons = _root.Query<Button>(className: TabButtonClassName).ToList();
             _tabContent = _root.Query(className: TabContentClassName).ToList();
@@ -119,6 +125,17 @@ namespace Editor.Window
             l.SetElementText(Pages.Help, Strings.TabHelp);
         }
 
+        private VisualElement SetupTab(string tabName)
+        {
+            var container = new VisualElement
+            {
+                name = $"{tabName}Content",
+            };
+            container.AddToClassList(TabContentClassName);
+            _tabContentContainer.Add(container);
+            return container;
+        }
+        
         private void OpenTab(string tabName)
         {
             _tabContent.ForEach(page =>
