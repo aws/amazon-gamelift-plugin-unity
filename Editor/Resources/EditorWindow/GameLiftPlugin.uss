@@ -1,3 +1,7 @@
+/* Copyright Amazon.com, Inc. or its affiliates. All Rights Reserved. */
+/* SPDX-License-Identifier: Apache-2.0 */
+@import './common.uss';
+
 :root {
     height: 100%;
     width: 100%;
@@ -21,13 +25,13 @@
 .main {
     flex-direction: row;
     height: 100%;
-    width: 100%;    
+    width: 100%;
 }
 
 .main__menu {
-    width: 230px;
+    width: 240px;
     padding-top: 20px;
-    background-color: var(--color-menu-background);
+    background-color: var(--color-background-accent);
     flex: 0 0 auto;
     border-right-color: var(--color-menu-border);
     border-right-width: 2px;
@@ -35,15 +39,20 @@
 
 .main__content {
     flex-grow: 1;
+    background-color: var(--color-background-primary);
+}
+
+.tab__button {
+    font-size: var(--font-size-large);
     background-color: var(--color-content-background);
 }
 
-.main__content .TabContent{
+.main__content .tab__content{
      padding: 24px;
      min-width: var(--content-width);
  }
 
-.TabButton {
+.tab__button {
     font-size: var(--font-size-menu);
     -unity-text-align: middle-left;
     padding: 0 12px 0 20px;
@@ -54,32 +63,32 @@
     height: 24px;
 }
 
-.TabButton:hover {
+.tab__button:hover {
     background-color: var(--color-button-hover);
 }
 
-.TabButton--selected {
+.tab__button--selected {
     background-color: var(--color-button-primary);
 }
 
-.TabContent {
+.tab__content {
     display: none;
     color: var(--color-font-content);
 }
 
-.TabContent--selected {
+.tab__content.tab__content--selected {
     display: flex;
 }
 
-.TabContent__header {
+.tab__content__header {
     font-size: var(--font-size-header);
 }
 
-.TabContent__description {
+.tab__content__description {
     font-size: var(--font-size-description);
 }
 
-.TabContent > * > * {
+.tab__content > * > * {
     margin-bottom: 12px;
 }
 
