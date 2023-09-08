@@ -1,0 +1,11 @@
+﻿/* Copyright Amazon.com, Inc. or its affiliates. All Rights Reserved. */
+/* SPDX-License-Identifier: Apache-2.0 */
+
+:root {
+    --color-background-accent: #333333;
+    --color-background-primary: #3F3F3F;
+    --color-button-primary: #2C5D87;
+    --color-button-hover: #386082;
+
+    --font-size-large: 18px;
+}

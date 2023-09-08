@@ -176,6 +176,12 @@ namespace AmazonGameLift.Editor
             { Strings.SettingsUISdkNextStepLabel, "The SDK settings are configured. You can find an usage example by going to \"(Top Menu Bar) > GameLift > Import Sample Game\", and look at \"Assets\\Scripts\\Server\\GameLiftServer.cs\"."},
             { Strings.LabelOpenSdkIntegrationDoc, "Open SDK Integration Guide"},
             { Strings.LabelOpenSdkApiDoc, "Open SDK API Reference"},
+            
+            { Strings.TabLanding, "Amazon GameLift" },
+            { Strings.TabCredentials, "AWS User Profiles" },
+            { Strings.TabAnywhere, "Host with Anywhere" },
+            { Strings.TabManagedEC2, "Host with Managed EC2" },
+            { Strings.TabHelp, "Learning Resources" },
         };
 
         public string GetError(string errorCode = null)
