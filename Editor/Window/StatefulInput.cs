@@ -1,6 +1,6 @@
 ﻿using UnityEngine.UIElements;
 
-namespace Editor.Resources.EditorWindow.Pages
+namespace Editor.Window
 {
     public abstract class StatefulInput
     {

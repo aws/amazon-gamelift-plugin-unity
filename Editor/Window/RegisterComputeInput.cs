@@ -4,7 +4,7 @@ using System.Linq;
 using AmazonGameLift.Editor;
 using UnityEngine.UIElements;
 
-namespace Editor.Resources.EditorWindow.Pages
+namespace Editor.Window
 {
     public class RegisterComputeInput : StatefulInput
     {

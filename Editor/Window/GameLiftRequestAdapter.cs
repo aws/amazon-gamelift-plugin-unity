@@ -9,7 +9,7 @@ using AmazonGameLift.Editor;
 using UnityEngine;
 using UnityEngine.UIElements;
 
-namespace Editor.Resources.EditorWindow.Pages
+namespace Editor.Window
 {
     public class GameLiftRequestAdapter
     {
