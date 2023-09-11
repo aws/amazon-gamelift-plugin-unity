@@ -10,7 +10,7 @@ namespace Editor.Resources.EditorWindow.Pages
 {
     public class FleetParametersInput
     {
-        private readonly Dictionary<string, OperatingSystem> _osMappings = new()
+        private static readonly Dictionary<string, OperatingSystem> OSMappings = new()
         {
             { "Amazon Linux 2 (AL2)", OperatingSystem.AMAZON_LINUX_2 },
             { "Amazon Linux 2023 (AL2023)", OperatingSystem.AMAZON_LINUX_2023 },
@@ -35,8 +35,9 @@ namespace Editor.Resources.EditorWindow.Pages
                 value => parameters.GameServerFile = value);
 
             var osDropdown = container.Q<DropdownField>("EC2OperatingSystemDropdown");
-            osDropdown.choices = _osMappings.Keys.ToList();
-            osDropdown.RegisterValueChangedCallback(e => { _parameters.OperatingSystem = _osMappings[e.newValue]; });
+            osDropdown.choices = OSMappings.Keys.ToList();
+            osDropdown.index = OSMappings.Values.ToList().IndexOf(parameters.OperatingSystem);
+            osDropdown.RegisterValueChangedCallback(e => { _parameters.OperatingSystem = OSMappings[e.newValue]; });
 
             var serverFolderButton = container.Q<Button>("EC2ServerFolderButton");
             serverFolderButton.RegisterCallback<ClickEvent>(_ =>
@@ -55,6 +56,14 @@ namespace Editor.Resources.EditorWindow.Pages
                 parameters.GameServerFile = value;
                 serverFileInput.value = value;
             });
+        }
+
+        public static OperatingSystem GetOperatingSystem(string operatingSystem)  {
+            if (operatingSystem == null)
+            {
+                return null;
+            }
+            return OSMappings.TryGetValue(operatingSystem, out var mapping) ? mapping : null;
         }
 
         private TextField SetupInput(string inputName, string initialValue, Action<string> onChangeEvent)

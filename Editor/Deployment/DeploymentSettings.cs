@@ -232,8 +232,8 @@ namespace AmazonGameLift.Editor
             BuildFolderPath = null;
             GetSettingResponse response = _coreApi.GetSetting(SettingsKeys.DeploymentGameName);
             GameName = response.Success ? response.Value : null;
-            GetSettingResponse scenarioIndexResponse = _coreApi.GetSetting(SettingsKeys.DeploymentScenarioIndex);
 
+            GetSettingResponse scenarioIndexResponse = _coreApi.GetSetting(SettingsKeys.DeploymentScenarioIndex);
             if (scenarioIndexResponse.Success)
             {
                 int? index = SettingsFormatter.ParseInt(scenarioIndexResponse.Value);
@@ -241,17 +241,39 @@ namespace AmazonGameLift.Editor
             }
 
             GetSettingResponse serverPathResponse = _coreApi.GetSetting(SettingsKeys.DeploymentBuildFolderPath);
-
             if (serverPathResponse.Success)
             {
                 BuildFolderPath = serverPathResponse.Value;
             }
 
             GetSettingResponse serverExePathResponse = _coreApi.GetSetting(SettingsKeys.DeploymentBuildFilePath);
-
             if (serverExePathResponse.Success)
             {
                 BuildFilePath = serverExePathResponse.Value;
+            }
+
+            GetSettingResponse launchParametersResponse = _coreApi.GetSetting(SettingsKeys.LaunchParameters);
+            if (launchParametersResponse.Success)
+            {
+                BuildFilePath = launchParametersResponse.Value;
+            }
+
+            GetSettingResponse buildOperatingSystemResponse = _coreApi.GetSetting(SettingsKeys.BuildOperatingSystem);
+            if (buildOperatingSystemResponse.Success)
+            {
+                BuildOperatingSystem = buildOperatingSystemResponse.Value;
+            }
+
+            GetSettingResponse fleetNameResponse = _coreApi.GetSetting(SettingsKeys.FleetName);
+            if (fleetNameResponse.Success)
+            {
+                FleetName = fleetNameResponse.Value;
+            }
+
+            GetSettingResponse buildNameResponse = _coreApi.GetSetting(SettingsKeys.BuildName);
+            if (buildNameResponse.Success)
+            {
+                BuildName = buildNameResponse.Value;
             }
         }
 
@@ -261,6 +283,10 @@ namespace AmazonGameLift.Editor
             _coreApi.PutSettingOrClear(SettingsKeys.DeploymentBuildFolderPath, BuildFolderPath);
             _coreApi.PutSettingOrClear(SettingsKeys.DeploymentBuildFilePath, BuildFilePath);
             _coreApi.PutSettingOrClear(SettingsKeys.DeploymentGameName, GameName);
+            _coreApi.PutSettingOrClear(SettingsKeys.LaunchParameters, LaunchParameters);
+            _coreApi.PutSettingOrClear(SettingsKeys.BuildOperatingSystem, BuildOperatingSystem);
+            _coreApi.PutSettingOrClear(SettingsKeys.FleetName, FleetName);
+            _coreApi.PutSettingOrClear(SettingsKeys.BuildName, BuildName);
         }
 
         public async Task WaitForCurrentDeployment()

@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using UnityEngine.UIElements;
 
 namespace Editor.Resources.EditorWindow.Pages
@@ -7,6 +8,7 @@ namespace Editor.Resources.EditorWindow.Pages
     {
         private InputState _inputState;
         private bool _enabled;
+        private FleetType _fleetType;
 
         private readonly VisualElement _container;
         private readonly VisualElement _radio2Group;
@@ -14,13 +16,19 @@ namespace Editor.Resources.EditorWindow.Pages
         private readonly Button _button;
 
         public Action<FleetType> OnValueChanged;
-        public FleetType FleetType { get; private set; }
 
-        public FleetTypeInput(VisualElement container, InputState initialState, FleetType initialValue, bool enabled)
+        public static readonly Dictionary<int, FleetType> ScenarioIndexMap = new()
+        {
+            { 1, FleetType.SingleRegion },
+            { 4, FleetType.SpotFleet },
+            { 5, FleetType.FlexMatch },
+        };
+
+        public FleetTypeInput(VisualElement container, FleetType initialValue, bool enabled)
         {
             _container = container;
-            _inputState = initialState;
-            FleetType = initialValue;
+            _inputState = initialValue == FleetType.SingleRegion ? InputState.Initial : InputState.Expanded;
+            _fleetType = initialValue;
             _enabled = enabled;
             _container.SetEnabled(_enabled);
 
@@ -41,7 +49,7 @@ namespace Editor.Resources.EditorWindow.Pages
             UpdateGUI();
         }
 
-        internal enum InputState
+        private enum InputState
         {
             Initial,
             Expanded,
@@ -52,7 +60,7 @@ namespace Editor.Resources.EditorWindow.Pages
             _enabled = value;
             _container.SetEnabled(_enabled);
         }
-        
+
         private void SetupRadioButton(string elementName, bool value, FleetType radioValue)
         {
             var radio = _container.Q<RadioButton>(elementName);
@@ -62,8 +70,8 @@ namespace Editor.Resources.EditorWindow.Pages
             {
                 if (_enabled && v.newValue)
                 {
-                    FleetType = radioValue;
-                    OnValueChanged?.Invoke(FleetType);
+                    _fleetType = radioValue;
+                    OnValueChanged?.Invoke(_fleetType);
                 }
             });
         }

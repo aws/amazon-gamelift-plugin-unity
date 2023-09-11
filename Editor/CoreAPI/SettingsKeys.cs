@@ -16,5 +16,9 @@ namespace AmazonGameLift.Editor
         public const string DeploymentBuildFilePath = "DeploymentBuildFilePath";
         public const string DeploymentBuildFolderPath = "DeploymentBuildFolderPath";
         public const string WasSettingsWindowShown = "WasSettingsWindowShown";
+        public const string LaunchParameters = "LaunchParameters";
+        public const string BuildOperatingSystem = "BuildOperatingSystem";
+        public const string FleetName = "FleetName";
+        public const string BuildName = "BuildName";
     }
 }

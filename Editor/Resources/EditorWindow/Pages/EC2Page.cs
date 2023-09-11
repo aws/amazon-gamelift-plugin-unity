@@ -2,6 +2,7 @@
 // SPDX-License-Identifier: Apache-2.0
 
 using System.Threading.Tasks;
+using Amazon.GameLift;
 using AmazonGameLift.Editor;
 using UnityEngine;
 using UnityEngine.UIElements;
@@ -22,6 +23,17 @@ namespace Editor.Resources.EditorWindow.Pages
             _model = DeploymentSettingsFactory.Create();
             _model.Restore();
             _model.Refresh();
+            _parameters = new FleetParameters
+            {
+                FleetName = _model.FleetName ?? $"{Application.productName}-ManagedFleet",
+                LaunchParameters = _model.LaunchParameters ?? $"",
+                BuildName = _model.BuildName ??
+                            $"{Application.productName}-{_model.ScenarioName.Replace(" ", "_")}-Build",
+                GameServerFile = _model.BuildFilePath,
+                GameServerFolder = _model.BuildFolderPath,
+                OperatingSystem = FleetParametersInput.GetOperatingSystem(_model.BuildOperatingSystem) ??
+                                  OperatingSystem.AMAZON_LINUX_2
+            };
 
             var mVisualTreeAsset = UnityEngine.Resources.Load<VisualTreeAsset>("EditorWindow/Pages/EC2Page");
             var uxml = mVisualTreeAsset.Instantiate();
@@ -30,18 +42,14 @@ namespace Editor.Resources.EditorWindow.Pages
             ApplyText();
 
             _fleetType = FleetType.SingleRegion; // TODO: Read from storage
-            var fleetTypeInput = new FleetTypeInput(container, FleetTypeInput.InputState.Initial, _fleetType, true);
+            var fleetTypeInput = new FleetTypeInput(container,  FleetTypeInput.ScenarioIndexMap[_model.ScenarioIndex], true);
             fleetTypeInput.SetEnabled(true);
             fleetTypeInput.OnValueChanged += value => { Debug.Log($"Fleet type changed to {value}"); };
 
-            _parameters = new FleetParameters { FleetName = "Bananas" };
             container.Q<Foldout>("EC2ParametersSection").text = $"{Application.productName} parameters";
             var fleetParamsInput = new FleetParametersInput(container, _parameters);
-            
-            container.Q<Button>("EC2CreateResourceButton").RegisterCallback<ClickEvent>(_ =>
-            {
-                StartDeployment();
-            });
+
+            container.Q<Button>("EC2CreateResourceButton").RegisterCallback<ClickEvent>(_ => { StartDeployment(); });
         }
 
         private void StartDeployment()
@@ -54,6 +62,7 @@ namespace Editor.Resources.EditorWindow.Pages
             _model.BuildOperatingSystem = _parameters.OperatingSystem;
             _model.GameName = Application.productName.Substring(0, 12);
 
+            _model.Save();
             _model.StartDeployment(ConfirmChanges).ContinueWith(task =>
             {
                 if (task.IsFaulted)
