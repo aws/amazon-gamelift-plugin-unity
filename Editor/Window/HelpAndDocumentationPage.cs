@@ -2,10 +2,11 @@
 // SPDX-License-Identifier: Apache-2.0
 
 using AmazonGameLift.Editor;
+using Editor.Resources.EditorWindow;
 using UnityEngine;
 using UnityEngine.UIElements;
 
-namespace Editor.Resources.EditorWindow.Pages
+namespace Editor.Window
 {
     public class HelpAndDocumentationPage
     {
