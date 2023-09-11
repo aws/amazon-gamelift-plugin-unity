@@ -72,6 +72,14 @@ namespace AmazonGameLift.Editor
         public string BuildFolderPath { get; set; }
 
         public string BuildFilePath { get; set; }
+        
+        public string BuildOperatingSystem { get; set; }
+        
+        public string FleetName { get; set; }
+        
+        public string BuildName { get; set; }
+        
+        public string LaunchParameters { get; set; }
 
         #endregion Scenario parameters
 
@@ -441,6 +449,10 @@ namespace AmazonGameLift.Editor
             {
                 { ScenarioParameterKeys.GameName, GameName },
                 { ScenarioParameterKeys.LaunchPath, launchPath },
+                { ScenarioParameterKeys.LaunchParameters, LaunchParameters },
+                { ScenarioParameterKeys.BuildOperatingSystem, BuildOperatingSystem },
+                { ScenarioParameterKeys.FleetName, FleetName },
+                { ScenarioParameterKeys.BuildName, BuildName },
             };
         }
 

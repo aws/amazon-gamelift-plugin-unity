@@ -76,7 +76,7 @@
             <ui:VisualElement class="form-row" >
                 <ui:Label class="form-row__label" text="AWS Resource Actions"   />
                 <ui:VisualElement class="form-row__input form-row__input--inline">
-                    <ui:Button name="CreateResource" class="button button--primary" text="Create"/>
+                    <ui:Button name="EC2CreateResourceButton" class="button button--primary" text="Create"/>
                     <ui:Button name="RedeployResource" class="button" text="Redeploy"/>
                     <ui:Button name="DeleteResource" class="button" text="Delete" />
                 </ui:VisualElement>

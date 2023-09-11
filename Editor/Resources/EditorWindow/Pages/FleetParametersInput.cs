@@ -22,6 +22,7 @@ namespace Editor.Resources.EditorWindow.Pages
 
         public FleetParametersInput(VisualElement container, FleetParameters parameters)
         {
+            _container = container;
             _parameters = parameters;
 
             SetupInput("EC2FleetNameInput", parameters.FleetName, value => parameters.FleetName = value);
@@ -49,7 +50,7 @@ namespace Editor.Resources.EditorWindow.Pages
             var serverFileButton = container.Q<Button>("EC2ServerFileButton");
             serverFileButton.RegisterCallback<ClickEvent>(_ =>
             {
-                var value = EditorUtility.OpenFolderPanel("Game Server Build File Path (exe)", Application.dataPath,
+                var value = EditorUtility.OpenFilePanel("Game Server Build File Path (exe)", _parameters.GameServerFolder,
                     _parameters.GameServerFile);
                 parameters.GameServerFile = value;
                 serverFileInput.value = value;
@@ -58,7 +59,7 @@ namespace Editor.Resources.EditorWindow.Pages
 
         private TextField SetupInput(string inputName, string initialValue, Action<string> onChangeEvent)
         {
-            var input = _container.Q<TextField>("EC2FleetNameInput");
+            var input = _container.Q<TextField>(inputName);
             input.value = initialValue;
             input.RegisterValueChangedCallback(e => onChangeEvent(e.newValue));
             return input;
