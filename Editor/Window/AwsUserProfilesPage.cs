@@ -8,6 +8,7 @@ using System.Threading.Tasks;
 using AmazonGameLift.Editor;
 using AmazonGameLiftPlugin.Core.Shared;
 using Editor.GameLiftConfigurationUI;
+using Editor.Window;
 using UnityEngine;
 using UnityEngine.UIElements;
 
@@ -79,8 +80,8 @@ namespace Editor.Resources.EditorWindow.Pages
 
         private void SetupButtonCallbacks()
         {
-            //_container.Q<Button>("LabelAccountCardNoAccountDescriptionLink").RegisterCallback<ClickEvent>(_ => OpenLink(""));
-            //_container.Q<Button>("LabelAccountNewProfileHelpLink").RegisterCallback<ClickEvent>(_ => OpenLink(""));
+            // _container.Q<Button>("LabelAccountCardNoAccountDescriptionLink").RegisterCallback<ClickEvent>(_ => OpenLink(""));
+            // _container.Q<Button>("LabelAccountNewProfileHelpLink").RegisterCallback<ClickEvent>(_ => OpenLink(""));
             _container.Q<Button>("ButtonAccountCardNoAccount").RegisterCallback<ClickEvent>(_ => OpenLink(""));
             _container.Q<Button>("ButtonBootstrapAddAnotherProfile").RegisterCallback<ClickEvent>(_ =>
             {
@@ -144,14 +145,7 @@ namespace Editor.Resources.EditorWindow.Pages
         private void SetupConfigSettings()
         {
             var selectedProfile = _gameLiftConfig.CoreApi.GetSetting(SettingsKeys.CurrentProfileName);
-            if (selectedProfile.Success)
-            {
-                _gameLiftConfig.CurrentState.SelectedProfile = selectedProfile.Value;
-            }
-            else
-            {
-                _gameLiftConfig.CurrentState.SelectedProfile = _gameLiftConfig.CurrentState.AllProfiles.First();
-            }
+            _gameLiftConfig.CurrentState.SelectedProfile = selectedProfile.Success ? selectedProfile.Value : _gameLiftConfig.CurrentState.AllProfiles.First();
         }
 
         private void SetupBootMenu()
@@ -241,15 +235,7 @@ namespace Editor.Resources.EditorWindow.Pages
                 accountSelect.choices = _gameLiftConfig.CurrentState.AllProfiles.ToList();
                 if (accountSelect.choices.Contains("default"))
                 {
-                    if (_gameLiftConfig.CurrentState.SelectedProfile is "default" or null)
-                    {
-                        accountSelect.index = accountSelect.choices.IndexOf("default");
-                    }
-                    else
-                    {
-                        accountSelect.index =
-                            accountSelect.choices.IndexOf(_gameLiftConfig.CurrentState.SelectedProfile);
-                    }
+                    accountSelect.index = accountSelect.choices.IndexOf(_gameLiftConfig.CurrentState.SelectedProfile is "default" or null ? "default" : _gameLiftConfig.CurrentState.SelectedProfile);
                 }
             }
         }
@@ -372,9 +358,5 @@ namespace Editor.Resources.EditorWindow.Pages
                 _currentElement.style.display = DisplayStyle.Flex;
             }
         }
-
-        // public override void OnAccountSelect()
-        // {
-        // }
     }
 }
