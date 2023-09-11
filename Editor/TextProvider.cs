@@ -7,7 +7,7 @@ using CoreErrorCode = AmazonGameLiftPlugin.Core.Shared.ErrorCode;
 
 namespace AmazonGameLift.Editor
 {
-    public sealed class TextProvider
+    internal sealed class TextProvider
     {
         private readonly Dictionary<string, string> _errorMessagesByCode = new Dictionary<string, string>
         {
@@ -179,8 +179,8 @@ namespace AmazonGameLift.Editor
             
             { Strings.TabLanding, "Amazon GameLift" },
             { Strings.TabCredentials, "AWS User Profiles" },
-            { Strings.TabAnywhere, "GameLift Anywhere" },
-            { Strings.TabEC2, "Managed EC2" },
+            { Strings.TabAnywhere, "Host with Anywhere" },
+            { Strings.TabManagedEC2, "Host with Managed EC2" },
             { Strings.TabHelp, "Learning Resources" },
             
             { Strings.LandingPageHeader, "Amazon GameLift" },

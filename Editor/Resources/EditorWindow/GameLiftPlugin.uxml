@@ -1,25 +1,32 @@
-<ui:UXML xmlns:ui="UnityEngine.UIElements" xsi="http://www.w3.org/2001/XMLSchema-instance" noNamespaceSchemaLocation="../../../../../UIElementsSchema/UIElements.xsd" editor-extension-mode="False">
+<!-- Copyright Amazon.com, Inc. or its affiliates. All Rights Reserved. -->
+<!-- SPDX-License-Identifier: Apache-2.0 -->
+
+<ui:UXML xmlns:ui="UnityEngine.UIElements" xmlns:uie="UnityEditor.UIElements" xsi="http://www.w3.org/2001/XMLSchema-instance" engine="UnityEngine.UIElements" editor="UnityEditor.UIElements" noNamespaceSchemaLocation="../../../../../UIElementsSchema/UIElements.xsd" editor-extension-mode="False">
     <Style src="./GameLiftPlugin.uss" />
     <ui:VisualElement name="Main" class="main">
         <ui:VisualElement class="main__menu">
-            <ui:Button text="Amazon GameLift" name="Landing" class="TabButton" />
+            <ui:Button text="Amazon GameLift" name="Landing" class="tab__button" />
             <ui:VisualElement class="Divider" />
-            <ui:Button text="AWS Account Credentials" name="Credentials" class="TabButton" />
+            <ui:Button text="AWS Account Credentials" name="Credentials" class="tab__button" />
             <ui:VisualElement class="Divider" />
-            <ui:Button text="GameLift Anywhere" name="Anywhere" class="TabButton" />
+            <ui:Button text="GameLift Anywhere" name="Anywhere" class="tab__button" />
             <ui:VisualElement class="Divider" />
-            <ui:Button text="Managed EC2" name="EC2" class="TabButton" />
+            <ui:Button text="Managed EC2" name="ManagedEC2" class="tab__button" />
             <ui:VisualElement class="Divider" />
-            <ui:Button text="Help &amp; Documentation" name="Help" class="TabButton" />
+            <ui:Button text="Help &amp; Documentation" name="Help" class="tab__button" />
         </ui:VisualElement>
-        <ui:ScrollView name="Content" class="main__content">
-            <ui:VisualElement>
-                <ui:VisualElement name="CredentialsTab" class="TabContent">
-                    <ui:Label text="Credentials" />
-                </ui:VisualElement>
-                <ui:VisualElement name="HelpTab" class="TabContent">
-                    <ui:Label text="Help" />
-                </ui:VisualElement>
+        <ui:ScrollView name="Content" horizontal-scroller-visibility="Hidden" class="main__content">
+            <ui:VisualElement name="LandingContent" class="tab__content">
+                <ui:Label text="Landing" />
+            </ui:VisualElement>
+            <ui:VisualElement name="CredentialsContent" class="tab__content">
+                <ui:Label text="Credentials" />
+            </ui:VisualElement>
+            <ui:VisualElement name="AnywhereContent" class="tab__content">
+                <ui:Label text="Anywhere" />
+            </ui:VisualElement>
+            <ui:VisualElement name="HelpContent" class="tab__content">
+                <ui:Label text="Help" />
             </ui:VisualElement>
         </ui:ScrollView>
     </ui:VisualElement>
