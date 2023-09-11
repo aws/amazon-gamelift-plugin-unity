@@ -5,7 +5,6 @@ using System;
 using System.Collections.Generic;
 using AmazonGameLift.Editor;
 using Editor.Resources.EditorWindow;
-using Editor.Resources.EditorWindow.Pages;
 using UnityEditor;
 using UnityEngine;
 using UnityEngine.UIElements;
