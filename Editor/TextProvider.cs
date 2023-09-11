@@ -7,7 +7,7 @@ using CoreErrorCode = AmazonGameLiftPlugin.Core.Shared.ErrorCode;
 
 namespace AmazonGameLift.Editor
 {
-    public sealed class TextProvider
+    internal sealed class TextProvider
     {
         private readonly Dictionary<string, string> _errorMessagesByCode = new Dictionary<string, string>
         {
@@ -179,10 +179,10 @@ namespace AmazonGameLift.Editor
             
             { Strings.TabLanding, "Amazon GameLift" },
             { Strings.TabCredentials, "AWS User Profiles" },
-            { Strings.TabAnywhere, "GameLift Anywhere" },
-            { Strings.TabEC2, "Managed EC2" },
+            { Strings.TabAnywhere, "Host with Anywhere" },
+            { Strings.TabManagedEC2, "Host with Managed EC2" },
             { Strings.TabHelp, "Learning Resources" },
-            
+
             { Strings.LabelAccountCardNewAccountTitle, "Manage Your User Profiles"},
             { Strings.LabelAccountCardNewAccountDescription, "Create a profile to link to an AWS account and store your security credentials. Your profile also specifies the AWS Region you want to work in.\nYou can have multiple profiles, but only one can be active at a time. Check your active profile selection on the main page of the Amazon GameLift window."},
             { Strings.LabelAccountCardNoAccountTitle, "I need a new AWS account for this project"},

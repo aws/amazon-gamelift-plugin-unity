@@ -134,9 +134,9 @@ namespace AmazonGameLift.Editor
         public const string TabLanding = "TabLanding";
         public const string TabCredentials = "TabCredentials";
         public const string TabAnywhere = "TabAnywhere";
-        public const string TabEC2 = "TabEC2";
+        public const string TabManagedEC2 = "TabManagedEC2";
         public const string TabHelp = "TabHelp";
-        
+
         public const string LabelAccountCardNewAccountTitle = "LabelAccountCardNewAccountTitle";
         public const string LabelAccountCardNewAccountDescription = "LabelAccountCardNewAccountDescription";
         public const string LabelAccountCardNoAccountTitle = "LabelAccountCardNoAccountTitle";
