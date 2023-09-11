@@ -19,9 +19,9 @@ namespace Editor.Resources.EditorWindow.Pages
 
         public static readonly Dictionary<int, FleetType> ScenarioIndexMap = new()
         {
-            { 1, FleetType.SingleRegion },
-            { 4, FleetType.SpotFleet },
-            { 5, FleetType.FlexMatch },
+            { 0, FleetType.SingleRegion },
+            { 3, FleetType.SpotFleet },
+            { 4, FleetType.FlexMatch },
         };
 
         public FleetTypeInput(VisualElement container, FleetType initialValue, bool enabled)
@@ -35,9 +35,9 @@ namespace Editor.Resources.EditorWindow.Pages
             _radio2Group = container.Q("FleetTypeRadioButton2Group");
             _radio3Group = container.Q("FleetTypeRadioButton3Group");
 
-            SetupRadioButton("EC2SingleFleetRadio", true, FleetType.SingleRegion);
-            SetupRadioButton("EC2SpotFleetRadio", false, FleetType.SpotFleet);
-            SetupRadioButton("EC2FlexFleetRadio", false, FleetType.FlexMatch);
+            SetupRadioButton("EC2SingleFleetRadio", FleetType.SingleRegion);
+            SetupRadioButton("EC2SpotFleetRadio", FleetType.SpotFleet);
+            SetupRadioButton("EC2FlexFleetRadio", FleetType.FlexMatch);
 
             _button = container.Q<Button>("ShowMoreScenarios");
             _button.RegisterCallback<ClickEvent>(e =>
@@ -61,11 +61,11 @@ namespace Editor.Resources.EditorWindow.Pages
             _container.SetEnabled(_enabled);
         }
 
-        private void SetupRadioButton(string elementName, bool value, FleetType radioValue)
+        private void SetupRadioButton(string elementName, FleetType radioValue)
         {
             var radio = _container.Q<RadioButton>(elementName);
             if (radio == default) return;
-            radio.value = value;
+            radio.value = _fleetType == radioValue;
             radio.RegisterValueChangedCallback(v =>
             {
                 if (_enabled && v.newValue)
