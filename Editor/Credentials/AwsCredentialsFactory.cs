@@ -12,8 +12,18 @@ namespace AmazonGameLift.Editor
         }
     }
 
-    internal interface IAwsCredentialsFactory
+    public interface IAwsCredentialsFactory
     {
-        public AwsCredentials Create();
+        internal AwsCredentials Create();
+        
+    }
+
+    public class AwsCredentialsFactoryWrapper : IAwsCredentialsFactory
+    {
+        AwsCredentials IAwsCredentialsFactory.Create()
+        {
+            return AwsCredentialsFactory.Create();
+        }
     }
 }
+

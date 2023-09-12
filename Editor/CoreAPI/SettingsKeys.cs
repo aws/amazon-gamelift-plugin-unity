@@ -12,10 +12,13 @@ namespace AmazonGameLift.Editor
         public const string DeploymentGameName = "DeploymentGameName";
         public const string DeploymentBuildFilePath = "DeploymentBuildFilePath";
         public const string DeploymentBuildFolderPath = "DeploymentBuildFolderPath";
+        public const string WasSettingsWindowShown = "WasSettingsWindowShown";
         public const string FleetName = "FleetName";
         public const string FleetId = "FleetId";
         public const string ComputeName = "ComputeName";
         public const string IpAddress = "IpAddress";
         public const string WebSocketUrl = "WebSocketUrl";
+        public const string SelectedProfile = "SelectedProfile";
+        public const string SelectedFleetIndex = "SelectedFleetIndex";
     }
 }
