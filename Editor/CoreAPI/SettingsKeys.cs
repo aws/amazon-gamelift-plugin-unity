@@ -18,7 +18,6 @@ namespace AmazonGameLift.Editor
         public const string WasSettingsWindowShown = "WasSettingsWindowShown";
         public const string FleetName = "FleetName";
         public const string FleetId = "FleetId";
-        public const string CustomLocationName = "CustomLocationName";
         public const string ComputeName = "ComputeName";
         public const string IpAddress = "IpAddress";
         public const string WebSocketUrl = "WebSocketUrl";

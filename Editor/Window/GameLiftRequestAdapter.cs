@@ -6,11 +6,34 @@ using System.Threading.Tasks;
 using Amazon.GameLift;
 using Amazon.GameLift.Model;
 using AmazonGameLift.Editor;
+using AmazonGameLiftPlugin.Core.ApiGatewayManagement;
 using UnityEngine;
 using UnityEngine.UIElements;
 
 namespace Editor.Window
 {
+    public interface IAmazonGameLiftClientFactory
+    {
+        IAmazonGameLiftClientWrapper Get(string profile);
+    }
+
+    public class AmazonGameLiftClientFactory : IAmazonGameLiftClientFactory
+    {
+        private readonly CoreApi _coreApi;
+
+        public AmazonGameLiftClientFactory(CoreApi coreApi)
+        {
+            _coreApi = coreApi;
+        }
+
+        public IAmazonGameLiftClientWrapper Get(string profile)
+        {
+            var credentials = _coreApi.RetrieveAwsCredentials(profile);
+            var client = new AmazonGameLiftClient(credentials.AccessKey, credentials.SecretKey);
+            return new AmazonGameLiftWrapper(client);
+        }
+    }
+
     public class GameLiftRequestAdapter
     {
         private GameLiftPlugin _gameLiftConfig;
@@ -37,9 +60,7 @@ namespace Editor.Window
                     var fleetId = await CreateFleet(ComputeType.ANYWHERE, FleetLocation,fleetName);
                     var fleetNameResponse = _gameLiftConfig.CoreApi.PutSetting(SettingsKeys.FleetName, fleetName);
                     var fleetIdResponse = _gameLiftConfig.CoreApi.PutSetting(SettingsKeys.FleetId, fleetId);
-                    var customLocationNameResponse =
-                        _gameLiftConfig.CoreApi.PutSetting(SettingsKeys.CustomLocationName, FleetLocation);
-                    return fleetNameResponse.Success && customLocationNameResponse.Success && fleetIdResponse.Success;
+                    return fleetNameResponse.Success && fleetIdResponse.Success;
                 }
 
                 return false;
@@ -79,9 +100,9 @@ namespace Editor.Window
             }
             catch (Exception ex)
             {
-                var errorBox = _container.Q<VisualElement>("FleetErrorInfoBox");
-                errorBox.style.display = DisplayStyle.Flex;
-                errorBox.Q<Label>().text = ex.Message;
+                // var errorBox = _container.Q<VisualElement>("FleetErrorInfoBox");
+                // errorBox.style.display = DisplayStyle.Flex;
+                // errorBox.Q<Label>().text = ex.Message;
                 return false;
             }
         }

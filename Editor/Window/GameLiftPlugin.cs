@@ -23,8 +23,8 @@ namespace Editor.Window
         private List<Button> _tabButtons;
         private List<VisualElement> _tabContent;
         private VisualElement _tabContentContainer;
-        
-        public AmazonGameLiftWrapper GameLiftWrapper;
+
+        private readonly IAmazonGameLiftClientFactory _amazonGameLiftClientFactory; 
         public State CurrentState;
         public readonly CoreApi CoreApi;
         public readonly AwsCredentialsCreation CreationModel;
@@ -36,6 +36,15 @@ namespace Editor.Window
         private const string TabButtonClassName = "tab__button";
         private const string TabContentClassName = "tab__content";
 
+        public GameLiftPlugin(IAwsCredentialsFactory awsCredentialsFactory, CoreApi coreApi, IAmazonGameLiftClientFactory amazonGameLiftClientFactory)
+        {
+            _amazonGameLiftClientFactory = amazonGameLiftClientFactory;
+            CoreApi = coreApi;
+            var awsCredentials = awsCredentialsFactory.Create();
+            CreationModel = awsCredentials.Creation;
+            UpdateModel = awsCredentials.Update;
+        }
+        
         private GameLiftPlugin()
         {
             CoreApi = CoreApi.SharedInstance;
@@ -177,11 +186,16 @@ namespace Editor.Window
             });
         }
 
+
+        private IAmazonGameLiftClientWrapper _gameLiftWrapper; 
+        public IAmazonGameLiftClientWrapper GameLiftWrapper {
+            get => _gameLiftWrapper;
+            set => _gameLiftWrapper = value;
+        }
+
         public void SetupWrapper()
         {
-            var credentials = CoreApi.RetrieveAwsCredentials(CurrentState.SelectedProfile);
-            var client = new AmazonGameLiftClient(credentials.AccessKey, credentials.SecretKey);
-            GameLiftWrapper = new AmazonGameLiftWrapper(client);
+            _gameLiftWrapper = _amazonGameLiftClientFactory.Get(CurrentState.SelectedProfile);
         }
 
         private static class Pages
