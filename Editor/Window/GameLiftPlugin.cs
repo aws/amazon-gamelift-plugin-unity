@@ -3,6 +3,7 @@
 
 using System;
 using System.Collections.Generic;
+using Amazon.GameLift;
 using AmazonGameLift.Editor;
 using Editor.CoreAPI;
 using AmazonGameLiftPlugin.Core.ApiGatewayManagement;
@@ -214,17 +215,6 @@ namespace Editor.Window
                     button.RemoveFromClassList(TabButtonSelectedClassName);
                 }
             });
-        }
-        
-        private IAmazonGameLiftClientWrapper _gameLiftWrapper; 
-        public IAmazonGameLiftClientWrapper GameLiftWrapper {
-            get => _gameLiftWrapper;
-            set => _gameLiftWrapper = value;
-        }
-
-        public void SetupWrapper()
-        {
-            _gameLiftWrapper = _amazonGameLiftClientFactory.Get(CurrentState.SelectedProfile);
         }
 
         private static string GetPageName(Pages page) => Enum.GetName(typeof(Pages), page);
