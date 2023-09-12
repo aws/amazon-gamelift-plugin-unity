@@ -3,7 +3,9 @@
 
 using System;
 using System.Collections.Generic;
+using Amazon.GameLift;
 using AmazonGameLift.Editor;
+using AmazonGameLiftPlugin.Core.ApiGatewayManagement;
 using Editor.Resources.EditorWindow;
 using UnityEditor;
 using UnityEngine;
@@ -20,12 +22,37 @@ namespace Editor.Window
         private VisualElement _currentTab;
         private List<Button> _tabButtons;
         private List<VisualElement> _tabContent;
+        private VisualElement _tabContentContainer;
 
+        private readonly IAmazonGameLiftClientFactory _amazonGameLiftClientFactory; 
+        public State CurrentState;
+        public readonly CoreApi CoreApi;
+        public readonly AwsCredentialsCreation CreationModel;
+        public readonly AwsCredentialsUpdate UpdateModel;
+        
+        private const string MainContentClassName = "main__content";
         private const string TabContentSelectedClassName = "tab__content--selected";
         private const string TabButtonSelectedClassName = "tab__button--selected";
         private const string TabButtonClassName = "tab__button";
         private const string TabContentClassName = "tab__content";
 
+        public GameLiftPlugin(IAwsCredentialsFactory awsCredentialsFactory, CoreApi coreApi, IAmazonGameLiftClientFactory amazonGameLiftClientFactory)
+        {
+            _amazonGameLiftClientFactory = amazonGameLiftClientFactory;
+            CoreApi = coreApi;
+            var awsCredentials = awsCredentialsFactory.Create();
+            CreationModel = awsCredentials.Creation;
+            UpdateModel = awsCredentials.Update;
+        }
+        
+        private GameLiftPlugin()
+        {
+            CoreApi = CoreApi.SharedInstance;
+            var awsCredentials = AwsCredentialsFactory.Create();
+            CreationModel = awsCredentials.Creation;
+            UpdateModel = awsCredentials.Update;
+        }
+        
         private static GameLiftPlugin GetWindow()
         {
             var inspectorType = Type.GetType("UnityEditor.GameView,UnityEditor.dll");
@@ -102,6 +129,8 @@ namespace Editor.Window
             _root.Add(uxml);
 
             ApplyText();
+            _tabContentContainer = _root.Q(className: MainContentClassName);
+            var anywherePage = new AnywherePage(SetupTab(Pages.Anywhere), this);
 
             _tabButtons = _root.Query<Button>(className: TabButtonClassName).ToList();
             _tabContent = _root.Query(className: TabContentClassName).ToList();
@@ -117,6 +146,17 @@ namespace Editor.Window
             l.SetElementText(Pages.Anywhere, Strings.TabAnywhere);
             l.SetElementText(Pages.ManagedEC2, Strings.TabManagedEC2);
             l.SetElementText(Pages.Help, Strings.TabHelp);
+        }
+        
+        private VisualElement SetupTab(string tabName)
+        {
+            var container = new VisualElement
+            {
+                name = $"{tabName}Content",
+            };
+            container.AddToClassList(TabContentClassName);
+            _tabContentContainer.Add(container);
+            return container;
         }
 
         private void OpenTab(string tabName)
@@ -146,6 +186,18 @@ namespace Editor.Window
             });
         }
 
+
+        private IAmazonGameLiftClientWrapper _gameLiftWrapper; 
+        public IAmazonGameLiftClientWrapper GameLiftWrapper {
+            get => _gameLiftWrapper;
+            set => _gameLiftWrapper = value;
+        }
+
+        public void SetupWrapper()
+        {
+            _gameLiftWrapper = _amazonGameLiftClientFactory.Get(CurrentState.SelectedProfile);
+        }
+
         private static class Pages
         {
             public const string Landing = "Landing";
@@ -153,6 +205,12 @@ namespace Editor.Window
             public const string Anywhere = "Anywhere";
             public const string ManagedEC2 = "ManagedEC2";
             public const string Help = "Help";
+        }
+        
+        public struct State
+        {
+            public string SelectedProfile;
+            public int SelectedFleetIndex;
         }
     }
 }
