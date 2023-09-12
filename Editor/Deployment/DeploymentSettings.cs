@@ -255,7 +255,7 @@ namespace AmazonGameLift.Editor
             GetSettingResponse launchParametersResponse = _coreApi.GetSetting(SettingsKeys.LaunchParameters);
             if (launchParametersResponse.Success)
             {
-                BuildFilePath = launchParametersResponse.Value;
+                LaunchParameters = launchParametersResponse.Value;
             }
 
             GetSettingResponse buildOperatingSystemResponse = _coreApi.GetSetting(SettingsKeys.BuildOperatingSystem);
@@ -453,6 +453,13 @@ namespace AmazonGameLift.Editor
                 _deploymentWaiter.InfoUpdated -= OnDeploymentWaiterInfoUpdated;
                 RefreshCurrentStackInfo();
             }
+        }
+
+        public async Task DeleteDeployment()
+        {
+            var stackName = _coreApi.GetStackName(_gameName);
+            _coreApi.DeleteStack(CurrentProfile, CurrentRegion, stackName);
+            RefreshCurrentStackInfo();
         }
 
         private void OnDeploymentWaiterInfoUpdated(DeploymentInfo info)

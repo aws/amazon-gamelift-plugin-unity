@@ -4,6 +4,7 @@
 using System.Threading.Tasks;
 using Amazon.GameLift;
 using AmazonGameLift.Editor;
+using UnityEditor;
 using UnityEngine;
 using UnityEngine.UIElements;
 
@@ -13,9 +14,14 @@ namespace Editor.Resources.EditorWindow.Pages
     {
         private readonly VisualElement _container;
         private string _fleetName;
-        private FleetType _fleetType;
         private readonly FleetParameters _parameters;
         private DeploymentSettings _model;
+        private readonly Button _deployButton;
+        private readonly Button _redeployButton;
+        private readonly Button _deleteButton;
+        private readonly Button _launchClientButton;
+        private readonly FleetTypeInput _fleetTypeInput;
+        private readonly FleetParametersInput _fleetParamsInput;
 
         public EC2Page(VisualElement container)
         {
@@ -41,18 +47,46 @@ namespace Editor.Resources.EditorWindow.Pages
             container.Add(uxml);
             ApplyText();
 
-            _fleetType = FleetType.SingleRegion; // TODO: Read from storage
-            var fleetTypeInput = new FleetTypeInput(container,  FleetTypeInput.ScenarioIndexMap[_model.ScenarioIndex], true);
-            fleetTypeInput.SetEnabled(true);
-            fleetTypeInput.OnValueChanged += value => { Debug.Log($"Fleet type changed to {value}"); };
+            _fleetTypeInput =
+                new FleetTypeInput(container, FleetTypeInput.ScenarioIndexMap[_model.ScenarioIndex], true);
+            _fleetTypeInput.SetEnabled(true);
+            _fleetTypeInput.OnValueChanged += value => { Debug.Log($"Fleet type changed to {value}"); };
 
             container.Q<Foldout>("EC2ParametersSection").text = $"{Application.productName} parameters";
-            var fleetParamsInput = new FleetParametersInput(container, _parameters);
+            _fleetParamsInput = new FleetParametersInput(container, _parameters);
+            _fleetParamsInput.OnValueChanged += param =>
+            {
+                UpdateModelFromParameters();
+                UpdateGUI();
+            };
 
-            container.Q<Button>("EC2CreateResourceButton").RegisterCallback<ClickEvent>(_ => { StartDeployment(); });
+            _deployButton = container.Q<Button>("EC2CreateStackButton");
+            _deployButton.RegisterCallback<ClickEvent>(_ => StartDeployment());
+            _redeployButton = container.Q<Button>("EC2RedeployStackButton");
+            _redeployButton.RegisterCallback<ClickEvent>(_ => StartDeployment());
+            _deleteButton = container.Q<Button>("EC2DeleteStackButton");
+            _deleteButton.RegisterCallback<ClickEvent>(_ => DeleteDeployment());
+            _launchClientButton = container.Q<Button>("EC2LaunchClientButton");
+            _launchClientButton.RegisterCallback<ClickEvent>(_ => EditorApplication.EnterPlaymode());
+
+            _model.CurrentStackInfoChanged += UpdateGUI;
+            _model.ScenarioIndex = 1;
+            UpdateGUI();
         }
 
-        private void StartDeployment()
+        private void UpdateGUI()
+        {
+            _deployButton.SetEnabled(_model.CurrentStackInfo.StackStatus == null && _model.CanDeploy);
+            _redeployButton.SetEnabled(_model.CurrentStackInfo.StackStatus != null && _model.CanDeploy);
+            _deleteButton.SetEnabled(_model.CurrentStackInfo.StackStatus != null && _model.IsCurrentStackModifiable);
+            _launchClientButton.SetEnabled(_model.CurrentStackInfo.StackStatus is StackStatus.CreateComplete or StackStatus.UpdateComplete);
+
+            _fleetTypeInput.SetEnabled(_model.CanDeploy);
+            _fleetParamsInput.SetEnabled(_model.CanDeploy);
+            _container.Q<Label>("EC2DeploymentStatusLabel").text = _model.CurrentStackInfo.StackStatus;
+        }
+
+        private void UpdateModelFromParameters()
         {
             _model.FleetName = _parameters.FleetName;
             _model.BuildName = _parameters.BuildName;
@@ -60,8 +94,13 @@ namespace Editor.Resources.EditorWindow.Pages
             _model.BuildFolderPath = _parameters.GameServerFolder;
             _model.BuildFilePath = _parameters.GameServerFile;
             _model.BuildOperatingSystem = _parameters.OperatingSystem;
-            _model.GameName = Application.productName.Substring(0, 12);
+        }
 
+        private void StartDeployment()
+        {
+            UpdateModelFromParameters();
+            _model.GameName = Application.productName.Substring(0, 12);
+            if (!_model.CanDeploy) return;
             _model.Save();
             _model.StartDeployment(ConfirmChanges).ContinueWith(task =>
             {
@@ -69,7 +108,19 @@ namespace Editor.Resources.EditorWindow.Pages
                 {
                     Debug.LogException(task.Exception);
                 }
+
+                UpdateGUI();
             });
+            UpdateGUI();
+        }
+
+        private async Task DeleteDeployment()
+        {
+            var waiter = new Waiter(CoreApi.SharedInstance);
+            waiter.InfoUpdated += () => { _model.RefreshCurrentStackInfo(); };
+            await _model.DeleteDeployment();
+            UpdateGUI();
+            await waiter.WaitUntilDone(_model);
         }
 
         private Task<bool> ConfirmChanges(ConfirmChangesRequest request)

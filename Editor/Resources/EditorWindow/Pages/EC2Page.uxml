@@ -1,8 +1,8 @@
 ﻿<ui:UXML xmlns:ui="UnityEngine.UIElements" xmlns:uie="UnityEditor.UIElements" xsi="http://www.w3.org/2001/XMLSchema-instance" noNamespaceSchemaLocation="../../../../../../UIElementsSchema/UIElements.xsd" editor-extension-mode="False">
     <Style src="./EC2Page.uss" />
-    <ui:VisualElement name="EC2Tab" class="TabContent">
-        <ui:Label name="Title" class="TabContent__header" text="Managed EC2" />
-        <ui:Label name="Description" class="TabContent__description" text="Managed EC2 fleets use Amazon EC2 instances to host your game servers.&#10;Amazon GameLift manages the instances and removes the burden of hardware and software management from hosting your games." />
+    <ui:VisualElement name="ManagedEC2Content" class="tab__content">
+        <ui:Label name="Title" class="content__header" text="Managed EC2" />
+        <ui:Label name="Description" class="content__description" text="Managed EC2 fleets use Amazon EC2 instances to host your game servers.&#10;Amazon GameLift manages the instances and removes the burden of hardware and software management from hosting your games." />
         <ui:Foldout name="Description" class="foldout" text="Integrate GameLift with your game client">
             <ui:Label class="foldout__content" text="Add the Amazon GameLift server SDK to your game server and add code to communicate with the GameLift hosting service. If you&apos;re working with the Amazon GameLift sample game, this integration is already done."   />
             <ui:Label name="Label" class="foldout__link" text="Setup Amazon GameLift on a backend service \uf08e" />
@@ -70,22 +70,22 @@
                 <ui:Label name="Label" class="form-row__label" text="Status" />
                 <ui:VisualElement name="DeploymentStatus" class="form-row__input deploy-status deploy-status--deployed" >
                     <ui:VisualElement name="DeploymentStatusIcon" class="deployStatus test deploy-status__icon" />
-                    <ui:Label text="State"  name="DeploymentStatusLabel" class="deploy-status__label"  />
+                    <ui:Label text="State" name="EC2DeploymentStatusLabel" class="deploy-status__label"  />
                 </ui:VisualElement>
             </ui:VisualElement>
             <ui:VisualElement class="form-row" >
                 <ui:Label class="form-row__label" text="AWS Resource Actions"   />
                 <ui:VisualElement class="form-row__input form-row__input--inline">
-                    <ui:Button name="EC2CreateResourceButton" class="button button--primary" text="Create"/>
-                    <ui:Button name="RedeployResource" class="button" text="Redeploy"/>
-                    <ui:Button name="DeleteResource" class="button" text="Delete" />
+                    <ui:Button name="EC2CreateStackButton" class="button button--primary" text="Create"/>
+                    <ui:Button name="EC2RedeployStackButton" class="button" text="Redeploy"/>
+                    <ui:Button name="EC2DeleteStackButton" class="button" text="Delete" />
                 </ui:VisualElement>
             </ui:VisualElement>
         </ui:Foldout>
         <ui:Foldout name="LaunchClient" class="foldout" text="Launch Client">
             <ui:VisualElement class="form-row" >
                 <ui:Label class="form-row__label" text="Run Game"   />
-                <ui:Button name="LaunchClientButton" class="button button--primary" text="Launch Client" />
+                <ui:Button name="EC2LaunchClientButton" class="button button--primary" text="Launch Client" />
             </ui:VisualElement>
         </ui:Foldout>
     </ui:VisualElement>

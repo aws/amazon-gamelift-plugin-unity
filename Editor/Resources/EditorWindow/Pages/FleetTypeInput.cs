@@ -19,7 +19,7 @@ namespace Editor.Resources.EditorWindow.Pages
 
         public static readonly Dictionary<int, FleetType> ScenarioIndexMap = new()
         {
-            { 0, FleetType.SingleRegion },
+            { 1, FleetType.SingleRegion },
             { 3, FleetType.SpotFleet },
             { 4, FleetType.FlexMatch },
         };
@@ -58,7 +58,7 @@ namespace Editor.Resources.EditorWindow.Pages
         public void SetEnabled(bool value)
         {
             _enabled = value;
-            _container.SetEnabled(_enabled);
+            // _container(_enabled);
         }
 
         private void SetupRadioButton(string elementName, FleetType radioValue)
