@@ -20,6 +20,9 @@
     --icon-size-large: 60px;
 
     --content-width: 920px;
+    
+    font-size: var(--font-size-default);
+    color: var(--color-font-default);
 }
 
 .header {
