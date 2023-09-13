@@ -20,7 +20,7 @@
     background-color: var(--color-background-accent);
     flex: 0 0 auto;
     border-right-color: var(--color-border-accent);
-    border-right-width: 2px;
+    border-right-width: var(--border-size-medium);
 }
 
 .main__content {

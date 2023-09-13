@@ -10,25 +10,22 @@
     --color-button-border: #242424;
     --color-border-accent: #4c4c4c;
     --color-font-default: #d2d2d2;
-    
+
     --font-size-default: 16px;
     --font-size-large: 18px;
     --font-size-extralarge: 24px;
     --font-size-massive: 32px;
-    
+
     --icon-size-large: 60px;
-    
+    --border-size-medium: 2px;
+
     --spacing-medium: 12px;
     --spacing-large: 24px;
 
     --content-width: 920px;
-    
+
     font-size: var(--font-size-default);
     color: var(--color-font-default);
-}
-
-.tab__content > * > * {
-    margin-bottom: 12px;
 }
 
 Label {
@@ -43,7 +40,7 @@ Image.icon--large {
 
 .button {
     border-radius: 4px;
-    border-width: 2px;
+    border-width: var(--border-size-medium);
     border-color: var(--color-button-border);
     padding: 6px 24px 6px 24px;
     margin: 0;
