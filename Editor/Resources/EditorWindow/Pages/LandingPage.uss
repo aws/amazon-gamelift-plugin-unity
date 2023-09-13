@@ -47,13 +47,12 @@
 }
 
 .sample__header {
-    font-size: 24px;
+    font-size: var(--font-size-extralarge);
     margin-bottom: 24px;
 }
 
 .sample__content {
     flex-direction: row;
-    font-size: 16px;
 }
 
 .sample__text {

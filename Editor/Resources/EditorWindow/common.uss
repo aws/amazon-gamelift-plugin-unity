@@ -13,6 +13,7 @@
     
     --font-size-default: 16px;
     --font-size-large: 18px;
+    --font-size-extralarge: 24px;
     --font-size-massive: 32px;
 
     --content-width: 920px;
@@ -20,10 +21,6 @@
 
 .content__header {
     font-size: var(--font-size-massive);
-}
-
-.content__description {
-    font-size: var(--font-size-default);
 }
 
 .tab__content > * > * {
