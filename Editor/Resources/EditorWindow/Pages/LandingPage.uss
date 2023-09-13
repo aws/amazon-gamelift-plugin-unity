@@ -17,8 +17,8 @@
     border-width: 2px;
     border-color: var(--color-card-border);
     background-color: var(--color-card-background);
-    flex-basis: 50%;
-    margin-right: var(--margin-default);
+    flex-grow: 1;
+    margin-right: var(--spacing-large);
 }
 
 .card--last {
@@ -42,13 +42,9 @@
     flex: 1 1 auto;
 }
 
-.card__button {
-    font-size: var(--font-size-large);
-}
-
 .sample__header {
     font-size: var(--font-size-extralarge);
-    margin-bottom: var(--margin-default);
+    margin-bottom: var(--spacing-large);
 }
 
 .sample__content {
@@ -62,7 +58,7 @@
 .sample__image {
     width: 96px;
     height: 96px;
-    margin-right: var(--margin-default);
+    margin-right: var(--spacing-large);
 }
 
 .sample__button {

@@ -16,7 +16,7 @@
     --font-size-extralarge: 24px;
     --font-size-massive: 32px;
     
-    --margin-default: 24px;
+    --spacing-large: 24px;
 
     --content-width: 920px;
 }
@@ -44,6 +44,10 @@ Label {
 
 .button--primary {
     background-color: var(--color-button-primary);
+}
+
+.button--large {
+    font-size: var(--font-size-large);
 }
 
 .button:hover {
