@@ -19,7 +19,7 @@
     --content-width: 920px;
 }
 
-.content__header {
+.header {
     font-size: var(--font-size-massive);
 }
 
