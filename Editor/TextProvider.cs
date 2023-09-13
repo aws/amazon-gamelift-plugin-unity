@@ -184,7 +184,7 @@ namespace AmazonGameLift.Editor
             { Strings.TabHelp, "Learning Resources" },
             
             { Strings.LandingPageHeader, "Amazon GameLift" },
-            { Strings.LandingPageDescription, "Amazon GameLift provides solutions for hosting session-based multiplayer game servers in the cloud. This plugin contains libraries and native UI elements that make it easier to integrate Amazon GameLift into your game and to manage your hosting resources. Use the plugin to access the Amazon GameLift APIs and deploy AWS CloudFormation templates for common deployment scenarios. \n\nBuilt on AWS global computing infrastructure, Amazon GameLift helps you deliver high-performance, high-reliability, low-cost game servers that scale to meet player demand." },
+            { Strings.LandingPageDescription, "Amazon GameLift provides solutions for hosting session-based multiplayer game servers in the cloud. This plugin contains libraries and native UI elements that make it easier to integrate Amazon GameLift into your game and to manage your hosting resources. Use the plugin to access the Amazon GameLift APIs and deploy AWS CloudFormation templates for common deployment scenarios. \nBuilt on AWS global computing infrastructure, Amazon GameLift helps you deliver high-performance, high-reliability, low-cost game servers that scale to meet player demand." },
             { Strings.LandingPageNoAccountCardText, "I need a new AWS account for this project" },
             { Strings.LandingPageNoAccountCardButton, "Create an AWS Account" },
             { Strings.LandingPageAccountCardText, "I have an AWS account for this project" },

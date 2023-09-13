@@ -64,6 +64,10 @@ Image.icon--large {
     margin-bottom: var(--spacing-large);
 }
 
+.page__header {
+    -unity-paragraph-spacing: 20px;
+}
+
 .page__header > * {
     margin-bottom: var(--spacing-medium);
 }
