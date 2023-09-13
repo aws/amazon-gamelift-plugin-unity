@@ -8,7 +8,7 @@
     --color-button-default: #585858;
     --color-button-hover: #386082;
     --color-button-border: #242424;
-    --color-menu-border: #4c4c4c;
+    --color-border-accent: #4c4c4c;
     --color-font-default: #d2d2d2;
     
     --font-size-default: 16px;

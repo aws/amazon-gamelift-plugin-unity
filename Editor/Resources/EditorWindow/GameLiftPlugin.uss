@@ -20,7 +20,7 @@
     padding-top: 20px;
     background-color: var(--color-background-accent);
     flex: 0 0 auto;
-    border-right-color: var(--color-menu-border);
+    border-right-color: var(--color-border-accent);
     border-right-width: 2px;
 }
 
