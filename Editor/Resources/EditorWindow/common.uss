@@ -16,17 +16,15 @@
     --font-size-extralarge: 24px;
     --font-size-massive: 32px;
     
-    --spacing-large: 24px;
     --icon-size-large: 60px;
+    
+    --spacing-medium: 12px;
+    --spacing-large: 24px;
 
     --content-width: 920px;
     
     font-size: var(--font-size-default);
     color: var(--color-font-default);
-}
-
-.header {
-    font-size: var(--font-size-massive);
 }
 
 .tab__content > * > * {
@@ -63,4 +61,25 @@ Image.icon--large {
 
 .button:hover {
     background-color: var(--color-button-hover);
+}
+
+.page > * {
+    margin-bottom: var(--spacing-large);
+}
+
+.page__header > * {
+    margin-bottom: var(--spacing-medium);
+}
+
+.page > .page__header {
+    margin-bottom: var(--spacing-medium);
+}
+
+.page__header-text {
+    font-size: var(--font-size-massive);
+}
+
+.page__divider {
+    height: 1px;
+    background-color: rgba(255, 255, 255, 0.2);
 }
