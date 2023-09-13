@@ -18,7 +18,7 @@
     border-color: var(--color-card-border);
     background-color: var(--color-card-background);
     flex-basis: 50%;
-    margin-right: 24px;
+    margin-right: var(--margin-default);
 }
 
 .card--last {
@@ -48,7 +48,7 @@
 
 .sample__header {
     font-size: var(--font-size-extralarge);
-    margin-bottom: 24px;
+    margin-bottom: var(--margin-default);
 }
 
 .sample__content {
@@ -62,7 +62,7 @@
 .sample__image {
     width: 96px;
     height: 96px;
-    margin-right: 24px;
+    margin-right: var(--margin-default);
 }
 
 .sample__button {
