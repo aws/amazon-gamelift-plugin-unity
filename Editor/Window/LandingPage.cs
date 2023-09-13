@@ -19,7 +19,7 @@ namespace Editor.Window
             var uxml = mVisualTreeAsset.Instantiate();
             
             container.Add(uxml);
-            ApplyText();
+            LocalizeText();
             
             _container.Q<Button>("CreateAccount").RegisterCallback<ClickEvent>(_ => onCreateAccountClicked());
             _container.Q<Button>("AddProfile").RegisterCallback<ClickEvent>(_ => onAddProfileClicked());
@@ -41,7 +41,7 @@ namespace Editor.Window
             GameLiftPlugin.ImportSampleGame();
         }
 
-        private void ApplyText()
+        private void LocalizeText()
         {
             var l = new ElementLocalizer(_container);
             l.SetElementText("LandingPageHeader", Strings.LandingPageHeader);

@@ -103,10 +103,10 @@ namespace Editor.Window
             VisualElement uxml = _visualTreeAsset.Instantiate();
             _root.Add(uxml);
 
-            ApplyText();
+            LocalizeText();
             
             _tabContentContainer = _root.Q(className: MainContentClassName);
-            var landingPage = new LandingPage(SetupTab(Pages.Landing));
+            var landingPage = new LandingPage(CreateContentContainer(Pages.Landing));
 
             _tabButtons = _root.Query<Button>(className: TabButtonClassName).ToList();
             _tabContent = _root.Query(className: TabContentClassName).ToList();
@@ -114,7 +114,7 @@ namespace Editor.Window
             _tabButtons.ForEach(button => button.RegisterCallback<ClickEvent>(_ => { OpenTab(button.name); }));
         }
 
-        private void ApplyText()
+        private void LocalizeText()
         {
             var l = new ElementLocalizer(_root);
             l.SetElementText(Pages.Landing, Strings.TabLanding);
@@ -124,7 +124,7 @@ namespace Editor.Window
             l.SetElementText(Pages.Help, Strings.TabHelp);
         }
 
-        private VisualElement SetupTab(string tabName)
+        private VisualElement CreateContentContainer(string tabName)
         {
             var container = new VisualElement
             {
