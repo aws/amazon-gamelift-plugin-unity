@@ -17,6 +17,7 @@
     --font-size-massive: 32px;
     
     --spacing-large: 24px;
+    --icon-size-large: 60px;
 
     --content-width: 920px;
 }
@@ -33,6 +34,12 @@ Label {
     white-space: normal;
 }
 
+Image.icon--large {
+    height: var(--icon-size-large);
+    width: var(--icon-size-large);
+    flex: 0 0 auto;
+}
+
 .button {
     border-radius: 4px;
     border-width: 2px;
@@ -40,14 +47,15 @@ Label {
     padding: 6px 24px 6px 24px;
     margin: 0;
     background-color: var(--color-button-default);
+    font-size: var(--font-size-large);
 }
 
 .button--primary {
     background-color: var(--color-button-primary);
 }
 
-.button--large {
-    font-size: var(--font-size-large);
+.button--small {
+    font-size: var(--font-size-default);
 }
 
 .button:hover {

@@ -30,12 +30,6 @@
     height: 60px
 }
 
-.card__icon {
-    height: 60px;
-    width: 60px;
-    flex: 0 0 auto;
-}
-
 .card__text {
     font-size: var(--font-size-default);
     -unity-text-align: middle-left;
@@ -63,5 +57,4 @@
 
 .sample__button {
     margin-top: 8px;
-    font-size: var(--font-size-default);
 }
