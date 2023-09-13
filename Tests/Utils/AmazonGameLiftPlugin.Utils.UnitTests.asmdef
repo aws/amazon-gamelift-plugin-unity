@@ -1,0 +1,18 @@
+﻿{
+    "name": "AmazonGameLiftPlugin.Utils.UnitTests",
+    "rootNamespace": "",
+    "references": [
+        "GUID:aecf60de3221aef4892b44f8dd7ac445",
+        "GUID:4568397b360ba9043904be3be519a909",
+        "GUID:1ff874e170fe5f94eaf8f0a3ea344e83"
+    ],
+    "includePlatforms": [],
+    "excludePlatforms": [],
+    "allowUnsafeCode": false,
+    "overrideReferences": false,
+    "precompiledReferences": [],
+    "autoReferenced": true,
+    "defineConstraints": [],
+    "versionDefines": [],
+    "noEngineReferences": false
+}

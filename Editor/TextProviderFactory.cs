@@ -3,7 +3,7 @@
 
 namespace AmazonGameLift.Editor
 {
-    internal static class TextProviderFactory
+    public static class TextProviderFactory
     {
         private static TextProvider s_textProvider;
 

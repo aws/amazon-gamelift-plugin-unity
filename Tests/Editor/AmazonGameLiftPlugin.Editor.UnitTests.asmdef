@@ -6,7 +6,8 @@
         "AmazonGameLiftPlugin.EditorCoreAPI",
         "UnityEngine.TestRunner",
         "UnityEditor.TestRunner",
-        "AmazonGameLiftPlugin.Runtime.Core"
+        "AmazonGameLiftPlugin.Runtime.Core",
+        "AmazonGameLiftPlugin.Utils.UnitTests"
     ],
     "includePlatforms": [
         "Editor"

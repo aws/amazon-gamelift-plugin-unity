@@ -12,5 +12,9 @@ namespace AmazonGameLift.Editor
         public static readonly string ChangeSetStatusInvalid = "ChangeSetStatusInvalid";
         public static readonly string StackStatusInvalid = "StackStatusInvalid";
         public static readonly string ValueInvalid = "ValueInvalid";
+        public static readonly string AccountProfileMissing = "AccountProfileMissing";
+        public static readonly string InvalidFleetName = "InvalidFleetName";
+        public static readonly string InvalidFleetId = "InvalidFleetId";
+        public static readonly string CustomLocationCreationFailed = "CustomLocationCreationFailed";
     }
 }

@@ -7,6 +7,7 @@ using AmazonGameLiftPlugin.Core.CredentialManagement.Models;
 using AmazonGameLiftPlugin.Core.Shared;
 using Moq;
 using NUnit.Framework;
+using Tests.Utils;
 
 namespace AmazonGameLiftPlugin.Editor.UnitTests
 {

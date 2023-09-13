@@ -7,6 +7,7 @@ using AmazonGameLiftPlugin.Core.SettingsManagement.Models;
 using AmazonGameLiftPlugin.Core.Shared;
 using Moq;
 using NUnit.Framework;
+using Tests.Utils;
 using UnityEditor;
 
 namespace AmazonGameLiftPlugin.Editor.UnitTests

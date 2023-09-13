@@ -7,6 +7,7 @@ using Amazon.GameLift;
 using AmazonGameLift.Editor;
 using AmazonGameLiftPlugin.Core.ApiGatewayManagement;
 using Editor.Resources.EditorWindow;
+using Editor.Window.Utils;
 using UnityEditor;
 using UnityEngine;
 using UnityEngine.UIElements;
@@ -23,10 +24,9 @@ namespace Editor.Window
         private List<Button> _tabButtons;
         private List<VisualElement> _tabContent;
         private VisualElement _tabContentContainer;
+        
+        private readonly StateManager _stateManager;
 
-        private readonly IAmazonGameLiftClientFactory _amazonGameLiftClientFactory; 
-        public State CurrentState;
-        public readonly CoreApi CoreApi;
         public readonly AwsCredentialsCreation CreationModel;
         public readonly AwsCredentialsUpdate UpdateModel;
         
@@ -36,10 +36,14 @@ namespace Editor.Window
         private const string TabButtonClassName = "tab__button";
         private const string TabContentClassName = "tab__content";
 
-        public GameLiftPlugin(IAwsCredentialsFactory awsCredentialsFactory, CoreApi coreApi, IAmazonGameLiftClientFactory amazonGameLiftClientFactory)
+        public GameLiftPlugin(IAwsCredentialsFactory awsCredentialsFactory, IAmazonGameLiftClientFactory amazonGameLiftClientFactory)
         {
-            _amazonGameLiftClientFactory = amazonGameLiftClientFactory;
-            CoreApi = coreApi;
+            _stateManager = new StateManager
+            {
+                CoreApi = CoreApi.SharedInstance,
+                AmazonGameLiftClientFactory = amazonGameLiftClientFactory
+            };
+
             var awsCredentials = awsCredentialsFactory.Create();
             CreationModel = awsCredentials.Creation;
             UpdateModel = awsCredentials.Update;
@@ -47,7 +51,11 @@ namespace Editor.Window
         
         private GameLiftPlugin()
         {
-            CoreApi = CoreApi.SharedInstance;
+            _stateManager = new StateManager
+            {
+                CoreApi = CoreApi.SharedInstance
+            };
+            
             var awsCredentials = AwsCredentialsFactory.Create();
             CreationModel = awsCredentials.Creation;
             UpdateModel = awsCredentials.Update;
@@ -129,8 +137,13 @@ namespace Editor.Window
             _root.Add(uxml);
 
             ApplyText();
+            
+            _stateManager.SetupClientFactory();
+            _stateManager.SetupWrapper();
+            _stateManager.SetupRequestAdapter();
+
             _tabContentContainer = _root.Q(className: MainContentClassName);
-            var anywherePage = new AnywherePage(SetupTab(Pages.Anywhere), this);
+            var anywherePage = new AnywherePage(SetupTab(Pages.Anywhere), _stateManager);
 
             _tabButtons = _root.Query<Button>(className: TabButtonClassName).ToList();
             _tabContent = _root.Query(className: TabContentClassName).ToList();
@@ -186,18 +199,6 @@ namespace Editor.Window
             });
         }
 
-
-        private IAmazonGameLiftClientWrapper _gameLiftWrapper; 
-        public IAmazonGameLiftClientWrapper GameLiftWrapper {
-            get => _gameLiftWrapper;
-            set => _gameLiftWrapper = value;
-        }
-
-        public void SetupWrapper()
-        {
-            _gameLiftWrapper = _amazonGameLiftClientFactory.Get(CurrentState.SelectedProfile);
-        }
-
         private static class Pages
         {
             public const string Landing = "Landing";
@@ -205,12 +206,6 @@ namespace Editor.Window
             public const string Anywhere = "Anywhere";
             public const string ManagedEC2 = "ManagedEC2";
             public const string Help = "Help";
-        }
-        
-        public struct State
-        {
-            public string SelectedProfile;
-            public int SelectedFleetIndex;
         }
     }
 }

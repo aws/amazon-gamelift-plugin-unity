@@ -5,38 +5,21 @@ using System.Net;
 using System.Threading.Tasks;
 using Amazon.GameLift;
 using Amazon.GameLift.Model;
+using Amazon.Runtime.Internal;
 using AmazonGameLift.Editor;
 using AmazonGameLiftPlugin.Core.ApiGatewayManagement;
+using AmazonGameLiftPlugin.Core.Shared;
+using Editor.Window.Models;
 using UnityEngine;
 using UnityEngine.UIElements;
+using ErrorCode = AmazonGameLift.Editor.ErrorCode;
 
 namespace Editor.Window
 {
-    public interface IAmazonGameLiftClientFactory
-    {
-        IAmazonGameLiftClientWrapper Get(string profile);
-    }
-
-    public class AmazonGameLiftClientFactory : IAmazonGameLiftClientFactory
-    {
-        private readonly CoreApi _coreApi;
-
-        public AmazonGameLiftClientFactory(CoreApi coreApi)
-        {
-            _coreApi = coreApi;
-        }
-
-        public IAmazonGameLiftClientWrapper Get(string profile)
-        {
-            var credentials = _coreApi.RetrieveAwsCredentials(profile);
-            var client = new AmazonGameLiftClient(credentials.AccessKey, credentials.SecretKey);
-            return new AmazonGameLiftWrapper(client);
-        }
-    }
-
     public class GameLiftRequestAdapter
     {
-        private GameLiftPlugin _gameLiftConfig;
+        private readonly CoreApi _coreApi;
+        private readonly IAmazonGameLiftClientWrapper _amazonGameLiftWrapper;
         private string _fleetName;
         private string _computeName = "ComputerName-ProfileName";
         private string _ipAddress = "120.120.120.120";
@@ -44,37 +27,45 @@ namespace Editor.Window
         public const string FleetLocation = "custom-location-1";
         private const string FleetDescription = "Created By Amazon GameLift Unity Plugin";
         private VisualElement _container;
+        private ErrorResponse _logger;
 
-        public GameLiftRequestAdapter(GameLiftPlugin gameLiftConfig)
+        public GameLiftRequestAdapter(CoreApi coreApi, IAmazonGameLiftClientWrapper wrapper)
         {
-            _gameLiftConfig = gameLiftConfig;
+            _coreApi = coreApi;
+            _amazonGameLiftWrapper = wrapper;
         }
 
-        internal async Task<bool> CreateAnywhereFleet(string fleetName)
+        internal async Task<Response> CreateAnywhereFleet(string fleetName)
         {
-            if (_gameLiftConfig.GameLiftWrapper != null)
+            if (_amazonGameLiftWrapper != null)
             {
                 var success = await CreateCustomLocationIfNotExists(FleetLocation);
                 if (success)
                 {
                     var fleetId = await CreateFleet(ComputeType.ANYWHERE, FleetLocation,fleetName);
-                    var fleetNameResponse = _gameLiftConfig.CoreApi.PutSetting(SettingsKeys.FleetName, fleetName);
-                    var fleetIdResponse = _gameLiftConfig.CoreApi.PutSetting(SettingsKeys.FleetId, fleetId);
-                    return fleetNameResponse.Success && fleetIdResponse.Success;
+                    var fleetNameResponse = _coreApi.PutSetting(SettingsKeys.FleetName, fleetName);
+                    var fleetIdResponse = _coreApi.PutSetting(SettingsKeys.FleetId, fleetId);
+                    if (!fleetNameResponse.Success)
+                    {
+                        return Response.Fail(new GenericResponse(ErrorCode.InvalidFleetName));
+                    }
+                    if (!fleetIdResponse.Success)
+                    {
+                        return Response.Fail(new GenericResponse(ErrorCode.InvalidFleetId));
+                        
+                    }
+                    return Response.Ok(new GenericResponse());
                 }
-
-                return false;
+                return Response.Fail(new GenericResponse(ErrorCode.CustomLocationCreationFailed));
             }
-
-            Debug.Log("Error: Missing Account Profile");
-            return false;
+            return Response.Fail(new GenericResponse(ErrorCode.AccountProfileMissing));
         }
         
         private async Task<bool> CreateCustomLocationIfNotExists(string fleetLocation)
         {
             try
             {
-                var listLocationsResponse = await _gameLiftConfig.GameLiftWrapper.ListLocations(new ListLocationsRequest
+                var listLocationsResponse = await _amazonGameLiftWrapper.ListLocations(new ListLocationsRequest
                 {
                     Filters = new List<string> { "CUSTOM" }
                 });
@@ -84,7 +75,7 @@ namespace Editor.Window
 
                 if (foundLocation == null)
                 {
-                    var createLocationResponse = await _gameLiftConfig.GameLiftWrapper.CreateLocation(
+                    var createLocationResponse = await _amazonGameLiftWrapper.CreateLocation(
                         new CreateLocationRequest()
                         {
                             LocationName = fleetLocation
@@ -124,7 +115,7 @@ namespace Editor.Window
                         }
                     }
                 };
-                var createFleetResponse = await _gameLiftConfig.GameLiftWrapper.CreateFleet(createFleetRequest);
+                var createFleetResponse = await _amazonGameLiftWrapper.CreateFleet(createFleetRequest);
                 
                 if (createFleetResponse.HttpStatusCode == HttpStatusCode.OK)
                 {
@@ -148,14 +139,14 @@ namespace Editor.Window
             try
             {
                 var listFleetRequest = new ListFleetsRequest();
-                var listFleetResponse = await _gameLiftConfig.GameLiftWrapper.ListFleets(listFleetRequest);
+                var listFleetResponse = await _amazonGameLiftWrapper.ListFleets(listFleetRequest);
 
                 var describeFleetRequest = new DescribeFleetAttributesRequest()
                 {
                     FleetIds = listFleetResponse.FleetIds
                 };
 
-                var describeFleetResponse = await _gameLiftConfig.GameLiftWrapper.DescribeFleets(describeFleetRequest);
+                var describeFleetResponse = await _amazonGameLiftWrapper.DescribeFleets(describeFleetRequest);
                 return describeFleetResponse.FleetAttributes;
             }
             catch (Exception ex)
@@ -174,9 +165,9 @@ namespace Editor.Window
             var webSocketUrl = await RegisterCompute(computeName, fleetId, fleetLocation, ipAddress);
             if (webSocketUrl != null)
             {
-                var computeNameResponse = _gameLiftConfig.CoreApi.PutSetting(SettingsKeys.ComputeName, computeName);
-                var ipAddressResponse = _gameLiftConfig.CoreApi.PutSetting(SettingsKeys.IpAddress, ipAddress);
-                var webSocketResponse = _gameLiftConfig.CoreApi.PutSetting(SettingsKeys.WebSocketUrl, webSocketUrl);
+                var computeNameResponse = _coreApi.PutSetting(SettingsKeys.ComputeName, computeName);
+                var ipAddressResponse = _coreApi.PutSetting(SettingsKeys.IpAddress, ipAddress);
+                var webSocketResponse = _coreApi.PutSetting(SettingsKeys.WebSocketUrl, webSocketUrl);
 
                 return computeNameResponse.Success && ipAddressResponse.Success && webSocketResponse.Success;
             }
@@ -198,7 +189,7 @@ namespace Editor.Window
                     Location = fleetLocation
                 };
                 var registerComputeResponse =
-                    await _gameLiftConfig.GameLiftWrapper.RegisterCompute(registerComputeRequest);
+                    await _amazonGameLiftWrapper.RegisterCompute(registerComputeRequest);
 
                 return registerComputeResponse.Compute.GameLiftServiceSdkEndpoint;
             }
@@ -222,7 +213,7 @@ namespace Editor.Window
                     FleetId = fleetId
                 };
                 var deregisterComputeResponse =
-                    await _gameLiftConfig.GameLiftWrapper.DeregisterCompute(deregisterComputeRequest);
+                    await _amazonGameLiftWrapper.DeregisterCompute(deregisterComputeRequest);
 
                 return deregisterComputeResponse.HttpStatusCode == HttpStatusCode.OK;
             }
@@ -243,7 +234,7 @@ namespace Editor.Window
                     FleetId = fleetId,
                 };
                 var describeComputeResponse =
-                    await _gameLiftConfig.GameLiftWrapper.DescribeCompute(describeComputeRequest);
+                    await _amazonGameLiftWrapper.DescribeCompute(describeComputeRequest);
 
                 return describeComputeResponse.HttpStatusCode == HttpStatusCode.OK;
             }
