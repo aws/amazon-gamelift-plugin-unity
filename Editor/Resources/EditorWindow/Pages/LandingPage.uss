@@ -27,7 +27,6 @@
 
 .card__content {
     flex-direction: row;
-    height: 60px
 }
 
 .card__text {
