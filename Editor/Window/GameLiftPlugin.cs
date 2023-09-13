@@ -39,11 +39,17 @@ namespace Editor.Window
         private const string TabButtonClassName = "tab__button";
         private const string TabContentClassName = "tab__content";
 
-        public GameLiftPlugin(IAwsCredentialsFactory awsCredentialsFactory, CoreApi coreApi, IAmazonGameLiftClientFactory amazonGameLiftClientFactory)
+        public GameLiftPlugin(IAwsCredentialsFactory awsCredentialsFactory, IAmazonGameLiftClientFactory amazonGameLiftClientFactory)
         {
             _stateManager = new StateManager(new CoreApi());
             _amazonGameLiftClientFactory = amazonGameLiftClientFactory;
             CoreApi = coreApi;
+            _stateManager = new StateManager
+            {
+                CoreApi = CoreApi.SharedInstance,
+                AmazonGameLiftClientFactory = amazonGameLiftClientFactory
+            };
+
             var awsCredentials = awsCredentialsFactory.Create();
             CreationModel = awsCredentials.Creation;
             UpdateModel = awsCredentials.Update;
@@ -53,6 +59,11 @@ namespace Editor.Window
         {
             _stateManager = new StateManager(new CoreApi());
             CoreApi = CoreApi.SharedInstance;
+            _stateManager = new StateManager
+            {
+                CoreApi = CoreApi.SharedInstance
+            };
+            
             var awsCredentials = AwsCredentialsFactory.Create();
             CreationModel = awsCredentials.Creation;
             UpdateModel = awsCredentials.Update;
