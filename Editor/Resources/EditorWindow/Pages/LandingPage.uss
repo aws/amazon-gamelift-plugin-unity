@@ -10,6 +10,7 @@
 
 .cards {
     flex-direction: row;
+    margin-right: var(--spacing-large-negative);
 }
 
 .card {
@@ -20,10 +21,6 @@
     flex-basis: 50%;
     margin-right: var(--spacing-large);
 }
-
-.card--last {
-     margin-right: 0;
- }
 
 .card__content {
     flex-direction: row;

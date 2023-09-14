@@ -17,7 +17,7 @@
                 </ui:VisualElement>
                 <ui:Button class="button card__button button--large" text="Create an AWS Account   \uf08e" name="CreateAccount" />
             </ui:VisualElement>
-            <ui:VisualElement class="card card--last">
+            <ui:VisualElement class="card">
                 <ui:VisualElement class="card__content">
                     <ui:Image class="card__icon icon--large" />
                     <ui:Label name="LandingPageAccountCardText" class="card__text" text="I have an AWS account" />

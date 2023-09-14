@@ -21,6 +21,7 @@
 
     --spacing-medium: 12px;
     --spacing-large: 24px;
+    --spacing-large-negative: -24px;
 
     --content-width: 920px;
 
