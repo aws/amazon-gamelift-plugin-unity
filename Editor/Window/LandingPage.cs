@@ -21,22 +21,22 @@ namespace Editor.Window
             container.Add(uxml);
             LocalizeText();
             
-            _container.Q<Button>("CreateAccount").RegisterCallback<ClickEvent>(_ => onCreateAccountClicked());
-            _container.Q<Button>("AddProfile").RegisterCallback<ClickEvent>(_ => onAddProfileClicked());
-            _container.Q<Button>("DownloadSampleGame").RegisterCallback<ClickEvent>(_ => onImportSampleClicked());
+            _container.Q<Button>("CreateAccount").RegisterCallback<ClickEvent>(_ => OnCreateAccountClicked());
+            _container.Q<Button>("AddProfile").RegisterCallback<ClickEvent>(_ => OnAddProfileClicked());
+            _container.Q<Button>("DownloadSampleGame").RegisterCallback<ClickEvent>(_ => OnImportSampleClicked());
         }
 
-        private void onCreateAccountClicked()
+        private static void OnCreateAccountClicked()
         {
             Application.OpenURL(""); // TODO: Confirm URL for this button
         }
 
-        private void onAddProfileClicked()
+        private static void OnAddProfileClicked()
         {
             GameLiftPlugin.OpenAccountProfilesTab();
         }
 
-        private void onImportSampleClicked()
+        private static void OnImportSampleClicked()
         {
             GameLiftPlugin.ImportSampleGame();
         }
