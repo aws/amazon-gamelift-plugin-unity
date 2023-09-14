@@ -16,7 +16,7 @@
 
 .main__menu {
     width: 240px;
-    padding-top: 20px;
+    padding-top: var(--spacing-medium);
     background-color: var(--color-background-accent);
     flex: 0 0 auto;
     border-right-color: var(--color-border-accent);
