@@ -46,8 +46,9 @@
 }
 
 .sample__image {
-    width: 96px;
-    height: 96px;
+    width: 120px;
+    height: 120px;
+    flex: 0 0 auto;
     margin-right: var(--spacing-large);
 }
 
