@@ -12,14 +12,14 @@
         <ui:VisualElement class="cards">
             <ui:VisualElement class="card">
                 <ui:VisualElement class="card__content">
-                    <ui:Image class="card__icon icon--large" />
+                    <ui:Image name="LandingPageNoAccountImage" class="card__icon icon--large" />
                     <ui:Label name="LandingPageNoAccountCardText" class="card__text" text="I don&apos;t have an AWS account" />
                 </ui:VisualElement>
                 <ui:Button class="button card__button button--large" text="Create an AWS Account   \uf08e" name="CreateAccount" />
             </ui:VisualElement>
             <ui:VisualElement class="card">
                 <ui:VisualElement class="card__content">
-                    <ui:Image class="card__icon icon--large" />
+                    <ui:Image name="LandingPageAccountImage" class="card__icon icon--large" />
                     <ui:Label name="LandingPageAccountCardText" class="card__text" text="I have an AWS account" />
                 </ui:VisualElement>
                 <ui:Button class="button button--primary button--large" text="Add a new Profile" name="AddProfile" />
@@ -28,7 +28,7 @@
         <ui:VisualElement class="sample">
             <ui:Label name="LandingPageSampleHeader" class="sample__header" text="Try our Sample Game" />
             <ui:VisualElement class="sample__content">
-                <ui:Image class="sample__image"/>
+                <ui:Image name="LandingPageSampleImage" class="sample__image"/>
                 <ui:VisualElement class="sample__text">
                     <ui:Label name="LandingPageSampleDescription" text="Test out our sample multiplayer game with GameLift Anywhere." />
                     <ui:Button name="DownloadSampleGame" class="button sample__button button--small" text="Import" />

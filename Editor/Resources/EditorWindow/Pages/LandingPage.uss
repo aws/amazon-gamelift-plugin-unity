@@ -54,3 +54,15 @@
 .sample__button {
     margin-top: 8px;
 }
+
+Image#LandingPageNoAccountImage {
+    --unity-image: resource("Images/Icons/NoAccountIcon");
+}
+
+Image#LandingPageAccountImage {
+    --unity-image: resource("Images/Icons/AccountIcon");
+}
+
+Image#LandingPageSampleImage {
+    --unity-image: resource("Images/LandingPage/SampleGame");
+}
