@@ -22,7 +22,7 @@
     margin-right: var(--spacing-large);
 }
 
-.card__content {
+.card__container {
     flex-direction: row;
 }
 
