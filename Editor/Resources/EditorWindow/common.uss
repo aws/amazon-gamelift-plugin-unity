@@ -19,7 +19,8 @@
     --icon-size-large: 60px;
     --border-size-medium: 2px;
 
-    --spacing-medium: 12px;
+    --spacing-small: 12px;
+    --spacing-small-negative: -12px;
     --spacing-large: 24px;
     --spacing-large-negative: -24px;
 
@@ -27,6 +28,7 @@
 
     font-size: var(--font-size-default);
     color: var(--color-font-default);
+    -unity-paragraph-spacing: 20px;
 }
 
 Label {
