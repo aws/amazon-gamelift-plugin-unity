@@ -20,7 +20,6 @@ namespace Editor.Window
         private VisualElement _currentTab;
         private List<Button> _tabButtons;
         private List<VisualElement> _tabContent;
-        private VisualElement _tabContentContainer;
 
         private const string MainContentClassName = "main__content";
         private const string TabContentSelectedClassName = "tab__content--selected";
@@ -105,8 +104,8 @@ namespace Editor.Window
 
             LocalizeText();
             
-            _tabContentContainer = _root.Q(className: MainContentClassName);
-            var landingPage = new LandingPage(CreateContentContainer(Pages.Landing));
+            var tabContentContainer = _root.Q(className: MainContentClassName);
+            var landingPage = new LandingPage(CreateContentContainer(Pages.Landing, tabContentContainer));
 
             _tabButtons = _root.Query<Button>(className: TabButtonClassName).ToList();
             _tabContent = _root.Query(className: TabContentClassName).ToList();
@@ -124,14 +123,14 @@ namespace Editor.Window
             l.SetElementText(Pages.Help, Strings.TabHelp);
         }
 
-        private VisualElement CreateContentContainer(string tabName)
+        private VisualElement CreateContentContainer(string tabName, VisualElement contentContainer)
         {
             var container = new VisualElement
             {
                 name = $"{tabName}Content",
             };
             container.AddToClassList(TabContentClassName);
-            _tabContentContainer.Add(container);
+            contentContainer.Add(container);
             return container;
         }
         
