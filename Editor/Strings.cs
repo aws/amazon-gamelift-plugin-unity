@@ -136,5 +136,10 @@ namespace AmazonGameLift.Editor
         public const string TabAnywhere = "TabAnywhere";
         public const string TabManagedEC2 = "TabManagedEC2";
         public const string TabHelp = "TabHelp";
+
+        public const string ProfileSelectorDropdownLabel = "ProfileSelectorDropdownLabel";
+        public const string ProfileSelectorBucketNameLabel = "ProfileSelectorBucketNameLabel";
+        public const string ProfileSelectorRegionLabel = "ProfileSelectorRegionLabel";
+        public const string ProfileSelectorStatusLabel = "ProfileSelectorStatusLabel";
     }
 }

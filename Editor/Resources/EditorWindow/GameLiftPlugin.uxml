@@ -1,7 +1,7 @@
 <!-- Copyright Amazon.com, Inc. or its affiliates. All Rights Reserved. -->
 <!-- SPDX-License-Identifier: Apache-2.0 -->
 
-<ui:UXML xmlns:ui="UnityEngine.UIElements" xmlns:uie="UnityEditor.UIElements" xsi="http://www.w3.org/2001/XMLSchema-instance" engine="UnityEngine.UIElements" editor="UnityEditor.UIElements" noNamespaceSchemaLocation="../../../../../UIElementsSchema/UIElements.xsd" editor-extension-mode="False">
+<ui:UXML xmlns:ui="UnityEngine.UIElements" xmlns:c="GameLiftPlugin.UI.Components" xsi="http://www.w3.org/2001/XMLSchema-instance" engine="UnityEngine.UIElements" editor="UnityEditor.UIElements" noNamespaceSchemaLocation="../../../../../UIElementsSchema/UIElements.xsd" editor-extension-mode="False">
     <Style src="./GameLiftPlugin.uss" />
     <ui:VisualElement name="Main" class="main">
         <ui:VisualElement class="main__menu">
@@ -18,6 +18,7 @@
         <ui:ScrollView name="Content" horizontal-scroller-visibility="Hidden" class="main__content">
             <ui:VisualElement name="LandingContent" class="tab__content">
                 <ui:Label text="Landing" />
+                <c:ProfileSelector />
             </ui:VisualElement>
             <ui:VisualElement name="CredentialsContent" class="tab__content">
                 <ui:Label text="Credentials" />
