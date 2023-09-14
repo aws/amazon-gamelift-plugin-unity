@@ -182,6 +182,11 @@ namespace AmazonGameLift.Editor
             { Strings.TabAnywhere, "Host with Anywhere" },
             { Strings.TabManagedEC2, "Host with Managed EC2" },
             { Strings.TabHelp, "Learning Resources" },
+            
+            { Strings.ProfileSelectorDropdownLabel, "AWS Account Profile" },
+            { Strings.ProfileSelectorBucketNameLabel, "S3 Bucket Name" },
+            { Strings.ProfileSelectorRegionLabel, "AWS Region" },
+            { Strings.ProfileSelectorStatusLabel, "Bootstrap Status" },
         };
 
         public string GetError(string errorCode = null)
