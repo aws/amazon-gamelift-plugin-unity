@@ -32,62 +32,14 @@
     flex: 1 1 auto;
 }
 
-.sample__header {
-    font-size: var(--font-size-extralarge);
-    margin-bottom: var(--spacing-large);
-}
-
-.sample__content {
-    flex-direction: row;
-}
-
-.sample__text {
-    align-items: flex-start;
-}
-
 .sample__image {
     width: 120px;
     height: 120px;
     flex: 0 0 auto;
-    margin-right: var(--spacing-large);
 }
 
-.sample__button {
-    margin-top: 8px;
-}
-
-.case__header {
-    margin-bottom: 24px;
-}
-
-.case-study__content {
-    margin-right: 24px;
-}
-
-.case-studies__image {
-    width: 240px;
-    height: 120px;
-    margin-bottom: var(--spacing-large);
-}
-
-.case-studies__description {
-    margin-bottom: var(--spacing-medium);
-}
-.case-studies__header {
-    font-size: var(--font-size-extralarge);
-    margin-bottom: var(--spacing-large);
-}
-
-Image#CaseStudy1 {
-    --unity-image: resource("Images/LandingPage/RollerChamp");
-}
-
-Image#CaseStudy2{
-    --unity-image: resource("Images/LandingPage/DeadByDaylight");
-}
-
-Image#CaseStudy3{
-    --unity-image: resource("Images/LandingPage/MegaBaseball2");
+.case-study__image {
+    --unity-image-size: scale-to-fit;
 }
 
 Image#LandingPageNoAccountImage {
@@ -100,4 +52,16 @@ Image#LandingPageAccountImage {
 
 Image#LandingPageSampleImage {
     --unity-image: resource("Images/LandingPage/SampleGame");
+}
+
+Image#CaseStudy1 {
+    --unity-image: resource("Images/LandingPage/RollerChamp");
+}
+
+Image#CaseStudy2 {
+    --unity-image: resource("Images/LandingPage/DeadByDaylight");
+}
+
+Image#CaseStudy3 {
+    --unity-image: resource("Images/LandingPage/MegaBaseball2");
 }
