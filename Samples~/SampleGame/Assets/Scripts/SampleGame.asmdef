@@ -2,8 +2,7 @@
     "name": "SampleGame",
     "references": [
         "AmazonGameLiftPlugin.Runtime",
-        "AmazonGameLiftPlugin.Runtime.Core",
-        "AmazonGameLiftPlugin.EditorCoreAPI"
+        "AmazonGameLiftPlugin.Runtime.Core"
     ],
     "optionalUnityReferences": [],
     "includePlatforms": [
