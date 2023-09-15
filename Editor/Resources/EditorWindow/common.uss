@@ -134,24 +134,8 @@ Image.icon--large {
     align-self: flex-start
 }
 
-.page {
-    
-}
-
-.page__header {
-    
-}
-
 .page__title {
     font-size: var(--font-size-massive);
-}
-
-.page__content {
-    
-}
-
-.page__section {
-    
 }
 
 .page__subtitle {
