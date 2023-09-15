@@ -9,13 +9,15 @@ using UnityEngine;
 
 namespace Editor.Resources.EditorWindow
 {
-    internal static class EditorMenu
+    internal class EditorMenu
     {
+        private static readonly Type _inspectorType = Type.GetType("UnityEditor.GameView,UnityEditor.dll");
+        private static readonly string _filePackagePath = $"Packages/{Paths.PackageName}/{Paths.SampleGameInPackage}";
+
         private static GameLiftPlugin GetPluginWindow()
         {
-            var inspectorType = Type.GetType("UnityEditor.GameView,UnityEditor.dll");
-            var window = UnityEditor.EditorWindow.GetWindow<GameLiftPlugin>(inspectorType);
-            window.titleContent = new GUIContent("Amazon GameLift", window._icon);
+            var window = UnityEditor.EditorWindow.GetWindow<GameLiftPlugin>(_inspectorType);
+            window.titleContent = new GUIContent("Amazon GameLift", window.Icon);
             return window;
         }
 
@@ -34,26 +36,25 @@ namespace Editor.Resources.EditorWindow
         [MenuItem("Amazon GameLift/Set AWS Account Profiles", priority = 100)]
         public static void OpenAccountProfilesTab()
         {
-            GetPluginWindow().OpenTab("Credentials");
+            GetPluginWindow().OpenTab(GameLiftPlugin.Pages.Credentials);
         }
 
         [MenuItem("Amazon GameLift/Host with Anywhere", priority = 101)]
         public static void OpenAnywhereTab()
         {
-            GetPluginWindow().OpenTab("Anywhere");
+            GetPluginWindow().OpenTab(GameLiftPlugin.Pages.Anywhere);
         }
 
         [MenuItem("Amazon GameLift/Host with Managed EC2", priority = 102)]
         public static void OpenEC2Tab()
         {
-            GetPluginWindow().OpenTab("EC2");
+            GetPluginWindow().OpenTab(GameLiftPlugin.Pages.ManagedEC2);
         }
 
         [MenuItem("Amazon GameLift/Import Sample Game", priority = 103)]
         public static void ImportSampleGame()
         {
-            string filePackagePath = $"Packages/{Paths.PackageName}/{Paths.SampleGameInPackage}";
-            AssetDatabase.ImportPackage(filePackagePath, interactive: true);
+            AssetDatabase.ImportPackage(_filePackagePath, interactive: true);
         }
 
         [MenuItem("Amazon GameLift/Help/Documentation", priority = 200)]

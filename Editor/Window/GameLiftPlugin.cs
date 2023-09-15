@@ -13,7 +13,8 @@ namespace Editor.Window
 {
     public class GameLiftPlugin : UnityEditor.EditorWindow
     {
-        [SerializeField] internal Texture _icon;
+        [SerializeField] private Texture _icon;
+        internal Texture Icon => _icon;
 
         private VisualTreeAsset _visualTreeAsset;
         private VisualElement _root;
@@ -49,14 +50,16 @@ namespace Editor.Window
         private void ApplyText()
         {
             var l = new ElementLocalizer(_root);
-            l.SetElementText(Pages.Landing, Strings.TabLanding);
-            l.SetElementText(Pages.Credentials, Strings.TabCredentials);
-            l.SetElementText(Pages.Anywhere, Strings.TabAnywhere);
-            l.SetElementText(Pages.ManagedEC2, Strings.TabManagedEC2);
-            l.SetElementText(Pages.Help, Strings.TabHelp);
+            l.SetElementText(GetPageName(Pages.Landing), Strings.TabLanding);
+            l.SetElementText(GetPageName(Pages.Credentials), Strings.TabCredentials);
+            l.SetElementText(GetPageName(Pages.Anywhere), Strings.TabAnywhere);
+            l.SetElementText(GetPageName(Pages.ManagedEC2), Strings.TabManagedEC2);
+            l.SetElementText(GetPageName(Pages.Help), Strings.TabHelp);
         }
 
-        internal void OpenTab(string tabName)
+        internal void OpenTab(Pages tabName) => OpenTab(GetPageName(tabName));
+
+        private void OpenTab(string tabName)
         {
             _tabContent.ForEach(page =>
             {
@@ -83,13 +86,15 @@ namespace Editor.Window
             });
         }
 
-        private static class Pages
+        private static string GetPageName(Pages page) => Enum.GetName(typeof(Pages), page);
+
+        internal enum Pages
         {
-            public const string Landing = "Landing";
-            public const string Credentials = "Credentials";
-            public const string Anywhere = "Anywhere";
-            public const string ManagedEC2 = "ManagedEC2";
-            public const string Help = "Help";
+            Landing,
+            Credentials,
+            Anywhere,
+            ManagedEC2,
+            Help,
         }
     }
 }
