@@ -228,7 +228,8 @@ public class GameLiftServer
                 _logger.Write(":) GAMELIFT HEALTH CHECK REQUESTED (HEALTHY)");
                 return true;
             },
-            _port, // tell the GameLift service which port to connect to this process on.
+            // tell the GameLift service which port to connect to this process on.
+            _port,
             // unless we manage this there can only be one process per server.
             logParameters);
     }
