@@ -40,17 +40,17 @@
             <ui:VisualElement class="page__content separator separator--large separator--horizontal">
                 <ui:VisualElement class="separator">
                     <ui:Image name="CaseStudy1" class="case-study__image" />
-                    <ui:Label name="LandingPageCaseStudyDescription" class ="case-studies__description" text="Lorem ipsum dolor sit amet, \n consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua." style="overflow: hidden;" />
+                    <ui:Label name="LandingPageCaseStudyDescription" class ="case-studies__description" text="Lorem ipsum dolor sit amet, \n consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua." />
                     <ui:Label name="LearnMore" text="Learn More" class="external-link"  />
                 </ui:VisualElement>
                 <ui:VisualElement class="separator">
                     <ui:Image name="CaseStudy2" class="case-study__image" />
-                    <ui:Label name="LandingPageCaseStudyDescription" class ="case-studies__description" text="Lorem ipsum dolor sit amet, \n consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua." style="overflow: hidden;" />
+                    <ui:Label name="LandingPageCaseStudyDescription" class ="case-studies__description" text="Lorem ipsum dolor sit amet, \n consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua." />
                     <ui:Label name="LearnMore" text="Learn More" class="external-link"  />
                 </ui:VisualElement>
                 <ui:VisualElement class="separator">
                     <ui:Image name="CaseStudy3" class="case-study__image" />
-                    <ui:Label name="LandingPageCaseStudyDescription" class ="case-studies__description" text="Lorem ipsum dolor sit amet, \n consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua." style="overflow: hidden;" />
+                    <ui:Label name="LandingPageCaseStudyDescription" class ="case-studies__description" text="Lorem ipsum dolor sit amet, \n consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua." />
                     <ui:Label name="LearnMore" text="Learn More" class="external-link" />
                 </ui:VisualElement>
             </ui:VisualElement>
