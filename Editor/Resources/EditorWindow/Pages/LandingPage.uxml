@@ -6,9 +6,9 @@
     <ui:VisualElement class="separator separator--large">        
         <ui:VisualElement class="separator">
             <ui:Label name="LandingPageHeader" class="page__header-text" text="Amazon GameLift"/>
-            <ui:Label name="LandingPageDescription" text="Amazon GameLift is a dedicated game server hosting solution that deploys, operates, and scales cloud servers for multiplayer games.&#10;Whether you’re looking for a fully managed solution, or just the feature you need, GameLift leverages the power of AWS to deliver the best latency possible, low player wait times, and maximum cost savings."/>
+            <ui:Label name="LandingPageDescription" class="page__description-text" text="Amazon GameLift is a dedicated game server hosting solution that deploys, operates, and scales cloud servers for multiplayer games.&#10;Whether you’re looking for a fully managed solution, or just the feature you need, GameLift leverages the power of AWS to deliver the best latency possible, low player wait times, and maximum cost savings."/>
         </ui:VisualElement>
-        <ui:VisualElement class="page__divider"  />        
+        <ui:VisualElement class="divider"  />        
         <ui:VisualElement class="separator separator--large separator--horizontal">
             <ui:VisualElement class="card">
                 <ui:VisualElement class="card__container">
@@ -24,7 +24,7 @@
                 </ui:VisualElement>
                 <ui:Button class="button button--primary button--large" text="Add a new Profile" name="AddProfile" />
             </ui:VisualElement>
-        </ui:VisualElement>        
+        </ui:VisualElement>
         <ui:VisualElement class="sample">
             <ui:Label name="LandingPageSampleHeader" class="sample__header" text="Try our Sample Game" />
             <ui:VisualElement class="sample__content">
@@ -34,6 +34,26 @@
                     <ui:Button name="DownloadSampleGame" class="button sample__button button--small" text="Import" />
                 </ui:VisualElement>
             </ui:VisualElement>
-        </ui:VisualElement>        
+        </ui:VisualElement>
+        <ui:VisualElement class="case-studies">
+            <ui:Label name="LandingPageCaseStudiesHeader" text="[Case Studies]" class="case-studies__header" />
+            <ui:VisualElement class="case-studies__content" style="flex-direction: row;">
+                <ui:VisualElement class="case-study__content">
+                    <ui:Image name="CaseStudy1" class="case-studies__image" />
+                    <ui:Label name="LandingPageCaseStudyDescription" class ="case-studies__description" text="Lorem ipsum dolor sit amet, \n consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua." style="overflow: hidden;" />
+                    <ui:Label name="LearnMore" text="Learn More" class="external-link"  />
+                </ui:VisualElement>
+                <ui:VisualElement class="case-study__content">
+                    <ui:Image name="CaseStudy2" class="case-studies__image" />
+                    <ui:Label name="LandingPageCaseStudyDescription" class ="case-studies__description" text="Lorem ipsum dolor sit amet, \n consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua." style="overflow: hidden;" />
+                    <ui:Label name="LearnMore" text="Learn More" class="external-link"  />
+                </ui:VisualElement>
+                <ui:VisualElement class="case-study__content" >
+                    <ui:Image name="CaseStudy3" class="case-studies__image" />
+                    <ui:Label name="LandingPageCaseStudyDescription" class ="case-studies__description" text="Lorem ipsum dolor sit amet, \n consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua." style="overflow: hidden;" />
+                    <ui:Label name="LearnMore" text="Learn More" class="external-link" />
+                </ui:VisualElement>
+            </ui:VisualElement>
+        </ui:VisualElement>
     </ui:VisualElement>
 </ui:UXML>

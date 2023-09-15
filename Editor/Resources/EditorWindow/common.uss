@@ -72,6 +72,10 @@ Image.icon--large {
     font-size: var(--font-size-massive);
 }
 
+.page__description-text {
+    -unity-paragraph-spacing: 100px;
+}
+
 .divider {
     height: 1px;
     background-color: rgba(255, 255, 255, 0.2);
@@ -128,4 +132,10 @@ Image.icon--large {
     /* large (parent) - large (child) */
     margin-bottom: 0;
     margin-right: 0;
+}
+
+.external-link {
+    border-bottom-width: 1px;
+    border-bottom-color: white;
+    align-self: flex-start
 }
