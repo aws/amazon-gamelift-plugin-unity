@@ -29,7 +29,7 @@
     --spacing-medium-negative: -18px;
     --spacing-large-negative: -24px;
 
-    --content-width: 920px;
+    --page-width: 920px;
 
     font-size: var(--font-size-default);
     color: var(--color-font-default);

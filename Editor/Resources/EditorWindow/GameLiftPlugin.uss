@@ -50,7 +50,7 @@
 .tab__content {
     display: none;
     padding: var(--spacing-large);
-    min-width: var(--content-width);
+    min-width: var(--page-width);
 }
 
 .tab__content.tab__content--selected {
