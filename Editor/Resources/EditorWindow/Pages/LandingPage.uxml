@@ -3,13 +3,13 @@
 
 <ui:UXML xmlns:ui="UnityEngine.UIElements" >
     <Style src="./LandingPage.uss" />
-    <ui:VisualElement class="page">        
-        <ui:VisualElement class="page__header">
+    <ui:VisualElement class="separator separator--large">        
+        <ui:VisualElement class="separator">
             <ui:Label name="LandingPageHeader" class="page__header-text" text="Amazon GameLift"/>
             <ui:Label name="LandingPageDescription" text="Amazon GameLift is a dedicated game server hosting solution that deploys, operates, and scales cloud servers for multiplayer games.&#10;Whether you’re looking for a fully managed solution, or just the feature you need, GameLift leverages the power of AWS to deliver the best latency possible, low player wait times, and maximum cost savings."/>
         </ui:VisualElement>
         <ui:VisualElement class="page__divider"  />        
-        <ui:VisualElement class="cards">
+        <ui:VisualElement class="separator separator--large separator--horizontal">
             <ui:VisualElement class="card">
                 <ui:VisualElement class="card__container">
                     <ui:Image name="LandingPageNoAccountImage" class="card__icon icon--large" />
