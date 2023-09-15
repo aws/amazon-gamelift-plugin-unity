@@ -8,11 +8,6 @@
     --color-card-background: #2a2a2a;
 }
 
-.cards {
-    flex-direction: row;
-    margin-right: var(--spacing-large-negative);
-}
-
 .card {
     padding: var(--spacing-small);
     border-width: var(--border-size-medium);
