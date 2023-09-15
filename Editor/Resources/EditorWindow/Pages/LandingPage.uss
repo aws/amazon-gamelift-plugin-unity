@@ -1,7 +1,7 @@
 /* Copyright Amazon.com, Inc. or its affiliates. All Rights Reserved. */
 /* SPDX-License-Identifier: Apache-2.0 */
 
-@import "./common.uss";
+@import "../common.uss";
 
 :root {
     --color-card-border: #0d0d0d;
@@ -54,6 +54,40 @@
 
 .sample__button {
     margin-top: 8px;
+}
+
+.case__header {
+    margin-bottom: 24px;
+}
+
+.case-study__content {
+    margin-right: 24px;
+}
+
+.case-studies__image {
+    width: 240px;
+    height: 120px;
+    margin-bottom: var(--spacing-large);
+}
+
+.case-studies__description {
+    margin-bottom: var(--spacing-medium);
+}
+.case-studies__header {
+    font-size: var(--font-size-extralarge);
+    margin-bottom: var(--spacing-large);
+}
+
+Image#CaseStudy1 {
+    --unity-image: resource("Images/LandingPage/RollerChamp");
+}
+
+Image#CaseStudy2{
+    --unity-image: resource("Images/LandingPage/DeadByDaylight");
+}
+
+Image#CaseStudy3{
+    --unity-image: resource("Images/LandingPage/MegaBaseball2");
 }
 
 Image#LandingPageNoAccountImage {
