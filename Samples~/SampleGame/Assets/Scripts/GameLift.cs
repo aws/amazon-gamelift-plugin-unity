@@ -94,9 +94,9 @@ public class GameLift : MonoBehaviour
         _server.Start(port, authToken, logFilePath);
     }
 
-    public void TerminateGameSession(bool processEnding)
+    public void TerminateGameSession()
     {
-        _server.TerminateGameSession(processEnding);
+        _server.ProcessEnding();
     }
 
     // we received a force terminate request. Notify clients and gracefully exit.

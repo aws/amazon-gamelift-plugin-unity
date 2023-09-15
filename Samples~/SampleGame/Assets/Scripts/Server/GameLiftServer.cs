@@ -88,32 +88,6 @@ public class GameLiftServer
         }
     }
 
-    public void TerminateGameSession(bool processEnding)
-    {
-        if (_gameLiftRequestedTermination)
-        {
-            // don't terminate game session if gamelift initiated process termination, just exit.
-            Environment.Exit(0);
-        }
-
-        try
-        {
-            if (processEnding)
-            {
-                ProcessEnding();
-            }
-            else
-            {
-                ProcessReady();
-            }
-        }
-        catch (Exception e)
-        {
-            _logger.Write(":( GAME SESSION TERMINATION FAILED. TerminateGameSession() exception " +
-                          Environment.NewLine + e.Message);
-        }
-    }
-
     public bool AcceptPlayerSession(string playerSessionId)
     {
         try
@@ -246,7 +220,7 @@ public class GameLiftServer
             logParameters);
     }
 
-    private void ProcessEnding()
+    public void ProcessEnding()
     {
         try
         {
