@@ -33,7 +33,7 @@
 
     font-size: var(--font-size-default);
     color: var(--color-font-default);
-    -unity-paragraph-spacing: 20px;
+    -unity-paragraph-spacing: 70px;
 }
 
 Label {
@@ -66,14 +66,6 @@ Image.icon--large {
 
 .button:hover {
     background-color: var(--color-button-hover);
-}
-
-.page__header-text {
-    font-size: var(--font-size-massive);
-}
-
-.page__description-text {
-    -unity-paragraph-spacing: 100px;
 }
 
 .divider {
@@ -138,4 +130,28 @@ Image.icon--large {
     border-bottom-width: 1px;
     border-bottom-color: white;
     align-self: flex-start
+}
+
+.page {
+    
+}
+
+.page__header {
+    
+}
+
+.page__title {
+    
+}
+
+.page__content {
+    
+}
+
+.page__section {
+    
+}
+
+.page__section-title {
+    
 }
