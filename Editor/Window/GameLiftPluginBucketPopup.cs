@@ -23,36 +23,36 @@ namespace Editor.GameLiftConfigurationUI
             _root = rootVisualElement;
             m_VisualTreeAsset = UnityEngine.Resources.Load<VisualTreeAsset>("EditorWindow/Pages/GameLiftPluginBucketPopup");
             _root.Add(m_VisualTreeAsset.Instantiate());
-            titleContent = new GUIContent(_textProvider.Get(Strings.LabelBootstrapPopupWindowTitle));
+            titleContent = new GUIContent(_textProvider.Get(Strings.UserProfilePageBootstrapPopupWindowTitle));
             maxSize = new Vector2(PopupWidth, PopupHeight);
             minSize = maxSize;
         }
         
         public void Init(string bucketName)
         {
-            _root.Q<Label>(Strings.LabelBootstrapPopupTitle).text = _textProvider.Get(Strings.LabelBootstrapPopupTitle);
-            _root.Q<Label>(Strings.LabelBootstrapPopupDescription).text =
-                _textProvider.Get(Strings.LabelBootstrapPopupDescription);
-            _root.Q<TextField>(Strings.LabelBootstrapPopupBucket).label =
-                _textProvider.Get(Strings.LabelBootstrapPopupBucket);
+            _root.Q<Label>(Strings.UserProfilePageBootstrapPopupTitle).text = _textProvider.Get(Strings.UserProfilePageBootstrapPopupTitle);
+            _root.Q<Label>(Strings.UserProfilePageBootstrapPopupDescription).text =
+                _textProvider.Get(Strings.UserProfilePageBootstrapPopupDescription);
+            _root.Q<TextField>(Strings.UserProfilePageBootstrapPopupBucketText).label =
+                _textProvider.Get(Strings.UserProfilePageBootstrapPopupBucketText);
 
-            var labelLink = _root.Q<Label>(Strings.LinkBootstrapPopupFreeTier);
-            labelLink.text = _textProvider.Get(Strings.LinkBootstrapPopupFreeTier);
+            var labelLink = _root.Q<Label>(Strings.UserProfilePageBootstrapPopupFreeTierLink);
+            labelLink.text = _textProvider.Get(Strings.UserProfilePageBootstrapPopupFreeTierLink);
             labelLink.RegisterCallback<ClickEvent>(_ => Application.OpenURL(Urls.AwsFreeTier));
 
-            var bucketNameTextField = _root.Q<TextField>(Strings.LabelBootstrapPopupBucket);
-            bucketNameTextField.label = _textProvider.Get(Strings.LabelBootstrapPopupBucket);
+            var bucketNameTextField = _root.Q<TextField>(Strings.UserProfilePageBootstrapPopupBucketText);
+            bucketNameTextField.label = _textProvider.Get(Strings.UserProfilePageBootstrapPopupBucketText);
             bucketNameTextField.value = bucketName;
 
-            var cancelButton = _root.Q<Button>(Strings.ButtonBootstrapPopupCancel);
-            cancelButton.text = _textProvider.Get(Strings.ButtonBootstrapPopupCancel);
+            var cancelButton = _root.Q<Button>(Strings.UserProfilePageBootstrapPopupCancelButton);
+            cancelButton.text = _textProvider.Get(Strings.UserProfilePageBootstrapPopupCancelButton);
             cancelButton.RegisterCallback<ClickEvent>(_ =>
             {
                 Close();
             });
 
-            var continueButton = _root.Q<Button>(Strings.ButtonBootstrapPopupContinue);
-            continueButton.text = _textProvider.Get(Strings.ButtonBootstrapPopupContinue);
+            var continueButton = _root.Q<Button>(Strings.UserProfilePageBootstrapPopupContinueButton);
+            continueButton.text = _textProvider.Get(Strings.UserProfilePageBootstrapPopupContinueButton);
             continueButton.RegisterCallback<ClickEvent>(_ =>
             {
                 OnConfirm?.Invoke(bucketNameTextField.value);

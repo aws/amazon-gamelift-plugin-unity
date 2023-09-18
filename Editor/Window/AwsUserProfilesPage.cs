@@ -42,40 +42,40 @@ namespace Editor.Resources.EditorWindow.Pages
         private void ApplyText()
         {
             var l = new ElementLocalizer(_container);
-            l.SetElementText("LabelAccountCardNewAccountTitle", Strings.LabelAccountCardNewAccountTitle);
-            l.SetElementText("LabelAccountCardNewAccountDescription", Strings.LabelAccountCardNewAccountDescription);
-            l.SetElementText("LabelAccountCardNoAccountTitle", Strings.LabelAccountCardNoAccountTitle);
-            l.SetElementText("LabelAccountCardNoAccountDescription", Strings.LabelAccountCardNoAccountDescription);
-            l.SetElementText("LabelAccountHasAccountTitle", Strings.LabelAccountCardNewAccountTitle);
-            l.SetElementText("LabelAccountHasAccountDescription", Strings.LabelAccountCardNewAccountDescription);
-            l.SetElementText("LabelAccountNewProfileTitle", Strings.LabelAccountNewProfileTitle);
-            l.SetElementText("LabelAccountNewProfileName", Strings.LabelAccountNewProfileName);
-            l.SetElementText("LabelAccountNewProfileAccessKey", Strings.LabelAccountNewProfileAccessKey);
-            l.SetElementText("LabelAccountNewProfileSecretKey", Strings.LabelAccountNewProfileSecretKey);
-            l.SetElementText("LabelAccountNewProfileRegion", Strings.LabelAccountNewProfileRegion);
-            l.SetElementText("DropdownAccountNewProfileRegionPlaceholder", Strings.DropdownAccountNewProfileRegionPlaceholder);
-            l.SetElementText("LinkAccountCardNoAccountDescription", Strings.LinkAccountCardNoAccountDescription);
-            l.SetElementText("LinkAccountNewProfileHelp", Strings.LinkAccountNewProfileHelp);
-            l.SetElementText("ButtonAccountCardNoAccount", Strings.ButtonAccountCardNoAccount);
-            l.SetElementText("ButtonAccountCardHasAccount", Strings.ButtonAccountCardHasAccount);
-            l.SetElementText("ButtonAccountNewProfileCreate", Strings.ButtonAccountNewProfileCreate);
-            l.SetElementText("ButtonAccountNewProfileCancel", Strings.ButtonAccountNewProfileCancel);
-            l.SetElementText("LabelBootstrapTitle", Strings.LabelBootstrapTitle);
-            l.SetElementText("LabelBootstrapDescription", Strings.LabelBootstrapDescription);
-            l.SetElementText("LabelBootstrapPricing", Strings.LabelBootstrapPricing);
-            l.SetElementText("LabelBootstrapProfileInput", Strings.LabelBootstrapProfileInput);
-            l.SetElementText("LabelBootstrapBucket", Strings.LabelBootstrapBucket);
-            l.SetElementText("LabelBootstrapBucketUnset", Strings.LabelBootstrapBucketUnset);
+            l.SetElementText("UserProfilePageAccountCardNewAccountTitle", Strings.UserProfilePageAccountCardNewAccountTitle);
+            l.SetElementText("UserProfilePageAccountCardNewAccountDescription", Strings.UserProfilePageAccountCardNewAccountDescription);
+            l.SetElementText("UserProfilePageAccountCardNoAccountTitle", Strings.UserProfilePageAccountCardNoAccountTitle);
+            l.SetElementText("LabelAccountCardNoAccountDescription", Strings.UserProfilePageAccountCardNoAccountDescription);
+            l.SetElementText("LabelAccountHasAccountTitle", Strings.UserProfilePageAccountCardNewAccountTitle);
+            l.SetElementText("LabelAccountHasAccountDescription", Strings.UserProfilePageAccountCardNewAccountDescription);
+            l.SetElementText("LabelAccountNewProfileTitle", Strings.UserProfilePageAccountNewProfileTitle);
+            l.SetElementText("LabelAccountNewProfileName", Strings.UserProfilePageAccountNewProfileName);
+            l.SetElementText("LabelAccountNewProfileAccessKey", Strings.UserProfilePageAccountNewProfileAccessKey);
+            l.SetElementText("LabelAccountNewProfileSecretKey", Strings.UserProfilePageAccountNewProfileSecretKey);
+            l.SetElementText("LabelAccountNewProfileRegion", Strings.UserProfilePageAccountNewProfileRegion);
+            l.SetElementText("DropdownAccountNewProfileRegionPlaceholder", Strings.UserProfilePageAccountNewProfileRegionPlaceholderDropdown);
+            l.SetElementText("LinkAccountCardNoAccountDescription", Strings.UserProfilePageAccountCardNoAccountLink);
+            l.SetElementText("LinkAccountNewProfileHelp", Strings.UserProfilePageAccountNewProfileHelpLink);
+            l.SetElementText("ButtonAccountCardNoAccount", Strings.UserProfilePageAccountCardNoAccountButton);
+            l.SetElementText("ButtonAccountCardHasAccount", Strings.UserProfilePageAccountCardHasAccountButton);
+            l.SetElementText("ButtonAccountNewProfileCreate", Strings.UserProfilePageAccountNewProfileCreateButton);
+            l.SetElementText("ButtonAccountNewProfileCancel", Strings.UserProfilePageAccountNewProfileCancelButton);
+            l.SetElementText("LabelBootstrapTitle", Strings.UserProfilePageBootstrapTitle);
+            l.SetElementText("LabelBootstrapDescription", Strings.UserProfilePageBootstrapDescription);
+            l.SetElementText("LabelBootstrapPricing", Strings.UserProfilePageBootstrapPricingText);
+            l.SetElementText("LabelBootstrapProfileInput", Strings.UserProfilePageBootstrapProfileInputText);
+            l.SetElementText("LabelBootstrapBucket", Strings.UserProfilePageBootstrapBucketText);
+            l.SetElementText("LabelBootstrapBucketUnset", Strings.UserProfilePageBootstrapBucketUnsetText);
             l.SetElementText("LabelBootstrapRegion", Strings.LabelBootstrapRegion);
-            l.SetElementText("LabelBootstrapStatus", Strings.LabelBootstrapStatus);
-            l.SetElementText("LabelBootstrapWarning", Strings.LabelBootstrapWarning);
-            l.SetElementText("LabelBootstrapProfilePlaceholder", Strings.LabelBootstrapProfilePlaceholder);
-            l.SetElementText("LabelBootstrapPricingInfo", Strings.LabelBootstrapPricingInfo);
-            l.SetElementText("LabelBootstrapPricingFreeTier", Strings.LabelBootstrapPricingFreeTier);
-            l.SetElementText("LinkBootstrapHelp", Strings.LinkBootstrapHelp);
-            l.SetElementText("ButtonBootstrapStart", Strings.ButtonBootstrapStart);
-            l.SetElementText("ButtonBootstrapAnotherProfile", Strings.ButtonBootstrapAnotherProfile);
-            l.SetElementText("ButtonBootstrapAnotherBucket", Strings.ButtonBootstrapAnotherBucket);
+            l.SetElementText("LabelBootstrapStatus", Strings.UserProfilePageBootstrapStatusText);
+            l.SetElementText("LabelBootstrapWarning", Strings.UserProfilePageBootstrapWarningText);
+            l.SetElementText("LabelBootstrapProfilePlaceholder", Strings.UserProfilePageBootstrapProfilePlaceholderText);
+            l.SetElementText("LabelBootstrapPricingInfo", Strings.UserProfilePageBootstrapPricingInfoText);
+            l.SetElementText("LabelBootstrapPricingFreeTier", Strings.UserProfilePageBootstrapPricingFreeTierText);
+            l.SetElementText("LinkBootstrapHelp", Strings.UserProfilePageBootstrapHelpLink);
+            l.SetElementText("ButtonBootstrapStart", Strings.UserProfilePageBootstrapStartButton);
+            l.SetElementText("ButtonBootstrapAnotherProfile", Strings.UserProfilePageBootstrapAnotherProfileButton);
+            l.SetElementText("ButtonBootstrapAnotherBucket", Strings.UserProfilePageBootstrapAnotherBucketButton);
         }
 
         private void SetupButtonCallbacks()
@@ -151,6 +151,9 @@ namespace Editor.Resources.EditorWindow.Pages
         private void SetupBootMenu()
         {
             VisualElement targetWizard;
+            var tab2WarningBox = _container.Q<VisualElement>(null, "Tab2Warning");
+            var bootStrapMenu = _container.Q<VisualElement>("BootstrapMenu");
+            var completedMenu = _container.Q<VisualElement>("CompletedProfile");
             switch (_gameLiftConfig.CurrentState.AllProfiles.Length)
             {
                 case 0:
@@ -159,34 +162,35 @@ namespace Editor.Resources.EditorWindow.Pages
                 case 1:
                     if (_gameLiftConfig.CurrentState.SelectedProfile == null)
                     {
-                        _container.Q<VisualElement>(null, "Tab2Warning").style.display = DisplayStyle.Flex;
+                        tab2WarningBox.style.display = DisplayStyle.Flex;
                         //TODO Set SelectedProfile and change dropdown to "Choose Profile" and make all the below labels ---
                     }
 
                     targetWizard = _gameLiftConfig.CurrentState.SelectedBootstrapped == false
-                        ? _container.Q<VisualElement>("BootstrapMenu")
-                        : _container.Q<VisualElement>("CompletedProfile");
+                        ? bootStrapMenu
+                        : completedMenu;
                     break;
                 default:
                 {
                     if (_gameLiftConfig.CurrentState.AllProfiles.Any(profile => profile == "default"))
                     {
                         targetWizard = _gameLiftConfig.CurrentState.SelectedBootstrapped == false
-                            ? _container.Q<VisualElement>("BootstrapMenu")
-                            : _container.Q<VisualElement>("CompletedProfile");
+                            ? bootStrapMenu
+                            : completedMenu;
                     }
                     else
                     {
-                        targetWizard = _container.Q<VisualElement>("BootstrapMenu");
+                        targetWizard = bootStrapMenu;
                         if (_gameLiftConfig.CurrentState.SelectedProfile == null)
                         {
-                            _container.Q<VisualElement>(null, "Tab2Warning").style.display = DisplayStyle.Flex;
+                            tab2WarningBox.style.display = DisplayStyle.Flex;
                         }
                     }
 
                     break;
                 }
             }
+
             ChangeWizard(targetWizard);
         }
 
@@ -288,7 +292,7 @@ namespace Editor.Resources.EditorWindow.Pages
 
         public void BootstrapAccount(string bucketName)
         {
-            var bucketResponse = BucketCreation(bucketName);
+            var bucketResponse = CreateBucket(bucketName);
             if (bucketResponse.Success)
             {
                 _container.Q<VisualElement>(null, "Tab2Success").style.display = DisplayStyle.Flex;
@@ -319,7 +323,7 @@ namespace Editor.Resources.EditorWindow.Pages
             _bootstrapSettings.RefreshCurrentBucket();
         }
 
-        private Response BucketCreation(string bucketName)
+        private Response CreateBucket(string bucketName)
         {
             _refreshBucketsCancellation?.Cancel();
             _bootstrapSettings.BucketName = bucketName;

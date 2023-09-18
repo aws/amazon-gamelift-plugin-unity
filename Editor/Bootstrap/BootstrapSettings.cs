@@ -143,12 +143,12 @@ namespace AmazonGameLift.Editor
             if (createResponse.Success)
             {
                 OnBucketCreated(bootstrapResponse.Profile, bootstrapResponse.Region, BucketName);
-                return bootstrapResponse;
+                return createResponse;
             }
             else
             {
                 OnBucketCreationFailure(createResponse);
-                return bootstrapResponse;
+                return createResponse;
             }
         }
 

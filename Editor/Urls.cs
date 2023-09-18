@@ -19,8 +19,7 @@ namespace AmazonGameLift.Editor
         public const string AwsS3Pricing = "https://aws.amazon.com/s3/pricing/";
         public const string AwsSecurity = "https://aws.amazon.com/security/vulnerability-reporting/";
         public const string GitHubAwsLabs = "https://github.com/awslabs/amazon-gamelift-plugin-unity/issues";
-        public const string GitHubChangelog =
-            "https://github.com/aws/amazon-gamelift-plugin-unity/blob/main/CHANGELOG.md";
+        public const string GitHubChangelog = "https://github.com/aws/amazon-gamelift-plugin-unity/blob/main/CHANGELOG.md";
         public const string JavaDownload = "https://www.java.com/en/download/";
         public const string GameLiftServerCSharpSdkIntegrationDoc = "https://docs.aws.amazon.com/gamelift/latest/developerguide/integration-engines-unity-using.html";
         public const string GameLiftServerCSharpSdkApiDoc = "https://docs.aws.amazon.com/gamelift/latest/developerguide/integration-server-sdk-csharp-ref.html";
