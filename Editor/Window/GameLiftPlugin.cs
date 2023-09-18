@@ -9,7 +9,6 @@ using AmazonGameLiftPlugin.Core.ApiGatewayManagement;
 using Editor.GameLiftConfigurationUI;
 using Editor.Resources.EditorWindow;
 using Editor.Resources.EditorWindow.Pages;
-using UnityEditor;
 using UnityEngine;
 using UnityEngine.UIElements;
 
@@ -18,6 +17,7 @@ namespace Editor.Window
     public class GameLiftPlugin : UnityEditor.EditorWindow
     {
         [SerializeField] private Texture _icon;
+        internal Texture Icon => _icon;
 
         private VisualTreeAsset _visualTreeAsset;
         private VisualElement _root;
@@ -32,82 +32,20 @@ namespace Editor.Window
         public readonly CoreApi CoreApi;
         public readonly AwsCredentialsCreation CreationModel;
         public readonly AwsCredentialsUpdate UpdateModel;
-        
+
         private const string MainContentClassName = "main__content";
         private const string TabContentSelectedClassName = "tab__content--selected";
         private const string TabButtonSelectedClassName = "tab__button--selected";
         private const string TabButtonClassName = "tab__button";
         private const string TabContentClassName = "tab__content";
-
+        
         private GameLiftPlugin()
         {
             CoreApi = CoreApi.SharedInstance;
             var awsCredentials = AwsCredentialsFactory.Create();
             CreationModel = awsCredentials.Creation;
             UpdateModel = awsCredentials.Update;
-        }
-        
-        private static GameLiftPlugin GetWindow()
-        {
-            var inspectorType = Type.GetType("UnityEditor.GameView,UnityEditor.dll");
-            var window = GetWindow<GameLiftPlugin>(inspectorType);
-            window.titleContent = new GUIContent("Amazon GameLift", window._icon);
-            return window;
-        }
-
-        [MenuItem("Amazon GameLift/Show Amazon GameLift Window", priority = 0)]
-        public static void ShowWindow()
-        {
-            GetWindow();
-        }
-
-        [MenuItem("Amazon GameLift/Bring Panel to Front", priority = 1)]
-        public static void FocusPanel()
-        {
-            ShowWindow();
-        }
-
-        [MenuItem("Amazon GameLift/Set AWS Account Profiles", priority = 100)]
-        public static void OpenAccountProfilesTab()
-        {
-            GetWindow().OpenTab(Pages.Credentials);
-        }
-
-        [MenuItem("Amazon GameLift/Host with Anywhere", priority = 101)]
-        public static void OpenAnywhereTab()
-        {
-            GetWindow().OpenTab(Pages.Anywhere);
-        }
-
-        [MenuItem("Amazon GameLift/Host with Managed EC2", priority = 102)]
-        public static void OpenEC2Tab()
-        {
-            GetWindow().OpenTab(Pages.ManagedEC2);
-        }
-
-        [MenuItem("Amazon GameLift/Import Sample Game", priority = 103)]
-        public static void ImportSampleGame()
-        {
-            string filePackagePath = $"Packages/{Paths.PackageName}/{Paths.SampleGameInPackage}";
-            AssetDatabase.ImportPackage(filePackagePath, interactive: true);
-        }
-
-        [MenuItem("Amazon GameLift/Help/Documentation", priority = 200)]
-        public static void OpenDocumentation()
-        {
-            Application.OpenURL(Urls.AwsHelpGameLiftUnity);
-        }
-
-        [MenuItem("Amazon GameLift/Help/AWS GameTech Forum", priority = 201)]
-        public static void OpenGameTechForums()
-        {
-            Application.OpenURL(Urls.AwsGameTechForums);
-        }
-
-        [MenuItem("Amazon GameLift/Help/Report Issues", priority = 202)]
-        public static void OpenReportIssues()
-        {
-            Application.OpenURL(Urls.GitHubAwsLabs);
+            
         }
 
         private void CreateGUI()
@@ -123,8 +61,9 @@ namespace Editor.Window
             _root.Add(uxml);
 
             ApplyText();
+
             _tabContentContainer = _root.Q(className: MainContentClassName);
-            var yes = new AwsUserProfilesPage(SetupTab(Pages.Credentials), this);
+            var yes = new AwsUserProfilesPage(SetupTab(GetPageName(Pages.Credentials)), this);
 
             _tabButtons = _root.Query<Button>(className: TabButtonClassName).ToList();
             _tabContent = _root.Query(className: TabContentClassName).ToList();
@@ -135,11 +74,11 @@ namespace Editor.Window
         private void ApplyText()
         {
             var l = new ElementLocalizer(_root);
-            l.SetElementText(Pages.Landing, Strings.TabLanding);
-            l.SetElementText(Pages.Credentials, Strings.TabCredentials);
-            l.SetElementText(Pages.Anywhere, Strings.TabAnywhere);
-            l.SetElementText(Pages.ManagedEC2, Strings.TabManagedEC2);
-            l.SetElementText(Pages.Help, Strings.TabHelp);
+            l.SetElementText(GetPageName(Pages.Landing), Strings.TabLanding);
+            l.SetElementText(GetPageName(Pages.Credentials), Strings.TabCredentials);
+            l.SetElementText(GetPageName(Pages.Anywhere), Strings.TabAnywhere);
+            l.SetElementText(GetPageName(Pages.ManagedEC2), Strings.TabManagedEC2);
+            l.SetElementText(GetPageName(Pages.Help), Strings.TabHelp);
         }
         
         private VisualElement SetupTab(string tabName)
@@ -152,6 +91,8 @@ namespace Editor.Window
             _tabContentContainer.Add(container);
             return container;
         }
+
+        internal void OpenTab(Pages tabName) => OpenTab(GetPageName(tabName));
 
         private void OpenTab(string tabName)
         {
@@ -200,19 +141,21 @@ namespace Editor.Window
             popup.OnConfirm += BootstrapAccount;
             popup.ShowModalUtility();
         }
-
+        
         private void BootstrapAccount (string bucketName)
         {
             _userProfilesPage.BootstrapAccount(bucketName);
         }
+        
+        private static string GetPageName(Pages page) => Enum.GetName(typeof(Pages), page);
 
-        private static class Pages
+        internal enum Pages
         {
-            public const string Landing = "Landing";
-            public const string Credentials = "Credentials";
-            public const string Anywhere = "Anywhere";
-            public const string ManagedEC2 = "ManagedEC2";
-            public const string Help = "Help";
+            Landing,
+            Credentials,
+            Anywhere,
+            ManagedEC2,
+            Help,
         }
         
         public struct State
