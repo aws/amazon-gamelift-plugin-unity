@@ -56,6 +56,7 @@ Image.icon--large {
     margin: 0;
     background-color: var(--color-button-default);
     font-size: var(--font-size-large);
+    align-self: flex-start;
 }
 
 .button--primary {
@@ -64,6 +65,10 @@ Image.icon--large {
 
 .button--small {
     font-size: var(--font-size-default);
+}
+
+.button--full-width {
+    align-self: stretch;
 }
 
 .button:hover {
