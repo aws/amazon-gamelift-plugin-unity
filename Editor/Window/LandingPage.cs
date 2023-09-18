@@ -33,12 +33,12 @@ namespace Editor.Window
 
         private static void OnAddProfileClicked()
         {
-            GameLiftPlugin.OpenAccountProfilesTab();
+            EditorMenu.OpenAccountProfilesTab();
         }
 
         private static void OnImportSampleClicked()
         {
-            GameLiftPlugin.ImportSampleGame();
+            EditorMenu.ImportSampleGame();
         }
 
         private void LocalizeText()
