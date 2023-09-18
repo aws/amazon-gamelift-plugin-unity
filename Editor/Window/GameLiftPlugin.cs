@@ -66,7 +66,7 @@ namespace Editor.Window
         {
             var container = new VisualElement
             {
-                name = $"{GetPageName((page))}Content",
+                name = $"{GetPageName(page)}Content",
             };
             container.AddToClassList(TabContentClassName);
             contentContainer.Add(container);
