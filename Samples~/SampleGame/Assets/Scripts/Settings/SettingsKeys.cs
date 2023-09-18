@@ -2,12 +2,12 @@
 // SPDX-License-Identifier: Apache-2.0
 
 #if UNITY_SERVER
-public static class SettingsKeys
+public enum SettingsKeys
 {
-    public const string WebsocketUrl = "WebsocketUrl";
-    public const string FleetId = "FleetId";
-    public const string ComputeName = "ComputeName";
-    public const string CurrentProfileName = "CurrentProfileName";
-    public const string CurrentRegion = "CurrentRegion";
+    WebsocketUrl,
+    FleetId,
+    ComputeName,
+    CurrentProfileName,
+    CurrentRegion,
 }
 #endif
