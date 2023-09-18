@@ -19,7 +19,9 @@ public class GameLiftServer
     private readonly GameLift _gl;
     private readonly Logger _logger;
     private readonly Settings _settings;
+#if UNITY_EDITOR
     private readonly ICredentialsStore _credentialsStore;
+#endif
 
     private bool _gameLiftRequestedTermination = false;
     private int _port;
@@ -31,7 +33,9 @@ public class GameLiftServer
         _gl = gl ?? throw new ArgumentNullException(nameof(gl));
         _logger = logger ?? throw new ArgumentNullException(nameof(logger));
         _settings = new Settings();
+#if UNITY_EDITOR
         _credentialsStore = new CredentialsStore(new FileWrapper());
+#endif
     }
 
     // The port must be in the range of open ports for the fleet
