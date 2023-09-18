@@ -29,7 +29,7 @@
             <ui:Label name="LandingPageSampleHeader" class="page__subtitle" text="Try our Sample Game"/>
             <ui:VisualElement class="page__content separator separator--large separator--horizontal">
                 <ui:Image name="LandingPageSampleImage" class="sample__image"/>
-                <ui:VisualElement class="separator separator--thin">
+                <ui:VisualElement class="separator">
                     <ui:Label name="LandingPageSampleDescription" text="Test out our sample multiplayer game with GameLift Anywhere."/>
                     <ui:Button name="DownloadSampleGame" class="button sample__button button--small" text="Import"/>
                 </ui:VisualElement>

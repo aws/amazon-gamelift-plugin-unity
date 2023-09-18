@@ -86,7 +86,7 @@ Image.icon--large {
     flex-direction: column;
 }
 
-.separator--horizontal {
+.separator.separator--horizontal {
     flex-direction: row;
 }
 
@@ -112,7 +112,7 @@ Image.icon--large {
     margin-right: var(--spacing-large-negative);
 }
 
-.separator--large > * {
+.separator.separator--large > * {
     margin-bottom: var(--spacing-large);
     margin-right: var(--spacing-large);
 }
@@ -127,10 +127,6 @@ Image.icon--large {
     /* large (parent) - large (child) */
     margin-bottom: 0;
     margin-right: 0;
-}
-
-.separator--thin {
-    align-items: flex-start;
 }
 
 .external-link {
