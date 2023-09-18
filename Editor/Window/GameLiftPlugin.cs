@@ -5,7 +5,6 @@ using System;
 using System.Collections.Generic;
 using AmazonGameLift.Editor;
 using Editor.Resources.EditorWindow;
-using UnityEditor;
 using UnityEngine;
 using UnityEngine.UIElements;
 
@@ -63,11 +62,11 @@ namespace Editor.Window
 
         internal void OpenTab(Pages tabName) => OpenTab(GetPageName(tabName));
 
-        private VisualElement CreateContentContainer(string tabName, VisualElement contentContainer)
+        private VisualElement CreateContentContainer(Pages page, VisualElement contentContainer)
         {
             var container = new VisualElement
             {
-                name = $"{tabName}Content",
+                name = $"{GetPageName((page))}Content",
             };
             container.AddToClassList(TabContentClassName);
             contentContainer.Add(container);
