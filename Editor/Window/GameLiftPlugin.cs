@@ -32,7 +32,7 @@ namespace Editor.Window
         public readonly CoreApi CoreApi;
         public readonly AwsCredentialsCreation CreationModel;
         public readonly AwsCredentialsUpdate UpdateModel;
-        
+
         private const string MainContentClassName = "main__content";
         private const string TabContentSelectedClassName = "tab__content--selected";
         private const string TabButtonSelectedClassName = "tab__button--selected";
@@ -63,7 +63,7 @@ namespace Editor.Window
             ApplyText();
 
             _tabContentContainer = _root.Q(className: MainContentClassName);
-            var yes = new AwsUserProfilesPage(Pages.Credentials, this);
+            var yes = new AwsUserProfilesPage(SetupTab(GetPageName(Pages.Credentials)), this);
 
             _tabButtons = _root.Query<Button>(className: TabButtonClassName).ToList();
             _tabContent = _root.Query(className: TabContentClassName).ToList();
@@ -79,6 +79,17 @@ namespace Editor.Window
             l.SetElementText(GetPageName(Pages.Anywhere), Strings.TabAnywhere);
             l.SetElementText(GetPageName(Pages.ManagedEC2), Strings.TabManagedEC2);
             l.SetElementText(GetPageName(Pages.Help), Strings.TabHelp);
+        }
+        
+        private VisualElement SetupTab(string tabName)
+        {
+            var container = new VisualElement
+            {
+                name = $"{tabName}Content",
+            };
+            container.AddToClassList(TabContentClassName);
+            _tabContentContainer.Add(container);
+            return container;
         }
 
         internal void OpenTab(Pages tabName) => OpenTab(GetPageName(tabName));
