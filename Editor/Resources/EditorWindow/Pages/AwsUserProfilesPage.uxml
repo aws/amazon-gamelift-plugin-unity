@@ -5,8 +5,8 @@
     <Style src="./AwsUserProfilesPage.uss"/>
     <ui:VisualElement class="separator separator--large">
         <ui:VisualElement class="separator">
-            <ui:Label name="Title" class="page__title" text="Configure your AWS Account"/>
-            <ui:Label name="Description" text="AWS Account Credentials are used for any account bootstrapping and CloudFormation deployments."/>
+            <ui:Label name="UserProfilePageTitle" class="page__title" text="Configure your AWS Account"/>
+            <ui:Label name="UserProfilePageDescription" text="AWS Account Credentials are used for any account bootstrapping and CloudFormation deployments."/>
         </ui:VisualElement>
         <ui:VisualElement name="divider"/>
         <ui:VisualElement name="SuccessInfoBox" class="InfoBox SuccessBox Tab2Success">
@@ -27,67 +27,67 @@
         </ui:VisualElement>
         <ui:VisualElement class="separator separator--large">
             <ui:VisualElement name="NoAccountCard" class="card">
-                <ui:Label text="I don’t have an AWS account"/>
-                <ui:Label text="[text about needing an AWS account and it can take a maximum of two sentences]"/>
-                <ui:Button text="Create an AWS Account \uf08e" name="ButtonAccountCardNoAccount" class="link"/>
+                <ui:Label name="UserProfilePageAccountCardNoAccountTitle" text="I don’t have an AWS account"/>
+                <ui:Label name="UserProfilePageAccountCardNoAccountDescription" text="[text about needing an AWS account and it can take a maximum of two sentences]"/>
+                <ui:Button name="UserProfilePageAccountCardNoAccountButton" class="link" text="Create an AWS Account \uf08e"/>
                 <ui:Label text="Return here to complete configuration"/>
             </ui:VisualElement>
             <ui:VisualElement name="HaveAccountCard" class="card">
-                <ui:Label text="I have an AWS account"/>
-                <ui:Label text="[text about having an AWS account and it can take a maximum of two sentences]"/>
-                <ui:Button name="CreateProfile" class="button button--primary" text="Add New Profile"/>
+                <ui:Label name="UserProfilePageAccountCardNewAccountTitle" text="I have an AWS account"/>
+                <ui:Label name="UserProfilePageAccountCardNewAccountDescription" text="[text about having an AWS account and it can take a maximum of two sentences]"/>
+                <ui:Button name="UserProfilePageAccountCardHasAccountButton" class="button button--primary" text="Add New Profile"/>
                 <ui:Label text="Forgot credentials?  \uf08e" class="link"/>
             </ui:VisualElement>
         </ui:VisualElement>
         <ui:VisualElement name="AddNewProfile">
-            <ui:Label text="AWS Account Details"/>
+            <ui:Label name="UserProfilePageAccountNewProfileTitle" text="AWS Account Details"/>
             <ui:VisualElement name="AWSAccountProfile" class="form-row">
-                <ui:Label class="form-row__label" text="AWS Account Profile"/>
+                <ui:Label name="UserProfilePageAccountNewProfileName" class="form-row__label" text="AWS Account Profile"/>
                 <ui:TextField name="AWSAccountProfile" class="form-row__text-input"/>
             </ui:VisualElement>
             <ui:VisualElement name="AccessID" class="form-row">
-                <ui:Label name="Label" text="AWS Access Key" cass="form-row__label"/>
+                <ui:Label name="UserProfilePageAccountNewProfileAccessKey" text="AWS Access Key" cass="form-row__label"/>
                 <ui:TextField name="AccessKeyField" class="form-row__text-input" password="true"/>
                 <ui:Button name="AccessKeyToggleReveal" class="" text="Show"/>
             </ui:VisualElement>
             <ui:VisualElement name="SecretKey" class="form-row">
-                <ui:Label name="Label" class="form-row__label" text="AWS Secret Key"/>
+                <ui:Label name="UserProfilePageAccountNewProfileSecretKey" class="form-row__label" text="AWS Secret Key"/>
                 <ui:TextField name="SecretKeyField" class="form-row__text-input" password="true"/>
                 <ui:Button name="SecretKeyToggleReveal" class="" text="Show"/>
             </ui:VisualElement>
             <ui:VisualElement name="BootstrapStatus" class="form-row">
-                <ui:Label name="Label" class="form-row__label" text="AWS Region"/>
+                <ui:Label name="UserProfilePageAccountNewProfileRegion" class="form-row__label" text="AWS Region"/>
                 <ui:DropdownField name="DropdownField" tooltip="Choose a region" class="form-row__input dropdown"/>
             </ui:VisualElement>
             <ui:VisualElement>
-                <ui:Button name="CreateAccountProfile" class="button button--primary" text="Create Profile"/>
-                <ui:Button name="Cancel" class="button" text="Cancel"/>
-                <ui:Label class="link" text="How do I create AWS credentials? \uf08e"/>
+                <ui:Button name="UserProfilePageAccountNewProfileCreateButton" class="button button--primary" text="Create Profile"/>
+                <ui:Button name="UserProfilePageAccountNewProfileCancelButton" class="button" text="Cancel"/>
+                <ui:Label name="UserProfilePageAccountNewProfileHelpLink" class="link" text="How do I create AWS credentials? \uf08e"/>
             </ui:VisualElement>
         </ui:VisualElement>
         <ui:VisualElement name="BootstrapMenu" class="">
-            <ui:Label text="AWS Account Details"/>
-            <ui:Label text="Bootstrapping refers to the creation of an Amazon S3 bucket, which stores all GameLift build artifacts and Lambda function source code, allowing you to effortlessly deploy with ease.&#10;This action incurs a charge unless you’re eligible for AWS Free Tier usage."/>
+            <ui:Label name="UserProfilePageBootstrapTitle" text="AWS Account Details"/>
+            <ui:Label name="UserProfilePageBootstrapDescription" text="Bootstrapping refers to the creation of an Amazon S3 bucket, which stores all GameLift build artifacts and Lambda function source code, allowing you to effortlessly deploy with ease.&#10;This action incurs a charge unless you’re eligible for AWS Free Tier usage."/>
             <ui:VisualElement name="AWSAccountProfile" class="form-row">
-                <ui:Label class="form-row__label" text="AWS Account Profile"/>
+                <ui:Label name="UserProfilePageBootstrapProfileInputText" class="form-row__label" text="AWS Account Profile"/>
                 <ui:DropdownField name="DropdownField" class="form-row__input dropdown"/>
             </ui:VisualElement>
             <ui:VisualElement name="S3Bucket" class="form-row">
-                <ui:Label name="Label" class="form-row__label" text="S3 Bucket Name"/>
+                <ui:Label name="UserProfilePageBootstrapBucketText" class="form-row__label" text="S3 Bucket Name"/>
                 <ui:Label name="S3BucketNameLabel" class="form-row__text-display"/>
             </ui:VisualElement>
             <ui:VisualElement name="AWSRegion" class="form-row">
-                <ui:Label name="Label" class="form-row__label" text="AWS Region"/>
+                <ui:Label name="UserProfilePageBootstrapRegionText" class="form-row__label" text="AWS Region"/>
                 <ui:Label name="Region" class="form-row__text-display"/>
             </ui:VisualElement>
             <ui:VisualElement name="BootstrapStatus" class="form-row">
-                <ui:Label name="Label" class="form-row__label" text="Bootstrap Status"/>
+                <ui:Label name="UserProfilePageBootstrapStatusText" class="form-row__label" text="Bootstrap Status"/>
                 <ui:Label name="BootstrapStatus" class="form-row__text-display"/>
             </ui:VisualElement>
             <ui:VisualElement class="form-row">
-                <ui:Button name="BootstrapProfile" class="button button--primary" text="Bootstrap Profile"/>
-                <ui:Button name="ButtonBootstrapAddAnotherProfile" class="button" text="Add another Profile"/>
-                <ui:Label class="link" text="What is bootstrapping?  \uf08e"/>
+                <ui:Button name="UserProfilePageBootstrapStartButton" class="button button--primary" text="Bootstrap Profile"/>
+                <ui:Button name="UserProfilePageBootstrapAnotherProfileButton" class="button" text="Add another Profile"/>
+                <ui:Label name="UserProfilePageBootstrapHelpLink" class="link" text="What is bootstrapping?  \uf08e"/>
             </ui:VisualElement>
         </ui:VisualElement>
         <ui:VisualElement name="CompletedProfile" class="">
