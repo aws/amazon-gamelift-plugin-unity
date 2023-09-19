@@ -8,6 +8,8 @@ namespace Editor.Window
 {
     public class RegisterComputeInput : StatefulInput
     {
+        private static IReadOnlyCollection<VisualElement> _computeVisualElements;
+
         private ComputeStatus _computeState;
 
         private readonly List<TextField> _ipInputs;
@@ -38,6 +40,7 @@ namespace Editor.Window
             _registerNewButton = container.Q<Button>("ButtonAnywhereNewCompute");
             _cancelButton = container.Q<Button>("ButtonAnywhereCancelCompute");
 
+            PopulateComputeVisualElements();
             RegisterCallbacks();
             SetupConfigSettings();
             UpdateGUI();
@@ -45,12 +48,12 @@ namespace Editor.Window
 
         private void RegisterCallbacks()
         {
-            _registerButton.RegisterCallback<ClickEvent>(_ => OnRegisterButtonClicked());
-            _registerNewButton.RegisterCallback<ClickEvent>(_ => OnRegisterNewButtonClicked());
+            _registerButton.RegisterCallback<ClickEvent>(_ => OnRegisterComputeButtonClicked());
+            _registerNewButton.RegisterCallback<ClickEvent>(_ => OnNewComputeButtonClicked());
             _cancelButton.RegisterCallback<ClickEvent>(_ => OnCancelButtonClicked());
             
             _computeNameInput.RegisterValueChangedCallback(_ =>
-                SetupCompute(_computeNameInput, _ipInputs, _registerButton));
+                VerifyComputeTextFields(_computeNameInput, _ipInputs, _registerButton));
             _computeNameInput.value = _computeName;
             
             var index = 0;
@@ -59,14 +62,14 @@ namespace Editor.Window
             {
                 ipField.value = currentIp[index];
                 ipField.RegisterValueChangedCallback(_ =>
-                    SetupCompute(_computeNameInput, _ipInputs, _registerButton));
+                    VerifyComputeTextFields(_computeNameInput, _ipInputs, _registerButton));
                 index++;
             }
         }
 
-        private async void OnRegisterButtonClicked()
+        private async void OnRegisterComputeButtonClicked()
         {
-            if (_computeState is ComputeStatus.RegisteringInitial or ComputeStatus.Registering)
+            if (_computeState is ComputeStatus.NotRegistered or ComputeStatus.Registering)
             {
                 var success = await _requestAdapter.RegisterFleetCompute(_computeName, _fleetDetails.FleetId, GameLiftRequestAdapter.FleetLocation, _ipAddress);
                 if (success)
@@ -78,7 +81,7 @@ namespace Editor.Window
             UpdateGUI();
         }
 
-        private void OnRegisterNewButtonClicked()
+        private void OnNewComputeButtonClicked()
         {
             if (_computeState is ComputeStatus.Registered)
             {
@@ -104,7 +107,7 @@ namespace Editor.Window
             _ipInputs.ForEach(input => input.isReadOnly = value);
         }
         
-        private void SetupCompute(TextField computeTextName, IEnumerable<TextField> ipTextField, Button button)
+        private void VerifyComputeTextFields(TextField computeTextName, IEnumerable<TextField> ipTextField, Button button)
         {
              var computeTextNameValid = computeTextName.value.Length >= 1;
             var ipText = ipTextField.ToList().Select(ipAddressField => ipAddressField.value).ToList();
@@ -116,67 +119,53 @@ namespace Editor.Window
 
         private void SetupConfigSettings()
         {
-            var computeName = _gameLiftPlugin.CoreApi.GetSetting(SettingsKeys.ComputeName);
-            if (computeName.Success)
-            {
-                _computeName = computeName.Value;
-            }
+            _computeName = _gameLiftPlugin.CoreApi.GetSetting(SettingsKeys.ComputeName).Value;
+            _ipAddress = _gameLiftPlugin.CoreApi.GetSetting(SettingsKeys.IpAddress).Value;
+            _gameLiftPlugin.CurrentState.SelectedProfile = _gameLiftPlugin.CoreApi.GetSetting(SettingsKeys.SelectedProfile).Value;
+            _gameLiftPlugin.CurrentState.SelectedFleetName = _gameLiftPlugin.CoreApi.GetSetting(SettingsKeys.SelectedFleetName).Value;
+        }
 
-            var ip = _gameLiftPlugin.CoreApi.GetSetting(SettingsKeys.IpAddress);
-            if (ip.Success)
+        private void PopulateComputeVisualElements()
+        {
+            _computeVisualElements = new List<VisualElement>()
             {
-                _ipAddress = ip.Value;
-            }
+                _registerButton,
+                _cancelButton,
+                _computeStatus,
+                _registerNewButton
+            };
+        }
 
-            var selectedProfile = _gameLiftPlugin.CoreApi.GetSetting(SettingsKeys.SelectedProfile);
-            if (selectedProfile.Success)
+        private List<VisualElement> GetVisibleItemsByState()
+        {
+            return _computeState switch
             {
-                _gameLiftPlugin.CurrentState.SelectedProfile = selectedProfile.Value;
-            }
-
-            var fleetIndex = _gameLiftPlugin.CoreApi.GetSetting(SettingsKeys.SelectedFleetIndex);
-            if (fleetIndex.Success)
-            {
-                _gameLiftPlugin.CurrentState.SelectedFleetIndex = int.Parse(fleetIndex.Value);
-            }
+                ComputeStatus.Disabled => new List<VisualElement>(),
+                ComputeStatus.NotRegistered => new List<VisualElement>() { _registerButton, },
+                ComputeStatus.Registering => new List<VisualElement>() { _registerButton, _cancelButton },
+                ComputeStatus.Registered => new List<VisualElement>() { _computeStatus, _registerNewButton },
+                _ => throw new ArgumentOutOfRangeException()
+            };
         }
 
         protected sealed override void UpdateGUI()
         {
-            switch (_computeState)
+            SetInputsReadonly(_computeState == ComputeStatus.Registered);
+            var elements = GetVisibleItemsByState();
+            foreach (var element in _computeVisualElements)
             {
-                case ComputeStatus.Disabled:
-                    break;
-                case ComputeStatus.RegisteringInitial:
-                    SetInputsReadonly(false);
-                    Hide(_computeStatus);
-                    Show(_registerButton);
-                    Hide(_registerNewButton);
-                    Hide(_cancelButton);
-                    break;
-                case ComputeStatus.Registering:
-                    SetInputsReadonly(false);
-                    Hide(_computeStatus);
-                    Show(_registerButton);
-                    Show(_cancelButton);
-                    Hide(_registerNewButton);
-                    break;
-                case ComputeStatus.Registered:
-                    SetInputsReadonly(true);
-                    Show(_computeStatus);
-                    Hide(_registerButton);
-                    Hide(_cancelButton);
-                    Show(_registerNewButton);
-                    break;
-                default:
-                    throw new ArgumentOutOfRangeException();
+                if (elements.Contains(element)) {
+                    Show(element);
+                } else {
+                    Hide(element);
+                }
             }
         }
 
         public enum ComputeStatus
         {
             Disabled,
-            RegisteringInitial,
+            NotRegistered,
             Registering,
             Registered,
         }

@@ -15,11 +15,9 @@ namespace Editor.Window
     {
         private GameLiftPlugin _gameLiftConfig;
         private string _fleetName;
-        private string _computeName = "ComputerName-ProfileName";
-        private string _ipAddress = "120.120.120.120";
         private string _fleetId;
         public const string FleetLocation = "custom-location-1";
-        private const string FleetDescription = "Created By Amazon GameLift Unity Plugin";
+        private const string FleetDescription = "Deployed by the Amazon GameLift Plug-in for Unity.";
         private VisualElement _container;
 
         public GameLiftRequestAdapter(GameLiftPlugin gameLiftConfig)
@@ -101,8 +99,16 @@ namespace Editor.Window
                         {
                             Location = fleetLocation
                         }
+                    },
+                    Tags = new List<Tag>
+                    {
+                        new()
+                        {
+                            Key = "CreatedBy",
+                            Value = "AmazonGameLiftUnityPlugin"
+                        }
                     }
-                };
+                    };
                 var createFleetResponse = await _gameLiftConfig.GameLiftWrapper.CreateFleet(createFleetRequest);
                 
                 if (createFleetResponse.HttpStatusCode == HttpStatusCode.OK)

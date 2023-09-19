@@ -1,4 +1,6 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
 using System.Threading.Tasks;
 using Amazon.GameLift.Model;
 using AmazonGameLift.Editor;
@@ -8,7 +10,11 @@ namespace Editor.Window
 {
     public class ConnectToFleetInput : StatefulInput
     {
+        private static IReadOnlyCollection<VisualElement> _fleetVisualElements;
+        
         public string FleetId;
+        
+        private static readonly List<string> s_fleetNameList = new();
         
         private TextField _fleetNameInput;
         private DropdownField _fleetNameDropdownContainer;
@@ -23,7 +29,6 @@ namespace Editor.Window
         
         private FleetStatus _fleetState;
         private List<FleetAttributes> _fleetsList;
-        private static readonly List<string> s_fleetNameList = new();
 
         public ConnectToFleetInput(VisualElement container, GameLiftPlugin gameLiftPlugin, FleetStatus initialState)
         {
@@ -33,6 +38,7 @@ namespace Editor.Window
             _gameLiftPlugin.SetupWrapper();
 
             AssignUiElements(container);
+            PopulateFleetVisualElements();
             RegisterCallBacks(container);
             SetupBootMenu();
             
@@ -41,7 +47,7 @@ namespace Editor.Window
         
         private async Task OnAnywhereConnectClicked(string text)
         {
-            if (_fleetState is FleetStatus.CreatingInitial or FleetStatus.Creating)
+            if (_fleetState is FleetStatus.NotCreated or FleetStatus.Creating)
             {
                 var success = await _requestAdapter?.CreateAnywhereFleet(text)!;
                 if (success)
@@ -108,12 +114,11 @@ namespace Editor.Window
             await UpdateFleetMenu();
             _fleetNameDropdownContainer.RegisterValueChangedCallback(_ =>
                 {
-                    _gameLiftPlugin.CurrentState.SelectedFleetIndex = _fleetNameDropdownContainer.index;
-                    var currentFleet = _fleetsList[_gameLiftPlugin.CurrentState.SelectedFleetIndex];
+                    _gameLiftPlugin.CurrentState.SelectedFleetName = _fleetNameDropdownContainer.value;
+                    var currentFleet = _fleetsList.First(fleet => fleet.Name == _fleetNameDropdownContainer.value);
                     _fleetIdText.text = currentFleet.FleetId;
                     FleetId = currentFleet.FleetId;
-                    _gameLiftPlugin.CoreApi.PutSetting(SettingsKeys.SelectedFleetIndex,
-                        _gameLiftPlugin.CurrentState.SelectedFleetIndex.ToString());
+                    _gameLiftPlugin.CoreApi.PutSetting(SettingsKeys.SelectedFleetName, currentFleet.Name);
                 }
             );
         }
@@ -137,49 +142,61 @@ namespace Editor.Window
             {
                 _fleetState = FleetStatus.Selecting;
             }
-            _fleetNameDropdownContainer.index = _gameLiftPlugin.CurrentState.SelectedFleetIndex;
+            _fleetNameDropdownContainer.index = _fleetNameDropdownContainer.choices.IndexOf(_gameLiftPlugin.CurrentState.SelectedFleetName);
             UpdateGUI();
+        }
+
+        private void PopulateFleetVisualElements()
+        {
+            _fleetVisualElements = new List<VisualElement>()
+            {
+                _fleetNameInput,
+                _fleetCreateFoldout,
+                _fleetNameDropdownContainer,
+                _cancelButton,
+                _fleetConnectFoldout,
+                _fleetId,
+                _fleetStatus,
+            };
+        }
+
+        private List<VisualElement> GetVisibleItemsByState()
+        {
+            return _fleetState switch
+            {
+                FleetStatus.NotCreated => new List<VisualElement>() { _fleetNameInput, _fleetCreateFoldout },
+                FleetStatus.Creating => new List<VisualElement>()
+                {
+                    _fleetNameInput, _cancelButton, _fleetCreateFoldout
+                },
+                FleetStatus.Selecting => new List<VisualElement>()
+                {
+                    _fleetNameDropdownContainer, _fleetConnectFoldout
+                },
+                FleetStatus.Selected => new List<VisualElement>()
+                {
+                    _fleetNameDropdownContainer, _fleetId, _fleetStatus, _fleetConnectFoldout
+                },
+                _ => throw new ArgumentOutOfRangeException()
+            };
         }
 
         protected sealed override void UpdateGUI()
         {
-            switch (_fleetState)
+            var elements = GetVisibleItemsByState();
+            foreach (var element in _fleetVisualElements)
             {
-                case FleetStatus.Creating:
-                    Show(_fleetNameInput);
-                    Show(_cancelButton);
-                    Show(_fleetCreateFoldout);
-                    Hide(_fleetNameDropdownContainer);
-                    Hide(_fleetConnectFoldout);
-                    break;
-                case FleetStatus.CreatingInitial:
-                    Show(_fleetNameInput);
-                    Show(_fleetCreateFoldout);
-                    Hide(_cancelButton);
-                    Hide(_fleetConnectFoldout);
-                    break;
-                case FleetStatus.Selecting:
-                    Show(_fleetNameDropdownContainer);
-                    Show(_fleetConnectFoldout);
-                    Hide(_fleetNameInput);
-                    Hide(_fleetId);
-                    Hide(_fleetStatus);
-                    Hide(_fleetCreateFoldout);
-                    break;
-                case FleetStatus.Selected:
-                    Show(_fleetNameDropdownContainer);
-                    Show(_fleetId);
-                    Show(_fleetStatus);
-                    Show(_fleetConnectFoldout);
-                    Hide(_fleetNameInput);
-                    Hide(_fleetCreateFoldout);
-                    break;
+                if (elements.Contains(element)) {
+                    Show(element);
+                } else {
+                    Hide(element);
+                }
             }
         }
-
+        
         public enum FleetStatus
         {
-            CreatingInitial,
+            NotCreated,
             Creating,
             Selecting,
             Selected

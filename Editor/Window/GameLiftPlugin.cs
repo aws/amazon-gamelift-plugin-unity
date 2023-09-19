@@ -196,7 +196,7 @@ namespace Editor.Window
         public struct State
         {
             public string SelectedProfile;
-            public int SelectedFleetIndex;
+            public string SelectedFleetName;
         }
     }
 }

@@ -23,9 +23,9 @@ namespace Editor.Window
             container.Add(uxml);
             ApplyText();
 
-            var fleetInput = new ConnectToFleetInput(container, gameLiftPlugin, ConnectToFleetInput.FleetStatus.CreatingInitial);
+            var fleetInput = new ConnectToFleetInput(container, gameLiftPlugin, ConnectToFleetInput.FleetStatus.NotCreated);
             var computeInput =
-                new RegisterComputeInput(container, gameLiftPlugin, fleetInput, RegisterComputeInput.ComputeStatus.RegisteringInitial);
+                new RegisterComputeInput(container, gameLiftPlugin, fleetInput, RegisterComputeInput.ComputeStatus.NotRegistered);
         }
 
         private void ApplyText()

@@ -7,7 +7,7 @@ using Amazon.GameLift.Model;
 
 namespace AmazonGameLiftPlugin.Core.ApiGatewayManagement
 {
-    public interface IAmazonGameLiftClientWrapper
+    public interface IAmazonGameLiftWrapper
     {
         Task<CreateGameSessionResponse> CreateGameSessionAsync(
                 CreateGameSessionRequest request,

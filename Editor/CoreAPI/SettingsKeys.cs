@@ -24,5 +24,6 @@ namespace AmazonGameLift.Editor
         public const string WebSocketUrl = "WebSocketUrl";
         public const string SelectedProfile = "SelectedProfile";
         public const string SelectedFleetIndex = "SelectedFleetIndex";
+        public const string SelectedFleetName = "SelectedFleetName";
     }
 }

@@ -8,7 +8,7 @@ using Amazon.GameLift.Model;
 
 namespace AmazonGameLiftPlugin.Core.ApiGatewayManagement
 {
-    public class AmazonGameLiftWrapper : IAmazonGameLiftClientWrapper
+    public class AmazonGameLiftWrapper : IAmazonGameLiftWrapper
     {
         private readonly IAmazonGameLift _amazonGameLiftClient;
 
@@ -17,9 +17,9 @@ namespace AmazonGameLiftPlugin.Core.ApiGatewayManagement
             _amazonGameLiftClient = amazonGameLiftClient;
         }
         /// <summary>
-        /// Client region is code dedicated to Amazon GameLift SDK calls made by the game client. 
+        /// Editor region is code dedicated to Amazon GameLift SDK calls made by the Unity Editor Plugin. 
         /// </summary>
-        #region Client
+        #region Editor
         public async Task<CreateGameSessionResponse> CreateGameSessionAsync(
                 CreateGameSessionRequest request,
                 CancellationToken cancellationToken = default
