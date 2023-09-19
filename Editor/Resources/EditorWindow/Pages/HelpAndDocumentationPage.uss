@@ -3,3 +3,18 @@
 
 @import "../common.uss";
 
+Image#HelpPageReportIssueIcon {
+    --unity-image: resource("Images/Icons/GitHubIcon");
+}
+
+Image#HelpPageDocumentationIcon {
+    --unity-image: resource("Images/Icons/AWSIcon");
+}
+
+Image#HelpPageVideoTutorialIcon {
+    --unity-image: resource("Images/Icons/VideoIcon");
+}
+
+Image#HelpPageForumIcon {
+    --unity-image: resource("Images/Icons/PersonIcon");
+}

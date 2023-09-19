@@ -11,7 +11,9 @@
     --color-border-accent: #4c4c4c;
     --color-font-default: #d2d2d2;
     --color-font-accent: #ffffff;
-
+    --color-card-border: #0d0d0d;
+    --color-card-background: #2a2a2a;
+    
     --font-size-default: 16px;
     --font-size-large: 18px;
     --font-size-extralarge: 24px;
@@ -142,4 +144,38 @@ Image.icon--large {
 .page__subtitle {
     font-size: var(--font-size-extralarge);
     margin-bottom: var(--spacing-large);
+}
+
+.card {
+    padding: var(--spacing-small);
+    border-width: var(--border-size-medium);
+    border-color: var(--color-card-border);
+    background-color: var(--color-card-background);
+    flex: 1 0 0;
+    margin-right: var(--spacing-large);
+}
+
+.card--small {
+    flex-direction: row;
+    align-items: center;
+}
+
+.card--small .card__icon {
+    margin-right: var(--spacing-tiny);
+}
+
+.card__container {
+    flex-direction: row;
+}
+
+.card__text {
+    font-size: var(--font-size-default);
+    -unity-text-align: middle-left;
+    flex: 1 1 auto;
+}
+
+.card__icon--small {
+    width: 36px;
+    height: 36px;
+    flex: 0 0 auto;
 }

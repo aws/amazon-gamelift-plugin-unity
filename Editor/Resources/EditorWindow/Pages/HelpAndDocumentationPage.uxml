@@ -10,20 +10,20 @@
         </ui:VisualElement>
         <ui:VisualElement class="divider"/>
         <ui:VisualElement class="separator separator--large separator--horizontal">
-            <ui:VisualElement class="card card--small">
-                <ui:VisualElement name="HelpPageReportIssueIcon" class="card__icon--small"/>
-                <ui:Label name="HelpPageReportIssueLink" class="card__text--small" text="Report Issue   \uf08e"/>
+            <ui:VisualElement class="card card--small" >
+                <ui:Image name="HelpPageReportIssueIcon" class="card__icon"/>
+                <ui:Label name="HelpPageReportIssueLink" class="card__text" text="Report Issue   \uf08e"/>
             </ui:VisualElement>
             <ui:VisualElement class="card card--small">
-                <ui:VisualElement name="HelpPageDocumentationIcon" class="card__icon--small"/>
+                <ui:Image name="HelpPageDocumentationIcon" class="card__icon--small"/>
                 <ui:Label name="HelpPageDocumentationLink" class="card__text--small" text="Documentation \uf08e"/>
             </ui:VisualElement>
             <ui:VisualElement class="card card--small">
-                <ui:VisualElement name="HelpPageVideoTutorialIcon" class="card__icon--small"/>
+                <ui:Image name="HelpPageVideoTutorialIcon" class="card__icon--small"/>
                 <ui:Label name="HelpPageVideoTutorialLink" class="card__text--small" text="Video Tutorials  \uf08e"/>
             </ui:VisualElement>
             <ui:VisualElement class="card card--small">
-                <ui:VisualElement name="HelpPageForumIcon" class="card__icon--small"/>
+                <ui:Image name="HelpPageForumIcon" class="card__icon--small"/>
                 <ui:Label name="HelpPageForumLink" class="card__text--small" text="AWS Forum     \uf08e"/>
             </ui:VisualElement>
         </ui:VisualElement>
