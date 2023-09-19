@@ -137,6 +137,16 @@ namespace AmazonGameLift.Editor
         public const string TabManagedEC2 = "TabManagedEC2";
         public const string TabHelp = "TabHelp";
         
+        public const string LandingPageHeader = "LandingPageHeader";
+        public const string LandingPageDescription = "LandingPageDescription";
+        public const string LandingPageNoAccountCardText = "LandingPageNoAccountCardText";
+        public const string LandingPageNoAccountCardButton = "LandingPageNoAccountCardButton";
+        public const string LandingPageAccountCardText = "LandingPageAccountCardText";
+        public const string LandingPageAccountCardButton = "LandingPageAccountCardButton";
+        public const string LandingPageSampleHeader = "LandingPageSampleHeader";
+        public const string LandingPageSampleDescription = "LandingPageSampleDescription";
+        public const string LandingPageSampleButton = "LandingPageSampleButton";
+        
         public const string LabelHelpTitle = "LabelHelpTitle";
         public const string LabelHelpTitleDescription = "LabelHelpTitleDescription";
         public const string LabelHelpReportIssues = "LabelHelpReportIssues";
