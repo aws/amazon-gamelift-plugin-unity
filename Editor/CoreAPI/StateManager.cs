@@ -28,15 +28,12 @@ namespace Editor.CoreAPI
             CoreApi = coreApi;
             AmazonGameLiftClientFactory = new AmazonGameLiftClientFactory(coreApi);
 
-            var profileResult = coreApi.GetSetting(SettingsKeys.CurrentProfileName);
-            if (profileResult.Success && !String.IsNullOrWhiteSpace(profileResult.Value))
-            {
-                SetProfile(profileResult.Value);
-            }
+            SetProfile(coreApi.GetSetting(SettingsKeys.CurrentProfileName).Value);
         }
 
         private void SetProfile(string profileName)
         {
+            if (string.IsNullOrWhiteSpace(profileName)) return;
             _selectedProfile = profileName;
             GameLiftWrapper = AmazonGameLiftClientFactory.Get(SelectedProfile);
             FleetManager = new GameLiftFleetManager(CoreApi, GameLiftWrapper);
