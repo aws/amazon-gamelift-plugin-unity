@@ -40,25 +40,28 @@ namespace Editor.CoreAPI
                 var success = await CreateCustomLocationIfNotExists(FleetLocation);
                 if (success)
                 {
-                    var fleetId = await CreateFleet(ComputeType.ANYWHERE, FleetLocation,fleetName);
+                    var fleetId = await CreateFleet(ComputeType.ANYWHERE, FleetLocation, fleetName);
                     var fleetNameResponse = _coreApi.PutSetting(SettingsKeys.FleetName, fleetName);
                     var fleetIdResponse = _coreApi.PutSetting(SettingsKeys.FleetId, fleetId);
                     if (!fleetNameResponse.Success)
                     {
                         return Response.Fail(new GenericResponse(ErrorCode.InvalidFleetName));
                     }
+
                     if (!fleetIdResponse.Success)
                     {
                         return Response.Fail(new GenericResponse(ErrorCode.InvalidFleetId));
-                        
                     }
+
                     return Response.Ok(new GenericResponse());
                 }
+
                 return Response.Fail(new GenericResponse(ErrorCode.CustomLocationCreationFailed));
             }
+
             return Response.Fail(new GenericResponse(ErrorCode.AccountProfileMissing));
         }
-        
+
         private async Task<bool> CreateCustomLocationIfNotExists(string fleetLocation)
         {
             try
@@ -95,7 +98,7 @@ namespace Editor.CoreAPI
                 return false;
             }
         }
-        
+
         private async Task<string> CreateFleet(ComputeType computeType, string fleetLocation, string fleetName)
         {
             try
@@ -109,17 +112,21 @@ namespace Editor.CoreAPI
                     {
                         new()
                         {
-                            Location = fleetLocation
+                            Location = fleetLocation,
                         }
+                    },
+                    Tags = new List<Tag>
+                    {
+                        { new() { Key = "CreatedBy", Value = "AmazonGameLiftUnityPlugin" } }
                     }
                 };
                 var createFleetResponse = await _amazonGameLiftWrapper.CreateFleet(createFleetRequest);
-                
+
                 if (createFleetResponse.HttpStatusCode == HttpStatusCode.OK)
                 {
                     Debug.Log($"Created Fleet {fleetName}");
                 }
-                
+
                 return createFleetResponse.FleetAttributes.FleetId;
             }
             catch (Exception ex)
