@@ -1,4 +1,5 @@
-﻿using AmazonGameLift.Editor;
+﻿using System;
+using AmazonGameLift.Editor;
 using AmazonGameLiftPlugin.Core.ApiGatewayManagement;
 
 namespace Editor.CoreAPI
@@ -27,7 +28,11 @@ namespace Editor.CoreAPI
             CoreApi = coreApi;
             AmazonGameLiftClientFactory = new AmazonGameLiftClientFactory(coreApi);
 
-            SelectedProfile = coreApi.GetSetting(SettingsKeys.CurrentProfileName).Value;
+            var profileResult = coreApi.GetSetting(SettingsKeys.CurrentProfileName);
+            if (profileResult.Success && !String.IsNullOrWhiteSpace(profileResult.Value))
+            {
+                SetupWrapper(profileResult.Value);
+            }
         }
 
         private void SetupWrapper(string profileName)
