@@ -26,6 +26,8 @@ namespace Editor.CoreAPI
         {
             CoreApi = coreApi;
             AmazonGameLiftClientFactory = new AmazonGameLiftClientFactory(coreApi);
+
+            SelectedProfile = coreApi.GetSetting(SettingsKeys.CurrentProfileName).Value;
         }
 
         private void SetupWrapper(string profileName)
