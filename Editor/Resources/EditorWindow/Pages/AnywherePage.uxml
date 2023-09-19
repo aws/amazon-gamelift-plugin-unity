@@ -1,95 +1,100 @@
-<ui:UXML xmlns:ui="UnityEngine.UIElements" xmlns:uie="UnityEditor.UIElements" xsi="http://www.w3.org/2001/XMLSchema-instance" noNamespaceSchemaLocation="../../../../../../UIElementsSchema/UIElements.xsd" editor-extension-mode="False">
-    <Style src="project://database/Packages/com.amazonaws.gamelift/Editor/Resources/EditorWindow/Pages/AnywherePage.uss?fileID=7433441132597879392&amp;guid=0350eaddb1ad4ae39f4a4c818186371a&amp;type=3#AnywherePage" />
-    <ui:VisualElement name="AnywhereTab" class="TabContent">
-        <ui:Label name="LabelAnywhereTitle" text="GameLift Anywhere" class="TabContent__header" />
-        <ui:Label name="LabelAnywhereDescription" text="Amazon GameLift Anywhere fleets use your existing infrastructure to host game servers while Amazon GameLift manages your matchmaking and queues.&#10;You can integrate Anywhere and Managed EC2 fleets in matchmaker and game session queues to manage matchmaking and game placement." class="TabContent__description" />
-        <ui:Foldout name="AccountDetails" text="AWS Account Details" class="foldout" />
-        <ui:Foldout name="LabelAnywhereIntegrateTitle" text="Integrate GameLift with your game client" class="foldout">
-            <ui:Label name="LabelAnywhereIntegrateDescription" text="Add the Amazon GameLift server SDK to your game server and add code to communicate with the GameLift hosting service. If you&apos;re working with the Amazon GameLift sample game, this integration is already done." class="foldout__content" />
+<!-- Copyright Amazon.com, Inc. or its affiliates. All Rights Reserved. -->
+<!-- SPDX-License-Identifier: Apache-2.0 -->
+
+<ui:UXML xmlns:ui="UnityEngine.UIElements">
+    <Style src="./AnywherePage.uss"/>
+    <ui:VisualElement class="separator separator--large">
+        <ui:VisualElement class="separator">
+            <ui:Label name="AnywherePageTitle" class="page__title" text="GameLift Anywhere"/>
+            <ui:Label name="AnywherePageDescription" text="Amazon GameLift Anywhere fleets use your existing infrastructure to host game servers while Amazon GameLift manages your matchmaking and queues.&#10;You can integrate Anywhere and Managed EC2 fleets in matchmaker and game session queues to manage matchmaking and game placement."/>
+        </ui:VisualElement>
+        <ui:VisualElement class="divider"/>
+        <ui:Foldout name="AnywherePageIntegrateTitle" class="foldout" text="Integrate GameLift with your game client">
+            <ui:Label name="AnywherePageIntegrateDescription" class="foldout__content" text="Add the Amazon GameLift server SDK to your game server and add code to communicate with the GameLift hosting service. If you&apos;re working with the Amazon GameLift sample game, this integration is already done."/>
             <ui:VisualElement class="foldout__links">
-                <ui:Label name="LabelAnywhereIntegrateServerLink" text="Setup Amazon GameLift on a backend service \uf08e" class="foldout__link" />
-                <ui:Label name="LabelAnywhereIntegrateClientLink" text="Setup Amazon GameLift client \uf08e" class="foldout__link" />
+                <ui:Label name="AnywherePageIntegrateServerLink" class="foldout__link" text="Setup Amazon GameLift on a backend service \uf08e"/>
+                <ui:Label name="AnywherePageIntegrateClientLink" class="foldout__link" text="Setup Amazon GameLift client \uf08e"/>
             </ui:VisualElement>
         </ui:Foldout>
-        <ui:Foldout name="FoldoutCreateFleet" text="Connect to Anywhere Fleet" class="foldout">
-            <ui:VisualElement name="AnywhereFleetName" class="form-row">
-                <ui:Label name="LabelAnywhereConnectFleetName" text="Fleet Name" class="form-row__label" />
+        <ui:Foldout name="AnywherePageCreateFleetTitle" class="foldout" text="Connect to Anywhere Fleet">
+            <ui:VisualElement name="AnywherePageFleetName" class="form-row">
+                <ui:Label name="AnywherePageConnectFleetName" class="form-row__label" text="Fleet Name"/>
                 <ui:VisualElement class="form-row__input">
-                    <ui:TextField name="CreateAnywhereFleetField" value="GameName-AnywhereFleet" class="text-input" />
-                    <ui:Label name="LabelAnywhereConnectFleetNameHint" text="Fleet Name must have 1–1024 characters. Valid characters are A-Z, a-z, 0-9, _ and - (hyphen)" class="input-hint" />
+                    <ui:TextField name="AnywherePageCreateFleetInput" class="text-input" value="GameName-AnywhereFleet"/>
+                    <ui:Label name="AnywherePageCreateFleetHint" class="input-hint" text="Fleet Name must have 1–1024 characters. Valid characters are A-Z, a-z, 0-9, _ and - (hyphen)"/>
                 </ui:VisualElement>
             </ui:VisualElement>
-            <ui:VisualElement class="form-row ">
+            <ui:VisualElement class="form-row">
                 <ui:VisualElement class="form-row__input form-row__input--no-label">
-                    <ui:Button name="ButtonAnywhereConnectButton" text="Create Anywhere Fleet" class="button button--primary" />
-                    <ui:Button name="AnywhereFleetCancelButton" text="Cancel" class="button h" />
+                    <ui:Button name="AnywherePageCreateFleetButton" class="button button--primary" text="Create Anywhere Fleet"/>
+                    <ui:Button name="AnywherePageCreateFleetCancelButton" class="button" text="Cancel"/>
                 </ui:VisualElement>
             </ui:VisualElement>
         </ui:Foldout>
-        <ui:Foldout name="FoldoutConnectFleet" text="Connect to Anywhere Fleet" class="foldout">
+        <ui:Foldout name="AnywherePageConnectFleetTitle" class="foldout" text="Connect to Anywhere Fleet">
             <ui:VisualElement name="AnywhereFleetName" class="form-row">
-                <ui:Label name="LabelAnywhereConnectFleetsName" text="Fleet Name" class="form-row__label" />
-                <ui:DropdownField name="DropdownConnectAnywhereFleet" index="-1" choices="Test 1, Test 2, Test 3" class="form-row__input dropdown" />
+                <ui:Label name="AnywherePageConnectFleetLabel" class="form-row__label" text="Fleet Name"/>
+                <ui:DropdownField name="AnywherePageConnectFleetDropdown" class="form-row__input dropdown"/>
             </ui:VisualElement>
-            <ui:VisualElement name="AnywhereFleetID" class="form-row form-row__hidden">
-                <ui:Label name="LabelAnywhereConnectedFleetID" text="Fleet ID" class="form-row__label" />
-                <ui:Label name="LabelAnywhereConnectedFleetIDValue" text="1234567890" class="form-row__text-display" />
+            <ui:VisualElement name="AnywherePageConnectFleetID" class="form-row form-row__hidden">
+                <ui:Label name="AnywherePageConnectFleetIDLabel" class="form-row__label" text="Fleet ID"/>
+                <ui:Label name="AnywherePageConnectFleetIDDisplay" class="form-row__text-display" text="1234567890"/>
             </ui:VisualElement>
-            <ui:VisualElement name="AnywhereFleetStatus" class="form-row form-row__hidden">
-                <ui:Label name="LabelAnywhereConnectedFleetStatus" text="Fleet status" class="form-row__label" />
-                <ui:Label name="LabelAnywhereConnectedFleetStatusValue" text="Connected" class="form-row__text-display" />
+            <ui:VisualElement name="AnywherePageConnectFleetStatus" class="form-row form-row__hidden">
+                <ui:Label name="AnywherePageConnectFleetStatusLabel" class="form-row__label" text="Fleet status"/>
+                <ui:Label name="AnywherePageConnectFleetStatusDisplay" class="form-row__text-display" text="Connected"/>
             </ui:VisualElement>
             <ui:VisualElement name="AnywhereFleetButtons" class="form-row form-row__hidden">
                 <ui:VisualElement class="form-row__input form-row__input--no-label">
-                    <ui:Button name="AnywhereFleetCreateNewButton" text="Create New Anywhere Fleet" class="button button--primary" />
+                    <ui:Button name="AnywherePageConnectFleetNewButton" class="button button--primary" text="Create New Anywhere Fleet"/>
                 </ui:VisualElement>
             </ui:VisualElement>
         </ui:Foldout>
-        <ui:Foldout name="LabelAnywhereComputeTitle" text="Register Compute" class="foldout">
+        <ui:Foldout name="AnywherePageComputeTitle" class="foldout" text="Register Compute">
             <ui:VisualElement class="form-row">
-                <ui:Label name="LabelAnywhereComputeName" text="Compute Name" class="form-row__label" />
-                <ui:TextField name="RegisterComputeField" value="ComputerName-ProfileName" class="form-row__input text-input" />
+                <ui:Label name="AnywherePageComputeNameLabel" class="form-row__label" text="Compute Name"/>
+                <ui:TextField name="AnywherePageComputeNameInput" class="form-row__input text-input" value="ComputerName-ProfileName"/>
             </ui:VisualElement>
             <ui:VisualElement class="form-row">
-                <ui:Label name="LabelAnywhereComputeIP" text="IP Address" class="form-row__label" />
+                <ui:Label name="AnywherePageComputeIPLabel" class="form-row__label" text="IP Address"/>
                 <ui:VisualElement class="form-row__input form-row__input--inline">
-                    <ui:TextField name="IpAddress" value="120" max-length="3" keyboard-type="NumberPad" class="text-input text-input--tiny text-input--centered" />
-                    <ui:Label text="." class="ip-spacer" />
-                    <ui:TextField name="IpAddress" value="120" max-length="3" keyboard-type="NumberPad" class="text-input text-input--tiny text-input--centered" />
-                    <ui:Label text="." class="ip-spacer" />
-                    <ui:TextField name="IpAddress" value="120" max-length="3" keyboard-type="NumberPad" class="text-input text-input--tiny text-input--centered" />
-                    <ui:Label text="." class="ip-spacer" />
-                    <ui:TextField name="IpAddress" value="120" max-length="3" keyboard-type="NumberPad" class="text-input text-input--tiny text-input--centered" />
+                    <ui:TextField name="AnywherePageComputeIpAddress" value="120" max-length="3" keyboard-type="NumberPad" class="text-input text-input--tiny text-input--centered"/>
+                    <ui:Label text="." class="ip-spacer"/>
+                    <ui:TextField name="AnywherePageComputeIpAddress" value="120" max-length="3" keyboard-type="NumberPad" class="text-input text-input--tiny text-input--centered"/>
+                    <ui:Label text="." class="ip-spacer"/>
+                    <ui:TextField name="AnywherePageComputeIpAddress" value="120" max-length="3" keyboard-type="NumberPad" class="text-input text-input--tiny text-input--centered"/>
+                    <ui:Label text="." class="ip-spacer"/>
+                    <ui:TextField name="AnywherePageComputeIpAddress" value="120" max-length="3" keyboard-type="NumberPad" class="text-input text-input--tiny text-input--centered"/>
                 </ui:VisualElement>
             </ui:VisualElement>
-            <ui:VisualElement name="AnywhereComputeStatusBox" class="form-row">
-                <ui:Label text="Status" class="form-row__label" />
-                <ui:Label text="Registered" class="form-row__text-display" />
+            <ui:VisualElement name="AnywherePageComputeStatus" class="form-row">
+                <ui:Label name="AnywherePageComputeStatusLabel" class="form-row__label" text="Status"/>
+                <ui:Label name="AnywherePageComputeStatusDisplay" class="form-row__text-display" text="Registered"/>
             </ui:VisualElement>
             <ui:VisualElement class="form-row">
                 <ui:VisualElement class="form-row__input form-row__input--no-label">
-                    <ui:Button name="ButtonAnywhereCompute" text="Register Compute" class="button button--primary" />
-                    <ui:Button name="ButtonAnywhereNewCompute" text="Register new Compute" class="button" />
-                    <ui:Button name="ButtonAnywhereCancelCompute" text="Cancel Compute" class="button" />
+                    <ui:Button name="AnywherePageComputeRegisterButton" class="button button--primary" text="Register Compute"/>
+                    <ui:Button name="AnywherePageComputeRegisterNewButton" class="button" text="Register new Compute"/>
+                    <ui:Button name="AnywherePageComputeCancelButton" class="button" text="Cancel Compute"/>
                 </ui:VisualElement>
             </ui:VisualElement>
         </ui:Foldout>
-        <ui:Foldout name="LabelAnywhereAuthTokenTitle" text="Generate Auth Token - optional" class="foldout">
+        <ui:Foldout name="AnywherePageAuthTokenTitle" class="foldout" text="Generate Auth Token - optional">
             <ui:VisualElement class="form-row">
-                <ui:Label name="LabelAnywhereAuthTokenField" text="Status" class="form-row__label" />
+                <ui:Label name="AnywherePageAuthTokenLabel" class="form-row__label" text="Status"/>
                 <ui:VisualElement class="form-row__input">
-                    <ui:Label text="Not Generated" class="form-row__text-display" />
+                    <ui:Label name="AnywherePageAuthTokenDisplay" class="form-row__text-display" text="Not Generated"/>
                 </ui:VisualElement>
             </ui:VisualElement>
             <ui:VisualElement class="form-row">
-                <ui:Label name="LabelAnywhereAuthTokenFieldNote" text="The auth token is generated when you launch your game" class="form-row__text-display form-row__input form-row__input--no-label" />
+                <ui:Label name="AnywherePageAuthTokenNote" class="form-row__text-display form-row__input form-row__input--no-label" text="The auth token is generated when you launch your game"/>
             </ui:VisualElement>
         </ui:Foldout>
-        <ui:Foldout name="LabelAnywhereLaunchClient" text="Launch Client" class="foldout">
+        <ui:Foldout name="AnywherePageLaunchClientTitle" class="foldout" text="Launch Client">
             <ui:VisualElement class="form-row">
-                <ui:Label name="LabelAnywhereLaunchClientField" text="Run Game" class="form-row__label" />
+                <ui:Label name="AnywherePageLaunchClientLabel" class="form-row__label" text="Run Game"/>
                 <ui:VisualElement class="form-row__input">
-                    <ui:Button name="ButtonAnywhereLaunchClient" text="Launch Client" class="button button--primary" />
+                    <ui:Button name="AnywherePageLaunchClientButton" class="button button--primary" text="Launch Client"/>
                 </ui:VisualElement>
             </ui:VisualElement>
         </ui:Foldout>

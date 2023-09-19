@@ -1,4 +1,9 @@
-﻿:root {
+﻿/* Copyright Amazon.com, Inc. or its affiliates. All Rights Reserved. */
+/* SPDX-License-Identifier: Apache-2.0 */
+
+@import "../common.uss";
+
+:root {
     --color-foldout-title: #e4e4e4;
     --color-foldout-content: #d2d2d2;
     --color-input-label: #c4c4c4;
