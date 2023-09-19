@@ -5,26 +5,32 @@ namespace Editor.CoreAPI
 {
     public class StateManager
     {
-        public CoreApi CoreApi { get; set; }
-        
+        public CoreApi CoreApi { get; }
+
         public GameLiftFleetManager FleetManager { get; set; }
-        public GameLiftComputeManager ComputeManager  { get; set; }
-        
+        public GameLiftComputeManager ComputeManager { get; set; }
+
         public IAmazonGameLiftClientWrapper GameLiftWrapper { get; private set; }
-        
-        public IAmazonGameLiftClientFactory AmazonGameLiftClientFactory { get; set; }
-        
-        public string SelectedProfile { get; set; }
-        
-        public int SelectedFleetIndex { get; set; }
-        
-        public void SetupClientFactory()
+
+        public IAmazonGameLiftClientFactory AmazonGameLiftClientFactory { get; }
+
+        private string _selectedProfile;
+
+        public string SelectedProfile
         {
-            AmazonGameLiftClientFactory = new AmazonGameLiftClientFactory(CoreApi);
+            get => _selectedProfile;
+            private set => SetupWrapper(value);
         }
-        
-        public void SetupWrapper()
+
+        public StateManager(CoreApi coreApi)
         {
+            CoreApi = coreApi;
+            AmazonGameLiftClientFactory = new AmazonGameLiftClientFactory(coreApi);
+        }
+
+        private void SetupWrapper(string profileName)
+        {
+            _selectedProfile = profileName;
             GameLiftWrapper = AmazonGameLiftClientFactory.Get(SelectedProfile);
             FleetManager = new GameLiftFleetManager(CoreApi, GameLiftWrapper);
             ComputeManager = new GameLiftComputeManager(CoreApi, GameLiftWrapper);
