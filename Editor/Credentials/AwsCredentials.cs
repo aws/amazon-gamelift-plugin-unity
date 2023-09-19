@@ -7,7 +7,7 @@ using AmazonGameLiftPlugin.Core.CredentialManagement.Models;
 
 namespace AmazonGameLift.Editor
 {
-    public class AwsCredentials
+    internal class AwsCredentials
     {
         private const int NewProfileMode = 0;
         private const int SelectProfileMode = 1;
