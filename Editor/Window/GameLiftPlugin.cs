@@ -65,6 +65,8 @@ namespace Editor.Window
             _tabContent = _root.Query(className: TabContentClassName).ToList();
 
             _tabButtons.ForEach(button => button.RegisterCallback<ClickEvent>(_ => { OpenTab(button.name); }));
+            
+            OpenTab(Pages.Landing);
         }
 
         private void LocalizeText()
@@ -119,7 +121,7 @@ namespace Editor.Window
 
         public void SetupWrapper()
         {
-            var credentials = CoreApi.RetrieveAwsCredentials(CurrentState.SelectedProfile);
+            var credentials = CoreApi.RetrieveAwsCredentials("personal");
             var client = new AmazonGameLiftClient(credentials.AccessKey, credentials.SecretKey);
             GameLiftWrapper = new AmazonGameLiftWrapper(client);
         }

@@ -184,7 +184,7 @@ namespace AmazonGameLift.Editor
             { Strings.TabHelp, "Learning Resources" },
 
             { Strings.LandingPageHeader, "Amazon GameLift" },
-            { Strings.LandingPageDescription, "Amazon GameLift provides solutions for hosting session-based multiplayer game servers in the cloud. This plugin contains libraries and native UI elements that make it easier to integrate Amazon GameLift into your game and to manage your hosting resources. Use the plugin to access the Amazon GameLift APIs and deploy AWS CloudFormation templates for common deployment scenarios. \n\nBuilt on AWS global computing infrastructure, Amazon GameLift helps you deliver high-performance, high-reliability, low-cost game servers that scale to meet player demand." },
+            { Strings.LandingPageDescription, "Amazon GameLift provides solutions for hosting session-based multiplayer game servers in the cloud. This plugin contains libraries and native UI elements that make it easier to integrate Amazon GameLift into your game and to manage your hosting resources. Use the plugin to access the Amazon GameLift APIs and deploy AWS CloudFormation templates for common deployment scenarios. \nBuilt on AWS global computing infrastructure, Amazon GameLift helps you deliver high-performance, high-reliability, low-cost game servers that scale to meet player demand." },
             { Strings.LandingPageNoAccountCardText, "I need a new AWS account for this project" },
             { Strings.LandingPageNoAccountCardButton, "Create an AWS Account" },
             { Strings.LandingPageAccountCardText, "I have an AWS account for this project" },
@@ -194,7 +194,7 @@ namespace AmazonGameLift.Editor
             { Strings.LandingPageSampleButton, "Import Sample Game" },
             
             { Strings.LabelAnywhereTitle, "Host with Amazon GameLift Anywhere"},
-            { Strings.LabelAnywhereDescription, "Set up an Amazon GameLift Anywhere fleet to host game servers using your own hardware. With an Anywhere fleet, Amazon GameLift manages game sessions and placement (including matchmaking), while you control your own server hosting infrastructure under a single managed solution.\n\nCreate an Anywhere fleet for your on-premises or other compute resources. During game development, turn your local workstation into an Anywhere fleet to continuously deploy, test, and iterate your game builds."},
+            { Strings.LabelAnywhereDescription, "Set up an Amazon GameLift Anywhere fleet to host game servers using your own hardware. With an Anywhere fleet, Amazon GameLift manages game sessions and placement (including matchmaking), while you control your own server hosting infrastructure under a single managed solution.\nCreate an Anywhere fleet for your on-premises or other compute resources. During game development, turn your local workstation into an Anywhere fleet to continuously deploy, test, and iterate your game builds."},
             { Strings.LabelAnywhereIntegrateTitle, "Integrate Amazon GameLift With Your Game Project"},            
             { Strings.LabelAnywhereIntegrateDescription, "Use the provided C# libraries to add Amazon GameLift functionality to your game to enable hosting. Working with the sample game? Integration is already done!"},
             { Strings.LabelAnywhereIntegrateServerLink, "Integrate game server functionality with the Amazon GameLift server SDK"},
