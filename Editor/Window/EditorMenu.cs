@@ -7,7 +7,7 @@ using Editor.Window;
 using UnityEditor;
 using UnityEngine;
 
-namespace Editor.Resources.EditorWindow
+namespace Editor.Window
 {
     internal class EditorMenu
     {
@@ -16,7 +16,7 @@ namespace Editor.Resources.EditorWindow
 
         private static GameLiftPlugin GetPluginWindow()
         {
-            var window = UnityEditor.EditorWindow.GetWindow<GameLiftPlugin>(_inspectorType);
+            var window = EditorWindow.GetWindow<GameLiftPlugin>(_inspectorType);
             window.titleContent = new GUIContent("Amazon GameLift", window.Icon);
             return window;
         }

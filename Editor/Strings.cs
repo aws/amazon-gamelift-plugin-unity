@@ -146,7 +146,10 @@ namespace AmazonGameLift.Editor
         public const string LandingPageSampleHeader = "LandingPageSampleHeader";
         public const string LandingPageSampleDescription = "LandingPageSampleDescription";
         public const string LandingPageSampleButton = "LandingPageSampleButton";
-        
-        
+
+        public const string InfoLinkDocumentationLink = "InfoLinkDocumentationLink";
+        public const string InfoLinkForumLink = "InfoLinkForumLink";
+        public const string InfoLinkTroubleshootingLink = "InfoLinkTroubleshootingLink";
+        public const string InfoLinkReportIssuesLink = "InfoLinkReportIssuesLink";
     }
 }

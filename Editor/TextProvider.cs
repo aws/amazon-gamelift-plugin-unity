@@ -192,6 +192,11 @@ namespace AmazonGameLift.Editor
             { Strings.LandingPageSampleHeader, "Try our Sample Game" },
             { Strings.LandingPageSampleDescription, "Explore Amazon GameLift with our sample multiplayer game. View integration code, set up hosting with Amazon GameLift Anywhere or Managed EC2 fleets, and experiment with hosting features. Import the sample game into your project, and look for it in the project Assets." },
             { Strings.LandingPageSampleButton, "Import Sample Game" },
+            
+            { Strings.InfoLinkDocumentationLink, "Documentation" },
+            { Strings.InfoLinkForumLink, "AWS GameTech Forum" },
+            { Strings.InfoLinkTroubleshootingLink, "Troubleshooting" },
+            { Strings.InfoLinkReportIssuesLink, "Report Issues" },
         };
 
         public string GetError(string errorCode = null)
