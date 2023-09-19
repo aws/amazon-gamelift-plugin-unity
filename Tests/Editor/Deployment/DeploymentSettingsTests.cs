@@ -11,8 +11,6 @@ using AmazonGameLiftPlugin.Core.DeploymentManagement.Models;
 using AmazonGameLiftPlugin.Core.Shared;
 using Moq;
 using NUnit.Framework;
-using Tests.Utils;
-using UnityEngine;
 using UnityEngine.TestTools;
 
 namespace AmazonGameLiftPlugin.Editor.UnitTests

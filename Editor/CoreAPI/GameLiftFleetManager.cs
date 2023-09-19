@@ -9,27 +9,25 @@ using Amazon.Runtime.Internal;
 using AmazonGameLift.Editor;
 using AmazonGameLiftPlugin.Core.ApiGatewayManagement;
 using AmazonGameLiftPlugin.Core.Shared;
-using Editor.Window.Models;
+using Editor.CoreAPI.Models;
 using UnityEngine;
 using UnityEngine.UIElements;
 using ErrorCode = AmazonGameLift.Editor.ErrorCode;
 
-namespace Editor.Window
+namespace Editor.CoreAPI
 {
-    public class GameLiftRequestAdapter
+    public class GameLiftFleetManager
     {
         private readonly CoreApi _coreApi;
         private readonly IAmazonGameLiftClientWrapper _amazonGameLiftWrapper;
         private string _fleetName;
-        private string _computeName = "ComputerName-ProfileName";
-        private string _ipAddress = "120.120.120.120";
         private string _fleetId;
-        public const string FleetLocation = "custom-location-1";
+        private const string FleetLocation = "custom-location-1";
         private const string FleetDescription = "Created By Amazon GameLift Unity Plugin";
         private VisualElement _container;
         private ErrorResponse _logger;
 
-        public GameLiftRequestAdapter(CoreApi coreApi, IAmazonGameLiftClientWrapper wrapper)
+        public GameLiftFleetManager(CoreApi coreApi, IAmazonGameLiftClientWrapper wrapper)
         {
             _coreApi = coreApi;
             _amazonGameLiftWrapper = wrapper;
@@ -156,92 +154,6 @@ namespace Editor.Window
                 errorBox.Q<Label>().text = ex.Message;
                 Debug.Log(ex.Message);
                 return null;
-            }
-        }
-
-        internal async Task<bool> RegisterFleetCompute(string computeName, string fleetId, string fleetLocation,
-            string ipAddress)
-        {
-            var webSocketUrl = await RegisterCompute(computeName, fleetId, fleetLocation, ipAddress);
-            if (webSocketUrl != null)
-            {
-                var computeNameResponse = _coreApi.PutSetting(SettingsKeys.ComputeName, computeName);
-                var ipAddressResponse = _coreApi.PutSetting(SettingsKeys.IpAddress, ipAddress);
-                var webSocketResponse = _coreApi.PutSetting(SettingsKeys.WebSocketUrl, webSocketUrl);
-
-                return computeNameResponse.Success && ipAddressResponse.Success && webSocketResponse.Success;
-            }
-
-            return false;
-        }
-        
-
-        private async Task<string> RegisterCompute(string computeName, string fleetId, string fleetLocation,
-            string ipAddress)
-        {
-            try
-            {
-                var registerComputeRequest = new RegisterComputeRequest()
-                {
-                    ComputeName = computeName,
-                    FleetId = fleetId,
-                    IpAddress = ipAddress,
-                    Location = fleetLocation
-                };
-                var registerComputeResponse =
-                    await _amazonGameLiftWrapper.RegisterCompute(registerComputeRequest);
-
-                return registerComputeResponse.Compute.GameLiftServiceSdkEndpoint;
-            }
-            catch (Exception ex)
-            {
-                var errorBox = _container.Q<VisualElement>("ComputeErrorInfoBox");
-                errorBox.style.display = DisplayStyle.Flex;
-                errorBox.Q<Label>().text = ex.Message;
-                Debug.Log(ex.Message);
-                return null;
-            }
-        }
-
-        private async Task<bool> DeregisterCompute(string computeName, string fleetId)
-        {
-            try
-            {
-                var deregisterComputeRequest = new DeregisterComputeRequest()
-                {
-                    ComputeName = computeName,
-                    FleetId = fleetId
-                };
-                var deregisterComputeResponse =
-                    await _amazonGameLiftWrapper.DeregisterCompute(deregisterComputeRequest);
-
-                return deregisterComputeResponse.HttpStatusCode == HttpStatusCode.OK;
-            }
-            catch (Exception ex)
-            {
-                Debug.Log(ex.Message);
-                return false;
-            }
-        }
-
-        internal async Task<bool> DescribeCompute(string computeName, string fleetId)
-        {
-            try
-            {
-                var describeComputeRequest = new DescribeComputeRequest()
-                {
-                    ComputeName = computeName,
-                    FleetId = fleetId,
-                };
-                var describeComputeResponse =
-                    await _amazonGameLiftWrapper.DescribeCompute(describeComputeRequest);
-
-                return describeComputeResponse.HttpStatusCode == HttpStatusCode.OK;
-            }
-            catch (Exception ex)
-            {
-                Debug.Log(ex.Message);
-                return false;
             }
         }
     }

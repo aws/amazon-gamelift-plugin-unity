@@ -2,7 +2,7 @@
 using AmazonGameLift.Editor;
 using AmazonGameLiftPlugin.Core.ApiGatewayManagement;
 
-namespace Editor.Window
+namespace Editor.CoreAPI
 {
     
     public interface IAmazonGameLiftClientFactory

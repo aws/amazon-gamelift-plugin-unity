@@ -3,18 +3,16 @@
 
 using System;
 using System.Collections.Generic;
-using Amazon.GameLift;
 using AmazonGameLift.Editor;
-using AmazonGameLiftPlugin.Core.ApiGatewayManagement;
+using Editor.CoreAPI;
 using Editor.Resources.EditorWindow;
-using Editor.Window.Utils;
 using UnityEditor;
 using UnityEngine;
 using UnityEngine.UIElements;
 
 namespace Editor.Window
 {
-    public class GameLiftPlugin : UnityEditor.EditorWindow
+    public class GameLiftPlugin : EditorWindow
     {
         [SerializeField] private Texture _icon;
 
@@ -140,10 +138,9 @@ namespace Editor.Window
             
             _stateManager.SetupClientFactory();
             _stateManager.SetupWrapper();
-            _stateManager.SetupRequestAdapter();
 
             _tabContentContainer = _root.Q(className: MainContentClassName);
-            var anywherePage = new AnywherePage(SetupTab(Pages.Anywhere), _stateManager);
+            //var anywherePage = new AnywherePage(SetupTab(Pages.Anywhere), _stateManager);
 
             _tabButtons = _root.Query<Button>(className: TabButtonClassName).ToList();
             _tabContent = _root.Query(className: TabContentClassName).ToList();

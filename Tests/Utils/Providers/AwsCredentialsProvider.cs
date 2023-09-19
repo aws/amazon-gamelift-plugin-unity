@@ -2,7 +2,7 @@
 using AmazonGameLift.Editor;
 using Moq;
 
-namespace Tests.Utils.Providers
+namespace AmazonGameLiftPlugin.Editor.UnitTests
 {
     public class AwsCredentialsProvider
     {
