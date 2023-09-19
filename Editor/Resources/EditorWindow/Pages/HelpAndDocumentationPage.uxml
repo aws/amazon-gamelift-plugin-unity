@@ -7,7 +7,7 @@
             <ui:Label name="HelpPageTitle" class="page__title" text="Help &amp; Documentation"/>
             <ui:Label name="HelpPageDescription" text="Learn how to integrate and deploy games for hosting on GameLift. The GameLift service manages game server deployment, operation, and scaling.&#10;You can deploy custom-built game servers or use GameLift Realtime Servers to configure lightweight game servers for your game."/>
         </ui:VisualElement>
-        <ui:VisualElement name="divider"/>
+        <ui:VisualElement class="divider"/>
         <ui:VisualElement class="separator separator--large separator--horizontal">
             <ui:VisualElement class="card card--small">
                 <ui:VisualElement name="HelpPageReportIssueIcon" class="card__icon--small"/>

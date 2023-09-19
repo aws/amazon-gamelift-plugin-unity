@@ -21,9 +21,9 @@ namespace Editor.Window
             container.Add(uxml);
             ApplyText();
             
-            _container.Q<Label>(Strings.LabelHelpEstimatingLearnMore).RegisterCallback<ClickEvent>(_ => OnEstimatingLearnMoreClicked());
-            _container.Q<Label>(Strings.LabelHelpFleetIqLearnMore).RegisterCallback<ClickEvent>(_ => OnFleetIqLearnMoreClicked());
-            _container.Q<Label>(Strings.LabelHelpFlexMatchLearnMore).RegisterCallback<ClickEvent>(_ => OnFlexMatchLearnMoreClicked());
+            _container.Q<Label>(Strings.HelpPageEstimatingPriceLink).RegisterCallback<ClickEvent>(_ => OnEstimatingLearnMoreClicked());
+            _container.Q<Label>(Strings.HelpPageFleetIQLink).RegisterCallback<ClickEvent>(_ => OnFleetIqLearnMoreClicked());
+            _container.Q<Label>(Strings.HelpPageFlexMatchLink).RegisterCallback<ClickEvent>(_ => OnFlexMatchLearnMoreClicked());
         }
 
         private void OnLinkClicked(string url)
@@ -49,21 +49,21 @@ namespace Editor.Window
         private void ApplyText()
         {
             var l = new ElementLocalizer(_container);
-            l.SetElementText("LabelHelpTitle", Strings.LabelHelpTitle);
-            l.SetElementText("LabelHelpTitleDescription", Strings.LabelHelpTitleDescription);
-            l.SetElementText("LabelHelpReportIssues", Strings.LabelHelpReportIssues);
-            l.SetElementText("LabelHelpDocumentation", Strings.LabelHelpDocumentation);
-            l.SetElementText("LabelHelpVideoTutorials", Strings.LabelHelpVideoTutorials);
-            l.SetElementText("LabelHelpAwsForum", Strings.LabelHelpAwsForum);
-            l.SetElementText("LabelHelpEstimatingTitle", Strings.LabelHelpEstimatingTitle);
-            l.SetElementText("LabelHelpEstimatingDescription", Strings.LabelHelpEstimatingDescription);
-            l.SetElementText("LabelHelpFleetIqTitle", Strings.LabelHelpFleetIqTitle);
-            l.SetElementText("LabelHelpFleetIqDescription", Strings.LabelHelpFleetIqDescription);
-            l.SetElementText("LabelHelpFlexMatchTitle", Strings.LabelHelpFlexMatchTitle);
-            l.SetElementText("LabelHelpFlexMatchDescription", Strings.LabelHelpFlexMatchDescription);
-            l.SetElementText("LabelEstimatingHelpLearnMore", Strings.LabelHelpEstimatingLearnMore);
-            l.SetElementText("LabelFleetIqHelpLearnMore", Strings.LabelHelpFleetIqLearnMore);
-            l.SetElementText("LabelFlexMatchHelpLearnMore", Strings.LabelHelpFlexMatchLearnMore);
+            l.SetElementText("HelpPageTitle", Strings.HelpPageTitle);
+            l.SetElementText("HelpPageDescription", Strings.HelpPageDescription);
+            l.SetElementText("HelpPageReportIssueLink", Strings.HelpPageReportIssueLink);
+            l.SetElementText("HelpPageDocumentationLink", Strings.HelpPageDocumentationLink);
+            l.SetElementText("HelpPageVideoTutorialLink", Strings.HelpPageVideoTutorialLink);
+            l.SetElementText("HelpPageForumLink", Strings.HelpPageForumLink);
+            l.SetElementText("HelpPageEstimatingPriceTitle", Strings.HelpPageEstimatingPriceTitle);
+            l.SetElementText("HelpPageEstimatingPriceDescription", Strings.HelpPageEstimatingPriceDescription);
+            l.SetElementText("HelpPageEstimatingPriceLink", Strings.HelpPageEstimatingPriceLink);
+            l.SetElementText("HelpPageFleetIQTitle", Strings.HelpPageFleetIQTitle);
+            l.SetElementText("HelpPageFleetIQDescription", Strings.HelpPageFleetIQDescription);
+            l.SetElementText("HelpPageFleetIQLink", Strings.HelpPageFleetIQLink);
+            l.SetElementText("HelpPageFlexMatchTitle", Strings.HelpPageFlexMatchTitle);
+            l.SetElementText("HelpPageFlexMatchDescription", Strings.HelpPageFlexMatchDescription);
+            l.SetElementText("HelpPageFlexMatchLink", Strings.HelpPageFlexMatchLink);
         }
     }
 }
