@@ -23,38 +23,44 @@ namespace Editor.Window
             container.Add(uxml);
             ApplyText();
 
-            var fleetInput = new ConnectToFleetInput(container, gameLiftPlugin, ConnectToFleetInput.FleetStatus.NotCreated);
+            var fleetInput =
+                new ConnectToFleetInput(container, gameLiftPlugin, ConnectToFleetInput.FleetStatus.NotCreated);
             var computeInput =
-                new RegisterComputeInput(container, gameLiftPlugin, fleetInput, RegisterComputeInput.ComputeStatus.NotRegistered);
+                new RegisterComputeInput(container, gameLiftPlugin, fleetInput,
+                    RegisterComputeInput.ComputeStatus.NotRegistered);
         }
 
         private void ApplyText()
         {
             var l = new ElementLocalizer(_container);
-            l.SetElementText("LabelAnywhereTitle", Strings.LabelAnywhereTitle);
-            l.SetElementText("LabelAnywhereDescription", Strings.LabelAnywhereDescription);
-            l.SetElementText("LabelAnywhereIntegrateTitle", Strings.LabelAnywhereIntegrateTitle);
-            l.SetElementText("LabelAnywhereIntegrateDescription", Strings.LabelAnywhereIntegrateDescription);
-            l.SetElementText("LabelAnywhereConnectTitle", Strings.LabelAnywhereConnectTitle);
-            l.SetElementText("LabelAnywhereConnectFleetName", Strings.LabelAnywhereConnectFleetName);
-            l.SetElementText("LabelAnywhereConnectFleetNameHint", Strings.LabelAnywhereConnectFleetNameHint);
-            l.SetElementText("LabelAnywhereConnectedFleetID", Strings.LabelAnywhereConnectedFleetID);
-            l.SetElementText("LabelAnywhereConnectedFleetStatus", Strings.LabelAnywhereConnectedFleetStatus);
-            l.SetElementText("LabelAnywhereComputeTitle", Strings.LabelAnywhereComputeTitle);
-            l.SetElementText("LabelAnywhereComputeName", Strings.LabelAnywhereComputeName);
-            l.SetElementText("LabelAnywhereComputeIP", Strings.LabelAnywhereComputeIP);
-            l.SetElementText("LabelAnywhereAuthTokenTitle", Strings.LabelAnywhereAuthTokenTitle);
-            l.SetElementText("LabelAnywhereAuthTokenField", Strings.LabelAnywhereAuthTokenField);
-            l.SetElementText("LabelAnywhereAuthTokenFieldNote", Strings.LabelAnywhereAuthTokenFieldNote);
-            l.SetElementText("LabelAnywhereLaunchClient", Strings.LabelAnywhereLaunchClient);
-            l.SetElementText("LabelAnywhereLaunchClientField", Strings.LabelAnywhereLaunchClientField);
-            l.SetElementText("LabelAnywhereIntegrateServerLink", Strings.LabelAnywhereIntegrateServerLink);
-            l.SetElementText("LabelAnywhereIntegrateClientLink", Strings.LabelAnywhereIntegrateClientLink);
-            l.SetElementText("ButtonAnywhereConnectButton", Strings.ButtonAnywhereConnectButton);
-            l.SetElementText("ButtonAnywhereCompute", Strings.ButtonAnywhereCompute);
-            l.SetElementText("ButtonAnywhereLaunchClient", Strings.ButtonAnywhereLaunchClient);
+            l.SetElementText("AnywherePageTitle", Strings.AnywherePageTitle);
+            l.SetElementText("AnywherePageDescription", Strings.AnywherePageDescription);
+            l.SetElementText("AnywherePageIntegrateTitle", Strings.AnywherePageIntegrateTitle);
+            l.SetElementText("AnywherePageIntegrateDescription", Strings.AnywherePageIntegrateDescription);
+            l.SetElementText("AnywherePageIntegrateServerLink", Strings.AnywherePageIntegrateServerLink);
+            l.SetElementText("AnywherePageIntegrateClientLink", Strings.AnywherePageIntegrateClientLink);
+            l.SetElementText("AnywherePageCreateFleetTitle", Strings.AnywherePageCreateFleetTitle);
+            l.SetElementText("AnywherePageCreateFleetHint", Strings.AnywherePageCreateFleetHint);
+            l.SetElementText("AnywherePageCreateFleetButton", Strings.AnywherePageCreateFleetButton);
+            l.SetElementText("AnywherePageCreateFleetCancelButton", Strings.AnywherePageCreateFleetCancelButton);
+            l.SetElementText("AnywherePageConnectFleetTitle", Strings.AnywherePageConnectFleetTitle);
+            l.SetElementText("AnywherePageConnectFleetLabel", Strings.AnywherePageConnectFleetLabel);
+            l.SetElementText("AnywherePageConnectFleetIDLabel", Strings.AnywherePageConnectFleetIDLabel);
+            l.SetElementText("AnywherePageConnectFleetStatusLabel", Strings.AnywherePageConnectFleetStatusLabel);
+            l.SetElementText("AnywherePageConnectFleetNewButton", Strings.AnywherePageConnectFleetNewButton);
+            l.SetElementText("AnywherePageComputeTitle", Strings.AnywherePageComputeTitle);
+            l.SetElementText("AnywherePageComputeNameLabel", Strings.AnywherePageComputeNameLabel);
+            l.SetElementText("AnywherePageComputeIPLabel", Strings.AnywherePageComputeIPLabel);
+            l.SetElementText("AnywherePageComputeStatusLabel", Strings.AnywherePageComputeStatusLabel);
+            l.SetElementText("AnywherePageComputeRegisterButton", Strings.AnywherePageComputeRegisterButton);
+            l.SetElementText("AnywherePageComputeRegisterNewButton", Strings.AnywherePageComputeRegisterNewButton);
+            l.SetElementText("AnywherePageComputeCancelButton", Strings.AnywherePageComputeCancelButton);
+            l.SetElementText("AnywherePageAuthTokenTitle", Strings.AnywherePageAuthTokenTitle);
+            l.SetElementText("AnywherePageAuthTokenLabel", Strings.AnywherePageAuthTokenLabel);
+            l.SetElementText("AnywherePageAuthTokenNote", Strings.AnywherePageAuthTokenNote);
+            l.SetElementText("AnywherePageLaunchClientTitle", Strings.AnywherePageLaunchClientTitle);
+            l.SetElementText("AnywherePageLaunchClientLabel", Strings.AnywherePageLaunchClientLabel);
+            l.SetElementText("AnywherePageLaunchClientButton", Strings.AnywherePageLaunchClientButton);
         }
-
     }
-
 }
