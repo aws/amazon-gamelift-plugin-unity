@@ -55,9 +55,8 @@ namespace Editor.Window
             
             var tabContentContainer = _root.Q(className: MainContentClassName);
             var landingPage = new LandingPage(CreateContentContainer(Pages.Landing, tabContentContainer));
-            var yes = new AwsUserProfilesPage(CreateContentContainer(GetPageName(Pages.Credentials, tabContentContainer)), this);
-
-
+            var credentialsPage = new AwsUserProfilesPage(CreateContentContainer(Pages.Credentials, tabContentContainer), this);
+            
             _tabButtons = _root.Query<Button>(className: TabButtonClassName).ToList();
             _tabContent = _root.Query(className: TabContentClassName).ToList();
 
