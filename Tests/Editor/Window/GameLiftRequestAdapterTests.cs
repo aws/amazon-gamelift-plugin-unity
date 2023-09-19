@@ -7,10 +7,10 @@ using AmazonGameLiftPlugin.Core.ApiGatewayManagement;
 using AmazonGameLiftPlugin.Core.SettingsManagement.Models;
 using Moq;
 using NUnit.Framework;
-using Tests.Utils.Providers;
 using AmazonGameLiftPlugin.Core.Shared;
+using Editor.CoreAPI;
 
-namespace Editor.Window.UnitTests
+namespace AmazonGameLiftPlugin.Editor.UnitTests
 {
     [TestFixture]
     public class GameLiftRequestAdapterTests
@@ -32,7 +32,7 @@ namespace Editor.Window.UnitTests
             _awsCredentialsProvider = new AwsCredentialsProvider();
         }
 
-        private GameLiftRequestAdapter ArrangeAnywhereFleetHappyPath()
+        private GameLiftFleetManager ArrangeAnywhereFleetHappyPath()
         {
             var listLocationModel = new List<LocationModel>();
             listLocationModel.Add(new LocationModel
@@ -58,17 +58,17 @@ namespace Editor.Window.UnitTests
             _awsCredentialsFactoryMock.Setup(f => f.Create())
                 .Returns(_awsCredentialsProvider.GetAwsCredentialsWithStubComponents(_coreApiMock.Object));
 
-            return new GameLiftRequestAdapter(_coreApiMock.Object, _gameLiftWrapperMock.Object);
+            return new GameLiftFleetManager(_coreApiMock.Object, _gameLiftWrapperMock.Object);
         }
         
         [Test]
         public void CreateAnywhereFleet_WhenCorrectInputs_ExpectSuccess()
         {
             //Arrange
-            var gameLiftRequestAdapter = ArrangeAnywhereFleetHappyPath();
+            var gameLiftFleetManager = ArrangeAnywhereFleetHappyPath();
             
             //Act
-            var createFleetResult =  gameLiftRequestAdapter.CreateAnywhereFleet("test").GetAwaiter().GetResult();
+            var createFleetResult =  gameLiftFleetManager.CreateAnywhereFleet("test").GetAwaiter().GetResult();
             
             //Assert
             _gameLiftWrapperMock.Verify(wrapper => wrapper.CreateFleet(It.IsAny<CreateFleetRequest>()), Times.Once);
@@ -83,10 +83,10 @@ namespace Editor.Window.UnitTests
             //Arrange
             ArrangeAnywhereFleetHappyPath();
 
-            var gameLiftRequestAdapter = new GameLiftRequestAdapter(_coreApiMock.Object, null);
+            var gameLiftFleetManager = new GameLiftFleetManager(_coreApiMock.Object, null);
 
             //Act
-            var createFleetResult =  gameLiftRequestAdapter.CreateAnywhereFleet("test").GetAwaiter().GetResult();
+            var createFleetResult =  gameLiftFleetManager.CreateAnywhereFleet("test").GetAwaiter().GetResult();
             
             //Assert
             Assert.IsFalse(createFleetResult.Success);
@@ -96,10 +96,10 @@ namespace Editor.Window.UnitTests
         public void CreateAnywhereFleet_WhenNullFleetName_FleetNotCreated()
         {
             //Arrange
-            var gameLiftRequestAdapter = ArrangeAnywhereFleetHappyPath();
+            var gameLiftFleetManager = ArrangeAnywhereFleetHappyPath();
 
             //Act
-            var createFleetResult =  gameLiftRequestAdapter.CreateAnywhereFleet(null).GetAwaiter().GetResult();
+            var createFleetResult =  gameLiftFleetManager.CreateAnywhereFleet(null).GetAwaiter().GetResult();
             
             //Assert
             _gameLiftWrapperMock.Verify(wrapper => wrapper.CreateFleet(It.IsAny<CreateFleetRequest>()), Times.Once);
@@ -112,7 +112,7 @@ namespace Editor.Window.UnitTests
         public void CreateAnywhereFleet_WhenNullFleetId_FleetNotCreated()
         {
             //Arrange
-            var gameLiftRequestAdapter = ArrangeAnywhereFleetHappyPath();
+            var gameLiftFleetManager = ArrangeAnywhereFleetHappyPath();
             
             _gameLiftWrapperMock.Setup(wrapper => wrapper.CreateFleet(It.IsAny<CreateFleetRequest>())).Returns(Task.FromResult(
                 new CreateFleetResponse()
@@ -122,7 +122,7 @@ namespace Editor.Window.UnitTests
                 }));
 
             //Act
-            var createFleetResult =  gameLiftRequestAdapter.CreateAnywhereFleet("test").GetAwaiter().GetResult();
+            var createFleetResult =  gameLiftFleetManager.CreateAnywhereFleet("test").GetAwaiter().GetResult();
             
             //Assert
             _gameLiftWrapperMock.Verify(wrapper => wrapper.CreateFleet(It.IsAny<CreateFleetRequest>()), Times.Once);
@@ -135,12 +135,12 @@ namespace Editor.Window.UnitTests
         public void CreateCustomLocationIfNotExists_WhenThrowErrorOnListLocation_DoesNotCallCreate()
         {
             //Arrange
-            var gameLiftRequestAdapter = ArrangeAnywhereFleetHappyPath();
+            var gameLiftFleetManager = ArrangeAnywhereFleetHappyPath();
             
             _gameLiftWrapperMock.Setup(wrapper => wrapper.ListLocations(It.IsAny<ListLocationsRequest>())).Throws(new NullReferenceException());
 
             //Act
-            var createFleetResult =  gameLiftRequestAdapter.CreateAnywhereFleet("test").GetAwaiter().GetResult();
+            var createFleetResult =  gameLiftFleetManager.CreateAnywhereFleet("test").GetAwaiter().GetResult();
             
             //Assert
             _gameLiftWrapperMock.Verify(wrapper => wrapper.CreateFleet(It.IsAny<CreateFleetRequest>()), Times.Never);

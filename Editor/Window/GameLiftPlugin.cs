@@ -3,10 +3,9 @@
 
 using System;
 using System.Collections.Generic;
-using Amazon.GameLift;
 using AmazonGameLift.Editor;
-using AmazonGameLiftPlugin.Core.ApiGatewayManagement;
 using Editor.CoreAPI;
+using AmazonGameLiftPlugin.Core.ApiGatewayManagement;
 using Editor.Resources.EditorWindow;
 using UnityEditor;
 using UnityEngine;
@@ -57,8 +56,6 @@ namespace Editor.Window
         
         private GameLiftPlugin()
         {
-            _stateManager = new StateManager(new CoreApi());
-            CoreApi = CoreApi.SharedInstance;
             _stateManager = new StateManager
             {
                 CoreApi = CoreApi.SharedInstance
@@ -145,6 +142,9 @@ namespace Editor.Window
             _root.Add(uxml);
 
             LocalizeText();
+            
+            _stateManager.SetupClientFactory();
+            _stateManager.SetupWrapper();
 
             var tabContentContainer = _root.Q(className: MainContentClassName);
             var landingPage = new LandingPage(CreateContentContainer(Pages.Landing, tabContentContainer));

@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using AmazonGameLift.Editor;
 using AmazonGameLiftPlugin.Core.ApiGatewayManagement;
 

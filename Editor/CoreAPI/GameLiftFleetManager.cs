@@ -9,7 +9,7 @@ using Amazon.Runtime.Internal;
 using AmazonGameLift.Editor;
 using AmazonGameLiftPlugin.Core.ApiGatewayManagement;
 using AmazonGameLiftPlugin.Core.Shared;
-using Editor.Window.Models;
+using Editor.CoreAPI.Models;
 using UnityEngine;
 using UnityEngine.UIElements;
 using ErrorCode = AmazonGameLift.Editor.ErrorCode;
@@ -40,7 +40,7 @@ namespace Editor.CoreAPI
                 var success = await CreateCustomLocationIfNotExists(FleetLocation);
                 if (success)
                 {
-                    var fleetId = await CreateFleet(ComputeType.ANYWHERE, FleetLocation, fleetName);
+                    var fleetId = await CreateFleet(ComputeType.ANYWHERE, FleetLocation,fleetName);
                     var fleetNameResponse = _coreApi.PutSetting(SettingsKeys.FleetName, fleetName);
                     var fleetIdResponse = _coreApi.PutSetting(SettingsKeys.FleetId, fleetId);
                     if (!fleetNameResponse.Success)
@@ -61,7 +61,7 @@ namespace Editor.CoreAPI
 
             return Response.Fail(new GenericResponse(ErrorCode.AccountProfileMissing));
         }
-
+        
         private async Task<bool> CreateCustomLocationIfNotExists(string fleetLocation)
         {
             try
@@ -98,7 +98,7 @@ namespace Editor.CoreAPI
                 return false;
             }
         }
-
+        
         private async Task<string> CreateFleet(ComputeType computeType, string fleetLocation, string fleetName)
         {
             try

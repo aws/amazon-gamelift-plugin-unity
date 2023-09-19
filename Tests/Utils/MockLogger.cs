@@ -1,9 +1,12 @@
+// Copyright Amazon.com, Inc. or its affiliates. All Rights Reserved.
+// SPDX-License-Identifier: Apache-2.0
+
 using System;
 using UnityEngine;
-
 using AmazonGameLiftPlugin.Core.Shared;
+using ILogger = AmazonGameLift.Editor.ILogger;
 
-namespace Tests.Utils
+namespace AmazonGameLiftPlugin.Editor.UnitTests
 {
     public class MockLogger : ILogger
     {
