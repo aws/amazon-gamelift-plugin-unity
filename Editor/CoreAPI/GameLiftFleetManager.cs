@@ -23,7 +23,7 @@ namespace Editor.CoreAPI
         private string _fleetName;
         private string _fleetId;
         private const string FleetLocation = "custom-location-1";
-        private const string FleetDescription = "Created By Amazon GameLift Unity Plugin";
+        private const string FleetDescription = "Deployed by the Amazon GameLift Plug-in for Unity.";
         private VisualElement _container;
         private ErrorResponse _logger;
 
