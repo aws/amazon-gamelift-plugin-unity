@@ -33,12 +33,12 @@ namespace Editor.Window
             _gameLiftPlugin = gameLiftPlugin;
             _requestAdapter = new GameLiftRequestAdapter(_gameLiftPlugin);
             _gameLiftPlugin.SetupWrapper();
-            _computeNameInput = container.Q<TextField>("RegisterComputeField");
-            _ipInputs = container.Query<TextField>("IpAddress").ToList();
-            _computeStatus = container.Q("AnywhereComputeStatusBox");
-            _registerButton = container.Q<Button>("ButtonAnywhereCompute");
-            _registerNewButton = container.Q<Button>("ButtonAnywhereNewCompute");
-            _cancelButton = container.Q<Button>("ButtonAnywhereCancelCompute");
+            _computeNameInput = container.Q<TextField>("AnywherePageComputeNameInput");
+            _ipInputs = container.Query<TextField>("AnywherePageComputeIpAddress").ToList();
+            _computeStatus = container.Q("AnywherePageComputeStatus");
+            _registerButton = container.Q<Button>("AnywherePageComputeRegisterButton");
+            _registerNewButton = container.Q<Button>("AnywherePageComputeRegisterNewButton");
+            _cancelButton = container.Q<Button>("AnywherePageComputeCancelButton");
 
             PopulateComputeVisualElements();
             RegisterCallbacks();

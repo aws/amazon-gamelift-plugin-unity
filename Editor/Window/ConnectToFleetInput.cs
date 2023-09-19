@@ -89,9 +89,9 @@ namespace Editor.Window
 
         private void RegisterCallBacks(VisualElement container)
         {
-            container.Q<Button>("ButtonAnywhereConnectButton").RegisterCallback<ClickEvent>(async _ => 
+            container.Q<Button>("AnywherePageCreateFleetButton").RegisterCallback<ClickEvent>(async _ => 
                 await OnAnywhereConnectClicked(_fleetNameInput.text));
-            container.Q<Button>("AnywhereFleetCreateNewButton").RegisterCallback<ClickEvent>(async _ => 
+            container.Q<Button>("AnywherePageConnectFleetNewButton").RegisterCallback<ClickEvent>(async _ => 
                 await OnCreateNewFleetClicked());
             _fleetNameDropdownContainer.RegisterValueChangedCallback(evt => OnSelectFleetDropdown());
             _cancelButton.RegisterCallback<ClickEvent>(_ => OnCancelButtonClicked());
@@ -99,14 +99,14 @@ namespace Editor.Window
 
         private void AssignUiElements(VisualElement container)
         {
-            _fleetNameInput = container.Q<TextField>("CreateAnywhereFleetField");
-            _fleetNameDropdownContainer = container.Q<DropdownField>("DropdownConnectAnywhereFleet");
-            _fleetId = container.Q("AnywhereFleetID");
-            _fleetIdText = container.Q<Label>("LabelAnywhereConnectedFleetIDValue");
-            _fleetStatus = container.Q("AnywhereFleetStatus");
-            _fleetCreateFoldout = container.Q("FoldoutCreateFleet");
-            _fleetConnectFoldout = container.Q("FoldoutConnectFleet");
-            _cancelButton = container.Q<Button>("AnywhereFleetCancelButton");
+            _fleetNameInput = container.Q<TextField>("AnywherePageCreateFleetInput");
+            _fleetNameDropdownContainer = container.Q<DropdownField>("AnywherePageConnectFleetDropdown");
+            _fleetId = container.Q("AnywherePageConnectFleetID");
+            _fleetIdText = container.Q<Label>("AnywherePageConnectFleetIDDisplay");
+            _fleetStatus = container.Q("AnywherePageConnectFleetStatus");
+            _fleetCreateFoldout = container.Q("AnywherePageCreateFleetTitle");
+            _fleetConnectFoldout = container.Q("AnywherePageConnectFleetTitle");
+            _cancelButton = container.Q<Button>("AnywherePageCreateFleetCancelButton");
         }
         
         private async Task SetupFleetMenu()
