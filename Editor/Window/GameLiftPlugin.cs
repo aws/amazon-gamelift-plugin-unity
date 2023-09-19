@@ -23,7 +23,6 @@ namespace Editor.Window
         private List<Button> _tabButtons;
         private List<VisualElement> _tabContent;
         private AwsUserProfilesPage _userProfilesPage;
-        private VisualElement _tabContentContainer;
         
         public AmazonGameLiftWrapper GameLiftWrapper;
         public State CurrentState;
@@ -52,10 +51,12 @@ namespace Editor.Window
             VisualElement uxml = _visualTreeAsset.Instantiate();
             _root.Add(uxml);
 
-            ApplyText();
+            LocalizeText();
+            
+            var tabContentContainer = _root.Q(className: MainContentClassName);
+            var landingPage = new LandingPage(CreateContentContainer(Pages.Landing, tabContentContainer));
+            var yes = new AwsUserProfilesPage(CreateContentContainer(GetPageName(Pages.Credentials, tabContentContainer)), this);
 
-            _tabContentContainer = _root.Q(className: MainContentClassName);
-            var yes = new AwsUserProfilesPage(SetupTab(GetPageName(Pages.Credentials)), this);
 
             _tabButtons = _root.Query<Button>(className: TabButtonClassName).ToList();
             _tabContent = _root.Query(className: TabContentClassName).ToList();
@@ -63,7 +64,7 @@ namespace Editor.Window
             _tabButtons.ForEach(button => button.RegisterCallback<ClickEvent>(_ => { OpenTab(button.name); }));
         }
 
-        private void ApplyText()
+        private void LocalizeText()
         {
             var l = new ElementLocalizer(_root);
             l.SetElementText(GetPageName(Pages.Landing), Strings.TabLanding);
@@ -72,20 +73,20 @@ namespace Editor.Window
             l.SetElementText(GetPageName(Pages.ManagedEC2), Strings.TabManagedEC2);
             l.SetElementText(GetPageName(Pages.Help), Strings.TabHelp);
         }
-        
-        private VisualElement SetupTab(string tabName)
-        {
-            var container = new VisualElement
-            {
-                name = $"{tabName}Content",
-            };
-            container.AddToClassList(TabContentClassName);
-            _tabContentContainer.Add(container);
-            return container;
-        }
 
         internal void OpenTab(Pages tabName) => OpenTab(GetPageName(tabName));
 
+        private VisualElement CreateContentContainer(Pages page, VisualElement contentContainer)
+        {
+            var container = new VisualElement
+            {
+                name = $"{GetPageName(page)}Content",
+            };
+            container.AddToClassList(TabContentClassName);
+            contentContainer.Add(container);
+            return container;
+        }
+        
         private void OpenTab(string tabName)
         {
             _tabContent.ForEach(page =>
