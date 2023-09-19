@@ -20,7 +20,7 @@ namespace Editor.CoreAPI
         public string SelectedProfile
         {
             get => _selectedProfile;
-            private set => SetupWrapper(value);
+            private set => SetProfile(value);
         }
 
         public StateManager(CoreApi coreApi)
@@ -31,11 +31,11 @@ namespace Editor.CoreAPI
             var profileResult = coreApi.GetSetting(SettingsKeys.CurrentProfileName);
             if (profileResult.Success && !String.IsNullOrWhiteSpace(profileResult.Value))
             {
-                SetupWrapper(profileResult.Value);
+                SetProfile(profileResult.Value);
             }
         }
 
-        private void SetupWrapper(string profileName)
+        private void SetProfile(string profileName)
         {
             _selectedProfile = profileName;
             GameLiftWrapper = AmazonGameLiftClientFactory.Get(SelectedProfile);
