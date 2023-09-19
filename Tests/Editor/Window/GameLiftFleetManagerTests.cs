@@ -13,7 +13,7 @@ using Editor.CoreAPI;
 namespace AmazonGameLiftPlugin.Editor.UnitTests
 {
     [TestFixture]
-    public class GameLiftRequestAdapterTests
+    public class GameLiftFleetManagerTests
     {
         private Mock<IAmazonGameLiftClientWrapper> _gameLiftWrapperMock;
         private Mock<IAwsCredentialsFactory> _awsCredentialsFactoryMock;
