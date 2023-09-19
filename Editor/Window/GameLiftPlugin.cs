@@ -4,7 +4,6 @@
 using System;
 using System.Collections.Generic;
 using AmazonGameLift.Editor;
-using Editor.CoreAPI;
 using Editor.Resources.EditorWindow;
 using UnityEditor;
 using UnityEngine;
@@ -12,7 +11,7 @@ using UnityEngine.UIElements;
 
 namespace Editor.Window
 {
-    public class GameLiftPlugin : EditorWindow
+    public class GameLiftPlugin : UnityEditor.EditorWindow
     {
         [SerializeField] private Texture _icon;
 
@@ -21,44 +20,12 @@ namespace Editor.Window
         private VisualElement _currentTab;
         private List<Button> _tabButtons;
         private List<VisualElement> _tabContent;
-        private VisualElement _tabContentContainer;
-        
-        private readonly StateManager _stateManager;
 
-        public readonly AwsCredentialsCreation CreationModel;
-        public readonly AwsCredentialsUpdate UpdateModel;
-        
-        private const string MainContentClassName = "main__content";
         private const string TabContentSelectedClassName = "tab__content--selected";
         private const string TabButtonSelectedClassName = "tab__button--selected";
         private const string TabButtonClassName = "tab__button";
         private const string TabContentClassName = "tab__content";
 
-        public GameLiftPlugin(IAwsCredentialsFactory awsCredentialsFactory, IAmazonGameLiftClientFactory amazonGameLiftClientFactory)
-        {
-            _stateManager = new StateManager
-            {
-                CoreApi = CoreApi.SharedInstance,
-                AmazonGameLiftClientFactory = amazonGameLiftClientFactory
-            };
-
-            var awsCredentials = awsCredentialsFactory.Create();
-            CreationModel = awsCredentials.Creation;
-            UpdateModel = awsCredentials.Update;
-        }
-        
-        private GameLiftPlugin()
-        {
-            _stateManager = new StateManager
-            {
-                CoreApi = CoreApi.SharedInstance
-            };
-            
-            var awsCredentials = AwsCredentialsFactory.Create();
-            CreationModel = awsCredentials.Creation;
-            UpdateModel = awsCredentials.Update;
-        }
-        
         private static GameLiftPlugin GetWindow()
         {
             var inspectorType = Type.GetType("UnityEditor.GameView,UnityEditor.dll");
@@ -135,12 +102,6 @@ namespace Editor.Window
             _root.Add(uxml);
 
             ApplyText();
-            
-            _stateManager.SetupClientFactory();
-            _stateManager.SetupWrapper();
-
-            _tabContentContainer = _root.Q(className: MainContentClassName);
-            //var anywherePage = new AnywherePage(SetupTab(Pages.Anywhere), _stateManager);
 
             _tabButtons = _root.Query<Button>(className: TabButtonClassName).ToList();
             _tabContent = _root.Query(className: TabContentClassName).ToList();
@@ -156,17 +117,6 @@ namespace Editor.Window
             l.SetElementText(Pages.Anywhere, Strings.TabAnywhere);
             l.SetElementText(Pages.ManagedEC2, Strings.TabManagedEC2);
             l.SetElementText(Pages.Help, Strings.TabHelp);
-        }
-        
-        private VisualElement SetupTab(string tabName)
-        {
-            var container = new VisualElement
-            {
-                name = $"{tabName}Content",
-            };
-            container.AddToClassList(TabContentClassName);
-            _tabContentContainer.Add(container);
-            return container;
         }
 
         private void OpenTab(string tabName)

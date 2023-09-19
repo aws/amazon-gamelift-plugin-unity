@@ -8,9 +8,6 @@ using Amazon.GameLift.Model;
 
 namespace AmazonGameLiftPlugin.Core.ApiGatewayManagement
 {
-
-
-
     public class AmazonGameLiftWrapper : IAmazonGameLiftClientWrapper
     {
         private readonly IAmazonGameLift _amazonGameLiftClient;
@@ -19,7 +16,6 @@ namespace AmazonGameLiftPlugin.Core.ApiGatewayManagement
         {
             _amazonGameLiftClient = amazonGameLiftClient;
         }
-        
         /// <summary>
         /// Client region is code dedicated to Amazon GameLift SDK calls made by the game client. 
         /// </summary>
@@ -45,26 +41,6 @@ namespace AmazonGameLiftPlugin.Core.ApiGatewayManagement
         public async Task<DescribeGameSessionsResponse> DescribeGameSessions(DescribeGameSessionsRequest request)
         {
             return await _amazonGameLiftClient.DescribeGameSessionsAsync(request);
-        }
-        
-        public async Task<ListFleetsResponse> ListFleets(ListFleetsRequest request)
-        {
-            return await _amazonGameLiftClient.ListFleetsAsync(request);
-        }
-        
-        public async Task<DescribeFleetAttributesResponse> DescribeFleets(DescribeFleetAttributesRequest request)
-        {
-            return await _amazonGameLiftClient.DescribeFleetAttributesAsync(request);
-        }
-        
-        public async Task<DeregisterComputeResponse> DeregisterCompute(DeregisterComputeRequest request)
-        {
-            return await _amazonGameLiftClient.DeregisterComputeAsync(request);
-        }
-        
-        public async Task<DescribeComputeResponse> DescribeCompute(DescribeComputeRequest request)
-        {
-            return await _amazonGameLiftClient.DescribeComputeAsync(request);
         }
         #endregion
         /// <summary>
