@@ -1,7 +1,7 @@
 ﻿using System;
 using AmazonGameLiftPlugin.Core.Shared;
 
-namespace Editor.Window.Models
+namespace Editor.CoreAPI.Models
 {
     public class GenericResponse : Response
     {
