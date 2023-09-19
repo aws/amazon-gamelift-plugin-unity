@@ -3,10 +3,8 @@
 
 using System;
 using System.Collections.Generic;
-using Amazon.GameLift;
 using AmazonGameLift.Editor;
 using AmazonGameLiftPlugin.Core.ApiGatewayManagement;
-using Editor.GameLiftConfigurationUI;
 using Editor.Resources.EditorWindow;
 using Editor.Resources.EditorWindow.Pages;
 using UnityEngine;
@@ -30,8 +28,6 @@ namespace Editor.Window
         public AmazonGameLiftWrapper GameLiftWrapper;
         public State CurrentState;
         public readonly CoreApi CoreApi;
-        public readonly AwsCredentialsCreation CreationModel;
-        public readonly AwsCredentialsUpdate UpdateModel;
 
         private const string MainContentClassName = "main__content";
         private const string TabContentSelectedClassName = "tab__content--selected";
@@ -42,10 +38,6 @@ namespace Editor.Window
         private GameLiftPlugin()
         {
             CoreApi = CoreApi.SharedInstance;
-            var awsCredentials = AwsCredentialsFactory.Create();
-            CreationModel = awsCredentials.Creation;
-            UpdateModel = awsCredentials.Update;
-            
         }
 
         private void CreateGUI()
@@ -120,33 +112,7 @@ namespace Editor.Window
                 }
             });
         }
-        
-        public void RefreshProfiles()
-        {
-            UpdateModel.Refresh();
-            CurrentState.AllProfiles = UpdateModel.AllProlfileNames;
-        }
-        
-        public void SetupWrapper()
-        {
-            var credentials = CoreApi.RetrieveAwsCredentials(CurrentState.SelectedProfile);
-            var client = new AmazonGameLiftClient(credentials.AccessKey, credentials.SecretKey);
-            GameLiftWrapper = new AmazonGameLiftWrapper(client);
-        }
-        
-        public void OpenS3Popup(string bucketName)
-        {
-            var popup = CreateInstance<GameLiftPluginBucketPopup>();
-            popup.Init(bucketName);
-            popup.OnConfirm += BootstrapAccount;
-            popup.ShowModalUtility();
-        }
-        
-        private void BootstrapAccount (string bucketName)
-        {
-            _userProfilesPage.BootstrapAccount(bucketName);
-        }
-        
+
         private static string GetPageName(Pages page) => Enum.GetName(typeof(Pages), page);
 
         internal enum Pages

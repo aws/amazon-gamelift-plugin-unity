@@ -3,10 +3,9 @@
 
 using System.Collections.Generic;
 using System.Linq;
-using System.Threading;
-using System.Threading.Tasks;
+using Amazon.GameLift;
 using AmazonGameLift.Editor;
-using AmazonGameLiftPlugin.Core.Shared;
+using AmazonGameLiftPlugin.Core.ApiGatewayManagement;
 using Editor.GameLiftConfigurationUI;
 using Editor.Window;
 using UnityEngine;
@@ -16,14 +15,27 @@ namespace Editor.Resources.EditorWindow.Pages
 {
     public class AwsUserProfilesPage
     {
-        private List<TextField> _accountDetailTextFields = new();
+        public List<TextField> AccountDetailTextFields = new();
+        
+        public readonly AwsCredentialsUpdate UpdateModel;
+        public readonly AwsCredentialsCreation CreationModel;
+        public readonly BootstrapSettings BootstrapSettings;
+        public readonly UserProfileSelection UserProfileSelection;
+        
+        private VisualElement _currentElement;
+        
         private readonly GameLiftPlugin _gameLiftConfig;
         private readonly VisualElement _container;
-
-        private VisualElement _currentElement;
+        private readonly UserProfileCreation _userProfileCreation;
 
         public AwsUserProfilesPage(VisualElement container, GameLiftPlugin gameLiftConfig)
         {
+            
+            var awsCredentials = AwsCredentialsFactory.Create();
+            CreationModel = awsCredentials.Creation;
+            UpdateModel = awsCredentials.Update;
+            
+            
             _container = container;
             var mVisualTreeAsset = UnityEngine.Resources.Load<VisualTreeAsset>("EditorWindow/Pages/AwsUserProfilesPage");
             var uxml = mVisualTreeAsset.Instantiate();
@@ -32,10 +44,15 @@ namespace Editor.Resources.EditorWindow.Pages
             ApplyText();
 
             _gameLiftConfig = gameLiftConfig;
+            
+            _userProfileCreation = new UserProfileCreation(_container, _gameLiftConfig, this);
+            BootstrapSettings = _userProfileCreation.SetupBootstrap();
+            UserProfileSelection = new UserProfileSelection(_container, _gameLiftConfig, this);
+            
             SetupConfigSettings();
-            SetupBootstrap();
+            RefreshProfiles();
+            
             SetupTab();
-            SetUpForSelectedMode();
             SetupButtonCallbacks();
         }
         
@@ -45,43 +62,41 @@ namespace Editor.Resources.EditorWindow.Pages
             l.SetElementText("UserProfilePageAccountCardNewAccountTitle", Strings.UserProfilePageAccountCardNewAccountTitle);
             l.SetElementText("UserProfilePageAccountCardNewAccountDescription", Strings.UserProfilePageAccountCardNewAccountDescription);
             l.SetElementText("UserProfilePageAccountCardNoAccountTitle", Strings.UserProfilePageAccountCardNoAccountTitle);
-            l.SetElementText("LabelAccountCardNoAccountDescription", Strings.UserProfilePageAccountCardNoAccountDescription);
-            l.SetElementText("LabelAccountHasAccountTitle", Strings.UserProfilePageAccountCardNewAccountTitle);
-            l.SetElementText("LabelAccountHasAccountDescription", Strings.UserProfilePageAccountCardNewAccountDescription);
-            l.SetElementText("LabelAccountNewProfileTitle", Strings.UserProfilePageAccountNewProfileTitle);
-            l.SetElementText("LabelAccountNewProfileName", Strings.UserProfilePageAccountNewProfileName);
-            l.SetElementText("LabelAccountNewProfileAccessKey", Strings.UserProfilePageAccountNewProfileAccessKey);
-            l.SetElementText("LabelAccountNewProfileSecretKey", Strings.UserProfilePageAccountNewProfileSecretKey);
-            l.SetElementText("LabelAccountNewProfileRegion", Strings.UserProfilePageAccountNewProfileRegion);
-            l.SetElementText("DropdownAccountNewProfileRegionPlaceholder", Strings.UserProfilePageAccountNewProfileRegionPlaceholderDropdown);
-            l.SetElementText("LinkAccountCardNoAccountDescription", Strings.UserProfilePageAccountCardNoAccountLink);
-            l.SetElementText("LinkAccountNewProfileHelp", Strings.UserProfilePageAccountNewProfileHelpLink);
-            l.SetElementText("ButtonAccountCardNoAccount", Strings.UserProfilePageAccountCardNoAccountButton);
-            l.SetElementText("ButtonAccountCardHasAccount", Strings.UserProfilePageAccountCardHasAccountButton);
-            l.SetElementText("ButtonAccountNewProfileCreate", Strings.UserProfilePageAccountNewProfileCreateButton);
-            l.SetElementText("ButtonAccountNewProfileCancel", Strings.UserProfilePageAccountNewProfileCancelButton);
-            l.SetElementText("LabelBootstrapTitle", Strings.UserProfilePageBootstrapTitle);
-            l.SetElementText("LabelBootstrapDescription", Strings.UserProfilePageBootstrapDescription);
-            l.SetElementText("LabelBootstrapPricing", Strings.UserProfilePageBootstrapPricingText);
-            l.SetElementText("LabelBootstrapProfileInput", Strings.UserProfilePageBootstrapProfileInputText);
-            l.SetElementText("LabelBootstrapBucket", Strings.UserProfilePageBootstrapBucketText);
-            l.SetElementText("LabelBootstrapBucketUnset", Strings.UserProfilePageBootstrapBucketUnsetText);
+            l.SetElementText("UserProfilePageAccountCardNoAccountDescription", Strings.UserProfilePageAccountCardNoAccountDescription);
+            l.SetElementText("UserProfilePageAccountCardNewAccountTitle", Strings.UserProfilePageAccountCardNewAccountTitle);
+            l.SetElementText("UserProfilePageAccountCardNewAccountDescription", Strings.UserProfilePageAccountCardNewAccountDescription);
+            l.SetElementText("UserProfilePageAccountNewProfileTitle", Strings.UserProfilePageAccountNewProfileTitle);
+            l.SetElementText("UserProfilePageAccountNewProfileName", Strings.UserProfilePageAccountNewProfileName);
+            l.SetElementText("UserProfilePageAccountNewProfileAccessKey", Strings.UserProfilePageAccountNewProfileAccessKey);
+            l.SetElementText("UserProfilePageAccountNewProfileSecretKey", Strings.UserProfilePageAccountNewProfileSecretKey);
+            l.SetElementText("UserProfilePageAccountNewProfileRegion", Strings.UserProfilePageAccountNewProfileRegion);
+            l.SetElementText("UserProfilePageAccountNewProfileRegionPlaceholderDropdown", Strings.UserProfilePageAccountNewProfileRegionPlaceholderDropdown);
+            l.SetElementText("UserProfilePageAccountCardNoAccountLink", Strings.UserProfilePageAccountCardNoAccountLink);
+            l.SetElementText("UserProfilePageAccountNewProfileHelpLink", Strings.UserProfilePageAccountNewProfileHelpLink);
+            l.SetElementText("UserProfilePageAccountCardNoAccountButton", Strings.UserProfilePageAccountCardNoAccountButton);
+            l.SetElementText("UserProfilePageAccountCardHasAccountButton", Strings.UserProfilePageAccountCardHasAccountButton);
+            l.SetElementText("UserProfilePageAccountNewProfileCreateButton", Strings.UserProfilePageAccountNewProfileCreateButton);
+            l.SetElementText("UserProfilePageAccountNewProfileCancelButton", Strings.UserProfilePageAccountNewProfileCancelButton);
+            l.SetElementText("UserProfilePageBootstrapTitle", Strings.UserProfilePageBootstrapTitle);
+            l.SetElementText("UserProfilePageBootstrapDescription", Strings.UserProfilePageBootstrapDescription);
+            l.SetElementText("UserProfilePageBootstrapPricingText", Strings.UserProfilePageBootstrapPricingText);
+            l.SetElementText("UserProfilePageBootstrapProfileInputText", Strings.UserProfilePageBootstrapProfileInputText);
+            l.SetElementText("UserProfilePageBootstrapBucketText", Strings.UserProfilePageBootstrapBucketText);
+            l.SetElementText("UserProfilePageBootstrapBucketUnsetText", Strings.UserProfilePageBootstrapBucketUnsetText);
             l.SetElementText("LabelBootstrapRegion", Strings.LabelBootstrapRegion);
-            l.SetElementText("LabelBootstrapStatus", Strings.UserProfilePageBootstrapStatusText);
-            l.SetElementText("LabelBootstrapWarning", Strings.UserProfilePageBootstrapWarningText);
-            l.SetElementText("LabelBootstrapProfilePlaceholder", Strings.UserProfilePageBootstrapProfilePlaceholderText);
-            l.SetElementText("LabelBootstrapPricingInfo", Strings.UserProfilePageBootstrapPricingInfoText);
-            l.SetElementText("LabelBootstrapPricingFreeTier", Strings.UserProfilePageBootstrapPricingFreeTierText);
-            l.SetElementText("LinkBootstrapHelp", Strings.UserProfilePageBootstrapHelpLink);
-            l.SetElementText("ButtonBootstrapStart", Strings.UserProfilePageBootstrapStartButton);
-            l.SetElementText("ButtonBootstrapAnotherProfile", Strings.UserProfilePageBootstrapAnotherProfileButton);
-            l.SetElementText("ButtonBootstrapAnotherBucket", Strings.UserProfilePageBootstrapAnotherBucketButton);
+            l.SetElementText("UserProfilePageBootstrapStatusText", Strings.UserProfilePageBootstrapStatusText);
+            l.SetElementText("UserProfilePageBootstrapWarningText", Strings.UserProfilePageBootstrapWarningText);
+            l.SetElementText("UserProfilePageBootstrapProfilePlaceholderText", Strings.UserProfilePageBootstrapProfilePlaceholderText);
+            l.SetElementText("UserProfilePageBootstrapPricingInfoText", Strings.UserProfilePageBootstrapPricingInfoText);
+            l.SetElementText("UserProfilePageBootstrapPricingFreeTierText", Strings.UserProfilePageBootstrapPricingFreeTierText);
+            l.SetElementText("UserProfilePageBootstrapHelpLink", Strings.UserProfilePageBootstrapHelpLink);
+            l.SetElementText("UserProfilePageBootstrapStartButton", Strings.UserProfilePageBootstrapStartButton);
+            l.SetElementText("UserProfilePageBootstrapAnotherProfileButton", Strings.UserProfilePageBootstrapAnotherProfileButton);
+            l.SetElementText("UserProfilePageBootstrapAnotherBucketButton", Strings.UserProfilePageBootstrapAnotherBucketButton);
         }
 
         private void SetupButtonCallbacks()
         {
-            // _container.Q<Button>("LabelAccountCardNoAccountDescriptionLink").RegisterCallback<ClickEvent>(_ => OpenLink(""));
-            // _container.Q<Button>("LabelAccountNewProfileHelpLink").RegisterCallback<ClickEvent>(_ => OpenLink(""));
             _container.Q<Button>("ButtonAccountCardNoAccount").RegisterCallback<ClickEvent>(_ => OpenLink(""));
             _container.Q<Button>("ButtonBootstrapAddAnotherProfile").RegisterCallback<ClickEvent>(_ =>
             {
@@ -106,8 +121,8 @@ namespace Editor.Resources.EditorWindow.Pages
             });
             _container.Q<Button>("BootstrapProfile").RegisterCallback<ClickEvent>(_ =>
             {
-                _bootstrapSettings.RefreshBucketName();
-                _gameLiftConfig.OpenS3Popup(_bootstrapSettings.BucketName);
+                BootstrapSettings.RefreshBucketName();
+                OpenS3Popup(BootstrapSettings.BucketName);
             });
             _container.Q<Button>("AddProfile").RegisterCallback<ClickEvent>(_ =>
             {
@@ -138,8 +153,9 @@ namespace Editor.Resources.EditorWindow.Pages
         {
             var dropdownField = _container.Q<DropdownField>(null, "AccountDetailsInput");
             dropdownField.index = 0;
-            AccountSelection(true);
+            UserProfileSelection.AccountSelection(true);
             SetupBootMenu();
+            
         }
 
         private void SetupConfigSettings()
@@ -196,158 +212,36 @@ namespace Editor.Resources.EditorWindow.Pages
 
         private bool SaveProfile()
         {
-            _accountDetailTextFields = _container.Query<TextField>(null, "AccountDetailsInput").ToList();
-            var dropdownField = _container.Q<DropdownField>(null, "AccountDetailsInput");
-
-            var credentials = _accountDetailTextFields.Select(textField => textField.value).ToList();
-
-            if (credentials.Any(credential => credential == ""))
+            if (!_userProfileCreation.CreateModel())
             {
                 return false;
             }
-
-            _gameLiftConfig.CreationModel.ProfileName = credentials[0];
-            _gameLiftConfig.CreationModel.AccessKeyId = credentials[1];
-            _gameLiftConfig.CreationModel.SecretKey = credentials[2];
-            _gameLiftConfig.CreationModel.RegionBootstrap.RegionIndex = dropdownField.index;
-            _gameLiftConfig.CreationModel.Create();
-            AccountSelection(false);
+            UserProfileSelection.AccountSelection(false);
             Debug.Log("Saving Profile");
             return true;
         }
 
         private void ClearCredentials()
         {
-            _accountDetailTextFields = _container.Query<TextField>(null, "AccountDetailsInput").ToList();
-            foreach (var textField in _accountDetailTextFields)
+            AccountDetailTextFields = _container.Query<TextField>(null, "AccountDetailsInput").ToList();
+            foreach (var textField in AccountDetailTextFields)
             {
                 textField.value = "";
             }
-        }
-
-        private void AccountSelection(bool isSetup)
-        {
-            _gameLiftConfig.RefreshProfiles();
-            var accountSelectFields = _container.Query<DropdownField>(null, "AccountSelection").ToList();
-            foreach (var accountSelect in accountSelectFields)
-            {
-                if (isSetup)
-                {
-                    accountSelect.RegisterValueChangedCallback(_ => { OnAccountSelect(accountSelect.index); });
-                }
-
-                accountSelect.choices = _gameLiftConfig.CurrentState.AllProfiles.ToList();
-                if (accountSelect.choices.Contains("default"))
-                {
-                    accountSelect.index = accountSelect.choices.IndexOf(_gameLiftConfig.CurrentState.SelectedProfile is "default" or null ? "default" : _gameLiftConfig.CurrentState.SelectedProfile);
-                }
-            }
-        }
-
-        private void OnAccountSelect(int index)
-        {
-            var accountSelectLabels = _container.Query<Label>(null, "AccountSelectLabel").ToList();
-            BucketSelection();
-            foreach (var label in accountSelectLabels)
-            {
-                switch (label.name)
-                {
-                    case "S3BucketNameLabel":
-                        label.text = _bootstrapSettings.BucketName ?? "No Bucket Created";
-                        break;
-                    case "Region":
-                        if (_gameLiftConfig.UpdateModel.RegionBootstrap.RegionIndex >= 0)
-                        {
-                            label.text =
-                                _gameLiftConfig.UpdateModel.RegionBootstrap.AllRegions[
-                                    _gameLiftConfig.UpdateModel.RegionBootstrap.RegionIndex];
-                        }
-                        break;
-                    case "BootstrapStatus":
-                        label.text = _bootstrapSettings.BucketName != null ? "Active" : "Inactive";
-                        break;
-                }
-            }
-
-            UpdateModel(index);
-        }
-
-        private void UpdateModel(int index)
-        {
-            _gameLiftConfig.UpdateModel.SelectedProfileIndex = index;
-            _gameLiftConfig.SetupWrapper();
-            _gameLiftConfig.UpdateModel.Update();
-            _gameLiftConfig.CurrentState.SelectedProfile = _gameLiftConfig.UpdateModel.AllProlfileNames[index];
-            _gameLiftConfig.CoreApi.PutSetting(SettingsKeys.CurrentProfileName,
-                _gameLiftConfig.CurrentState.SelectedProfile);
         }
 
         private void ToggleHiddenText(TextField hiddenField)
         {
             hiddenField.isPasswordField = !hiddenField.isPasswordField;
         }
-
-        private CancellationTokenSource _refreshBucketsCancellation;
-        private BootstrapSettings _bootstrapSettings;
-
-        public void BootstrapAccount(string bucketName)
+        
+        public void SetupWrapper()
         {
-            var bucketResponse = CreateBucket(bucketName);
-            if (bucketResponse.Success)
-            {
-                _container.Q<VisualElement>(null, "Tab2Success").style.display = DisplayStyle.Flex;
-                _gameLiftConfig.CurrentState.SelectedBootstrapped = true;
-                BucketSelection(bucketName);
-            }
-            else
-            {
-                _gameLiftConfig.CurrentState.SelectedBootstrapped = false;
-                var errorBox = _container.Q<VisualElement>("Tab2Error");
-                errorBox.style.display = DisplayStyle.Flex;
-                errorBox.Q<Label>().text = bucketResponse.ErrorMessage;
-                Debug.Log(bucketResponse.ErrorMessage);
-            }
+            var credentials = _gameLiftConfig.CoreApi.RetrieveAwsCredentials(_gameLiftConfig.CurrentState.SelectedProfile);
+            var client = new AmazonGameLiftClient(credentials.AccessKey, credentials.SecretKey);
+            _gameLiftConfig.GameLiftWrapper = new AmazonGameLiftWrapper(client);
         }
-
-        private void SetupBootstrap()
-        {
-            _bootstrapSettings = BootstrapSettingsFactory.Create();
-            _refreshBucketsCancellation = new CancellationTokenSource();
-            _bootstrapSettings.SetUp(_refreshBucketsCancellation.Token)
-                .ContinueWith(_ => { _bootstrapSettings.RefreshCurrentBucket(); },
-                    TaskContinuationOptions.ExecuteSynchronously);
-        }
-
-        private void SetUpForSelectedMode()
-        {
-            _bootstrapSettings.RefreshCurrentBucket();
-        }
-
-        private Response CreateBucket(string bucketName)
-        {
-            _refreshBucketsCancellation?.Cancel();
-            _bootstrapSettings.BucketName = bucketName;
-            _bootstrapSettings.LifeCyclePolicyIndex = 0;
-            return _bootstrapSettings.CreateBucket();
-        }
-
-        private void BucketSelection()
-        {
-            _refreshBucketsCancellation = new CancellationTokenSource();
-            _ = _bootstrapSettings.RefreshExistingBuckets(_refreshBucketsCancellation.Token);
-            if (_bootstrapSettings.BucketName != null)
-            {
-                BucketSelection(_bootstrapSettings.BucketName);
-                _bootstrapSettings.SaveSelectedBucket();
-            }
-        }
-
-        private void BucketSelection(string selectedBucket)
-        {
-            _bootstrapSettings.SelectBucket(selectedBucket);
-            _bootstrapSettings.SaveSelectedBucket();
-            _container.Q<Label>("S3BucketNameLabel").text = selectedBucket;
-        }
+        
 
         private void ChangeWizard(VisualElement targetWizard)
         {
@@ -361,6 +255,25 @@ namespace Editor.Resources.EditorWindow.Pages
             {
                 _currentElement.style.display = DisplayStyle.Flex;
             }
+        }
+        
+        public void RefreshProfiles()
+        {
+            UpdateModel.Refresh();
+            _gameLiftConfig.CurrentState.AllProfiles = UpdateModel.AllProlfileNames;
+        }
+        
+        private void BootstrapAccount (string bucketName)
+        { 
+            _userProfileCreation.BootstrapAccount(bucketName);
+        }
+        
+        public void OpenS3Popup(string bucketName)
+        {
+            var popup = ScriptableObject.CreateInstance<GameLiftPluginBucketPopup>();
+            popup.Init(bucketName);
+            popup.OnConfirm += BootstrapAccount;
+            popup.ShowModalUtility();
         }
     }
 }

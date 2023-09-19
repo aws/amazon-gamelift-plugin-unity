@@ -103,7 +103,7 @@
         <ui:GroupBox name="CompletedProfile" class="Tab2" style="display: none; padding-right: 24px; padding-top: 0; margin-top: 0; width: 100%;">
             <ui:GroupBox name="AWSAccountProfile" style="flex-direction: row; height: 20px; margin-bottom: 3px; padding-top: 0; padding-bottom: 0;">
                 <ui:Label tabindex="-1" text="AWS Account Profile" display-tooltip-when-elided="true" style="width: 30%; margin-top: 4px; color: rgb(196, 196, 196);" />
-                <ui:DropdownField index="-1" choices="default" name="DropdownField" tabindex="1" style="width: 70%; height: 21px;" />
+                <ui:DropdownField index="-1" choices="default" name="AccountProfileDropdown" tabindex="1" style="width: 70%; height: 21px;" class="AccountProfileDropdown" />
             </ui:GroupBox>
             <ui:GroupBox name="S3Bucket" style="height: 20px; flex-direction: row; -unity-text-align: middle-left; margin-top: 3px; padding-top: 0; margin-bottom: 3px;">
                 <ui:Label tabindex="-1" text="S3 Bucket Name" display-tooltip-when-elided="true" name="Label" style="width: 30%; margin-top: 4px; color: rgb(196, 196, 196);" />

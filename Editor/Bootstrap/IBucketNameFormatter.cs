@@ -3,7 +3,7 @@
 
 namespace AmazonGameLift.Editor
 {
-    internal interface IBucketNameFormatter
+    public interface IBucketNameFormatter
     {
         /// <exception cref="ArgumentNullException">For all arguments.</exception>
         string FormatBucketName(string accountId, string region);
