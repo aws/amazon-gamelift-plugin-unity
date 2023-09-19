@@ -9,20 +9,23 @@ using UnityEngine.UIElements;
 namespace GameLiftPlugin.UI.Components
 {
     public class InfoLinks : VisualElement
-    {        public new class UxmlFactory : UxmlFactory<InfoLinks> { }
-
+    {
+        public new class UxmlFactory : UxmlFactory<InfoLinks> { }
         
         public InfoLinks()
         {
             var asset = Resources.Load<VisualTreeAsset>("EditorWindow/Components/InfoLinks");
             asset.CloneTree(this);
-            
+
             LocalizeText();
-            
-            this.Q<Label>("InfoLinkDocumentationLink").RegisterCallback<ClickEvent>(_ => OnLinkClicked(Urls.AwsHelpGameLiftUnity));
+
+            this.Q<Label>("InfoLinkDocumentationLink")
+                .RegisterCallback<ClickEvent>(_ => OnLinkClicked(Urls.AwsHelpGameLiftUnity));
             this.Q<Label>("InfoLinkForumLink").RegisterCallback<ClickEvent>(_ => OnLinkClicked(Urls.AwsGameTechForums));
-            this.Q<Label>("InfoLinkTroubleshootingLink").RegisterCallback<ClickEvent>(_ => OnLinkClicked("")); // TODO: Get correct action
-            this.Q<Label>("InfoLinkReportIssuesLink").RegisterCallback<ClickEvent>(_ => OnLinkClicked(Urls.GitHubAwsLabs));
+            this.Q<Label>("InfoLinkTroubleshootingLink")
+                .RegisterCallback<ClickEvent>(_ => OnLinkClicked("")); // TODO: Get correct action
+            this.Q<Label>("InfoLinkReportIssuesLink")
+                .RegisterCallback<ClickEvent>(_ => OnLinkClicked(Urls.GitHubAwsLabs));
         }
 
         private void OnLinkClicked(string url)
@@ -37,6 +40,6 @@ namespace GameLiftPlugin.UI.Components
             l.SetElementText("InfoLinkForumLink", Strings.InfoLinkForumLink);
             l.SetElementText("InfoLinkTroubleshootingLink", Strings.InfoLinkTroubleshootingLink);
             l.SetElementText("InfoLinkReportIssuesLink", Strings.InfoLinkReportIssuesLink);
-        }     
+        }
     }
 }

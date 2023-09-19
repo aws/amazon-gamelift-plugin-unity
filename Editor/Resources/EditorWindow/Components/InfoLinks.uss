@@ -1,0 +1,14 @@
+﻿/* Copyright Amazon.com, Inc. or its affiliates. All Rights Reserved. */
+/* SPDX-License-Identifier: Apache-2.0 */
+
+:root {
+    color: #4C7EFF;
+}
+
+.link-divider {
+    background-color: rgba(255, 255, 255, 0.2);
+    width: 1px;
+    flex: 0 0 auto;
+    align-self: stretch;
+}
+

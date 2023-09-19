@@ -5,11 +5,11 @@
     <ui:Style src="./InfoLinks.uss"/>
     <ui:VisualElement class="separator separator--horizontal separator--small">
         <ui:Label name="InfoLinkDocumentationLink" class=""/>
-        <ui:VisualElement class=""/>
+        <ui:VisualElement class="link-divider"/>
         <ui:Label name="InfoLinkForumLink" class=""/>
-        <ui:VisualElement class=""/>
+        <ui:VisualElement class="link-divider"/>
         <ui:Label name="InfoLinkTroubleshootingLink" class=""/>
-        <ui:VisualElement class=""/>
+        <ui:VisualElement class="link-divider"/>
         <ui:Label name="InfoLinkReportIssuesLink" class=""/>
     </ui:VisualElement>
 </ui:UXML>
