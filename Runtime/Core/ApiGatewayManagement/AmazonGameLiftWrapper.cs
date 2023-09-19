@@ -8,9 +8,6 @@ using Amazon.GameLift.Model;
 
 namespace AmazonGameLiftPlugin.Core.ApiGatewayManagement
 {
-
-
-
     public class AmazonGameLiftWrapper : IAmazonGameLiftClientWrapper
     {
         private readonly IAmazonGameLift _amazonGameLiftClient;
@@ -19,7 +16,6 @@ namespace AmazonGameLiftPlugin.Core.ApiGatewayManagement
         {
             _amazonGameLiftClient = amazonGameLiftClient;
         }
-        
         /// <summary>
         /// Client region is code dedicated to Amazon GameLift SDK calls made by the game client. 
         /// </summary>
