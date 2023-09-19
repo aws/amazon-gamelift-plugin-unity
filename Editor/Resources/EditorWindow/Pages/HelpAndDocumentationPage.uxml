@@ -2,6 +2,7 @@
 <!-- SPDX-License-Identifier: Apache-2.0 -->
 
 <ui:UXML xmlns:ui="UnityEngine.UIElements">
+    <ui:Style src="./HelpAndDocumentationPage.uss"/>
     <ui:VisualElement class="separator separator--large">
         <ui:VisualElement class="separator">
             <ui:Label name="HelpPageTitle" class="page__title" text="Help &amp; Documentation"/>
@@ -27,21 +28,19 @@
             </ui:VisualElement>
         </ui:VisualElement>
         <ui:VisualElement>
-            <ui:VisualElement>
-                <ui:Label name="HelpPageEstimatingPriceTitle" class="page__subtitle" text="Estimating Price"/>
-                <ui:Label name="HelpPageEstimatingPriceDescription" text="With AWS Pricing Calculator, you can create a pricing estimate for Amazon GameLift. You don&apos;t need an AWS account or in-depth knowledge of AWS to use the calculator."/>
-                <ui:Label name="HelpPageEstimatingPriceLink" class="external-link" text="Learn More \uf08e"/>
-            </ui:VisualElement>
-            <ui:VisualElement>
-                <ui:Label name="HelpPageFleetIQTitle" text="Amazon GameLift FleetIQ"/>
-                <ui:Label name="HelpPageFleetIQDescription" text="Amazon GameLift FleetIQ optimizes the use of low-cost Amazon EC2 Spot Instances for cloud-based game hosting.&#10;With Amazon GameLift FleetIQ, you can work directly with your hosting resources in Amazon EC2 and Amazon EC2 Auto Scaling while taking advantage of Amazon GameLift optimizations to deliver inexpensive, resilient game hosting for your players."/>
-                <ui:Label name="HelpPageFleetIQLink" class="external-link" text="Learn More  \uf08e"/>
-            </ui:VisualElement>
-            <ui:VisualElement>
-                <ui:Label name="HelpPageFlexMatchTitle" text="Amazon GameLift FlexMatch"/>
-                <ui:Label name="HelpPageFlexMatchDescription" text="Amazon GameLift FlexMatch is a customizable matchmaking service for multiplayer games.&#10;With FlexMatch, you can build a custom set of rules that defines what a multiplayer match looks like for your game, and determines how to evaluate and select compatible players for each match."/>
-                <ui:Label name="HelpPageFlexMatchLink" class="external-link" text="Learn More  \uf08e"/>
-            </ui:VisualElement>
+            <ui:Label name="HelpPageEstimatingPriceTitle" class="page__subtitle" text="Estimating Price"/>
+            <ui:Label name="HelpPageEstimatingPriceDescription" text="With AWS Pricing Calculator, you can create a pricing estimate for Amazon GameLift. You don&apos;t need an AWS account or in-depth knowledge of AWS to use the calculator."/>
+            <ui:Label name="HelpPageEstimatingPriceLink" class="external-link" text="Learn More \uf08e"/>
+        </ui:VisualElement>
+        <ui:VisualElement>
+            <ui:Label name="HelpPageFleetIQTitle" class="page__subtitle" text="Amazon GameLift FleetIQ"/>
+            <ui:Label name="HelpPageFleetIQDescription" text="Amazon GameLift FleetIQ optimizes the use of low-cost Amazon EC2 Spot Instances for cloud-based game hosting.&#10;With Amazon GameLift FleetIQ, you can work directly with your hosting resources in Amazon EC2 and Amazon EC2 Auto Scaling while taking advantage of Amazon GameLift optimizations to deliver inexpensive, resilient game hosting for your players."/>
+            <ui:Label name="HelpPageFleetIQLink" class="external-link" text="Learn More  \uf08e"/>
+        </ui:VisualElement>
+        <ui:VisualElement>
+            <ui:Label name="HelpPageFlexMatchTitle" class="page__subtitle" text="Amazon GameLift FlexMatch"/>
+            <ui:Label name="HelpPageFlexMatchDescription" text="Amazon GameLift FlexMatch is a customizable matchmaking service for multiplayer games.&#10;With FlexMatch, you can build a custom set of rules that defines what a multiplayer match looks like for your game, and determines how to evaluate and select compatible players for each match."/>
+            <ui:Label name="HelpPageFlexMatchLink" class="external-link" text="Learn More  \uf08e"/>
         </ui:VisualElement>
     </ui:VisualElement>
 </ui:UXML>
