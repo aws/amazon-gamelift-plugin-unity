@@ -6,7 +6,7 @@ using Moq;
 
 namespace AmazonGameLiftPlugin.Editor.UnitTests
 {
-    public class AwsCredentialsProvider
+    public class AwsCredentialsTestProvider
     {
         
         private readonly TextProvider _textProvider = TextProviderFactory.Create();
