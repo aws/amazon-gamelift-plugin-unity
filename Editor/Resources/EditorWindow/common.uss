@@ -11,7 +11,8 @@
     --color-border-accent: #4c4c4c;
     --color-font-default: #d2d2d2;
     --color-font-accent: #ffffff;
-
+    --font-color-info-link: #4C7EFF;
+    
     --font-size-default: 16px;
     --font-size-large: 18px;
     --font-size-extralarge: 24px;

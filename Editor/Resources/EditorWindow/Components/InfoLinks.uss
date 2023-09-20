@@ -1,8 +1,10 @@
 ﻿/* Copyright Amazon.com, Inc. or its affiliates. All Rights Reserved. */
 /* SPDX-License-Identifier: Apache-2.0 */
 
+@import '../common.uss';
+
 :root {
-    color: #4C7EFF;
+    color: var(--font-color-info-link);
 }
 
 .divider--vertical {
