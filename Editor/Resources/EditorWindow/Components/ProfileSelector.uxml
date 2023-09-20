@@ -1,5 +1,8 @@
-﻿<ui:UXML xmlns:ui="UnityEngine.UIElements" editor-extension-mode="False">
-    <ui:Style src="EditorWindow/common.uss"/>
+﻿<!-- Copyright Amazon.com, Inc. or its affiliates. All Rights Reserved. -->
+<!-- SPDX-License-Identifier: Apache-2.0 -->
+
+<ui:UXML xmlns:ui="UnityEngine.UIElements">
+    <ui:Style src="../common.uss"/>
     <ui:VisualElement class="form-row">
         <ui:Label name="DropdownLabel" class="form-row__label"/>
         <ui:DropdownField name="Dropdown" class="dropdown form-row__input"/>
