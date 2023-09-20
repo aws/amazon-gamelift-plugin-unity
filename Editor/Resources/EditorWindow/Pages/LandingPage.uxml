@@ -1,13 +1,13 @@
 ﻿<!-- Copyright Amazon.com, Inc. or its affiliates. All Rights Reserved. -->
 <!-- SPDX-License-Identifier: Apache-2.0 -->
 
-<ui:UXML xmlns:ui="UnityEngine.UIElements" xmlns:c="GameLiftPlugin.UI.Components">
+<ui:UXML xmlns:ui="UnityEngine.UIElements" xmlns:gl="GameLiftPlugin.UI.Components">
     <Style src="./LandingPage.uss"/>
     <ui:VisualElement class="separator separator--large">
         <ui:VisualElement class="separator">
             <ui:Label name="LandingPageHeader" class="page__title" text="Amazon GameLift"/>
             <ui:Label name="LandingPageDescription" text="Amazon GameLift is a dedicated game server hosting solution that deploys, operates, and scales cloud servers for multiplayer games.&#10;Whether you’re looking for a fully managed solution, or just the feature you need, GameLift leverages the power of AWS to deliver the best latency possible, low player wait times, and maximum cost savings."/>
-            <c:InfoLinks/>
+            <gl:InfoLinks/>
         </ui:VisualElement>
         <ui:VisualElement class="divider"/>
         <ui:VisualElement class="separator separator--large separator--horizontal">
