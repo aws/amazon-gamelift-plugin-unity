@@ -7,12 +7,13 @@ using AmazonGameLift.Editor;
 using AmazonGameLiftPlugin.Core.ApiGatewayManagement;
 using Editor.Resources.EditorWindow;
 using Editor.Resources.EditorWindow.Pages;
+using UnityEditor;
 using UnityEngine;
 using UnityEngine.UIElements;
 
 namespace Editor.Window
 {
-    public class GameLiftPlugin : UnityEditor.EditorWindow
+    public class GameLiftPlugin : EditorWindow
     {
         [SerializeField] private Texture _icon;
         internal Texture Icon => _icon;
@@ -28,6 +29,8 @@ namespace Editor.Window
         public State CurrentState;
         public readonly CoreApi CoreApi;
 
+        private readonly StateManager _stateManager;
+
         private const string MainContentClassName = "main__content";
         private const string TabContentSelectedClassName = "tab__content--selected";
         private const string TabButtonSelectedClassName = "tab__button--selected";
@@ -37,6 +40,11 @@ namespace Editor.Window
         private GameLiftPlugin()
         {
             CoreApi = CoreApi.SharedInstance;
+        }
+
+        private GameLiftPlugin()
+        {
+            _stateManager = new StateManager(new CoreApi());
         }
 
         private void CreateGUI()
@@ -52,7 +60,7 @@ namespace Editor.Window
             _root.Add(uxml);
 
             LocalizeText();
-            
+
             var tabContentContainer = _root.Q(className: MainContentClassName);
             var landingPage = new LandingPage(CreateContentContainer(Pages.Landing, tabContentContainer));
             var credentialsPage = new AwsUserProfilesPage(CreateContentContainer(Pages.Credentials, tabContentContainer), this);
@@ -85,7 +93,7 @@ namespace Editor.Window
             contentContainer.Add(container);
             return container;
         }
-        
+
         private void OpenTab(string tabName)
         {
             _tabContent.ForEach(page =>

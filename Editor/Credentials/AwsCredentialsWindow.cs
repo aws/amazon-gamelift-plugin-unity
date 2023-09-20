@@ -28,7 +28,7 @@ namespace AmazonGameLift.Editor
             TextProvider textProvider = TextProviderFactory.Create();
             titleContent = new GUIContent(textProvider.Get(Strings.TitleAwsCredentials));
             this.SetConstantSize(new Vector2(x: WindowWidthPixels, y: WindowCreationHeightPixels));
-            _awsCredentials = AwsCredentialsFactory.Create();
+            _awsCredentials = new AwsCredentialsFactory().Create();
             _statusLabel = new StatusLabel();
             _creationPanel = new AwsCredentialsCreationPanel(_awsCredentials.Creation, _statusLabel, textProvider, controlDrawer);
             _updatePanel = new AwsCredentialsUpdatePanel(_awsCredentials.Update, _statusLabel, textProvider, controlDrawer);
