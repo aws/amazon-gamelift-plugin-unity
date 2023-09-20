@@ -3,9 +3,8 @@
 
 using System.Collections.Generic;
 using System.Linq;
-using Amazon.GameLift;
 using AmazonGameLift.Editor;
-using AmazonGameLiftPlugin.Core.ApiGatewayManagement;
+using Editor.CoreAPI;
 using Editor.GameLiftConfigurationUI;
 using Editor.Window;
 using UnityEngine;
@@ -13,7 +12,7 @@ using UnityEngine.UIElements;
 
 namespace Editor.Resources.EditorWindow.Pages
 {
-    public class AwsUserProfilesPage
+    internal class AwsUserProfilesPage
     {
         public List<TextField> AccountDetailTextFields = new();
         
@@ -24,14 +23,14 @@ namespace Editor.Resources.EditorWindow.Pages
         
         private VisualElement _currentElement;
         
-        private readonly GameLiftPlugin _gameLiftConfig;
+        private readonly StateManager _stateManager;
         private readonly VisualElement _container;
         private readonly UserProfileCreation _userProfileCreation;
 
-        public AwsUserProfilesPage(VisualElement container, GameLiftPlugin gameLiftConfig)
+        public AwsUserProfilesPage(VisualElement container, StateManager stateManager)
         {
             
-            var awsCredentials = AwsCredentialsFactory.Create();
+            var awsCredentials = new AwsCredentialsFactory().Create();
             CreationModel = awsCredentials.Creation;
             UpdateModel = awsCredentials.Update;
             
@@ -43,11 +42,11 @@ namespace Editor.Resources.EditorWindow.Pages
             _container.Add(uxml);
             ApplyText();
 
-            _gameLiftConfig = gameLiftConfig;
+            _stateManager = stateManager;
             
-            _userProfileCreation = new UserProfileCreation(_container, _gameLiftConfig, this);
+            _userProfileCreation = new UserProfileCreation(_container, _stateManager, this);
             BootstrapSettings = _userProfileCreation.SetupBootstrap();
-            UserProfileSelection = new UserProfileSelection(_container, _gameLiftConfig, this);
+            UserProfileSelection = new UserProfileSelection(_container, this._stateManager, this);
             
             SetupConfigSettings();
             RefreshProfiles();
@@ -97,12 +96,12 @@ namespace Editor.Resources.EditorWindow.Pages
 
         private void SetupButtonCallbacks()
         {
-            _container.Q<Button>("ButtonAccountCardNoAccount").RegisterCallback<ClickEvent>(_ => OpenLink(""));
-            _container.Q<Button>("ButtonBootstrapAddAnotherProfile").RegisterCallback<ClickEvent>(_ =>
+            _container.Q<Button>("UserProfilePageAccountCardNoAccountButton").RegisterCallback<ClickEvent>(_ => OpenLink(""));
+            _container.Q<Button>("UserProfilePageBootstrapAnotherProfileButton").RegisterCallback<ClickEvent>(_ =>
             {
                 ChangeWizard(_container.Q<VisualElement>("AddNewProfile"));
             });
-            _container.Q<Button>("CreateAccountProfile").RegisterCallback<ClickEvent>(_ =>
+            _container.Q<Button>("UserProfilePageAccountNewProfileCreateButton").RegisterCallback<ClickEvent>(_ =>
             {
                 if (SaveProfile())
                 {
@@ -114,24 +113,20 @@ namespace Editor.Resources.EditorWindow.Pages
                     Debug.Log("Error");
                 }
             });
-            _container.Q<Button>("Cancel").RegisterCallback<ClickEvent>(_ =>
+            _container.Q<Button>("UserProfilePageAccountNewProfileCancelButton").RegisterCallback<ClickEvent>(_ =>
             {
                 ClearCredentials();
                 SetupBootMenu();
             });
-            _container.Q<Button>("BootstrapProfile").RegisterCallback<ClickEvent>(_ =>
+            _container.Q<Button>("UserProfilePageBootstrapStartButton").RegisterCallback<ClickEvent>(_ =>
             {
                 BootstrapSettings.RefreshBucketName();
                 OpenS3Popup(BootstrapSettings.BucketName);
             });
-            _container.Q<Button>("AddProfile").RegisterCallback<ClickEvent>(_ =>
-            {
-                ChangeWizard(_container.Q<VisualElement>("AddNewProfile"));
-            });
-            _container.Q<Button>("BootstrapNewBucket").RegisterCallback<ClickEvent>(_ =>
-            {
-                // TODO: Add or find functionality for this
-            });
+            // _container.Q<Button>("BootstrapNewBucket").RegisterCallback<ClickEvent>(_ =>
+            // {
+            //     // TODO: Add or find functionality for this
+            // });
             _container.Q<Button>("AccessKeyToggleReveal").RegisterCallback<ClickEvent>(_ =>
             {
                 var accessToggle = _container.Q<TextField>("AccessKeyField");
@@ -151,7 +146,7 @@ namespace Editor.Resources.EditorWindow.Pages
 
         private void SetupTab()
         {
-            var dropdownField = _container.Q<DropdownField>(null, "AccountDetailsInput");
+            var dropdownField = _container.Q<DropdownField>( "UserProfilePageBootstrapProfileDropdown");
             dropdownField.index = 0;
             UserProfileSelection.AccountSelection(true);
             SetupBootMenu();
@@ -160,8 +155,8 @@ namespace Editor.Resources.EditorWindow.Pages
 
         private void SetupConfigSettings()
         {
-            var selectedProfile = _gameLiftConfig.CoreApi.GetSetting(SettingsKeys.CurrentProfileName);
-            _gameLiftConfig.CurrentState.SelectedProfile = selectedProfile.Success ? selectedProfile.Value : _gameLiftConfig.CurrentState.AllProfiles.First();
+            var selectedProfile = _stateManager.CoreApi.GetSetting(SettingsKeys.CurrentProfileName);
+            _stateManager.SelectedProfile = selectedProfile.Success ? selectedProfile.Value : _stateManager.AllProfiles.First();
         }
 
         private void SetupBootMenu()
@@ -170,34 +165,34 @@ namespace Editor.Resources.EditorWindow.Pages
             var tab2WarningBox = _container.Q<VisualElement>(null, "Tab2Warning");
             var bootStrapMenu = _container.Q<VisualElement>("BootstrapMenu");
             var completedMenu = _container.Q<VisualElement>("CompletedProfile");
-            switch (_gameLiftConfig.CurrentState.AllProfiles.Length)
+            switch (_stateManager.AllProfiles.Count)
             {
                 case 0:
                     targetWizard = _container.Q<VisualElement>("Cards");
                     break;
                 case 1:
-                    if (_gameLiftConfig.CurrentState.SelectedProfile == null)
+                    if (_stateManager.SelectedProfile == null)
                     {
                         tab2WarningBox.style.display = DisplayStyle.Flex;
                         //TODO Set SelectedProfile and change dropdown to "Choose Profile" and make all the below labels ---
                     }
 
-                    targetWizard = _gameLiftConfig.CurrentState.SelectedBootstrapped == false
+                    targetWizard = _stateManager.IsBootstrapped == false
                         ? bootStrapMenu
                         : completedMenu;
                     break;
                 default:
                 {
-                    if (_gameLiftConfig.CurrentState.AllProfiles.Any(profile => profile == "default"))
+                    if (_stateManager.AllProfiles.Any(profile => profile == "default"))
                     {
-                        targetWizard = _gameLiftConfig.CurrentState.SelectedBootstrapped == false
+                        targetWizard = _stateManager.IsBootstrapped == false
                             ? bootStrapMenu
                             : completedMenu;
                     }
                     else
                     {
                         targetWizard = bootStrapMenu;
-                        if (_gameLiftConfig.CurrentState.SelectedProfile == null)
+                        if (_stateManager.SelectedProfile == null)
                         {
                             tab2WarningBox.style.display = DisplayStyle.Flex;
                         }
@@ -235,14 +230,6 @@ namespace Editor.Resources.EditorWindow.Pages
             hiddenField.isPasswordField = !hiddenField.isPasswordField;
         }
         
-        public void SetupWrapper()
-        {
-            var credentials = _gameLiftConfig.CoreApi.RetrieveAwsCredentials(_gameLiftConfig.CurrentState.SelectedProfile);
-            var client = new AmazonGameLiftClient(credentials.AccessKey, credentials.SecretKey);
-            _gameLiftConfig.GameLiftWrapper = new AmazonGameLiftWrapper(client);
-        }
-        
-
         private void ChangeWizard(VisualElement targetWizard)
         {
             if (_currentElement != null)
@@ -260,7 +247,6 @@ namespace Editor.Resources.EditorWindow.Pages
         public void RefreshProfiles()
         {
             UpdateModel.Refresh();
-            _gameLiftConfig.CurrentState.AllProfiles = UpdateModel.AllProlfileNames;
         }
         
         private void BootstrapAccount (string bucketName)

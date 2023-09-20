@@ -1,4 +1,5 @@
-﻿using System;
+﻿using System.Collections.Generic;
+using System.Linq;
 using AmazonGameLift.Editor;
 using AmazonGameLiftPlugin.Core.ApiGatewayManagement;
 
@@ -20,8 +21,12 @@ namespace Editor.CoreAPI
         public string SelectedProfile
         {
             get => _selectedProfile;
-            private set => SetProfile(value);
+            set => SetProfile(value);
         }
+
+        public IReadOnlyList<string> AllProfiles => CoreApi.ListCredentialsProfiles().Profiles.ToList();
+        
+        public bool IsBootstrapped { get; set; }
 
         public StateManager(CoreApi coreApi)
         {
@@ -29,6 +34,7 @@ namespace Editor.CoreAPI
             AmazonGameLiftClientFactory = new AmazonGameLiftClientFactory(coreApi);
 
             SetProfile(coreApi.GetSetting(SettingsKeys.CurrentProfileName).Value);
+            IsBootstrapped = coreApi.GetSetting(SettingsKeys.IsBootstrapped).Value == "true";
         }
 
         private void SetProfile(string profileName)

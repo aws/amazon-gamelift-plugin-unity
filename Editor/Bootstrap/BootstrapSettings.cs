@@ -18,7 +18,7 @@ namespace AmazonGameLift.Editor
     /// <summary>
     /// A view model for <see cref="BootstrapWindow"/>.
     /// </summary>
-    public class BootstrapSettings
+    internal class BootstrapSettings
     {
         public const int CreationMode = 0;
         public const int SelectionMode = 1;

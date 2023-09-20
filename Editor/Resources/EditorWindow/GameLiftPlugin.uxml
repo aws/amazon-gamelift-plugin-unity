@@ -16,9 +16,6 @@
             <ui:Button text="Help &amp; Documentation" name="Help" class="tab__button" />
         </ui:VisualElement>
         <ui:ScrollView name="Content" class="main__content">
-            <ui:VisualElement name="CredentialsContent" class="tab__content">
-                <ui:Label text="Credentials" />
-            </ui:VisualElement>
             <ui:VisualElement name="AnywhereContent" class="tab__content">
                 <ui:Label text="Anywhere" />
             </ui:VisualElement>

@@ -40,11 +40,7 @@ namespace Editor.Window
         private GameLiftPlugin()
         {
             CoreApi = CoreApi.SharedInstance;
-        }
-
-        private GameLiftPlugin()
-        {
-            _stateManager = new StateManager(new CoreApi());
+            _stateManager = new StateManager(CoreApi);
         }
 
         private void CreateGUI()
@@ -63,7 +59,7 @@ namespace Editor.Window
 
             var tabContentContainer = _root.Q(className: MainContentClassName);
             var landingPage = new LandingPage(CreateContentContainer(Pages.Landing, tabContentContainer));
-            var credentialsPage = new AwsUserProfilesPage(CreateContentContainer(Pages.Credentials, tabContentContainer), this);
+            var credentialsPage = new AwsUserProfilesPage(CreateContentContainer(Pages.Credentials, tabContentContainer), _stateManager);
             
             _tabButtons = _root.Query<Button>(className: TabButtonClassName).ToList();
             _tabContent = _root.Query(className: TabContentClassName).ToList();

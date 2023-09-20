@@ -3,51 +3,14 @@
 
 @import "../common.uss";
 
-:root {
-    --color-card-border: #0d0d0d;
-    --color-card-background: #2a2a2a;
-
-    --font-size-card: 16px;
-    --font-size-card-button: 18px;
-    --font-size-sample: 16px;
+.external-link {
+    margin-left: auto;
 }
 
-.cards {
-    flex-direction: row;
+Image#UserProfilePageAccountCardNoAccountIcon {
+    --unity-image: resource("Image/Icons/NoAccountIcon");
 }
 
-.card {
-    padding: 0px 12px 29px 5px;
-    border-width: 2px;
-    border-color: var(--color-card-border);
-    flex-basis: 42%;
-    margin-right: 24px;
-    background-color: var(--color-card-background);
+Image#UserProfilePageAccountCardNewAccountIcon {
+    --unity-image: resource("Image/Icons/AccountIcon");
 }
-
-.card--last {
-    margin-right: 0;
-}
-
-.card__content {
-    flex-direction: row;
-    height: 60px;
-}
-
-.card__icon {
-    height: 60px;
-    width: 60px;
-    flex: 0 0 auto;
-}
-
-.card__text {
-    font-size: var(--font-size-card);
-    -unity-text-align: middle-left;
-    flex: 1 1 auto;
-}
-
-.card__button {
-    font-size: var(--font-size-card-button);
-}
-
-
