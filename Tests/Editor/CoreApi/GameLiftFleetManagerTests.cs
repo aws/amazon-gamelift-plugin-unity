@@ -19,7 +19,7 @@ namespace AmazonGameLiftPlugin.Editor.UnitTests
         private Mock<IAwsCredentialsFactory> _awsCredentialsFactoryMock;
         private Mock<CoreApi> _coreApiMock;
         private Mock<IAmazonGameLiftClientFactory> _amazonGameLiftClientFactoryMock;
-        private AwsCredentialsProvider _awsCredentialsProvider;
+        private AwsCredentialsTestProvider _awsCredentialsTestProvider;
         private readonly IAmazonGameLiftClientFactory _amazonGameLiftClientFactory;
         
         [SetUp]
@@ -29,7 +29,7 @@ namespace AmazonGameLiftPlugin.Editor.UnitTests
             _awsCredentialsFactoryMock = new Mock<IAwsCredentialsFactory>(); 
             _coreApiMock  = new Mock<CoreApi>();
             _amazonGameLiftClientFactoryMock = new Mock<IAmazonGameLiftClientFactory>();
-            _awsCredentialsProvider = new AwsCredentialsProvider();
+            _awsCredentialsTestProvider = new AwsCredentialsTestProvider();
         }
 
         private GameLiftFleetManager ArrangeAnywhereFleetHappyPath()
@@ -56,7 +56,7 @@ namespace AmazonGameLiftPlugin.Editor.UnitTests
                 .Returns(_gameLiftWrapperMock.Object);
 
             _awsCredentialsFactoryMock.Setup(f => f.Create())
-                .Returns(_awsCredentialsProvider.GetAwsCredentialsWithStubComponents(_coreApiMock.Object));
+                .Returns(_awsCredentialsTestProvider.GetAwsCredentialsWithStubComponents(_coreApiMock.Object));
 
             return new GameLiftFleetManager(_coreApiMock.Object, _gameLiftWrapperMock.Object);
         }
