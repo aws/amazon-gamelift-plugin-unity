@@ -4,12 +4,12 @@
 <ui:UXML xmlns:ui="UnityEngine.UIElements">
     <ui:Style src="./InfoLinks.uss"/>
     <ui:VisualElement class="separator separator--horizontal separator--small">
-        <ui:Label name="InfoLinkDocumentationLink" class=""/>
+        <ui:Label name="InfoLinkDocumentationLink"/>
         <ui:VisualElement class="divider--vertical"/>
-        <ui:Label name="InfoLinkForumLink" class=""/>
+        <ui:Label name="InfoLinkForumLink"/>
         <ui:VisualElement class="divider--vertical"/>
-        <ui:Label name="InfoLinkTroubleshootingLink" class=""/>
+        <ui:Label name="InfoLinkTroubleshootingLink"/>
         <ui:VisualElement class="divider--vertical"/>
-        <ui:Label name="InfoLinkReportIssuesLink" class=""/>
+        <ui:Label name="InfoLinkReportIssuesLink"/>
     </ui:VisualElement>
 </ui:UXML>
