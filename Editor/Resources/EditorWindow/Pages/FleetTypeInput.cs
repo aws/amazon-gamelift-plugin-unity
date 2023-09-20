@@ -6,6 +6,8 @@ namespace Editor.Resources.EditorWindow.Pages
 {
     internal class FleetTypeInput : StatefulInput
     {
+        private static IReadOnlyCollection<VisualElement> _fleetTypeVisualElements;
+        
         private InputState _inputState;
         private bool _enabled;
         private FleetType _fleetType;
@@ -38,7 +40,7 @@ namespace Editor.Resources.EditorWindow.Pages
             SetupRadioButton("EC2SingleFleetRadio", FleetType.SingleRegion);
             SetupRadioButton("EC2SpotFleetRadio", FleetType.SpotFleet);
             SetupRadioButton("EC2FlexFleetRadio", FleetType.FlexMatch);
-
+            PopulateFleetTypeVisualElements();
             _button = container.Q<Button>("ShowMoreScenarios");
             _button.RegisterCallback<ClickEvent>(e =>
             {
@@ -76,22 +78,36 @@ namespace Editor.Resources.EditorWindow.Pages
             });
         }
 
+        private void PopulateFleetTypeVisualElements()
+        {
+            _fleetTypeVisualElements = new List<VisualElement>()
+            {
+                _button,
+                _radio2Group,
+                _radio3Group
+            };
+        }
+
+        private List<VisualElement> GetVisibleItemsByState()
+        {
+            return _inputState switch
+            {
+                InputState.Initial => new List<VisualElement>() {_button},
+                InputState.Expanded => new List<VisualElement>() { _radio2Group, _radio3Group},
+                _ => throw new ArgumentOutOfRangeException()
+            };
+        }
+
         protected sealed override void UpdateGUI()
         {
-            switch (_inputState)
+            var elements = GetVisibleItemsByState();
+            foreach (var element in _fleetTypeVisualElements)
             {
-                case InputState.Initial:
-                    Show(_button);
-                    Hide(_radio2Group);
-                    Hide(_radio3Group);
-                    break;
-                case InputState.Expanded:
-                    Show(_radio2Group);
-                    Show(_radio3Group);
-                    Hide(_button);
-                    break;
-                default:
-                    throw new ArgumentOutOfRangeException();
+                if (elements.Contains(element)) {
+                    Show(element);
+                } else {
+                    Hide(element);
+                }
             }
         }
     }
