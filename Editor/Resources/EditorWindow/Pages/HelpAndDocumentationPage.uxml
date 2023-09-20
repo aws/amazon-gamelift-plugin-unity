@@ -9,38 +9,51 @@
             <ui:Label name="HelpPageDescription" text="Learn how to integrate and deploy games for hosting on GameLift. The GameLift service manages game server deployment, operation, and scaling.&#10;You can deploy custom-built game servers or use GameLift Realtime Servers to configure lightweight game servers for your game."/>
         </ui:VisualElement>
         <ui:VisualElement class="divider"/>
-        <ui:VisualElement class="separator separator--large separator--horizontal">
-            <ui:VisualElement class="card card--small" >
+        <ui:VisualElement class="separator separator--horizontal">
+            <ui:VisualElement class="card card--small">
                 <ui:Image name="HelpPageReportIssueIcon" class="card__icon"/>
                 <ui:Label name="HelpPageReportIssueLink" class="card__text" text="Report Issue   \uf08e"/>
+                <ui:Image name="HelpPageReportIssueExternalLink" class="card__icon--small"/>
             </ui:VisualElement>
             <ui:VisualElement class="card card--small">
-                <ui:Image name="HelpPageDocumentationIcon" class="card__icon--small"/>
-                <ui:Label name="HelpPageDocumentationLink" class="card__text--small" text="Documentation \uf08e"/>
+                <ui:Image name="HelpPageDocumentationIcon" class="card__icon"/>
+                <ui:Label name="HelpPageDocumentationLink" class="card__text" text="Documentation \uf08e"/>
+                <ui:Image name="HelpPageDocumentationExternalLink" class="card__icon--small"/>
             </ui:VisualElement>
             <ui:VisualElement class="card card--small">
                 <ui:Image name="HelpPageVideoTutorialIcon" class="card__icon--small"/>
                 <ui:Label name="HelpPageVideoTutorialLink" class="card__text--small" text="Video Tutorials  \uf08e"/>
+                <ui:Image name="HelpPageVideoTutorialExternalLink" class="card__icon--small"/>
             </ui:VisualElement>
             <ui:VisualElement class="card card--small">
                 <ui:Image name="HelpPageForumIcon" class="card__icon--small"/>
                 <ui:Label name="HelpPageForumLink" class="card__text--small" text="AWS Forum     \uf08e"/>
+                <ui:Image name="HelpPageForumExternalLink" class="card__icon--small"/>
             </ui:VisualElement>
         </ui:VisualElement>
-        <ui:VisualElement>
+        <ui:VisualElement class="separator">
             <ui:Label name="HelpPageEstimatingPriceTitle" class="page__subtitle" text="Estimating Price"/>
             <ui:Label name="HelpPageEstimatingPriceDescription" text="With AWS Pricing Calculator, you can create a pricing estimate for Amazon GameLift. You don&apos;t need an AWS account or in-depth knowledge of AWS to use the calculator."/>
-            <ui:Label name="HelpPageEstimatingPriceLink" class="external-link" text="Learn More \uf08e"/>
+            <ui:VisualElement class="external-link">
+                <ui:Label name="HelpPageEstimatingPriceLink" text="Learn More"/>
+                <ui:Image name="HelpPageEstimatingPriceLinkIcon" class="icon icon--small"/>
+            </ui:VisualElement>
         </ui:VisualElement>
-        <ui:VisualElement>
+        <ui:VisualElement class="separator">
             <ui:Label name="HelpPageFleetIQTitle" class="page__subtitle" text="Amazon GameLift FleetIQ"/>
             <ui:Label name="HelpPageFleetIQDescription" text="Amazon GameLift FleetIQ optimizes the use of low-cost Amazon EC2 Spot Instances for cloud-based game hosting.&#10;With Amazon GameLift FleetIQ, you can work directly with your hosting resources in Amazon EC2 and Amazon EC2 Auto Scaling while taking advantage of Amazon GameLift optimizations to deliver inexpensive, resilient game hosting for your players."/>
-            <ui:Label name="HelpPageFleetIQLink" class="external-link" text="Learn More  \uf08e"/>
+            <ui:VisualElement class="external-link">
+                <ui:Label name="HelpPageFleetIQLink" text="Learn More"/>
+                <ui:Image name="HelpPageFleetIQLinkIcon" class="icon icon--small"/>
+            </ui:VisualElement>
         </ui:VisualElement>
-        <ui:VisualElement>
+        <ui:VisualElement class="separator">
             <ui:Label name="HelpPageFlexMatchTitle" class="page__subtitle" text="Amazon GameLift FlexMatch"/>
             <ui:Label name="HelpPageFlexMatchDescription" text="Amazon GameLift FlexMatch is a customizable matchmaking service for multiplayer games.&#10;With FlexMatch, you can build a custom set of rules that defines what a multiplayer match looks like for your game, and determines how to evaluate and select compatible players for each match."/>
-            <ui:Label name="HelpPageFlexMatchLink" class="external-link" text="Learn More  \uf08e"/>
+            <ui:VisualElement class="external-link">
+                <ui:Label name="HelpPageFlexMatchLink" text="Learn More"/>
+                <ui:Image name="HelpPageFlexMatchLinkIcon" class="icon icon--small"/>
+            </ui:VisualElement>
         </ui:VisualElement>
     </ui:VisualElement>
 </ui:UXML>

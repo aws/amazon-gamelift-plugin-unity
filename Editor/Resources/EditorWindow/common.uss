@@ -13,12 +13,14 @@
     --color-font-accent: #ffffff;
     --color-card-border: #0d0d0d;
     --color-card-background: #2a2a2a;
-    
+
+    --font-size-small: 14px;
     --font-size-default: 16px;
     --font-size-large: 18px;
     --font-size-extralarge: 24px;
     --font-size-massive: 32px;
 
+    --icon-size-small: 24px;
     --icon-size-large: 60px;
     --border-size-thin: 1px;
     --border-size-medium: 2px;
@@ -47,6 +49,12 @@ Label {
 Image.icon--large {
     height: var(--icon-size-large);
     width: var(--icon-size-large);
+    flex: 0 0 auto;
+}
+
+Image.icon--small {
+    height: var(--icon-size-small);
+    width: var(--icon-size-small);
     flex: 0 0 auto;
 }
 
@@ -134,7 +142,13 @@ Image.icon--large {
 .external-link {
     border-bottom-width: var(--border-size-thin);
     border-bottom-color: var(--color-font-accent);
-    align-self: flex-start
+    align-self: flex-start;
+    align-items: center;
+    flex-direction: row;
+}
+
+.external-link .icon {
+    --unity-image: resource("Images/Icons/ExternalLink");
 }
 
 .page__title {
@@ -152,16 +166,17 @@ Image.icon--large {
     border-color: var(--color-card-border);
     background-color: var(--color-card-background);
     flex: 1 0 0;
-    margin-right: var(--spacing-large);
 }
 
 .card--small {
     flex-direction: row;
     align-items: center;
+    justify-content: space-between;
 }
 
-.card--small .card__icon {
-    margin-right: var(--spacing-tiny);
+.card--small .card__text {
+    font-size: var(--font-size-small);
+    margin: 0 8px 0 8px;
 }
 
 .card__container {
@@ -174,8 +189,14 @@ Image.icon--large {
     flex: 1 1 auto;
 }
 
-.card__icon--small {
+.card__icon {
     width: 36px;
     height: 36px;
+    flex: 0 0 auto;
+}
+
+.card__icon--small {
+    width: 20px;
+    height: 20px;
     flex: 0 0 auto;
 }

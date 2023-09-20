@@ -18,3 +18,10 @@ Image#HelpPageVideoTutorialIcon {
 Image#HelpPageForumIcon {
     --unity-image: resource("Images/Icons/PersonIcon");
 }
+
+Image#HelpPageReportIssueExternalLink,
+Image#HelpPageDocumentationExternalLink,
+Image#HelpPageVideoTutorialExternalLink,
+Image#HelpPageForumExternalLink {
+    --unity-image: resource("Images/Icons/ExternalLink");
+}
