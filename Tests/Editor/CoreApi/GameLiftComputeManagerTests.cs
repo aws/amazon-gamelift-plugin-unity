@@ -1,4 +1,7 @@
-﻿using System;
+﻿// Copyright Amazon.com, Inc. or its affiliates. All Rights Reserved.
+// SPDX-License-Identifier: Apache-2.0
+
+using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 using Amazon.GameLift.Model;
@@ -38,7 +41,7 @@ namespace AmazonGameLiftPlugin.Editor.UnitTests
             _awsCredentialsTestProvider = new AwsCredentialsTestProvider();
         }
 
-        private GameLiftComputeManager ArrangeAnywhereFleetHappyPath()
+        private GameLiftComputeManager ArrangeRegisterComputeHappyPath()
         {
             _coreApiMock.Setup(f => f.PutSetting(It.IsAny<string>(), It.IsAny<string>())).Returns(Response.Ok(new PutSettingResponse()));
             _coreApiMock.Setup(f => f.PutSetting(It.IsAny<string>(), null)).Returns(Response.Fail(new PutSettingResponse()));
@@ -70,7 +73,7 @@ namespace AmazonGameLiftPlugin.Editor.UnitTests
         public void RegisterFleetCompute_WhenCorrectInputs_ExpectSuccess()
         {
             //Arrange
-            var gameLiftComputeManager = ArrangeAnywhereFleetHappyPath();
+            var gameLiftComputeManager = ArrangeRegisterComputeHappyPath();
             
             //Act
             var registerComputeResponse =  gameLiftComputeManager.RegisterFleetCompute(ComputeName, FleetId, Location, IPAddress).GetAwaiter().GetResult();
@@ -86,7 +89,7 @@ namespace AmazonGameLiftPlugin.Editor.UnitTests
         public void RegisterFleetCompute_WhenNullWrapper_DoesNotCallRegister()
         {
             //Arrange
-            ArrangeAnywhereFleetHappyPath();
+            ArrangeRegisterComputeHappyPath();
         
             var gameLiftFleetManager = new GameLiftComputeManager(_coreApiMock.Object, null);
         
@@ -101,7 +104,7 @@ namespace AmazonGameLiftPlugin.Editor.UnitTests
         public void RegisterFleetCompute_WhenNullComputeName_ComputeNotRegistered()
         {
             //Arrange
-            var gameLiftFleetManager = ArrangeAnywhereFleetHappyPath();
+            var gameLiftFleetManager = ArrangeRegisterComputeHappyPath();
         
             //Act
             var createFleetResult =  gameLiftFleetManager.RegisterFleetCompute(null, FleetId, Location, IPAddress).GetAwaiter().GetResult();
@@ -117,7 +120,7 @@ namespace AmazonGameLiftPlugin.Editor.UnitTests
         public void RegisterFleetCompute_WhenNullIpAddress_ComputeNotRegistered()
         {
             //Arrange
-            var gameLiftFleetManager = ArrangeAnywhereFleetHappyPath();
+            var gameLiftFleetManager = ArrangeRegisterComputeHappyPath();
         
             //Act
             var createFleetResult =  gameLiftFleetManager.RegisterFleetCompute(ComputeName, FleetId, Location, null).GetAwaiter().GetResult();
@@ -134,7 +137,7 @@ namespace AmazonGameLiftPlugin.Editor.UnitTests
         public void RegisterFleetCompute_WhenThrowErrorOnListLocation_DoesNotRegister()
         {
             //Arrange
-            var gameLiftFleetManager = ArrangeAnywhereFleetHappyPath();
+            var gameLiftFleetManager = ArrangeRegisterComputeHappyPath();
             
             _gameLiftWrapperMock.Setup(wrapper => wrapper.RegisterCompute(It.IsAny<RegisterComputeRequest>())).Throws(new NullReferenceException());
         
