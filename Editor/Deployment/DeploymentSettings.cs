@@ -230,51 +230,16 @@ namespace AmazonGameLift.Editor
             ScenarioIndex = 1; // Selects "Single-Region Fleet" Deployment Scenario by default
             BuildFilePath = null;
             BuildFolderPath = null;
-            GetSettingResponse response = _coreApi.GetSetting(SettingsKeys.DeploymentGameName);
-            GameName = response.Success ? response.Value : null;
-
-            GetSettingResponse scenarioIndexResponse = _coreApi.GetSetting(SettingsKeys.DeploymentScenarioIndex);
-            if (scenarioIndexResponse.Success)
-            {
-                int? index = SettingsFormatter.ParseInt(scenarioIndexResponse.Value);
-                ScenarioIndex = index ?? 0;
-            }
-
-            GetSettingResponse serverPathResponse = _coreApi.GetSetting(SettingsKeys.DeploymentBuildFolderPath);
-            if (serverPathResponse.Success)
-            {
-                BuildFolderPath = serverPathResponse.Value;
-            }
-
-            GetSettingResponse serverExePathResponse = _coreApi.GetSetting(SettingsKeys.DeploymentBuildFilePath);
-            if (serverExePathResponse.Success)
-            {
-                BuildFilePath = serverExePathResponse.Value;
-            }
-
-            GetSettingResponse launchParametersResponse = _coreApi.GetSetting(SettingsKeys.LaunchParameters);
-            if (launchParametersResponse.Success)
-            {
-                LaunchParameters = launchParametersResponse.Value;
-            }
-
-            GetSettingResponse buildOperatingSystemResponse = _coreApi.GetSetting(SettingsKeys.BuildOperatingSystem);
-            if (buildOperatingSystemResponse.Success)
-            {
-                BuildOperatingSystem = buildOperatingSystemResponse.Value;
-            }
-
-            GetSettingResponse fleetNameResponse = _coreApi.GetSetting(SettingsKeys.FleetName);
-            if (fleetNameResponse.Success)
-            {
-                FleetName = fleetNameResponse.Value;
-            }
-
-            GetSettingResponse buildNameResponse = _coreApi.GetSetting(SettingsKeys.BuildName);
-            if (buildNameResponse.Success)
-            {
-                BuildName = buildNameResponse.Value;
-            }
+            
+            var index = SettingsFormatter.ParseInt(_coreApi.GetSetting(SettingsKeys.DeploymentScenarioIndex).Value);
+            ScenarioIndex = index ?? 0;
+            GameName = _coreApi.GetSetting(SettingsKeys.DeploymentGameName).Value;
+            BuildFolderPath = _coreApi.GetSetting(SettingsKeys.DeploymentBuildFolderPath).Value;
+            BuildFilePath = _coreApi.GetSetting(SettingsKeys.DeploymentBuildFilePath).Value;
+            LaunchParameters = _coreApi.GetSetting(SettingsKeys.LaunchParameters).Value;
+            BuildOperatingSystem = _coreApi.GetSetting(SettingsKeys.BuildOperatingSystem).Value;
+            FleetName = _coreApi.GetSetting(SettingsKeys.FleetName).Value;
+            BuildName = _coreApi.GetSetting(SettingsKeys.BuildName).Value;
         }
 
         public void Save()

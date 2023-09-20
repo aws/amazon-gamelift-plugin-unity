@@ -1,9 +1,0 @@
-﻿.ip-spacer {
-    margin: 0 4px 0 4px;
-    padding-top: 8px;
-}
-
-.unity-group-box {
-    margin: 0;
-    padding: 0;
-}
