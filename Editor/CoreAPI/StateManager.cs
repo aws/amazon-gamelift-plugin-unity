@@ -9,7 +9,6 @@ namespace Editor.CoreAPI
         public CoreApi CoreApi { get; }
 
         public GameLiftFleetManager FleetManager { get; set; }
-        public GameLiftComputeManager ComputeManager { get; set; }
 
         public IAmazonGameLiftClientWrapper GameLiftWrapper { get; private set; }
 
@@ -37,7 +36,6 @@ namespace Editor.CoreAPI
             _selectedProfile = profileName;
             GameLiftWrapper = AmazonGameLiftClientFactory.Get(SelectedProfile);
             FleetManager = new GameLiftFleetManager(CoreApi, GameLiftWrapper);
-            ComputeManager = new GameLiftComputeManager(CoreApi, GameLiftWrapper);
         }
     }
 }

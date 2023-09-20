@@ -5,7 +5,6 @@ using System;
 using System.Collections.Generic;
 using AmazonGameLift.Editor;
 using Editor.CoreAPI;
-using AmazonGameLiftPlugin.Core.ApiGatewayManagement;
 using Editor.Resources.EditorWindow;
 using UnityEditor;
 using UnityEngine;
@@ -42,12 +41,6 @@ namespace Editor.Window
         {
             _stateManager = new StateManager(new CoreApi());
             _amazonGameLiftClientFactory = amazonGameLiftClientFactory;
-            CoreApi = coreApi;
-            _stateManager = new StateManager
-            {
-                CoreApi = CoreApi.SharedInstance,
-                AmazonGameLiftClientFactory = amazonGameLiftClientFactory
-            };
 
             var awsCredentials = awsCredentialsFactory.Create();
             CreationModel = awsCredentials.Creation;
@@ -56,10 +49,7 @@ namespace Editor.Window
         
         private GameLiftPlugin()
         {
-            _stateManager = new StateManager
-            {
-                CoreApi = CoreApi.SharedInstance
-            };
+            _stateManager = new StateManager(new CoreApi());
             
             var awsCredentials = AwsCredentialsFactory.Create();
             CreationModel = awsCredentials.Creation;
@@ -142,9 +132,6 @@ namespace Editor.Window
             _root.Add(uxml);
 
             LocalizeText();
-            
-            _stateManager.SetupClientFactory();
-            _stateManager.SetupWrapper();
 
             var tabContentContainer = _root.Q(className: MainContentClassName);
             var landingPage = new LandingPage(CreateContentContainer(Pages.Landing, tabContentContainer));
@@ -214,17 +201,6 @@ namespace Editor.Window
                     button.RemoveFromClassList(TabButtonSelectedClassName);
                 }
             });
-        }
-        
-        private IAmazonGameLiftClientWrapper _gameLiftWrapper; 
-        public IAmazonGameLiftClientWrapper GameLiftWrapper {
-            get => _gameLiftWrapper;
-            set => _gameLiftWrapper = value;
-        }
-
-        public void SetupWrapper()
-        {
-            _gameLiftWrapper = _amazonGameLiftClientFactory.Get(CurrentState.SelectedProfile);
         }
 
         private static string GetPageName(Pages page) => Enum.GetName(typeof(Pages), page);
