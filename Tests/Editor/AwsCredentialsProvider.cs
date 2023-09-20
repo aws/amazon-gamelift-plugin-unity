@@ -1,4 +1,6 @@
-﻿using System;
+﻿// Copyright Amazon.com, Inc. or its affiliates. All Rights Reserved.
+// SPDX-License-Identifier: Apache-2.0
+
 using AmazonGameLift.Editor;
 using Moq;
 
@@ -8,8 +10,7 @@ namespace AmazonGameLiftPlugin.Editor.UnitTests
     {
         
         private readonly TextProvider _textProvider = TextProviderFactory.Create();
-        
-        
+
         public AwsCredentials GetAwsCredentialsWithStubComponents(CoreApi coreApi)
         {
             var regionMock = new Mock<RegionBootstrap>(coreApi);

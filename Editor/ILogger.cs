@@ -7,7 +7,7 @@ using UnityEngine;
 
 namespace AmazonGameLift.Editor
 {
-    public interface ILogger
+    internal interface ILogger
     {
         void Log(string message, LogType logType);
         void LogResponseError(Response response, LogType logType = LogType.Error);

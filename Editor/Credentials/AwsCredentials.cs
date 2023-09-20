@@ -31,7 +31,7 @@ namespace AmazonGameLift.Editor
         public AwsCredentialsUpdate Update { get; private set; }
         public bool CanSelect { get; private set; }
 
-        public AwsCredentials(TextProvider textProvider, ILogger logger, CoreApi coreApi = null)
+        internal AwsCredentials(TextProvider textProvider, ILogger logger, CoreApi coreApi = null)
         {
             _coreApi = coreApi ?? CoreApi.SharedInstance;
             var regionBootstrap = new RegionBootstrap(_coreApi);
