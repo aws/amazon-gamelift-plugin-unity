@@ -6,7 +6,7 @@ using UnityEditor;
 
 namespace AmazonGameLift.Editor
 {
-    public interface IReadStatus
+    internal interface IReadStatus
     {
         bool IsDisplayed { get; }
 

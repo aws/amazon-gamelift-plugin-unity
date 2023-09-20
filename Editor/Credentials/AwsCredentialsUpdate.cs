@@ -21,9 +21,9 @@ namespace AmazonGameLift.Editor
         private string _currentAccessKeyId;
         private string _currentSecretKey;
 
-        public IReadStatus Status => _status;
+        internal IReadStatus Status => _status;
 
-        public RegionBootstrap RegionBootstrap { get; }
+        internal RegionBootstrap RegionBootstrap { get; }
 
         public bool CanUpdate =>
             SelectedProfileIndex >= 0 && _selectedProfileIndex < AllProlfileNames.Length
@@ -63,7 +63,7 @@ namespace AmazonGameLift.Editor
             }
         }
 
-        public AwsCredentialsUpdate(TextProvider textProvider, RegionBootstrap regionBootstrap,
+        internal AwsCredentialsUpdate(TextProvider textProvider, RegionBootstrap regionBootstrap,
             CoreApi coreApi, ILogger logger)
         {
             _coreApi = coreApi ?? throw new ArgumentNullException(nameof(coreApi));
