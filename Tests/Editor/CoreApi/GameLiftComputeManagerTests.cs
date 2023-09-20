@@ -22,12 +22,12 @@ namespace AmazonGameLiftPlugin.Editor.UnitTests
         private AwsCredentialsTestProvider _awsCredentialsTestProvider;
         private readonly IAmazonGameLiftClientFactory _amazonGameLiftClientFactory;
 
-        private string _fleetId = "fleetId-12345-12345-12345-12345";
-        private string _computeName = "TestComputeName";
-        private string _location = "TestLocation";
-        private string _ipAddress = "120.120.120.120";
-        private string _endpoint = "wss://test.com";
-        
+        private const string FleetId = "fleetId-12345-12345-12345-12345";
+        private const string ComputeName = "TestComputeName";
+        private const string Location = "TestLocation";
+        private const string IPAddress = "120.120.120.120";
+        private const string Endpoint = "wss://test.com";
+
         [SetUp]
         public void Setup()
         {
@@ -40,27 +40,20 @@ namespace AmazonGameLiftPlugin.Editor.UnitTests
 
         private GameLiftComputeManager ArrangeAnywhereFleetHappyPath()
         {
-            var listLocationModel = new List<LocationModel>();
-            listLocationModel.Add(new LocationModel
-            {
-                LocationName = "custom-location-1"
-            });
-
             _coreApiMock.Setup(f => f.PutSetting(It.IsAny<string>(), It.IsAny<string>())).Returns(Response.Ok(new PutSettingResponse()));
             _coreApiMock.Setup(f => f.PutSetting(It.IsAny<string>(), null)).Returns(Response.Fail(new PutSettingResponse()));
             _coreApiMock.Setup(f => f.PutSetting(It.IsAny<string>(), string.Empty)).Returns(Response.Fail(new PutSettingResponse()));
-            //_gameLiftWrapperMock.Setup(wrapper => wrapper.ListLocations(It.IsAny<ListLocationsRequest>())).Returns(Task.FromResult(new ListLocationsResponse {Locations = listLocationModel}));
             
             _gameLiftWrapperMock.Setup(wrapper => wrapper.RegisterCompute(It.IsAny<RegisterComputeRequest>())).Returns(Task.FromResult(
                 new RegisterComputeResponse()
                 {
                     Compute = new Compute()
                     {
-                        FleetId = _fleetId,
-                        ComputeName = _computeName,
-                        Location = _location,
-                        IpAddress = _ipAddress,
-                        GameLiftServiceSdkEndpoint = _endpoint
+                        FleetId = FleetId,
+                        ComputeName = ComputeName,
+                        Location = Location,
+                        IpAddress = IPAddress,
+                        GameLiftServiceSdkEndpoint = Endpoint
                     }
                 }));
 
@@ -80,7 +73,7 @@ namespace AmazonGameLiftPlugin.Editor.UnitTests
             var gameLiftComputeManager = ArrangeAnywhereFleetHappyPath();
             
             //Act
-            var registerComputeResponse =  gameLiftComputeManager.RegisterFleetCompute(_computeName, _fleetId, _location, _ipAddress).GetAwaiter().GetResult();
+            var registerComputeResponse =  gameLiftComputeManager.RegisterFleetCompute(ComputeName, FleetId, Location, IPAddress).GetAwaiter().GetResult();
             
             //Assert
             _gameLiftWrapperMock.Verify(wrapper => wrapper.RegisterCompute(It.IsAny<RegisterComputeRequest>()), Times.Once);
@@ -98,7 +91,7 @@ namespace AmazonGameLiftPlugin.Editor.UnitTests
             var gameLiftFleetManager = new GameLiftComputeManager(_coreApiMock.Object, null);
         
             //Act
-            var createFleetResult =  gameLiftFleetManager.RegisterFleetCompute(_computeName, _fleetId, _location, _ipAddress).GetAwaiter().GetResult();
+            var createFleetResult =  gameLiftFleetManager.RegisterFleetCompute(ComputeName, FleetId, Location, IPAddress).GetAwaiter().GetResult();
             
             //Assert
             Assert.IsFalse(createFleetResult.Success);
@@ -111,7 +104,7 @@ namespace AmazonGameLiftPlugin.Editor.UnitTests
             var gameLiftFleetManager = ArrangeAnywhereFleetHappyPath();
         
             //Act
-            var createFleetResult =  gameLiftFleetManager.RegisterFleetCompute(null, _fleetId, _location, _ipAddress).GetAwaiter().GetResult();
+            var createFleetResult =  gameLiftFleetManager.RegisterFleetCompute(null, FleetId, Location, IPAddress).GetAwaiter().GetResult();
             
             //Assert
             _gameLiftWrapperMock.Verify(wrapper => wrapper.RegisterCompute(It.IsAny<RegisterComputeRequest>()), Times.Once);
@@ -127,7 +120,7 @@ namespace AmazonGameLiftPlugin.Editor.UnitTests
             var gameLiftFleetManager = ArrangeAnywhereFleetHappyPath();
         
             //Act
-            var createFleetResult =  gameLiftFleetManager.RegisterFleetCompute(_computeName, _fleetId, _location, null).GetAwaiter().GetResult();
+            var createFleetResult =  gameLiftFleetManager.RegisterFleetCompute(ComputeName, FleetId, Location, null).GetAwaiter().GetResult();
             
             //Assert
             _gameLiftWrapperMock.Verify(wrapper => wrapper.RegisterCompute(It.IsAny<RegisterComputeRequest>()), Times.Once);
@@ -146,7 +139,7 @@ namespace AmazonGameLiftPlugin.Editor.UnitTests
             _gameLiftWrapperMock.Setup(wrapper => wrapper.RegisterCompute(It.IsAny<RegisterComputeRequest>())).Throws(new NullReferenceException());
         
             //Act
-            var createFleetResult =  gameLiftFleetManager.RegisterFleetCompute(_computeName, _fleetId, _location, _ipAddress).GetAwaiter().GetResult();
+            var createFleetResult =  gameLiftFleetManager.RegisterFleetCompute(ComputeName, FleetId, Location, IPAddress).GetAwaiter().GetResult();
             
             //Assert
             _gameLiftWrapperMock.Verify(wrapper => wrapper.RegisterCompute(It.IsAny<RegisterComputeRequest>()), Times.Once);
