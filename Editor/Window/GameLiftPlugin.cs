@@ -6,13 +6,15 @@ using System.Collections.Generic;
 using Amazon.GameLift;
 using AmazonGameLift.Editor;
 using AmazonGameLiftPlugin.Core.ApiGatewayManagement;
+using Editor.CoreAPI;
 using Editor.Resources.EditorWindow;
+using UnityEditor;
 using UnityEngine;
 using UnityEngine.UIElements;
 
 namespace Editor.Window
 {
-    public class GameLiftPlugin : UnityEditor.EditorWindow
+    public class GameLiftPlugin : EditorWindow
     {
         [SerializeField] private Texture _icon;
         internal Texture Icon => _icon;
@@ -23,12 +25,8 @@ namespace Editor.Window
         private List<Button> _tabButtons;
         private List<VisualElement> _tabContent;
 
-        public AmazonGameLiftWrapper GameLiftWrapper;
-        public State CurrentState;
-        public readonly CoreApi CoreApi;
-        public readonly AwsCredentialsCreation CreationModel;
-        public readonly AwsCredentialsUpdate UpdateModel;
-        
+        private readonly StateManager _stateManager;
+
         private const string MainContentClassName = "main__content";
         private const string TabContentSelectedClassName = "tab__content--selected";
         private const string TabButtonSelectedClassName = "tab__button--selected";
@@ -37,12 +35,9 @@ namespace Editor.Window
 
         private GameLiftPlugin()
         {
-            CoreApi = CoreApi.SharedInstance;
-            var awsCredentials = AwsCredentialsFactory.Create();
-            CreationModel = awsCredentials.Creation;
-            UpdateModel = awsCredentials.Update;
+            _stateManager = new StateManager(new CoreApi());
         }
-        
+
         private void CreateGUI()
         {
             _root = rootVisualElement;
@@ -56,7 +51,7 @@ namespace Editor.Window
             _root.Add(uxml);
 
             LocalizeText();
-            
+
             var tabContentContainer = _root.Q(className: MainContentClassName);
             var landingPage = new LandingPage(CreateContentContainer(Pages.Landing, tabContentContainer));
             var anywherePage = new AnywherePage(CreateContentContainer(Pages.Anywhere, tabContentContainer), this);
@@ -91,7 +86,7 @@ namespace Editor.Window
             contentContainer.Add(container);
             return container;
         }
-        
+
         private void OpenTab(string tabName)
         {
             _tabContent.ForEach(page =>
@@ -119,13 +114,6 @@ namespace Editor.Window
             });
         }
 
-        public void SetupWrapper()
-        {
-            var credentials = CoreApi.RetrieveAwsCredentials("personal");
-            var client = new AmazonGameLiftClient(credentials.AccessKey, credentials.SecretKey);
-            GameLiftWrapper = new AmazonGameLiftWrapper(client);
-        }
-        
         private static string GetPageName(Pages page) => Enum.GetName(typeof(Pages), page);
 
         internal enum Pages
@@ -135,12 +123,6 @@ namespace Editor.Window
             Anywhere,
             ManagedEC2,
             Help,
-        }
-        
-        public struct State
-        {
-            public string SelectedProfile;
-            public string SelectedFleetName;
         }
     }
 }

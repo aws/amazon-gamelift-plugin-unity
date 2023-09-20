@@ -91,6 +91,26 @@ namespace AmazonGameLiftPlugin.Core.ApiGatewayManagement
         {
             return _amazonGameLiftClient.CreateFleetAsync(request);
         }
+
+        public Task<DescribeFleetAttributesResponse> DescribeFleets(DescribeFleetAttributesRequest request)
+        {
+            return _amazonGameLiftClient.DescribeFleetAttributesAsync(request);
+        }
+
+        public Task<DeregisterComputeResponse> DeregisterCompute(DeregisterComputeRequest request)
+        {
+            return _amazonGameLiftClient.DeregisterComputeAsync(request);
+        }
+
+        public Task<DescribeComputeResponse> DescribeCompute(DescribeComputeRequest request)
+        {
+            return _amazonGameLiftClient.DescribeComputeAsync(request);
+        }
+
+        public Task<ListFleetsResponse> ListFleets(ListFleetsRequest request)
+        {
+            return _amazonGameLiftClient.ListFleetsAsync(request);
+        }
         #endregion
     }
 }
