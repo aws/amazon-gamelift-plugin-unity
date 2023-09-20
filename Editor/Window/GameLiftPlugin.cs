@@ -4,6 +4,7 @@
 using System;
 using System.Collections.Generic;
 using AmazonGameLift.Editor;
+using Editor.CoreAPI;
 using Editor.Resources.EditorWindow;
 using UnityEditor;
 using UnityEngine;
@@ -11,7 +12,7 @@ using UnityEngine.UIElements;
 
 namespace Editor.Window
 {
-    public class GameLiftPlugin : UnityEditor.EditorWindow
+    public class GameLiftPlugin : EditorWindow
     {
         [SerializeField] private Texture _icon;
         internal Texture Icon => _icon;
@@ -22,10 +23,18 @@ namespace Editor.Window
         private List<Button> _tabButtons;
         private List<VisualElement> _tabContent;
 
+        private readonly StateManager _stateManager;
+
+        private const string MainContentClassName = "main__content";
         private const string TabContentSelectedClassName = "tab__content--selected";
         private const string TabButtonSelectedClassName = "tab__button--selected";
         private const string TabButtonClassName = "tab__button";
         private const string TabContentClassName = "tab__content";
+
+        private GameLiftPlugin()
+        {
+            _stateManager = new StateManager(new CoreApi());
+        }
 
         private void CreateGUI()
         {
@@ -39,7 +48,10 @@ namespace Editor.Window
             VisualElement uxml = _visualTreeAsset.Instantiate();
             _root.Add(uxml);
 
-            ApplyText();
+            LocalizeText();
+
+            var tabContentContainer = _root.Q(className: MainContentClassName);
+            var landingPage = new LandingPage(CreateContentContainer(Pages.Landing, tabContentContainer));
 
             _tabButtons = _root.Query<Button>(className: TabButtonClassName).ToList();
             _tabContent = _root.Query(className: TabContentClassName).ToList();
@@ -47,7 +59,7 @@ namespace Editor.Window
             _tabButtons.ForEach(button => button.RegisterCallback<ClickEvent>(_ => { OpenTab(button.name); }));
         }
 
-        private void ApplyText()
+        private void LocalizeText()
         {
             var l = new ElementLocalizer(_root);
             l.SetElementText(GetPageName(Pages.Landing), Strings.TabLanding);
@@ -58,6 +70,17 @@ namespace Editor.Window
         }
 
         internal void OpenTab(Pages tabName) => OpenTab(GetPageName(tabName));
+
+        private VisualElement CreateContentContainer(Pages page, VisualElement contentContainer)
+        {
+            var container = new VisualElement
+            {
+                name = $"{GetPageName(page)}Content",
+            };
+            container.AddToClassList(TabContentClassName);
+            contentContainer.Add(container);
+            return container;
+        }
 
         private void OpenTab(string tabName)
         {
