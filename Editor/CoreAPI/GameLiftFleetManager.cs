@@ -138,30 +138,5 @@ namespace Editor.CoreAPI
                 return null;
             }
         }
-
-        internal async Task<List<FleetAttributes>> ListFleets()
-        {
-            try
-            {
-                var listFleetRequest = new ListFleetsRequest();
-                var listFleetResponse = await _amazonGameLiftWrapper.ListFleets(listFleetRequest);
-
-                var describeFleetRequest = new DescribeFleetAttributesRequest()
-                {
-                    FleetIds = listFleetResponse.FleetIds
-                };
-
-                var describeFleetResponse = await _amazonGameLiftWrapper.DescribeFleets(describeFleetRequest);
-                return describeFleetResponse.FleetAttributes;
-            }
-            catch (Exception ex)
-            {
-                var errorBox = _container.Q<VisualElement>("FleetErrorInfoBox");
-                errorBox.style.display = DisplayStyle.Flex;
-                errorBox.Q<Label>().text = ex.Message;
-                Debug.Log(ex.Message);
-                return null;
-            }
-        }
     }
 }
