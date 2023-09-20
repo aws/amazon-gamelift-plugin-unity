@@ -11,7 +11,15 @@
     --color-border-accent: #4c4c4c;
     --color-font-default: #d2d2d2;
     --color-font-accent: #ffffff;
-
+    --color-font-error: #f30303;
+    --color-foldout-title: #e4e4e4;
+    --color-input-label: #c4c4c4;
+    --color-text-input-background: #2a2a2a;
+    --color-text-input-border: #0d0d0d;
+    --color-card-border: #0d0d0d;
+    --color-card-background: #2a2a2a;
+    
+    --font-size-small: 12px;
     --font-size-default: 16px;
     --font-size-large: 18px;
     --font-size-extralarge: 24px;
@@ -142,4 +150,50 @@ Image.icon--large {
 .page__subtitle {
     font-size: var(--font-size-extralarge);
     margin-bottom: var(--spacing-large);
+}
+
+.card {
+    padding: var(--spacing-small);
+    border-width: var(--border-size-medium);
+    border-color: var(--color-card-border);
+    background-color: var(--color-card-background);
+    flex: 1 0 0;
+}
+
+.card--large {
+    padding: var(--spacing-large);
+}
+
+.card--centered {
+    align-items: center;
+    -unity-text-align: middle-center;
+}
+
+.card__icon {
+    width: 96px;
+    height: 96px;
+    flex: 0 0 auto;
+}
+
+.card .button {
+    margin-top: auto;
+    align-self: center;
+}
+
+.card__title {
+    font-size: var(--font-size-extralarge);
+}
+
+.card__container {
+    flex-direction: row;
+}
+
+.card__text {
+    font-size: var(--font-size-default);
+    -unity-text-align: middle-left;
+    flex: 1 1 auto;
+}
+
+Image.external-link {
+    --unity-image: resource("Images/Icons/AccountIcon");
 }

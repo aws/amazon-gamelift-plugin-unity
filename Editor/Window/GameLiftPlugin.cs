@@ -5,6 +5,7 @@ using System;
 using System.Collections.Generic;
 using AmazonGameLift.Editor;
 using AmazonGameLiftPlugin.Core.ApiGatewayManagement;
+using Editor.CoreAPI;
 using Editor.Resources.EditorWindow;
 using Editor.Resources.EditorWindow.Pages;
 using UnityEditor;
