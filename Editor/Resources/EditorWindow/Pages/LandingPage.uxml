@@ -1,7 +1,7 @@
 ﻿<!-- Copyright Amazon.com, Inc. or its affiliates. All Rights Reserved. -->
 <!-- SPDX-License-Identifier: Apache-2.0 -->
 
-<ui:UXML xmlns:ui="UnityEngine.UIElements" xmlns:gl="GameLiftPlugin.UI.Components">
+<ui:UXML xmlns:ui="UnityEngine.UIElements" xmlns:gl="GameLiftPlugin.Editor">
     <Style src="./LandingPage.uss"/>
     <ui:VisualElement class="separator separator--large">
         <ui:VisualElement class="separator">

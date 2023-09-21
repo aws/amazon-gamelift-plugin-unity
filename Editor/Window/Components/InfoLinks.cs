@@ -6,7 +6,7 @@ using Editor.Resources.EditorWindow;
 using UnityEngine;
 using UnityEngine.UIElements;
 
-namespace GameLiftPlugin.UI.Components
+namespace GameLiftPlugin.Editor
 {
     public class InfoLinks : VisualElement
     {
