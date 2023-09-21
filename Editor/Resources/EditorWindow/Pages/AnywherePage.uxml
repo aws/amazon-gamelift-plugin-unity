@@ -9,12 +9,10 @@
             <ui:Label name="AnywherePageDescription" text="Amazon GameLift Anywhere fleets use your existing infrastructure to host game servers while Amazon GameLift manages your matchmaking and queues.&#10;You can integrate Anywhere and Managed EC2 fleets in matchmaker and game session queues to manage matchmaking and game placement."/>
         </ui:VisualElement>
         <ui:VisualElement class="divider"/>
-        <ui:Foldout name="AnywherePageIntegrateTitle" class="foldout" text="Integrate GameLift with your game client">
-            <ui:Label name="AnywherePageIntegrateDescription" class="foldout__content" text="Add the Amazon GameLift server SDK to your game server and add code to communicate with the GameLift hosting service. If you&apos;re working with the Amazon GameLift sample game, this integration is already done."/>
-            <ui:VisualElement class="foldout__links">
-                <ui:Label name="AnywherePageIntegrateServerLink" class="foldout__link" text="Setup Amazon GameLift on a backend service \uf08e"/>
-                <ui:Label name="AnywherePageIntegrateClientLink" class="foldout__link" text="Setup Amazon GameLift client \uf08e"/>
-            </ui:VisualElement>
+        <ui:Foldout name="AnywherePageIntegrateTitle" class="foldout separator separator--small" text="Integrate GameLift with your game client">
+            <ui:Label name="AnywherePageIntegrateDescription" text="Add the Amazon GameLift server SDK to your game server and add code to communicate with the GameLift hosting service. If you&apos;re working with the Amazon GameLift sample game, this integration is already done."/>
+            <ui:Label name="AnywherePageIntegrateServerLink" class="external-link" text="Setup Amazon GameLift on a backend service \uf08e"/>
+            <ui:Label name="AnywherePageIntegrateClientLink" class="external-link" text="Setup Amazon GameLift client \uf08e"/>
         </ui:Foldout>
         <ui:Foldout name="AnywherePageCreateFleetTitle" class="foldout" text="Connect to Anywhere Fleet">
             <ui:VisualElement name="AnywherePageFleetName" class="form-row">

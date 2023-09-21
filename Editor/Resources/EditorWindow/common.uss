@@ -163,22 +163,12 @@ Image.icon--large {
 }
 
 .foldout .unity-foldout__toggle {
-    margin: 0 0 24px 0;
+    margin: 0 0 var(--spacing-large) 0;
 }
 
 .foldout__content {
     color: var(--color-font-default);
-    margin-bottom: 12px;
-}
-
-.foldout__links {
-    flex-direction: row;
-    justify-content: space-around;
-}
-
-.foldout__link {
-    border-bottom-color: var(--color-font-default);
-    border-bottom-width: 1px;
+    margin-bottom: var(--spacing-small);
 }
 
 .form-row {
