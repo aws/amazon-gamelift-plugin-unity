@@ -34,7 +34,7 @@ namespace Editor.Window
             _requestAdapter = new GameLiftRequestAdapter(_gameLiftPlugin);
             _gameLiftPlugin.SetupWrapper();
             _computeNameInput = container.Q<TextField>("AnywherePageComputeNameInput");
-            _ipInputs = container.Query<TextField>("AnywherePageComputeIpAddress").ToList();
+            _ipInputs = container.Query<TextField>("AnywherePageComputeIPAddressInput").ToList();
             _computeStatus = container.Q("AnywherePageComputeStatus");
             _registerButton = container.Q<Button>("AnywherePageComputeRegisterButton");
             _registerNewButton = container.Q<Button>("AnywherePageComputeRegisterNewButton");
