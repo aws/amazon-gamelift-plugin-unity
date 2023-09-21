@@ -42,7 +42,7 @@
                 <ui:Label name="AnywherePageConnectFleetStatusLabel" class="form-row__label" text="Fleet status"/>
                 <ui:Label name="AnywherePageConnectFleetStatusDisplay" class="form-row__text-display" text="Connected"/>
             </ui:VisualElement>
-            <ui:VisualElement name="AnywhereFleetButtons" class="form-row form-row__hidden">
+            <ui:VisualElement name="AnywherePageConnectFleetButtons" class="form-row form-row__hidden">
                 <ui:VisualElement class="form-row__input form-row__input--no-label">
                     <ui:Button name="AnywherePageConnectFleetNewButton" class="button button--primary" text="Create New Anywhere Fleet"/>
                 </ui:VisualElement>
