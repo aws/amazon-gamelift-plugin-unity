@@ -50,11 +50,6 @@ namespace AmazonGameLiftPlugin.Editor.UnitTests
             SetUpCoreApiWithSetting(coreApiMock, SettingsKeys.CurrentProfileName, success, profile);
         }
 
-        public static void SetUpCoreApiWithGameLiftLocalPath(this Mock<CoreApi> coreApiMock, bool success, string result = "X:/gl.exe")
-        {
-            SetUpCoreApiWithSetting(coreApiMock, SettingsKeys.GameLiftLocalPath, success, result);
-        }
-
         public static void SetUpCoreApiWithAccountId(this Mock<CoreApi> coreApiMock, bool success, string accountId = "test-id")
         {
             var accountIdResponse = new RetrieveAccountIdByCredentialsResponse()

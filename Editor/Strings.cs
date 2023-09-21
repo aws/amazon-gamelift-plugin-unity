@@ -130,12 +130,22 @@ namespace AmazonGameLift.Editor
         public const string SettingsUIDeployNextStepLabel = "SettingsUIDeployNextStepLabel";
         public const string LabelOpenSdkIntegrationDoc = "LabelOpenSdkIntegrationDoc";
         public const string LabelOpenSdkApiDoc = "LabelOpenSdkApiDoc";
-        
+
         public const string TabLanding = "TabLanding";
         public const string TabCredentials = "TabCredentials";
         public const string TabAnywhere = "TabAnywhere";
         public const string TabManagedEC2 = "TabManagedEC2";
         public const string TabHelp = "TabHelp";
+
+        public const string LandingPageHeader = "LandingPageHeader";
+        public const string LandingPageDescription = "LandingPageDescription";
+        public const string LandingPageNoAccountCardText = "LandingPageNoAccountCardText";
+        public const string LandingPageNoAccountCardButton = "LandingPageNoAccountCardButton";
+        public const string LandingPageAccountCardText = "LandingPageAccountCardText";
+        public const string LandingPageAccountCardButton = "LandingPageAccountCardButton";
+        public const string LandingPageSampleHeader = "LandingPageSampleHeader";
+        public const string LandingPageSampleDescription = "LandingPageSampleDescription";
+        public const string LandingPageSampleButton = "LandingPageSampleButton";
 
         public const string ProfileSelectorDropdownLabel = "ProfileSelectorDropdownLabel";
         public const string ProfileSelectorBucketNameLabel = "ProfileSelectorBucketNameLabel";

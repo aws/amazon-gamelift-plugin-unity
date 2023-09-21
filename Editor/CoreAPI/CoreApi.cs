@@ -32,7 +32,7 @@ namespace AmazonGameLift.Editor
 
         public static CoreApi SharedInstance { get; } = new CoreApi();
 
-        internal CoreApi()
+        public CoreApi()
         {
             _settingsStore = new SettingsStore(_fileWrapper, settingsFilePath: Paths.PluginSettingsFile);
             Bootstrapper.Initialize();
