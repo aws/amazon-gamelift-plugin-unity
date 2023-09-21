@@ -10,7 +10,7 @@ using AmazonGameLiftPlugin.Core.Shared.FileSystem;
 
 public class Settings
 {
-    public const string ConfigFilePath = "GameLiftConfiguration.yaml";
+    public const string ConfigFilePath = "GameLiftServerRuntimeSettings.yaml";
 
     private readonly ISettingsStore _settingsStore = new SettingsStore(new FileWrapper(), settingsFilePath: ConfigFilePath);
 
