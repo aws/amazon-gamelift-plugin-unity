@@ -11,7 +11,7 @@ namespace AmazonGameLift.Editor
     /// <summary>
     /// Keeps the region UI state and saves it to settings.
     /// </summary>
-    public class RegionBootstrap
+    internal class RegionBootstrap
     {
         private const int DefaultIndex = -1;
         private readonly CoreApi _coreApi;
