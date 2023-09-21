@@ -49,7 +49,6 @@ namespace AmazonGameLiftPlugin.Editor.UnitTests
             _coreApiMock.Setup(f => f.PutSetting(It.IsAny<string>(), It.IsAny<string>())).Returns(Response.Ok(new PutSettingResponse()));
             _coreApiMock.Setup(f => f.PutSetting(It.IsAny<string>(), null)).Returns(Response.Fail(new PutSettingResponse()));
             _coreApiMock.Setup(f => f.PutSetting(It.IsAny<string>(), string.Empty)).Returns(Response.Fail(new PutSettingResponse()));
-            //_gameLiftWrapperMock.Setup(wrapper => wrapper.ListLocations(It.IsAny<ListLocationsRequest>())).Returns(Task.FromResult(new ListLocationsResponse {Locations = listLocationModel}));
             
             _gameLiftWrapperMock.Setup(wrapper => wrapper.RegisterCompute(It.IsAny<RegisterComputeRequest>())).Returns(Task.FromResult(
                 new RegisterComputeResponse()
