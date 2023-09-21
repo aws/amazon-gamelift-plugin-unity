@@ -127,7 +127,7 @@ namespace Editor.Window
         {
             if (_gameLiftPlugin.GameLiftWrapper != null)
             {
-                _fleetsList = await _requestAdapter.ListFleets();
+                _fleetsList = await _requestAdapter.ListFleetAttributes();
                 s_fleetNameList.Clear();
                 _fleetsList.ForEach(fleet => s_fleetNameList.Add(fleet.Name));
                 _fleetNameDropdownContainer.choices = s_fleetNameList;

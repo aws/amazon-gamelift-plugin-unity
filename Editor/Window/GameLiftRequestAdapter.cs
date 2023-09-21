@@ -136,7 +136,7 @@ namespace Editor.Window
             }
         }
 
-        internal async Task<List<FleetAttributes>> ListFleets()
+        internal async Task<List<FleetAttributes>> ListFleetAttributes()
         {
             try
             {
