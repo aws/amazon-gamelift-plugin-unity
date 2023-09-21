@@ -14,10 +14,16 @@ namespace AmazonGameLiftPlugin.Core.ApiGatewayManagement
                 CancellationToken cancellationToken = default
             );
 
+        
+        /// <summary>
+        /// Editor region is code dedicated to Amazon GameLift SDK calls made by the Unity Editor Plugin. 
+        /// </summary>
+        #region Editor
         Task<CreatePlayerSessionResponse> CreatePlayerSession(CreatePlayerSessionRequest request);
 
         Task<SearchGameSessionsResponse> SearchGameSessions(SearchGameSessionsRequest request);
 
         Task<DescribeGameSessionsResponse> DescribeGameSessions(DescribeGameSessionsRequest request);
+        #endregion
     }
 }
