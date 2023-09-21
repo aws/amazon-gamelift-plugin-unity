@@ -82,13 +82,18 @@ namespace Editor.Window
             }
             catch (Exception ex)
             {
-                var errorBox = _container.Q<VisualElement>("FleetErrorInfoBox");
-                errorBox.style.display = DisplayStyle.Flex;
-                errorBox.Q<Label>().text = ex.Message;
+                HandleException("FleetErrorInfoBox", ex.Message);
                 return false;
             }
         }
-        
+
+        private void HandleException(string elementName, string exceptionMessage)
+        {
+            var errorBox = _container.Q<VisualElement>(elementName);
+            errorBox.style.display = DisplayStyle.Flex;
+            errorBox.Q<Label>().text = exceptionMessage;
+        }
+
         private async Task<string> CreateFleet(ComputeType computeType, string fleetLocation, string fleetName)
         {
             try
@@ -125,9 +130,7 @@ namespace Editor.Window
             }
             catch (Exception ex)
             {
-                var errorBox = _container.Q<VisualElement>("FleetErrorInfoBox");
-                errorBox.style.display = DisplayStyle.Flex;
-                errorBox.Q<Label>().text = ex.Message;
+                HandleException("FleetErrorInfoBox", ex.Message);
                 Debug.Log(ex.Message);
                 return null;
             }
@@ -150,9 +153,7 @@ namespace Editor.Window
             }
             catch (Exception ex)
             {
-                var errorBox = _container.Q<VisualElement>("FleetErrorInfoBox");
-                errorBox.style.display = DisplayStyle.Flex;
-                errorBox.Q<Label>().text = ex.Message;
+                HandleException("FleetErrorInfoBox", ex.Message);
                 Debug.Log(ex.Message);
                 return null;
             }
@@ -194,9 +195,7 @@ namespace Editor.Window
             }
             catch (Exception ex)
             {
-                var errorBox = _container.Q<VisualElement>("ComputeErrorInfoBox");
-                errorBox.style.display = DisplayStyle.Flex;
-                errorBox.Q<Label>().text = ex.Message;
+                HandleException("ComputeErrorInfoBox", ex.Message);
                 Debug.Log(ex.Message);
                 return null;
             }
