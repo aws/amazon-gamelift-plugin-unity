@@ -13,30 +13,30 @@ namespace Editor.Window
 {
     public class GameLiftRequestAdapter
     {
-        private GameLiftPlugin _gameLiftConfig;
+        private readonly GameLiftPlugin _gameLiftPlugin;
         private string _fleetName;
         private string _fleetId;
         public const string FleetLocation = "custom-location-1";
         private const string FleetDescription = "Deployed by the Amazon GameLift Plug-in for Unity.";
         private VisualElement _container;
 
-        public GameLiftRequestAdapter(GameLiftPlugin gameLiftConfig)
+        public GameLiftRequestAdapter(GameLiftPlugin gameLiftPlugin)
         {
-            _gameLiftConfig = gameLiftConfig;
+            _gameLiftPlugin = gameLiftPlugin;
         }
 
         internal async Task<bool> CreateAnywhereFleet(string fleetName)
         {
-            if (_gameLiftConfig.GameLiftWrapper != null)
+            if (_gameLiftPlugin.GameLiftWrapper != null)
             {
                 var success = await CreateCustomLocationIfNotExists(FleetLocation);
                 if (success)
                 {
                     var fleetId = await CreateFleet(ComputeType.ANYWHERE, FleetLocation,fleetName);
-                    var fleetNameResponse = _gameLiftConfig.CoreApi.PutSetting(SettingsKeys.FleetName, fleetName);
-                    var fleetIdResponse = _gameLiftConfig.CoreApi.PutSetting(SettingsKeys.FleetId, fleetId);
+                    var fleetNameResponse = _gameLiftPlugin.CoreApi.PutSetting(SettingsKeys.FleetName, fleetName);
+                    var fleetIdResponse = _gameLiftPlugin.CoreApi.PutSetting(SettingsKeys.FleetId, fleetId);
                     var customLocationNameResponse =
-                        _gameLiftConfig.CoreApi.PutSetting(SettingsKeys.CustomLocationName, FleetLocation);
+                        _gameLiftPlugin.CoreApi.PutSetting(SettingsKeys.CustomLocationName, FleetLocation);
                     return fleetNameResponse.Success && customLocationNameResponse.Success && fleetIdResponse.Success;
                 }
 
@@ -51,7 +51,7 @@ namespace Editor.Window
         {
             try
             {
-                var listLocationsResponse = await _gameLiftConfig.GameLiftWrapper.ListLocations(new ListLocationsRequest
+                var listLocationsResponse = await _gameLiftPlugin.GameLiftWrapper.ListLocations(new ListLocationsRequest
                 {
                     Filters = new List<string> { "CUSTOM" }
                 });
@@ -61,7 +61,7 @@ namespace Editor.Window
 
                 if (foundLocation == null)
                 {
-                    var createLocationResponse = await _gameLiftConfig.GameLiftWrapper.CreateLocation(
+                    var createLocationResponse = await _gameLiftPlugin.GameLiftWrapper.CreateLocation(
                         new CreateLocationRequest()
                         {
                             LocationName = fleetLocation
@@ -109,7 +109,7 @@ namespace Editor.Window
                         }
                     }
                     };
-                var createFleetResponse = await _gameLiftConfig.GameLiftWrapper.CreateFleet(createFleetRequest);
+                var createFleetResponse = await _gameLiftPlugin.GameLiftWrapper.CreateFleet(createFleetRequest);
                 
                 if (createFleetResponse.HttpStatusCode == HttpStatusCode.OK)
                 {
@@ -133,14 +133,14 @@ namespace Editor.Window
             try
             {
                 var listFleetRequest = new ListFleetsRequest();
-                var listFleetResponse = await _gameLiftConfig.GameLiftWrapper.ListFleets(listFleetRequest);
+                var listFleetResponse = await _gameLiftPlugin.GameLiftWrapper.ListFleets(listFleetRequest);
 
                 var describeFleetRequest = new DescribeFleetAttributesRequest()
                 {
                     FleetIds = listFleetResponse.FleetIds
                 };
 
-                var describeFleetResponse = await _gameLiftConfig.GameLiftWrapper.DescribeFleetAttributes(describeFleetRequest);
+                var describeFleetResponse = await _gameLiftPlugin.GameLiftWrapper.DescribeFleetAttributes(describeFleetRequest);
                 return describeFleetResponse.FleetAttributes;
             }
             catch (Exception ex)
@@ -159,9 +159,9 @@ namespace Editor.Window
             var webSocketUrl = await RegisterCompute(computeName, fleetId, fleetLocation, ipAddress);
             if (webSocketUrl != null)
             {
-                var computeNameResponse = _gameLiftConfig.CoreApi.PutSetting(SettingsKeys.ComputeName, computeName);
-                var ipAddressResponse = _gameLiftConfig.CoreApi.PutSetting(SettingsKeys.IpAddress, ipAddress);
-                var webSocketResponse = _gameLiftConfig.CoreApi.PutSetting(SettingsKeys.WebSocketUrl, webSocketUrl);
+                var computeNameResponse = _gameLiftPlugin.CoreApi.PutSetting(SettingsKeys.ComputeName, computeName);
+                var ipAddressResponse = _gameLiftPlugin.CoreApi.PutSetting(SettingsKeys.IpAddress, ipAddress);
+                var webSocketResponse = _gameLiftPlugin.CoreApi.PutSetting(SettingsKeys.WebSocketUrl, webSocketUrl);
 
                 return computeNameResponse.Success && ipAddressResponse.Success && webSocketResponse.Success;
             }
@@ -183,7 +183,7 @@ namespace Editor.Window
                     Location = fleetLocation
                 };
                 var registerComputeResponse =
-                    await _gameLiftConfig.GameLiftWrapper.RegisterCompute(registerComputeRequest);
+                    await _gameLiftPlugin.GameLiftWrapper.RegisterCompute(registerComputeRequest);
 
                 return registerComputeResponse.Compute.GameLiftServiceSdkEndpoint;
             }
@@ -207,7 +207,7 @@ namespace Editor.Window
                     FleetId = fleetId
                 };
                 var deregisterComputeResponse =
-                    await _gameLiftConfig.GameLiftWrapper.DeregisterCompute(deregisterComputeRequest);
+                    await _gameLiftPlugin.GameLiftWrapper.DeregisterCompute(deregisterComputeRequest);
 
                 return deregisterComputeResponse.HttpStatusCode == HttpStatusCode.OK;
             }
@@ -228,7 +228,7 @@ namespace Editor.Window
                     FleetId = fleetId,
                 };
                 var describeComputeResponse =
-                    await _gameLiftConfig.GameLiftWrapper.DescribeCompute(describeComputeRequest);
+                    await _gameLiftPlugin.GameLiftWrapper.DescribeCompute(describeComputeRequest);
 
                 return describeComputeResponse.HttpStatusCode == HttpStatusCode.OK;
             }
