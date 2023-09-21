@@ -3,11 +3,10 @@
 
 using System;
 using AmazonGameLift.Editor;
-using Editor.Window;
 using UnityEditor;
 using UnityEngine;
 
-namespace Editor.Resources.EditorWindow
+namespace GameLiftPlugin.Editor
 {
     internal class EditorMenu
     {
