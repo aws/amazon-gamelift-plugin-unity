@@ -26,22 +26,35 @@ namespace AmazonGameLiftPlugin.Core
         Task<DescribeGameSessionsResponse> DescribeGameSessions(DescribeGameSessionsRequest request);
         #endregion
 
-        Task<DescribeFleetAttributesResponse> DescribeFleets(DescribeFleetAttributesRequest request);
-
-        Task<DeregisterComputeResponse> DeregisterCompute(DeregisterComputeRequest request);
-
-        Task<DescribeComputeResponse> DescribeCompute(DescribeComputeRequest request);
-
-        Task<ListFleetsResponse> ListFleets(ListFleetsRequest request);
-
+        /// <summary>
+        /// Server region is code dedicated to Amazon GameLift SDK and AWS SDK calls made by the game server. All of these calls will be done via UI Elements or on Startup. 
+        /// </summary>
+        #region Server
         Task<ListLocationsResponse> ListLocations(ListLocationsRequest request);
-
+        
         Task<CreateLocationResponse> CreateLocation(CreateLocationRequest request);
-
-        Task<CreateFleetResponse> CreateFleet(CreateFleetRequest request);
-
+        
         Task<RegisterComputeResponse> RegisterCompute(RegisterComputeRequest request);
-
+        
         Task<GetComputeAuthTokenResponse> GetComputeAuthToken(GetComputeAuthTokenRequest request);
+        
+        Task<CreateFleetResponse> CreateFleet(CreateFleetRequest request);
+        
+        Task<DescribeFleetAttributesResponse> DescribeFleetAttributes(DescribeFleetAttributesRequest request);
+        
+        Task<DeregisterComputeResponse> DeregisterCompute(DeregisterComputeRequest request);
+        
+        Task<DescribeComputeResponse> DescribeCompute(DescribeComputeRequest request);
+        
+        Task<ListFleetsResponse> ListFleets(ListFleetsRequest request);
+        #endregion
+
+
+
+
+
+
+
+
     }
 }

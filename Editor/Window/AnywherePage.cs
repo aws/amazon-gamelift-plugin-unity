@@ -2,6 +2,7 @@
 // SPDX-License-Identifier: Apache-2.0
 
 using AmazonGameLift.Editor;
+using Editor.CoreAPI;
 using Editor.Resources.EditorWindow;
 using UnityEngine.UIElements;
 
@@ -11,7 +12,7 @@ namespace Editor.Window
     {
         private readonly VisualElement _container;
 
-        public AnywherePage(VisualElement container, GameLiftPlugin gameLiftPlugin)
+        public AnywherePage(VisualElement container, StateManager stateManager)
         {
             _container = container;
             var mVisualTreeAsset = UnityEngine.Resources.Load<VisualTreeAsset>("EditorWindow/Pages/AnywherePage");
@@ -21,9 +22,9 @@ namespace Editor.Window
             ApplyText();
 
             var fleetInput =
-                new ConnectToFleetInput(container, gameLiftPlugin, ConnectToFleetInput.FleetStatus.NotCreated);
+                new ConnectToFleetInput(container, stateManager, ConnectToFleetInput.FleetStatus.NotCreated);
             var computeInput =
-                new RegisterComputeInput(container, gameLiftPlugin, fleetInput,
+                new RegisterComputeInput(container, stateManager, fleetInput,
                     RegisterComputeInput.ComputeStatus.NotRegistered);
         }
 

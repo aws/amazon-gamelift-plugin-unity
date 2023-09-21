@@ -5,7 +5,7 @@ using System;
 using System.Collections.Generic;
 using Amazon.GameLift;
 using AmazonGameLift.Editor;
-using AmazonGameLiftPlugin.Core.ApiGatewayManagement;
+using AmazonGameLiftPlugin.Core;
 using Editor.CoreAPI;
 using Editor.Resources.EditorWindow;
 using UnityEditor;
@@ -54,14 +54,14 @@ namespace Editor.Window
 
             var tabContentContainer = _root.Q(className: MainContentClassName);
             var landingPage = new LandingPage(CreateContentContainer(Pages.Landing, tabContentContainer));
-            var anywherePage = new AnywherePage(CreateContentContainer(Pages.Anywhere, tabContentContainer), this);
+            var anywherePage = new AnywherePage(CreateContentContainer(Pages.Anywhere, tabContentContainer), _stateManager);
 
             _tabButtons = _root.Query<Button>(className: TabButtonClassName).ToList();
             _tabContent = _root.Query(className: TabContentClassName).ToList();
 
             _tabButtons.ForEach(button => button.RegisterCallback<ClickEvent>(_ => { OpenTab(button.name); }));
             
-            OpenTab(Pages.Landing);
+            OpenTab(Pages.Anywhere);
         }
 
         private void LocalizeText()

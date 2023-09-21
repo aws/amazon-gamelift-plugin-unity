@@ -4,6 +4,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using Amazon.GameLift.Model;
 using AmazonGameLift.Editor;
+using Editor.CoreAPI;
 using UnityEngine.UIElements;
 
 namespace Editor.Window
@@ -23,19 +24,18 @@ namespace Editor.Window
         private VisualElement _fleetId;
         private Label _fleetIdText;
         private VisualElement _fleetStatus;
-        private readonly GameLiftRequestAdapter _requestAdapter;
-        private readonly GameLiftPlugin _gameLiftPlugin;
+        private readonly GameLiftFleetManager _fleetManager;
+        private readonly StateManager _stateManager;
         private Button _cancelButton;
         
         private FleetStatus _fleetState;
         private List<FleetAttributes> _fleetsList;
 
-        public ConnectToFleetInput(VisualElement container, GameLiftPlugin gameLiftPlugin, FleetStatus initialState)
+        public ConnectToFleetInput(VisualElement container, StateManager stateManager, FleetStatus initialState)
         {
             _fleetState = initialState;
-            _gameLiftPlugin = gameLiftPlugin;
-            _requestAdapter = new GameLiftRequestAdapter(_gameLiftPlugin);
-            _gameLiftPlugin.SetupWrapper();
+            _stateManager = stateManager;
+            _fleetManager = stateManager.FleetManager;
 
             AssignUiElements(container);
             PopulateFleetVisualElements();
@@ -49,8 +49,8 @@ namespace Editor.Window
         {
             if (_fleetState is FleetStatus.NotCreated or FleetStatus.Creating)
             {
-                var success = await _requestAdapter?.CreateAnywhereFleet(text)!;
-                if (success)
+                var response = await _fleetManager?.CreateAnywhereFleet(text)!;
+                if (response.Success)
                 {
                     _fleetState = FleetStatus.Selected;
                 }
@@ -114,20 +114,20 @@ namespace Editor.Window
             await UpdateFleetMenu();
             _fleetNameDropdownContainer.RegisterValueChangedCallback(_ =>
                 {
-                    _gameLiftPlugin.CurrentState.SelectedFleetName = _fleetNameDropdownContainer.value;
+                    _stateManager.SelectedFleetName = _fleetNameDropdownContainer.value;
                     var currentFleet = _fleetsList.First(fleet => fleet.Name == _fleetNameDropdownContainer.value);
                     _fleetIdText.text = currentFleet.FleetId;
                     FleetId = currentFleet.FleetId;
-                    _gameLiftPlugin.CoreApi.PutSetting(SettingsKeys.SelectedFleetName, currentFleet.Name);
+                    _stateManager.CoreApi.PutSetting(SettingsKeys.SelectedFleetName, currentFleet.Name);
                 }
             );
         }
         
         private async Task UpdateFleetMenu()
         {
-            if (_gameLiftPlugin.GameLiftWrapper != null)
+            if (_stateManager.GameLiftWrapper != null)
             {
-                _fleetsList = await _requestAdapter.ListFleetAttributes();
+                _fleetsList = await _fleetManager.ListFleetAttributes();
                 s_fleetNameList.Clear();
                 _fleetsList.ForEach(fleet => s_fleetNameList.Add(fleet.Name));
                 _fleetNameDropdownContainer.choices = s_fleetNameList;
@@ -142,7 +142,7 @@ namespace Editor.Window
             {
                 _fleetState = FleetStatus.Selecting;
             }
-            _fleetNameDropdownContainer.index = _fleetNameDropdownContainer.choices.IndexOf(_gameLiftPlugin.CurrentState.SelectedFleetName);
+            _fleetNameDropdownContainer.index = _fleetNameDropdownContainer.choices.IndexOf(_stateManager.SelectedFleetName);
             UpdateGUI();
         }
 

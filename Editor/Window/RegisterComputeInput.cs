@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using AmazonGameLift.Editor;
+using Editor.CoreAPI;
 using UnityEngine.UIElements;
 
 namespace Editor.Window
@@ -19,20 +20,19 @@ namespace Editor.Window
         private readonly Button _cancelButton;
         private readonly VisualElement _computeStatus;
         private readonly VisualElement _container;
-        private readonly GameLiftRequestAdapter _requestAdapter;
+        private readonly GameLiftComputeManager _requestAdapter;
         private readonly ConnectToFleetInput _fleetDetails;
-        private readonly GameLiftPlugin _gameLiftPlugin;
+        private readonly StateManager _stateManager;
 
         private string _computeName = "ComputerName-ProfileName";
         private string _ipAddress = "120.120.120.120";
 
-        public RegisterComputeInput(VisualElement container, GameLiftPlugin gameLiftPlugin, ConnectToFleetInput  fleetDetails, ComputeStatus initialState)
+        public RegisterComputeInput(VisualElement container, StateManager stateManager, ConnectToFleetInput  fleetDetails, ComputeStatus initialState)
         {
             _computeState = initialState;
             _fleetDetails = fleetDetails;
-            _gameLiftPlugin = gameLiftPlugin;
-            _requestAdapter = new GameLiftRequestAdapter(_gameLiftPlugin);
-            _gameLiftPlugin.SetupWrapper();
+            _stateManager = stateManager;
+            _requestAdapter = stateManager.ComputeManager;
             _computeNameInput = container.Q<TextField>("AnywherePageComputeNameInput");
             _ipInputs = container.Query<TextField>("AnywherePageComputeIPAddressInput").ToList();
             _computeStatus = container.Q("AnywherePageComputeStatus");
@@ -71,7 +71,7 @@ namespace Editor.Window
         {
             if (_computeState is ComputeStatus.NotRegistered or ComputeStatus.Registering)
             {
-                var success = await _requestAdapter.RegisterFleetCompute(_computeName, _fleetDetails.FleetId, GameLiftRequestAdapter.FleetLocation, _ipAddress);
+                var success = await _requestAdapter.RegisterFleetCompute(_computeName, _fleetDetails.FleetId, _stateManager.FleetLocation, _ipAddress);
                 if (success)
                 {
                     _computeState = ComputeStatus.Registered;
@@ -119,10 +119,8 @@ namespace Editor.Window
 
         private void SetupConfigSettings()
         {
-            _computeName = _gameLiftPlugin.CoreApi.GetSetting(SettingsKeys.ComputeName).Value;
-            _ipAddress = _gameLiftPlugin.CoreApi.GetSetting(SettingsKeys.IpAddress).Value;
-            _gameLiftPlugin.CurrentState.SelectedProfile = _gameLiftPlugin.CoreApi.GetSetting(SettingsKeys.SelectedProfile).Value;
-            _gameLiftPlugin.CurrentState.SelectedFleetName = _gameLiftPlugin.CoreApi.GetSetting(SettingsKeys.SelectedFleetName).Value;
+            _computeName = _stateManager.CoreApi.GetSetting(SettingsKeys.ComputeName).Value;
+            _ipAddress = _stateManager.CoreApi.GetSetting(SettingsKeys.IpAddress).Value;
         }
 
         private void PopulateComputeVisualElements()
