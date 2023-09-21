@@ -7,6 +7,7 @@ using System.Collections.Generic;
 using Amazon;
 using Amazon.GameLift;
 using Amazon.GameLift.Model;
+using AmazonGameLift.Runtime;
 using AmazonGameLiftPlugin.Core.CredentialManagement;
 using AmazonGameLiftPlugin.Core.CredentialManagement.Models;
 using AmazonGameLiftPlugin.Core.Shared.FileSystem;
@@ -18,7 +19,8 @@ public class GameLiftServer
 {
     private readonly GameLift _gl;
     private readonly Logger _logger;
-    private readonly Settings _settings;
+    private const string configFilePath = "GameLiftServerRuntimeSettings.yaml";
+    private readonly Settings<SettingsKeys> _settings;
 #if UNITY_EDITOR
     private readonly ICredentialsStore _credentialsStore;
 #endif
@@ -32,7 +34,7 @@ public class GameLiftServer
     {
         _gl = gl ?? throw new ArgumentNullException(nameof(gl));
         _logger = logger ?? throw new ArgumentNullException(nameof(logger));
-        _settings = new Settings();
+        _settings = new Settings<SettingsKeys>(configFilePath);
 #if UNITY_EDITOR
         _credentialsStore = new CredentialsStore(new FileWrapper());
 #endif

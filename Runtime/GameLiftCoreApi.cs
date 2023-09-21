@@ -8,37 +8,39 @@ using System.Linq;
 using System.Threading.Tasks;
 using Amazon;
 using Amazon.GameLift;
-using AmazonGameLift.Editor;
 using AmazonGameLiftPlugin.Core;
 using AmazonGameLiftPlugin.Core.ApiGatewayManagement;
 using AmazonGameLiftPlugin.Core.ApiGatewayManagement.Models;
+using AmazonGameLiftPlugin.Core.CredentialManagement;
+using AmazonGameLiftPlugin.Core.CredentialManagement.Models;
 using AmazonGameLiftPlugin.Core.Latency;
 using AmazonGameLiftPlugin.Core.Latency.Models;
 using AmazonGameLiftPlugin.Core.Shared;
+using AmazonGameLiftPlugin.Core.Shared.FileSystem;
 using AmazonGameLiftPlugin.Core.UserIdentityManagement;
 using AmazonGameLiftPlugin.Core.UserIdentityManagement.Models;
-using UnityEngine;
 
 namespace AmazonGameLift.Runtime
 {
     public class GameLiftCoreApi
     {
+        public const string ConfigFilePath = "GameLiftConfiguration.yaml";
         private readonly GameLiftConfiguration _configuration;
         private readonly bool _isAnywhereMode;
         private readonly IGameServerAdapter _gameServerAdapter;
-        private readonly CoreApi _coreApi;
 
         protected GameLiftCoreApi(GameLiftConfiguration configuration)
         {
             _configuration = configuration;
-            _coreApi = new CoreApi(Paths.PluginConfigurationFile);
-            var fleetId = _coreApi.GetSetting(SettingsKeys.FleetId).Value;
-            var fleetLocation = _coreApi.GetSetting(SettingsKeys.FleetLocation).Value;
+            var settings = new Settings<ClientSettingsKeys>(ConfigFilePath);
+            var fleetId = settings.GetSetting(ClientSettingsKeys.FleetId).Value;
+            var fleetLocation = settings.GetSetting(ClientSettingsKeys.FleetLocation).Value;
             if (_configuration.IsGameLiftAnywhere)
             {
+                var credentials = new CredentialsStore(new FileWrapper());
                 var credentialsResponse =
-                    _coreApi.RetrieveAwsCredentials(_coreApi.GetSetting(SettingsKeys.CurrentProfileName).Value);
-                var region = _coreApi.GetSetting(SettingsKeys.CurrentRegion).Value;
+                    credentials.RetriveAwsCredentials(new RetriveAwsCredentialsRequest(){ProfileName = settings.GetSetting(ClientSettingsKeys.CurrentProfileName).Value});
+                var region = settings.GetSetting(ClientSettingsKeys.CurrentRegion).Value;
                 var gameLiftClient = new AmazonGameLiftClient(credentialsResponse.AccessKey, credentialsResponse.SecretKey, RegionEndpoint.GetBySystemName(region));
                 var gameLiftClientWrapper = new AmazonGameLiftWrapper(gameLiftClient); 
                 _gameServerAdapter = new AnywhereGameServerAdapter(gameLiftClientWrapper, fleetId, fleetLocation);
