@@ -147,7 +147,7 @@ Image.icon--small {
     flex-direction: row;
 }
 
-.external-link .icon {
+Image#ExternalLinkIcon {
     --unity-image: resource("Images/Icons/ExternalLink");
 }
 
