@@ -48,7 +48,7 @@ namespace AmazonGameLiftPlugin.Core.ApiGatewayManagement
             return await _amazonGameLiftClient.ListFleetsAsync(request);
         }
         
-        public async Task<DescribeFleetAttributesResponse> DescribeFleets(DescribeFleetAttributesRequest request)
+        public async Task<DescribeFleetAttributesResponse> DescribeFleetAttributes(DescribeFleetAttributesRequest request)
         {
             return await _amazonGameLiftClient.DescribeFleetAttributesAsync(request);
         }

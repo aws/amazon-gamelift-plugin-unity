@@ -140,7 +140,7 @@ namespace Editor.Window
                     FleetIds = listFleetResponse.FleetIds
                 };
 
-                var describeFleetResponse = await _gameLiftConfig.GameLiftWrapper.DescribeFleets(describeFleetRequest);
+                var describeFleetResponse = await _gameLiftConfig.GameLiftWrapper.DescribeFleetAttributes(describeFleetRequest);
                 return describeFleetResponse.FleetAttributes;
             }
             catch (Exception ex)
