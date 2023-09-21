@@ -5,8 +5,9 @@ using System.Threading;
 using System.Threading.Tasks;
 using Amazon.GameLift;
 using Amazon.GameLift.Model;
+using AmazonGameLiftPlugin.Core.ApiGatewayManagement;
 
-namespace AmazonGameLiftPlugin.Core.ApiGatewayManagement
+namespace AmazonGameLiftPlugin.Core
 {
     public class AmazonGameLiftWrapper : IAmazonGameLiftWrapper
     {
