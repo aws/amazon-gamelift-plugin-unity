@@ -10,9 +10,6 @@ namespace Editor.Window
     public class AnywherePage
     {
         private readonly VisualElement _container;
-        private readonly GameLiftPlugin _gameLiftConfig;
-
-        private DropdownField _fleetNameDropdown;
 
         public AnywherePage(VisualElement container, GameLiftPlugin gameLiftPlugin)
         {
