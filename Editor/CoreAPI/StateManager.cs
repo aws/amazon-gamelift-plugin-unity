@@ -21,9 +21,9 @@ namespace Editor.CoreAPI
         public string SelectedProfile
         {
             get => _selectedProfile;
-            private set => SetProfile(value);
+            set => SetProfile(value);
         }
-        
+
         public string SelectedFleetName { get; set; }
         public string FleetLocation { get; set; }
 

@@ -20,19 +20,20 @@ namespace Editor.Window
         private readonly Button _cancelButton;
         private readonly VisualElement _computeStatus;
         private readonly VisualElement _container;
-        private readonly GameLiftComputeManager _requestAdapter;
+        private readonly GameLiftComputeManager _computeManager;
         private readonly ConnectToFleetInput _fleetDetails;
         private readonly StateManager _stateManager;
 
         private string _computeName = "ComputerName-ProfileName";
         private string _ipAddress = "120.120.120.120";
+        private string _location = "custom-location-1";
 
         public RegisterComputeInput(VisualElement container, StateManager stateManager, ConnectToFleetInput  fleetDetails, ComputeStatus initialState)
         {
             _computeState = initialState;
             _fleetDetails = fleetDetails;
             _stateManager = stateManager;
-            _requestAdapter = stateManager.ComputeManager;
+            _computeManager = stateManager.ComputeManager;
             _computeNameInput = container.Q<TextField>("AnywherePageComputeNameInput");
             _ipInputs = container.Query<TextField>("AnywherePageComputeIPAddressInput").ToList();
             _computeStatus = container.Q("AnywherePageComputeStatus");
@@ -71,7 +72,7 @@ namespace Editor.Window
         {
             if (_computeState is ComputeStatus.NotRegistered or ComputeStatus.Registering)
             {
-                var success = await _requestAdapter.RegisterFleetCompute(_computeName, _fleetDetails.FleetId, _stateManager.FleetLocation, _ipAddress);
+                var success = await _computeManager.RegisterFleetCompute(_computeName, _fleetDetails.FleetId, _location, _ipAddress);
                 if (success)
                 {
                     _computeState = ComputeStatus.Registered;
@@ -121,6 +122,8 @@ namespace Editor.Window
         {
             _computeName = _stateManager.CoreApi.GetSetting(SettingsKeys.ComputeName).Value;
             _ipAddress = _stateManager.CoreApi.GetSetting(SettingsKeys.IpAddress).Value;
+            _stateManager.SelectedProfile = _stateManager.CoreApi.GetSetting(SettingsKeys.SelectedProfile).Value;
+            _stateManager.SelectedFleetName = _stateManager.CoreApi.GetSetting(SettingsKeys.SelectedFleetName).Value;
         }
 
         private void PopulateComputeVisualElements()
