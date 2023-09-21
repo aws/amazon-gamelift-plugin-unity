@@ -25,6 +25,7 @@
     --font-size-extralarge: 24px;
     --font-size-massive: 32px;
 
+    --icon-size-small: 24px;
     --icon-size-large: 60px;
     --border-size-thin: 1px;
     --border-size-medium: 2px;
@@ -56,6 +57,12 @@ Image.icon--large {
     flex: 0 0 auto;
 }
 
+Image.icon--small {
+    height: var(--icon-size-small);
+    width: var(--icon-size-small);
+    flex: 0 0 auto;
+}
+
 .button {
     border-radius: 4px;
     border-width: var(--border-size-medium);
@@ -65,6 +72,7 @@ Image.icon--large {
     background-color: var(--color-button-default);
     font-size: var(--font-size-large);
     align-self: flex-start;
+    flex-direction: row;
 }
 
 .button--primary {
@@ -140,7 +148,8 @@ Image.icon--large {
 .external-link {
     border-bottom-width: var(--border-size-thin);
     border-bottom-color: var(--color-font-accent);
-    align-self: flex-start
+    align-self: flex-start;
+    flex-direction: row;
 }
 
 .page__title {

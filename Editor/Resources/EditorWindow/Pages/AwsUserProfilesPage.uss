@@ -8,9 +8,9 @@
 }
 
 Image#UserProfilePageAccountCardNoAccountIcon {
-    --unity-image: resource("Image/Icons/NoAccountIcon");
+    --unity-image: resource("Images/Icons/NoAccountIcon");
 }
 
 Image#UserProfilePageAccountCardNewAccountIcon {
-    --unity-image: resource("Image/Icons/AccountIcon");
+    --unity-image: resource("Images/Icons/AccountIcon");
 }

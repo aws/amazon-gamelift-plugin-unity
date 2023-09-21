@@ -152,7 +152,7 @@ namespace AmazonGameLift.Editor
         public const string UserProfilePageAccountCardNoAccountTitle = "UserProfilePageAccountCardNoAccountTitle";
         public const string UserProfilePageAccountCardNoAccountDescription = "UserProfilePageAccountCardNoAccountDescription";
         public const string UserProfilePageAccountCardNoAccountLink = "UserProfilePageAccountCardNoAccountLink";
-        public const string UserProfilePageAccountCardNoAccountButton = "UserProfilePageAccountCardNoAccountButton";
+        public const string UserProfilePageAccountCardNoAccountButtonLabel = "UserProfilePageAccountCardNoAccountButton";
         public const string UserProfilePageAccountExistingAccountTitle = "UserProfilePageAccountExistingAccountTitle";
         public const string UserProfilePageAccountExistingAccountDescription = "UserProfilePageAccountExistingAccountDescription";
         public const string UserProfilePageAccountCardHasAccountButton = "UserProfilePageAccountCardHasAccountButton";
