@@ -11,23 +11,23 @@
         <ui:VisualElement class="divider"/>
         <ui:VisualElement class="separator separator--horizontal">
             <ui:VisualElement class="card card--small">
-                <ui:Image name="HelpPageReportIssueIcon" class="card__icon"/>
+                <ui:Image name="HelpPageReportIssueIcon" class="card__icon--small"/>
                 <ui:Label name="HelpPageReportIssueLink" class="card__text" text="Report Issue   \uf08e"/>
                 <ui:Image name="HelpPageReportIssueExternalLink" class="card__icon--small"/>
             </ui:VisualElement>
             <ui:VisualElement class="card card--small">
-                <ui:Image name="HelpPageDocumentationIcon" class="card__icon"/>
+                <ui:Image name="HelpPageDocumentationIcon" class="card__icon--small"/>
                 <ui:Label name="HelpPageDocumentationLink" class="card__text" text="Documentation \uf08e"/>
                 <ui:Image name="HelpPageDocumentationExternalLink" class="card__icon--small"/>
             </ui:VisualElement>
             <ui:VisualElement class="card card--small">
                 <ui:Image name="HelpPageVideoTutorialIcon" class="card__icon--small"/>
-                <ui:Label name="HelpPageVideoTutorialLink" class="card__text--small" text="Video Tutorials  \uf08e"/>
+                <ui:Label name="HelpPageVideoTutorialLink" class="card__text" text="Video Tutorials  \uf08e"/>
                 <ui:Image name="HelpPageVideoTutorialExternalLink" class="card__icon--small"/>
             </ui:VisualElement>
             <ui:VisualElement class="card card--small">
                 <ui:Image name="HelpPageForumIcon" class="card__icon--small"/>
-                <ui:Label name="HelpPageForumLink" class="card__text--small" text="AWS Forum     \uf08e"/>
+                <ui:Label name="HelpPageForumLink" class="card__text" text="AWS Forum     \uf08e"/>
                 <ui:Image name="HelpPageForumExternalLink" class="card__icon--small"/>
             </ui:VisualElement>
         </ui:VisualElement>
