@@ -20,8 +20,14 @@ namespace Editor.CoreAPI
         public string SelectedProfile
         {
             get => _selectedProfile;
-            private set => SetProfile(value);
+            set => SetProfile(value);
         }
+        
+        public Action OnProfileSelected { get; set; }
+        
+        public bool IsBootstrapped { get; set; }
+        public string BucketName { get; set; }
+        public string Region { get; set; }
 
         public StateManager(CoreApi coreApi)
         {
@@ -35,9 +41,12 @@ namespace Editor.CoreAPI
         {
             if (string.IsNullOrWhiteSpace(profileName)) return;
             _selectedProfile = profileName;
+            var credentials = CoreApi.RetrieveAwsCredentials(profileName);
+            Region = credentials.Region;
             GameLiftWrapper = AmazonGameLiftClientFactory.Get(SelectedProfile);
             FleetManager = new GameLiftFleetManager(CoreApi, GameLiftWrapper);
             ComputeManager = new GameLiftComputeManager(CoreApi, GameLiftWrapper);
+            OnProfileSelected?.Invoke();
         }
     }
 }
