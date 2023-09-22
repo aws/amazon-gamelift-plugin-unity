@@ -151,5 +151,6 @@ namespace AmazonGameLift.Editor
         public const string ProfileSelectorBucketNameLabel = "ProfileSelectorBucketNameLabel";
         public const string ProfileSelectorRegionLabel = "ProfileSelectorRegionLabel";
         public const string ProfileSelectorStatusLabel = "ProfileSelectorStatusLabel";
+        public const string BootstrapNoBucketCreated = "BootstrapNoBucketCreated";
     }
 }

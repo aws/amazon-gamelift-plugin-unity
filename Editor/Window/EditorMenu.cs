@@ -6,7 +6,7 @@ using AmazonGameLift.Editor;
 using UnityEditor;
 using UnityEngine;
 
-namespace GameLiftPlugin.Editor
+namespace AmazonGameLift.Editor
 {
     internal class EditorMenu
     {

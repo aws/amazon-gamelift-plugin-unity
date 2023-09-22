@@ -10,20 +10,19 @@ using UnityEditor;
 using UnityEngine;
 using UnityEngine.UIElements;
 
-namespace GameLiftPlugin.Editor
+namespace AmazonGameLift.Editor
 {
     public class GameLiftPlugin : EditorWindow
     {
         [SerializeField] private Texture _icon;
         internal Texture Icon => _icon;
+        internal readonly StateManager StateManager;
 
         private VisualTreeAsset _visualTreeAsset;
         private VisualElement _root;
         private VisualElement _currentTab;
         private List<Button> _tabButtons;
         private List<VisualElement> _tabContent;
-
-        private readonly StateManager _stateManager;
 
         private const string MainContentClassName = "main__content";
         private const string TabContentSelectedClassName = "tab__content--selected";
@@ -33,7 +32,7 @@ namespace GameLiftPlugin.Editor
 
         private GameLiftPlugin()
         {
-            _stateManager = new StateManager(new CoreApi());
+            StateManager = new StateManager(new CoreApi());
         }
 
         private void CreateGUI()

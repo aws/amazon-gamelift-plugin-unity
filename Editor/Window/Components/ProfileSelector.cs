@@ -1,26 +1,54 @@
-﻿using System.Collections.Generic;
-using AmazonGameLift.Editor;
+﻿using System.Linq;
+using Editor.CoreAPI;
 using Editor.Resources.EditorWindow;
+using UnityEditor;
 using UnityEngine;
 using UnityEngine.UIElements;
 
-namespace GameLiftPlugin.Editor
+namespace AmazonGameLift.Editor
 {
     public class ProfileSelector : VisualElement
     {
-        public new class UxmlFactory : UxmlFactory<ProfileSelector> { }
+        public new class UxmlFactory : UxmlFactory<ProfileSelector>
+        {
+        }
 
-        private DropdownField _dropdown => this.Q < DropdownField>("Dropdown");
-        
+        private readonly StateManager _stateManager;
+        private readonly TextProvider _textProvider;
+
+        private DropdownField _dropdown => this.Q<DropdownField>("Dropdown");
+        private Label _bucketName => this.Q<Label>("BucketName");
+        private Label _region => this.Q<Label>("Region");
+        private Label _status => this.Q<Label>("BootstrapStatus");
+
         public ProfileSelector()
         {
             var asset = Resources.Load<VisualTreeAsset>("EditorWindow/Components/ProfileSelector");
             asset.CloneTree(this);
-            
+
             LocalizeText();
 
-            _dropdown.choices = new List<string>(); // TODO: Load choices from plugin state
-            _dropdown.RegisterValueChangedCallback(value => { }); // TODO: Register callback to change profile with main plugin file
+            _stateManager = EditorWindow.GetWindow<GameLiftPlugin>().StateManager;
+            _stateManager.OnProfileSelected += UpdateGUI;
+            _textProvider = TextProviderFactory.Create();
+
+            _dropdown.RegisterValueChangedCallback(value => { _stateManager.SelectedProfile = value.newValue; });
+            _dropdown.choices = _stateManager.CoreApi.ListCredentialsProfiles().Profiles.ToList();
+        }
+
+        private void UpdateGUI()
+        {
+            _region.text = _stateManager.Region;
+            if (_stateManager.IsBootstrapped)
+            {
+                _bucketName.text = _stateManager.BucketName;
+                _status.text = "Active";
+            }
+            else
+            {
+                _bucketName.text = _textProvider.Get(Strings.BootstrapNoBucketCreated);
+                _status.text = "Inactive";
+            }
         }
 
         private void LocalizeText()
@@ -30,6 +58,6 @@ namespace GameLiftPlugin.Editor
             l.SetElementText("BucketNameLabel", Strings.ProfileSelectorBucketNameLabel);
             l.SetElementText("RegionLabel", Strings.ProfileSelectorRegionLabel);
             l.SetElementText("BootstrapStatusLabel", Strings.ProfileSelectorStatusLabel);
-        }        
+        }
     }
 }
