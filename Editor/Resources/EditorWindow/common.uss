@@ -32,8 +32,8 @@
     --spacing-medium-negative: -18px;
     --spacing-large-negative: -24px;
 
-    --radio-button-small: 14px;
-    --radio-button-medium: 24px;
+    --radio-button-inner: 14px;
+    --radio-button-outer: 24px;
 
     --page-width: 920px;
 
