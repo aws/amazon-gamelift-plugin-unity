@@ -3,14 +3,11 @@
 
 using System.Collections.Generic;
 using System.Linq;
-using AmazonGameLift.Editor;
 using Editor.CoreAPI;
-using Editor.GameLiftConfigurationUI;
-using Editor.Window;
 using UnityEngine;
 using UnityEngine.UIElements;
 
-namespace Editor.Resources.EditorWindow.Pages
+namespace AmazonGameLift.Editor
 {
     internal class AwsUserProfilesPage
     {

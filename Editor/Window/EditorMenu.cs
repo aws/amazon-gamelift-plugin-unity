@@ -2,12 +2,10 @@
 // SPDX-License-Identifier: Apache-2.0
 
 using System;
-using AmazonGameLift.Editor;
-using Editor.Window;
 using UnityEditor;
 using UnityEngine;
 
-namespace Editor.Resources.EditorWindow
+namespace AmazonGameLift.Editor
 {
     internal class EditorMenu
     {

@@ -3,16 +3,12 @@
 
 using System;
 using System.Collections.Generic;
-using AmazonGameLift.Editor;
-using AmazonGameLiftPlugin.Core.ApiGatewayManagement;
 using Editor.CoreAPI;
-using Editor.Resources.EditorWindow;
-using Editor.Resources.EditorWindow.Pages;
 using UnityEditor;
 using UnityEngine;
 using UnityEngine.UIElements;
 
-namespace Editor.Window
+namespace AmazonGameLift.Editor
 {
     public class GameLiftPlugin : EditorWindow
     {
@@ -24,11 +20,6 @@ namespace Editor.Window
         private VisualElement _currentTab;
         private List<Button> _tabButtons;
         private List<VisualElement> _tabContent;
-        private AwsUserProfilesPage _userProfilesPage;
-        
-        public AmazonGameLiftWrapper GameLiftWrapper;
-        public State CurrentState;
-        public readonly CoreApi CoreApi;
 
         private readonly StateManager _stateManager;
 
@@ -37,11 +28,9 @@ namespace Editor.Window
         private const string TabButtonSelectedClassName = "tab__button--selected";
         private const string TabButtonClassName = "tab__button";
         private const string TabContentClassName = "tab__content";
-        
+
         private GameLiftPlugin()
         {
-            CoreApi = CoreApi.SharedInstance;
-            _stateManager = new StateManager(CoreApi);
         }
 
         private void CreateGUI()
@@ -127,13 +116,6 @@ namespace Editor.Window
             Anywhere,
             ManagedEC2,
             Help,
-        }
-        
-        public struct State
-        {
-            public bool SelectedBootstrapped;
-            public string[] AllProfiles;
-            public string SelectedProfile;
         }
     }
 }

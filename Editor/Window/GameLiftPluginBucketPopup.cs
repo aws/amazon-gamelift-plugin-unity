@@ -2,12 +2,11 @@
 // SPDX-License-Identifier: Apache-2.0
 
 using System;
-using AmazonGameLift.Editor;
 using UnityEditor;
 using UnityEngine;
 using UnityEngine.UIElements;
 
-namespace Editor.GameLiftConfigurationUI
+namespace AmazonGameLift.Editor
 {
     public class GameLiftPluginBucketPopup : EditorWindow
     {

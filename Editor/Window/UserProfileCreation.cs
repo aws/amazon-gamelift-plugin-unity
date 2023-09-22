@@ -1,14 +1,15 @@
-﻿using System.Linq;
+﻿// Copyright Amazon.com, Inc. or its affiliates. All Rights Reserved.
+// SPDX-License-Identifier: Apache-2.0
+
+using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
-using AmazonGameLift.Editor;
 using AmazonGameLiftPlugin.Core.Shared;
 using Editor.CoreAPI;
-using Editor.Resources.EditorWindow.Pages;
 using UnityEngine;
 using UnityEngine.UIElements;
 
-namespace Editor.Window
+namespace AmazonGameLift.Editor
 {
     internal class UserProfileCreation
     {
@@ -19,7 +20,7 @@ namespace Editor.Window
         private AwsUserProfilesPage _profilesPage;
         
         
-        public UserProfileCreation(VisualElement container, StateManager stateManager, AwsUserProfilesPage profilesPage) //TODO Once the state manager is merged in, change from gameliftplugin to statemanager
+        public UserProfileCreation(VisualElement container, StateManager stateManager, AwsUserProfilesPage profilesPage)
         {
             _container = container;
             _stateManager = stateManager;
