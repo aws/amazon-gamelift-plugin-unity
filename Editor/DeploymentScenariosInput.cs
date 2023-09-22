@@ -9,8 +9,6 @@ namespace AmazonGameLift.Editor
 {
     internal class DeploymentScenariosInput : StatefulInput
     {
-        private static IReadOnlyCollection<VisualElement> _fleetTypeVisualElements;
-        
         private InputState _inputState;
         private bool _enabled;
         private DeploymentScenarios _deploymentScenarios;
@@ -81,9 +79,9 @@ namespace AmazonGameLift.Editor
             });
         }
 
-        private void PopulateFleetTypeVisualElements()
+        private List<VisualElement> GetExtraScenarioElements()
         {
-            _fleetTypeVisualElements = new List<VisualElement>()
+            return new List<VisualElement>()
             {
                 _showMoreScenariosButton,
                 _radio2Group,
@@ -104,7 +102,7 @@ namespace AmazonGameLift.Editor
         protected sealed override void UpdateGUI()
         {
             var elements = GetVisibleItemsByState();
-            foreach (var element in _fleetTypeVisualElements)
+            foreach (var element in GetExtraScenarioElements())
             {
                 if (elements.Contains(element)) {
                     Show(element);

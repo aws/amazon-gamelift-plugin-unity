@@ -8,14 +8,14 @@ using AmazonGameLiftPlugin.Core.Shared;
 
 namespace AmazonGameLift.Editor
 {
-    internal class Waiter
+    internal class DeploymentStatusPoller
     {
         public event Action InfoUpdated;
 
         private readonly CoreApi _coreApi;
         private bool _isWaiting;
 
-        public Waiter(CoreApi coreApi)
+        public DeploymentStatusPoller(CoreApi coreApi)
         {
             _coreApi = coreApi;
         }
