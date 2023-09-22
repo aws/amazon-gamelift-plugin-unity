@@ -17,7 +17,6 @@ namespace AmazonGameLift.Editor
         public const string ComputeName = "ComputeName";
         public const string IpAddress = "IpAddress";
         public const string WebSocketUrl = "WebSocketUrl";
-        public const string WasSettingsWindowShown = "WasSettingsWindowShown";
         public const string LaunchParameters = "LaunchParameters";
         public const string BuildOperatingSystem = "BuildOperatingSystem";
         public const string BuildName = "BuildName";

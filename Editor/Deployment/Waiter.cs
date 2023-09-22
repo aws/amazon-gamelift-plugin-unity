@@ -12,12 +12,12 @@ namespace AmazonGameLift.Editor
     {
         public event Action InfoUpdated;
 
-        private readonly CoreApi _gameLiftCoreApi;
+        private readonly CoreApi _coreApi;
         private bool _isWaiting;
 
         public Waiter(CoreApi coreApi)
         {
-            _gameLiftCoreApi = coreApi;
+            _coreApi = coreApi;
         }
 
         public async Task<Response> WaitUntilDone(DeploymentSettings settings)
@@ -45,7 +45,7 @@ namespace AmazonGameLift.Editor
             DescribeStackResponse describeStackResponse = await poller.Poll(1000,
                 () =>
                 {
-                    DescribeStackResponse response = _gameLiftCoreApi.DescribeStack(settings.CurrentProfile, settings.CurrentRegion, _gameLiftCoreApi.GetStackName(settings.GameName));
+                    DescribeStackResponse response = _coreApi.DescribeStack(settings.CurrentProfile, settings.CurrentRegion, _coreApi.GetStackName(settings.GameName));
 
                     if (!response.Success)
                     {

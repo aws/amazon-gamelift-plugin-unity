@@ -1,6 +1,6 @@
 ﻿using Amazon.GameLift;
 
-namespace Editor.Resources.EditorWindow.Pages
+namespace AmazonGameLift.Editor
 {
     public class FleetParameters
     {

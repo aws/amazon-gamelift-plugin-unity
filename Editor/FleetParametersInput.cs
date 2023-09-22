@@ -6,7 +6,7 @@ using UnityEngine;
 using UnityEngine.UIElements;
 using OperatingSystem = Amazon.GameLift.OperatingSystem;
 
-namespace Editor.Resources.EditorWindow.Pages
+namespace AmazonGameLift.Editor
 {
     public class FleetParametersInput
     {
@@ -60,7 +60,7 @@ namespace Editor.Resources.EditorWindow.Pages
             {
                 var value = EditorUtility.OpenFolderPanel("Game Server Build Folder Path", Application.dataPath,
                     _parameters.GameServerFolder);
-                parameters.GameServerFolder = value;
+                _parameters.GameServerFolder = value;
                 _serverFolderInput.value = value;
                 OnValueChanged(_parameters);
             });
@@ -71,7 +71,7 @@ namespace Editor.Resources.EditorWindow.Pages
                 var value = EditorUtility.OpenFilePanel("Game Server Build File Path (exe)",
                     _parameters.GameServerFolder,
                     _parameters.GameServerFile);
-                parameters.GameServerFile = value;
+                _parameters.GameServerFile = value;
                 _serverFileInput.value = value;
                 OnValueChanged(_parameters);
             });

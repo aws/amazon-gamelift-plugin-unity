@@ -5,14 +5,14 @@ using System.Threading.Tasks;
 using AmazonGameLift.Editor;
 using UnityEngine;
 
-namespace Editor.Resources.EditorWindow.Pages
+namespace AmazonGameLift.Editor
 {
-    public class EC2Deployment
+    public class ManagedEc2Deployment
     {
         private readonly DeploymentSettings _model;
         private readonly FleetParameters _parameters;
         
-        internal EC2Deployment(DeploymentSettings model, FleetParameters parameters)
+        internal ManagedEc2Deployment(DeploymentSettings model, FleetParameters parameters)
         {
             _model = model;
             _parameters = parameters;

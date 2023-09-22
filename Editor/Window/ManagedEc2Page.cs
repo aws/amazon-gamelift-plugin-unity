@@ -8,21 +8,21 @@ using UnityEditor;
 using UnityEngine;
 using UnityEngine.UIElements;
 
-namespace Editor.Resources.EditorWindow.Pages
+namespace AmazonGameLift.Editor
 {
-    public class EC2Page
+    public class ManagedEc2Page
     {
         private readonly VisualElement _container;
-        private string _fleetName;
         private readonly DeploymentSettings _model;
         private readonly Button _deployButton;
         private readonly Button _redeployButton;
         private readonly Button _deleteButton;
         private readonly Button _launchClientButton;
-        private readonly FleetTypeInput _fleetTypeInput;
+        private readonly DeploymentScenariosInput _deploymentScenariosInput;
         private readonly FleetParametersInput _fleetParamsInput;
+        private readonly Label _ec2DeploymentStatusLabel;
 
-        public EC2Page(VisualElement container)
+        public ManagedEc2Page(VisualElement container)
         {
             _container = container;
             _model = DeploymentSettingsFactory.Create();
@@ -46,13 +46,13 @@ namespace Editor.Resources.EditorWindow.Pages
             container.Add(uxml);
             ApplyText();
 
-            var ec2Deployment = new EC2Deployment(_model, parameters);
+            var ec2Deployment = new ManagedEc2Deployment(_model, parameters);
 
-            _fleetTypeInput =
-                new FleetTypeInput(container, FleetTypeInput.ScenarioIndexMap[_model.ScenarioIndex], true);
-            _fleetTypeInput.SetEnabled(true);
-            _fleetTypeInput.OnValueChanged += value => { Debug.Log($"Fleet type changed to {value}"); };
-
+            _deploymentScenariosInput =
+                new DeploymentScenariosInput(container, DeploymentScenariosInput.ScenarioIndexMap[_model.ScenarioIndex], true);
+            _deploymentScenariosInput.SetEnabled(true);
+            _deploymentScenariosInput.OnValueChanged += value => { Debug.Log($"Fleet type changed to {value}"); };
+            _ec2DeploymentStatusLabel = _container.Q<Label>("EC2DeploymentStatusLabel");
             container.Q<Foldout>("EC2ParametersSection").text = $"{Application.productName} parameters";
             _fleetParamsInput = new FleetParametersInput(container, parameters);
             _fleetParamsInput.OnValueChanged += param =>
@@ -94,9 +94,9 @@ namespace Editor.Resources.EditorWindow.Pages
             _deleteButton.SetEnabled(_model.CurrentStackInfo.StackStatus != null && _model.IsCurrentStackModifiable);
             _launchClientButton.SetEnabled(_model.CurrentStackInfo.StackStatus is StackStatus.CreateComplete or StackStatus.UpdateComplete);
 
-            _fleetTypeInput.SetEnabled(_model.CanDeploy);
+            _deploymentScenariosInput.SetEnabled(_model.CanDeploy);
             _fleetParamsInput.SetEnabled(_model.CanDeploy);
-            _container.Q<Label>("EC2DeploymentStatusLabel").text = _model.CurrentStackInfo.StackStatus;
+            _ec2DeploymentStatusLabel.text = _model.CurrentStackInfo.StackStatus;
         }
         
         private void ApplyText()

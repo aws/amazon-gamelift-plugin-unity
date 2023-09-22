@@ -1,48 +1,51 @@
-﻿using System;
+﻿// Copyright Amazon.com, Inc. or its affiliates. All Rights Reserved.
+// SPDX-License-Identifier: Apache-2.0
+
+using System;
 using System.Collections.Generic;
 using UnityEngine.UIElements;
 
-namespace Editor.Resources.EditorWindow.Pages
+namespace AmazonGameLift.Editor
 {
-    internal class FleetTypeInput : StatefulInput
+    internal class DeploymentScenariosInput : StatefulInput
     {
         private static IReadOnlyCollection<VisualElement> _fleetTypeVisualElements;
         
         private InputState _inputState;
         private bool _enabled;
-        private FleetType _fleetType;
+        private DeploymentScenarios _deploymentScenarios;
 
         private readonly VisualElement _container;
         private readonly VisualElement _radio2Group;
         private readonly VisualElement _radio3Group;
-        private readonly Button _button;
+        private readonly Button _showMoreScenariosButton;
 
-        public Action<FleetType> OnValueChanged;
+        public Action<DeploymentScenarios> OnValueChanged;
 
-        public static readonly Dictionary<int, FleetType> ScenarioIndexMap = new()
+        public static readonly Dictionary<int, DeploymentScenarios> ScenarioIndexMap = new()
         {
-            { 1, FleetType.SingleRegion },
-            { 3, FleetType.SpotFleet },
-            { 4, FleetType.FlexMatch },
+            { 1, DeploymentScenarios.SingleRegion },
+            { 3, DeploymentScenarios.SpotFleet },
+            { 4, DeploymentScenarios.FlexMatch },
         };
 
-        public FleetTypeInput(VisualElement container, FleetType initialValue, bool enabled)
+        public DeploymentScenariosInput(VisualElement container, DeploymentScenarios initialValue, bool enabled)
         {
             _container = container;
-            _inputState = initialValue == FleetType.SingleRegion ? InputState.Initial : InputState.Expanded;
-            _fleetType = initialValue;
+            _inputState = initialValue == DeploymentScenarios.SingleRegion ? InputState.Initial : InputState.Expanded;
+            _deploymentScenarios = initialValue;
             _enabled = enabled;
             _container.SetEnabled(_enabled);
 
             _radio2Group = container.Q("FleetTypeRadioButton2Group");
             _radio3Group = container.Q("FleetTypeRadioButton3Group");
 
-            SetupRadioButton("EC2SingleFleetRadio", FleetType.SingleRegion);
-            SetupRadioButton("EC2SpotFleetRadio", FleetType.SpotFleet);
-            SetupRadioButton("EC2FlexFleetRadio", FleetType.FlexMatch);
+            SetupRadioButton("EC2SingleFleetRadio", DeploymentScenarios.SingleRegion);
+            SetupRadioButton("EC2SpotFleetRadio", DeploymentScenarios.SpotFleet);
+            SetupRadioButton("EC2FlexFleetRadio", DeploymentScenarios.FlexMatch);
             PopulateFleetTypeVisualElements();
-            _button = container.Q<Button>("ShowMoreScenarios");
-            _button.RegisterCallback<ClickEvent>(e =>
+            _showMoreScenariosButton = container.Q<Button>("ShowMoreScenarios");
+            _showMoreScenariosButton.RegisterCallback<ClickEvent>(e =>
             {
                 _inputState = InputState.Expanded;
                 UpdateGUI();
@@ -60,20 +63,20 @@ namespace Editor.Resources.EditorWindow.Pages
         public void SetEnabled(bool value)
         {
             _enabled = value;
-            // _container(_enabled);
+            _container.SetEnabled(_enabled);
         }
 
-        private void SetupRadioButton(string elementName, FleetType radioValue)
+        private void SetupRadioButton(string elementName, DeploymentScenarios radioValue)
         {
             var radio = _container.Q<RadioButton>(elementName);
             if (radio == default) return;
-            radio.value = _fleetType == radioValue;
+            radio.value = _deploymentScenarios == radioValue;
             radio.RegisterValueChangedCallback(v =>
             {
                 if (_enabled && v.newValue)
                 {
-                    _fleetType = radioValue;
-                    OnValueChanged?.Invoke(_fleetType);
+                    _deploymentScenarios = radioValue;
+                    OnValueChanged?.Invoke(_deploymentScenarios);
                 }
             });
         }
@@ -82,7 +85,7 @@ namespace Editor.Resources.EditorWindow.Pages
         {
             _fleetTypeVisualElements = new List<VisualElement>()
             {
-                _button,
+                _showMoreScenariosButton,
                 _radio2Group,
                 _radio3Group
             };
@@ -92,7 +95,7 @@ namespace Editor.Resources.EditorWindow.Pages
         {
             return _inputState switch
             {
-                InputState.Initial => new List<VisualElement>() {_button},
+                InputState.Initial => new List<VisualElement>() {_showMoreScenariosButton},
                 InputState.Expanded => new List<VisualElement>() { _radio2Group, _radio3Group},
                 _ => throw new ArgumentOutOfRangeException()
             };
