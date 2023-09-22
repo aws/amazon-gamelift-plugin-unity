@@ -7,7 +7,7 @@ using Editor.Window;
 using UnityEditor;
 using UnityEngine;
 
-namespace Editor.Window
+namespace AmazonGameLift.Editor
 {
     internal class EditorMenu
     {
