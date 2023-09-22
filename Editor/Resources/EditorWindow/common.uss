@@ -153,18 +153,18 @@ Image#FolderIcon {
 }
 
 .form-row__radio-button .unity-radio-button__checkmark-background {
-    width: var(--radio-button-medium);
-    height: var(--radio-button-medium);
+    width: var(--radio-button-outer);
+    height: var(--radio-button-outer);
     border-width: var(--border-size-thin);
-    border-color: var(--color-input-border);
-    border-radius: 100px;
+    border-color: var(--color-text-input-border);
+    border-radius: 100%;
     padding: 0;
     justify-content: center;
 }
 
 .form-row__radio-button .unity-radio-button__checkmark {
-    width: var(--radio-button-small);
-    height: var(--radio-button-small);
+    width: var(--radio-button-inner);
+    height: var(--radio-button-inner);
     border-radius: 100px;
 }
 
