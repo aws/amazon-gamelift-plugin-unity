@@ -7,7 +7,7 @@ using CoreErrorCode = AmazonGameLiftPlugin.Core.Shared.ErrorCode;
 
 namespace AmazonGameLift.Editor
 {
-    public sealed class TextProvider
+    internal sealed class TextProvider
     {
         private readonly Dictionary<string, string> _errorMessagesByCode = new Dictionary<string, string>
         {
