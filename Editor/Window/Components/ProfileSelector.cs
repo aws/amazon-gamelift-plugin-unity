@@ -9,9 +9,7 @@ namespace AmazonGameLift.Editor
 {
     public class ProfileSelector : VisualElement
     {
-        public new class UxmlFactory : UxmlFactory<ProfileSelector>
-        {
-        }
+        public new class UxmlFactory : UxmlFactory<ProfileSelector> { }
 
         private readonly StateManager _stateManager;
         private readonly TextProvider _textProvider;
