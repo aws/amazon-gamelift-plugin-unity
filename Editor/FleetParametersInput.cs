@@ -32,6 +32,8 @@ namespace AmazonGameLift.Editor
 
         public FleetParametersInput(VisualElement container, FleetParameters parameters)
         {
+            var uxml = Resources.Load<VisualTreeAsset>("EditorWindow/Components/DeploymentParameters");
+            container.Add(uxml.Instantiate());
             _container = container;
             _parameters = parameters;
 

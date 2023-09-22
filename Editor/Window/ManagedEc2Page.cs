@@ -47,14 +47,15 @@ namespace AmazonGameLift.Editor
             ApplyText();
 
             var ec2Deployment = new ManagedEc2Deployment(_model, parameters);
-
+            var scenarioContainer = container.Q("DeploymentSelectExpanded");
             _deploymentScenariosInput =
-                new DeploymentScenariosInput(container, DeploymentScenariosInput.ScenarioIndexMap[_model.ScenarioIndex], true);
+                new DeploymentScenariosInput(scenarioContainer, DeploymentScenariosInput.ScenarioIndexMap[_model.ScenarioIndex], true);
             _deploymentScenariosInput.SetEnabled(true);
             _deploymentScenariosInput.OnValueChanged += value => { Debug.Log($"Fleet type changed to {value}"); };
             _ec2DeploymentStatusLabel = _container.Q<Label>("EC2DeploymentStatusLabel");
-            container.Q<Foldout>("EC2ParametersSection").text = $"{Application.productName} parameters";
-            _fleetParamsInput = new FleetParametersInput(container, parameters);
+            var parametersInput = container.Q<Foldout>("EC2ParametersSection");
+            parametersInput.text = $"{Application.productName} parameters";
+            _fleetParamsInput = new FleetParametersInput(parametersInput, parameters);
             _fleetParamsInput.OnValueChanged += param =>
             {
                 ec2Deployment.UpdateModelFromParameters();

@@ -22,6 +22,7 @@
     --border-size-medium: 2px;
 
     --spacing-tiny: 6px;
+    --spacing-smaller: 8px;
     --spacing-small: 12px;
     --spacing-medium: 18px;
     --spacing-large: 24px;
@@ -49,6 +50,10 @@ Image.icon--large {
     height: var(--icon-size-large);
     width: var(--icon-size-large);
     flex: 0 0 auto;
+}
+
+Image#FolderIcon {
+    --unity-image: resource("Images/Icons/Folder");
 }
 
 .button {

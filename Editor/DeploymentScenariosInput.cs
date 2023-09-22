@@ -3,6 +3,7 @@
 
 using System;
 using System.Collections.Generic;
+using UnityEngine;
 using UnityEngine.UIElements;
 
 namespace AmazonGameLift.Editor
@@ -29,6 +30,9 @@ namespace AmazonGameLift.Editor
 
         public DeploymentScenariosInput(VisualElement container, DeploymentScenarios initialValue, bool enabled)
         {
+            var uxml = Resources.Load<VisualTreeAsset>("EditorWindow/Components/DeploymentScenarios");
+            container.Add(uxml.Instantiate());
+                
             _container = container;
             _inputState = initialValue == DeploymentScenarios.SingleRegion ? InputState.Initial : InputState.Expanded;
             _deploymentScenarios = initialValue;
@@ -60,7 +64,7 @@ namespace AmazonGameLift.Editor
         public void SetEnabled(bool value)
         {
             _enabled = value;
-            _container.SetEnabled(_enabled);
+            // _container.SetEnabled(_enabled);
         }
 
         private void SetupRadioButton(string elementName, DeploymentScenarios radioValue)

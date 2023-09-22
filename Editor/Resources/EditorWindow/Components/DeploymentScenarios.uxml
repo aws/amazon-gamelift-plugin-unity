@@ -1,31 +1,41 @@
-﻿<ui:UXML xmlns:ui="UnityEngine.UIElements" xmlns:uie="UnityEditor.UIElements" xsi="http://www.w3.org/2001/XMLSchema-instance" noNamespaceSchemaLocation="../../../../../../UIElementsSchema/UIElements.xsd" editor-extension-mode="False">
-    <Style src="../common.uss" />
-    <ui:Foldout name="DeploymentSelectExpanded" class="foldout" text="Select Deployment Scenario" >
-        <ui:GroupBox>
-            <ui:VisualElement class="form-row" >
-                <ui:Label name="Label" class="form-row__label" text="Single-Region Fleet" />
-                <ui:VisualElement class="form-row__input">
-                    <ui:RadioButton name="EC2SingleFleetRadio" class="form-row__radio-button" text="Creates a game backend service with a single Amazon GameLift fleet."   />
-                    <ui:Label name="SingleHelp" class="form-row__text-display input-hint foldout__link" text="Learn More  \uf08e" />
+﻿<!-- Copyright Amazon.com, Inc. or its affiliates. All Rights Reserved. -->
+<!-- SPDX-License-Identifier: Apache-2.0 -->
+
+<ui:UXML xmlns:ui="UnityEngine.UIElements">
+    <Style src="../common.uss"/>
+    <ui:GroupBox class="separator">
+        <ui:VisualElement class="form-row form-row--free">
+            <ui:Label name="Label" class="form-row__label" text="Single-Region Fleet"/>
+            <ui:VisualElement class="form-row__input">
+                <ui:RadioButton name="EC2SingleFleetRadio" class="form-row__radio-button" text="Creates a game backend service with a single Amazon GameLift fleet."/>
+                <ui:VisualElement class="external-link">
+                    <ui:Label name="SingleHelp" class="form-row__text-display input-hint foldout__link" text="Learn More"/>
+                    <ui:Image name="ExternalLink" class="icon"/>
                 </ui:VisualElement>
             </ui:VisualElement>
-            <ui:VisualElement name="FleetTypeRadioButton2Group" class="form-row">
-                <ui:Label name="Label" class="form-row__label" text="Spot Fleet" />
-                <ui:VisualElement class="form-row__input">
-                    <ui:RadioButton name="EC2SpotFleetRadio" class="form-row__radio-button" text="Forms matches by using Amazon GameLift queues and a custom matchmaker and configures three fleets." />
-                    <ui:Label name="SpotHelp" class="form-row__text-display input-hint foldout__link" text="Learn More  \uf08e" />
+        </ui:VisualElement>
+        <ui:VisualElement name="FleetTypeRadioButton2Group" class="form-row form-row--free">
+            <ui:Label name="Label" class="form-row__label" text="Spot Fleet"/>
+            <ui:VisualElement class="form-row__input">
+                <ui:RadioButton name="EC2SpotFleetRadio" class="form-row__radio-button" text="Forms matches by using Amazon GameLift queues and a custom matchmaker and configures three fleets."/>
+                <ui:VisualElement class="external-link">
+                    <ui:Label name="SpotHelp" class="form-row__text-display input-hint foldout__link" text="Learn More"/>
+                    <ui:Image name="ExternalLink" class="icon"/>
                 </ui:VisualElement>
             </ui:VisualElement>
-            <ui:VisualElement name="FleetTypeRadioButton3Group" class="form-row">
-                <ui:Label name="Label" class="form-row__label" text="Flex Match" />
-                <ui:VisualElement class="form-row__input">
-                    <ui:RadioButton name="EC2FlexFleetRadio" class="form-row__radio-button" text="Uses FlexMatch, a managed matchmaking service, to match game players together."   />
-                    <ui:Label name="FlexHelp" class="form-row__text-display input-hint foldout__link" text="Learn More  \uf08e"/>
+        </ui:VisualElement>
+        <ui:VisualElement name="FleetTypeRadioButton3Group" class="form-row form-row--free">
+            <ui:Label name="Label" class="form-row__label" text="Flex Match"/>
+            <ui:VisualElement class="form-row__input">
+                <ui:RadioButton name="EC2FlexFleetRadio" class="form-row__radio-button" text="Uses FlexMatch, a managed matchmaking service, to match game players together."/>
+                <ui:VisualElement class="external-link">
+                    <ui:Label name="FlexHelp" class="form-row__text-display input-hint foldout__link" text="Learn More"/>
+                    <ui:Image name="ExternalLink" class="icon"/>
                 </ui:VisualElement>
             </ui:VisualElement>
-            <ui:VisualElement class="form-row form-row__input form-row__input--no-label">
-                <ui:Button name="ShowMoreScenarios" class="button" text="Show more Options" />
-            </ui:VisualElement>
-        </ui:GroupBox>
-    </ui:Foldout>
+        </ui:VisualElement>
+        <ui:VisualElement class="form-row form-row--free form-row__input form-row__input--no-label">
+            <ui:Button name="ShowMoreScenarios" class="button" text="Show more Options"/>
+        </ui:VisualElement>
+    </ui:GroupBox>
 </ui:UXML>
