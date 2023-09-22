@@ -22,9 +22,6 @@
             <ui:VisualElement name="AnywhereContent" class="tab__content">
                 <ui:Label text="Anywhere" />
             </ui:VisualElement>
-            <ui:VisualElement name="ManagedEC2Content" class="tab__content">
-                <ui:Label text="Managed EC2" />
-            </ui:VisualElement>
             <ui:VisualElement name="HelpContent" class="tab__content">
                 <ui:Label text="Help" />
             </ui:VisualElement>

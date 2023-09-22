@@ -1,0 +1,31 @@
+﻿<ui:UXML xmlns:ui="UnityEngine.UIElements" xmlns:uie="UnityEditor.UIElements" xsi="http://www.w3.org/2001/XMLSchema-instance" noNamespaceSchemaLocation="../../../../../../UIElementsSchema/UIElements.xsd" editor-extension-mode="False">
+    <Style src="../common.uss" />
+    <ui:Foldout name="EC2ParametersSection" class="foldout" text="[GameName] parameters">
+        <ui:VisualElement name="FleetName" class="form-row" >
+            <ui:Label name="Label" class="form-row__label" text="Fleet Name" />
+            <ui:TextField name="EC2FleetNameInput" class="form-row__input text-input" value="GameName-ManagedFleet" />
+        </ui:VisualElement>
+        <ui:VisualElement name="BuildName" class="form-row" >
+            <ui:Label name="Label" class="form-row__label" text="Build Name" />
+            <ui:TextField name="EC2BuildNameInput" class="form-row__input text-input" value="GameName-SingleRegion-Build"  />
+        </ui:VisualElement>
+        <ui:VisualElement name="LaunchParameters" class="form-row" >
+            <ui:Label name="Label" class="form-row__label" text="Launch Parameters" />
+            <ui:TextField name="EC2LaunchParamsInput" class="form-row__input text-input" value="-debug -logFile \&quot;c:\game\\\server.log\"  />
+        </ui:VisualElement>
+        <ui:VisualElement name="BuildOS" class="form-row" >
+            <ui:Label class="form-row__label" text="Build Operating System"/>
+            <ui:DropdownField name="EC2OperatingSystemDropdown" class="dropdown form-row__input" index="-1" />
+        </ui:VisualElement>
+        <ui:VisualElement name="GameServerFolder" class="form-row" >
+            <ui:Label name="Label" class="form-row__label" text="Game Server Folder" />
+            <ui:TextField name="EC2ServerFolderInput" class="form-row__input text-input" value="..."  />
+            <ui:Button name="EC2ServerFolderButton" text="x" />
+        </ui:VisualElement>
+        <ui:VisualElement name="GameServerFile" class="form-row" >
+            <ui:Label name="Label" class="form-row__label" text="Game Server file (.exe)" />
+            <ui:TextField name="EC2ServerFileInput" class="form-row__input text-input" value="..."  />
+            <ui:Button name="EC2ServerFileButton" text="x" />
+        </ui:VisualElement>
+    </ui:Foldout>
+</ui:UXML>

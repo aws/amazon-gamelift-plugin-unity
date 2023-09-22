@@ -40,7 +40,7 @@ namespace AmazonGameLift.Editor
                                   OperatingSystem.AMAZON_LINUX_2
             };
 
-            var mVisualTreeAsset = UnityEngine.Resources.Load<VisualTreeAsset>("EditorWindow/Pages/EC2Page");
+            var mVisualTreeAsset = UnityEngine.Resources.Load<VisualTreeAsset>("EditorWindow/Pages/ManagedEc2Page");
             var uxml = mVisualTreeAsset.Instantiate();
 
             container.Add(uxml);

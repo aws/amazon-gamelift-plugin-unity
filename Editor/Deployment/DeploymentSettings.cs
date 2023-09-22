@@ -232,7 +232,7 @@ namespace AmazonGameLift.Editor
             BuildFolderPath = null;
             
             var index = SettingsFormatter.ParseInt(_coreApi.GetSetting(SettingsKeys.DeploymentScenarioIndex).Value);
-            ScenarioIndex = index ?? 0;
+            ScenarioIndex = index ?? 1;
             GameName = _coreApi.GetSetting(SettingsKeys.DeploymentGameName).Value;
             BuildFolderPath = _coreApi.GetSetting(SettingsKeys.DeploymentBuildFolderPath).Value;
             BuildFilePath = _coreApi.GetSetting(SettingsKeys.DeploymentBuildFilePath).Value;

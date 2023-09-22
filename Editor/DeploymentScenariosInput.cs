@@ -41,7 +41,6 @@ namespace AmazonGameLift.Editor
             SetupRadioButton("EC2SingleFleetRadio", DeploymentScenarios.SingleRegion);
             SetupRadioButton("EC2SpotFleetRadio", DeploymentScenarios.SpotFleet);
             SetupRadioButton("EC2FlexFleetRadio", DeploymentScenarios.FlexMatch);
-            PopulateFleetTypeVisualElements();
             _showMoreScenariosButton = container.Q<Button>("ShowMoreScenarios");
             _showMoreScenariosButton.RegisterCallback<ClickEvent>(e =>
             {
