@@ -110,7 +110,7 @@ namespace Editor.Window
         
         private void VerifyComputeTextFields(TextField computeTextName, IEnumerable<TextField> ipTextField, Button button)
         {
-             var computeTextNameValid = computeTextName.value.Length >= 1;
+            var computeTextNameValid = computeTextName.value.Length >= 1;
             var ipText = ipTextField.ToList().Select(ipAddressField => ipAddressField.value).ToList();
             _computeName = computeTextName.value;
             var ipTextFieldsValid = ipText.All(text => text.Length >= 1) && ipText.All(s=> int.TryParse(s, out _));

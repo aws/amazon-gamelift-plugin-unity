@@ -14,7 +14,6 @@ namespace AmazonGameLiftPlugin.Core
             CancellationToken cancellationToken = default
         );
 
-        
         /// <summary>
         /// Editor region is code dedicated to Amazon GameLift SDK calls made by the Unity Editor Plugin. 
         /// </summary>
@@ -48,13 +47,5 @@ namespace AmazonGameLiftPlugin.Core
         
         Task<ListFleetsResponse> ListFleets(ListFleetsRequest request);
         #endregion
-
-
-
-
-
-
-
-
     }
 }
