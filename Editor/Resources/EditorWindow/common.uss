@@ -37,6 +37,7 @@
     --spacing-medium-negative: -18px;
     --spacing-large-negative: -24px;
 
+    --form-row-label-width: 240px;
     --page-width: 920px;
 
     font-size: var(--font-size-default);
@@ -150,12 +151,16 @@ Image.icon--large {
     margin-bottom: var(--spacing-large);
 }
 
-.foldout {
-    color: var(--color-foldout-title);
+.page__content {
+    color: var(--color-font-default);
 }
 
 .hidden {
     display: none;
+}
+
+.foldout {
+    color: var(--color-foldout-title);
 }
 
 .foldout .unity-foldout__text {
@@ -166,18 +171,13 @@ Image.icon--large {
     margin: 0 0 var(--spacing-large) 0;
 }
 
-.foldout__content {
-    color: var(--color-font-default);
-    margin-bottom: var(--spacing-small);
-}
-
 .form-row {
     flex-direction: row;
     align-items: center;
 }
 
 .form-row__label {
-    width: 240px;
+    width: var(--form-row-label-width);
     height: 32px;
     margin-right: var(--spacing-large);
     color: var(--color-input-label);
@@ -200,7 +200,7 @@ Image.icon--large {
 
 .form-row__input--no-label {
     flex-direction: row;
-    margin-left: 240px;
+    margin-left: var(--form-row-label-width);
     padding-left: var(--spacing-large);
 }
 
