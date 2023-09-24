@@ -154,7 +154,7 @@ Image.icon--large {
     color: var(--color-foldout-title);
 }
 
-.foldout--hidden {
+.hidden {
     display: none;
 }
 

@@ -2,9 +2,14 @@
 
 namespace Editor.Window
 {
+    /*
+     * StatefulInput represents a section of UI that holds inputs and/or can be affected by
+     * changes to other UI input. It is required that StatefulInput's implement UpdateGUI
+     * which can be called when the input or it's container's state changes.
+     */
     public abstract class StatefulInput
     {
-        private const string InactiveFoldoutElementName = "foldout--hidden";
+        private const string InactiveFoldoutElementName = "hidden";
 
         //Should be called with a visual element to hide this element on the screen
         protected static void Hide(VisualElement element) => element.AddToClassList(InactiveFoldoutElementName);
