@@ -11,9 +11,7 @@
         public string FleetName { get; set; }
         
         public string FleetId { get; set; }
-        
-        public string CustomNameLocation { get; set; } //might not need as this is static
-        
+
         public string ComputeName { get; set; }
         
         public string IpAddress { get; set; }
