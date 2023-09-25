@@ -10,7 +10,7 @@ using UnityEngine.UIElements;
 
 namespace AmazonGameLift.Editor
 {
-    public class ManagedEc2Page
+    public class ManagedEC2Page
     {
         private readonly VisualElement _container;
         private readonly DeploymentSettings _model;
@@ -22,7 +22,7 @@ namespace AmazonGameLift.Editor
         private readonly FleetParametersInput _fleetParamsInput;
         private readonly Label _ec2DeploymentStatusLabel;
 
-        public ManagedEc2Page(VisualElement container)
+        public ManagedEC2Page(VisualElement container)
         {
             _container = container;
             _model = DeploymentSettingsFactory.Create();
@@ -40,7 +40,7 @@ namespace AmazonGameLift.Editor
                                   OperatingSystem.AMAZON_LINUX_2
             };
 
-            var mVisualTreeAsset = UnityEngine.Resources.Load<VisualTreeAsset>("EditorWindow/Pages/ManagedEc2Page");
+            var mVisualTreeAsset = UnityEngine.Resources.Load<VisualTreeAsset>("EditorWindow/Pages/ManagedEC2Page");
             var uxml = mVisualTreeAsset.Instantiate();
 
             container.Add(uxml);

@@ -62,11 +62,6 @@ namespace AmazonGameLift.Editor
                 return Response.Fail(new DeploymentResponse(describeStackResponse));
             }
 
-            if (!_isWaiting)
-            {
-                return Response.Fail(new DeploymentResponse(ErrorCode.OperationCancelled));
-            }
-
             return Response.Ok(new Response());
         }
     }
