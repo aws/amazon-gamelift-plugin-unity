@@ -19,9 +19,6 @@
             <ui:VisualElement name="CredentialsContent" class="tab__content">
                 <ui:Label text="Credentials" />
             </ui:VisualElement>
-            <ui:VisualElement name="AnywhereContent" class="tab__content">
-                <ui:Label text="Anywhere" />
-            </ui:VisualElement>
             <ui:VisualElement name="HelpContent" class="tab__content">
                 <ui:Label text="Help" />
             </ui:VisualElement>
