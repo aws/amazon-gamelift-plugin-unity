@@ -4,7 +4,7 @@
 @import '../common.uss';
 
 :root {
-    color: var(--font-color-info-link);
+    color: var(--color-font-link);
 }
 
 .divider--vertical {
