@@ -11,10 +11,15 @@
     --color-border-accent: #4c4c4c;
     --color-font-default: #d2d2d2;
     --color-font-accent: #ffffff;
+    --color-font-error: #f30303;
+    --color-foldout-title: #e4e4e4;
+    --color-input-label: #c4c4c4;
+    --color-text-input-background: #2a2a2a;
+    --color-text-input-border: #0d0d0d;
     --color-card-border: #0d0d0d;
     --color-card-background: #2a2a2a;
 
-    --font-size-small: 14px;
+    --font-size-small: 12px;
     --font-size-default: 16px;
     --font-size-large: 18px;
     --font-size-extralarge: 24px;
@@ -35,6 +40,7 @@
     --spacing-medium-negative: -18px;
     --spacing-large-negative: -24px;
 
+    --form-row-label-width: 240px;
     --page-width: 920px;
 
     font-size: var(--font-size-default);
@@ -159,6 +165,128 @@ Image#ExternalLinkIcon {
     font-size: var(--font-size-extralarge);
     margin-bottom: var(--spacing-large);
 }
+
+.page__content {
+    color: var(--color-font-default);
+}
+
+.hidden {
+    display: none;
+}
+
+.foldout {
+    color: var(--color-foldout-title);
+}
+
+.foldout .unity-foldout__text {
+    font-size: var(--font-size-extralarge);
+}
+
+.foldout .unity-foldout__toggle {
+    margin: 0 0 var(--spacing-large) 0;
+}
+
+.form-row {
+    flex-direction: row;
+    align-items: center;
+}
+
+.form-row__label {
+    width: var(--form-row-label-width);
+    height: 32px;
+    margin-right: var(--spacing-large);
+    color: var(--color-input-label);
+    font-size: var(--font-size-large);
+    -unity-text-align: middle-left;
+}
+
+.form-row__input {
+    flex: 1 0 auto;
+    font-size: var(--font-size-large);
+}
+
+.form-row__input--inline {
+    flex-direction: row;
+}
+
+.form-row__text-display {
+    padding: 2px;
+}
+
+.form-row__input--no-label {
+    flex-direction: row;
+    margin-left: var(--form-row-label-width);
+    padding-left: var(--spacing-large);
+}
+
+.form-row__input--no-label > * {
+    flex-direction: row;
+    margin-right: var(--spacing-small);
+}
+
+.form-row__input .button {
+    margin-top: var(--spacing-small);
+}
+
+.text-input {
+    margin: 0 0 8px 0;
+    padding: 4px 8px 4px 8px;
+    border-width: var(--border-size-medium);
+    border-radius: 4px;
+    border-color: var(--color-text-input-border);
+    background-color: var(--color-text-input-background);
+    font-size: var(--font-size-large);
+}
+
+.text-input--tiny {
+    width: 50px;
+}
+
+.text-input--centered {
+    -unity-text-align: middle-center;
+}
+
+.text-input:hover {
+    border-color: var(--color-button-hover);
+}
+
+.text-input:focus {
+    border-color: var(--color-button-primary);
+}
+
+.text-input--error {
+    border-color: var(--color-font-error);
+}
+
+.text-input > .unity-text-field__input {
+    margin: 0;
+    padding: 0;
+    border-width: 0;
+    background-color: rgba(0, 0, 0, 0);
+    flex-grow: 0;
+}
+
+.input-hint {
+    font-size: var(--font-size-small);
+}
+
+.dropdown {
+    margin: 0;
+    padding: 4px 8px 4px 8px;
+    border-width: var(--border-size-medium);
+    border-radius: 4px;
+    border-color: var(--color-button-border);
+    background-color: var(--color-button-default);
+    align-self: stretch;
+    font-size: var(--font-size-large);
+}
+
+.dropdown > .unity-popup-field__input {
+    padding: 0;
+    border-width: 0;
+    background-color: rgba(0, 0, 0, 0);
+}
+
 
 .card {
     padding: var(--spacing-small);
