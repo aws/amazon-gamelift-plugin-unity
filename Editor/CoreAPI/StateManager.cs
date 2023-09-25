@@ -1,6 +1,9 @@
-﻿using System;
+﻿using System.Collections.Generic;
+using System.Linq;
 using AmazonGameLift.Editor;
 using AmazonGameLiftPlugin.Core.ApiGatewayManagement;
+using UnityEngine;
+using YamlDotNet.Serialization;
 
 namespace Editor.CoreAPI
 {
@@ -15,29 +18,70 @@ namespace Editor.CoreAPI
 
         public IAmazonGameLiftClientFactory AmazonGameLiftClientFactory { get; }
 
-        private string _selectedProfile;
+        private UserProfile _selectedProfile;
+        private List<UserProfile> _allProfiles;
+        
+        public UserProfile SelectedProfile => _selectedProfile;
 
-        public string SelectedProfile
+        public string SelectedProfileName
         {
-            get => _selectedProfile;
-            private set => SetProfile(value);
+            get
+            {
+                if (_selectedProfile != null)
+                {
+                    return !string.IsNullOrWhiteSpace(_selectedProfile.Name) ? _selectedProfile.Name : "";
+                }
+
+                return "";
+            }
+            set => SetProfile(value);
         }
+
+        public string Region => _selectedProfile.Region;
+
+        public IReadOnlyList<string> AllProfiles => CoreApi.ListCredentialsProfiles().Profiles.ToList();
+        
+        public bool IsBootstrapped { get; set; }
 
         public StateManager(CoreApi coreApi)
         {
             CoreApi = coreApi;
             AmazonGameLiftClientFactory = new AmazonGameLiftClientFactory(coreApi);
-
+            RefreshProfiles();
             SetProfile(coreApi.GetSetting(SettingsKeys.CurrentProfileName).Value);
         }
 
         private void SetProfile(string profileName)
         {
             if (string.IsNullOrWhiteSpace(profileName)) return;
-            _selectedProfile = profileName;
-            GameLiftWrapper = AmazonGameLiftClientFactory.Get(SelectedProfile);
-            FleetManager = new GameLiftFleetManager(CoreApi, GameLiftWrapper);
-            ComputeManager = new GameLiftComputeManager(CoreApi, GameLiftWrapper);
+
+            _selectedProfile = _allProfiles.FirstOrDefault(profile => profile.Name == profileName);
+            if (_selectedProfile != null)
+            {
+                IsBootstrapped = !string.IsNullOrWhiteSpace(_selectedProfile.BootStrappedBucket);
+                GameLiftWrapper = AmazonGameLiftClientFactory.Get(SelectedProfileName);
+                FleetManager = new GameLiftFleetManager(CoreApi, GameLiftWrapper);
+                ComputeManager = new GameLiftComputeManager(CoreApi, GameLiftWrapper);
+            }
+            else
+            {
+                Debug.Log("test user");
+                _selectedProfile = new UserProfile();
+            }
+        }
+
+        public void RefreshProfiles()
+        {
+            var profiles = CoreApi.GetSetting(SettingsKeys.UserProfiles).Value;
+            var deserializer = new DeserializerBuilder().Build();
+            _allProfiles = deserializer.Deserialize<List<UserProfile>>(profiles);
+        }
+
+        public void SaveProfiles()
+        {
+            var serializer = new SerializerBuilder().Build();
+            var profiles = serializer.Serialize(_allProfiles);
+            CoreApi.PutSetting(SettingsKeys.UserProfiles, profiles);
         }
     }
 }
