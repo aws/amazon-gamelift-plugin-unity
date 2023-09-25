@@ -17,5 +17,7 @@ namespace AmazonGameLift.Editor
         public const string ComputeName = "ComputeName";
         public const string IpAddress = "IpAddress";
         public const string WebSocketUrl = "WebSocketUrl";
+        public const string SelectedProfile = "SelectedProfile";
+        public const string SelectedFleetName = "SelectedFleetName";
     }
 }

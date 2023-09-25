@@ -1,5 +1,6 @@
 ﻿using System;
 using AmazonGameLift.Editor;
+using AmazonGameLiftPlugin.Core;
 using AmazonGameLiftPlugin.Core.ApiGatewayManagement;
 
 namespace Editor.CoreAPI
@@ -11,9 +12,9 @@ namespace Editor.CoreAPI
         public GameLiftFleetManager FleetManager { get; set; }
         public GameLiftComputeManager ComputeManager { get; set; }
 
-        public IAmazonGameLiftClientWrapper GameLiftWrapper { get; private set; }
+        public IAmazonGameLiftWrapper GameLiftWrapper { get; private set; }
 
-        public IAmazonGameLiftClientFactory AmazonGameLiftClientFactory { get; }
+        public IAmazonGameLiftWrapperFactory AmazonGameLiftWrapperFactory { get; }
 
         private string _selectedProfile;
 
@@ -28,11 +29,13 @@ namespace Editor.CoreAPI
         public bool IsBootstrapped { get; set; }
         public string BucketName { get; set; }
         public string Region { get; set; }
+        public string SelectedFleetName { get; set; }
+        public string FleetLocation { get; set; }
 
         public StateManager(CoreApi coreApi)
         {
             CoreApi = coreApi;
-            AmazonGameLiftClientFactory = new AmazonGameLiftClientFactory(coreApi);
+            AmazonGameLiftWrapperFactory = new AmazonGameLiftWrapperFactory(coreApi);
 
             SetProfile(coreApi.GetSetting(SettingsKeys.CurrentProfileName).Value);
         }
