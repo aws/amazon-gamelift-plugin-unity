@@ -24,7 +24,7 @@ namespace AmazonGameLift.Runtime
 {
     public class GameLiftCoreApi
     {
-        public const string ConfigFilePath = "GameLiftConfiguration.yaml";
+        public const string ConfigFilePath = "GameLiftSettings.yaml";
         private readonly GameLiftConfiguration _configuration;
         private readonly bool _isAnywhereMode;
         private readonly IGameServerAdapter _gameServerAdapter;
@@ -32,11 +32,11 @@ namespace AmazonGameLift.Runtime
         protected GameLiftCoreApi(GameLiftConfiguration configuration)
         {
             _configuration = configuration;
-            var settings = new Settings<ClientSettingsKeys>(ConfigFilePath);
-            var fleetId = settings.GetSetting(ClientSettingsKeys.FleetId).Value;
-            var fleetLocation = settings.GetSetting(ClientSettingsKeys.FleetLocation).Value;
             if (_configuration.IsGameLiftAnywhere)
             {
+                var settings = new Settings<ClientSettingsKeys>(ConfigFilePath);
+                var fleetId = settings.GetSetting(ClientSettingsKeys.FleetId).Value;
+                var fleetLocation = settings.GetSetting(ClientSettingsKeys.FleetLocation).Value;
                 var credentials = new CredentialsStore(new FileWrapper());
                 var credentialsResponse =
                     credentials.RetriveAwsCredentials(new RetriveAwsCredentialsRequest(){ProfileName = settings.GetSetting(ClientSettingsKeys.CurrentProfileName).Value});
