@@ -25,7 +25,7 @@
         <!--            <ui:Button text="View S3 Console \uf08e"/>-->
         <!--            <ui:Button text="X" name="CloseInfoBox"/>-->
         <!--        </ui:VisualElement>-->
-        <ui:VisualElement class="separator separator--large separator--horizontal">
+        <ui:VisualElement name="Cards" class="separator separator--large separator--horizontal">
             <ui:VisualElement name="NoAccountCard" class="card card--large card--centered separator">
                 <ui:Image name="UserProfilePageAccountCardNoAccountIcon" class="card__icon"/>
                 <ui:Label name="UserProfilePageAccountCardNoAccountTitle" class="card__title" text="I don’t have an AWS account"/>

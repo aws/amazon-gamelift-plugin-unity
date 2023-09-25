@@ -34,7 +34,7 @@ namespace AmazonGameLift.Editor
             
             
             _container = container;
-            var mVisualTreeAsset = UnityEngine.Resources.Load<VisualTreeAsset>("EditorWindow/Pages/AwsUserProfilesPage");
+            var mVisualTreeAsset = Resources.Load<VisualTreeAsset>("EditorWindow/Pages/AwsUserProfilesPage");
             var uxml = mVisualTreeAsset.Instantiate();
 
             _container.Add(uxml);
@@ -161,8 +161,14 @@ namespace AmazonGameLift.Editor
         {
             VisualElement targetWizard;
             var tab2WarningBox = _container.Q<VisualElement>(null, "Tab2Warning");
+            var cardsMenu =  _container.Q<VisualElement>("Cards");
+            var newProfileMenu = _container.Q<VisualElement>("AddNewProfile");
             var bootStrapMenu = _container.Q<VisualElement>("BootstrapMenu");
             var completedMenu = _container.Q<VisualElement>("CompletedProfile");
+            cardsMenu.AddToClassList(hiddenClassName);
+            newProfileMenu.AddToClassList(hiddenClassName);
+            bootStrapMenu.AddToClassList(hiddenClassName);
+            completedMenu.AddToClassList(hiddenClassName);
             switch (_stateManager.AllProfiles.Count)
             {
                 case 0:
@@ -239,6 +245,7 @@ namespace AmazonGameLift.Editor
             if (_currentElement != null)
             {
                 _currentElement.RemoveFromClassList(hiddenClassName);
+                Debug.Log($"Showing wizard ${targetWizard.name}");
             }
         }
         
