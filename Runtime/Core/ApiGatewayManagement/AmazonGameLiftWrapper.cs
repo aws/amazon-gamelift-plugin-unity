@@ -5,10 +5,11 @@ using System.Threading;
 using System.Threading.Tasks;
 using Amazon.GameLift;
 using Amazon.GameLift.Model;
+using AmazonGameLiftPlugin.Core.ApiGatewayManagement;
 
-namespace AmazonGameLiftPlugin.Core.ApiGatewayManagement
+namespace AmazonGameLiftPlugin.Core
 {
-    public class AmazonGameLiftWrapper : IAmazonGameLiftClientWrapper
+    public class AmazonGameLiftWrapper : IAmazonGameLiftWrapper
     {
         private readonly IAmazonGameLift _amazonGameLiftClient;
 
@@ -17,9 +18,9 @@ namespace AmazonGameLiftPlugin.Core.ApiGatewayManagement
             _amazonGameLiftClient = amazonGameLiftClient;
         }
         /// <summary>
-        /// Client region is code dedicated to Amazon GameLift SDK calls made by the game client. 
+        /// Editor region is code dedicated to Amazon GameLift SDK calls made by the Unity Editor Plugin. 
         /// </summary>
-        #region Client
+        #region Editor
         public async Task<CreateGameSessionResponse> CreateGameSessionAsync(
                 CreateGameSessionRequest request,
                 CancellationToken cancellationToken = default
@@ -72,7 +73,7 @@ namespace AmazonGameLiftPlugin.Core.ApiGatewayManagement
             return _amazonGameLiftClient.CreateFleetAsync(request);
         }
 
-        public Task<DescribeFleetAttributesResponse> DescribeFleets(DescribeFleetAttributesRequest request)
+        public Task<DescribeFleetAttributesResponse> DescribeFleetAttributes(DescribeFleetAttributesRequest request)
         {
             return _amazonGameLiftClient.DescribeFleetAttributesAsync(request);
         }

@@ -1,6 +1,7 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
 using AmazonGameLift.Editor;
+using AmazonGameLiftPlugin.Core;
 using AmazonGameLiftPlugin.Core.ApiGatewayManagement;
 
 namespace Editor.CoreAPI
@@ -12,9 +13,9 @@ namespace Editor.CoreAPI
         public GameLiftFleetManager FleetManager { get; set; }
         public GameLiftComputeManager ComputeManager { get; set; }
 
-        public IAmazonGameLiftClientWrapper GameLiftWrapper { get; private set; }
+        public IAmazonGameLiftWrapper GameLiftWrapper { get; private set; }
 
-        public IAmazonGameLiftClientFactory AmazonGameLiftClientFactory { get; }
+        public IAmazonGameLiftWrapperFactory AmazonGameLiftWrapperFactory { get; }
 
         private string _selectedProfile;
 
@@ -24,6 +25,9 @@ namespace Editor.CoreAPI
             set => SetProfile(value);
         }
 
+        public string SelectedFleetName { get; set; }
+        public string FleetLocation { get; set; }
+
         public IReadOnlyList<string> AllProfiles => CoreApi.ListCredentialsProfiles().Profiles.ToList();
         
         public bool IsBootstrapped { get; set; }
@@ -31,7 +35,7 @@ namespace Editor.CoreAPI
         public StateManager(CoreApi coreApi)
         {
             CoreApi = coreApi;
-            AmazonGameLiftClientFactory = new AmazonGameLiftClientFactory(coreApi);
+            AmazonGameLiftWrapperFactory = new AmazonGameLiftWrapperFactory(coreApi);
 
             SetProfile(coreApi.GetSetting(SettingsKeys.CurrentProfileName).Value);
             IsBootstrapped = coreApi.GetSetting(SettingsKeys.IsBootstrapped).Value == "true";
@@ -41,7 +45,7 @@ namespace Editor.CoreAPI
         {
             if (string.IsNullOrWhiteSpace(profileName)) return;
             _selectedProfile = profileName;
-            GameLiftWrapper = AmazonGameLiftClientFactory.Get(SelectedProfile);
+            GameLiftWrapper = AmazonGameLiftWrapperFactory.Get(SelectedProfile);
             FleetManager = new GameLiftFleetManager(CoreApi, GameLiftWrapper);
             ComputeManager = new GameLiftComputeManager(CoreApi, GameLiftWrapper);
         }
