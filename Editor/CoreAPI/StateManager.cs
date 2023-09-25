@@ -2,6 +2,7 @@
 using System.Linq;
 using AmazonGameLift.Editor;
 using AmazonGameLiftPlugin.Core.ApiGatewayManagement;
+using AmazonGameLiftPlugin.Core.SettingsManagement.Models;
 using UnityEngine;
 using YamlDotNet.Serialization;
 
@@ -77,11 +78,11 @@ namespace Editor.CoreAPI
             _allProfiles = deserializer.Deserialize<List<UserProfile>>(profiles);
         }
 
-        public void SaveProfiles()
+        public PutSettingResponse SaveProfiles()
         {
             var serializer = new SerializerBuilder().Build();
             var profiles = serializer.Serialize(_allProfiles);
-            CoreApi.PutSetting(SettingsKeys.UserProfiles, profiles);
+            return CoreApi.PutSetting(SettingsKeys.UserProfiles, profiles);
         }
     }
 }

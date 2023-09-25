@@ -26,6 +26,7 @@ namespace Editor.CoreAPI
         private const string FleetDescription = "Deployed by the Amazon GameLift Plug-in for Unity.";
         private VisualElement _container;
         private ErrorResponse _logger;
+        private StateManager _stateManager;
 
         public GameLiftFleetManager(CoreApi coreApi, IAmazonGameLiftClientWrapper wrapper)
         {
@@ -41,19 +42,13 @@ namespace Editor.CoreAPI
                 if (success)
                 {
                     var fleetId = await CreateFleet(ComputeType.ANYWHERE, FleetLocation, fleetName);
-                    var fleetNameResponse = _coreApi.PutSetting(SettingsKeys.FleetName, fleetName);
-                    var fleetIdResponse = _coreApi.PutSetting(SettingsKeys.FleetId, fleetId);
-                    if (!fleetNameResponse.Success)
-                    {
-                        return Response.Fail(new GenericResponse(ErrorCode.InvalidFleetName));
-                    }
 
-                    if (!fleetIdResponse.Success)
-                    {
-                        return Response.Fail(new GenericResponse(ErrorCode.InvalidFleetId));
-                    }
-
-                    return Response.Ok(new GenericResponse());
+                    _stateManager.SelectedProfile.FleetName = fleetName;
+                    _stateManager.SelectedProfile.FleetId = fleetId;
+                
+                    var profileSaveResponse = _stateManager.SaveProfiles();
+                    
+                    return Response.Ok(profileSaveResponse);
                 }
 
                 return Response.Fail(new GenericResponse(ErrorCode.CustomLocationCreationFailed));
