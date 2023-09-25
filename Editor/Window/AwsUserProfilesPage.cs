@@ -19,7 +19,8 @@ namespace AmazonGameLift.Editor
         public readonly UserProfileSelection UserProfileSelection;
         
         private VisualElement _currentElement;
-        
+
+        private const string hiddenClassName = "hidden";
         private readonly StateManager _stateManager;
         private readonly VisualElement _container;
         private readonly UserProfileCreation _userProfileCreation;
@@ -120,10 +121,10 @@ namespace AmazonGameLift.Editor
                 BootstrapSettings.RefreshBucketName();
                 OpenS3Popup(BootstrapSettings.BucketName);
             });
-            // _container.Q<Button>("BootstrapNewBucket").RegisterCallback<ClickEvent>(_ =>
-            // {
-            //     // TODO: Add or find functionality for this
-            // });
+            _container.Q<Button>("UserProfilePageBootstrapAnotherBucketButton").RegisterCallback<ClickEvent>(_ =>
+            {
+                // TODO: Add or find functionality for this
+            });
             _container.Q<Button>("AccessKeyToggleReveal").RegisterCallback<ClickEvent>(_ =>
             {
                 var accessToggle = _container.Q<TextField>("AccessKeyField");
@@ -231,13 +232,13 @@ namespace AmazonGameLift.Editor
         {
             if (_currentElement != null)
             {
-                _currentElement.style.display = DisplayStyle.None;
+                _currentElement.AddToClassList(hiddenClassName);
             }
 
             _currentElement = targetWizard;
             if (_currentElement != null)
             {
-                _currentElement.style.display = DisplayStyle.Flex;
+                _currentElement.RemoveFromClassList(hiddenClassName);
             }
         }
         

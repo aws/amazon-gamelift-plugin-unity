@@ -123,7 +123,7 @@
                     <ui:Label name="Label" class="form-row__label" text="Bootstrap Status"/>
                     <ui:VisualElement class="separator separator--horizontal">
                         <ui:Label name="Label" class="form-row__text-display" text="Active"/>
-                        <ui:Button name="button" class="button" text="Bootstrap to new S3 Bucket"/>
+                        <ui:Button name="UserProfilePageBootstrapAnotherBucketButton" class="button" text="Bootstrap to new S3 Bucket"/>
                     </ui:VisualElement>
                 </ui:VisualElement>
             </ui:VisualElement>

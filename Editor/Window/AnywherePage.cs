@@ -3,7 +3,6 @@
 
 using AmazonGameLift.Editor;
 using Editor.CoreAPI;
-using Editor.Resources.EditorWindow;
 using UnityEngine.UIElements;
 
 namespace Editor.Window
