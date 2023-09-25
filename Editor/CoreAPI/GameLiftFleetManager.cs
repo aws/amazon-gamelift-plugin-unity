@@ -7,6 +7,7 @@ using Amazon.GameLift;
 using Amazon.GameLift.Model;
 using Amazon.Runtime.Internal;
 using AmazonGameLift.Editor;
+using AmazonGameLiftPlugin.Core;
 using AmazonGameLiftPlugin.Core.ApiGatewayManagement;
 using AmazonGameLiftPlugin.Core.Shared;
 using Editor.Window.Models;
@@ -19,7 +20,7 @@ namespace Editor.CoreAPI
     public class GameLiftFleetManager
     {
         private readonly CoreApi _coreApi;
-        private readonly IAmazonGameLiftClientWrapper _amazonGameLiftWrapper;
+        private readonly IAmazonGameLiftWrapper _amazonGameLiftWrapper;
         private string _fleetName;
         private string _fleetId;
         private const string FleetLocation = "custom-location-1";
@@ -28,13 +29,13 @@ namespace Editor.CoreAPI
         private ErrorResponse _logger;
         private StateManager _stateManager;
 
-        public GameLiftFleetManager(CoreApi coreApi, IAmazonGameLiftClientWrapper wrapper)
+        public GameLiftFleetManager(CoreApi coreApi, IAmazonGameLiftWrapper wrapper)
         {
             _coreApi = coreApi;
             _amazonGameLiftWrapper = wrapper;
         }
 
-        internal async Task<Response> CreateAnywhereFleet(string fleetName)
+        public async Task<Response> CreateAnywhereFleet(string fleetName)
         {
             if (_amazonGameLiftWrapper != null)
             {
@@ -134,7 +135,7 @@ namespace Editor.CoreAPI
             }
         }
 
-        internal async Task<List<FleetAttributes>> ListFleets()
+        public async Task<List<FleetAttributes>> ListFleetAttributes()
         {
             try
             {
@@ -146,7 +147,7 @@ namespace Editor.CoreAPI
                     FleetIds = listFleetResponse.FleetIds
                 };
 
-                var describeFleetResponse = await _amazonGameLiftWrapper.DescribeFleets(describeFleetRequest);
+                var describeFleetResponse = await _amazonGameLiftWrapper.DescribeFleetAttributes(describeFleetRequest);
                 return describeFleetResponse.FleetAttributes;
             }
             catch (Exception ex)
