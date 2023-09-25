@@ -24,6 +24,7 @@ namespace AmazonGameLift.Editor
         public const int SelectionMode = 1;
         public const int NoneLifeCyclePolicyIndex = 0;
         private const int DefaultLifeCyclePolicyIndex = 0;
+        private const string BucketNameEmptyErrorMessage = "Cannot Create Bucket, Bucket Name is Empty";
         private readonly Status _status = new Status();
         private readonly BucketUrlFormatter _bucketUrlFormatter = new BucketUrlFormatter();
         private readonly BucketPolicy[] _lifecyclePolicies;
@@ -118,11 +119,16 @@ namespace AmazonGameLift.Editor
             return true;
         }
 
-        public void CreateBucket()
+        public Response CreateBucket()
         {
             if (!CanCreate)
             {
-                return;
+                var emptyBucketNameResponse = new Response()
+                {
+                    ErrorMessage = BucketNameEmptyErrorMessage
+                };
+                OnBucketCreationFailure(emptyBucketNameResponse);
+                return emptyBucketNameResponse;
             }
 
             GetBootstrapDataResponse bootstrapResponse = _bootstrapUtility.GetBootstrapData();
@@ -130,7 +136,7 @@ namespace AmazonGameLift.Editor
             if (!bootstrapResponse.Success)
             {
                 OnBucketCreationFailure(bootstrapResponse);
-                return;
+                return bootstrapResponse;
             }
 
             CreateBucketResponse createResponse = _coreApi.CreateBucket(bootstrapResponse.Profile, bootstrapResponse.Region, BucketName);
@@ -138,10 +144,12 @@ namespace AmazonGameLift.Editor
             if (createResponse.Success)
             {
                 OnBucketCreated(bootstrapResponse.Profile, bootstrapResponse.Region, BucketName);
+                return createResponse;
             }
             else
             {
                 OnBucketCreationFailure(createResponse);
+                return createResponse;
             }
         }
 

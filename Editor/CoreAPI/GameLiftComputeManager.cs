@@ -14,15 +14,12 @@ namespace Editor.CoreAPI
     {
         private readonly CoreApi _coreApi;
         private readonly IAmazonGameLiftClientWrapper _amazonGameLiftWrapper;
-        private string _fleetName;
-        private string _fleetId;
         private VisualElement _container;
         private ErrorResponse _logger;
         private StateManager _stateManager;
 
-        public GameLiftComputeManager(CoreApi coreApi, IAmazonGameLiftClientWrapper wrapper)
+        public GameLiftComputeManager(IAmazonGameLiftClientWrapper wrapper)
         {
-            _coreApi = coreApi;
             _amazonGameLiftWrapper = wrapper;
         }
 

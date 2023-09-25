@@ -61,8 +61,8 @@ namespace Editor.CoreAPI
             {
                 IsBootstrapped = !string.IsNullOrWhiteSpace(_selectedProfile.BootStrappedBucket);
                 GameLiftWrapper = AmazonGameLiftClientFactory.Get(SelectedProfileName);
-                FleetManager = new GameLiftFleetManager(CoreApi, GameLiftWrapper);
-                ComputeManager = new GameLiftComputeManager(CoreApi, GameLiftWrapper);
+                FleetManager = new GameLiftFleetManager(GameLiftWrapper);
+                ComputeManager = new GameLiftComputeManager(GameLiftWrapper);
             }
             else
             {

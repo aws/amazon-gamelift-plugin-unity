@@ -6,7 +6,6 @@ using System.Threading.Tasks;
 using Amazon.GameLift;
 using Amazon.GameLift.Model;
 using Amazon.Runtime.Internal;
-using AmazonGameLift.Editor;
 using AmazonGameLiftPlugin.Core.ApiGatewayManagement;
 using AmazonGameLiftPlugin.Core.Shared;
 using Editor.Window.Models;
@@ -18,7 +17,6 @@ namespace Editor.CoreAPI
 {
     public class GameLiftFleetManager
     {
-        private readonly CoreApi _coreApi;
         private readonly IAmazonGameLiftClientWrapper _amazonGameLiftWrapper;
         private string _fleetName;
         private string _fleetId;
@@ -28,9 +26,8 @@ namespace Editor.CoreAPI
         private ErrorResponse _logger;
         private StateManager _stateManager;
 
-        public GameLiftFleetManager(CoreApi coreApi, IAmazonGameLiftClientWrapper wrapper)
+        public GameLiftFleetManager(IAmazonGameLiftClientWrapper wrapper)
         {
-            _coreApi = coreApi;
             _amazonGameLiftWrapper = wrapper;
         }
 
