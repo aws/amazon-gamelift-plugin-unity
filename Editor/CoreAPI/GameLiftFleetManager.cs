@@ -6,6 +6,7 @@ using System.Threading.Tasks;
 using Amazon.GameLift;
 using Amazon.GameLift.Model;
 using Amazon.Runtime.Internal;
+using AmazonGameLiftPlugin.Core;
 using AmazonGameLiftPlugin.Core.ApiGatewayManagement;
 using AmazonGameLiftPlugin.Core.Shared;
 using Editor.Window.Models;
@@ -17,7 +18,7 @@ namespace Editor.CoreAPI
 {
     public class GameLiftFleetManager
     {
-        private readonly IAmazonGameLiftClientWrapper _amazonGameLiftWrapper;
+        private readonly IAmazonGameLiftWrapper _amazonGameLiftWrapper;
         private string _fleetName;
         private string _fleetId;
         private const string FleetLocation = "custom-location-1";
@@ -26,7 +27,7 @@ namespace Editor.CoreAPI
         private ErrorResponse _logger;
         private StateManager _stateManager;
 
-        public GameLiftFleetManager(IAmazonGameLiftClientWrapper wrapper)
+        public GameLiftFleetManager(IAmazonGameLiftWrapper wrapper)
         {
             _amazonGameLiftWrapper = wrapper;
         }
