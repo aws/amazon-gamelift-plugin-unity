@@ -46,7 +46,7 @@ namespace Editor.CoreAPI
             _selectedProfile = profileName;
             var credentials = CoreApi.RetrieveAwsCredentials(profileName);
             Region = credentials.Region;
-            GameLiftWrapper = AmazonGameLiftClientFactory.Get(SelectedProfile);
+            GameLiftWrapper = AmazonGameLiftWrapperFactory.Get(SelectedProfile);
             FleetManager = new GameLiftFleetManager(CoreApi, GameLiftWrapper);
             ComputeManager = new GameLiftComputeManager(CoreApi, GameLiftWrapper);
             OnProfileSelected?.Invoke();
