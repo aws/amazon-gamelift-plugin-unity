@@ -31,7 +31,7 @@ namespace Editor.CoreAPI
             _amazonGameLiftWrapper = wrapper;
         }
 
-        internal async Task<Response> CreateAnywhereFleet(string fleetName)
+        public async Task<Response> CreateAnywhereFleet(string fleetName)
         {
             if (_amazonGameLiftWrapper != null)
             {
@@ -131,7 +131,7 @@ namespace Editor.CoreAPI
             }
         }
 
-        internal async Task<List<FleetAttributes>> ListFleets()
+        public async Task<List<FleetAttributes>> ListFleetAttributes()
         {
             try
             {
@@ -143,7 +143,7 @@ namespace Editor.CoreAPI
                     FleetIds = listFleetResponse.FleetIds
                 };
 
-                var describeFleetResponse = await _amazonGameLiftWrapper.DescribeFleets(describeFleetRequest);
+                var describeFleetResponse = await _amazonGameLiftWrapper.DescribeFleetAttributes(describeFleetRequest);
                 return describeFleetResponse.FleetAttributes;
             }
             catch (Exception ex)

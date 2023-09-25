@@ -1,6 +1,7 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
 using AmazonGameLift.Editor;
+using AmazonGameLiftPlugin.Core;
 using AmazonGameLiftPlugin.Core.ApiGatewayManagement;
 using AmazonGameLiftPlugin.Core.SettingsManagement.Models;
 using UnityEngine;
@@ -15,9 +16,9 @@ namespace Editor.CoreAPI
         public GameLiftFleetManager FleetManager { get; set; }
         public GameLiftComputeManager ComputeManager { get; set; }
 
-        public IAmazonGameLiftClientWrapper GameLiftWrapper { get; private set; }
+        public IAmazonGameLiftWrapper GameLiftWrapper { get; private set; }
 
-        public IAmazonGameLiftClientFactory AmazonGameLiftClientFactory { get; }
+        public IAmazonGameLiftWrapperFactory AmazonGameLiftWrapperFactory { get; }
 
         private UserProfile _selectedProfile;
         private List<UserProfile> _allProfiles;
@@ -47,7 +48,7 @@ namespace Editor.CoreAPI
         public StateManager(CoreApi coreApi)
         {
             CoreApi = coreApi;
-            AmazonGameLiftClientFactory = new AmazonGameLiftClientFactory(coreApi);
+            AmazonGameLiftWrapperFactory = new AmazonGameLiftWrapperFactory(coreApi);
             RefreshProfiles();
             SetProfile(coreApi.GetSetting(SettingsKeys.CurrentProfileName).Value);
         }

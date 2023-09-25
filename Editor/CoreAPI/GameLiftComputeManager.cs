@@ -12,7 +12,6 @@ namespace Editor.CoreAPI
 {
     public class GameLiftComputeManager
     {
-        private readonly CoreApi _coreApi;
         private readonly IAmazonGameLiftClientWrapper _amazonGameLiftWrapper;
         private VisualElement _container;
         private ErrorResponse _logger;
