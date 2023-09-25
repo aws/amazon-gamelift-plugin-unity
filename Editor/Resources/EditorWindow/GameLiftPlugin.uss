@@ -1,0 +1,58 @@
+/* Copyright Amazon.com, Inc. or its affiliates. All Rights Reserved. */
+/* SPDX-License-Identifier: Apache-2.0 */
+
+@import './common.uss';
+
+:root {
+    height: 100%;
+    width: 100%;
+}
+
+.main {
+    flex-direction: row;
+    height: 100%;
+    width: 100%;
+}
+
+.main__menu {
+    width: 240px;
+    padding-top: var(--spacing-medium);
+    background-color: var(--color-background-accent);
+    flex: 0 0 auto;
+    border-right-color: var(--color-border-accent);
+    border-right-width: var(--border-size-medium);
+}
+
+.main__content {
+    flex-grow: 1;
+    background-color: var(--color-background-primary);
+}
+
+.tab__button {
+    font-size: var(--font-size-large);
+    -unity-text-align: middle-left;
+    padding: 0 var(--spacing-small) 0 var(--spacing-medium);
+    margin: 0 0 var(--spacing-small) 0;
+    background-color: rgba(0,0,0,0);
+    border-radius: 0;
+    border-width: 0;
+    height: 24px;
+}
+
+.tab__button:hover {
+    background-color: var(--color-button-hover);
+}
+
+.tab__button--selected {
+    background-color: var(--color-button-primary);
+}
+
+.tab__content {
+    display: none;
+    padding: var(--spacing-large);
+    min-width: var(--page-width);
+}
+
+.tab__content.tab__content--selected {
+    display: flex;
+}
