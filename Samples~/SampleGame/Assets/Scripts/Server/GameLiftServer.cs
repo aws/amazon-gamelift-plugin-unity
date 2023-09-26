@@ -70,7 +70,7 @@ public class GameLiftServer
                 }).Result.AuthToken;
 #endif
             var serverParams =
-                new ServerParameters(websocketUrl, Application.productName, computeName, fleetID, authToken);
+                new ServerParameters(websocketUrl, $"{Application.productName}-{Guid.NewGuid()}", computeName, fleetID, authToken);
 
             GenericOutcome initOutcome = GameLiftServerAPI.InitSDK(serverParams);
 
