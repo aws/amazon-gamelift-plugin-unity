@@ -5,7 +5,7 @@ using AmazonGameLift.Editor;
 using UnityEngine;
 using UnityEngine.UIElements;
 
-namespace Editor.Window
+namespace AmazonGameLift.Editor
 {
     public class LandingPage
     {

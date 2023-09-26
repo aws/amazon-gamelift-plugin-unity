@@ -1,4 +1,4 @@
-﻿// Copyright Amazon.com, Inc. or its affiliates. All Rights Reserved.
+// Copyright Amazon.com, Inc. or its affiliates. All Rights Reserved.
 // SPDX-License-Identifier: Apache-2.0
 
 using System;
@@ -9,20 +9,19 @@ using UnityEditor;
 using UnityEngine;
 using UnityEngine.UIElements;
 
-namespace Editor.Window
+namespace AmazonGameLift.Editor
 {
     public class GameLiftPlugin : EditorWindow
     {
         [SerializeField] private Texture _icon;
         internal Texture Icon => _icon;
+        internal readonly StateManager StateManager;
 
         private VisualTreeAsset _visualTreeAsset;
         private VisualElement _root;
         private VisualElement _currentTab;
         private List<Button> _tabButtons;
         private List<VisualElement> _tabContent;
-
-        private readonly StateManager _stateManager;
 
         private const string MainContentClassName = "main__content";
         private const string TabContentSelectedClassName = "tab__content--selected";
@@ -32,7 +31,7 @@ namespace Editor.Window
 
         private GameLiftPlugin()
         {
-            _stateManager = new StateManager(new CoreApi());
+            StateManager = new StateManager(new CoreApi());
         }
 
         private void CreateGUI()
@@ -51,7 +50,7 @@ namespace Editor.Window
 
             var tabContentContainer = _root.Q(className: MainContentClassName);
             var landingPage = new LandingPage(CreateContentContainer(Pages.Landing, tabContentContainer));
-            var anywherePage = new AnywherePage(CreateContentContainer(Pages.Anywhere, tabContentContainer), _stateManager);
+            var anywherePage = new AnywherePage(CreateContentContainer(Pages.Anywhere, tabContentContainer), StateManager);
             var ec2Page = new ManagedEC2Page(CreateContentContainer(Pages.ManagedEC2, tabContentContainer));
             var helpPage = new HelpAndDocumentationPage(CreateContentContainer(Pages.Help, tabContentContainer));
 

@@ -276,6 +276,12 @@ namespace AmazonGameLift.Editor
             { Strings.InfoLinkForumLink, "AWS GameTech Forum" },
             { Strings.InfoLinkTroubleshootingLink, "Troubleshooting" },
             { Strings.InfoLinkReportIssuesLink, "Report Issues" },
+            
+            { Strings.ProfileSelectorDropdownLabel, "AWS Account Profile" },
+            { Strings.ProfileSelectorBucketNameLabel, "S3 Bucket Name" },
+            { Strings.ProfileSelectorRegionLabel, "AWS Region" },
+            { Strings.ProfileSelectorStatusLabel, "Bootstrap Status" },
+            { Strings.BootstrapNoBucketCreated, "No bucket created" },
         };
 
         public string GetError(string errorCode = null)
