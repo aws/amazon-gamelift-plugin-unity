@@ -5,9 +5,12 @@ using System.Threading.Tasks;
 using Amazon.GameLift.Model;
 using AmazonGameLift.Editor;
 using Editor.CoreAPI;
+using Editor.Resources.EditorWindow;
+using Editor.Window;
+using UnityEngine;
 using UnityEngine.UIElements;
 
-namespace Editor.Window
+namespace AmazonGameLift.Editor
 {
     public class ConnectToFleetInput : StatefulInput
     {
@@ -26,6 +29,7 @@ namespace Editor.Window
         private VisualElement _fleetStatus;
         private readonly GameLiftFleetManager _fleetManager;
         private readonly StateManager _stateManager;
+        private readonly VisualElement _container;
         private Button _cancelButton;
         
         private FleetStatus _fleetState;
@@ -33,6 +37,10 @@ namespace Editor.Window
 
         public ConnectToFleetInput(VisualElement container, StateManager stateManager, FleetStatus initialState)
         {
+            var uxml = Resources.Load<VisualTreeAsset>("EditorWindow/Components/ConnectToFleetInput");
+            container.Add(uxml.Instantiate());
+            _container = container;
+            
             _fleetState = initialState;
             _stateManager = stateManager;
             _fleetManager = stateManager.FleetManager;
@@ -41,6 +49,7 @@ namespace Editor.Window
             PopulateFleetVisualElements();
             RegisterCallBacks(container);
             SetupBootMenu();
+            LocalizeText();
             
             UpdateGUI();
         }
@@ -104,8 +113,8 @@ namespace Editor.Window
             _fleetId = container.Q("AnywherePageConnectFleetID");
             _fleetIdText = container.Q<Label>("AnywherePageConnectFleetIDDisplay");
             _fleetStatus = container.Q("AnywherePageConnectFleetStatus");
-            _fleetCreateFoldout = container.Q("AnywherePageCreateFleetTitle");
-            _fleetConnectFoldout = container.Q("AnywherePageConnectFleetTitle");
+            _fleetCreateFoldout = container.Q("AnywherePageCreateFleet");
+            _fleetConnectFoldout = container.Q("AnywherePageConnectFleet");
             _cancelButton = container.Q<Button>("AnywherePageCreateFleetCancelButton");
         }
         
@@ -200,6 +209,16 @@ namespace Editor.Window
             Creating,
             Selecting,
             Selected
+        }
+
+        private void LocalizeText()
+        {
+            var l = new ElementLocalizer(_container);
+            l.SetElementText("AnywherePageConnectFleetName", Strings.AnywherePageConnectFleetName);
+            l.SetElementText("AnywherePageConnectFleetLabel", Strings.AnywherePageConnectFleetLabel);
+            l.SetElementText("AnywherePageConnectFleetIDLabel", Strings.AnywherePageConnectFleetIDLabel);    
+            l.SetElementText("AnywherePageConnectFleetStatusLabel", Strings.AnywherePageConnectFleetStatusLabel);
+            l.SetElementText("AnywherePageConnectFleetNewButton", Strings.AnywherePageConnectFleetNewButton);    
         }
     }
 }

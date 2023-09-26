@@ -1,11 +1,13 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using AmazonGameLift.Editor;
 using Editor.CoreAPI;
+using Editor.Resources.EditorWindow;
+using Editor.Window;
+using UnityEngine;
 using UnityEngine.UIElements;
 
-namespace Editor.Window
+namespace AmazonGameLift.Editor
 {
     public class RegisterComputeInput : StatefulInput
     {
@@ -30,6 +32,10 @@ namespace Editor.Window
 
         public RegisterComputeInput(VisualElement container, StateManager stateManager, ConnectToFleetInput  fleetDetails, ComputeStatus initialState)
         {
+            var uxml = Resources.Load<VisualTreeAsset>("EditorWindow/Components/RegisterComputeInput");
+            container.Add(uxml.Instantiate());
+            _container = container;
+            
             _computeState = initialState;
             _fleetDetails = fleetDetails;
             _stateManager = stateManager;
@@ -40,6 +46,7 @@ namespace Editor.Window
             _registerButton = container.Q<Button>("AnywherePageComputeRegisterButton");
             _registerNewButton = container.Q<Button>("AnywherePageComputeRegisterNewButton");
             _cancelButton = container.Q<Button>("AnywherePageComputeCancelButton");
+            LocalizeText();
 
             PopulateComputeVisualElements();
             RegisterCallbacks();
@@ -161,6 +168,17 @@ namespace Editor.Window
                     Hide(element);
                 }
             }
+        }
+
+        private void LocalizeText()
+        {
+            var l = new ElementLocalizer(_container);
+            l.SetElementText("AnywherePageComputeNameLabel", Strings.AnywherePageComputeNameLabel);
+            l.SetElementText("AnywherePageComputeIPLabel", Strings.AnywherePageComputeIPLabel);
+            l.SetElementText("AnywherePageComputeStatusLabel", Strings.AnywherePageComputeStatusLabel);
+            l.SetElementText("AnywherePageComputeRegisterButton", Strings.AnywherePageComputeRegisterButton);
+            l.SetElementText("AnywherePageComputeRegisterNewButton", Strings.AnywherePageComputeRegisterNewButton);
+            l.SetElementText("AnywherePageComputeCancelButton", Strings.AnywherePageComputeCancelButton);
         }
 
         public enum ComputeStatus
