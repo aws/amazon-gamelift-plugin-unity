@@ -260,6 +260,27 @@ namespace AmazonGameLift.Editor
             { Strings.AnywherePageLaunchClientTitle, "Launch Client"},
             { Strings.AnywherePageLaunchClientLabel, "Run Game"},
             { Strings.AnywherePageLaunchClientButton, "Launch Client"},
+            
+            { Strings.InfoLinkDocumentationLink, "Documentation" },
+            { Strings.InfoLinkForumLink, "AWS GameTech Forum" },
+            { Strings.InfoLinkTroubleshootingLink, "Troubleshooting" },
+            { Strings.InfoLinkReportIssuesLink, "Report Issues" },
+            
+            { Strings.HelpPageTitle, "Help & Documentation" },
+            { Strings.HelpPageDescription, "Learn how to integrate and deploy games for hosting on GameLift. The GameLift service manages game server deployment, operation, and scaling. You can deploy custom-built game servers or use GameLift Realtime Servers to configure lightweight game servers for your game." },
+            { Strings.HelpPageReportIssueLink, "Report Issues" },
+            { Strings.HelpPageDocumentationLink, "Documentation" },
+            { Strings.HelpPageVideoTutorialLink, "Video Tutorials" },
+            { Strings.HelpPageForumLink, "AWS Forum" },
+            { Strings.HelpPageEstimatingPriceTitle, "Estimating Price" },
+            { Strings.HelpPageEstimatingPriceDescription, "With AWS Pricing Calculator, you can create a pricing estimate for Amazon GameLift. You don't need an AWS account or in-depth knowledge of AWS to use the calculator." },
+            { Strings.HelpPageEstimatingPriceLink, "Learn More" },
+            { Strings.HelpPageFleetIQTitle, "Amazon GameLift FleetIQ" },
+            { Strings.HelpPageFleetIQDescription, "Amazon GameLift FleetIQ optimizes the use of low-cost Amazon EC2 Spot Instances for cloud-based game hosting. With Amazon GameLift FleetIQ, you can work directly with your hosting resources in Amazon EC2 and Amazon EC2 Auto Scaling while taking advantage of Amazon GameLift optimizations to deliver inexpensive, resilient game hosting for your players." },
+            { Strings.HelpPageFleetIQLink, "Learn More" },
+            { Strings.HelpPageFlexMatchTitle, "Amazon GameLift FlexMatch" },
+            { Strings.HelpPageFlexMatchDescription, "Amazon GameLift FlexMatch is a customizable matchmaking service for multiplayer games. With FlexMatch, you can build a custom set of rules that defines what a multiplayer match looks like for your game, and determines how to evaluate and select compatible players for each match." },
+            { Strings.HelpPageFlexMatchLink, "Learn More" },
         };
 
         public string GetError(string errorCode = null)

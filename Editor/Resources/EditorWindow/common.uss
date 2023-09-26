@@ -12,6 +12,7 @@
     --color-font-default: #d2d2d2;
     --color-font-accent: #ffffff;
     --color-font-error: #f30303;
+    --color-font-link: #4C7EFF;
     --color-foldout-title: #e4e4e4;
     --color-input-label: #c4c4c4;
     --color-text-input-background: #2a2a2a;
@@ -19,7 +20,8 @@
     --color-card-border: #0d0d0d;
     --color-card-background: #2a2a2a;
 
-    --font-size-small: 12px;
+    --font-size-hint: 12px;
+    --font-size-small: 14px;
     --font-size-default: 16px;
     --font-size-large: 18px;
     --font-size-extralarge: 24px;
@@ -150,7 +152,12 @@ Image.icon--small {
     border-bottom-width: var(--border-size-thin);
     border-bottom-color: var(--color-font-accent);
     align-self: flex-start;
+    align-items: center;
     flex-direction: row;
+}
+
+Image#ExternalLinkIcon {
+    --unity-image: resource("Images/Icons/ExternalLink");
 }
 
 .page__title {
@@ -263,7 +270,7 @@ Image.icon--small {
 }
 
 .input-hint {
-    font-size: var(--font-size-small);
+    font-size: var(--font-size-hint);
 }
 
 .dropdown {
@@ -292,6 +299,17 @@ Image.icon--small {
     flex: 1 0 0;
 }
 
+.card--small {
+    flex-direction: row;
+    align-items: center;
+    justify-content: space-between;
+}
+
+.card--small .card__text {
+    font-size: var(--font-size-small);
+    margin: 0 8px 0 8px;
+}
+
 .card--large {
     padding: var(--spacing-large);
 }
@@ -299,21 +317,6 @@ Image.icon--small {
 .card--centered {
     align-items: center;
     -unity-text-align: middle-center;
-}
-
-.card__icon {
-    width: 96px;
-    height: 96px;
-    flex: 0 0 auto;
-}
-
-.card .button {
-    margin-top: auto;
-    align-self: center;
-}
-
-.card__title {
-    font-size: var(--font-size-extralarge);
 }
 
 .card__container {
@@ -326,6 +329,29 @@ Image.icon--small {
     flex: 1 1 auto;
 }
 
-Image.external-link {
-    --unity-image: resource("Images/Icons/AccountIcon");
+.card__icon {
+    width: 36px;
+    height: 36px;
+    flex: 0 0 auto;
+}
+
+.card__icon--small {
+    width: 20px;
+    height: 20px;
+    flex: 0 0 auto;
+}
+
+/*.card__icon {*/
+/*    width: 96px;*/
+/*    height: 96px;*/
+/*    flex: 0 0 auto;*/
+/*}*/
+
+.card .button {
+     margin-top: auto;
+     align-self: center;
+ }
+
+.card__title {
+    font-size: var(--font-size-extralarge);
 }

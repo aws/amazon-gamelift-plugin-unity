@@ -1,12 +1,13 @@
 <!-- Copyright Amazon.com, Inc. or its affiliates. All Rights Reserved. -->
 <!-- SPDX-License-Identifier: Apache-2.0 -->
 
-<ui:UXML xmlns:ui="UnityEngine.UIElements">
+<ui:UXML xmlns:ui="UnityEngine.UIElements" xmlns:gl="AmazonGameLift.Editor">
     <Style src="./AnywherePage.uss"/>
     <ui:VisualElement class="separator separator--large">
         <ui:VisualElement class="separator">
             <ui:Label name="AnywherePageTitle" class="page__title" text="GameLift Anywhere"/>
             <ui:Label name="AnywherePageDescription" text="Amazon GameLift Anywhere fleets use your existing infrastructure to host game servers while Amazon GameLift manages your matchmaking and queues.&#10;You can integrate Anywhere and Managed EC2 fleets in matchmaker and game session queues to manage matchmaking and game placement."/>
+            <gl:InfoLinks/>
         </ui:VisualElement>
         <ui:VisualElement class="divider"/>
         <ui:Foldout name="AnywherePageIntegrateTitle" class="foldout separator separator--small" text="Integrate GameLift with your game client">

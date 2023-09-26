@@ -38,7 +38,7 @@ namespace AmazonGameLift.Editor
         private void CreateGUI()
         {
             _root = rootVisualElement;
-            _visualTreeAsset = UnityEngine.Resources.Load<VisualTreeAsset>("EditorWindow/GameLiftPlugin");
+            _visualTreeAsset = Resources.Load<VisualTreeAsset>("EditorWindow/GameLiftPlugin");
             if (_visualTreeAsset == null)
             {
                 return;
@@ -53,7 +53,8 @@ namespace AmazonGameLift.Editor
             var landingPage = new LandingPage(CreateContentContainer(Pages.Landing, tabContentContainer));
             var credentialsPage = new AwsUserProfilesPage(CreateContentContainer(Pages.Credentials, tabContentContainer), _stateManager);
             var anywherePage = new AnywherePage(CreateContentContainer(Pages.Anywhere, tabContentContainer), _stateManager);
-            
+            var helpPage = new HelpAndDocumentationPage(CreateContentContainer(Pages.Help, tabContentContainer));
+
             _tabButtons = _root.Query<Button>(className: TabButtonClassName).ToList();
             _tabContent = _root.Query(className: TabContentClassName).ToList();
 
