@@ -18,8 +18,8 @@ namespace AmazonGameLift.Editor
         private readonly List<TextField> _ipInputs;
         private readonly TextField _computeNameInput;
         private readonly Button _registerButton;
-        private readonly Button _registerNewButton;
-        private readonly Button _cancelButton;
+        private readonly Button _replaceComputeButton;
+        private readonly Button _cancelReplaceButton;
         private readonly VisualElement _computeStatus;
         private readonly VisualElement _container;
         private readonly GameLiftComputeManager _computeManager;
@@ -44,8 +44,8 @@ namespace AmazonGameLift.Editor
             _ipInputs = container.Query<TextField>("AnywherePageComputeIPAddressInput").ToList();
             _computeStatus = container.Q("AnywherePageComputeStatus");
             _registerButton = container.Q<Button>("AnywherePageComputeRegisterButton");
-            _registerNewButton = container.Q<Button>("AnywherePageComputeRegisterNewButton");
-            _cancelButton = container.Q<Button>("AnywherePageComputeCancelButton");
+            _replaceComputeButton = container.Q<Button>("AnywherePageComputeRegisterNewButton");
+            _cancelReplaceButton = container.Q<Button>("AnywherePageComputeCancelButton");
             LocalizeText();
 
             PopulateComputeVisualElements();
@@ -57,8 +57,8 @@ namespace AmazonGameLift.Editor
         private void RegisterCallbacks()
         {
             _registerButton.RegisterCallback<ClickEvent>(_ => OnRegisterComputeButtonClicked());
-            _registerNewButton.RegisterCallback<ClickEvent>(_ => OnNewComputeButtonClicked());
-            _cancelButton.RegisterCallback<ClickEvent>(_ => OnCancelButtonClicked());
+            _replaceComputeButton.RegisterCallback<ClickEvent>(_ => OnReplaceComputeButtonClicked());
+            _cancelReplaceButton.RegisterCallback<ClickEvent>(_ => OnCancelReplaceButtonClicked());
             
             _computeNameInput.RegisterValueChangedCallback(_ =>
                 VerifyComputeTextFields(_computeNameInput, _ipInputs, _registerButton));
@@ -79,7 +79,8 @@ namespace AmazonGameLift.Editor
         {
             if (_computeState is ComputeStatus.NotRegistered or ComputeStatus.Registering)
             {
-                var success = await _computeManager.RegisterFleetCompute(_computeName, _fleetDetails.FleetId, _location, _ipAddress);
+                var previousComputeName= _stateManager.CoreApi.GetSetting(SettingsKeys.ComputeName).Value;
+                var success = await _computeManager.RegisterFleetCompute(_computeName, _fleetDetails.FleetId, _location, _ipAddress, previousComputeName);
                 if (success)
                 {
                     _computeState = ComputeStatus.Registered;
@@ -89,7 +90,7 @@ namespace AmazonGameLift.Editor
             UpdateGUI();
         }
 
-        private void OnNewComputeButtonClicked()
+        private void OnReplaceComputeButtonClicked()
         {
             if (_computeState is ComputeStatus.Registered)
             {
@@ -99,7 +100,7 @@ namespace AmazonGameLift.Editor
             UpdateGUI();
         }
 
-        private void OnCancelButtonClicked()
+        private void OnCancelReplaceButtonClicked()
         {
             if (_computeState is ComputeStatus.Registering)
             {
@@ -138,9 +139,9 @@ namespace AmazonGameLift.Editor
             _computeVisualElements = new List<VisualElement>()
             {
                 _registerButton,
-                _cancelButton,
+                _cancelReplaceButton,
                 _computeStatus,
-                _registerNewButton
+                _replaceComputeButton
             };
         }
 
@@ -150,8 +151,8 @@ namespace AmazonGameLift.Editor
             {
                 ComputeStatus.Disabled => new List<VisualElement>(),
                 ComputeStatus.NotRegistered => new List<VisualElement>() { _registerButton, },
-                ComputeStatus.Registering => new List<VisualElement>() { _registerButton, _cancelButton },
-                ComputeStatus.Registered => new List<VisualElement>() { _computeStatus, _registerNewButton },
+                ComputeStatus.Registering => new List<VisualElement>() { _registerButton, _cancelReplaceButton },
+                ComputeStatus.Registered => new List<VisualElement>() { _computeStatus, _replaceComputeButton },
                 _ => throw new ArgumentOutOfRangeException()
             };
         }
