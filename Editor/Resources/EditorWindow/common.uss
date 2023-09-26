@@ -240,8 +240,12 @@ Image#ExternalLinkIcon {
     font-size: var(--font-size-large);
 }
 
-.text-input--tiny {
-    width: 50px;
+.text-input--fitted {
+    flex-shrink: 1;
+}
+
+.text-input--fitted .unity-text-element {
+    padding: 0;
 }
 
 .text-input--centered {
