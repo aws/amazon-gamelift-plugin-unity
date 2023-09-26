@@ -44,12 +44,13 @@ namespace AmazonGameLift.Editor
             var uxml = mVisualTreeAsset.Instantiate();
 
             container.Add(uxml);
-            ApplyText();
+            LocalizeText();
 
             var ec2Deployment = new ManagedEC2Deployment(_model, parameters);
             var scenarioContainer = container.Q("DeploymentSelectExpanded");
             _deploymentScenariosInput =
-                new DeploymentScenariosInput(scenarioContainer, DeploymentScenariosInput.ScenarioIndexMap[_model.ScenarioIndex], true);
+                new DeploymentScenariosInput(scenarioContainer,
+                    DeploymentScenariosInput.ScenarioIndexMap[_model.ScenarioIndex], true);
             _deploymentScenariosInput.SetEnabled(true);
             _deploymentScenariosInput.OnValueChanged += value => { Debug.Log($"Fleet type changed to {value}"); };
             _ec2DeploymentStatusLabel = _container.Q<Label>("EC2DeploymentStatusLabel");
@@ -93,16 +94,36 @@ namespace AmazonGameLift.Editor
             _deployButton.SetEnabled(_model.CurrentStackInfo.StackStatus == null && _model.CanDeploy);
             _redeployButton.SetEnabled(_model.CurrentStackInfo.StackStatus != null && _model.CanDeploy);
             _deleteButton.SetEnabled(_model.CurrentStackInfo.StackStatus != null && _model.IsCurrentStackModifiable);
-            _launchClientButton.SetEnabled(_model.CurrentStackInfo.StackStatus is StackStatus.CreateComplete or StackStatus.UpdateComplete);
+            _launchClientButton.SetEnabled(
+                _model.CurrentStackInfo.StackStatus is StackStatus.CreateComplete or StackStatus.UpdateComplete);
 
             _deploymentScenariosInput.SetEnabled(_model.CanDeploy);
             _fleetParamsInput.SetEnabled(_model.CanDeploy);
             _ec2DeploymentStatusLabel.text = _model.CurrentStackInfo.StackStatus;
         }
-        
-        private void ApplyText()
+
+        private void LocalizeText()
         {
             var l = new ElementLocalizer(_container);
+            l.SetElementText("ManagedEC2Title", Strings.ManagedEC2Title);
+            l.SetElementText("ManagedEC2Description", Strings.ManagedEC2Description);
+            l.SetElementText("ManagedEC2IntegrateTitle", Strings.ManagedEC2IntegrateTitle);
+            l.SetElementText("ManagedEC2IntegrateDescription", Strings.ManagedEC2IntegrateDescription);
+            l.SetElementText("ManagedEC2IntegrateLink", Strings.ManagedEC2IntegrateLink);
+            l.SetElementText("ManagedEC2ScenarioTitle", Strings.ManagedEC2ScenarioTitle);
+            l.SetElementText("ManagedEC2ParametersTitle", Strings.ManagedEC2ParametersTitle);
+            l.SetElementText("ManagedEC2DeployTitle", Strings.ManagedEC2DeployTitle);
+            l.SetElementText("ManagedEC2DeployDescription", Strings.ManagedEC2DeployDescription);
+            l.SetElementText("ManagedEC2DeployStatusLabel", Strings.ManagedEC2DeployStatusLabel);
+            l.SetElementText("ManagedEC2DeployStatusIcon", Strings.ManagedEC2DeployStatusIcon);
+            l.SetElementText("ManagedEC2DeployStatusText", Strings.ManagedEC2DeployStatusText);
+            l.SetElementText("ManagedEC2DeployActionsLabel", Strings.ManagedEC2DeployActionsLabel);
+            l.SetElementText("ManagedEC2CreateStackButton", Strings.ManagedEC2CreateStackButton);
+            l.SetElementText("ManagedEC2RedeployStackButton", Strings.ManagedEC2RedeployStackButton);
+            l.SetElementText("ManagedEC2DeleteStackButton", Strings.ManagedEC2DeleteStackButton);
+            l.SetElementText("ManagedEC2LaunchClientTitle", Strings.ManagedEC2LaunchClientTitle);
+            l.SetElementText("ManagedEC2LaunchClientLabel", Strings.ManagedEC2LaunchClientLabel);
+            l.SetElementText("ManagedEC2LaunchClientButton", Strings.ManagedEC2LaunchClientButton);
         }
     }
 }

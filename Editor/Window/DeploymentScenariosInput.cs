@@ -53,6 +53,7 @@ namespace AmazonGameLift.Editor
                 UpdateGUI();
             });
 
+            LocalizeText();
             UpdateGUI();
         }
 
@@ -114,6 +115,21 @@ namespace AmazonGameLift.Editor
                     Hide(element);
                 }
             }
+        }
+
+        private void LocalizeText()
+        {
+            var l = new ElementLocalizer(_container);
+            l.SetElementText("ManagedEC2ScenarioSingleFleetLabel", Strings.ManagedEC2ScenarioSingleFleetLabel);
+                l.SetElementText("ManagedEC2ScenarioSingleFleetRadio", Strings.ManagedEC2ScenarioSingleFleetRadio);
+            l.SetElementText("ManagedEC2ScenarioSingleFleetLink", Strings.ManagedEC2ScenarioSingleFleetLink);
+                l.SetElementText("ManagedEC2ScenarioSpotFleetLabel", Strings.ManagedEC2ScenarioSpotFleetLabel);
+            l.SetElementText("ManagedEC2ScenarioSpotFleetRadio", Strings.ManagedEC2ScenarioSpotFleetRadio);
+                l.SetElementText("ManagedEC2ScenarioSpotFleetLink", Strings.ManagedEC2ScenarioSpotFleetLink);
+            l.SetElementText("ManagedEC2ScenarioFlexFleetLabel", Strings.ManagedEC2ScenarioFlexFleetLabel);
+                l.SetElementText("ManagedEC2ScenarioFlexFleetRadio", Strings.ManagedEC2ScenarioFlexFleetRadio);
+            l.SetElementText("ManagedEC2ScenarioFlexFleetLink", Strings.ManagedEC2ScenarioFlexFleetLink);
+                l.SetElementText("ManagedEC2ScenarioShowMoreButton", Strings.ManagedEC2ScenarioShowMoreButton);
         }
     }
 }

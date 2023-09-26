@@ -77,6 +77,8 @@ namespace AmazonGameLift.Editor
                 _serverFileInput.value = value;
                 OnValueChanged(_parameters);
             });
+
+            LocalizeText();
         }
 
         public static OperatingSystem GetOperatingSystem(string operatingSystem)
@@ -111,6 +113,17 @@ namespace AmazonGameLift.Editor
             _osDropdown.SetEnabled(value);
             _serverFolderButton.SetEnabled(value);
             _serverFileButton.SetEnabled(value);
+        }
+
+        private void LocalizeText()
+        {
+            var l = new ElementLocalizer(_container);
+            l.SetElementText("ManagedEC2ParametersFleetNameLabel", Strings.ManagedEC2ParametersFleetNameLabel);
+            l.SetElementText("ManagedEC2ParametersBuildNameLabel", Strings.ManagedEC2ParametersBuildNameLabel);
+            l.SetElementText("ManagedEC2ParametersLaunchParametersLabel", Strings.ManagedEC2ParametersLaunchParametersLabel);
+            l.SetElementText("ManagedEC2ParametersOperatingSystemLabel", Strings.ManagedEC2ParametersOperatingSystemLabel);
+            l.SetElementText("ManagedEC2ParametersGameServerFolderLabel", Strings.ManagedEC2ParametersGameServerFolderLabel);
+            l.SetElementText("ManagedEC2ParametersGameServerFileLabel", Strings.ManagedEC2ParametersGameServerFileLabel);
         }
     }
 }

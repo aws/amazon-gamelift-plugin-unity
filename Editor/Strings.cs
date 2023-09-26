@@ -130,13 +130,13 @@ namespace AmazonGameLift.Editor
         public const string SettingsUIDeployNextStepLabel = "SettingsUIDeployNextStepLabel";
         public const string LabelOpenSdkIntegrationDoc = "LabelOpenSdkIntegrationDoc";
         public const string LabelOpenSdkApiDoc = "LabelOpenSdkApiDoc";
-        
+
         public const string TabLanding = "TabLanding";
         public const string TabCredentials = "TabCredentials";
         public const string TabAnywhere = "TabAnywhere";
         public const string TabManagedEC2 = "TabManagedEC2";
         public const string TabHelp = "TabHelp";
-        
+
         public const string LandingPageHeader = "LandingPageHeader";
         public const string LandingPageDescription = "LandingPageDescription";
         public const string LandingPageNoAccountCardText = "LandingPageNoAccountCardText";
@@ -190,6 +190,42 @@ namespace AmazonGameLift.Editor
         public const string AnywherePageLaunchClientTitle = "AnywherePageLaunchClientTitle";
         public const string AnywherePageLaunchClientLabel = "AnywherePageLaunchClientLabel";
         public const string AnywherePageLaunchClientButton = "AnywherePageLaunchClientButton";
+
+        public const string ManagedEC2Title = "ManagedEC2Title";
+        public const string ManagedEC2Description = "ManagedEC2Description";
+        public const string ManagedEC2IntegrateTitle = "ManagedEC2IntegrateTitle";
+        public const string ManagedEC2IntegrateDescription = "ManagedEC2IntegrateDescription";
+        public const string ManagedEC2IntegrateLink = "ManagedEC2IntegrateLink";
+        public const string ManagedEC2ScenarioTitle = "ManagedEC2ScenarioTitle";
+        public const string ManagedEC2ScenarioSingleFleetLabel = "ManagedEC2ScenarioSingleFleetLabel";
+        public const string ManagedEC2ScenarioSingleFleetRadio = "ManagedEC2ScenarioSingleFleetRadio";
+        public const string ManagedEC2ScenarioSingleFleetLink = "ManagedEC2ScenarioSingleFleetLink";
+        public const string ManagedEC2ScenarioSpotFleetLabel = "ManagedEC2ScenarioSpotFleetLabel";
+        public const string ManagedEC2ScenarioSpotFleetRadio = "ManagedEC2ScenarioSpotFleetRadio";
+        public const string ManagedEC2ScenarioSpotFleetLink = "ManagedEC2ScenarioSpotFleetLink";
+        public const string ManagedEC2ScenarioFlexFleetLabel = "ManagedEC2ScenarioFlexFleetLabel";
+        public const string ManagedEC2ScenarioFlexFleetRadio = "ManagedEC2ScenarioFlexFleetRadio";
+        public const string ManagedEC2ScenarioFlexFleetLink = "ManagedEC2ScenarioFlexFleetLink";
+        public const string ManagedEC2ScenarioShowMoreButton = "ManagedEC2ScenarioShowMoreButton";
+        public const string ManagedEC2ParametersTitle = "ManagedEC2ParametersTitle";
+        public const string ManagedEC2ParametersFleetNameLabel = "ManagedEC2ParametersFleetNameLabel";
+        public const string ManagedEC2ParametersBuildNameLabel = "ManagedEC2ParametersBuildNameLabel";
+        public const string ManagedEC2ParametersLaunchParametersLabel = "ManagedEC2ParametersLaunchParametersLabel";
+        public const string ManagedEC2ParametersOperatingSystemLabel = "ManagedEC2ParametersOperatingSystemLabel";
+        public const string ManagedEC2ParametersGameServerFolderLabel = "ManagedEC2ParametersGameServerFolderLabel";
+        public const string ManagedEC2ParametersGameServerFileLabel = "ManagedEC2ParametersGameServerFileLabel";
+        public const string ManagedEC2DeployTitle = "ManagedEC2DeployTitle";
+        public const string ManagedEC2DeployDescription = "ManagedEC2DeployDescription";
+        public const string ManagedEC2DeployStatusLabel = "ManagedEC2DeployStatusLabel";
+        public const string ManagedEC2DeployStatusIcon = "ManagedEC2DeployStatusIcon";
+        public const string ManagedEC2DeployStatusText = "ManagedEC2DeployStatusText";
+        public const string ManagedEC2DeployActionsLabel = "ManagedEC2DeployActionsLabel";
+        public const string ManagedEC2CreateStackButton = "ManagedEC2CreateStackButton";
+        public const string ManagedEC2RedeployStackButton = "ManagedEC2RedeployStackButton";
+        public const string ManagedEC2DeleteStackButton = "ManagedEC2DeleteStackButton";
+        public const string ManagedEC2LaunchClientTitle = "ManagedEC2LaunchClientTitle";
+        public const string ManagedEC2LaunchClientLabel = "ManagedEC2LaunchClientLabel";
+        public const string ManagedEC2LaunchClientButton = "ManagedEC2LaunchClientButton";
 
         public const string InfoLinkDocumentationLink = "InfoLinkDocumentationLink";
         public const string InfoLinkForumLink = "InfoLinkForumLink";
