@@ -11,8 +11,6 @@ namespace AmazonGameLift.Editor
 {
     public class RegisterComputeInput : StatefulInput
     {
-        private static IReadOnlyCollection<VisualElement> _computeVisualElements;
-
         private ComputeStatus _computeState;
 
         private readonly List<TextField> _ipInputs;
@@ -49,7 +47,7 @@ namespace AmazonGameLift.Editor
             _cancelReplaceButton = container.Q<Button>("AnywherePageComputeCancelButton");
             LocalizeText();
 
-            PopulateComputeVisualElements();
+            GetComputeVisualElements();
             RegisterCallbacks();
             SetupConfigSettings();
             UpdateGUI();
@@ -135,16 +133,14 @@ namespace AmazonGameLift.Editor
             _ipAddress = _stateManager.IpAddress;
         }
 
-        private void PopulateComputeVisualElements()
-        {
-            _computeVisualElements = new List<VisualElement>()
+        private List<VisualElement> GetComputeVisualElements() =>
+            new List<VisualElement>()
             {
                 _registerButton,
                 _cancelReplaceButton,
                 _computeStatus,
                 _replaceComputeButton
             };
-        }
 
         private List<VisualElement> GetVisibleItemsByState()
         {
@@ -162,7 +158,7 @@ namespace AmazonGameLift.Editor
         {
             SetInputsReadonly(_computeState == ComputeStatus.Registered);
             var elements = GetVisibleItemsByState();
-            foreach (var element in _computeVisualElements)
+            foreach (var element in GetComputeVisualElements())
             {
                 if (elements.Contains(element))
                 {
