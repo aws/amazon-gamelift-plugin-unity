@@ -3,11 +3,8 @@
 
 using System;
 using System.Collections.Generic;
-using Amazon.GameLift;
 using AmazonGameLift.Editor;
-using AmazonGameLiftPlugin.Core;
 using Editor.CoreAPI;
-using Editor.Resources.EditorWindow;
 using UnityEditor;
 using UnityEngine;
 using UnityEngine.UIElements;
