@@ -42,7 +42,7 @@ namespace Editor.CoreAPI
 
         private void SetProfile(string profileName)
         {
-            if (string.IsNullOrWhiteSpace(profileName)) return;
+            if (string.IsNullOrWhiteSpace(profileName) || profileName == _selectedProfile) return;
             _selectedProfile = profileName;
             var credentials = CoreApi.RetrieveAwsCredentials(profileName);
             Region = credentials.Region;
