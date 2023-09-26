@@ -1,4 +1,4 @@
-﻿/* Copyright Amazon.com, Inc. or its affiliates. All Rights Reserved. */
+/* Copyright Amazon.com, Inc. or its affiliates. All Rights Reserved. */
 /* SPDX-License-Identifier: Apache-2.0 */
 
 :root {
@@ -12,17 +12,22 @@
     --color-font-default: #d2d2d2;
     --color-font-accent: #ffffff;
     --color-font-error: #f30303;
+    --color-font-link: #4C7EFF;
     --color-foldout-title: #e4e4e4;
     --color-input-label: #c4c4c4;
     --color-text-input-background: #2a2a2a;
     --color-text-input-border: #0d0d0d;
+    --color-card-border: #0d0d0d;
+    --color-card-background: #2a2a2a;
 
-    --font-size-small: 12px;
+    --font-size-hint: 12px;
+    --font-size-small: 14px;
     --font-size-default: 16px;
     --font-size-large: 18px;
     --font-size-extralarge: 24px;
     --font-size-massive: 32px;
 
+    --icon-size-small: 24px;
     --icon-size-large: 60px;
     --border-size-thin: 1px;
     --border-size-medium: 2px;
@@ -55,6 +60,12 @@ Label {
 Image.icon--large {
     height: var(--icon-size-large);
     width: var(--icon-size-large);
+    flex: 0 0 auto;
+}
+
+Image.icon--small {
+    height: var(--icon-size-small);
+    width: var(--icon-size-small);
     flex: 0 0 auto;
 }
 
@@ -146,7 +157,13 @@ Image#FolderIcon {
 .external-link {
     border-bottom-width: var(--border-size-thin);
     border-bottom-color: var(--color-font-accent);
-    align-self: flex-start
+    align-self: flex-start;
+    align-items: center;
+    flex-direction: row;
+}
+
+Image#ExternalLinkIcon {
+    --unity-image: resource("Images/Icons/ExternalLink");
 }
 
 .page__title {
@@ -280,7 +297,7 @@ Image#FolderIcon {
 }
 
 .input-hint {
-    font-size: var(--font-size-small);
+    font-size: var(--font-size-hint);
 }
 
 .dropdown {
@@ -298,4 +315,46 @@ Image#FolderIcon {
     padding: 0;
     border-width: 0;
     background-color: rgba(0, 0, 0, 0);
+}
+
+
+.card {
+    padding: var(--spacing-small);
+    border-width: var(--border-size-medium);
+    border-color: var(--color-card-border);
+    background-color: var(--color-card-background);
+    flex: 1 0 0;
+}
+
+.card--small {
+    flex-direction: row;
+    align-items: center;
+    justify-content: space-between;
+}
+
+.card--small .card__text {
+    font-size: var(--font-size-small);
+    margin: 0 8px 0 8px;
+}
+
+.card__container {
+    flex-direction: row;
+}
+
+.card__text {
+    font-size: var(--font-size-default);
+    -unity-text-align: middle-left;
+    flex: 1 1 auto;
+}
+
+.card__icon {
+    width: 36px;
+    height: 36px;
+    flex: 0 0 auto;
+}
+
+.card__icon--small {
+    width: 20px;
+    height: 20px;
+    flex: 0 0 auto;
 }
