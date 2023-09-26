@@ -222,6 +222,11 @@ namespace AmazonGameLift.Editor
             { Strings.AnywherePageLaunchClientLabel, "Run Game"},
             { Strings.AnywherePageLaunchClientButton, "Launch Client"},
             
+            { Strings.InfoLinkDocumentationLink, "Documentation" },
+            { Strings.InfoLinkForumLink, "AWS GameTech Forum" },
+            { Strings.InfoLinkTroubleshootingLink, "Troubleshooting" },
+            { Strings.InfoLinkReportIssuesLink, "Report Issues" },
+            
             { Strings.HelpPageTitle, "Help & Documentation" },
             { Strings.HelpPageDescription, "Learn how to integrate and deploy games for hosting on GameLift. The GameLift service manages game server deployment, operation, and scaling. You can deploy custom-built game servers or use GameLift Realtime Servers to configure lightweight game servers for your game." },
             { Strings.HelpPageReportIssueLink, "Report Issues" },
