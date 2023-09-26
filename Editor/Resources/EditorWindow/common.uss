@@ -12,12 +12,14 @@
     --color-font-default: #d2d2d2;
     --color-font-accent: #ffffff;
     --color-font-error: #f30303;
+    --color-font-link: #4C7EFF;
     --color-foldout-title: #e4e4e4;
     --color-input-label: #c4c4c4;
     --color-text-input-background: #2a2a2a;
     --color-text-input-border: #0d0d0d;
 
     --font-size-small: 12px;
+    
     --font-size-default: 16px;
     --font-size-large: 18px;
     --font-size-extralarge: 24px;
