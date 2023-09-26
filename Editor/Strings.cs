@@ -154,6 +154,7 @@ namespace AmazonGameLift.Editor
         public const string AnywherePageIntegrateServerLink = "AnywherePageIntegrateServerLink";
         public const string AnywherePageIntegrateClientLink = "AnywherePageIntegrateClientLink";
         public const string AnywherePageCreateFleetTitle = "AnywherePageCreateFleetTitle";
+        public const string AnywherePageCreateFleetName = "AnywherePageCreateFleetName";
         public const string AnywherePageConnectFleetName = "AnywherePageConnectFleetName";
         public const string AnywherePageCreateFleetHint = "AnywherePageCreateFleetHint";
         public const string AnywherePageCreateFleetButton = "AnywherePageCreateFleetButton";

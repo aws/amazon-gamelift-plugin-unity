@@ -5,7 +5,7 @@
     <ui:Style src="./common.uss"/>
     <ui:VisualElement name="AnywherePageCreateFleet" class="separator">
         <ui:VisualElement name="AnywherePageFleetName" class="form-row">
-            <ui:Label name="AnywherePageConnectFleetName" class="form-row__label" text="Fleet Name"/>
+            <ui:Label name="AnywherePageCreateFleetName" class="form-row__label" text="Fleet Name"/>
             <ui:VisualElement class="form-row__input">
                 <ui:TextField name="AnywherePageCreateFleetInput" class="text-input" value="GameName-AnywhereFleet"/>
                 <ui:Label name="AnywherePageCreateFleetHint" class="input-hint" text="Fleet Name must have 1–1024 characters. Valid characters are A-Z, a-z, 0-9, _ and - (hyphen)"/>

@@ -214,6 +214,7 @@ namespace AmazonGameLift.Editor
         private void LocalizeText()
         {
             var l = new ElementLocalizer(_container);
+            l.SetElementText("AnywherePageCreateFleetName", Strings.AnywherePageCreateFleetName);
             l.SetElementText("AnywherePageConnectFleetName", Strings.AnywherePageConnectFleetName);
             l.SetElementText("AnywherePageConnectFleetLabel", Strings.AnywherePageConnectFleetLabel);
             l.SetElementText("AnywherePageConnectFleetIDLabel", Strings.AnywherePageConnectFleetIDLabel);    

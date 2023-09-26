@@ -204,6 +204,7 @@ namespace AmazonGameLift.Editor
             { Strings.AnywherePageCreateFleetButton, "Create New Anywhere Fleet"},
             { Strings.AnywherePageCreateFleetCancelButton, "Cancel"},
             { Strings.AnywherePageConnectFleetTitle, "Integrate Amazon GameLift With Your Game Project"},
+            { Strings.AnywherePageCreateFleetName, "Fleet Name"},
             { Strings.AnywherePageConnectFleetLabel, "Fleet Name"},
             { Strings.AnywherePageConnectFleetIDLabel, "Fleet ID"},
             { Strings.AnywherePageConnectFleetStatusLabel, "Fleet status"},
