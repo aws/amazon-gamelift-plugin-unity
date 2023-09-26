@@ -3,7 +3,6 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using Amazon.GameLift.Model;
-using AmazonGameLift.Editor;
 using Editor.CoreAPI;
 using Editor.Resources.EditorWindow;
 using Editor.Window;
@@ -14,8 +13,6 @@ namespace AmazonGameLift.Editor
 {
     public class ConnectToFleetInput : StatefulInput
     {
-        private static IReadOnlyCollection<VisualElement> _fleetVisualElements;
-
         public string FleetId;
 
         private static readonly List<string> s_fleetNameList = new();
@@ -46,7 +43,6 @@ namespace AmazonGameLift.Editor
             _fleetManager = stateManager.FleetManager;
 
             AssignUiElements(container);
-            PopulateFleetVisualElements();
             RegisterCallBacks(container);
             SetupBootMenu();
             LocalizeText();
@@ -157,19 +153,16 @@ namespace AmazonGameLift.Editor
             UpdateGUI();
         }
 
-        private void PopulateFleetVisualElements()
+        private List<VisualElement> GetFleetVisualElements() => new List<VisualElement>()
         {
-            _fleetVisualElements = new List<VisualElement>()
-            {
-                _fleetNameInput,
-                _fleetCreateFoldout,
-                _fleetNameDropdownContainer,
-                _cancelButton,
-                _fleetConnectFoldout,
-                _fleetId,
-                _fleetStatus,
-            };
-        }
+            _fleetNameInput,
+            _fleetCreateFoldout,
+            _fleetNameDropdownContainer,
+            _cancelButton,
+            _fleetConnectFoldout,
+            _fleetId,
+            _fleetStatus,
+        };
 
         private List<VisualElement> GetVisibleItemsByState()
         {
@@ -195,7 +188,7 @@ namespace AmazonGameLift.Editor
         protected sealed override void UpdateGUI()
         {
             var elements = GetVisibleItemsByState();
-            foreach (var element in _fleetVisualElements)
+            foreach (var element in GetFleetVisualElements())
             {
                 if (elements.Contains(element))
                 {
