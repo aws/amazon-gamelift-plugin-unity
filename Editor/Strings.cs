@@ -130,13 +130,13 @@ namespace AmazonGameLift.Editor
         public const string SettingsUIDeployNextStepLabel = "SettingsUIDeployNextStepLabel";
         public const string LabelOpenSdkIntegrationDoc = "LabelOpenSdkIntegrationDoc";
         public const string LabelOpenSdkApiDoc = "LabelOpenSdkApiDoc";
-
+        
         public const string TabLanding = "TabLanding";
         public const string TabCredentials = "TabCredentials";
         public const string TabAnywhere = "TabAnywhere";
         public const string TabManagedEC2 = "TabManagedEC2";
         public const string TabHelp = "TabHelp";
-
+        
         public const string LandingPageHeader = "LandingPageHeader";
         public const string LandingPageDescription = "LandingPageDescription";
         public const string LandingPageNoAccountCardText = "LandingPageNoAccountCardText";
@@ -190,6 +190,31 @@ namespace AmazonGameLift.Editor
         public const string AnywherePageLaunchClientTitle = "AnywherePageLaunchClientTitle";
         public const string AnywherePageLaunchClientLabel = "AnywherePageLaunchClientLabel";
         public const string AnywherePageLaunchClientButton = "AnywherePageLaunchClientButton";
+
+        public const string InfoLinkDocumentationLink = "InfoLinkDocumentationLink";
+        public const string InfoLinkForumLink = "InfoLinkForumLink";
+        public const string InfoLinkTroubleshootingLink = "InfoLinkTroubleshootingLink";
+        public const string InfoLinkReportIssuesLink = "InfoLinkReportIssuesLink";
+
+        public const string HelpPageTitle = "HelpPageTitle";
+        public const string HelpPageDescription = "HelpPageDescription";
+        public const string HelpPageReportIssueIcon = "HelpPageReportIssueIcon";
+        public const string HelpPageReportIssueLink = "HelpPageReportIssueLink";
+        public const string HelpPageDocumentationIcon = "HelpPageDocumentationIcon";
+        public const string HelpPageDocumentationLink = "HelpPageDocumentationLink";
+        public const string HelpPageVideoTutorialIcon = "HelpPageVideoTutorialIcon";
+        public const string HelpPageVideoTutorialLink = "HelpPageVideoTutorialLink";
+        public const string HelpPageForumIcon = "HelpPageForumIcon";
+        public const string HelpPageForumLink = "HelpPageForumLink";
+        public const string HelpPageEstimatingPriceTitle = "HelpPageEstimatingPriceTitle";
+        public const string HelpPageEstimatingPriceDescription = "HelpPageEstimatingPriceDescription";
+        public const string HelpPageEstimatingPriceLink = "HelpPageEstimatingPriceLink";
+        public const string HelpPageFleetIQTitle = "HelpPageFleetIQTitle";
+        public const string HelpPageFleetIQDescription = "HelpPageFleetIQDescription";
+        public const string HelpPageFleetIQLink = "HelpPageFleetIQLink";
+        public const string HelpPageFlexMatchTitle = "HelpPageFlexMatchTitle";
+        public const string HelpPageFlexMatchDescription = "HelpPageFlexMatchDescription";
+        public const string HelpPageFlexMatchLink = "HelpPageFlexMatchLink";
 
         public const string ProfileSelectorDropdownLabel = "ProfileSelectorDropdownLabel";
         public const string ProfileSelectorBucketNameLabel = "ProfileSelectorBucketNameLabel";
