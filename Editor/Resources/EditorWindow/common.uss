@@ -188,6 +188,14 @@ Image#ExternalLinkIcon {
     margin: 0 0 var(--spacing-large) 0;
 }
 
+.foldout .unity-foldout__checkmark {
+    height: 29px;
+    width: 24px;
+    background-image: resource("Images/Icons/FoldoutArrow");
+    -unity-slice-left: 0;
+    -unity-slice-top: 0;
+}
+
 .form-row {
     flex-direction: row;
     align-items: center;
