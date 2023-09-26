@@ -35,15 +35,15 @@
                 <ui:Label name="AnywherePageConnectFleetLabel" class="form-row__label" text="Fleet Name"/>
                 <ui:DropdownField name="AnywherePageConnectFleetDropdown" class="form-row__input dropdown"/>
             </ui:VisualElement>
-            <ui:VisualElement name="AnywherePageConnectFleetID" class="form-row form-row__hidden">
+            <ui:VisualElement name="AnywherePageConnectFleetID" class="form-row">
                 <ui:Label name="AnywherePageConnectFleetIDLabel" class="form-row__label" text="Fleet ID"/>
                 <ui:Label name="AnywherePageConnectFleetIDDisplay" class="form-row__text-display" text="1234567890"/>
             </ui:VisualElement>
-            <ui:VisualElement name="AnywherePageConnectFleetStatus" class="form-row form-row__hidden">
+            <ui:VisualElement name="AnywherePageConnectFleetStatus" class="form-row">
                 <ui:Label name="AnywherePageConnectFleetStatusLabel" class="form-row__label" text="Fleet status"/>
                 <ui:Label name="AnywherePageConnectFleetStatusDisplay" class="form-row__text-display" text="Connected"/>
             </ui:VisualElement>
-            <ui:VisualElement name="AnywherePageConnectFleetButtons" class="form-row form-row__hidden">
+            <ui:VisualElement name="AnywherePageConnectFleetButtons" class="form-row">
                 <ui:VisualElement class="form-row__input form-row__input--no-label">
                     <ui:Button name="AnywherePageConnectFleetNewButton" class="button button--primary" text="Create New Anywhere Fleet"/>
                 </ui:VisualElement>
