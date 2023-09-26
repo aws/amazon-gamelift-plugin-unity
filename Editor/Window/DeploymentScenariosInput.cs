@@ -33,7 +33,7 @@ namespace AmazonGameLift.Editor
         {
             var uxml = Resources.Load<VisualTreeAsset>("EditorWindow/Components/DeploymentScenarios");
             container.Add(uxml.Instantiate());
-                
+
             _container = container;
             _inputState = initialValue == DeploymentScenarios.SingleRegion ? InputState.Initial : InputState.Expanded;
             _deploymentScenarios = initialValue;
@@ -43,10 +43,10 @@ namespace AmazonGameLift.Editor
             _radio2Group = container.Q("FleetTypeRadioButton2Group");
             _radio3Group = container.Q("FleetTypeRadioButton3Group");
 
-            SetupRadioButton("EC2SingleFleetRadio", DeploymentScenarios.SingleRegion);
-            SetupRadioButton("EC2SpotFleetRadio", DeploymentScenarios.SpotFleet);
-            SetupRadioButton("EC2FlexFleetRadio", DeploymentScenarios.FlexMatch);
-            _showMoreScenariosButton = container.Q<Button>("ShowMoreScenarios");
+            SetupRadioButton("ManagedEC2ScenarioSingleFleetRadio", DeploymentScenarios.SingleRegion);
+            SetupRadioButton("ManagedEC2ScenarioSpotFleetRadio", DeploymentScenarios.SpotFleet);
+            SetupRadioButton("ManagedEC2ScenarioFlexFleetRadio", DeploymentScenarios.FlexMatch);
+            _showMoreScenariosButton = container.Q<Button>("ManagedEC2ScenarioShowMoreButton");
             _showMoreScenariosButton.RegisterCallback<ClickEvent>(e =>
             {
                 _inputState = InputState.Expanded;
@@ -98,8 +98,8 @@ namespace AmazonGameLift.Editor
         {
             return _inputState switch
             {
-                InputState.Initial => new List<VisualElement>() {_showMoreScenariosButton},
-                InputState.Expanded => new List<VisualElement>() { _radio2Group, _radio3Group},
+                InputState.Initial => new List<VisualElement>() { _showMoreScenariosButton },
+                InputState.Expanded => new List<VisualElement>() { _radio2Group, _radio3Group },
                 _ => throw new ArgumentOutOfRangeException()
             };
         }
@@ -109,9 +109,12 @@ namespace AmazonGameLift.Editor
             var elements = GetVisibleItemsByState();
             foreach (var element in GetExtraScenarioElements())
             {
-                if (elements.Contains(element)) {
+                if (elements.Contains(element))
+                {
                     Show(element);
-                } else {
+                }
+                else
+                {
                     Hide(element);
                 }
             }
@@ -121,15 +124,15 @@ namespace AmazonGameLift.Editor
         {
             var l = new ElementLocalizer(_container);
             l.SetElementText("ManagedEC2ScenarioSingleFleetLabel", Strings.ManagedEC2ScenarioSingleFleetLabel);
-                l.SetElementText("ManagedEC2ScenarioSingleFleetRadio", Strings.ManagedEC2ScenarioSingleFleetRadio);
+            l.SetElementText("ManagedEC2ScenarioSingleFleetRadio", Strings.ManagedEC2ScenarioSingleFleetRadio);
             l.SetElementText("ManagedEC2ScenarioSingleFleetLink", Strings.ManagedEC2ScenarioSingleFleetLink);
-                l.SetElementText("ManagedEC2ScenarioSpotFleetLabel", Strings.ManagedEC2ScenarioSpotFleetLabel);
+            l.SetElementText("ManagedEC2ScenarioSpotFleetLabel", Strings.ManagedEC2ScenarioSpotFleetLabel);
             l.SetElementText("ManagedEC2ScenarioSpotFleetRadio", Strings.ManagedEC2ScenarioSpotFleetRadio);
-                l.SetElementText("ManagedEC2ScenarioSpotFleetLink", Strings.ManagedEC2ScenarioSpotFleetLink);
+            l.SetElementText("ManagedEC2ScenarioSpotFleetLink", Strings.ManagedEC2ScenarioSpotFleetLink);
             l.SetElementText("ManagedEC2ScenarioFlexFleetLabel", Strings.ManagedEC2ScenarioFlexFleetLabel);
-                l.SetElementText("ManagedEC2ScenarioFlexFleetRadio", Strings.ManagedEC2ScenarioFlexFleetRadio);
+            l.SetElementText("ManagedEC2ScenarioFlexFleetRadio", Strings.ManagedEC2ScenarioFlexFleetRadio);
             l.SetElementText("ManagedEC2ScenarioFlexFleetLink", Strings.ManagedEC2ScenarioFlexFleetLink);
-                l.SetElementText("ManagedEC2ScenarioShowMoreButton", Strings.ManagedEC2ScenarioShowMoreButton);
+            l.SetElementText("ManagedEC2ScenarioShowMoreButton", Strings.ManagedEC2ScenarioShowMoreButton);
         }
     }
 }

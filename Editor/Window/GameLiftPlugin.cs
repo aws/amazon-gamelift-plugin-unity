@@ -59,6 +59,8 @@ namespace Editor.Window
             _tabContent = _root.Query(className: TabContentClassName).ToList();
 
             _tabButtons.ForEach(button => button.RegisterCallback<ClickEvent>(_ => { OpenTab(button.name); }));
+            
+            OpenTab(Pages.Landing);
         }
 
         private void LocalizeText()

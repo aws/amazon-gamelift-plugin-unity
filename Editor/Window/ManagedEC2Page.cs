@@ -1,12 +1,14 @@
 ﻿// Copyright Amazon.com, Inc. or its affiliates. All Rights Reserved.
 // SPDX-License-Identifier: Apache-2.0
 
+using System;
+using System.Collections.Generic;
 using System.Threading.Tasks;
-using Amazon.GameLift;
 using AmazonGameLift.Editor;
 using UnityEditor;
 using UnityEngine;
 using UnityEngine.UIElements;
+using OperatingSystem = Amazon.GameLift.OperatingSystem;
 
 namespace AmazonGameLift.Editor
 {
@@ -44,18 +46,17 @@ namespace AmazonGameLift.Editor
             var uxml = mVisualTreeAsset.Instantiate();
 
             container.Add(uxml);
-            LocalizeText();
 
             var ec2Deployment = new ManagedEC2Deployment(_model, parameters);
-            var scenarioContainer = container.Q("DeploymentSelectExpanded");
+            var scenarioContainer = container.Q("ManagedEC2ScenarioTitle");
             _deploymentScenariosInput =
                 new DeploymentScenariosInput(scenarioContainer,
                     DeploymentScenariosInput.ScenarioIndexMap[_model.ScenarioIndex], true);
             _deploymentScenariosInput.SetEnabled(true);
             _deploymentScenariosInput.OnValueChanged += value => { Debug.Log($"Fleet type changed to {value}"); };
-            _ec2DeploymentStatusLabel = _container.Q<Label>("EC2DeploymentStatusLabel");
-            var parametersInput = container.Q<Foldout>("EC2ParametersSection");
-            parametersInput.text = $"{Application.productName} parameters";
+            _ec2DeploymentStatusLabel = _container.Q<Label>("ManagedEC2DeployStatusText");
+
+            var parametersInput = container.Q<Foldout>("ManagedEC2ParametersTitle");
             _fleetParamsInput = new FleetParametersInput(parametersInput, parameters);
             _fleetParamsInput.OnValueChanged += param =>
             {
@@ -63,25 +64,25 @@ namespace AmazonGameLift.Editor
                 UpdateGUI();
             };
 
-            _deployButton = container.Q<Button>("EC2CreateStackButton");
+            _deployButton = container.Q<Button>("ManagedEC2CreateStackButton");
             _deployButton.RegisterCallback<ClickEvent>(_ =>
             {
                 ec2Deployment.StartDeployment();
                 UpdateGUI();
             });
-            _redeployButton = container.Q<Button>("EC2RedeployStackButton");
+            _redeployButton = container.Q<Button>("ManagedEC2RedeployStackButton");
             _redeployButton.RegisterCallback<ClickEvent>(_ =>
             {
                 ec2Deployment.StartDeployment();
                 UpdateGUI();
             });
-            _deleteButton = container.Q<Button>("EC2DeleteStackButton");
+            _deleteButton = container.Q<Button>("ManagedEC2DeleteStackButton");
             _deleteButton.RegisterCallback<ClickEvent>(async _ =>
             {
                 await ec2Deployment.DeleteDeployment();
                 UpdateGUI();
             });
-            _launchClientButton = container.Q<Button>("EC2LaunchClientButton");
+            _launchClientButton = container.Q<Button>("ManagedEC2LaunchClientButton");
             _launchClientButton.RegisterCallback<ClickEvent>(_ => EditorApplication.EnterPlaymode());
 
             _model.CurrentStackInfoChanged += UpdateGUI;
@@ -91,6 +92,8 @@ namespace AmazonGameLift.Editor
 
         private void UpdateGUI()
         {
+            LocalizeText();
+
             _deployButton.SetEnabled(_model.CurrentStackInfo.StackStatus == null && _model.CanDeploy);
             _redeployButton.SetEnabled(_model.CurrentStackInfo.StackStatus != null && _model.CanDeploy);
             _deleteButton.SetEnabled(_model.CurrentStackInfo.StackStatus != null && _model.IsCurrentStackModifiable);
@@ -105,14 +108,19 @@ namespace AmazonGameLift.Editor
         private void LocalizeText()
         {
             var l = new ElementLocalizer(_container);
+            var replacements = new Dictionary<string, string>()
+            {
+                { "GameName", Application.productName },
+                { "ScenarioType", GetScenarioType(l) }
+            };
             l.SetElementText("ManagedEC2Title", Strings.ManagedEC2Title);
             l.SetElementText("ManagedEC2Description", Strings.ManagedEC2Description);
             l.SetElementText("ManagedEC2IntegrateTitle", Strings.ManagedEC2IntegrateTitle);
             l.SetElementText("ManagedEC2IntegrateDescription", Strings.ManagedEC2IntegrateDescription);
             l.SetElementText("ManagedEC2IntegrateLink", Strings.ManagedEC2IntegrateLink);
             l.SetElementText("ManagedEC2ScenarioTitle", Strings.ManagedEC2ScenarioTitle);
-            l.SetElementText("ManagedEC2ParametersTitle", Strings.ManagedEC2ParametersTitle);
-            l.SetElementText("ManagedEC2DeployTitle", Strings.ManagedEC2DeployTitle);
+            l.SetElementText("ManagedEC2ParametersTitle", Strings.ManagedEC2ParametersTitle, replacements);
+            l.SetElementText("ManagedEC2DeployTitle", Strings.ManagedEC2DeployTitle, replacements);
             l.SetElementText("ManagedEC2DeployDescription", Strings.ManagedEC2DeployDescription);
             l.SetElementText("ManagedEC2DeployStatusLabel", Strings.ManagedEC2DeployStatusLabel);
             l.SetElementText("ManagedEC2DeployStatusIcon", Strings.ManagedEC2DeployStatusIcon);
@@ -125,5 +133,13 @@ namespace AmazonGameLift.Editor
             l.SetElementText("ManagedEC2LaunchClientLabel", Strings.ManagedEC2LaunchClientLabel);
             l.SetElementText("ManagedEC2LaunchClientButton", Strings.ManagedEC2LaunchClientButton);
         }
+
+        private string GetScenarioType(ElementLocalizer l) => _model.ScenarioIndex switch
+        {
+            1 => l.GetText(Strings.ManagedEC2ScenarioSingleFleetLabel),
+            3 => l.GetText(Strings.ManagedEC2ScenarioSpotFleetLabel),
+            4 => l.GetText(Strings.ManagedEC2ScenarioFlexFleetLabel),
+            _ => throw new ArgumentOutOfRangeException()
+        };
     }
 }
