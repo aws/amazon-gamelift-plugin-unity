@@ -37,7 +37,6 @@ namespace AmazonGameLift.Editor
             _settingsStore = new SettingsStore(_fileWrapper, settingsFilePath: Paths.PluginSettingsFile);
             Bootstrapper.Initialize();
         }        
-        
 
         #region File system
 
