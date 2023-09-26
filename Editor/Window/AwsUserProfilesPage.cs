@@ -245,7 +245,6 @@ namespace AmazonGameLift.Editor
             if (_currentElement != null)
             {
                 _currentElement.RemoveFromClassList(hiddenClassName);
-                Debug.Log($"Showing wizard ${targetWizard.name}");
             }
         }
         

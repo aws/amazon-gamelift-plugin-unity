@@ -27,7 +27,7 @@
         <!--        </ui:VisualElement>-->
         <ui:VisualElement name="Cards" class="separator separator--large separator--horizontal">
             <ui:VisualElement name="NoAccountCard" class="card card--large card--centered separator">
-                <ui:Image name="UserProfilePageAccountCardNoAccountIcon" class="card__icon"/>
+                <ui:Image name="UserProfilePageAccountCardNoAccountIcon" class="card__icon card__icon--large"/>
                 <ui:Label name="UserProfilePageAccountCardNoAccountTitle" class="card__title" text="I don’t have an AWS account"/>
                 <ui:Label name="UserProfilePageAccountCardNoAccountDescription" text="[text about needing an AWS account and it can take a maximum of two sentences]"/>
                 <ui:VisualElement class="external-link">
@@ -40,7 +40,7 @@
                 </ui:Button>
             </ui:VisualElement>
             <ui:VisualElement name="HaveAccountCard" class="card card--large card--centered separator">
-                <ui:Image name="UserProfilePageAccountCardNewAccountIcon" class="card__icon"/>
+                <ui:Image name="UserProfilePageAccountCardNewAccountIcon" class="card__icon card__icon--large"/>
                 <ui:Label name="UserProfilePageAccountCardNewAccountTitle" class="card__title" text="I have an AWS account"/>
                 <ui:Label name="UserProfilePageAccountCardNewAccountDescription" text="[text about having an AWS account and it can take a maximum of two sentences]"/>
                 <ui:Button name="UserProfilePageAccountCardHasAccountButton" class="button button--primary" text="Add New Profile"/>

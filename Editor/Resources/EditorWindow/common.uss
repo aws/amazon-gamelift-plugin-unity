@@ -341,11 +341,11 @@ Image#ExternalLinkIcon {
     flex: 0 0 auto;
 }
 
-/*.card__icon {*/
-/*    width: 96px;*/
-/*    height: 96px;*/
-/*    flex: 0 0 auto;*/
-/*}*/
+.card__icon--large {
+    width: 96px;
+    height: 96px;
+    flex: 0 0 auto;
+}
 
 .card .button {
      margin-top: auto;
