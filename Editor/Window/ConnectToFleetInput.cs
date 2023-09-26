@@ -127,7 +127,7 @@ namespace AmazonGameLift.Editor
                     var currentFleet = _fleetsList.First(fleet => fleet.Name == _fleetNameDropdownContainer.value);
                     _fleetIdText.text = currentFleet.FleetId;
                     FleetId = currentFleet.FleetId;
-                    _stateManager.CoreApi.PutSetting(SettingsKeys.SelectedFleetName, currentFleet.Name);
+                    _stateManager.CoreApi.PutSetting(SettingsKeys.FleetName, currentFleet.Name);
                 }
             );
         }
