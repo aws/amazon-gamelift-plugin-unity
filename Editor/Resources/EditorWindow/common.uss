@@ -234,10 +234,6 @@ Image#ExternalLinkIcon {
     margin-right: var(--spacing-small);
 }
 
-.form-row__input .button {
-    margin-top: var(--spacing-small);
-}
-
 .text-input {
     margin: 0 0 8px 0;
     padding: 4px 8px 4px 8px;
