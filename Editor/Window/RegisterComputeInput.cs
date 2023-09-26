@@ -30,12 +30,13 @@ namespace AmazonGameLift.Editor
         private string _ipAddress = "120.120.120.120";
         private string _location = "custom-location-1";
 
-        public RegisterComputeInput(VisualElement container, StateManager stateManager, ConnectToFleetInput  fleetDetails, ComputeStatus initialState)
+        public RegisterComputeInput(VisualElement container, StateManager stateManager,
+            ConnectToFleetInput fleetDetails, ComputeStatus initialState)
         {
             var uxml = Resources.Load<VisualTreeAsset>("EditorWindow/Components/RegisterComputeInput");
             container.Add(uxml.Instantiate());
             _container = container;
-            
+
             _computeState = initialState;
             _fleetDetails = fleetDetails;
             _stateManager = stateManager;
@@ -59,11 +60,11 @@ namespace AmazonGameLift.Editor
             _registerButton.RegisterCallback<ClickEvent>(_ => OnRegisterComputeButtonClicked());
             _replaceComputeButton.RegisterCallback<ClickEvent>(_ => OnReplaceComputeButtonClicked());
             _cancelReplaceButton.RegisterCallback<ClickEvent>(_ => OnCancelReplaceButtonClicked());
-            
+
             _computeNameInput.RegisterValueChangedCallback(_ =>
                 VerifyComputeTextFields(_computeNameInput, _ipInputs, _registerButton));
             _computeNameInput.value = _computeName;
-            
+
             var index = 0;
             var currentIp = _ipAddress.Split(".");
             foreach (var ipField in _ipInputs)
@@ -79,8 +80,9 @@ namespace AmazonGameLift.Editor
         {
             if (_computeState is ComputeStatus.NotRegistered or ComputeStatus.Registering)
             {
-                var previousComputeName= _stateManager.CoreApi.GetSetting(SettingsKeys.ComputeName).Value;
-                var success = await _computeManager.RegisterFleetCompute(_computeName, _fleetDetails.FleetId, _location, _ipAddress, previousComputeName);
+                var previousComputeName = _stateManager.ComputeName;
+                var success = await _computeManager.RegisterFleetCompute(_computeName, _fleetDetails.FleetId, _location,
+                    _ipAddress, previousComputeName);
                 if (success)
                 {
                     _computeState = ComputeStatus.Registered;
@@ -115,23 +117,22 @@ namespace AmazonGameLift.Editor
             _computeNameInput.isReadOnly = value;
             _ipInputs.ForEach(input => input.isReadOnly = value);
         }
-        
-        private void VerifyComputeTextFields(TextField computeTextName, IEnumerable<TextField> ipTextField, Button button)
+
+        private void VerifyComputeTextFields(TextField computeTextName, IEnumerable<TextField> ipTextField,
+            Button button)
         {
             var computeTextNameValid = computeTextName.value.Length >= 1;
             var ipText = ipTextField.ToList().Select(ipAddressField => ipAddressField.value).ToList();
             _computeName = computeTextName.value;
-            var ipTextFieldsValid = ipText.All(text => text.Length >= 1) && ipText.All(s=> int.TryParse(s, out _));
+            var ipTextFieldsValid = ipText.All(text => text.Length >= 1) && ipText.All(s => int.TryParse(s, out _));
 
             button.SetEnabled(computeTextNameValid && ipTextFieldsValid);
         }
 
         private void SetupConfigSettings()
         {
-            _computeName = _stateManager.CoreApi.GetSetting(SettingsKeys.ComputeName).Value;
-            _ipAddress = _stateManager.CoreApi.GetSetting(SettingsKeys.IpAddress).Value;
-            _stateManager.SelectedProfile = _stateManager.CoreApi.GetSetting(SettingsKeys.CurrentProfileName).Value;
-            _stateManager.SelectedFleetName = _stateManager.CoreApi.GetSetting(SettingsKeys.FleetName).Value;
+            _computeName = _stateManager.ComputeName;
+            _ipAddress = _stateManager.IpAddress;
         }
 
         private void PopulateComputeVisualElements()
@@ -163,9 +164,12 @@ namespace AmazonGameLift.Editor
             var elements = GetVisibleItemsByState();
             foreach (var element in _computeVisualElements)
             {
-                if (elements.Contains(element)) {
+                if (elements.Contains(element))
+                {
                     Show(element);
-                } else {
+                }
+                else
+                {
                     Hide(element);
                 }
             }
