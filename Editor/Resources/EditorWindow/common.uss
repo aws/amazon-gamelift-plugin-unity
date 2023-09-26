@@ -204,7 +204,6 @@ Image#ExternalLinkIcon {
 .form-row__label {
     width: var(--form-row-label-width);
     height: 32px;
-    margin-right: var(--spacing-large);
     color: var(--color-input-label);
     font-size: var(--font-size-large);
     -unity-text-align: middle-left;
@@ -226,12 +225,6 @@ Image#ExternalLinkIcon {
 .form-row__input--no-label {
     flex-direction: row;
     margin-left: var(--form-row-label-width);
-    padding-left: var(--spacing-large);
-}
-
-.form-row__input--no-label > * {
-    flex-direction: row;
-    margin-right: var(--spacing-small);
 }
 
 .text-input {
