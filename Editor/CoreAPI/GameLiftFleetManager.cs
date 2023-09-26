@@ -153,7 +153,8 @@ namespace Editor.CoreAPI
                 };
 
                 var describeFleetResponse = await _amazonGameLiftWrapper.DescribeFleetAttributes(describeFleetRequest);
-                return describeFleetResponse.FleetAttributes;
+                return describeFleetResponse.FleetAttributes.Where(fleet => fleet.ComputeType == ComputeType.ANYWHERE)
+                    .ToList();
             }
             catch (Exception ex)
             {
