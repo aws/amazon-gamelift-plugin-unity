@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Threading.Tasks;
 using Amazon.GameLift.Model;
 using AmazonGameLift.Editor;
-using AmazonGameLiftPlugin.Core.ApiGatewayManagement;
+using AmazonGameLiftPlugin.Core;
 using AmazonGameLiftPlugin.Core.SettingsManagement.Models;
 using Moq;
 using NUnit.Framework;
@@ -15,12 +15,11 @@ namespace AmazonGameLiftPlugin.Editor.UnitTests
     [TestFixture]
     public class GameLiftComputeManagerTests
     {
-        private Mock<IAmazonGameLiftClientWrapper> _gameLiftWrapperMock;
+        private Mock<IAmazonGameLiftWrapper> _gameLiftWrapperMock;
         private Mock<IAwsCredentialsFactory> _awsCredentialsFactoryMock;
         private Mock<CoreApi> _coreApiMock;
-        private Mock<IAmazonGameLiftClientFactory> _amazonGameLiftClientFactoryMock;
+        private Mock<IAmazonGameLiftWrapperFactory> _amazonGameLiftClientFactoryMock;
         private AwsCredentialsTestProvider _awsCredentialsTestProvider;
-        private readonly IAmazonGameLiftClientFactory _amazonGameLiftClientFactory;
 
         private string _fleetId = "fleetId-12345-12345-12345-12345";
         private string _computeName = "TestComputeName";
@@ -31,10 +30,10 @@ namespace AmazonGameLiftPlugin.Editor.UnitTests
         [SetUp]
         public void Setup()
         {
-            _gameLiftWrapperMock = new Mock<IAmazonGameLiftClientWrapper>();
+            _gameLiftWrapperMock = new Mock<IAmazonGameLiftWrapper>();
             _awsCredentialsFactoryMock = new Mock<IAwsCredentialsFactory>(); 
             _coreApiMock  = new Mock<CoreApi>();
-            _amazonGameLiftClientFactoryMock = new Mock<IAmazonGameLiftClientFactory>();
+            _amazonGameLiftClientFactoryMock = new Mock<IAmazonGameLiftWrapperFactory>();
             _awsCredentialsTestProvider = new AwsCredentialsTestProvider();
         }
 

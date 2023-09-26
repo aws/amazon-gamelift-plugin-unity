@@ -7,7 +7,10 @@ using System.Collections.Generic;
 using Amazon;
 using Amazon.GameLift;
 using Amazon.GameLift.Model;
-using AmazonGameLift.Editor;
+using AmazonGameLift.Runtime;
+using AmazonGameLiftPlugin.Core.CredentialManagement;
+using AmazonGameLiftPlugin.Core.CredentialManagement.Models;
+using AmazonGameLiftPlugin.Core.Shared.FileSystem;
 using Aws.GameLift;
 using Aws.GameLift.Server;
 using UnityEngine;
@@ -16,17 +19,25 @@ public class GameLiftServer
 {
     private readonly GameLift _gl;
     private readonly Logger _logger;
+    private const string configFilePath = "GameLiftServerRuntimeSettings.yaml";
+    private readonly Settings<SettingsKeys> _settings;
+#if UNITY_EDITOR
+    private readonly ICredentialsStore _credentialsStore;
+#endif
+
     private bool _gameLiftRequestedTermination = false;
     private int _port;
     private bool _isConnected;
     private string _logFilePath;
-    private readonly CoreApi _coreApi;
 
     public GameLiftServer(GameLift gl, Logger logger)
     {
         _gl = gl ?? throw new ArgumentNullException(nameof(gl));
         _logger = logger ?? throw new ArgumentNullException(nameof(logger));
-        _coreApi = new CoreApi(Paths.PluginConfigurationFile);
+        _settings = new Settings<SettingsKeys>(configFilePath);
+#if UNITY_EDITOR
+        _credentialsStore = new CredentialsStore(new FileWrapper());
+#endif
     }
 
     // The port must be in the range of open ports for the fleet
@@ -40,16 +51,23 @@ public class GameLiftServer
 
         try
         {
-            var websocketUrl = _coreApi.GetSetting(SettingsKeys.WebsocketUrl).Value;
-            var fleetID = _coreApi.GetSetting(SettingsKeys.FleetId).Value;
-            var computeName = _coreApi.GetSetting(SettingsKeys.ComputeName).Value;
+            var websocketUrl = _settings.GetSetting(SettingsKeys.WebsocketUrl).Value;
+            var fleetID = _settings.GetSetting(SettingsKeys.FleetId).Value;
+            var computeName = _settings.GetSetting(SettingsKeys.ComputeName).Value;
 
 #if UNITY_EDITOR
+            var profileName = _settings.GetSetting(SettingsKeys.CurrentProfileName).Value;
             var credentialsResponse =
-                _coreApi.RetrieveAwsCredentials(_coreApi.GetSetting(SettingsKeys.CurrentProfileName).Value);
-            var region = _coreApi.GetSetting(SettingsKeys.CurrentRegion).Value;
-            var gameLiftClient = new AmazonGameLiftClient(credentialsResponse.AccessKey, credentialsResponse.SecretKey, RegionEndpoint.GetBySystemName(region));
-            authToken ??= gameLiftClient.GetComputeAuthTokenAsync(new GetComputeAuthTokenRequest { ComputeName = computeName, FleetId = fleetID}).Result.AuthToken;
+                _credentialsStore.RetriveAwsCredentials(
+                    new RetriveAwsCredentialsRequest() { ProfileName = profileName });
+            var region = _settings.GetSetting(SettingsKeys.CurrentRegion).Value;
+            var gameLiftClient = new AmazonGameLiftClient(credentialsResponse.AccessKey, credentialsResponse.SecretKey,
+                RegionEndpoint.GetBySystemName(region));
+            authToken ??= gameLiftClient
+                .GetComputeAuthTokenAsync(new GetComputeAuthTokenRequest
+                {
+                    ComputeName = computeName, FleetId = fleetID
+                }).Result.AuthToken;
 #endif
             var serverParams =
                 new ServerParameters(websocketUrl, $"{Application.productName}-{Guid.NewGuid()}", computeName, fleetID, authToken);
@@ -73,32 +91,6 @@ public class GameLiftServer
         {
             _logger.Write(":( SERVER NOT IN A FLEET. GameLiftServerAPI.InitSDK() exception " + Environment.NewLine +
                           e.Message);
-        }
-    }
-
-    public void TerminateGameSession(bool processEnding)
-    {
-        if (_gameLiftRequestedTermination)
-        {
-            // don't terminate game session if gamelift initiated process termination, just exit.
-            Environment.Exit(0);
-        }
-
-        try
-        {
-            if (processEnding)
-            {
-                ProcessEnding();
-            }
-            else
-            {
-                ProcessReady();
-            }
-        }
-        catch (Exception e)
-        {
-            _logger.Write(":( GAME SESSION TERMINATION FAILED. TerminateGameSession() exception " +
-                          Environment.NewLine + e.Message);
         }
     }
 
@@ -228,12 +220,13 @@ public class GameLiftServer
                 _logger.Write(":) GAMELIFT HEALTH CHECK REQUESTED (HEALTHY)");
                 return true;
             },
-            _port, // tell the GameLift service which port to connect to this process on.
+            // tell the GameLift service which port to connect to this process on.
             // unless we manage this there can only be one process per server.
+            _port,
             logParameters);
     }
 
-    private void ProcessEnding()
+    public void ProcessEnding()
     {
         try
         {

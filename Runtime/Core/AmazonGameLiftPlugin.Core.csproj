@@ -26,9 +26,6 @@
   </ItemGroup>
   <ItemGroup>
     <!-- See: https://stackoverflow.com/questions/15241889/i-didnt-find-zipfile-class-in-the-system-io-compression-namespace -->
-    <Reference Include="GameLiftServerSDK">
-      <HintPath>..\Plugins\GameLiftServerSDK.dll</HintPath>
-    </Reference>
     <Reference Include="System.IO.Compression.FileSystem" />
   </ItemGroup>
   <Target Name="PostBuild" AfterTargets="Build">

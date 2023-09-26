@@ -73,7 +73,7 @@ public sealed class ServerBootstrap : MonoBehaviour
 
         for (int i = 0; i < args.Length - 1; i++)
         {
-            if (args[i] != "-n")
+            if (args[i] != "-authToken")
             {
                 continue;
             }

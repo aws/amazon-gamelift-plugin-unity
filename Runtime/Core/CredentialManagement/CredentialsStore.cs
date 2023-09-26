@@ -64,14 +64,16 @@ namespace AmazonGameLiftPlugin.Core.CredentialManagement
 
         public RetriveAwsCredentialsResponse RetriveAwsCredentials(RetriveAwsCredentialsRequest request)
         {
-            if (_credentialProfileStoreChain.TryGetAWSCredentials(request.ProfileName, out AWSCredentials awsCredentials))
+            if (_credentialProfileStoreChain.TryGetAWSCredentials(request.ProfileName, out var awsCredentials) && 
+                _credentialProfileStoreChain.TryGetProfile(request.ProfileName, out var profile))
             {
                 ImmutableCredentials credentials = awsCredentials.GetCredentials();
 
                 return Response.Ok(new RetriveAwsCredentialsResponse()
                 {
                     AccessKey = credentials.AccessKey,
-                    SecretKey = credentials.SecretKey
+                    SecretKey = credentials.SecretKey,
+                    Region = profile.Region.SystemName,
                 });
             }
 
