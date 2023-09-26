@@ -198,7 +198,6 @@ Image#ExternalLinkIcon {
 
 .form-row {
     flex-direction: row;
-    align-items: center;
 }
 
 .form-row__label {
