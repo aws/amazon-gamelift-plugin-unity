@@ -4,9 +4,8 @@ $TEMP_PATH="C:\Temp"
 $NUGET_EXE_PATH="$TEMP_PATH\nuget.exe"
 $TEMP_ZIP_PATH = "$TEMP_PATH\GameLiftServerSDK.zip"
 $TEMP_EXTRACTED_PATH = "$TEMP_PATH\GameLiftServerSDK"
-$SDK_PATH="$TEMP_EXTRACTED_PATH\GameLift-SDK-Release-4.0.2\GameLift-CSharp-ServerSDK-4.0.2"
-$SDK_CSPROJ_PATH="$SDK_PATH\Net45\GameLiftServerSDKNet45.csproj"
-$SDK_PACKAGES_CONFIG_PATH="$SDK_PATH\Net45\packages.config"
+$SDK_PATH="$TEMP_EXTRACTED_PATH\src"
+$SDK_CSPROJ_PATH="$SDK_PATH\src\GameLiftServerSDK\GameLiftServerSDK.csproj"
 $RUNTIME_PLUGINS_PATH="$RUNTIME_PATH\Plugins"
 
 if (-Not (Test-Path -Path $RUNTIME_PATH))
@@ -26,7 +25,7 @@ if (-Not (Test-Path -Path $TEMP_EXTRACTED_PATH) )
 	if (-Not (Test-Path -Path $TEMP_ZIP_PATH) )
 	{
 		echo "Downloading GameLift Managed Servers SDK..."
-		iwr https://gamelift-release.s3-us-west-2.amazonaws.com/GameLift_06_03_2021.zip -OutFile $TEMP_ZIP_PATH
+		iwr https://gamelift-server-sdk-release.s3.us-west-2.amazonaws.com/csharp/GameLift-CSharp-ServerSDK-5.1.1.zip -OutFile $TEMP_ZIP_PATH
 	} 
 	else 
 	{
@@ -38,7 +37,6 @@ if (-Not (Test-Path -Path $TEMP_EXTRACTED_PATH) )
 
 	(Get-Content $SDK_CSPROJ_PATH).replace('Newtonsoft.Json, Version=9.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL', 'Newtonsoft.Json') | Set-Content $SDK_CSPROJ_PATH
 	(Get-Content $SDK_CSPROJ_PATH).replace('Newtonsoft.Json.9.0.1', 'Newtonsoft.Json.13.0.1') | Set-Content $SDK_CSPROJ_PATH
-	(Get-Content $SDK_PACKAGES_CONFIG_PATH).replace('id="Newtonsoft.Json" version="9.0.1"', 'id="Newtonsoft.Json" version="13.0.1"') | Set-Content $SDK_PACKAGES_CONFIG_PATH
 }
 else
 {
@@ -59,8 +57,8 @@ else
 }
 
 echo "Building GameLift Server SDK..."
-Invoke-Expression '& $NUGET_EXE_PATH restore "$SDK_PATH\GameLiftServerSDKNet45.sln" -PackagesDirectory "$SDK_PATH\packages"'
-dotnet build "$SDK_PATH\Net45\GameLiftServerSDKNet45.csproj" --configuration Release --output "$RUNTIME_PLUGINS_PATH"
+dotnet restore "$SDK_PATH\GameLiftServerSDK.sln" --packages "$SDK_PATH\packages"
+dotnet build "$SDK_PATH\src\GameLiftServerSDK\GameLiftServerSDK.csproj" --configuration Release -f net462 --output "$RUNTIME_PLUGINS_PATH"
 
 # Newtonsoft.json is deleted in favor of the Newtonsoft.json dependency in Unity. See "com.unity.nuget.newtonsoft-json: x.x.x" dependency in package.json.
 

@@ -6,38 +6,42 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using Amazon;
 using Amazon.GameLift;
-using AmazonGameLift.Editor;
 using AmazonGameLiftPlugin.Core;
 using AmazonGameLiftPlugin.Core.ApiGatewayManagement;
 using AmazonGameLiftPlugin.Core.ApiGatewayManagement.Models;
+using AmazonGameLiftPlugin.Core.CredentialManagement;
+using AmazonGameLiftPlugin.Core.CredentialManagement.Models;
 using AmazonGameLiftPlugin.Core.Latency;
 using AmazonGameLiftPlugin.Core.Latency.Models;
 using AmazonGameLiftPlugin.Core.Shared;
+using AmazonGameLiftPlugin.Core.Shared.FileSystem;
 using AmazonGameLiftPlugin.Core.UserIdentityManagement;
 using AmazonGameLiftPlugin.Core.UserIdentityManagement.Models;
-using UnityEngine;
 
 namespace AmazonGameLift.Runtime
 {
     public class GameLiftCoreApi
     {
+        public const string ConfigFilePath = "GameLiftAnywhereClientSettings.yaml";
         private readonly GameLiftConfiguration _configuration;
         private readonly bool _isAnywhereMode;
-        private CoreApi _coreApi;
         private readonly IGameServerAdapter _gameServerAdapter;
 
         protected GameLiftCoreApi(GameLiftConfiguration configuration)
         {
             _configuration = configuration;
-            _coreApi = CoreApi.SharedInstance;
-            var fleetId = _coreApi.GetSetting("FleetId").Value;
-            var fleetLocation = _coreApi.GetSetting("FleetLocation").Value;
             if (_configuration.IsGameLiftAnywhere)
             {
+                var settings = new Settings<ClientSettingsKeys>(ConfigFilePath);
+                var fleetId = settings.GetSetting(ClientSettingsKeys.FleetId).Value;
+                var fleetLocation = settings.GetSetting(ClientSettingsKeys.FleetLocation).Value;
+                var credentials = new CredentialsStore(new FileWrapper());
                 var credentialsResponse =
-                    _coreApi.RetrieveAwsCredentials(_coreApi.GetSetting(SettingsKeys.CurrentProfileName).Value);
-                var gameLiftClient = new AmazonGameLiftClient(credentialsResponse.AccessKey, credentialsResponse.SecretKey);
+                    credentials.RetriveAwsCredentials(new RetriveAwsCredentialsRequest(){ProfileName = settings.GetSetting(ClientSettingsKeys.CurrentProfileName).Value});
+                var region = settings.GetSetting(ClientSettingsKeys.CurrentRegion).Value;
+                var gameLiftClient = new AmazonGameLiftClient(credentialsResponse.AccessKey, credentialsResponse.SecretKey, RegionEndpoint.GetBySystemName(region));
                 var gameLiftClientWrapper = new AmazonGameLiftWrapper(gameLiftClient); 
                 _gameServerAdapter = new AnywhereGameServerAdapter(gameLiftClientWrapper, fleetId, fleetLocation);
                 _isAnywhereMode = true;
@@ -49,6 +53,7 @@ namespace AmazonGameLift.Runtime
                 _gameServerAdapter = new ApiGateway(_userIdentity, new JwtTokenExpirationCheck(), new HttpClientWrapper());
             }
         }
+
         #region User Accounts
 
         private readonly IUserIdentity _userIdentity;
@@ -153,7 +158,8 @@ namespace AmazonGameLift.Runtime
             return _gameServerAdapter.GetGameConnection(request);
         }
 
-        public virtual Task<StartGameResponse> StartGame(string idToken, string refreshToken, Dictionary<string, long> latencies)
+        public virtual Task<StartGameResponse> StartGame(string idToken, string refreshToken,
+            Dictionary<string, long> latencies)
         {
             var request = new StartGameRequest()
             {
@@ -165,6 +171,7 @@ namespace AmazonGameLift.Runtime
             };
             return _gameServerAdapter.StartGame(request);
         }
+
         #endregion
     }
 }
