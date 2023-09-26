@@ -215,5 +215,11 @@ namespace AmazonGameLift.Editor
         public const string HelpPageFlexMatchTitle = "HelpPageFlexMatchTitle";
         public const string HelpPageFlexMatchDescription = "HelpPageFlexMatchDescription";
         public const string HelpPageFlexMatchLink = "HelpPageFlexMatchLink";
+
+        public const string ProfileSelectorDropdownLabel = "ProfileSelectorDropdownLabel";
+        public const string ProfileSelectorBucketNameLabel = "ProfileSelectorBucketNameLabel";
+        public const string ProfileSelectorRegionLabel = "ProfileSelectorRegionLabel";
+        public const string ProfileSelectorStatusLabel = "ProfileSelectorStatusLabel";
+        public const string BootstrapNoBucketCreated = "BootstrapNoBucketCreated";
     }
 }

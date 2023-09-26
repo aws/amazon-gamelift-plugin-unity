@@ -242,6 +242,12 @@ namespace AmazonGameLift.Editor
             { Strings.HelpPageFlexMatchTitle, "Amazon GameLift FlexMatch" },
             { Strings.HelpPageFlexMatchDescription, "Amazon GameLift FlexMatch is a customizable matchmaking service for multiplayer games. With FlexMatch, you can build a custom set of rules that defines what a multiplayer match looks like for your game, and determines how to evaluate and select compatible players for each match." },
             { Strings.HelpPageFlexMatchLink, "Learn More" },
+            
+            { Strings.ProfileSelectorDropdownLabel, "AWS Account Profile" },
+            { Strings.ProfileSelectorBucketNameLabel, "S3 Bucket Name" },
+            { Strings.ProfileSelectorRegionLabel, "AWS Region" },
+            { Strings.ProfileSelectorStatusLabel, "Bootstrap Status" },
+            { Strings.BootstrapNoBucketCreated, "No bucket created" },
         };
 
         public string GetError(string errorCode = null)
