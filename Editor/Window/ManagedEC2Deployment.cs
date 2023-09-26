@@ -7,12 +7,12 @@ using UnityEngine;
 
 namespace AmazonGameLift.Editor
 {
-    public class ManagedEc2Deployment
+    public class ManagedEC2Deployment
     {
         private readonly DeploymentSettings _model;
         private readonly FleetParameters _parameters;
         
-        internal ManagedEc2Deployment(DeploymentSettings model, FleetParameters parameters)
+        internal ManagedEC2Deployment(DeploymentSettings model, FleetParameters parameters)
         {
             _model = model;
             _parameters = parameters;

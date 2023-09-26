@@ -46,7 +46,7 @@ namespace AmazonGameLift.Editor
             container.Add(uxml);
             ApplyText();
 
-            var ec2Deployment = new ManagedEc2Deployment(_model, parameters);
+            var ec2Deployment = new ManagedEC2Deployment(_model, parameters);
             var scenarioContainer = container.Q("DeploymentSelectExpanded");
             _deploymentScenariosInput =
                 new DeploymentScenariosInput(scenarioContainer, DeploymentScenariosInput.ScenarioIndexMap[_model.ScenarioIndex], true);
