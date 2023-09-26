@@ -2,12 +2,12 @@
 
 namespace AmazonGameLift.Editor
 {
-    public abstract class InfoBox
+    public class StatusBox
     {
         public VisualElement BoxElement { get; set; }
         public bool ShowElement { get; set; }
         
-        public InfoBox(VisualElement boxElement, bool showElement)
+        public StatusBox(string name, VisualElement boxElement, bool showElement)
         {
             BoxElement = boxElement;
             ShowElement = showElement;

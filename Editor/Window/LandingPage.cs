@@ -1,6 +1,7 @@
 ﻿// Copyright Amazon.com, Inc. or its affiliates. All Rights Reserved.
 // SPDX-License-Identifier: Apache-2.0
 
+using System.Collections.Generic;
 using AmazonGameLift.Editor;
 using Editor.Resources.EditorWindow;
 using UnityEngine;
@@ -20,7 +21,7 @@ namespace Editor.Window
             
             container.Add(uxml);
             LocalizeText();
-            
+
             _container.Q<Button>("CreateAccount").RegisterCallback<ClickEvent>(_ => OnCreateAccountClicked());
             _container.Q<Button>("AddProfile").RegisterCallback<ClickEvent>(_ => OnAddProfileClicked());
             _container.Q<Button>("DownloadSampleGame").RegisterCallback<ClickEvent>(_ => OnImportSampleClicked());
@@ -53,6 +54,18 @@ namespace Editor.Window
             l.SetElementText("LandingPageSampleHeader", Strings.LandingPageSampleHeader);
             l.SetElementText("LandingPageSampleDescription", Strings.LandingPageSampleDescription);
             l.SetElementText("DownloadSampleGame", Strings.LandingPageSampleButton);
+        }
+
+        private void SetupErrorBoxes()
+        {
+            var statusBoxes = new StatusBoxes();
+            var boxList = new List<StatusBox>
+            {
+                new("LandingPageStatusBoxInfo", _container.Q("LandingPageStatusBoxInfo"), true),
+                new("LandingPageStatusBoxWarning", _container.Q("LandingPageStatusBoxWarning"), false)
+            };
+
+            statusBoxes.AddStatusBoxElements(boxList);
         }
     }
 }
