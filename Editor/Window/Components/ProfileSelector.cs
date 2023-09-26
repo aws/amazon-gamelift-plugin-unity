@@ -31,11 +31,14 @@ namespace AmazonGameLift.Editor
             _textProvider = TextProviderFactory.Create();
 
             _dropdown.RegisterValueChangedCallback(value => { _stateManager.SelectedProfile = value.newValue; });
-            _dropdown.choices = _stateManager.CoreApi.ListCredentialsProfiles().Profiles.ToList();
+            UpdateGUI();
         }
 
         private void UpdateGUI()
         {
+            var profiles = _stateManager.CoreApi.ListCredentialsProfiles().Profiles.ToList();
+            _dropdown.choices = profiles;
+            _dropdown.SetValueWithoutNotify(_stateManager.SelectedProfile);
             _region.text = _stateManager.Region;
             if (_stateManager.IsBootstrapped)
             {
