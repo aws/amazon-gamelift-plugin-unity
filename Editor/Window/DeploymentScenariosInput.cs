@@ -60,12 +60,12 @@ namespace AmazonGameLift.Editor
         {
             var radio = _container.Q<RadioButton>(elementName);
             if (radio == default) return;
-            radio.value = _deploymentScenarios == radioValue;
+            radio.value = _deploymentScenarios == deploymentScenario;
             radio.RegisterValueChangedCallback(v =>
             {
                 if (_enabled && v.newValue)
                 {
-                    _deploymentScenarios = radioValue;
+                    _deploymentScenarios = deploymentScenario;
                     OnValueChanged?.Invoke(_deploymentScenarios);
                 }
             });
