@@ -5,6 +5,7 @@ using System;
 using System.Collections.Generic;
 using AmazonGameLift.Editor;
 using Editor.CoreAPI;
+using Editor.Window;
 using UnityEditor;
 using UnityEngine;
 using UnityEngine.UIElements;
@@ -50,7 +51,7 @@ namespace AmazonGameLift.Editor
 
             var tabContentContainer = _root.Q(className: MainContentClassName);
             var landingPage = new LandingPage(CreateContentContainer(Pages.Landing, tabContentContainer));
-            var anywherePage = new AnywherePage(CreateContentContainer(Pages.Anywhere, tabContentContainer), StateManager);
+            var anywherePage = new AnywherePage(CreateContentContainer(Pages.Anywhere, tabContentContainer), _stateManager);
             var ec2Page = new ManagedEC2Page(CreateContentContainer(Pages.ManagedEC2, tabContentContainer));
             var helpPage = new HelpAndDocumentationPage(CreateContentContainer(Pages.Help, tabContentContainer));
 

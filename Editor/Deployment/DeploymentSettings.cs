@@ -5,6 +5,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using AmazonGameLift.Runtime;
 using AmazonGameLiftPlugin.Core.DeploymentManagement.Models;
 using AmazonGameLiftPlugin.Core.SettingsManagement.Models;
 using AmazonGameLiftPlugin.Core.Shared;
@@ -173,7 +174,6 @@ namespace AmazonGameLift.Editor
             _deployers.AddRange(deployers);
 
             AllScenarios = _deployers.Select(deployer => deployer.DisplayName).ToArray();
-
             GetSettingResponse bucketNameResponse = _coreApi.GetSetting(SettingsKeys.CurrentBucketName);
             CurrentBucketName = bucketNameResponse.Success ? bucketNameResponse.Value : null;
             GetSettingResponse currentRegionResponse = _coreApi.GetSetting(SettingsKeys.CurrentRegion);

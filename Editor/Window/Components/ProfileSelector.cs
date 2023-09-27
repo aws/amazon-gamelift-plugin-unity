@@ -1,6 +1,5 @@
 ﻿using System.Linq;
 using Editor.CoreAPI;
-using Editor.Resources.EditorWindow;
 using UnityEditor;
 using UnityEngine;
 using UnityEngine.UIElements;
@@ -26,7 +25,7 @@ namespace AmazonGameLift.Editor
 
             LocalizeText();
 
-            _stateManager = EditorWindow.GetWindow<GameLiftPlugin>().StateManager;
+            _stateManager = EditorWindow.GetWindow<GameLiftPlugin>()._stateManager;
             _stateManager.OnProfileSelected += UpdateGUI;
             _textProvider = TextProviderFactory.Create();
 
