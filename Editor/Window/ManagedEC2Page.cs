@@ -30,7 +30,7 @@ namespace AmazonGameLift.Editor
             _model = DeploymentSettingsFactory.Create();
             _model.Restore();
             _model.Refresh();
-            var parameters = new FleetParameters
+            var parameters = new ManagedEC2FleetParameters
             {
                 FleetName = _model.FleetName ?? $"{Application.productName}-ManagedFleet",
                 LaunchParameters = _model.LaunchParameters ?? $"",

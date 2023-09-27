@@ -17,7 +17,7 @@ namespace AmazonGameLift.Editor
             { "Windows Server 2016", OperatingSystem.WINDOWS_2016 },
         };
 
-        private readonly FleetParameters _parameters;
+        private readonly ManagedEC2FleetParameters _parameters;
         private readonly VisualElement _container;
         private readonly TextField _fleetNameInput;
         private readonly TextField _buildNameInput;
@@ -28,9 +28,9 @@ namespace AmazonGameLift.Editor
         private readonly Button _serverFolderButton;
         private readonly Button _serverFileButton;
 
-        public Action<FleetParameters> OnValueChanged;
+        public Action<ManagedEC2FleetParameters> OnValueChanged;
 
-        public FleetParametersInput(VisualElement container, FleetParameters parameters)
+        public FleetParametersInput(VisualElement container, ManagedEC2FleetParameters parameters)
         {
             var uxml = Resources.Load<VisualTreeAsset>("EditorWindow/Components/DeploymentParameters");
             container.Add(uxml.Instantiate());

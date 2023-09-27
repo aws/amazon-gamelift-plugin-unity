@@ -2,7 +2,7 @@
 
 namespace AmazonGameLift.Editor
 {
-    public class FleetParameters
+    public class ManagedEC2FleetParameters
     {
         public string FleetName;
         public string BuildName;
