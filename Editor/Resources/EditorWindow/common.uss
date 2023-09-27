@@ -27,6 +27,7 @@
     --font-size-extralarge: 24px;
     --font-size-massive: 32px;
 
+    --icon-size-tiny: 16px;
     --icon-size-small: 24px;
     --icon-size-large: 60px;
     --border-size-thin: 1px;

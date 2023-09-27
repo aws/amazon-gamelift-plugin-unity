@@ -10,12 +10,7 @@
             <gl:InfoLinks/>
         </ui:VisualElement>
         <ui:VisualElement class="divider"/>
-        <ui:VisualElement name="LandingPageStatusBoxInfo" class="status-box status-box--info separator separator--horizontal">
-            <ui:Image name="StatusBoxInfo" class="status-box__icon"/>  
-            <ui:Label name="LandingPageStatusBoxInfoLabel" class="status-box__label" text="You will need to configure an AWS account profile to use Amazon GameLift."/>
-            <ui:Button name="LandingPageStatusBoxInfoButton" class="status-box__button" text="x"/>
-        </ui:VisualElement>
-        <ui:VisualElement name="LandingPageStatusBoxWarning"/>
+        <ui:VisualElement name="LandingErrorContainer" class="separator"/>
         <ui:VisualElement class="separator separator--large separator--horizontal">
             <ui:VisualElement class="card">
                 <ui:VisualElement class="card__container">

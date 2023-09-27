@@ -1,0 +1,12 @@
+﻿<!-- Copyright Amazon.com, Inc. or its affiliates. All Rights Reserved. -->
+<!-- SPDX-License-Identifier: Apache-2.0 -->
+
+<ui:UXML xmlns:ui="UnityEngine.UIElements">
+    <ui:Style src="./statusbox.uss"/>
+    <ui:VisualElement name="StatusBox" class="status-box separator separator--horizontal">
+        <ui:Image name="StatusBoxImage" class="status-box__icon"/>
+        <ui:Label name="StatusBoxLabel" class="status-box__label" text="Debug Text"/>
+        <ui:Button name="StatusBoxExternalButton" class="status-box__external-button" text="View S3 Log"/>
+        <ui:Button name="StatusBoxCloseButton" class="status-box__close-button"/>
+    </ui:VisualElement>
+</ui:UXML>

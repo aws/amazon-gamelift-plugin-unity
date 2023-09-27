@@ -21,6 +21,7 @@ namespace Editor.Window
             
             container.Add(uxml);
             LocalizeText();
+            SetupStatusBoxes();
 
             _container.Q<Button>("CreateAccount").RegisterCallback<ClickEvent>(_ => OnCreateAccountClicked());
             _container.Q<Button>("AddProfile").RegisterCallback<ClickEvent>(_ => OnAddProfileClicked());
@@ -56,16 +57,16 @@ namespace Editor.Window
             l.SetElementText("DownloadSampleGame", Strings.LandingPageSampleButton);
         }
 
-        private void SetupErrorBoxes()
+        private void SetupStatusBoxes()
         {
-            var statusBoxes = new StatusBoxes();
-            var boxList = new List<StatusBox>
-            {
-                new("LandingPageStatusBoxInfo", _container.Q("LandingPageStatusBoxInfo"), true),
-                new("LandingPageStatusBoxWarning", _container.Q("LandingPageStatusBoxWarning"), false)
-            };
 
-            statusBoxes.AddStatusBoxElements(boxList);
+            var infoBox = new StatusBox(true, StatusBox.StatusBoxType.Info);
+            var warningBox =  new StatusBox(true, StatusBox.StatusBoxType.Warning);
+            
+            var errorContainer = _container.Q("LandingErrorContainer");
+            
+            errorContainer.Add(infoBox);
+            errorContainer.Add(warningBox);
         }
     }
 }
