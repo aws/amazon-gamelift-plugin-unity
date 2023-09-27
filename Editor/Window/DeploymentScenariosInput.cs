@@ -11,7 +11,7 @@ namespace AmazonGameLift.Editor
 {
     internal class DeploymentScenariosInput : StatefulInput
     {
-        private InputState _inputState;
+        private bool _isExpanded;
         private bool _enabled;
         private DeploymentScenarios _deploymentScenarios;
 
@@ -21,15 +21,15 @@ namespace AmazonGameLift.Editor
         private readonly Button _showMoreScenariosButton;
 
         public Action<DeploymentScenarios> OnValueChanged;
-        
-        public DeploymentScenariosInput(VisualElement container, DeploymentScenarios initialValue, bool enabled)
+
+        public DeploymentScenariosInput(VisualElement container, DeploymentScenarios deploymentScenario, bool enabled)
         {
             var uxml = Resources.Load<VisualTreeAsset>("EditorWindow/Components/DeploymentScenarios");
             container.Add(uxml.Instantiate());
 
             _container = container;
-            _inputState = initialValue == DeploymentScenarios.SingleRegion ? InputState.Initial : InputState.Expanded;
-            _deploymentScenarios = initialValue;
+            _isExpanded = deploymentScenario == DeploymentScenarios.SingleRegion;
+            _deploymentScenarios = deploymentScenario;
             _enabled = enabled;
             _container.SetEnabled(_enabled);
 
@@ -42,18 +42,12 @@ namespace AmazonGameLift.Editor
             _showMoreScenariosButton = container.Q<Button>("ManagedEC2ScenarioShowMoreButton");
             _showMoreScenariosButton.RegisterCallback<ClickEvent>(e =>
             {
-                _inputState = InputState.Expanded;
+                _isExpanded = true;
                 UpdateGUI();
             });
 
             LocalizeText();
             UpdateGUI();
-        }
-
-        private enum InputState
-        {
-            Initial,
-            Expanded,
         }
 
         public void SetEnabled(bool value)
@@ -87,15 +81,13 @@ namespace AmazonGameLift.Editor
             };
         }
 
-        private List<VisualElement> GetVisibleItemsByState()
-        {
-            return _inputState switch
-            {
-                InputState.Initial => new List<VisualElement>() { _showMoreScenariosButton },
-                InputState.Expanded => new List<VisualElement>() { _spotFleetRadioGroup, _flexMatchRadioGroup },
-                _ => throw new ArgumentOutOfRangeException()
-            };
-        }
+        private List<VisualElement> GetVisibleItemsByState() =>
+            _isExpanded
+                ? new List<VisualElement>() { _showMoreScenariosButton }
+                : new List<VisualElement>()
+                {
+                    _spotFleetRadioGroup, _flexMatchRadioGroup
+                };
 
         protected sealed override void UpdateGUI()
         {
