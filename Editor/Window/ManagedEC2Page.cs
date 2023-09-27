@@ -138,7 +138,7 @@ namespace AmazonGameLift.Editor
         {
             1 => l.GetText(Strings.ManagedEC2ScenarioSingleFleetLabel),
             3 => l.GetText(Strings.ManagedEC2ScenarioSpotFleetLabel),
-            4 => l.GetText(Strings.ManagedEC2ScenarioFlexFleetLabel),
+            4 => l.GetText(Strings.ManagedEC2ScenarioFlexMatchLabel),
             _ => throw new ArgumentOutOfRangeException()
         };
     }

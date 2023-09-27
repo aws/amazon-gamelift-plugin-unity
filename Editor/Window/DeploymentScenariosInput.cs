@@ -45,7 +45,7 @@ namespace AmazonGameLift.Editor
 
             SetupRadioButton("ManagedEC2ScenarioSingleFleetRadio", DeploymentScenarios.SingleRegion);
             SetupRadioButton("ManagedEC2ScenarioSpotFleetRadio", DeploymentScenarios.SpotFleet);
-            SetupRadioButton("ManagedEC2ScenarioFlexFleetRadio", DeploymentScenarios.FlexMatch);
+            SetupRadioButton("ManagedEC2ScenarioFlexMatchRadio", DeploymentScenarios.FlexMatch);
             _showMoreScenariosButton = container.Q<Button>("ManagedEC2ScenarioShowMoreButton");
             _showMoreScenariosButton.RegisterCallback<ClickEvent>(e =>
             {
@@ -129,9 +129,9 @@ namespace AmazonGameLift.Editor
             l.SetElementText("ManagedEC2ScenarioSpotFleetLabel", Strings.ManagedEC2ScenarioSpotFleetLabel);
             l.SetElementText("ManagedEC2ScenarioSpotFleetRadio", Strings.ManagedEC2ScenarioSpotFleetRadio);
             l.SetElementText("ManagedEC2ScenarioSpotFleetLink", Strings.ManagedEC2ScenarioSpotFleetLink);
-            l.SetElementText("ManagedEC2ScenarioFlexFleetLabel", Strings.ManagedEC2ScenarioFlexFleetLabel);
-            l.SetElementText("ManagedEC2ScenarioFlexFleetRadio", Strings.ManagedEC2ScenarioFlexFleetRadio);
-            l.SetElementText("ManagedEC2ScenarioFlexFleetLink", Strings.ManagedEC2ScenarioFlexFleetLink);
+            l.SetElementText("ManagedEC2ScenarioFlexMatchLabel", Strings.ManagedEC2ScenarioFlexMatchLabel);
+            l.SetElementText("ManagedEC2ScenarioFlexMatchRadio", Strings.ManagedEC2ScenarioFlexMatchRadio);
+            l.SetElementText("ManagedEC2ScenarioFlexMatchLink", Strings.ManagedEC2ScenarioFlexMatchLink);
             l.SetElementText("ManagedEC2ScenarioShowMoreButton", Strings.ManagedEC2ScenarioShowMoreButton);
         }
     }

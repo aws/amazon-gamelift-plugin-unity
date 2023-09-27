@@ -25,11 +25,11 @@
             </ui:VisualElement>
         </ui:VisualElement>
         <ui:VisualElement name="FleetTypeRadioButton3Group" class="form-row form-row--free">
-            <ui:Label name="ManagedEC2ScenarioFlexFleetLabel" class="form-row__label" text="Flex Match"/>
+            <ui:Label name="ManagedEC2ScenarioFlexMatchLabel" class="form-row__label" text="Flex Match"/>
             <ui:VisualElement class="form-row__input">
-                <ui:RadioButton name="ManagedEC2ScenarioFlexFleetRadio" class="form-row__radio-button" text="Uses FlexMatch, a managed matchmaking service, to match game players together."/>
+                <ui:RadioButton name="ManagedEC2ScenarioFlexMatchRadio" class="form-row__radio-button" text="Uses FlexMatch, a managed matchmaking service, to match game players together."/>
                 <ui:VisualElement class="external-link">
-                    <ui:Label name="ManagedEC2ScenarioFlexFleetLink" class="form-row__text-display input-hint foldout__link" text="Learn More"/>
+                    <ui:Label name="ManagedEC2ScenarioFlexMatchLink" class="form-row__text-display input-hint foldout__link" text="Learn More"/>
                     <ui:Image name="ExternalLink" class="icon"/>
                 </ui:VisualElement>
             </ui:VisualElement>
