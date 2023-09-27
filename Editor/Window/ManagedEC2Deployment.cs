@@ -43,7 +43,6 @@ namespace AmazonGameLift.Editor
         public async Task DeleteDeployment()
         {
             await _deploymentSettings.DeleteDeployment();
-            await _deploymentSettings.WaitForCurrentDeployment();
         }
 
         private Task<bool> ConfirmChanges(ConfirmChangesRequest request)
