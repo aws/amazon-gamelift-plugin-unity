@@ -37,18 +37,18 @@ namespace AmazonGameLift.Editor
             _container = container;
             _parameters = parameters;
 
-            _fleetNameInput = SetupInput("EC2FleetNameInput", parameters.FleetName,
+            _fleetNameInput = SetupInput("ManagedEC2ParametersFleetNameInput", parameters.FleetName,
                 value => parameters.FleetName = value);
-            _buildNameInput = SetupInput("EC2BuildNameInput", parameters.BuildName,
+            _buildNameInput = SetupInput("ManagedEC2ParametersBuildNameInput", parameters.BuildName,
                 value => parameters.BuildName = value);
-            _launchParamsInput = SetupInput("EC2LaunchParamsInput", parameters.LaunchParameters,
+            _launchParamsInput = SetupInput("ManagedEC2ParametersLaunchParametersInput", parameters.LaunchParameters,
                 value => parameters.LaunchParameters = value);
-            _serverFolderInput = SetupInput("EC2ServerFolderInput", parameters.GameServerFolder,
+            _serverFolderInput = SetupInput("ManagedEC2ParametersGameServerFolderInput", parameters.GameServerFolder,
                 value => parameters.GameServerFolder = value);
-            _serverFileInput = SetupInput("EC2ServerFileInput", parameters.GameServerFile,
+            _serverFileInput = SetupInput("ManagedEC2ParametersGameServerFileInput", parameters.GameServerFile,
                 value => parameters.GameServerFile = value);
 
-            _osDropdown = container.Q<DropdownField>("EC2OperatingSystemDropdown");
+            _osDropdown = container.Q<DropdownField>("ManagedEC2ParametersOperatingSystemInput");
             _osDropdown.choices = OSMappings.Keys.ToList();
             _osDropdown.index = OSMappings.Values.ToList().IndexOf(parameters.OperatingSystem);
             _osDropdown.RegisterValueChangedCallback(e =>
@@ -57,7 +57,7 @@ namespace AmazonGameLift.Editor
                 OnValueChanged(_parameters);
             });
 
-            _serverFolderButton = container.Q<Button>("EC2ServerFolderButton");
+            _serverFolderButton = container.Q<Button>("ManagedEC2ParametersGameServerFolderButton");
             _serverFolderButton.RegisterCallback<ClickEvent>(_ =>
             {
                 var value = EditorUtility.OpenFolderPanel("Game Server Build Folder Path", Application.dataPath,
@@ -67,7 +67,7 @@ namespace AmazonGameLift.Editor
                 OnValueChanged(_parameters);
             });
 
-            _serverFileButton = container.Q<Button>("EC2ServerFileButton");
+            _serverFileButton = container.Q<Button>("ManagedEC2ParametersGameServerFileButton");
             _serverFileButton.RegisterCallback<ClickEvent>(_ =>
             {
                 var value = EditorUtility.OpenFilePanel("Game Server Build File Path (exe)",
