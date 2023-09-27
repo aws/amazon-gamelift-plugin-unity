@@ -53,7 +53,7 @@ namespace AmazonGameLift.Editor
             LocalizeText();
 
             var tabContentContainer = _root.Q(className: MainContentClassName);
-            var landingPage = new LandingPage(CreateContentContainer(Pages.Landing, tabContentContainer));
+            var landingPage = new LandingPage(CreateContentContainer(Pages.Landing, tabContentContainer), _stateManager);
             var anywherePage = new AnywherePage(CreateContentContainer(Pages.Anywhere, tabContentContainer), _stateManager);
             var helpPage = new HelpAndDocumentationPage(CreateContentContainer(Pages.Help, tabContentContainer));
 

@@ -68,10 +68,6 @@ namespace AmazonGameLift.Editor
                 externalButton.text = externalButtonText;
                 externalButton.RegisterCallback<ClickEvent>(_ => Application.OpenURL(externalButtonLink));
             }
-            else
-            {
-                externalButton.AddToClassList(InactiveStatusBoxClassName);
-            }
         }
 
         public void Show(string statusBoxText)
