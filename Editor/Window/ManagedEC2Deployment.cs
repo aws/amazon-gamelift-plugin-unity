@@ -45,10 +45,11 @@ namespace AmazonGameLift.Editor
 
         public async Task DeleteDeployment()
         {
-            var waiter = new DeploymentStatusPoller(CoreApi.SharedInstance);
-            waiter.InfoUpdated += () => { _model.RefreshCurrentStackInfo(); };
+            // var waiter = new DeploymentStatusPoller(CoreApi.SharedInstance);
+            // waiter.InfoUpdated += () => { _model.RefreshCurrentStackInfo(); };
             await _model.DeleteDeployment();
-            await waiter.WaitUntilDone(_model);
+            await _model.WaitForCurrentDeployment();
+            // await waiter.WaitUntilDone(_model);
         }
 
         private Task<bool> ConfirmChanges(ConfirmChangesRequest request)
