@@ -9,32 +9,30 @@ namespace AmazonGameLift.Editor
 {
     public class ManagedEC2Deployment
     {
-        private readonly DeploymentSettings _model;
-        private readonly ManagedEC2FleetParameters _parameters;
+        private readonly DeploymentSettings _deploymentSettings;
         
-        internal ManagedEC2Deployment(DeploymentSettings model, ManagedEC2FleetParameters parameters)
+        internal ManagedEC2Deployment(DeploymentSettings deploymentSettings, ManagedEC2FleetParameters parameters)
         {
-            _model = model;
-            _parameters = parameters;
+            _deploymentSettings = deploymentSettings;
+            UpdateModelFromParameters(parameters);
         }
         
-        public void UpdateModelFromParameters()
+        public void UpdateModelFromParameters(ManagedEC2FleetParameters parameters)
         {
-            _model.FleetName = _parameters.FleetName;
-            _model.BuildName = _parameters.BuildName;
-            _model.LaunchParameters = _parameters.LaunchParameters;
-            _model.BuildFolderPath = _parameters.GameServerFolder;
-            _model.BuildFilePath = _parameters.GameServerFile;
-            _model.BuildOperatingSystem = _parameters.OperatingSystem;
+            _deploymentSettings.FleetName = parameters.FleetName;
+            _deploymentSettings.BuildName = parameters.BuildName;
+            _deploymentSettings.LaunchParameters = parameters.LaunchParameters;
+            _deploymentSettings.BuildFolderPath = parameters.GameServerFolder;
+            _deploymentSettings.BuildFilePath = parameters.GameServerFile;
+            _deploymentSettings.BuildOperatingSystem = parameters.OperatingSystem;
         }
         
         public void StartDeployment()
         {
-            UpdateModelFromParameters();
-            _model.GameName = Application.productName.Substring(0, 12);
-            if (!_model.CanDeploy) return;
-            _model.Save();
-            _model.StartDeployment(ConfirmChanges).ContinueWith(task =>
+            _deploymentSettings.GameName = Application.productName.Substring(0, 12);
+            if (!_deploymentSettings.CanDeploy) return;
+            _deploymentSettings.Save();
+            _deploymentSettings.StartDeployment(ConfirmChanges).ContinueWith(task =>
             {
                 if (task.IsFaulted)
                 {
@@ -45,11 +43,8 @@ namespace AmazonGameLift.Editor
 
         public async Task DeleteDeployment()
         {
-            // var waiter = new DeploymentStatusPoller(CoreApi.SharedInstance);
-            // waiter.InfoUpdated += () => { _model.RefreshCurrentStackInfo(); };
-            await _model.DeleteDeployment();
-            await _model.WaitForCurrentDeployment();
-            // await waiter.WaitUntilDone(_model);
+            await _deploymentSettings.DeleteDeployment();
+            await _deploymentSettings.WaitForCurrentDeployment();
         }
 
         private Task<bool> ConfirmChanges(ConfirmChangesRequest request)

@@ -57,9 +57,9 @@ namespace AmazonGameLift.Editor
 
             var parametersInput = container.Q<Foldout>("ManagedEC2ParametersTitle");
             _fleetParamsInput = new FleetParametersInput(parametersInput, parameters);
-            _fleetParamsInput.OnValueChanged += param =>
+            _fleetParamsInput.OnValueChanged += fleetParameters =>
             {
-                ec2Deployment.UpdateModelFromParameters();
+                ec2Deployment.UpdateModelFromParameters(fleetParameters);
                 UpdateGUI();
             };
 
