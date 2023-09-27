@@ -19,7 +19,7 @@ namespace AmazonGameLift.Editor
         private const string  WarningBoxElementClass = "status-box--warning";
         private const string  ErrorBoxElementClass = "status-box--error";
 
-        public StatusBox(StatusBoxType type, string externalButtonLink = "", string externalButtonText = "")
+        public StatusBox(StatusBoxType type)
         {
             var asset = Resources.Load<VisualTreeAsset>("EditorWindow/Components/StatusBox");
             asset.CloneTree(this);
@@ -51,7 +51,16 @@ namespace AmazonGameLift.Editor
                 ShowElement = false;
                 UpdateStatusBoxesState();
             });
-            
+
+            UpdateStatusBoxesState();
+        }
+
+        public StatusBox()
+        {
+        }
+
+        public void AddExternalButton(string externalButtonLink, string externalButtonText)
+        {
             var externalButton = this.Q<Button>("StatusBoxExternalButton");
             
             if (!string.IsNullOrWhiteSpace(externalButtonText))
@@ -63,12 +72,6 @@ namespace AmazonGameLift.Editor
             {
                 externalButton.AddToClassList(InactiveStatusBoxClassName);
             }
-
-            UpdateStatusBoxesState();
-        }
-
-        public StatusBox()
-        {
         }
 
         public void Show(string statusBoxText)

@@ -31,6 +31,7 @@
             </ui:VisualElement>
         </ui:Foldout>
         <ui:Foldout name="AnywherePageConnectFleetTitle" class="foldout" text="Connect to Anywhere Fleet">
+            <ui:VisualElement name="AnywherePageConnectFleetErrorContainer" class="separator"/>
             <ui:VisualElement name="AnywhereFleetName" class="form-row">
                 <ui:Label name="AnywherePageConnectFleetLabel" class="form-row__label" text="Fleet Name"/>
                 <ui:DropdownField name="AnywherePageConnectFleetDropdown" class="form-row__input dropdown"/>
@@ -50,6 +51,7 @@
             </ui:VisualElement>
         </ui:Foldout>
         <ui:Foldout name="AnywherePageComputeTitle" class="foldout" text="Register Compute">
+            <ui:VisualElement name="AnywherePageComputeErrorContainer" class="separator"/>
             <ui:VisualElement class="form-row">
                 <ui:Label name="AnywherePageComputeNameLabel" class="form-row__label" text="Compute Name"/>
                 <ui:TextField name="AnywherePageComputeNameInput" class="form-row__input text-input" value="ComputerName-ProfileName"/>

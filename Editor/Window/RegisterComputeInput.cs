@@ -23,6 +23,7 @@ namespace Editor.Window
         private readonly GameLiftComputeManager _computeManager;
         private readonly ConnectToFleetInput _fleetDetails;
         private readonly StateManager _stateManager;
+        private StatusBox _registerComputeErrorBox;
 
         private string _computeName = "ComputerName-ProfileName";
         private string _ipAddress = "120.120.120.120";
@@ -30,6 +31,7 @@ namespace Editor.Window
 
         public RegisterComputeInput(VisualElement container, StateManager stateManager, ConnectToFleetInput  fleetDetails, ComputeStatus initialState)
         {
+            _container = container;
             _computeState = initialState;
             _fleetDetails = fleetDetails;
             _stateManager = stateManager;
@@ -44,6 +46,8 @@ namespace Editor.Window
             PopulateComputeVisualElements();
             RegisterCallbacks();
             SetupConfigSettings();
+            SetupStatusBox();
+            
             UpdateGUI();
         }
 
@@ -147,6 +151,13 @@ namespace Editor.Window
                 ComputeStatus.Registered => new List<VisualElement>() { _computeStatus, _registerNewButton },
                 _ => throw new ArgumentOutOfRangeException()
             };
+        }
+        
+        private void SetupStatusBox()
+        {
+            _registerComputeErrorBox =  new StatusBox(StatusBox.StatusBoxType.Error);
+            var errorContainer = _container.Q("AnywherePageComputeErrorContainer");
+            errorContainer.Add(_registerComputeErrorBox);
         }
 
         protected sealed override void UpdateGUI()

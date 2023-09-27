@@ -76,7 +76,7 @@ namespace Editor.Window
             _infoBox = new StatusBox(StatusBox.StatusBoxType.Info);
             _warningBox =  new StatusBox(StatusBox.StatusBoxType.Warning);
             
-            var errorContainer = _container.Q("LandingErrorContainer");
+            var errorContainer = _container.Q("LandingPageErrorContainer");
             
             errorContainer.Add(_infoBox);
             errorContainer.Add(_warningBox);

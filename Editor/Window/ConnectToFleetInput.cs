@@ -24,15 +24,18 @@ namespace Editor.Window
         private VisualElement _fleetId;
         private Label _fleetIdText;
         private VisualElement _fleetStatus;
+        private readonly VisualElement _container;
         private readonly GameLiftFleetManager _fleetManager;
         private readonly StateManager _stateManager;
         private Button _cancelButton;
+        private StatusBox _connectToAnywhereErrorBox;
         
         private FleetStatus _fleetState;
         private List<FleetAttributes> _fleetsList;
 
         public ConnectToFleetInput(VisualElement container, StateManager stateManager, FleetStatus initialState)
         {
+            _container = container;
             _fleetState = initialState;
             _stateManager = stateManager;
             _fleetManager = stateManager.FleetManager;
@@ -41,6 +44,7 @@ namespace Editor.Window
             PopulateFleetVisualElements();
             RegisterCallBacks(container);
             SetupBootMenu();
+            SetupStatusBox();
             
             UpdateGUI();
         }
@@ -179,6 +183,15 @@ namespace Editor.Window
                 },
                 _ => throw new ArgumentOutOfRangeException()
             };
+        }
+        
+        private void SetupStatusBox()
+        {
+            _connectToAnywhereErrorBox = new StatusBox(StatusBox.StatusBoxType.Error);
+
+            var errorContainer = _container.Q("AnywherePageConnectFleetErrorContainer");
+            
+            errorContainer.Add(_connectToAnywhereErrorBox);
         }
 
         protected sealed override void UpdateGUI()
