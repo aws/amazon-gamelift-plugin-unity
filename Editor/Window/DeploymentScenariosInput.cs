@@ -21,14 +21,7 @@ namespace AmazonGameLift.Editor
         private readonly Button _showMoreScenariosButton;
 
         public Action<DeploymentScenarios> OnValueChanged;
-
-        public static readonly Dictionary<int, DeploymentScenarios> ScenarioIndexMap = new()
-        {
-            { 1, DeploymentScenarios.SingleRegion },
-            { 3, DeploymentScenarios.SpotFleet },
-            { 4, DeploymentScenarios.FlexMatch },
-        };
-
+        
         public DeploymentScenariosInput(VisualElement container, DeploymentScenarios initialValue, bool enabled)
         {
             var uxml = Resources.Load<VisualTreeAsset>("EditorWindow/Components/DeploymentScenarios");

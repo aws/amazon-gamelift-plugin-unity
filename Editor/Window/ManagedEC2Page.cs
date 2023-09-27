@@ -50,8 +50,7 @@ namespace AmazonGameLift.Editor
             var ec2Deployment = new ManagedEC2Deployment(_model, parameters);
             var scenarioContainer = container.Q("ManagedEC2ScenarioTitle");
             _deploymentScenariosInput =
-                new DeploymentScenariosInput(scenarioContainer,
-                    DeploymentScenariosInput.ScenarioIndexMap[_model.ScenarioIndex], true);
+                new DeploymentScenariosInput(scenarioContainer, _model.Scenario, true);
             _deploymentScenariosInput.SetEnabled(true);
             _deploymentScenariosInput.OnValueChanged += value => { Debug.Log($"Fleet type changed to {value}"); };
             _ec2DeploymentStatusLabel = _container.Q<Label>("ManagedEC2DeployStatusText");
@@ -86,7 +85,7 @@ namespace AmazonGameLift.Editor
             _launchClientButton.RegisterCallback<ClickEvent>(_ => EditorApplication.EnterPlaymode());
 
             _model.CurrentStackInfoChanged += UpdateGUI;
-            _model.ScenarioIndex = 1;
+            _model.Scenario = DeploymentScenarios.SingleRegion;
             UpdateGUI();
         }
 
@@ -134,11 +133,11 @@ namespace AmazonGameLift.Editor
             l.SetElementText("ManagedEC2LaunchClientButton", Strings.ManagedEC2LaunchClientButton);
         }
 
-        private string GetScenarioType(ElementLocalizer l) => _model.ScenarioIndex switch
+        private string GetScenarioType(ElementLocalizer l) => _model.Scenario switch
         {
-            1 => l.GetText(Strings.ManagedEC2ScenarioSingleFleetLabel),
-            3 => l.GetText(Strings.ManagedEC2ScenarioSpotFleetLabel),
-            4 => l.GetText(Strings.ManagedEC2ScenarioFlexMatchLabel),
+            DeploymentScenarios.SingleRegion => l.GetText(Strings.ManagedEC2ScenarioSingleFleetLabel),
+            DeploymentScenarios.SpotFleet => l.GetText(Strings.ManagedEC2ScenarioSpotFleetLabel),
+            DeploymentScenarios.FlexMatch => l.GetText(Strings.ManagedEC2ScenarioFlexMatchLabel),
             _ => throw new ArgumentOutOfRangeException()
         };
     }
