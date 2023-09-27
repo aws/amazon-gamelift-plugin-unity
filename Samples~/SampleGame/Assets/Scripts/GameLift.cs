@@ -87,16 +87,16 @@ public class GameLift : MonoBehaviour
     }
 
 #if UNITY_SERVER
-    public void StartServer(int port, string logFilePath = null)
+    public void StartServer(int port, string authToken = null, string logFilePath = null)
     {
         _logger.Write($":) GAMELIFT StartServer at port {port}.");
         ServerPort = port;
-        _server.Start(port, logFilePath);
+        _server.Start(port, authToken, logFilePath);
     }
 
-    public void TerminateGameSession(bool processEnding)
+    public void TerminateGameSession()
     {
-        _server.TerminateGameSession(processEnding);
+        _server.ProcessEnding();
     }
 
     // we received a force terminate request. Notify clients and gracefully exit.

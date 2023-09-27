@@ -182,7 +182,7 @@ namespace AmazonGameLift.Editor
             { Strings.TabAnywhere, "Host with Anywhere" },
             { Strings.TabManagedEC2, "Host with Managed EC2" },
             { Strings.TabHelp, "Learning Resources" },
-            
+
             { Strings.LandingPageHeader, "Amazon GameLift" },
             { Strings.LandingPageDescription, "Amazon GameLift provides solutions for hosting session-based multiplayer game servers in the cloud. This plugin contains libraries and native UI elements that make it easier to integrate Amazon GameLift into your game and to manage your hosting resources. Use the plugin to access the Amazon GameLift APIs and deploy AWS CloudFormation templates for common deployment scenarios. \nBuilt on AWS global computing infrastructure, Amazon GameLift helps you deliver high-performance, high-reliability, low-cost game servers that scale to meet player demand." },
             { Strings.LandingPageNoAccountCardText, "I need a new AWS account for this project" },
@@ -242,6 +242,12 @@ namespace AmazonGameLift.Editor
             { Strings.HelpPageFlexMatchTitle, "Amazon GameLift FlexMatch" },
             { Strings.HelpPageFlexMatchDescription, "Amazon GameLift FlexMatch is a customizable matchmaking service for multiplayer games. With FlexMatch, you can build a custom set of rules that defines what a multiplayer match looks like for your game, and determines how to evaluate and select compatible players for each match." },
             { Strings.HelpPageFlexMatchLink, "Learn More" },
+            
+            { Strings.ProfileSelectorDropdownLabel, "AWS Account Profile" },
+            { Strings.ProfileSelectorBucketNameLabel, "S3 Bucket Name" },
+            { Strings.ProfileSelectorRegionLabel, "AWS Region" },
+            { Strings.ProfileSelectorStatusLabel, "Bootstrap Status" },
+            { Strings.BootstrapNoBucketCreated, "No bucket created" },
         };
 
         public string GetError(string errorCode = null)
