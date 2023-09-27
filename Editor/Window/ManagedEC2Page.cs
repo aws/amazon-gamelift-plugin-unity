@@ -15,7 +15,7 @@ namespace AmazonGameLift.Editor
     public class ManagedEC2Page
     {
         private readonly VisualElement _container;
-        private readonly DeploymentSettings _model;
+        private readonly DeploymentSettings _deploymentSettings;
         private readonly Button _deployButton;
         private readonly Button _redeployButton;
         private readonly Button _deleteButton;
@@ -27,18 +27,18 @@ namespace AmazonGameLift.Editor
         public ManagedEC2Page(VisualElement container)
         {
             _container = container;
-            _model = DeploymentSettingsFactory.Create();
-            _model.Restore();
-            _model.Refresh();
+            _deploymentSettings = DeploymentSettingsFactory.Create();
+            _deploymentSettings.Restore();
+            _deploymentSettings.Refresh();
             var parameters = new ManagedEC2FleetParameters
             {
-                FleetName = _model.FleetName ?? $"{Application.productName}-ManagedFleet",
-                LaunchParameters = _model.LaunchParameters ?? $"",
-                BuildName = _model.BuildName ??
-                            $"{Application.productName}-{_model.ScenarioName.Replace(" ", "_")}-Build",
-                GameServerFile = _model.BuildFilePath,
-                GameServerFolder = _model.BuildFolderPath,
-                OperatingSystem = FleetParametersInput.GetOperatingSystem(_model.BuildOperatingSystem) ??
+                FleetName = _deploymentSettings.FleetName ?? $"{Application.productName}-ManagedFleet",
+                LaunchParameters = _deploymentSettings.LaunchParameters ?? $"",
+                BuildName = _deploymentSettings.BuildName ??
+                            $"{Application.productName}-{_deploymentSettings.ScenarioName.Replace(" ", "_")}-Build",
+                GameServerFile = _deploymentSettings.BuildFilePath,
+                GameServerFolder = _deploymentSettings.BuildFolderPath,
+                OperatingSystem = FleetParametersInput.GetOperatingSystem(_deploymentSettings.BuildOperatingSystem) ??
                                   OperatingSystem.AMAZON_LINUX_2
             };
 
@@ -47,10 +47,10 @@ namespace AmazonGameLift.Editor
 
             container.Add(uxml);
 
-            var ec2Deployment = new ManagedEC2Deployment(_model, parameters);
+            var ec2Deployment = new ManagedEC2Deployment(_deploymentSettings, parameters);
             var scenarioContainer = container.Q("ManagedEC2ScenarioTitle");
             _deploymentScenariosInput =
-                new DeploymentScenariosInput(scenarioContainer, _model.Scenario, true);
+                new DeploymentScenariosInput(scenarioContainer, _deploymentSettings.Scenario, true);
             _deploymentScenariosInput.SetEnabled(true);
             _deploymentScenariosInput.OnValueChanged += value => { Debug.Log($"Fleet type changed to {value}"); };
             _ec2DeploymentStatusLabel = _container.Q<Label>("ManagedEC2DeployStatusText");
@@ -84,8 +84,8 @@ namespace AmazonGameLift.Editor
             _launchClientButton = container.Q<Button>("ManagedEC2LaunchClientButton");
             _launchClientButton.RegisterCallback<ClickEvent>(_ => EditorApplication.EnterPlaymode());
 
-            _model.CurrentStackInfoChanged += UpdateGUI;
-            _model.Scenario = DeploymentScenarios.SingleRegion;
+            _deploymentSettings.CurrentStackInfoChanged += UpdateGUI;
+            _deploymentSettings.Scenario = DeploymentScenarios.SingleRegion;
             UpdateGUI();
         }
 
@@ -93,15 +93,15 @@ namespace AmazonGameLift.Editor
         {
             LocalizeText();
 
-            _deployButton.SetEnabled(_model.CurrentStackInfo.StackStatus == null && _model.CanDeploy);
-            _redeployButton.SetEnabled(_model.CurrentStackInfo.StackStatus != null && _model.CanDeploy);
-            _deleteButton.SetEnabled(_model.CurrentStackInfo.StackStatus != null && _model.IsCurrentStackModifiable);
+            _deployButton.SetEnabled(_deploymentSettings.CurrentStackInfo.StackStatus == null && _deploymentSettings.CanDeploy);
+            _redeployButton.SetEnabled(_deploymentSettings.CurrentStackInfo.StackStatus != null && _deploymentSettings.CanDeploy);
+            _deleteButton.SetEnabled(_deploymentSettings.CurrentStackInfo.StackStatus != null && _deploymentSettings.IsCurrentStackModifiable);
             _launchClientButton.SetEnabled(
-                _model.CurrentStackInfo.StackStatus is StackStatus.CreateComplete or StackStatus.UpdateComplete);
+                _deploymentSettings.CurrentStackInfo.StackStatus is StackStatus.CreateComplete or StackStatus.UpdateComplete);
 
-            _deploymentScenariosInput.SetEnabled(_model.CanDeploy);
-            _fleetParamsInput.SetEnabled(_model.CanDeploy);
-            _ec2DeploymentStatusLabel.text = _model.CurrentStackInfo.StackStatus;
+            _deploymentScenariosInput.SetEnabled(_deploymentSettings.CanDeploy);
+            _fleetParamsInput.SetEnabled(_deploymentSettings.CanDeploy);
+            _ec2DeploymentStatusLabel.text = _deploymentSettings.CurrentStackInfo.StackStatus;
         }
 
         private void LocalizeText()
@@ -133,7 +133,7 @@ namespace AmazonGameLift.Editor
             l.SetElementText("ManagedEC2LaunchClientButton", Strings.ManagedEC2LaunchClientButton);
         }
 
-        private string GetScenarioType(ElementLocalizer l) => _model.Scenario switch
+        private string GetScenarioType(ElementLocalizer l) => _deploymentSettings.Scenario switch
         {
             DeploymentScenarios.SingleRegion => l.GetText(Strings.ManagedEC2ScenarioSingleFleetLabel),
             DeploymentScenarios.SpotFleet => l.GetText(Strings.ManagedEC2ScenarioSpotFleetLabel),
