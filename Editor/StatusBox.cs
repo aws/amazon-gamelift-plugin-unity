@@ -10,6 +10,7 @@ namespace AmazonGameLift.Editor
         public new class UxmlFactory : UxmlFactory<StatusBox> { }
 
         private readonly VisualElement _container;
+        private Label _statusTextLabel;
         private bool ShowElement { get; set; }
         
         private const string  InactiveStatusBoxClassName = "hidden";
@@ -18,17 +19,15 @@ namespace AmazonGameLift.Editor
         private const string  WarningBoxElementClass = "status-box--warning";
         private const string  ErrorBoxElementClass = "status-box--error";
 
-        public StatusBox(bool showElement, StatusBoxType type, string externalButtonLink = "", string externalButtonText = "")
+        public StatusBox(StatusBoxType type, string externalButtonLink = "", string externalButtonText = "")
         {
             var asset = Resources.Load<VisualTreeAsset>("EditorWindow/Components/StatusBox");
             asset.CloneTree(this);
-            
-            ShowElement = showElement;
 
             LocalizeText();
 
             _container = this.Q("StatusBox").Q("StatusBox");
-
+            _statusTextLabel = _container.Q<Label>("StatusBoxLabel");
             switch (type)
             {
                 case StatusBoxType.Success:
@@ -74,9 +73,17 @@ namespace AmazonGameLift.Editor
 
         public void Show(string statusBoxText)
         {
-            
+            _statusTextLabel.text = statusBoxText;
+            ShowElement = true;
+            UpdateStatusBoxesState();
         }
-
+        
+        public void Close()
+        {
+            ShowElement = false;
+            UpdateStatusBoxesState();
+        }
+        
         private void UpdateStatusBoxesState()
         {
             if (ShowElement)

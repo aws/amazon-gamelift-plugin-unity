@@ -3,6 +3,7 @@
 
 using System.Collections.Generic;
 using AmazonGameLift.Editor;
+using Editor.CoreAPI;
 using Editor.Resources.EditorWindow;
 using UnityEngine;
 using UnityEngine.UIElements;
@@ -12,8 +13,10 @@ namespace Editor.Window
     public class LandingPage
     {
         private readonly VisualElement _container;
+        private StatusBox _infoBox;
+        private StatusBox _warningBox;
 
-        public LandingPage(VisualElement container)
+        public LandingPage(VisualElement container, StateManager stateManager)
         {
             _container = container;
             var mVisualTreeAsset = UnityEngine.Resources.Load<VisualTreeAsset>("EditorWindow/Pages/LandingPage");
@@ -22,6 +25,17 @@ namespace Editor.Window
             container.Add(uxml);
             LocalizeText();
             SetupStatusBoxes();
+
+            //if (stateManager.SelectedProfile == null)
+            if (true)
+            {
+                _infoBox.Show("You will need to configure an AWS account profile to use Amazon GameLift.");
+            }
+            //else if (!stateManager.IsBootstrapped)
+            if (true)
+            {
+                _warningBox.Show("Profile configuration is incomplete, navigate to AWS Account Credentials for next steps");
+            }
 
             _container.Q<Button>("CreateAccount").RegisterCallback<ClickEvent>(_ => OnCreateAccountClicked());
             _container.Q<Button>("AddProfile").RegisterCallback<ClickEvent>(_ => OnAddProfileClicked());
@@ -59,14 +73,13 @@ namespace Editor.Window
 
         private void SetupStatusBoxes()
         {
-
-            var infoBox = new StatusBox(true, StatusBox.StatusBoxType.Info);
-            var warningBox =  new StatusBox(true, StatusBox.StatusBoxType.Warning);
+            _infoBox = new StatusBox(StatusBox.StatusBoxType.Info);
+            _warningBox =  new StatusBox(StatusBox.StatusBoxType.Warning);
             
             var errorContainer = _container.Q("LandingErrorContainer");
             
-            errorContainer.Add(infoBox);
-            errorContainer.Add(warningBox);
+            errorContainer.Add(_infoBox);
+            errorContainer.Add(_warningBox);
         }
     }
 }
