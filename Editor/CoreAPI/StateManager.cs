@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using AmazonGameLift.Editor;
 using AmazonGameLiftPlugin.Core;
@@ -35,8 +36,6 @@ namespace Editor.CoreAPI
 
         public IReadOnlyList<string> AllProfiles => CoreApi.ListCredentialsProfiles().Profiles.ToList();
         
-        public bool IsBootstrapped { get; set; }
-
         public StateManager(CoreApi coreApi)
         {
             CoreApi = coreApi;
