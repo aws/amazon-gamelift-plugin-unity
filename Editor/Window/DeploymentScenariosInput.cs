@@ -40,8 +40,8 @@ namespace AmazonGameLift.Editor
             _enabled = enabled;
             _container.SetEnabled(_enabled);
 
-            _radio2Group = container.Q("FleetTypeRadioButton2Group");
-            _radio3Group = container.Q("FleetTypeRadioButton3Group");
+            _radio2Group = container.Q("ManagedEC2ScenarioSpotFleet");
+            _radio3Group = container.Q("ManagedEC2ScenarioFlexMatch");
 
             SetupRadioButton("ManagedEC2ScenarioSingleFleetRadio", DeploymentScenarios.SingleRegion);
             SetupRadioButton("ManagedEC2ScenarioSpotFleetRadio", DeploymentScenarios.SpotFleet);
