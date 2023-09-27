@@ -16,8 +16,8 @@ namespace AmazonGameLift.Editor
         private DeploymentScenarios _deploymentScenarios;
 
         private readonly VisualElement _container;
-        private readonly VisualElement _radio2Group;
-        private readonly VisualElement _radio3Group;
+        private readonly VisualElement _spotFleetRadioGroup;
+        private readonly VisualElement _flexMatchRadioGroup;
         private readonly Button _showMoreScenariosButton;
 
         public Action<DeploymentScenarios> OnValueChanged;
@@ -33,8 +33,8 @@ namespace AmazonGameLift.Editor
             _enabled = enabled;
             _container.SetEnabled(_enabled);
 
-            _radio2Group = container.Q("ManagedEC2ScenarioSpotFleet");
-            _radio3Group = container.Q("ManagedEC2ScenarioFlexMatch");
+            _spotFleetRadioGroup = container.Q("ManagedEC2ScenarioSpotFleet");
+            _flexMatchRadioGroup = container.Q("ManagedEC2ScenarioFlexMatch");
 
             SetupRadioButton("ManagedEC2ScenarioSingleFleetRadio", DeploymentScenarios.SingleRegion);
             SetupRadioButton("ManagedEC2ScenarioSpotFleetRadio", DeploymentScenarios.SpotFleet);
@@ -82,8 +82,8 @@ namespace AmazonGameLift.Editor
             return new List<VisualElement>()
             {
                 _showMoreScenariosButton,
-                _radio2Group,
-                _radio3Group
+                _spotFleetRadioGroup,
+                _flexMatchRadioGroup
             };
         }
 
@@ -92,7 +92,7 @@ namespace AmazonGameLift.Editor
             return _inputState switch
             {
                 InputState.Initial => new List<VisualElement>() { _showMoreScenariosButton },
-                InputState.Expanded => new List<VisualElement>() { _radio2Group, _radio3Group },
+                InputState.Expanded => new List<VisualElement>() { _spotFleetRadioGroup, _flexMatchRadioGroup },
                 _ => throw new ArgumentOutOfRangeException()
             };
         }
