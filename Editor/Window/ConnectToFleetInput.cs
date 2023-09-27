@@ -39,7 +39,8 @@ namespace Editor.Window
             _fleetState = initialState;
             _stateManager = stateManager;
             _fleetManager = stateManager.FleetManager;
-
+            
+            
             AssignUiElements(container);
             PopulateFleetVisualElements();
             RegisterCallBacks(container);
@@ -131,7 +132,8 @@ namespace Editor.Window
         {
             if (_stateManager.GameLiftWrapper != null)
             {
-                _fleetsList = await _fleetManager.ListFleetAttributes();
+                var fleetsListResponse = await _fleetManager.ListFleetAttributes();
+                _fleetsList = fleetsListResponse.FleetAttributes;
                 s_fleetNameList.Clear();
                 _fleetsList.ForEach(fleet => s_fleetNameList.Add(fleet.Name));
                 _fleetNameDropdownContainer.choices = s_fleetNameList;
@@ -188,9 +190,7 @@ namespace Editor.Window
         private void SetupStatusBox()
         {
             _connectToAnywhereErrorBox = new StatusBox(StatusBox.StatusBoxType.Error);
-
             var errorContainer = _container.Q("AnywherePageConnectFleetErrorContainer");
-            
             errorContainer.Add(_connectToAnywhereErrorBox);
         }
 

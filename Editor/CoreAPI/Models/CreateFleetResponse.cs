@@ -1,23 +1,9 @@
-﻿using System;
-using AmazonGameLiftPlugin.Core.Shared;
+﻿using AmazonGameLiftPlugin.Core.Shared;
 
-namespace Editor.Window.Models
+namespace AmazonGameLift.Editor
 {
-    public class GenericResponse : Response
+    public class CreateFleetResponse : Response
     {
-        internal GenericResponse()
-        {
-        }
-        
-        public GenericResponse(string errorCode, string errorMessage = null)
-        {
-            if (errorCode is null)
-            {
-                throw new ArgumentNullException(nameof(errorCode));
-            }
-
-            ErrorCode = errorCode;
-            ErrorMessage = errorMessage;
-        }
+        public string FleetId { get; set; }
     }
 }
