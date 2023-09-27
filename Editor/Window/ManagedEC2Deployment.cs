@@ -2,7 +2,7 @@
 // SPDX-License-Identifier: Apache-2.0
 
 using System.Threading.Tasks;
-using AmazonGameLift.Editor;
+using UnityEditor;
 using UnityEngine;
 
 namespace AmazonGameLift.Editor
@@ -49,7 +49,7 @@ namespace AmazonGameLift.Editor
         {
             var stackUpdateModelFactory = new StackUpdateModelFactory(new ChangeSetUrlFormatter());
 
-            StackUpdateDialog dialog = UnityEditor.EditorWindow.GetWindow<StackUpdateDialog>();
+            StackUpdateDialog dialog = EditorWindow.GetWindow<StackUpdateDialog>();
             return dialog.SetUp(stackUpdateModelFactory.Create(request));
         }
     }
