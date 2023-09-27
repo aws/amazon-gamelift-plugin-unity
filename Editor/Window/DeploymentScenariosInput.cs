@@ -62,7 +62,7 @@ namespace AmazonGameLift.Editor
             _container.SetEnabled(_enabled);
         }
 
-        private void SetupRadioButton(string elementName, DeploymentScenarios radioValue)
+        private void SetupRadioButton(string elementName, DeploymentScenarios deploymentScenario)
         {
             var radio = _container.Q<RadioButton>(elementName);
             if (radio == default) return;
