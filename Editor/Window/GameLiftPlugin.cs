@@ -1,4 +1,4 @@
-﻿// Copyright Amazon.com, Inc. or its affiliates. All Rights Reserved.
+// Copyright Amazon.com, Inc. or its affiliates. All Rights Reserved.
 // SPDX-License-Identifier: Apache-2.0
 
 using System;
@@ -15,14 +15,13 @@ namespace AmazonGameLift.Editor
     {
         [SerializeField] private Texture _icon;
         internal Texture Icon => _icon;
+        internal readonly StateManager _stateManager;
 
         private VisualTreeAsset _visualTreeAsset;
         private VisualElement _root;
         private VisualElement _currentTab;
         private List<Button> _tabButtons;
         private List<VisualElement> _tabContent;
-
-        private readonly StateManager _stateManager;
 
         private const string MainContentClassName = "main__content";
         private const string TabContentSelectedClassName = "tab__content--selected";
@@ -83,7 +82,7 @@ namespace AmazonGameLift.Editor
             contentContainer.Add(container);
             return container;
         }
-
+        
         private void OpenTab(string tabName)
         {
             _tabContent.ForEach(page =>
