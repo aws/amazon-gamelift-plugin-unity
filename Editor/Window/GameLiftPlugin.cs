@@ -15,7 +15,7 @@ namespace AmazonGameLift.Editor
     {
         [SerializeField] private Texture _icon;
         internal Texture Icon => _icon;
-        internal readonly StateManager StateManager;
+        internal readonly StateManager _stateManager;
 
         private VisualTreeAsset _visualTreeAsset;
         private VisualElement _root;
@@ -31,7 +31,7 @@ namespace AmazonGameLift.Editor
 
         private GameLiftPlugin()
         {
-            StateManager = new StateManager(new CoreApi());
+            _stateManager = new StateManager(new CoreApi());
         }
 
         private void CreateGUI()
@@ -85,7 +85,7 @@ namespace AmazonGameLift.Editor
             return container;
         }
 
-        private void OpenTab(string tabName)
+      private void OpenTab(string tabName)
         {
             _tabContent.ForEach(page =>
             {
