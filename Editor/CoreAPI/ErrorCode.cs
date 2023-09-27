@@ -20,6 +20,7 @@ namespace AmazonGameLift.Editor
         public static readonly string ListFleetAttributesFailed = "ListFleetAttributesFailed";
         public static readonly string InvalidComputeName = "InvalidComputeName";
         public static readonly string InvalidIpAddress = "InvalidIpAddress";
+        public static readonly string InvalidWebsocketUrl = "InvalidIpAddress";
         public static readonly string RegisterComputeFailed = "RegisterComputeFailed";
     }
 }

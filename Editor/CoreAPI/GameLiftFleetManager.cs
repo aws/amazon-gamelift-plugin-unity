@@ -96,7 +96,7 @@ namespace Editor.CoreAPI
             }
             catch (Exception ex)
             {
-                return Response.Fail(ErrorCode.CustomLocationCreationFailed);
+                return Response.Fail(ErrorCode.CustomLocationCreationFailed, ex.Message);
             }
         }
 
@@ -137,7 +137,8 @@ namespace Editor.CoreAPI
             {
                 return Response.Fail(new CreateFleetResponse
                 {
-                    ErrorCode = ErrorCode.CustomFleetFailed
+                    ErrorCode = ErrorCode.CustomFleetFailed,
+                    ErrorMessage = ex.Message
                 });
             }
         }
@@ -164,7 +165,8 @@ namespace Editor.CoreAPI
             {
                 return Response.Fail(new DescribeFleetAttributesResponse()
                 {
-                    ErrorCode = ErrorCode.ListFleetAttributesFailed
+                    ErrorCode = ErrorCode.ListFleetAttributesFailed,
+                    ErrorMessage = ex.Message
                 });
             }
         }

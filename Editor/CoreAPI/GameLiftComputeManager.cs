@@ -1,13 +1,14 @@
 ﻿using System;
 using System.Net;
 using System.Threading.Tasks;
-using Amazon.GameLift.Model;
 using Amazon.Runtime.Internal;
 using AmazonGameLift.Editor;
 using AmazonGameLiftPlugin.Core;
-using AmazonGameLiftPlugin.Core.ApiGatewayManagement;
+using AmazonGameLiftPlugin.Core.Shared;
 using UnityEngine;
 using UnityEngine.UIElements;
+using ErrorCode = AmazonGameLift.Editor.ErrorCode;
+using Model = Amazon.GameLift.Model;
 
 namespace Editor.CoreAPI
 {
@@ -26,28 +27,40 @@ namespace Editor.CoreAPI
             _amazonGameLiftWrapper = wrapper;
         }
 
-        public async Task<bool> RegisterFleetCompute(string computeName, string fleetId, string fleetLocation,
+        public async Task<Response> RegisterFleetCompute(string computeName, string fleetId, string fleetLocation,
             string ipAddress)
         {
-            var webSocketUrl = await RegisterCompute(computeName, fleetId, fleetLocation, ipAddress);
+            var registerComputeResponse = await RegisterCompute(computeName, fleetId, fleetLocation, ipAddress);
+            var webSocketUrl = registerComputeResponse.WebSocketUrl;
             if (webSocketUrl != null)
             {
                 var computeNameResponse = _coreApi.PutSetting(SettingsKeys.ComputeName, computeName);
                 var ipAddressResponse = _coreApi.PutSetting(SettingsKeys.IpAddress, ipAddress);
                 var webSocketResponse = _coreApi.PutSetting(SettingsKeys.WebSocketUrl, webSocketUrl);
-
-                return computeNameResponse.Success && ipAddressResponse.Success && webSocketResponse.Success;
+                
+                if (!computeNameResponse.Success)
+                {
+                    return Response.Fail(ErrorCode.InvalidComputeName);
+                }
+                if (!ipAddressResponse.Success)
+                {
+                    return Response.Fail(ErrorCode.InvalidIpAddress);
+                }
+                if (!webSocketResponse.Success)
+                {
+                    return Response.Fail(ErrorCode.InvalidWebsocketUrl);
+                }
             }
 
-            return false;
+            return registerComputeResponse;
         }
 
-        private async Task<string> RegisterCompute(string computeName, string fleetId, string fleetLocation,
+        private async Task<RegisterComputeResponse> RegisterCompute(string computeName, string fleetId, string fleetLocation,
             string ipAddress)
         {
             try
             {
-                var registerComputeRequest = new RegisterComputeRequest()
+                var registerComputeRequest = new Model.RegisterComputeRequest()
                 {
                     ComputeName = computeName,
                     FleetId = fleetId,
@@ -57,12 +70,18 @@ namespace Editor.CoreAPI
                 var registerComputeResponse =
                     await _amazonGameLiftWrapper.RegisterCompute(registerComputeRequest);
 
-                return registerComputeResponse.Compute.GameLiftServiceSdkEndpoint;
+                return Response.Ok(new RegisterComputeResponse()
+                {
+                    WebSocketUrl = registerComputeResponse.Compute.GameLiftServiceSdkEndpoint
+                });
             }
             catch (Exception ex)
             {
-                Debug.Log(ex.Message);
-                return null;
+                return Response.Fail(new RegisterComputeResponse
+                {
+                    ErrorCode = ErrorCode.RegisterComputeFailed,
+                    ErrorMessage = ex.Message
+                });
             }
         }
 
@@ -70,7 +89,7 @@ namespace Editor.CoreAPI
         {
             try
             {
-                var deregisterComputeRequest = new DeregisterComputeRequest()
+                var deregisterComputeRequest = new Model.DeregisterComputeRequest()
                 {
                     ComputeName = computeName,
                     FleetId = fleetId
@@ -91,7 +110,7 @@ namespace Editor.CoreAPI
         {
             try
             {
-                var describeComputeRequest = new DescribeComputeRequest()
+                var describeComputeRequest = new Model.DescribeComputeRequest()
                 {
                     ComputeName = computeName,
                     FleetId = fleetId,
