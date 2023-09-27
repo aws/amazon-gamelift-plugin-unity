@@ -30,7 +30,6 @@ namespace AmazonGameLift.Editor
         public void StartDeployment()
         {
             _deploymentSettings.GameName = Application.productName.Substring(0, 12);
-            if (!_deploymentSettings.CanDeploy) return;
             _deploymentSettings.Save();
             _deploymentSettings.StartDeployment(ConfirmChanges).ContinueWith(task =>
             {

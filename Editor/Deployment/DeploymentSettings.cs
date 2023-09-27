@@ -345,7 +345,7 @@ namespace AmazonGameLift.Editor
                 throw new ArgumentNullException(nameof(confirmChanges));
             }
 
-            if (!IsFormFilled)
+            if (!IsFormFilled || !CanDeploy)
             {
                 return;
             }
