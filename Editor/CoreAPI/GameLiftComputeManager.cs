@@ -40,15 +40,15 @@ namespace Editor.CoreAPI
                 
                 if (!computeNameResponse.Success)
                 {
-                    return Response.Fail(ErrorCode.InvalidComputeName);
+                    return Response.Fail(ErrorCode.InvalidComputeName, "Invalid Compute Name");
                 }
                 if (!ipAddressResponse.Success)
                 {
-                    return Response.Fail(ErrorCode.InvalidIpAddress);
+                    return Response.Fail(ErrorCode.InvalidIpAddress, "Invalid Ip Address");
                 }
                 if (!webSocketResponse.Success)
                 {
-                    return Response.Fail(ErrorCode.InvalidWebsocketUrl);
+                    return Response.Fail(ErrorCode.InvalidWebsocketUrl, "Invalid Websocket Response");
                 }
             }
 

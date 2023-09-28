@@ -81,6 +81,11 @@ namespace Editor.Window
                 {
                     _computeState = ComputeStatus.Registered;
                 }
+                else
+                {
+                    _registerComputeErrorBox.AddExternalButton(Urls.AwsIAMConsole, "View IAM console");
+                    _registerComputeErrorBox.Show(registerFleetCompute.ErrorMessage);
+                }
             }
 
             UpdateGUI();

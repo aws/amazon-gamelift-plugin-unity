@@ -46,12 +46,12 @@ namespace Editor.CoreAPI
                         var fleetIdPutResponse = _coreApi.PutSetting(SettingsKeys.FleetId, fleetCreateResponse.FleetId);
                         if (!fleetNameResponse.Success)
                         {
-                            return Response.Fail(ErrorCode.InvalidFleetName);
+                            return Response.Fail(ErrorCode.InvalidFleetName, "Invalid Fleet Name");
                         }
 
                         if (!fleetIdPutResponse.Success)
                         {
-                            return Response.Fail(ErrorCode.InvalidFleetId);
+                            return Response.Fail(ErrorCode.InvalidFleetId, "Invalid Fleet Id");
                         }
                     }
                     else
@@ -63,7 +63,7 @@ namespace Editor.CoreAPI
                 return createCustomLocationIfNotExists;
             }
 
-            return Response.Fail(ErrorCode.AccountProfileMissing);
+            return Response.Fail(ErrorCode.AccountProfileMissing, "Account Profile Missing");
         }
 
         private async Task<Response> CreateCustomLocationIfNotExists(string fleetLocation)

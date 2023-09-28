@@ -14,6 +14,7 @@ namespace AmazonGameLift.Editor
         public const string AwsHelpGameLiftLocal = "https://docs.aws.amazon.com/gamelift/latest/developerguide/integration-testing-local.html";
         public const string AwsHelpGameLiftUnity = "https://docs.aws.amazon.com/gamelift/latest/developerguide/unity-plug-in.html";
         public const string AwsS3Console = "https://s3.console.aws.amazon.com/s3/home";
+        public const string AwsIAMConsole = "https://us-east-1.console.aws.amazon.com/iamv2/home"; //TODO Check this is correct link
         public const string AwsS3BucketTemplate = "https://s3.console.aws.amazon.com/s3/buckets/{0}?region={1}";
         public const string AwsSecurity = "https://aws.amazon.com/security/vulnerability-reporting/";
         public const string GitHubAwsLabs = "https://github.com/awslabs/amazon-gamelift-plugin-unity/issues";

@@ -59,6 +59,11 @@ namespace Editor.Window
                 {
                     _fleetState = FleetStatus.Selected;
                 }
+                else
+                {
+                    _connectToAnywhereErrorBox.AddExternalButton(Urls.AwsIAMConsole, "View IAM console");
+                    _connectToAnywhereErrorBox.Show(response.ErrorMessage);
+                }
             }
             
             UpdateGUI();
@@ -132,11 +137,19 @@ namespace Editor.Window
         {
             if (_stateManager.GameLiftWrapper != null)
             {
-                var fleetsListResponse = await _fleetManager.ListFleetAttributes();
-                _fleetsList = fleetsListResponse.FleetAttributes;
-                s_fleetNameList.Clear();
-                _fleetsList.ForEach(fleet => s_fleetNameList.Add(fleet.Name));
-                _fleetNameDropdownContainer.choices = s_fleetNameList;
+                var fleetsListResponse = await _fleetManager?.ListFleetAttributes()!;
+                if (fleetsListResponse.Success)
+                {
+                    _fleetsList = fleetsListResponse.FleetAttributes;
+                    s_fleetNameList.Clear();
+                    _fleetsList.ForEach(fleet => s_fleetNameList.Add(fleet.Name));
+                    _fleetNameDropdownContainer.choices = s_fleetNameList;
+                }
+                else
+                {
+                    _connectToAnywhereErrorBox.AddExternalButton(Urls.AwsIAMConsole, "View IAM console");
+                    _connectToAnywhereErrorBox.Show(fleetsListResponse.ErrorMessage);
+                }
             }
         }
         
