@@ -2,8 +2,7 @@
     "name": "AmazonGameLiftPlugin.Runtime",
     "rootNamespace": "",
     "references": [
-        "AmazonGameLiftPlugin.Runtime.Core",
-        "AmazonGameLiftPlugin.EditorCoreAPI"
+        "AmazonGameLiftPlugin.Runtime.Core"
     ],
     "includePlatforms": [
         "Editor",

@@ -44,6 +44,14 @@ namespace Editor.CoreAPI
         public IReadOnlyList<string> AllProfiles => CoreApi.ListCredentialsProfiles().Profiles.ToList();
         
         public bool IsBootstrapped { get; set; }
+        
+        public Action OnProfileSelected { get; set; }
+        
+        public bool IsBootstrapped { get; set; }
+        public string BucketName { get; set; }
+        public string Region { get; set; }
+        public string SelectedFleetName { get; set; }
+        public string FleetLocation { get; set; }
 
         public StateManager(CoreApi coreApi)
         {
@@ -55,15 +63,18 @@ namespace Editor.CoreAPI
 
         private void SetProfile(string profileName)
         {
-            if (string.IsNullOrWhiteSpace(profileName)) return;
+            if (string.IsNullOrWhiteSpace(profileName) || profileName == SelectedProfileName) return;
 
             _selectedProfile = _allProfiles.FirstOrDefault(profile => profile.Name == profileName);
             if (_selectedProfile != null)
             {
+                var credentials = CoreApi.RetrieveAwsCredentials(profileName);
+                Region = credentials.Region;
                 IsBootstrapped = !string.IsNullOrWhiteSpace(_selectedProfile.BootStrappedBucket);
                 GameLiftWrapper = AmazonGameLiftWrapperFactory.Get(SelectedProfileName);
                 FleetManager = new GameLiftFleetManager(GameLiftWrapper);
                 ComputeManager = new GameLiftComputeManager(GameLiftWrapper);
+                OnProfileSelected?.Invoke();
             }
             else
             {
