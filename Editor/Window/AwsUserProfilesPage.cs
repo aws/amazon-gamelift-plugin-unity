@@ -65,7 +65,7 @@ namespace AmazonGameLift.Editor
             l.SetElementText("UserProfilePageAccountNewProfileTitle", Strings.UserProfilePageAccountNewProfileTitle);
             l.SetElementText("UserProfilePageAccountNewProfileName", Strings.UserProfilePageAccountNewProfileName);
             l.SetElementText("UserProfilePageAccountNewProfileAccessKey", Strings.UserProfilePageAccountNewProfileAccessKey);
-            l.SetElementText("UserProfilePageAccountNewProfileSecretKey", Strings.UserProfilePageAccountNewProfileSecretKey);
+            l.SetElementText("UserProfilePageAccountNewProfileSecretKeyInput", Strings.UserProfilePageAccountNewProfileSecretKeyInput);
             l.SetElementText("UserProfilePageAccountNewProfileRegion", Strings.UserProfilePageAccountNewProfileRegion);
             l.SetElementText("UserProfilePageAccountNewProfileRegionPlaceholderDropdown", Strings.UserProfilePageAccountNewProfileRegionPlaceholderDropdown);
             l.SetElementText("UserProfilePageAccountCardNoAccountLink", Strings.UserProfilePageAccountCardNoAccountLink);
