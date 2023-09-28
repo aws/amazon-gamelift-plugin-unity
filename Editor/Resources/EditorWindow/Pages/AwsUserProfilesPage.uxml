@@ -1,7 +1,7 @@
 <!-- Copyright Amazon.com, Inc. or its affiliates. All Rights Reserved. -->
 <!-- SPDX-License-Identifier: Apache-2.0 -->
 
-<ui:UXML xmlns:ui="UnityEngine.UIElements">
+<ui:UXML xmlns:ui="UnityEngine.UIElements" xmlns:gl="AmazonGameLift.Editor">
     <Style src="./AwsUserProfilesPage.uss"/>
     <ui:VisualElement class="separator separator--large">
         <ui:VisualElement class="separator">
@@ -80,24 +80,7 @@
         <ui:VisualElement name="BootstrapMenu" class="separator separator--large">
             <ui:Label name="UserProfilePageBootstrapTitle" class="page__subtitle" text="AWS Account Details"/>
             <ui:Label name="UserProfilePageBootstrapDescription" text="Bootstrapping refers to the creation of an Amazon S3 bucket, which stores all GameLift build artifacts and Lambda function source code, allowing you to effortlessly deploy with ease.&#10;This action incurs a charge unless you’re eligible for AWS Free Tier usage."/>
-            <ui:VisualElement>
-                <ui:VisualElement name="AWSAccountProfile" class="form-row">
-                    <ui:Label name="UserProfilePageBootstrapProfileInputText" class="form-row__label" text="AWS Account Profile"/>
-                    <ui:DropdownField name="UserProfilePageBootstrapProfileDropdown" class="form-row__input dropdown"/>
-                </ui:VisualElement>
-                <ui:VisualElement name="S3Bucket" class="form-row">
-                    <ui:Label name="UserProfilePageBootstrapBucketText" class="form-row__label" text="S3 Bucket Name"/>
-                    <ui:Label name="S3BucketNameLabel" class="form-row__text-display" text="bucket-name"/>
-                </ui:VisualElement>
-                <ui:VisualElement name="AWSRegion" class="form-row">
-                    <ui:Label name="UserProfilePageBootstrapRegionText" class="form-row__label" text="AWS Region"/>
-                    <ui:Label name="Region" class="form-row__text-display" text="region"/>
-                </ui:VisualElement>
-                <ui:VisualElement name="BootstrapStatus" class="form-row">
-                    <ui:Label name="UserProfilePageBootstrapStatusText" class="form-row__label" text="Bootstrap Status"/>
-                    <ui:Label name="BootstrapStatus" class="form-row__text-display" text="status"/>
-                </ui:VisualElement>
-            </ui:VisualElement>
+            <gl:ProfileSelector/>
             <ui:VisualElement class="separator separator--horizontal">
                 <ui:Button name="UserProfilePageBootstrapStartButton" class="button button--primary" text="Bootstrap Profile"/>
                 <ui:Button name="UserProfilePageBootstrapAnotherProfileButton" class="button" text="Add another Profile"/>
@@ -105,31 +88,14 @@
             </ui:VisualElement>
         </ui:VisualElement>
         <ui:VisualElement name="CompletedProfile" class="separator separator--large">
-            <ui:VisualElement>
-                <ui:VisualElement name="AWSAccountProfile" class="form-row">
-                    <ui:Label class="form-row__label" text="AWS Account Profile"/>
-                    <ui:DropdownField name="DropdownField" class="form-row__input dropdown"/>
-                </ui:VisualElement>
-                <ui:VisualElement name="S3Bucket" class="form-row">
-                    <ui:Label name="Label" class="form-row__label" text="S3 Bucket Name"/>
-                    <ui:Label name="Label" text="gamelift-dev-euwe1-bdtxw22"/>
-                    <ui:Button tooltip="Edit" text="&#10;"/>
-                </ui:VisualElement>
-                <ui:VisualElement name="AWSRegion" class="form-row">
-                    <ui:Label name="Label" class="form-row__label" text="AWS Region"/>
-                    <ui:Label name="Label" text="eu-west-1"/>
-                </ui:VisualElement>
-                <ui:VisualElement name="BootstrapStatus" class="form-row">
-                    <ui:Label name="Label" class="form-row__label" text="Bootstrap Status"/>
-                    <ui:VisualElement class="separator separator--horizontal">
-                        <ui:Label name="Label" class="form-row__text-display" text="Active"/>
-                        <ui:Button name="UserProfilePageBootstrapAnotherBucketButton" class="button" text="Bootstrap to new S3 Bucket"/>
-                    </ui:VisualElement>
-                </ui:VisualElement>
-            </ui:VisualElement>
-            <ui:VisualElement class="form-row">
+            <gl:ProfileSelector/>
+            <ui:VisualElement class="form-row separator separator--horizontal">
+                <ui:Button name="UserProfilePageBootstrapAnotherBucketButton" class="button" text="Bootstrap to new S3 Bucket"/>
                 <ui:Button name="AddProfile" class="button" text="Add another Profile"/>
-                <ui:Label class="link" text="What is bootstrapping?"/>
+                <ui:VisualElement class="external-link float-right">
+                    <ui:Label text="What is bootstrapping?"/>
+                    <ui:Image name="ExternalLinkIcon" class="icon--small"/>
+                </ui:VisualElement>
             </ui:VisualElement>
         </ui:VisualElement>
     </ui:VisualElement>

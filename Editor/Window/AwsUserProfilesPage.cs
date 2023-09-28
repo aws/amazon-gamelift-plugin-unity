@@ -16,7 +16,6 @@ namespace AmazonGameLift.Editor
         public readonly AwsCredentialsUpdate UpdateModel;
         public readonly AwsCredentialsCreation CreationModel;
         public readonly BootstrapSettings BootstrapSettings;
-        public readonly UserProfileSelection UserProfileSelection;
         
         private VisualElement _currentElement;
 
@@ -27,11 +26,9 @@ namespace AmazonGameLift.Editor
 
         public AwsUserProfilesPage(VisualElement container, StateManager stateManager)
         {
-            
             var awsCredentials = new AwsCredentialsFactory().Create();
             CreationModel = awsCredentials.Creation;
             UpdateModel = awsCredentials.Update;
-            
             
             _container = container;
             var mVisualTreeAsset = Resources.Load<VisualTreeAsset>("EditorWindow/Pages/AwsUserProfilesPage");
@@ -41,10 +38,10 @@ namespace AmazonGameLift.Editor
             ApplyText();
 
             _stateManager = stateManager;
+            _stateManager.OnProfileSelected += UpdateModel.Update;
             
             _userProfileCreation = new UserProfileCreation(_container, _stateManager, this);
             BootstrapSettings = _userProfileCreation.SetupBootstrap();
-            UserProfileSelection = new UserProfileSelection(_container, this._stateManager, this);
             
             SetupConfigSettings();
             RefreshProfiles();
@@ -123,7 +120,7 @@ namespace AmazonGameLift.Editor
             });
             _container.Q<Button>("UserProfilePageBootstrapAnotherBucketButton").RegisterCallback<ClickEvent>(_ =>
             {
-                // TODO: Add or find functionality for this
+                OpenS3Popup(_stateManager.BucketName);
             });
             _container.Q<Button>("AccessKeyToggleReveal").RegisterCallback<ClickEvent>(_ =>
             {
@@ -135,6 +132,11 @@ namespace AmazonGameLift.Editor
                 var secretToggle = _container.Q<TextField>("SecretKeyField");
                 ToggleHiddenText(secretToggle);
             });
+            _container.Q<Button>("AddProfile").RegisterCallback<ClickEvent>(_ =>
+            {
+                var targetWizard = _container.Q<VisualElement>("AddNewProfile");
+                ChangeWizard(targetWizard);
+            });
         }
 
         private void OpenLink(string url)
@@ -144,11 +146,7 @@ namespace AmazonGameLift.Editor
 
         private void SetupTab()
         {
-            var dropdownField = _container.Q<DropdownField>( "UserProfilePageBootstrapProfileDropdown");
-            dropdownField.index = 0;
-            UserProfileSelection.AccountSelection(true);
             SetupBootMenu();
-            
         }
 
         private void SetupConfigSettings()
@@ -160,7 +158,7 @@ namespace AmazonGameLift.Editor
         private void SetupBootMenu()
         {
             VisualElement targetWizard;
-            var tab2WarningBox = _container.Q<VisualElement>(null, "Tab2Warning");
+            // var tab2WarningBox = _container.Q<VisualElement>(null, "Tab2Warning");
             var cardsMenu =  _container.Q<VisualElement>("Cards");
             var newProfileMenu = _container.Q<VisualElement>("AddNewProfile");
             var bootStrapMenu = _container.Q<VisualElement>("BootstrapMenu");
@@ -177,7 +175,7 @@ namespace AmazonGameLift.Editor
                 case 1:
                     if (_stateManager.SelectedProfile == null)
                     {
-                        tab2WarningBox.style.display = DisplayStyle.Flex;
+                        // tab2WarningBox.style.display = DisplayStyle.Flex;
                         //TODO Set SelectedProfile and change dropdown to "Choose Profile" and make all the below labels ---
                     }
 
@@ -198,7 +196,7 @@ namespace AmazonGameLift.Editor
                         targetWizard = bootStrapMenu;
                         if (_stateManager.SelectedProfile == null)
                         {
-                            tab2WarningBox.style.display = DisplayStyle.Flex;
+                            // tab2WarningBox.style.display = DisplayStyle.Flex;
                         }
                     }
 
@@ -215,7 +213,6 @@ namespace AmazonGameLift.Editor
             {
                 return false;
             }
-            UserProfileSelection.AccountSelection(false);
             Debug.Log("Saving Profile");
             return true;
         }

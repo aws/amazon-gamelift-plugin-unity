@@ -32,16 +32,16 @@ namespace AmazonGameLift.Editor
             var bucketResponse = CreateBucket(bucketName);
             if (bucketResponse.Success)
             {
-                _container.Q<VisualElement>(null, "Tab2Success").style.display = DisplayStyle.Flex;
+                // _container.Q<VisualElement>(null, "Tab2Success").style.display = DisplayStyle.Flex;
                 _stateManager.IsBootstrapped = true;
-                _profilesPage.UserProfileSelection.BucketSelection(bucketName);
+                _stateManager.SetBucketBootstrap(bucketName);
             }
             else
             {
                 _stateManager.IsBootstrapped = false;
-                var errorBox = _container.Q<VisualElement>("Tab2Error");
-                errorBox.style.display = DisplayStyle.Flex;
-                errorBox.Q<Label>().text = bucketResponse.ErrorMessage;
+                // var errorBox = _container.Q<VisualElement>("Tab2Error");
+                // errorBox.style.display = DisplayStyle.Flex;
+                // errorBox.Q<Label>().text = bucketResponse.ErrorMessage;
                 Debug.Log(bucketResponse.ErrorMessage);
             }
         }

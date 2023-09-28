@@ -10,6 +10,9 @@
             <gl:InfoLinks/>
         </ui:VisualElement>
         <ui:VisualElement class="divider"/>
+        <ui:Foldout name="AnywherePageUserProfileTitle" class="foldout separator separator--small" text="AWS User Profile">
+            <gl:ProfileSelector/>
+        </ui:Foldout>
         <ui:Foldout name="AnywherePageIntegrateTitle" class="foldout separator separator--small" text="Integrate GameLift with your game client">
             <ui:Label name="AnywherePageIntegrateDescription" text="Add the Amazon GameLift server SDK to your game server and add code to communicate with the GameLift hosting service. If you&apos;re working with the Amazon GameLift sample game, this integration is already done."/>
             <ui:Label name="AnywherePageIntegrateServerLink" class="external-link" text="Setup Amazon GameLift on a backend service \uf08e"/>

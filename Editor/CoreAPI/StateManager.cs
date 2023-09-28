@@ -27,6 +27,7 @@ namespace Editor.CoreAPI
         }
         
         public Action OnProfileSelected { get; set; }
+        public Action OnBucketBootstrapped { get; set; }
         
         public bool IsBootstrapped { get; set; }
         public string BucketName { get; set; }
@@ -40,9 +41,10 @@ namespace Editor.CoreAPI
         {
             CoreApi = coreApi;
             AmazonGameLiftWrapperFactory = new AmazonGameLiftWrapperFactory(coreApi);
-
+ 
             SetProfile(coreApi.GetSetting(SettingsKeys.CurrentProfileName).Value);
-            IsBootstrapped = coreApi.GetSetting(SettingsKeys.IsBootstrapped).Value == "true";
+            BucketName = coreApi.GetSetting(SettingsKeys.CurrentBucketName).Value;
+            IsBootstrapped = !string.IsNullOrWhiteSpace(BucketName);
         }
 
         private void SetProfile(string profileName)
@@ -55,6 +57,13 @@ namespace Editor.CoreAPI
             FleetManager = new GameLiftFleetManager(CoreApi, GameLiftWrapper);
             ComputeManager = new GameLiftComputeManager(CoreApi, GameLiftWrapper);
             OnProfileSelected?.Invoke();
+        }
+
+        public void SetBucketBootstrap(string bucketName)
+        {
+            BucketName = bucketName;
+            IsBootstrapped = true;
+            OnBucketBootstrapped?.Invoke();
         }
     }
 }

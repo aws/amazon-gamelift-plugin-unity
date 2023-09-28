@@ -27,6 +27,7 @@ namespace AmazonGameLift.Editor
 
             _stateManager = EditorWindow.GetWindow<GameLiftPlugin>()._stateManager;
             _stateManager.OnProfileSelected += UpdateGUI;
+            _stateManager.OnBucketBootstrapped += UpdateGUI;
             _textProvider = TextProviderFactory.Create();
 
             _dropdown.RegisterValueChangedCallback(value => { _stateManager.SelectedProfile = value.newValue; });
