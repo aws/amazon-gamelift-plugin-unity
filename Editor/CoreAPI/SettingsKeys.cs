@@ -18,8 +18,6 @@ namespace AmazonGameLift.Editor
         ComputeName,
         IpAddress,
         WebSocketUrl,
-        SelectedProfile,
-        SelectedFleetName,
         LaunchParameters,
         BuildOperatingSystem,
         BuildName,
