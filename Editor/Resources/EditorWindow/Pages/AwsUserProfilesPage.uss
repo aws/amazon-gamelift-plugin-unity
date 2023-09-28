@@ -3,7 +3,7 @@
 
 @import "../common.uss";
 
-.external-link {
+.float-right {
     margin-left: auto;
 }
 

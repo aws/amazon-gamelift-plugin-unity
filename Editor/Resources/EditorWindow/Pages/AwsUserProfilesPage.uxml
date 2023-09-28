@@ -30,7 +30,7 @@
                 <ui:Image name="UserProfilePageAccountCardNoAccountIcon" class="card__icon card__icon--large"/>
                 <ui:Label name="UserProfilePageAccountCardNoAccountTitle" class="card__title" text="I don’t have an AWS account"/>
                 <ui:Label name="UserProfilePageAccountCardNoAccountDescription" text="[text about needing an AWS account and it can take a maximum of two sentences]"/>
-                <ui:VisualElement class="external-link">
+                <ui:VisualElement class="float-right">
                     <ui:Label name="UserProfilePageAccountCardNoAccountLink" text="Learn More"/>
                     <ui:Image name="ExternalLinkIcon" class="icon--small"/>
                 </ui:VisualElement>
