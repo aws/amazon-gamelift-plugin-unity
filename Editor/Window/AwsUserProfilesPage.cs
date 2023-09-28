@@ -61,8 +61,8 @@ namespace AmazonGameLift.Editor
             l.SetElementText("UserProfilePageAccountCardNewAccountDescription", Strings.UserProfilePageAccountCardNewAccountDescription);
             l.SetElementText("UserProfilePageAccountNewProfileTitle", Strings.UserProfilePageAccountNewProfileTitle);
             l.SetElementText("UserProfilePageAccountNewProfileName", Strings.UserProfilePageAccountNewProfileName);
-            l.SetElementText("UserProfilePageAccountNewProfileAccessKey", Strings.UserProfilePageAccountNewProfileAccessKey);
-            l.SetElementText("UserProfilePageAccountNewProfileSecretKey", Strings.UserProfilePageAccountNewProfileSecretKey);
+            l.SetElementText("UserProfilePageAccountNewProfileAccessKeyInput", Strings.UserProfilePageAccountNewProfileAccessKeyInput);
+            l.SetElementText("UserProfilePageAccountNewProfileSecretKeyInput", Strings.UserProfilePageAccountNewProfileSecretKeyInput);
             l.SetElementText("UserProfilePageAccountNewProfileRegion", Strings.UserProfilePageAccountNewProfileRegion);
             l.SetElementText("UserProfilePageAccountNewProfileRegionPlaceholderDropdown", Strings.UserProfilePageAccountNewProfileRegionPlaceholderDropdown);
             l.SetElementText("UserProfilePageAccountCardNoAccountLink", Strings.UserProfilePageAccountCardNoAccountLink);
@@ -94,7 +94,8 @@ namespace AmazonGameLift.Editor
             _container.Q<Button>("UserProfilePageAccountCardNoAccountButton").RegisterCallback<ClickEvent>(_ => OpenLink(""));
             _container.Q<Button>("UserProfilePageBootstrapAnotherProfileButton").RegisterCallback<ClickEvent>(_ =>
             {
-                ChangeWizard(_container.Q<VisualElement>("AddNewProfile"));
+                var targetWizard = _container.Q<VisualElement>("AddNewProfile");
+                ChangeWizard(targetWizard);
             });
             _container.Q<Button>("UserProfilePageAccountNewProfileCreateButton").RegisterCallback<ClickEvent>(_ =>
             {
@@ -209,7 +210,7 @@ namespace AmazonGameLift.Editor
 
         private bool SaveProfile()
         {
-            if (!_userProfileCreation.CreateModel())
+            if (!_userProfileCreation.CreateUserProfile())
             {
                 return false;
             }
@@ -250,7 +251,7 @@ namespace AmazonGameLift.Editor
             UpdateModel.Refresh();
         }
         
-        private void BootstrapAccount (string bucketName)
+        private void BootstrapAccount(string bucketName)
         { 
             _userProfileCreation.BootstrapAccount(bucketName);
         }

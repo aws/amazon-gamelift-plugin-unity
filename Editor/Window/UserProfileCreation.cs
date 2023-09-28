@@ -56,12 +56,6 @@ namespace AmazonGameLift.Editor
             return _bootstrapSettings;
         }
 
-        private void RefreshBucket()
-        {
-            _bootstrapSettings.RefreshCurrentBucket();
-            
-        }
-
         private Response CreateBucket(string bucketName)
         {
             _refreshBucketsCancellation?.Cancel();
@@ -70,7 +64,7 @@ namespace AmazonGameLift.Editor
             return _bootstrapSettings.CreateBucket();
         }
 
-        public bool CreateModel()
+        public bool CreateUserProfile()
         {
             _profilesPage.AccountDetailTextFields = _container.Query<TextField>(null, "AccountDetailsInput").ToList();
            var dropdownField = _container.Q<DropdownField>("AccountProfileDropdown");

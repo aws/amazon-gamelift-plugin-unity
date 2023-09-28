@@ -9,22 +9,6 @@
             <ui:Label name="UserProfilePageDescription" text="AWS Account Credentials are used for any account bootstrapping and CloudFormation deployments."/>
         </ui:VisualElement>
         <ui:VisualElement name="divider"/>
-        <!--        <ui:VisualElement name="SuccessInfoBox" class="InfoBox SuccessBox Tab2Success">-->
-        <!--            <ui:VisualElement/>-->
-        <!--            <ui:Label text="Profile configuration and bootstrapping complete"/>-->
-        <!--            <ui:Button text="X" name="CloseInfoBox"/>-->
-        <!--        </ui:VisualElement>-->
-        <!--        <ui:VisualElement name="WarningInfoBox" class="InfoBox WarningBox Tab2Warning">-->
-        <!--            <ui:VisualElement/>-->
-        <!--            <ui:Label text="Profile configuration is incomplete, as profile is not selected"/>-->
-        <!--            <ui:Button text="X" name="CloseInfoBox"/>-->
-        <!--        </ui:VisualElement>-->
-        <!--        <ui:VisualElement name="ErrorInfoBox" class="InfoBox ErrorBox Tab2Error">-->
-        <!--            <ui:VisualElement/>-->
-        <!--            <ui:Label text="S3 Buckets reached maximum limit 100, manage your list of buckets" name="Label"/>-->
-        <!--            <ui:Button text="View S3 Console \uf08e"/>-->
-        <!--            <ui:Button text="X" name="CloseInfoBox"/>-->
-        <!--        </ui:VisualElement>-->
         <ui:VisualElement name="Cards" class="separator separator--large separator--horizontal">
             <ui:VisualElement name="NoAccountCard" class="card card--large card--centered separator">
                 <ui:Image name="UserProfilePageAccountCardNoAccountIcon" class="card__icon card__icon--large"/>
