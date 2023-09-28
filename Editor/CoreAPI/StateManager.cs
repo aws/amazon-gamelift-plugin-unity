@@ -20,19 +20,19 @@ namespace Editor.CoreAPI
             get => GetSetting(SettingsKeys.CurrentProfileName);
             set => SetProfile(value);
         }
-        
+
         public string BucketName
         {
             get => GetSetting(SettingsKeys.CurrentProfileName);
             set => SetProfile(value);
         }
-        
+
         public string Region
         {
             get => GetSetting(SettingsKeys.CurrentProfileName);
             set => SetProfile(value);
         }
-        
+
         public string SelectedFleetName
         {
             get => GetSetting(SettingsKeys.FleetName);
@@ -50,19 +50,19 @@ namespace Editor.CoreAPI
             get => GetSetting(SettingsKeys.FleetLocation);
             set => PutSetting(SettingsKeys.FleetLocation, value);
         }
-        
+
         public string ComputeName
         {
             get => GetSetting(SettingsKeys.ComputeName);
             set => PutSetting(SettingsKeys.ComputeName, value);
         }
-        
+
         public string IpAddress
         {
             get => GetSetting(SettingsKeys.IpAddress);
             set => PutSetting(SettingsKeys.IpAddress, value);
         }
-        
+
         public string WebSocketUrl
         {
             get => GetSetting(SettingsKeys.WebSocketUrl);
@@ -71,7 +71,7 @@ namespace Editor.CoreAPI
 
         public bool IsBootstrapped => !string.IsNullOrWhiteSpace(SelectedProfile) &&
                                       !string.IsNullOrWhiteSpace(Region) & !string.IsNullOrWhiteSpace(BucketName);
-        
+
         public Action OnProfileSelected { get; set; }
 
         public StateManager(CoreApi coreApi)
