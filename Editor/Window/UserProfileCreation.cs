@@ -59,7 +59,6 @@ namespace AmazonGameLift.Editor
         private void RefreshBucket()
         {
             _bootstrapSettings.RefreshCurrentBucket();
-            
         }
 
         private Response CreateBucket(string bucketName)

@@ -84,7 +84,7 @@ namespace AmazonGameLiftPlugin.Editor.UnitTests
             _gameLiftWrapperMock.Verify(wrapper => wrapper.RegisterCompute(It.IsAny<RegisterComputeRequest>()), Times.Once);
             _coreApiMock.Verify(f => f.PutSetting(It.IsAny<string>(), It.IsAny<string>()), Times.Exactly(3));
             
-            Assert.IsTrue(registerComputeResponse);
+            Assert.IsTrue(registerComputeResponse.Success);
         }
         
         [Test]
@@ -99,7 +99,7 @@ namespace AmazonGameLiftPlugin.Editor.UnitTests
             var createFleetResult =  gameLiftFleetManager.RegisterFleetCompute(_computeName, _fleetId, _location, _ipAddress).GetAwaiter().GetResult();
             
             //Assert
-            Assert.IsFalse(createFleetResult);
+            Assert.IsFalse(createFleetResult.Success);
         }
         
         [Test]
@@ -115,7 +115,7 @@ namespace AmazonGameLiftPlugin.Editor.UnitTests
             _gameLiftWrapperMock.Verify(wrapper => wrapper.RegisterCompute(It.IsAny<RegisterComputeRequest>()), Times.Once);
             _coreApiMock.Verify(f => f.PutSetting(It.IsAny<string>(), It.IsAny<string>()), Times.Exactly(3));
             
-            Assert.IsFalse(createFleetResult);
+            Assert.IsFalse(createFleetResult.Success);
         }
 
         [Test]
@@ -131,7 +131,7 @@ namespace AmazonGameLiftPlugin.Editor.UnitTests
             _gameLiftWrapperMock.Verify(wrapper => wrapper.RegisterCompute(It.IsAny<RegisterComputeRequest>()), Times.Once);
             _coreApiMock.Verify(f => f.PutSetting(It.IsAny<string>(), It.IsAny<string>()), Times.Exactly(3));
             
-            Assert.IsFalse(createFleetResult);
+            Assert.IsFalse(createFleetResult.Success);
         }
         
         
@@ -150,7 +150,7 @@ namespace AmazonGameLiftPlugin.Editor.UnitTests
             _gameLiftWrapperMock.Verify(wrapper => wrapper.RegisterCompute(It.IsAny<RegisterComputeRequest>()), Times.Once);
             _coreApiMock.Verify(f => f.PutSetting(It.IsAny<string>(), It.IsAny<string>()), Times.Never);
             
-            Assert.IsFalse(createFleetResult);
+            Assert.IsFalse(createFleetResult.Success);
         }
     }
 }

@@ -27,11 +27,9 @@ namespace AmazonGameLift.Editor
 
         public AwsUserProfilesPage(VisualElement container, StateManager stateManager)
         {
-            
             var awsCredentials = new AwsCredentialsFactory().Create();
             CreationModel = awsCredentials.Creation;
             UpdateModel = awsCredentials.Update;
-            
             
             _container = container;
             var mVisualTreeAsset = Resources.Load<VisualTreeAsset>("EditorWindow/Pages/AwsUserProfilesPage");
@@ -97,7 +95,8 @@ namespace AmazonGameLift.Editor
             _container.Q<Button>("UserProfilePageAccountCardNoAccountButton").RegisterCallback<ClickEvent>(_ => OpenLink(""));
             _container.Q<Button>("UserProfilePageBootstrapAnotherProfileButton").RegisterCallback<ClickEvent>(_ =>
             {
-                ChangeWizard(_container.Q<VisualElement>("AddNewProfile"));
+                var targetWizard = _container.Q<VisualElement>("AddNewProfile");
+                ChangeWizard(targetWizard);
             });
             _container.Q<Button>("UserProfilePageAccountNewProfileCreateButton").RegisterCallback<ClickEvent>(_ =>
             {
@@ -148,7 +147,6 @@ namespace AmazonGameLift.Editor
             dropdownField.index = 0;
             UserProfileSelection.AccountSelection(true);
             SetupBootMenu();
-            
         }
 
         private void SetupConfigSettings()
@@ -253,7 +251,7 @@ namespace AmazonGameLift.Editor
             UpdateModel.Refresh();
         }
         
-        private void BootstrapAccount (string bucketName)
+        private void BootstrapAccount(string bucketName)
         { 
             _userProfileCreation.BootstrapAccount(bucketName);
         }
