@@ -114,11 +114,10 @@ namespace Editor.Window
             await UpdateFleetMenu();
             _fleetNameDropdownContainer.RegisterValueChangedCallback(_ =>
                 {
-                    _stateManager.SelectedFleetName = _fleetNameDropdownContainer.value;
                     var currentFleet = _fleetsList.First(fleet => fleet.Name == _fleetNameDropdownContainer.value);
                     _fleetIdText.text = currentFleet.FleetId;
                     FleetId = currentFleet.FleetId;
-                    _stateManager.CoreApi.PutSetting(SettingsKeys.SelectedFleetName, currentFleet.Name);
+                    _stateManager.SelectedFleetName = currentFleet.Name;
                 }
             );
         }

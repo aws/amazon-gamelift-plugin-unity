@@ -120,10 +120,8 @@ namespace Editor.Window
 
         private void SetupConfigSettings()
         {
-            _computeName = _stateManager.CoreApi.GetSetting(SettingsKeys.ComputeName).Value;
-            _ipAddress = _stateManager.CoreApi.GetSetting(SettingsKeys.IpAddress).Value;
-            _stateManager.SelectedProfile = _stateManager.CoreApi.GetSetting(SettingsKeys.SelectedProfile).Value;
-            _stateManager.SelectedFleetName = _stateManager.CoreApi.GetSetting(SettingsKeys.SelectedFleetName).Value;
+            _computeName = _stateManager.SelectedProfile.ComputeName;
+            _ipAddress = _stateManager.SelectedProfile.IpAddress;
         }
 
         private void PopulateComputeVisualElements()

@@ -1,8 +1,8 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using AmazonGameLift.Editor;
 using AmazonGameLiftPlugin.Core;
-using AmazonGameLiftPlugin.Core.ApiGatewayManagement;
 using AmazonGameLiftPlugin.Core.SettingsManagement.Models;
 using UnityEngine;
 using YamlDotNet.Serialization;
@@ -39,17 +39,22 @@ namespace Editor.CoreAPI
             set => SetProfile(value);
         }
 
-        public string Region => _selectedProfile.Region;
+        public string Region
+        {
+        get => _selectedProfile.Region;
+        set => _selectedProfile.Region = value;
+
+        }
 
         public IReadOnlyList<string> AllProfiles => CoreApi.ListCredentialsProfiles().Profiles.ToList();
-        
-        public bool IsBootstrapped { get; set; }
+
+        public bool IsBootstrapped => !string.IsNullOrWhiteSpace(_selectedProfile?.Name) &&
+                                      string.IsNullOrWhiteSpace(_selectedProfile?.Region) &&
+                                      string.IsNullOrWhiteSpace(_selectedProfile.BootStrappedBucket);
         
         public Action OnProfileSelected { get; set; }
         
-        public bool IsBootstrapped { get; set; }
         public string BucketName { get; set; }
-        public string Region { get; set; }
         public string SelectedFleetName { get; set; }
         public string FleetLocation { get; set; }
 
@@ -70,7 +75,6 @@ namespace Editor.CoreAPI
             {
                 var credentials = CoreApi.RetrieveAwsCredentials(profileName);
                 Region = credentials.Region;
-                IsBootstrapped = !string.IsNullOrWhiteSpace(_selectedProfile.BootStrappedBucket);
                 GameLiftWrapper = AmazonGameLiftWrapperFactory.Get(SelectedProfileName);
                 FleetManager = new GameLiftFleetManager(GameLiftWrapper);
                 ComputeManager = new GameLiftComputeManager(GameLiftWrapper);

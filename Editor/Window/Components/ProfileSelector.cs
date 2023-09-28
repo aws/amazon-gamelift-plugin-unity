@@ -26,11 +26,11 @@ namespace AmazonGameLift.Editor
 
             LocalizeText();
 
-            _stateManager = EditorWindow.GetWindow<GameLiftPlugin>().StateManager;
+            _stateManager = EditorWindow.GetWindow<GameLiftPlugin>()._stateManager;
             _stateManager.OnProfileSelected += UpdateGUI;
             _textProvider = TextProviderFactory.Create();
 
-            _dropdown.RegisterValueChangedCallback(value => { _stateManager.SelectedProfile = value.newValue; });
+            _dropdown.RegisterValueChangedCallback(value => { _stateManager.SelectedProfileName = value.newValue; });
             UpdateGUI();
         }
 
@@ -38,7 +38,7 @@ namespace AmazonGameLift.Editor
         {
             var profiles = _stateManager.CoreApi.ListCredentialsProfiles().Profiles.ToList();
             _dropdown.choices = profiles;
-            _dropdown.SetValueWithoutNotify(_stateManager.SelectedProfile);
+            _dropdown.SetValueWithoutNotify(_stateManager.SelectedProfile.Name);
             _region.text = _stateManager.Region;
             if (_stateManager.IsBootstrapped)
             {
