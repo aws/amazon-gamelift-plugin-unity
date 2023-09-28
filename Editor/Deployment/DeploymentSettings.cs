@@ -172,15 +172,10 @@ namespace AmazonGameLift.Editor
         {
             var deployers = _scenarioLocator.GetScenarios().ToList();
             _deployers.Clear();
-            for (int i = 0; i < deployers.Count(); i++)
+            for (var i = 0; i < deployers.Count; i++)
             {
-                var exists = Enum.IsDefined(typeof(DeploymentScenarios), i);
-                if (exists)
-                {
-                    _deployers[(DeploymentScenarios)i] = deployers[i];
-                }
+                _deployers.Add((DeploymentScenarios)i, deployers[i]);
             }
-
             AllScenarios = _deployers.Values.Select(deployer => deployer.DisplayName).ToArray();
             GetSettingResponse bucketNameResponse = _coreApi.GetSetting(SettingsKeys.CurrentBucketName);
             CurrentBucketName = bucketNameResponse.Success ? bucketNameResponse.Value : null;
