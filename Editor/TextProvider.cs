@@ -204,7 +204,7 @@ namespace AmazonGameLift.Editor
             { Strings.UserProfilePageAccountCardHasAccountButton, "Create a New Profile"},
             { Strings.UserProfilePageAccountNewProfileTitle, "Create a New Profile"},
             { Strings.UserProfilePageAccountNewProfileName, "Profile name"},
-            { Strings.UserProfilePageAccountNewProfileAccessKey, "AWS access key ID"},
+            { Strings.UserProfilePageAccountNewProfileAccessKeyInput, "AWS access key ID"},
             { Strings.UserProfilePageAccountNewProfileSecretKeyInput, "AWS secret key"},
             { Strings.UserProfilePageAccountNewProfileRegion, "AWS Region"},
             { Strings.UserProfilePageAccountNewProfileRegionPlaceholderDropdown, "Choose a region"},

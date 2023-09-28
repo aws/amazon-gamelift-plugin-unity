@@ -38,12 +38,12 @@
                     <ui:TextField name="AWSAccountProfile" class="form-row__input text-input"/>
                 </ui:VisualElement>
                 <ui:VisualElement name="AccessID" class="form-row">
-                    <ui:Label name="UserProfilePageAccountNewProfileAccessKey" text="AWS Access Key" class="form-row__label"/>
+                    <ui:Label name="UserProfilePageAccountNewProfileAccessKeyInput" text="AWS Access Key" class="form-row__label"/>
                     <ui:TextField name="AccessKeyField" class="form-row__input text-input" password="true"/>
                     <ui:Button name="AccessKeyToggleReveal" class="button" text="Show"/>
                 </ui:VisualElement>
                 <ui:VisualElement name="SecretKey" class="form-row">
-                    <ui:Label name="UserProfilePageAccountNewProfileSecretKey" class="form-row__label" text="AWS Secret Key"/>
+                    <ui:Label name="UserProfilePageAccountNewProfileSecretKeyInput" class="form-row__label" text="AWS Secret Key"/>
                     <ui:TextField name="SecretKeyField" class="form-row__input  text-input" password="true"/>
                     <ui:Button name="SecretKeyToggleReveal" class="button" text="Show"/>
                 </ui:VisualElement>
