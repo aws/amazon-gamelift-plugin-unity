@@ -1,4 +1,5 @@
-﻿using AmazonGameLift.Editor;
+﻿using System;
+using AmazonGameLift.Editor;
 using AmazonGameLiftPlugin.Core;
 
 namespace Editor.CoreAPI
@@ -19,7 +20,19 @@ namespace Editor.CoreAPI
             get => GetSetting(SettingsKeys.CurrentProfileName);
             set => SetProfile(value);
         }
-
+        
+        public string BucketName
+        {
+            get => GetSetting(SettingsKeys.CurrentProfileName);
+            set => SetProfile(value);
+        }
+        
+        public string Region
+        {
+            get => GetSetting(SettingsKeys.CurrentProfileName);
+            set => SetProfile(value);
+        }
+        
         public string SelectedFleetName
         {
             get => GetSetting(SettingsKeys.FleetName);
@@ -56,6 +69,11 @@ namespace Editor.CoreAPI
             set => PutSetting(SettingsKeys.WebSocketUrl, value);
         }
 
+        public bool IsBootstrapped => !string.IsNullOrWhiteSpace(SelectedProfile) &&
+                                      !string.IsNullOrWhiteSpace(Region) & !string.IsNullOrWhiteSpace(BucketName);
+        
+        public Action OnProfileSelected { get; set; }
+
         public StateManager(CoreApi coreApi)
         {
             CoreApi = coreApi;
@@ -66,11 +84,14 @@ namespace Editor.CoreAPI
 
         private void SetProfile(string profileName)
         {
-            if (string.IsNullOrWhiteSpace(profileName)) return;
-            PutSetting(SettingsKeys.CurrentProfileName, profileName);
+            if (string.IsNullOrWhiteSpace(profileName) || profileName == SelectedProfile) return;
+            SelectedProfile = profileName;
+            var credentials = CoreApi.RetrieveAwsCredentials(profileName);
+            Region = credentials.Region;
             GameLiftWrapper = AmazonGameLiftWrapperFactory.Get(SelectedProfile);
             FleetManager = new GameLiftFleetManager(CoreApi, GameLiftWrapper);
             ComputeManager = new GameLiftComputeManager(CoreApi, GameLiftWrapper);
+            OnProfileSelected?.Invoke();
         }
 
         private string GetSetting(string key) => CoreApi.GetSetting(key).Value;

@@ -62,9 +62,6 @@ namespace Editor.CoreAPI
             }
             catch (Exception ex)
             {
-                var errorBox = _container.Q<VisualElement>("ComputeErrorInfoBox");
-                errorBox.style.display = DisplayStyle.Flex;
-                errorBox.Q<Label>().text = ex.Message;
                 Debug.Log(ex.Message);
                 return null;
             }

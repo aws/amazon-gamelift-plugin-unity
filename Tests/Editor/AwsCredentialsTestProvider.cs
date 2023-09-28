@@ -11,7 +11,7 @@ namespace AmazonGameLiftPlugin.Editor.UnitTests
         
         private readonly TextProvider _textProvider = TextProviderFactory.Create();
 
-        public AwsCredentials GetAwsCredentialsWithStubComponents(CoreApi coreApi)
+        internal AwsCredentials GetAwsCredentialsWithStubComponents(CoreApi coreApi)
         {
             var regionMock = new Mock<RegionBootstrap>(coreApi);
             regionMock.Setup(target => target.Refresh())
