@@ -21,7 +21,7 @@ namespace AmazonGameLift.SingleFleet
 
         public override string HelpUrl => "https://docs.aws.amazon.com/gamelift/latest/developerguide/unity-plug-in-scenario.html";
 
-        public override string ScenarioFolder => "scenario2_single_fleet";
+        public override string ScenarioFolder => "scenario1_single_fleet";
 
         public override bool HasGameServer => true;
 

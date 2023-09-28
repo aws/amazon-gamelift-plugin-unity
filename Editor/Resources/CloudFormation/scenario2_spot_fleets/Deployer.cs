@@ -20,7 +20,7 @@ namespace AmazonGameLift.SpotFleets
 
         public override string HelpUrl => "https://docs.aws.amazon.com/gamelift/latest/developerguide/unity-plug-in-scenario.html";
 
-        public override string ScenarioFolder => "scenario4_spot_fleets";
+        public override string ScenarioFolder => "scenario2_spot_fleets";
 
         public override bool HasGameServer => true;
 

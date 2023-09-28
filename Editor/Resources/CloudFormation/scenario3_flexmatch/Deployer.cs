@@ -21,7 +21,7 @@ namespace AmazonGameLift.FlexMatch
 
         public override string HelpUrl => "https://docs.aws.amazon.com/gamelift/latest/developerguide/unity-plug-in-scenario.html";
 
-        public override string ScenarioFolder => "scenario5_flexmatch";
+        public override string ScenarioFolder => "scenario3_flexmatch";
 
         public override bool HasGameServer => true;
 
