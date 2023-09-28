@@ -869,7 +869,7 @@ namespace AmazonGameLiftPlugin.Editor.UnitTests
                 DeploymentSettings underTest = GetUnitUnderTest(scenarioLocatorMock, coreApi: coreApiMock);
 
                 underTest.Refresh();
-                underTest.Scenario = 0;
+                underTest.Scenario = DeploymentScenarios.SingleRegion;
                 underTest.GameName = testGameName;
                 underTest.BuildFolderPath = testBuildFolderPath;
                 underTest.BuildFilePath = testBuildFilePath;
@@ -999,7 +999,7 @@ namespace AmazonGameLiftPlugin.Editor.UnitTests
                 DeploymentSettings underTest = GetUnitUnderTest(coreApi: coreApiMock);
 
                 underTest.Refresh();
-                underTest.Scenario = 0;
+                underTest.Scenario = DeploymentScenarios.SingleRegion;
 
                 bool isEventRaised = false;
                 underTest.CurrentStackInfoChanged += () =>
@@ -1030,7 +1030,7 @@ namespace AmazonGameLiftPlugin.Editor.UnitTests
                 DeploymentSettings underTest = GetUnitUnderTest(coreApi: coreApiMock);
 
                 underTest.Refresh();
-                underTest.Scenario = 0;
+                underTest.Scenario = DeploymentScenarios.SingleRegion;
                 await underTest.SetGameNameAsync(testGameName);
 
                 bool isEventRaised = false;
@@ -1077,7 +1077,7 @@ namespace AmazonGameLiftPlugin.Editor.UnitTests
                 DeploymentSettings underTest = GetUnitUnderTest(coreApi: coreApiMock);
 
                 underTest.Refresh();
-                underTest.Scenario = 0;
+                underTest.Scenario = DeploymentScenarios.SingleRegion;
 
                 // Act
                 await underTest.SetGameNameAsync(testGameName);
@@ -1278,7 +1278,7 @@ namespace AmazonGameLiftPlugin.Editor.UnitTests
                 DeploymentSettings underTest = GetUnitUnderTest(coreApi: coreApiMock);
 
                 underTest.Refresh();
-                underTest.Scenario = 0;
+                underTest.Scenario = DeploymentScenarios.SingleRegion;
 
                 // Act
                 await underTest.SetGameNameAsync(testGameName);
