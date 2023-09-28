@@ -1,4 +1,6 @@
 ﻿using System;
+using System.Collections.Generic;
+using System.Linq;
 using AmazonGameLift.Editor;
 using AmazonGameLiftPlugin.Core;
 
@@ -69,6 +71,15 @@ namespace Editor.CoreAPI
             set => PutSetting(SettingsKeys.WebSocketUrl, value);
         }
 
+        public List<string> AllProfiles
+        {
+            get
+            {
+                var profilesResponse = CoreApi.ListCredentialsProfiles();
+                return profilesResponse.Success ? profilesResponse.Profiles.ToList() : new List<string>();
+            }
+        }
+
         public bool IsBootstrapped => !string.IsNullOrWhiteSpace(SelectedProfile) &&
                                       !string.IsNullOrWhiteSpace(Region) & !string.IsNullOrWhiteSpace(BucketName);
 
@@ -78,8 +89,7 @@ namespace Editor.CoreAPI
         {
             CoreApi = coreApi;
             AmazonGameLiftWrapperFactory = new AmazonGameLiftWrapperFactory(coreApi);
-
-            SetProfile(coreApi.GetSetting(SettingsKeys.CurrentProfileName).Value);
+            SetProfile(SelectedProfile);
         }
 
         private void SetProfile(string profileName)
