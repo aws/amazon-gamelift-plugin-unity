@@ -49,7 +49,7 @@
                 </ui:VisualElement>
                 <ui:VisualElement name="BootstrapStatus" class="form-row">
                     <ui:Label name="UserProfilePageAccountNewProfileRegion" class="form-row__label" text="AWS Region"/>
-                    <ui:DropdownField name="DropdownField" tooltip="Choose a region" class="form-row__input dropdown"/>
+                    <ui:DropdownField name="UserProfilePageAccountNewProfileRegionDropdown" tooltip="Choose a region" class="form-row__input dropdown"/>
                 </ui:VisualElement>
             </ui:VisualElement>
             <ui:VisualElement class="separator separator--horizontal">

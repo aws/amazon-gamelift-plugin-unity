@@ -66,14 +66,12 @@ namespace AmazonGameLift.Editor
 
         public bool CreateUserProfile()
         {
-            _profilesPage.AccountDetailTextFields = _container.Query<TextField>(null, "AccountDetailsInput").ToList();
-           var dropdownField = _container.Q<DropdownField>("AccountProfileDropdown");
-          
+           var dropdownField = _container.Q<DropdownField>("UserProfilePageAccountNewProfileRegionDropdown");
            var credentials = _profilesPage.AccountDetailTextFields.Select(textField => textField.value).ToList();
           
            if (credentials.Any(credential => credential == ""))
            {
-               return false;
+               return false; 
            }
                           
             _profilesPage.CreationModel.ProfileName = credentials[0];
@@ -81,6 +79,7 @@ namespace AmazonGameLift.Editor
             _profilesPage.CreationModel.SecretKey = credentials[2];
             _profilesPage.CreationModel.RegionBootstrap.RegionIndex = dropdownField.index;
             _profilesPage.CreationModel.Create();
+            
             return true;
         }
         

@@ -35,22 +35,26 @@ namespace AmazonGameLift.Editor
             var uxml = mVisualTreeAsset.Instantiate();
 
             _container.Add(uxml);
-            ApplyText();
+            LocalizeText();
 
             _stateManager = stateManager;
+            CreationModel.OnCreated += () => _stateManager.SelectedProfile = CreationModel.ProfileName;
             _stateManager.OnProfileSelected += UpdateModel.Update;
             
             _userProfileCreation = new UserProfileCreation(_container, _stateManager, this);
             BootstrapSettings = _userProfileCreation.SetupBootstrap();
-            
+                
             SetupConfigSettings();
             RefreshProfiles();
+
+            container.Q<DropdownField>("UserProfilePageAccountNewProfileRegionDropdown").choices =
+                _stateManager.CoreApi.ListAvailableRegions().ToList();
             
             SetupTab();
             SetupButtonCallbacks();
         }
         
-        private void ApplyText()
+        private void LocalizeText()
         {
             var l = new ElementLocalizer(_container);
             l.SetElementText("UserProfilePageAccountCardNewAccountTitle", Strings.UserProfilePageAccountCardNewAccountTitle);
@@ -168,6 +172,7 @@ namespace AmazonGameLift.Editor
             newProfileMenu.AddToClassList(hiddenClassName);
             bootStrapMenu.AddToClassList(hiddenClassName);
             completedMenu.AddToClassList(hiddenClassName);
+            AccountDetailTextFields = newProfileMenu.Query<TextField>().ToList();
             switch (_stateManager.AllProfiles.Count)
             {
                 case 0:

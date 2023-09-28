@@ -127,7 +127,7 @@ namespace Editor.Window
         {
             if (_stateManager.GameLiftWrapper != null)
             {
-                _fleetsList = await _fleetManager.ListFleetAttributes();
+                _fleetsList = await _fleetManager.ListFleetAttributes() ?? new List<FleetAttributes>();
                 s_fleetNameList.Clear();
                 _fleetsList.ForEach(fleet => s_fleetNameList.Add(fleet.Name));
                 _fleetNameDropdownContainer.choices = s_fleetNameList;
