@@ -145,7 +145,7 @@ namespace AmazonGameLift.Editor
         {
             var dropdownField = _container.Q<DropdownField>( "UserProfilePageBootstrapProfileDropdown");
             dropdownField.index = 0;
-            UserProfileSelection.AccountSelection(true);
+            UserProfileSelection.SelectProfile(true);
             SetupBootMenu();
         }
 
@@ -209,11 +209,11 @@ namespace AmazonGameLift.Editor
 
         private bool SaveProfile()
         {
-            if (!_userProfileCreation.CreateModel())
+            if (!_userProfileCreation.CreateUserProfile())
             {
                 return false;
             }
-            UserProfileSelection.AccountSelection(false);
+            UserProfileSelection.SelectProfile(false);
             Debug.Log("Saving Profile");
             return true;
         }

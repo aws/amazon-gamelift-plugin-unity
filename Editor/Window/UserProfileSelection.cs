@@ -24,39 +24,39 @@ namespace AmazonGameLift.Editor
             _bootstrapSettings = profilesPage.BootstrapSettings;
         }
 
-        private void BucketSelection()
+        private void SelectBucket()
         {
             _refreshBucketsCancellation = new CancellationTokenSource();
             _ = _bootstrapSettings.RefreshExistingBuckets(_refreshBucketsCancellation.Token);
             if (_bootstrapSettings.BucketName != null)
             {
-                BucketSelection(_bootstrapSettings.BucketName);
+                SelectBucket(_bootstrapSettings.BucketName);
                 _bootstrapSettings.SaveSelectedBucket();
             }
         }
 
-        public void BucketSelection(string selectedBucket)
+        public void SelectBucket(string selectedBucket)
         {
             _bootstrapSettings.SelectBucket(selectedBucket);
             _bootstrapSettings.SaveSelectedBucket();
             _container.Q<Label>("S3BucketNameLabel").text = selectedBucket;
         }
 
-        public void AccountSelection(bool isSetup)
+        public void SelectProfile(bool isSetup)
         {
             _awsUserProfilesPage.RefreshProfiles();
-            var accountSelectFields = _container.Query<DropdownField>(null,"AccountSelection").ToList();
-            foreach (var accountSelect in accountSelectFields)
+            var allProfileSelectFields = _container.Query<DropdownField>(null,"AccountSelection").ToList();
+            foreach (var profileSelectDropdownField in allProfileSelectFields)
             {
                 if (isSetup)
                 {
-                    accountSelect.RegisterValueChangedCallback(_ => { OnAccountSelect(accountSelect.index); });
+                    profileSelectDropdownField.RegisterValueChangedCallback(_ => { OnAccountSelect(profileSelectDropdownField.index); });
                 }
                 
-                accountSelect.choices = _awsUserProfilesPage.UpdateModel.AllProlfileNames.ToList();
-                if (accountSelect.choices.Contains("default"))
+                profileSelectDropdownField.choices = _awsUserProfilesPage.UpdateModel.AllProlfileNames.ToList();
+                if (profileSelectDropdownField.choices.Contains("default"))
                 {
-                    accountSelect.index = accountSelect.choices.IndexOf(_stateManager.SelectedProfile is "default" or null ? "default" : _stateManager.SelectedProfile);
+                    profileSelectDropdownField.index = profileSelectDropdownField.choices.IndexOf(_stateManager.SelectedProfile is "default" or null ? "default" : _stateManager.SelectedProfile);
                 }
             }
             
@@ -65,7 +65,7 @@ namespace AmazonGameLift.Editor
         private void OnAccountSelect(int index)
         {
             var accountSelectLabels = _container.Query<Label>(null, "AccountSelectLabel").ToList();
-            BucketSelection();
+            SelectBucket();
             foreach (var label in accountSelectLabels)
             {
                 switch (label.name)
