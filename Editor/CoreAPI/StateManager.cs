@@ -145,7 +145,7 @@ namespace Editor.CoreAPI
             OnProfileSelected?.Invoke();
         }
 
-        private void RefreshProfiles()
+        public void RefreshProfiles()
         {
             var profiles = CoreApi.GetSetting(SettingsKeys.UserProfiles).Value;
             if (string.IsNullOrWhiteSpace(profiles))
@@ -157,6 +157,12 @@ namespace Editor.CoreAPI
                 _allProfiles = _deserializer.Deserialize<List<UserProfile>>(profiles);
             }
         } 
+
+        public PutSettingResponse SaveProfiles()
+        {
+            var profiles = _serializer.Serialize(_allProfiles);
+            return CoreApi.PutSetting(SettingsKeys.UserProfiles, profiles);
+        }
 
         public void SetBucketBootstrap(string bucketName)
         {
