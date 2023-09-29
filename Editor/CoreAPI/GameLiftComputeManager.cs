@@ -3,9 +3,7 @@ using System.Net;
 using System.Threading.Tasks;
 using Amazon.GameLift.Model;
 using Amazon.Runtime.Internal;
-using AmazonGameLift.Editor;
 using AmazonGameLiftPlugin.Core;
-using AmazonGameLiftPlugin.Core.ApiGatewayManagement;
 using UnityEngine;
 using UnityEngine.UIElements;
 
@@ -13,16 +11,13 @@ namespace Editor.CoreAPI
 {
     public class GameLiftComputeManager
     {
-        private readonly CoreApi _coreApi;
         private readonly IAmazonGameLiftWrapper _amazonGameLiftWrapper;
-        private string _fleetName;
-        private string _fleetId;
         private VisualElement _container;
         private ErrorResponse _logger;
+        private StateManager _stateManager;
 
-        public GameLiftComputeManager(CoreApi coreApi, IAmazonGameLiftWrapper wrapper)
+        public GameLiftComputeManager(IAmazonGameLiftWrapper wrapper)
         {
-            _coreApi = coreApi;
             _amazonGameLiftWrapper = wrapper;
         }
 
@@ -32,13 +27,14 @@ namespace Editor.CoreAPI
             var webSocketUrl = await RegisterCompute(computeName, fleetId, fleetLocation, ipAddress);
             if (webSocketUrl != null)
             {
-                var computeNameResponse = _coreApi.PutSetting(SettingsKeys.ComputeName, computeName);
-                var ipAddressResponse = _coreApi.PutSetting(SettingsKeys.IpAddress, ipAddress);
-                var webSocketResponse = _coreApi.PutSetting(SettingsKeys.WebSocketUrl, webSocketUrl);
+                _stateManager.SelectedProfile.ComputeName = computeName;
+                _stateManager.SelectedProfile.IpAddress = ipAddress;
+                _stateManager.SelectedProfile.WebSocketUrl = webSocketUrl;
+                
+                var profileSaveResponse = _stateManager.SaveProfiles();
 
-                return computeNameResponse.Success && ipAddressResponse.Success && webSocketResponse.Success;
+                return profileSaveResponse.Success;
             }
-
             return false;
         }
 

@@ -47,7 +47,7 @@ namespace AmazonGameLift.Editor
             _root.Add(uxml);
 
             LocalizeText();
-
+            
             var tabContentContainer = _root.Q(className: MainContentClassName);
             var landingPage = new LandingPage(CreateContentContainer(Pages.Landing, tabContentContainer));
             var credentialsPage = new AwsUserProfilesPage(CreateContentContainer(Pages.Credentials, tabContentContainer), _stateManager);
