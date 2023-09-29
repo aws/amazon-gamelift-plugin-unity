@@ -25,11 +25,12 @@ namespace Editor.CoreAPI
         private const string FleetDescription = "Deployed by the Amazon GameLift Plug-in for Unity.";
         private VisualElement _container;
         private ErrorResponse _logger;
-        private StateManager _stateManager;
+        private readonly StateManager _stateManager;
 
-        public GameLiftFleetManager(IAmazonGameLiftWrapper wrapper)
+        public GameLiftFleetManager(IAmazonGameLiftWrapper amazonGameLiftWrapper, StateManager stateManager)
         {
-            _amazonGameLiftWrapper = wrapper;
+            _amazonGameLiftWrapper = amazonGameLiftWrapper;
+            _stateManager = stateManager;
         }
 
         public async Task<Response> CreateAnywhereFleet(string fleetName)
@@ -40,19 +41,23 @@ namespace Editor.CoreAPI
                 if (success)
                 {
                     var fleetId = await CreateFleet(ComputeType.ANYWHERE, FleetLocation, fleetName);
+                    if (fleetId == null)
+                    {
+                        return Response.Fail(new GenericResponse("DUN FUCKED UP"));
+                    }
 
                     _stateManager.SelectedProfile.FleetName = fleetName;
                     _stateManager.SelectedProfile.FleetId = fleetId;
-                
+
                     var profileSaveResponse = _stateManager.SaveProfiles();
-                    
+
                     return Response.Ok(profileSaveResponse);
                 }
 
                 return Response.Fail(new GenericResponse(ErrorCode.CustomLocationCreationFailed));
             }
 
-            return Response.Fail(new GenericResponse(ErrorCode.AccountProfileMissing));
+            return Response.Fail(new GenericResponse(ErrorCode.AccountProfileMissing)); 
         }
 
         private async Task<bool> CreateCustomLocationIfNotExists(string fleetLocation)
@@ -61,11 +66,12 @@ namespace Editor.CoreAPI
             {
                 var listLocationsResponse = await _amazonGameLiftWrapper.ListLocations(new ListLocationsRequest
                 {
-                    Filters = new List<string> { "CUSTOM" }
+                    Filters = new List<string> { "CUSTOM" },
                 });
 
                 var foundLocation =
-                    listLocationsResponse.Locations.FirstOrDefault(l => l.LocationName.ToString() == fleetLocation);
+                    listLocationsResponse.Locations.FirstOrDefault(l =>
+                        l.LocationName.ToString() == fleetLocation);
 
                 if (foundLocation == null)
                 {
@@ -124,9 +130,9 @@ namespace Editor.CoreAPI
             }
             catch (Exception ex)
             {
-                var errorBox = _container.Q<VisualElement>("FleetErrorInfoBox");
-                errorBox.style.display = DisplayStyle.Flex;
-                errorBox.Q<Label>().text = ex.Message;
+                // var errorBox = _container.Q<VisualElement>("FleetErrorInfoBox");
+                // errorBox.style.display = DisplayStyle.Flex;
+                // errorBox.Q<Label>().text = ex.Message;
                 Debug.Log(ex.Message);
                 return null;
             }

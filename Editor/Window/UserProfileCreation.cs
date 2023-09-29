@@ -33,12 +33,10 @@ namespace AmazonGameLift.Editor
             if (bucketResponse.Success)
             {
                 // _container.Q<VisualElement>(null, "Tab2Success").style.display = DisplayStyle.Flex;
-                _stateManager.IsBootstrapped = true;
                 _stateManager.SetBucketBootstrap(bucketName);
             }
             else
             {
-                _stateManager.IsBootstrapped = false;
                 // var errorBox = _container.Q<VisualElement>("Tab2Error");
                 // errorBox.style.display = DisplayStyle.Flex;
                 // errorBox.Q<Label>().text = bucketResponse.ErrorMessage;

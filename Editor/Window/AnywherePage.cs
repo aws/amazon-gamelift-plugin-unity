@@ -23,7 +23,7 @@ namespace Editor.Window
             var fleetInput =
                 new ConnectToFleetInput(container, stateManager, ConnectToFleetInput.FleetStatus.NotCreated);
             var computeInput =
-                new RegisterComputeInput(container, stateManager, fleetInput,
+                new RegisterComputeInput(container, stateManager,
                     RegisterComputeInput.ComputeStatus.NotRegistered);
         }
 

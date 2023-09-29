@@ -22,7 +22,9 @@ namespace Editor.CoreAPI
 
         private UserProfile _selectedProfile;
         private List<UserProfile> _allProfiles;
-        
+        private readonly ISerializer _serializer = new SerializerBuilder().Build();
+        private readonly IDeserializer _deserializer = new DeserializerBuilder().Build();
+
         public UserProfile SelectedProfile => _selectedProfile;
 
         public string SelectedProfileName
@@ -39,27 +41,51 @@ namespace Editor.CoreAPI
             set => SetProfile(value);
         }
 
+        public string FleetName
+        {
+            get => _selectedProfile.FleetName;
+            set
+            {
+                _selectedProfile.FleetName = value;
+                SaveProfiles();
+            }
+        }
+
+        public string FleetId
+        {
+            get => _selectedProfile.FleetId;
+            set
+            {
+                _selectedProfile.FleetId = value;
+                SaveProfiles();
+            }
+        }
+
         public string Region
         {
-        get => _selectedProfile.Region;
-        set => _selectedProfile.Region = value;
-
+            get => _selectedProfile.Region;
+            set => _selectedProfile.Region = value;
         }
 
         public IReadOnlyList<string> AllProfiles => CoreApi.ListCredentialsProfiles().Profiles.ToList();
 
         public bool IsBootstrapped => !string.IsNullOrWhiteSpace(_selectedProfile?.Name) &&
                                       !string.IsNullOrWhiteSpace(_selectedProfile?.Region) &&
-                                      !string.IsNullOrWhiteSpace(_selectedProfile.BootStrappedBucket);
-        
+                                      !string.IsNullOrWhiteSpace(_selectedProfile?.BootStrappedBucket);
+
         public Action OnProfileSelected { get; set; }
         public Action OnBucketBootstrapped { get; set; }
-        
-        public string BucketName { get; set; }
-        public string SelectedFleetName { get; set; }
-        public string FleetLocation { get; set; }
 
-        
+        public string BucketName
+        {
+            get => _selectedProfile.BootStrappedBucket;
+            set
+            {
+                _selectedProfile.BootStrappedBucket = value;
+                SaveProfiles();
+            }
+        }
+
         public StateManager(CoreApi coreApi)
         {
             CoreApi = coreApi;
@@ -73,33 +99,41 @@ namespace Editor.CoreAPI
             if (string.IsNullOrWhiteSpace(profileName) || profileName == SelectedProfileName) return;
 
             _selectedProfile = _allProfiles.FirstOrDefault(profile => profile.Name == profileName);
-            if (_selectedProfile != null)
-            {
-                var credentials = CoreApi.RetrieveAwsCredentials(profileName);
-                Region = credentials.Region;
-                GameLiftWrapper = AmazonGameLiftWrapperFactory.Get(SelectedProfileName);
-                FleetManager = new GameLiftFleetManager(GameLiftWrapper);
-                ComputeManager = new GameLiftComputeManager(GameLiftWrapper);
-                OnProfileSelected?.Invoke();
-            }
-            else
+            if (_selectedProfile == null)
             {
                 Debug.Log("test user");
-                _selectedProfile = new UserProfile();
+                _selectedProfile = new UserProfile()
+                {
+                    Name = profileName,
+                };
+                _allProfiles.Add(_selectedProfile);
+                SaveProfiles();
             }
+
+            var credentials = CoreApi.RetrieveAwsCredentials(profileName);
+            Region = credentials.Region; 
+            GameLiftWrapper = AmazonGameLiftWrapperFactory.Get(SelectedProfileName);
+            FleetManager = new GameLiftFleetManager(GameLiftWrapper, this);
+            ComputeManager = new GameLiftComputeManager(GameLiftWrapper);
+            OnProfileSelected?.Invoke(); 
         }
 
         public void RefreshProfiles()
         {
             var profiles = CoreApi.GetSetting(SettingsKeys.UserProfiles).Value;
-            var deserializer = new DeserializerBuilder().Build();
-            _allProfiles = deserializer.Deserialize<List<UserProfile>>(profiles);
+            if (string.IsNullOrWhiteSpace(profiles))
+            {
+                _allProfiles = new List<UserProfile>();
+            }
+            else
+            {
+                _allProfiles = _deserializer.Deserialize<List<UserProfile>>(profiles);
+            }
         }
 
         public PutSettingResponse SaveProfiles()
         {
-            var serializer = new SerializerBuilder().Build();
-            var profiles = serializer.Serialize(_allProfiles);
+            var profiles = _serializer.Serialize(_allProfiles);
             return CoreApi.PutSetting(SettingsKeys.UserProfiles, profiles);
         }
 

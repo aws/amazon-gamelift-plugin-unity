@@ -21,17 +21,15 @@ namespace Editor.Window
         private readonly VisualElement _computeStatus;
         private readonly VisualElement _container;
         private readonly GameLiftComputeManager _computeManager;
-        private readonly ConnectToFleetInput _fleetDetails;
         private readonly StateManager _stateManager;
 
         private string _computeName = "ComputerName-ProfileName";
         private string _ipAddress = "120.120.120.120";
         private string _location = "custom-location-1";
 
-        public RegisterComputeInput(VisualElement container, StateManager stateManager, ConnectToFleetInput  fleetDetails, ComputeStatus initialState)
+        public RegisterComputeInput(VisualElement container, StateManager stateManager, ComputeStatus initialState)
         {
             _computeState = initialState;
-            _fleetDetails = fleetDetails;
             _stateManager = stateManager;
             _computeManager = stateManager.ComputeManager;
             _computeNameInput = container.Q<TextField>("AnywherePageComputeNameInput");
@@ -72,7 +70,7 @@ namespace Editor.Window
         {
             if (_computeState is ComputeStatus.NotRegistered or ComputeStatus.Registering)
             {
-                var success = await _computeManager.RegisterFleetCompute(_computeName, _fleetDetails.FleetId, _location, _ipAddress);
+                var success = await _computeManager.RegisterFleetCompute(_computeName, _stateManager.SelectedProfile.FleetId, _location, _ipAddress);
                 if (success)
                 {
                     _computeState = ComputeStatus.Registered;

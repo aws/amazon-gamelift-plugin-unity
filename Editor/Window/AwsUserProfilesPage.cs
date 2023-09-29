@@ -38,7 +38,7 @@ namespace AmazonGameLift.Editor
             LocalizeText();
 
             _stateManager = stateManager;
-            CreationModel.OnCreated += () => _stateManager.SelectedProfile = CreationModel.ProfileName;
+            CreationModel.OnCreated += () => _stateManager.SelectedProfileName = CreationModel.ProfileName;
             _stateManager.OnProfileSelected += UpdateModel.Update;
             
             _userProfileCreation = new UserProfileCreation(_container, _stateManager, this);
@@ -156,8 +156,8 @@ namespace AmazonGameLift.Editor
 
         private void SetupConfigSettings()
         {
-            var selectedProfile = _stateManager.CoreApi.GetSetting(SettingsKeys.CurrentProfileName);
-            _stateManager.SelectedProfile = selectedProfile.Success ? selectedProfile.Value : _stateManager.AllProfiles.First();
+            // var selectedProfile = _stateManager.CoreApi.GetSetting(SettingsKeys.CurrentProfileName);
+            // _stateManager.SelectedProfileName = selectedProfile.Success ? selectedProfile.Value : _stateManager.AllProfiles.First();
         }
 
         private void SetupBootMenu()
