@@ -111,9 +111,9 @@ namespace AmazonGameLiftPlugin.Editor.UnitTests
             return testProfiles;
         }
 
-        internal static void SetUpCoreApiWithSetting(this Mock<CoreApi> coreApiMock, string key, bool success, string successResult)
+        internal static void SetUpCoreApiWithSetting(this Mock<CoreApi> coreApiMock, SettingsKeys key, bool success, string successResult)
         {
-            var response = new GetSettingResponse() { Value = successResult };
+            var response = new GetSettingResponse() { Value = success ? successResult : null };
             response = success ? Response.Ok(response) : Response.Fail(response);
             coreApiMock.Setup(target => target.GetSetting(key))
                 .Returns(response);
