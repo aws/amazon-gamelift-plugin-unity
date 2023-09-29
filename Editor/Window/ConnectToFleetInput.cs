@@ -50,8 +50,8 @@ namespace Editor.Window
                 var response = await _fleetManager?.CreateAnywhereFleet(fleetName)!;
                 if (response.Success)
                 {
-                    _stateManager.SelectedProfile.FleetName = response.FleetName;
-                    _stateManager.SelectedProfile.FleetId = response.FleetId;
+                    _stateManager.SelectedProfile.AnywhereFleetName = response.FleetName;
+                    _stateManager.SelectedProfile.AnywhereFleetId = response.FleetId;
                     await UpdateFleetMenu();
                     _fleetNameDropdownContainer.value = fleetName;
                     _fleetState = FleetStatus.Selected;
@@ -86,8 +86,8 @@ namespace Editor.Window
         {
             var currentFleet = _fleetsList.First(fleet => fleet.Name == fleetName);
             _fleetIdText.text = currentFleet.FleetId;
-            _stateManager.FleetName = currentFleet.Name;
-            _stateManager.FleetId = currentFleet.FleetId;
+            _stateManager.AnywhereFleetName = currentFleet.Name;
+            _stateManager.AnywhereFleetId = currentFleet.FleetId;
 
             _fleetState = FleetStatus.Selected;
 
@@ -122,8 +122,8 @@ namespace Editor.Window
             {
                 _fleetsList = await _fleetManager.ListFleetAttributes() ?? new List<FleetAttributes>();
                 _fleetNameDropdownContainer.choices = _fleetsList.Select(fleet => fleet.Name).ToList();
-                _fleetNameDropdownContainer.value = _stateManager.FleetName;
-                _fleetIdText.text = _stateManager.FleetId;
+                _fleetNameDropdownContainer.value = _stateManager.AnywhereFleetName;
+                _fleetIdText.text = _stateManager.AnywhereFleetId;
             }
         }
 
@@ -131,7 +131,7 @@ namespace Editor.Window
         {
             await UpdateFleetMenu();
 
-            if (_fleetsList.Count >= 1 && string.IsNullOrWhiteSpace(_stateManager.FleetName))
+            if (_fleetsList.Count >= 1 && string.IsNullOrWhiteSpace(_stateManager.AnywhereFleetName))
             {
                 _fleetState = FleetStatus.Selecting;
             }

@@ -79,7 +79,7 @@ namespace Editor.Window
             if (_computeState is ComputeStatus.NotRegistered or ComputeStatus.Registering)
             {
                 var response = await _computeManager.RegisterFleetCompute(_computeName,
-                    _stateManager.SelectedProfile.FleetId, _location, _ipAddress);
+                    _stateManager.SelectedProfile.AnywhereFleetId, _location, _ipAddress);
                 if (response.Success)
                 {
                     _stateManager.ComputeName = response.ComputeName;
@@ -175,7 +175,7 @@ namespace Editor.Window
                 }
             }
 
-            _container.SetEnabled(_stateManager.IsBootstrapped && !string.IsNullOrWhiteSpace(_stateManager.FleetId));
+            _container.SetEnabled(_stateManager.IsBootstrapped && !string.IsNullOrWhiteSpace(_stateManager.AnywhereFleetId));
         }
 
         public enum ComputeStatus

@@ -5,6 +5,7 @@ using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 using AmazonGameLift.Editor;
+using Editor.CoreAPI;
 using UnityEditor;
 using UnityEngine;
 using UnityEngine.UIElements;
@@ -15,6 +16,7 @@ namespace AmazonGameLift.Editor
     public class ManagedEC2Page
     {
         private readonly VisualElement _container;
+        private readonly StateManager _stateManager;
         private readonly DeploymentSettings _deploymentSettings;
         private readonly Button _deployButton;
         private readonly Button _redeployButton;
@@ -24,10 +26,11 @@ namespace AmazonGameLift.Editor
         private readonly FleetParametersInput _fleetParamsInput;
         private readonly Label _ec2DeploymentStatusLabel;
 
-        public ManagedEC2Page(VisualElement container)
+        public ManagedEC2Page(VisualElement container, StateManager stateManager)
         {
             _container = container;
-            _deploymentSettings = DeploymentSettingsFactory.Create();
+            _stateManager = stateManager;
+            _deploymentSettings = DeploymentSettingsFactory.Create(stateManager);
             _deploymentSettings.Restore();
             _deploymentSettings.Refresh();
             var parameters = new ManagedEC2FleetParameters

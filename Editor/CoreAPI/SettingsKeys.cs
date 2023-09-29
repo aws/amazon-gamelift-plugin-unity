@@ -8,10 +8,6 @@ namespace AmazonGameLift.Editor
         CurrentBucketName,
         CurrentProfileName,
         CurrentRegion,
-        DeploymentScenarioIndex,
-        DeploymentGameName,
-        DeploymentBuildFilePath,
-        DeploymentBuildFolderPath,
         UserProfiles,
     }
 }

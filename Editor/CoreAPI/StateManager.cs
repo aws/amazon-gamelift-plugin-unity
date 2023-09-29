@@ -27,6 +27,8 @@ namespace Editor.CoreAPI
 
         public UserProfile SelectedProfile => _selectedProfile;
 
+        #region Profile Settings
+
         public string ProfileName => _selectedProfile?.Name;
 
         public string Region
@@ -40,22 +42,36 @@ namespace Editor.CoreAPI
             }
         }
 
-        public string FleetName
+        public string BucketName
         {
-            get => _selectedProfile.FleetName;
+            get => _selectedProfile.BucketName;
             set
             {
-                _selectedProfile.FleetName = value;
+                _selectedProfile.BucketName = value;
                 SaveProfiles();
             }
         }
 
-        public string FleetId
+        #endregion
+
+        #region Anywhere Settings
+
+        public string AnywhereFleetName
         {
-            get => _selectedProfile.FleetId;
+            get => _selectedProfile.AnywhereFleetName;
             set
             {
-                _selectedProfile.FleetId = value;
+                _selectedProfile.AnywhereFleetName = value;
+                SaveProfiles();
+            }
+        }
+
+        public string AnywhereFleetId
+        {
+            get => _selectedProfile.AnywhereFleetId;
+            set
+            {
+                _selectedProfile.AnywhereFleetId = value;
                 SaveProfiles();
             }
         }
@@ -92,6 +108,91 @@ namespace Editor.CoreAPI
             }
         }
 
+        #endregion
+
+        #region Managed EC2 Settings
+
+        public DeploymentScenarios DeploymentScenario
+        {
+            get => _selectedProfile.DeploymentScenario;
+            set
+            {
+                _selectedProfile.DeploymentScenario = value;
+                SaveProfiles();
+            }
+        }
+
+        public string DeploymentGameName
+        {
+            get => _selectedProfile.DeploymentGameName;
+            set
+            {
+                _selectedProfile.DeploymentGameName = value;
+                SaveProfiles();
+            }
+        }
+
+        public string ManagedEC2FleetName
+        {
+            get => _selectedProfile.ManagedEC2FleetName;
+            set
+            {
+                _selectedProfile.ManagedEC2FleetName = value;
+                SaveProfiles();
+            }
+        }
+
+        public string BuildName
+        {
+            get => _selectedProfile.BuildName;
+            set
+            {
+                _selectedProfile.BuildName = value;
+                SaveProfiles();
+            }
+        }
+
+        public string LaunchParameters
+        {
+            get => _selectedProfile.LaunchParameters;
+            set
+            {
+                _selectedProfile.LaunchParameters = value;
+                SaveProfiles();
+            }
+        }
+
+        public string BuildOperatingSystem
+        {
+            get => _selectedProfile.BuildOperatingSystem;
+            set
+            {
+                _selectedProfile.BuildOperatingSystem = value;
+                SaveProfiles();
+            }
+        }
+
+        public string DeploymentBuildFilePath
+        {
+            get => _selectedProfile.DeploymentBuildFilePath;
+            set
+            {
+                _selectedProfile.DeploymentBuildFilePath = value;
+                SaveProfiles();
+            }
+        }
+
+        public string DeploymentBuildFolderPath
+        {
+            get => _selectedProfile.DeploymentBuildFolderPath;
+            set
+            {
+                _selectedProfile.DeploymentBuildFolderPath = value;
+                SaveProfiles();
+            }
+        }
+
+        #endregion
 
         public IReadOnlyList<string> AllProfiles => CoreApi.ListCredentialsProfiles().Profiles.ToList();
 
@@ -102,15 +203,6 @@ namespace Editor.CoreAPI
         public Action OnProfileSelected { get; set; }
         public Action OnBucketBootstrapped { get; set; }
 
-        public string BucketName
-        {
-            get => _selectedProfile.BucketName;
-            set
-            {
-                _selectedProfile.BucketName = value;
-                SaveProfiles();
-            }
-        }
 
         public StateManager(CoreApi coreApi)
         {
@@ -156,7 +248,7 @@ namespace Editor.CoreAPI
             {
                 _allProfiles = _deserializer.Deserialize<List<UserProfile>>(profiles);
             }
-        } 
+        }
 
         public PutSettingResponse SaveProfiles()
         {
