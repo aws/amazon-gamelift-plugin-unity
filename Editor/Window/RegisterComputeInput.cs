@@ -131,8 +131,8 @@ namespace Editor.Window
         {
             _computeName = _stateManager.CoreApi.GetSetting(SettingsKeys.ComputeName).Value;
             _ipAddress = _stateManager.CoreApi.GetSetting(SettingsKeys.IpAddress).Value;
-            _stateManager.SelectedProfile = _stateManager.CoreApi.GetSetting(SettingsKeys.SelectedProfile).Value;
-            _stateManager.SelectedFleetName = _stateManager.CoreApi.GetSetting(SettingsKeys.SelectedFleetName).Value;
+            _stateManager.SelectedProfile = _stateManager.CoreApi.GetSetting(SettingsKeys.CurrentProfileName).Value;
+            _stateManager.SelectedFleetName = _stateManager.CoreApi.GetSetting(SettingsKeys.FleetName).Value;
         }
 
         private void PopulateComputeVisualElements()

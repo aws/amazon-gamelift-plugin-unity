@@ -45,7 +45,7 @@ namespace AmazonGameLiftPlugin.Editor.UnitTests
 
             var currentResponse = new GetSettingResponse();
             currentResponse = Response.Fail(currentResponse);
-            coreApiMock.Setup(target => target.GetSetting(It.IsAny<string>()))
+            coreApiMock.Setup(target => target.GetSetting(It.IsAny<SettingsKeys>()))
                 .Returns(currentResponse)
                 .Verifiable();
 
@@ -179,7 +179,7 @@ namespace AmazonGameLiftPlugin.Editor.UnitTests
             {
                 var currentResponse = new GetSettingResponse();
                 currentResponse = Response.Fail(currentResponse);
-                coreApiMock.Setup(target => target.GetSetting(It.IsAny<string>()))
+                coreApiMock.Setup(target => target.GetSetting(It.IsAny<SettingsKeys>()))
                     .Returns(currentResponse)
                     .Verifiable();
             }

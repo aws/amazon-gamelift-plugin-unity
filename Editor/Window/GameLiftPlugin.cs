@@ -3,11 +3,8 @@
 
 using System;
 using System.Collections.Generic;
-using Amazon.GameLift;
 using AmazonGameLift.Editor;
-using AmazonGameLiftPlugin.Core;
 using Editor.CoreAPI;
-using Editor.Resources.EditorWindow;
 using Editor.Window;
 using UnityEditor;
 using UnityEngine;
@@ -55,12 +52,15 @@ namespace AmazonGameLift.Editor
             var tabContentContainer = _root.Q(className: MainContentClassName);
             var landingPage = new LandingPage(CreateContentContainer(Pages.Landing, tabContentContainer), _stateManager);
             var anywherePage = new AnywherePage(CreateContentContainer(Pages.Anywhere, tabContentContainer), _stateManager);
+            var ec2Page = new ManagedEC2Page(CreateContentContainer(Pages.ManagedEC2, tabContentContainer));
             var helpPage = new HelpAndDocumentationPage(CreateContentContainer(Pages.Help, tabContentContainer));
 
             _tabButtons = _root.Query<Button>(className: TabButtonClassName).ToList();
             _tabContent = _root.Query(className: TabContentClassName).ToList();
 
             _tabButtons.ForEach(button => button.RegisterCallback<ClickEvent>(_ => { OpenTab(button.name); }));
+            
+            OpenTab(Pages.Landing);
         }
 
         private void LocalizeText()
@@ -85,7 +85,8 @@ namespace AmazonGameLift.Editor
             contentContainer.Add(container);
             return container;
         }
-        private void OpenTab(string tabName)
+
+      private void OpenTab(string tabName)
         {
             _tabContent.ForEach(page =>
             {
