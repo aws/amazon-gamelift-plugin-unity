@@ -43,7 +43,7 @@ namespace Editor.CoreAPI
                     var fleetId = await CreateFleet(ComputeType.ANYWHERE, FleetLocation, fleetName);
                     if (fleetId == null)
                     {
-                        return Response.Fail(new GenericResponse("DUN FUCKED UP"));
+                        return Response.Fail(new GenericResponse(ErrorCode.InvalidFleetName));
                     }
 
                     _stateManager.SelectedProfile.FleetName = fleetName;
