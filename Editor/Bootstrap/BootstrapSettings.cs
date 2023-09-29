@@ -105,18 +105,17 @@ namespace AmazonGameLift.Editor
             await RefreshExistingBuckets(cancellationToken);
         }
 
-        public bool SelectBucket(string name)
+        public void SelectBucket(string name)
         {
             if (BucketName == name)
             {
-                return false;
+                return;
             }
 
             BucketName = name;
 
             // Reset if we select a new valid bucket
             _status.IsDisplayed &= string.IsNullOrEmpty(BucketName);
-            return true;
         }
 
         public Response CreateBucket()
