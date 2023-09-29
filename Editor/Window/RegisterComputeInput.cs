@@ -27,9 +27,8 @@ namespace Editor.Window
         private string _ipAddress = "120.120.120.120";
         private string _location = "custom-location-1";
 
-        public RegisterComputeInput(VisualElement container, StateManager stateManager, ComputeStatus initialState)
+        public RegisterComputeInput(VisualElement container, StateManager stateManager)
         {
-            _computeState = initialState;
             _stateManager = stateManager;
             _computeManager = stateManager.ComputeManager;
             _computeNameInput = container.Q<TextField>("AnywherePageComputeNameInput");
@@ -38,6 +37,14 @@ namespace Editor.Window
             _registerButton = container.Q<Button>("AnywherePageComputeRegisterButton");
             _registerNewButton = container.Q<Button>("AnywherePageComputeRegisterNewButton");
             _cancelButton = container.Q<Button>("AnywherePageComputeCancelButton");
+
+            _computeState = !string.IsNullOrWhiteSpace(_stateManager.ComputeName) &&
+                            !string.IsNullOrWhiteSpace(_stateManager.IpAddress)
+                ? ComputeStatus.Registered
+                : ComputeStatus.NotRegistered;
+            _computeName = _stateManager.ComputeName ?? _computeName;
+            _ipAddress = _stateManager.IpAddress ?? _ipAddress;
+
 
             PopulateComputeVisualElements();
             RegisterCallbacks();
@@ -50,11 +57,11 @@ namespace Editor.Window
             _registerButton.RegisterCallback<ClickEvent>(_ => OnRegisterComputeButtonClicked());
             _registerNewButton.RegisterCallback<ClickEvent>(_ => OnNewComputeButtonClicked());
             _cancelButton.RegisterCallback<ClickEvent>(_ => OnCancelButtonClicked());
-            
+
+            _computeNameInput.value = _computeName;
             _computeNameInput.RegisterValueChangedCallback(_ =>
                 VerifyComputeTextFields(_computeNameInput, _ipInputs));
-            _computeNameInput.value = _computeName;
-            
+
             var index = 0;
             var currentIp = _ipAddress.Split(".");
             foreach (var ipField in _ipInputs)
@@ -70,7 +77,8 @@ namespace Editor.Window
         {
             if (_computeState is ComputeStatus.NotRegistered or ComputeStatus.Registering)
             {
-                var success = await _computeManager.RegisterFleetCompute(_computeName, _stateManager.SelectedProfile.FleetId, _location, _ipAddress);
+                var success = await _computeManager.RegisterFleetCompute(_computeName,
+                    _stateManager.SelectedProfile.FleetId, _location, _ipAddress);
                 if (success)
                 {
                     _computeState = ComputeStatus.Registered;
@@ -105,15 +113,15 @@ namespace Editor.Window
             _computeNameInput.isReadOnly = value;
             _ipInputs.ForEach(input => input.isReadOnly = value);
         }
-        
+
         private void VerifyComputeTextFields(TextField computeTextField, IEnumerable<TextField> ipTextField)
         {
             var computeTextNameValid = computeTextField.value.Length >= 1;
             var ipText = ipTextField.ToList().Select(ipAddressField => ipAddressField.value).ToList();
             _computeName = computeTextField.value;
-            var ipTextFieldsValid = ipText.All(text => text.Length >= 1) && ipText.All(s=> int.TryParse(s, out _));
-            _ipAddress = string.Join( ".",ipText);
-            
+            var ipTextFieldsValid = ipText.All(text => text.Length >= 1) && ipText.All(s => int.TryParse(s, out _));
+            _ipAddress = string.Join(".", ipText);
+
             _registerButton.SetEnabled(computeTextNameValid && ipTextFieldsValid);
         }
 
@@ -152,9 +160,12 @@ namespace Editor.Window
             var elements = GetVisibleItemsByState();
             foreach (var element in _computeVisualElements)
             {
-                if (elements.Contains(element)) {
+                if (elements.Contains(element))
+                {
                     Show(element);
-                } else {
+                }
+                else
+                {
                     Hide(element);
                 }
             }
