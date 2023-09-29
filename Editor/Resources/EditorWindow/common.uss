@@ -33,6 +33,7 @@
     --border-size-medium: 2px;
 
     --spacing-tiny: 6px;
+    --spacing-smaller: 8px;
     --spacing-small: 12px;
     --spacing-medium: 18px;
     --spacing-large: 24px;
@@ -42,6 +43,8 @@
     --spacing-medium-negative: -18px;
     --spacing-large-negative: -24px;
 
+    --radio-button-inner: 14px;
+    --radio-button-outer: 24px;
     --form-row-label-width: 240px;
     --page-width: 920px;
 
@@ -64,6 +67,10 @@ Image.icon--small {
     height: var(--icon-size-small);
     width: var(--icon-size-small);
     flex: 0 0 auto;
+}
+
+Image#FolderIcon {
+    --unity-image: resource("Images/Icons/Folder");
 }
 
 .button {
@@ -224,6 +231,27 @@ Image#ExternalLinkIcon {
 .form-row__input--no-label {
     flex-direction: row;
     margin-left: var(--form-row-label-width);
+}
+
+.form-row__radio-button .unity-radio-button__checkmark-background {
+    width: var(--radio-button-outer);
+    height: var(--radio-button-outer);
+    border-width: var(--border-size-thin);
+    border-color: var(--color-text-input-border);
+    border-radius: 100%;
+    padding: 0;
+    justify-content: center;
+}
+
+.form-row__radio-button .unity-radio-button__checkmark {
+    width: var(--radio-button-inner);
+    height: var(--radio-button-inner);
+    border-radius: 100px;
+}
+
+.form-row__radio-button .unity-radio-button__text,
+.form-row__radio-button .unity-radio-button__input {
+    flex-shrink: 1;
 }
 
 .text-input {

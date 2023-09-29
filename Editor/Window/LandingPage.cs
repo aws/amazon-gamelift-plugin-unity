@@ -2,7 +2,6 @@
 // SPDX-License-Identifier: Apache-2.0
 
 using AmazonGameLift.Editor;
-using Editor.Resources.EditorWindow;
 using UnityEngine;
 using UnityEngine.UIElements;
 
@@ -15,7 +14,7 @@ namespace AmazonGameLift.Editor
         public LandingPage(VisualElement container)
         {
             _container = container;
-            var mVisualTreeAsset = UnityEngine.Resources.Load<VisualTreeAsset>("EditorWindow/Pages/LandingPage");
+            var mVisualTreeAsset = Resources.Load<VisualTreeAsset>("EditorWindow/Pages/LandingPage");
             var uxml = mVisualTreeAsset.Instantiate();
             
             container.Add(uxml);

@@ -3,6 +3,7 @@
 
 using System;
 using System.Collections.Generic;
+using AmazonGameLift.Runtime;
 using AmazonGameLiftPlugin.Core.AccountManagement;
 using AmazonGameLiftPlugin.Core.AccountManagement.Models;
 using AmazonGameLiftPlugin.Core.BucketManagement;
@@ -34,7 +35,7 @@ namespace AmazonGameLift.Editor
 
         public CoreApi()
         {
-            _settingsStore = new SettingsStore(_fileWrapper, settingsFilePath: Paths.PluginSettingsFile);
+            _settingsStore = new Settings<SettingsKeys>(Paths.PluginSettingsFile);
             Bootstrapper.Initialize();
         }        
 
@@ -153,42 +154,31 @@ namespace AmazonGameLift.Editor
 
         #region Settings
 
-        private readonly ISettingsStore _settingsStore;
+        private readonly Settings<SettingsKeys> _settingsStore;
 
-        public virtual GetSettingResponse GetSetting(string key)
+        public virtual GetSettingResponse GetSetting(SettingsKeys key)
         {
-            var request = new GetSettingRequest() { Key = key };
-            return _settingsStore.GetSetting(request);
+            return _settingsStore.GetSetting(key);
         }
 
-        public virtual PutSettingResponse PutSetting(string key, string value)
+        public virtual PutSettingResponse PutSetting(SettingsKeys key, string value)
         {
-            var request = new PutSettingRequest()
-            {
-                Key = key,
-                Value = value
-            };
-            return _settingsStore.PutSetting(request);
+            return _settingsStore.PutSetting(key, value);
         }
 
-        public virtual ClearSettingResponse ClearSetting(string key)
+        public virtual ClearSettingResponse ClearSetting(SettingsKeys key)
         {
-            var request = new ClearSettingRequest() { Key = key };
-            return _settingsStore.ClearSetting(request);
+            return _settingsStore.ClearSetting(key);
         }
 
-        public virtual Response PutSettingOrClear(string key, string value)
+        public virtual Response PutSettingOrClear(SettingsKeys key, string value)
         {
             if (string.IsNullOrEmpty(value))
             {
-                return _settingsStore.ClearSetting(new ClearSettingRequest() { Key = key });
+                return _settingsStore.ClearSetting( key );
             }
 
-            return _settingsStore.PutSetting(new PutSettingRequest()
-            {
-                Key = key,
-                Value = value
-            });
+            return _settingsStore.PutSetting(key, value);
         }
 
         #endregion

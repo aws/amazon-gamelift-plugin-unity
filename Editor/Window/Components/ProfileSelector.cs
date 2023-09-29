@@ -1,6 +1,5 @@
 ﻿using System.Linq;
 using Editor.CoreAPI;
-using Editor.Resources.EditorWindow;
 using UnityEditor;
 using UnityEngine;
 using UnityEngine.UIElements;
