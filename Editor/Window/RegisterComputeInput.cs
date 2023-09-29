@@ -28,7 +28,7 @@ namespace Editor.Window
         private string _location = "custom-location-1";
 
         public RegisterComputeInput(VisualElement container, StateManager stateManager)
-        {
+        { 
             _stateManager = stateManager;
             _computeManager = stateManager.ComputeManager;
             _computeNameInput = container.Q<TextField>("AnywherePageComputeNameInput");

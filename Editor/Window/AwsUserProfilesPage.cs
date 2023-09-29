@@ -39,7 +39,11 @@ namespace AmazonGameLift.Editor
 
             _stateManager = stateManager;
             CreationModel.OnCreated += () => _stateManager.SelectedProfileName = CreationModel.ProfileName;
-            _stateManager.OnProfileSelected += UpdateModel.Update;
+            _stateManager.OnProfileSelected += () =>
+            {
+        UpdateModel.Refresh();
+                UpdateModel.Update();
+            };
             
             _userProfileCreation = new UserProfileCreation(_container, _stateManager, this);
             BootstrapSettings = _userProfileCreation.SetupBootstrap();

@@ -20,7 +20,7 @@ namespace Editor.CoreAPI
 
         public IAmazonGameLiftWrapperFactory AmazonGameLiftWrapperFactory { get; }
 
-        private UserProfile _selectedProfile;
+        private UserProfile _selectedProfile = new UserProfile();
         private List<UserProfile> _allProfiles;
         private readonly ISerializer _serializer = new SerializerBuilder().Build();
         private readonly IDeserializer _deserializer = new DeserializerBuilder().Build();
@@ -40,14 +40,19 @@ namespace Editor.CoreAPI
             }
             set => SetProfile(value);
         }
-        
+
         public string Region
         {
             get => _selectedProfile.Region;
-            set => _selectedProfile.Region = value;
+            set
+            {
+                _selectedProfile.Region = value;
+                SaveProfiles();
+                CoreApi.PutSetting(SettingsKeys.CurrentRegion, value);
+            }
         }
 
-        public string FleetName
+        public string FleetName 
         {
             get => _selectedProfile.FleetName;
             set
@@ -135,20 +140,21 @@ namespace Editor.CoreAPI
             if (_selectedProfile == null)
             {
                 Debug.Log("test user");
-                _selectedProfile = new UserProfile()
-                {
-                    Name = profileName,
-                };
+                _selectedProfile = new UserProfile() 
+                { 
+                    Name = profileName,      
+                };  
                 _allProfiles.Add(_selectedProfile);
-                SaveProfiles();
-            }
-
+                SaveProfiles();  
+            } 
+ 
+            CoreApi.PutSetting(SettingsKeys.CurrentProfileName, profileName);
             var credentials = CoreApi.RetrieveAwsCredentials(profileName);
-            Region = credentials.Region; 
+            Region = credentials.Region;
             GameLiftWrapper = AmazonGameLiftWrapperFactory.Get(SelectedProfileName);
             FleetManager = new GameLiftFleetManager(GameLiftWrapper, this);
             ComputeManager = new GameLiftComputeManager(GameLiftWrapper, this);
-            OnProfileSelected?.Invoke(); 
+            OnProfileSelected?.Invoke();
         }
 
         public void RefreshProfiles()

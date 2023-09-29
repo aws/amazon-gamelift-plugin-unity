@@ -22,23 +22,23 @@ namespace Editor.Window
         private VisualElement _fleetId;
         private Label _fleetIdText;
         private VisualElement _fleetStatus;
-        private readonly GameLiftFleetManager _fleetManager;
+        private GameLiftFleetManager _fleetManager => _stateManager.FleetManager;
         private readonly StateManager _stateManager;
         private Button _cancelButton;
 
         private FleetStatus _fleetState;
-        private List<FleetAttributes> _fleetsList;
+        private List<FleetAttributes> _fleetsList = new List<FleetAttributes>();
 
         public ConnectToFleetInput(VisualElement container, StateManager stateManager, FleetStatus initialState)
         {
             _fleetState = initialState;
             _stateManager = stateManager;
-            _fleetManager = stateManager.FleetManager;
 
             AssignUiElements(container);
             PopulateFleetVisualElements();
             RegisterCallBacks(container);
             SetupBootMenu();
+            _stateManager.OnProfileSelected += () => UpdateFleetMenu();
 
             UpdateGUI();
         }
@@ -80,8 +80,13 @@ namespace Editor.Window
             UpdateGUI();
         }
 
-        private void OnSelectFleetDropdown()
+        private void OnSelectFleetDropdown(string fleetName)
         {
+            var currentFleet = _fleetsList.First(fleet => fleet.Name == fleetName);
+            _fleetIdText.text = currentFleet.FleetId;
+            _stateManager.FleetName = currentFleet.Name;
+            _stateManager.FleetId = currentFleet.FleetId;
+
             _fleetState = FleetStatus.Selected;
 
             UpdateGUI();
@@ -93,7 +98,7 @@ namespace Editor.Window
                 await OnAnywhereConnectClicked(_fleetNameInput.text));
             container.Q<Button>("AnywherePageConnectFleetNewButton").RegisterCallback<ClickEvent>(async _ =>
                 await OnCreateNewFleetClicked());
-            _fleetNameDropdownContainer.RegisterValueChangedCallback(evt => OnSelectFleetDropdown());
+            _fleetNameDropdownContainer.RegisterValueChangedCallback(evt => OnSelectFleetDropdown(evt.newValue));
             _cancelButton.RegisterCallback<ClickEvent>(_ => OnCancelButtonClicked());
         }
 
@@ -109,38 +114,26 @@ namespace Editor.Window
             _cancelButton = container.Q<Button>("AnywherePageCreateFleetCancelButton");
         }
 
-        private async Task SetupFleetMenu()
-        {
-            await UpdateFleetMenu();
-            _fleetNameDropdownContainer.RegisterValueChangedCallback(_ =>
-                {
-                    var currentFleet = _fleetsList.First(fleet => fleet.Name == _fleetNameDropdownContainer.value);
-                    _fleetIdText.text = currentFleet.FleetId;
-                    _stateManager.FleetName = currentFleet.Name;
-                    _stateManager.FleetId = currentFleet.FleetId;
-                }
-            );
-        }
-
         private async Task UpdateFleetMenu()
         {
             if (_stateManager.GameLiftWrapper != null)
             {
                 _fleetsList = await _fleetManager.ListFleetAttributes() ?? new List<FleetAttributes>();
                 _fleetNameDropdownContainer.choices = _fleetsList.Select(fleet => fleet.Name).ToList();
+                _fleetNameDropdownContainer.value = _stateManager.FleetName;
+                _fleetIdText.text = _stateManager.FleetId;
             }
         }
 
         private async void SetupBootMenu()
         {
-            await SetupFleetMenu();
+            await UpdateFleetMenu();
 
-            if (_fleetsList.Count >= 1)
+            if (_fleetsList.Count >= 1 && string.IsNullOrWhiteSpace(_stateManager.FleetName))
             {
                 _fleetState = FleetStatus.Selecting;
             }
 
-            _fleetNameDropdownContainer.value = _stateManager.FleetName;
             UpdateGUI();
         }
 
