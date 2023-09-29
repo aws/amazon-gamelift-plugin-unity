@@ -27,11 +27,7 @@ namespace Editor.CoreAPI
 
         public UserProfile SelectedProfile => _selectedProfile;
 
-        public string SelectedProfileName 
-        {
-            get => _selectedProfile?.Name;
-            set => SetProfile(value);
-        }
+        public string ProfileName => _selectedProfile?.Name;
 
         public string Region
         {
@@ -124,9 +120,9 @@ namespace Editor.CoreAPI
             SetProfile(coreApi.GetSetting(SettingsKeys.CurrentProfileName).Value);
         }
 
-        private void SetProfile(string profileName)
+        public void SetProfile(string profileName)
         {
-            if (string.IsNullOrWhiteSpace(profileName) || profileName == SelectedProfileName) return;
+            if (string.IsNullOrWhiteSpace(profileName) || profileName == ProfileName) return;
 
             _selectedProfile = _allProfiles.FirstOrDefault(profile => profile.Name == profileName);
             if (_selectedProfile == null)
@@ -143,7 +139,7 @@ namespace Editor.CoreAPI
             CoreApi.PutSetting(SettingsKeys.CurrentProfileName, profileName);
             var credentials = CoreApi.RetrieveAwsCredentials(profileName);
             Region = credentials.Region;
-            GameLiftWrapper = AmazonGameLiftWrapperFactory.Get(SelectedProfileName);
+            GameLiftWrapper = AmazonGameLiftWrapperFactory.Get(ProfileName);
             FleetManager = new GameLiftFleetManager(GameLiftWrapper);
             ComputeManager = new GameLiftComputeManager(GameLiftWrapper);
             OnProfileSelected?.Invoke();
@@ -160,7 +156,7 @@ namespace Editor.CoreAPI
             {
                 _allProfiles = _deserializer.Deserialize<List<UserProfile>>(profiles);
             }
-        }
+        } 
 
         public PutSettingResponse SaveProfiles()
         {
