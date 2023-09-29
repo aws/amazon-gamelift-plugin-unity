@@ -3,15 +3,15 @@
 
 namespace AmazonGameLift.Editor
 {
-    public static class SettingsKeys
+    public enum SettingsKeys
     {
-        public const string CurrentBucketName = "CurrentBucketName";
-        public const string CurrentProfileName = "CurrentProfileName";
-        public const string CurrentRegion = "CurrentRegion";
-        public const string DeploymentScenarioIndex = "DeploymentScenarioIndex";
-        public const string DeploymentGameName = "DeploymentGameName";
-        public const string DeploymentBuildFilePath = "DeploymentBuildFilePath";
-        public const string DeploymentBuildFolderPath = "DeploymentBuildFolderPath";
-        public const string UserProfiles = "UserProfiles";
+        CurrentBucketName,
+        CurrentProfileName,
+        CurrentRegion,
+        DeploymentScenarioIndex,
+        DeploymentGameName,
+        DeploymentBuildFilePath,
+        DeploymentBuildFolderPath,
+        UserProfiles,
     }
 }

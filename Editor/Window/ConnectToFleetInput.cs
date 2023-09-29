@@ -13,8 +13,6 @@ namespace Editor.Window
     {
         private static IReadOnlyCollection<VisualElement> _fleetVisualElements;
 
-        // public string FleetId;
-
         private TextField _fleetNameInput;
         private DropdownField _fleetNameDropdownContainer;
         private VisualElement _fleetCreateFoldout;
