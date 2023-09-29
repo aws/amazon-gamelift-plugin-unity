@@ -117,6 +117,7 @@ namespace Editor.Window
                     var currentFleet = _fleetsList.First(fleet => fleet.Name == _fleetNameDropdownContainer.value);
                     _fleetIdText.text = currentFleet.FleetId;
                     _stateManager.FleetName = currentFleet.Name;
+                    _stateManager.FleetId = currentFleet.FleetId;
                 }
             );
         }

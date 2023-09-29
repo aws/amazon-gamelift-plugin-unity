@@ -52,7 +52,7 @@ namespace Editor.Window
             _cancelButton.RegisterCallback<ClickEvent>(_ => OnCancelButtonClicked());
             
             _computeNameInput.RegisterValueChangedCallback(_ =>
-                VerifyComputeTextFields(_computeNameInput, _ipInputs, _registerButton));
+                VerifyComputeTextFields(_computeNameInput, _ipInputs));
             _computeNameInput.value = _computeName;
             
             var index = 0;
@@ -61,7 +61,7 @@ namespace Editor.Window
             {
                 ipField.value = currentIp[index];
                 ipField.RegisterValueChangedCallback(_ =>
-                    VerifyComputeTextFields(_computeNameInput, _ipInputs, _registerButton));
+                    VerifyComputeTextFields(_computeNameInput, _ipInputs));
                 index++;
             }
         }
@@ -106,14 +106,15 @@ namespace Editor.Window
             _ipInputs.ForEach(input => input.isReadOnly = value);
         }
         
-        private void VerifyComputeTextFields(TextField computeTextName, IEnumerable<TextField> ipTextField, Button button)
+        private void VerifyComputeTextFields(TextField computeTextField, IEnumerable<TextField> ipTextField)
         {
-            var computeTextNameValid = computeTextName.value.Length >= 1;
+            var computeTextNameValid = computeTextField.value.Length >= 1;
             var ipText = ipTextField.ToList().Select(ipAddressField => ipAddressField.value).ToList();
-            _computeName = computeTextName.value;
+            _computeName = computeTextField.value;
             var ipTextFieldsValid = ipText.All(text => text.Length >= 1) && ipText.All(s=> int.TryParse(s, out _));
-
-            button.SetEnabled(computeTextNameValid && ipTextFieldsValid);
+            _ipAddress = string.Join( ".",ipText);
+            
+            _registerButton.SetEnabled(computeTextNameValid && ipTextFieldsValid);
         }
 
         private void SetupConfigSettings()

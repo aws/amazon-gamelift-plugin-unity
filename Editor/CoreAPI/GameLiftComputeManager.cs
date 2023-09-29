@@ -12,13 +12,12 @@ namespace Editor.CoreAPI
     public class GameLiftComputeManager
     {
         private readonly IAmazonGameLiftWrapper _amazonGameLiftWrapper;
-        private VisualElement _container;
-        private ErrorResponse _logger;
-        private StateManager _stateManager;
+        private readonly StateManager _stateManager;
 
-        public GameLiftComputeManager(IAmazonGameLiftWrapper wrapper)
+        public GameLiftComputeManager(IAmazonGameLiftWrapper wrapper, StateManager stateManager)
         {
             _amazonGameLiftWrapper = wrapper;
+            _stateManager = stateManager;
         }
 
         public async Task<bool> RegisterFleetCompute(string computeName, string fleetId, string fleetLocation,
@@ -27,13 +26,11 @@ namespace Editor.CoreAPI
             var webSocketUrl = await RegisterCompute(computeName, fleetId, fleetLocation, ipAddress);
             if (webSocketUrl != null)
             {
-                _stateManager.SelectedProfile.ComputeName = computeName;
-                _stateManager.SelectedProfile.IpAddress = ipAddress;
-                _stateManager.SelectedProfile.WebSocketUrl = webSocketUrl;
-                
-                var profileSaveResponse = _stateManager.SaveProfiles();
+                _stateManager.ComputeName = computeName;
+                _stateManager.IpAddress = ipAddress;
+                _stateManager.WebSocketUrl = webSocketUrl;
 
-                return profileSaveResponse.Success;
+                return true;
             }
             return false;
         }

@@ -40,6 +40,12 @@ namespace Editor.CoreAPI
             }
             set => SetProfile(value);
         }
+        
+        public string Region
+        {
+            get => _selectedProfile.Region;
+            set => _selectedProfile.Region = value;
+        }
 
         public string FleetName
         {
@@ -61,11 +67,38 @@ namespace Editor.CoreAPI
             }
         }
 
-        public string Region
+        public string ComputeName
         {
-            get => _selectedProfile.Region;
-            set => _selectedProfile.Region = value;
+            get => _selectedProfile.ComputeName;
+            set
+            {
+                _selectedProfile.ComputeName = value;
+                SaveProfiles();
+            }
         }
+
+
+        public string IpAddress
+        {
+            get => _selectedProfile.IpAddress;
+            set
+            {
+                _selectedProfile.IpAddress = value;
+                SaveProfiles();
+            }
+        }
+
+
+        public string WebSocketUrl
+        {
+            get => _selectedProfile.WebSocketUrl;
+            set
+            {
+                _selectedProfile.WebSocketUrl = value;
+                SaveProfiles();
+            }
+        }
+
 
         public IReadOnlyList<string> AllProfiles => CoreApi.ListCredentialsProfiles().Profiles.ToList();
 
@@ -114,7 +147,7 @@ namespace Editor.CoreAPI
             Region = credentials.Region; 
             GameLiftWrapper = AmazonGameLiftWrapperFactory.Get(SelectedProfileName);
             FleetManager = new GameLiftFleetManager(GameLiftWrapper, this);
-            ComputeManager = new GameLiftComputeManager(GameLiftWrapper);
+            ComputeManager = new GameLiftComputeManager(GameLiftWrapper, this);
             OnProfileSelected?.Invoke(); 
         }
 
