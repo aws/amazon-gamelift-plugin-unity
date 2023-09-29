@@ -160,8 +160,8 @@ namespace AmazonGameLift.Editor
 
         private void SetupConfigSettings()
         {
-            // var selectedProfile = _stateManager.CoreApi.GetSetting(SettingsKeys.CurrentProfileName);
-            // _stateManager.SelectedProfileName = selectedProfile.Success ? selectedProfile.Value : _stateManager.AllProfiles.First();
+            // var selectedProfile = StateManager.CoreApi.GetSetting(SettingsKeys.CurrentProfileName);
+            // StateManager.SelectedProfileName = selectedProfile.Success ? selectedProfile.Value : StateManager.AllProfiles.First();
         }
 
         private void SetupBootMenu()

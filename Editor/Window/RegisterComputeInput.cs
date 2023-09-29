@@ -28,7 +28,8 @@ namespace Editor.Window
         private string _location = "custom-location-1";
 
         public RegisterComputeInput(VisualElement container, StateManager stateManager)
-        { 
+        {
+            _container = container;
             _stateManager = stateManager;
             _computeManager = stateManager.ComputeManager;
             _computeNameInput = container.Q<TextField>("AnywherePageComputeNameInput");
@@ -77,10 +78,14 @@ namespace Editor.Window
         {
             if (_computeState is ComputeStatus.NotRegistered or ComputeStatus.Registering)
             {
-                var success = await _computeManager.RegisterFleetCompute(_computeName,
+                var response = await _computeManager.RegisterFleetCompute(_computeName,
                     _stateManager.SelectedProfile.FleetId, _location, _ipAddress);
-                if (success)
+                if (response.Success)
                 {
+                    _stateManager.ComputeName = response.ComputeName;
+                    _stateManager.IpAddress = response.IpAddress;
+                    _stateManager.WebSocketUrl = response.WebSocketUrl;
+                    
                     _computeState = ComputeStatus.Registered;
                 }
             }
@@ -169,6 +174,8 @@ namespace Editor.Window
                     Hide(element);
                 }
             }
+
+            _container.SetEnabled(_stateManager.IsBootstrapped && !string.IsNullOrWhiteSpace(_stateManager.FleetId));
         }
 
         public enum ComputeStatus

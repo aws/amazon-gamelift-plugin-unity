@@ -27,17 +27,9 @@ namespace Editor.CoreAPI
 
         public UserProfile SelectedProfile => _selectedProfile;
 
-        public string SelectedProfileName
+        public string SelectedProfileName 
         {
-            get
-            {
-                if (_selectedProfile != null)
-                {
-                    return !string.IsNullOrWhiteSpace(_selectedProfile.Name) ? _selectedProfile.Name : "";
-                }
-
-                return "";
-            }
+            get => _selectedProfile?.Name;
             set => SetProfile(value);
         }
 
@@ -52,7 +44,7 @@ namespace Editor.CoreAPI
             }
         }
 
-        public string FleetName 
+        public string FleetName
         {
             get => _selectedProfile.FleetName;
             set
@@ -109,17 +101,17 @@ namespace Editor.CoreAPI
 
         public bool IsBootstrapped => !string.IsNullOrWhiteSpace(_selectedProfile?.Name) &&
                                       !string.IsNullOrWhiteSpace(_selectedProfile?.Region) &&
-                                      !string.IsNullOrWhiteSpace(_selectedProfile?.BootStrappedBucket);
+                                      !string.IsNullOrWhiteSpace(_selectedProfile?.BucketName);
 
         public Action OnProfileSelected { get; set; }
         public Action OnBucketBootstrapped { get; set; }
 
         public string BucketName
         {
-            get => _selectedProfile.BootStrappedBucket;
+            get => _selectedProfile.BucketName;
             set
             {
-                _selectedProfile.BootStrappedBucket = value;
+                _selectedProfile.BucketName = value;
                 SaveProfiles();
             }
         }
@@ -140,20 +132,20 @@ namespace Editor.CoreAPI
             if (_selectedProfile == null)
             {
                 Debug.Log("test user");
-                _selectedProfile = new UserProfile() 
-                { 
-                    Name = profileName,      
-                };  
+                _selectedProfile = new UserProfile()
+                {
+                    Name = profileName,
+                };
                 _allProfiles.Add(_selectedProfile);
-                SaveProfiles();  
-            } 
- 
+                SaveProfiles();
+            }
+
             CoreApi.PutSetting(SettingsKeys.CurrentProfileName, profileName);
             var credentials = CoreApi.RetrieveAwsCredentials(profileName);
             Region = credentials.Region;
             GameLiftWrapper = AmazonGameLiftWrapperFactory.Get(SelectedProfileName);
-            FleetManager = new GameLiftFleetManager(GameLiftWrapper, this);
-            ComputeManager = new GameLiftComputeManager(GameLiftWrapper, this);
+            FleetManager = new GameLiftFleetManager(GameLiftWrapper);
+            ComputeManager = new GameLiftComputeManager(GameLiftWrapper);
             OnProfileSelected?.Invoke();
         }
 

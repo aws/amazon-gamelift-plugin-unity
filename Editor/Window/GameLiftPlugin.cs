@@ -15,7 +15,7 @@ namespace AmazonGameLift.Editor
     {
         [SerializeField] private Texture _icon;
         internal Texture Icon => _icon;
-        internal readonly StateManager _stateManager;
+        internal readonly StateManager StateManager;
 
         private VisualTreeAsset _visualTreeAsset;
         private VisualElement _root;
@@ -31,7 +31,7 @@ namespace AmazonGameLift.Editor
 
         private GameLiftPlugin()
         {
-            _stateManager = new StateManager(new CoreApi());
+            StateManager = new StateManager(new CoreApi());
         }
 
         private void CreateGUI()
@@ -50,8 +50,8 @@ namespace AmazonGameLift.Editor
             
             var tabContentContainer = _root.Q(className: MainContentClassName);
             var landingPage = new LandingPage(CreateContentContainer(Pages.Landing, tabContentContainer));
-            var credentialsPage = new AwsUserProfilesPage(CreateContentContainer(Pages.Credentials, tabContentContainer), _stateManager);
-            var anywherePage = new AnywherePage(CreateContentContainer(Pages.Anywhere, tabContentContainer), _stateManager);
+            var credentialsPage = new AwsUserProfilesPage(CreateContentContainer(Pages.Credentials, tabContentContainer), StateManager);
+            var anywherePage = new AnywherePage(CreateContentContainer(Pages.Anywhere, tabContentContainer), StateManager);
             var helpPage = new HelpAndDocumentationPage(CreateContentContainer(Pages.Help, tabContentContainer));
 
             _tabButtons = _root.Query<Button>(className: TabButtonClassName).ToList();

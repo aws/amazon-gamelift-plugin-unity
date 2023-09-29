@@ -25,7 +25,7 @@ namespace AmazonGameLift.Editor
 
             LocalizeText();
 
-            _stateManager = EditorWindow.GetWindow<GameLiftPlugin>()._stateManager;
+            _stateManager = EditorWindow.GetWindow<GameLiftPlugin>().StateManager;
             _stateManager.OnProfileSelected += UpdateGUI;
             _stateManager.OnBucketBootstrapped += UpdateGUI;
             _textProvider = TextProviderFactory.Create();

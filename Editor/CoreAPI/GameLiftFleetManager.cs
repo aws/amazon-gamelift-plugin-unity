@@ -6,6 +6,7 @@ using System.Threading.Tasks;
 using Amazon.GameLift;
 using Amazon.GameLift.Model;
 using Amazon.Runtime.Internal;
+using AmazonGameLift.Editor;
 using AmazonGameLiftPlugin.Core;
 using AmazonGameLiftPlugin.Core.ApiGatewayManagement;
 using AmazonGameLiftPlugin.Core.Shared;
@@ -25,15 +26,13 @@ namespace Editor.CoreAPI
         private const string FleetDescription = "Deployed by the Amazon GameLift Plug-in for Unity.";
         private VisualElement _container;
         private ErrorResponse _logger;
-        private readonly StateManager _stateManager;
 
-        public GameLiftFleetManager(IAmazonGameLiftWrapper amazonGameLiftWrapper, StateManager stateManager)
+        public GameLiftFleetManager(IAmazonGameLiftWrapper amazonGameLiftWrapper)
         {
             _amazonGameLiftWrapper = amazonGameLiftWrapper;
-            _stateManager = stateManager;
         }
 
-        public async Task<Response> CreateAnywhereFleet(string fleetName)
+        public async Task<CreateAnywhereFleetResponse> CreateAnywhereFleet(string fleetName)
         {
             if (_amazonGameLiftWrapper != null)
             {
@@ -43,21 +42,30 @@ namespace Editor.CoreAPI
                     var fleetId = await CreateFleet(ComputeType.ANYWHERE, FleetLocation, fleetName);
                     if (fleetId == null)
                     {
-                        return Response.Fail(new GenericResponse(ErrorCode.InvalidFleetName));
+                        return Response.Fail(new CreateAnywhereFleetResponse
+                        {
+                            ErrorCode =
+                                ErrorCode.InvalidFleetName
+                        });
                     }
 
-                    _stateManager.SelectedProfile.FleetName = fleetName;
-                    _stateManager.SelectedProfile.FleetId = fleetId;
-
-                    var profileSaveResponse = _stateManager.SaveProfiles();
-
-                    return Response.Ok(profileSaveResponse);
+                    return Response.Ok(new CreateAnywhereFleetResponse()
+                    {
+                        FleetId = fleetId,
+                        FleetName = fleetName
+                    });
                 }
 
-                return Response.Fail(new GenericResponse(ErrorCode.CustomLocationCreationFailed));
+                return Response.Fail(new CreateAnywhereFleetResponse
+                {
+                    ErrorCode = ErrorCode.CustomLocationCreationFailed
+                });
             }
 
-            return Response.Fail(new GenericResponse(ErrorCode.AccountProfileMissing)); 
+            return Response.Fail(new CreateAnywhereFleetResponse
+            {
+                ErrorCode = ErrorCode.AccountProfileMissing
+            });
         }
 
         private async Task<bool> CreateCustomLocationIfNotExists(string fleetLocation)

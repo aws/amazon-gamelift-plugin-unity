@@ -3,36 +3,40 @@ using System.Net;
 using System.Threading.Tasks;
 using Amazon.GameLift.Model;
 using Amazon.Runtime.Internal;
+using AmazonGameLift.Editor;
 using AmazonGameLiftPlugin.Core;
+using AmazonGameLiftPlugin.Core.Shared;
 using UnityEngine;
 using UnityEngine.UIElements;
+using ErrorCode = AmazonGameLift.Editor.ErrorCode;
 
 namespace Editor.CoreAPI
 {
     public class GameLiftComputeManager
     {
         private readonly IAmazonGameLiftWrapper _amazonGameLiftWrapper;
-        private readonly StateManager _stateManager;
 
-        public GameLiftComputeManager(IAmazonGameLiftWrapper wrapper, StateManager stateManager)
+        public GameLiftComputeManager(IAmazonGameLiftWrapper wrapper)
         {
             _amazonGameLiftWrapper = wrapper;
-            _stateManager = stateManager;
         }
 
-        public async Task<bool> RegisterFleetCompute(string computeName, string fleetId, string fleetLocation,
+        public async Task<RegisterFleetComputeResponse> RegisterFleetCompute(string computeName, string fleetId,
+            string fleetLocation,
             string ipAddress)
         {
             var webSocketUrl = await RegisterCompute(computeName, fleetId, fleetLocation, ipAddress);
             if (webSocketUrl != null)
             {
-                _stateManager.ComputeName = computeName;
-                _stateManager.IpAddress = ipAddress;
-                _stateManager.WebSocketUrl = webSocketUrl;
-
-                return true;
+                return Response.Ok(new RegisterFleetComputeResponse()
+                {
+                    ComputeName = computeName,
+                    IpAddress = ipAddress,
+                    WebSocketUrl = webSocketUrl
+                });
             }
-            return false;
+
+            return Response.Fail(new RegisterFleetComputeResponse { ErrorCode = ErrorCode.RegisterComputeFailed });
         }
 
         private async Task<string> RegisterCompute(string computeName, string fleetId, string fleetLocation,

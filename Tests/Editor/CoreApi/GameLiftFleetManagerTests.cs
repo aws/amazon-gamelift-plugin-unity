@@ -63,7 +63,7 @@ namespace AmazonGameLiftPlugin.Editor.UnitTests
             _awsCredentialsFactoryMock.Setup(f => f.Create())
                 .Returns(_awsCredentialsTestProvider.GetAwsCredentialsWithStubComponents(_coreApiMock.Object));
 
-            return new GameLiftFleetManager(_gameLiftWrapperMock.Object, null);
+            return new GameLiftFleetManager(_gameLiftWrapperMock.Object);
         }
 
         [Test]
@@ -88,7 +88,7 @@ namespace AmazonGameLiftPlugin.Editor.UnitTests
             //Arrange
             ArrangeAnywhereFleetHappyPath();
 
-            var gameLiftFleetManager = new GameLiftFleetManager(null, null);
+            var gameLiftFleetManager = new GameLiftFleetManager(null);
 
             //Act
             var createFleetResult = gameLiftFleetManager.CreateAnywhereFleet("test").GetAwaiter().GetResult();

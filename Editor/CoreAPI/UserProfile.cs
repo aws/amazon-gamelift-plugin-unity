@@ -6,7 +6,7 @@
 
         public string Name { get; set; }
 
-        public string BootStrappedBucket { get; set; }
+        public string BucketName { get; set; }
 
         public string FleetName { get; set; }
 

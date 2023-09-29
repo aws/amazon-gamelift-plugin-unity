@@ -26,11 +26,13 @@ namespace Editor.Window
         private readonly StateManager _stateManager;
         private Button _cancelButton;
 
+        private readonly VisualElement _container;
         private FleetStatus _fleetState;
         private List<FleetAttributes> _fleetsList = new List<FleetAttributes>();
 
         public ConnectToFleetInput(VisualElement container, StateManager stateManager, FleetStatus initialState)
         {
+            _container = container;
             _fleetState = initialState;
             _stateManager = stateManager;
 
@@ -50,6 +52,8 @@ namespace Editor.Window
                 var response = await _fleetManager?.CreateAnywhereFleet(fleetName)!;
                 if (response.Success)
                 {
+                    _stateManager.SelectedProfile.FleetName = response.FleetName;
+                    _stateManager.SelectedProfile.FleetId = response.FleetId;
                     await UpdateFleetMenu();
                     _fleetNameDropdownContainer.value = fleetName;
                     _fleetState = FleetStatus.Selected;
@@ -186,6 +190,8 @@ namespace Editor.Window
                     Hide(element);
                 }
             }
+
+            _container.SetEnabled(_stateManager.IsBootstrapped);
         }
 
         public enum FleetStatus
