@@ -13,8 +13,8 @@ namespace AmazonGameLift.Editor
     {
         public List<TextField> AccountDetailTextFields = new();
         
-        public readonly AwsCredentialsUpdate UpdateModel;
-        public readonly AwsCredentialsCreation CreationModel;
+        public readonly AwsCredentialsUpdate AwsCredentialsUpdateModel;
+        public readonly AwsCredentialsCreation AwsCredentialsCreateModel;
         public readonly BootstrapSettings BootstrapSettings;
         
         private VisualElement _currentElement;
@@ -27,8 +27,8 @@ namespace AmazonGameLift.Editor
         public AwsUserProfilesPage(VisualElement container, StateManager stateManager)
         {
             var awsCredentials = new AwsCredentialsFactory().Create();
-            CreationModel = awsCredentials.Creation;
-            UpdateModel = awsCredentials.Update;
+            AwsCredentialsCreateModel = awsCredentials.Creation;
+            AwsCredentialsUpdateModel = awsCredentials.Update;
             
             _container = container;
             var mVisualTreeAsset = Resources.Load<VisualTreeAsset>("EditorWindow/Pages/AwsUserProfilesPage");
@@ -38,23 +38,22 @@ namespace AmazonGameLift.Editor
             LocalizeText();
 
             _stateManager = stateManager;
-            CreationModel.OnCreated += () => _stateManager.SetProfile(CreationModel.ProfileName);
-            _stateManager.OnProfileSelected += () =>
+            AwsCredentialsCreateModel.OnCreated += () => _stateManager.SetProfile(AwsCredentialsCreateModel.ProfileName);
+            _stateManager.OnUserProfileUpdated += () =>
             {
-        UpdateModel.Refresh();
-                UpdateModel.Update();
+        AwsCredentialsUpdateModel.Refresh();
+                AwsCredentialsUpdateModel.Update();
             };
             
             _userProfileCreation = new UserProfileCreation(_container, _stateManager, this);
             BootstrapSettings = _userProfileCreation.SetupBootstrap();
                 
-            SetupConfigSettings();
             RefreshProfiles();
 
             container.Q<DropdownField>("UserProfilePageAccountNewProfileRegionDropdown").choices =
                 _stateManager.CoreApi.ListAvailableRegions().ToList();
             
-            SetupTab();
+            SetupBootMenu();
             SetupButtonCallbacks();
         }
         
@@ -153,17 +152,6 @@ namespace AmazonGameLift.Editor
             Application.OpenURL(url);
         }
 
-        private void SetupTab()
-        {
-            SetupBootMenu();
-        }
-
-        private void SetupConfigSettings()
-        {
-            // var selectedProfile = StateManager.CoreApi.GetSetting(SettingsKeys.CurrentProfileName);
-            // StateManager.ProfileName = selectedProfile.Success ? selectedProfile.Value : StateManager.AllProfiles.First();
-        }
-
         private void SetupBootMenu()
         {
             VisualElement targetWizard;
@@ -257,7 +245,7 @@ namespace AmazonGameLift.Editor
         
         public void RefreshProfiles()
         {
-            UpdateModel.Refresh();
+            AwsCredentialsUpdateModel.Refresh();
         }
         
         private void BootstrapAccount(string bucketName)

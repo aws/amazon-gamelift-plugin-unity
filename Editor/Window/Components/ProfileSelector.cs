@@ -28,8 +28,7 @@ namespace AmazonGameLift.Editor
             LocalizeText();
 
             _stateManager = EditorWindow.GetWindow<GameLiftPlugin>().StateManager;
-            _stateManager.OnProfileSelected += UpdateGUI;
-            _stateManager.OnBucketBootstrapped += UpdateGUI;
+            _stateManager.OnUserProfileUpdated += UpdateGUI;
             _textProvider = TextProviderFactory.Create();
 
             _dropdown.RegisterValueChangedCallback(value => { _stateManager.SetProfile(value.newValue); });

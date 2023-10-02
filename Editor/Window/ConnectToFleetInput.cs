@@ -38,7 +38,7 @@ namespace Editor.Window
             PopulateFleetVisualElements();
             RegisterCallBacks(container);
             SetupBootMenu();
-            _stateManager.OnProfileSelected += () => UpdateFleetMenu();
+            _stateManager.OnUserProfileUpdated += () => UpdateFleetMenu();
 
             UpdateGUI();
         }

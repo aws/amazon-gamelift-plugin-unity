@@ -72,11 +72,11 @@ namespace AmazonGameLift.Editor
                return false; 
            }
                           
-            _profilesPage.CreationModel.ProfileName = credentials[0];
-            _profilesPage.CreationModel.AccessKeyId = credentials[1];
-            _profilesPage.CreationModel.SecretKey = credentials[2];
-            _profilesPage.CreationModel.RegionBootstrap.RegionIndex = dropdownField.index;
-            _profilesPage.CreationModel.Create();
+            _profilesPage.AwsCredentialsCreateModel.ProfileName = credentials[0];
+            _profilesPage.AwsCredentialsCreateModel.AccessKeyId = credentials[1];
+            _profilesPage.AwsCredentialsCreateModel.SecretKey = credentials[2];
+            _profilesPage.AwsCredentialsCreateModel.RegionBootstrap.RegionIndex = dropdownField.index;
+            _profilesPage.AwsCredentialsCreateModel.Create();
             
             return true;
         }

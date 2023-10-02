@@ -200,9 +200,7 @@ namespace Editor.CoreAPI
                                       !string.IsNullOrWhiteSpace(_selectedProfile?.Region) &&
                                       !string.IsNullOrWhiteSpace(_selectedProfile?.BucketName);
 
-        public Action OnProfileSelected { get; set; }
-        public Action OnBucketBootstrapped { get; set; }
-
+        public Action OnUserProfileUpdated { get; set; }
 
         public StateManager(CoreApi coreApi)
         {
@@ -234,7 +232,7 @@ namespace Editor.CoreAPI
             GameLiftWrapper = AmazonGameLiftWrapperFactory.Get(ProfileName);
             FleetManager = new GameLiftFleetManager(GameLiftWrapper);
             ComputeManager = new GameLiftComputeManager(GameLiftWrapper);
-            OnProfileSelected?.Invoke();
+            OnUserProfileUpdated?.Invoke();
         }
 
         public void RefreshProfiles()
@@ -259,7 +257,7 @@ namespace Editor.CoreAPI
         public void SetBucketBootstrap(string bucketName)
         {
             BucketName = bucketName;
-            OnBucketBootstrapped?.Invoke();
+            OnUserProfileUpdated?.Invoke();
         }
     }
 }
