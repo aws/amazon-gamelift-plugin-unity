@@ -116,7 +116,7 @@ namespace AmazonGameLift.Editor
 
         private void SetupButtonCallbacks()
         {
-            _container.Q<Button>("UserProfilePageAccountCardNoAccountButton").RegisterCallback<ClickEvent>(_ => OpenLink(""));
+            _container.Q<Button>("UserProfilePageAccountCardNoAccountButton").RegisterCallback<ClickEvent>(_ => OpenLink("")); // TODO: Investigate correct URL
             _container.Q<Button>("UserProfilePageBootstrapAnotherProfileButton").RegisterCallback<ClickEvent>(_ =>
             {
                 var targetWizard = _container.Q<VisualElement>("UserProfilePageCreateMenu");

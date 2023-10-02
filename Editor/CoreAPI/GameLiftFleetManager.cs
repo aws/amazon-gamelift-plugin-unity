@@ -135,9 +135,6 @@ namespace Editor.CoreAPI
             }
             catch (Exception ex)
             {
-                // var errorBox = _container.Q<VisualElement>("FleetErrorInfoBox");
-                // errorBox.style.display = DisplayStyle.Flex;
-                // errorBox.Q<Label>().text = ex.Message;
                 Debug.Log(ex.Message);
                 return null;
             }
@@ -160,9 +157,6 @@ namespace Editor.CoreAPI
             }
             catch (Exception ex)
             {
-                // var errorBox = _container.Q<VisualElement>("FleetErrorInfoBox");
-                // errorBox.style.display = DisplayStyle.Flex;
-                // errorBox.Q<Label>().text = ex.Message;
                 Debug.Log(ex.Message);
                 return new List<FleetAttributes>();
             }
