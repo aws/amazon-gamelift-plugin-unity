@@ -27,14 +27,12 @@ namespace AmazonGameLift.Editor
             //if (stateManager.SelectedProfile == null) //TODO Once Merged, uncomment
             if (true)
             {
-                _statusBox.Show(StatusBox.StatusBoxType.Info);
-                _statusBox.SetText(_elementLocalizer, Strings.LandingPageInfoStatusBoxText);
+                _statusBox.Show(StatusBox.StatusBoxType.Info, Strings.LandingPageInfoStatusBoxText);
             }
             //else if (!stateManager.IsBootstrapped) //TODO Once Merged, uncomment
             if (true)
             {
-                _statusBox.Show(StatusBox.StatusBoxType.Warning);
-                _statusBox.SetText(_elementLocalizer, Strings.LandingPageWarningStatusBoxText);
+                _statusBox.Show(StatusBox.StatusBoxType.Warning, Strings.LandingPageWarningStatusBoxText);
             }
 
             _container.Q<Button>("CreateAccount").RegisterCallback<ClickEvent>(_ => OnCreateAccountClicked());

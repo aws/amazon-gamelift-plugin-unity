@@ -24,6 +24,9 @@ namespace Editor.Window
         private readonly ConnectToFleetInput _fleetDetails;
         private readonly StateManager _stateManager;
         private StatusBox _registerComputeStatusBox;
+        
+        private const string URLText = "View Logs";
+        private const string ErrorText = "An error occurred when trying to register a compute: ";
 
         private string _computeName = "ComputerName-ProfileName";
         private string _ipAddress = "120.120.120.120";
@@ -83,9 +86,8 @@ namespace Editor.Window
                 }
                 else
                 {
-                    _registerComputeStatusBox.Show(StatusBox.StatusBoxType.Error);
-                    _registerComputeStatusBox.SetText(registerFleetCompute.ErrorMessage);
-                    _registerComputeStatusBox.AddExternalButton(Urls.AwsIAMConsole, "View IAM console");
+                    var url = string.Format(Urls.AwsAnywhereFleetLogs, _stateManager.Region);
+                    _registerComputeStatusBox.Show(StatusBox.StatusBoxType.Error, ErrorText + registerFleetCompute.ErrorMessage, url, URLText);
                 }
             }
 

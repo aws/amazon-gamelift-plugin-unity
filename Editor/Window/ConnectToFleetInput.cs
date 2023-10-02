@@ -30,6 +30,9 @@ namespace Editor.Window
         private Button _cancelButton;
         private StatusBox _connectToAnywhereStatusBox;
         
+        private const string URLText = "View Logs";
+        private const string ErrorText = "An error occurred when trying to create the Anywhere fleet: ";
+        
         private FleetStatus _fleetState;
         private List<FleetAttributes> _fleetsList;
 
@@ -45,9 +48,7 @@ namespace Editor.Window
             RegisterCallBacks(container);
             SetupBootMenu();
             SetupStatusBox();
-            _connectToAnywhereStatusBox.Show(StatusBox.StatusBoxType.Error);
-            _connectToAnywhereStatusBox.SetText("response.ErrorMessage");
-            _connectToAnywhereStatusBox.AddExternalButton(Urls.AwsIAMConsole, "View IAM console");
+            
             UpdateGUI();
         }
         
@@ -55,6 +56,8 @@ namespace Editor.Window
         {
             if (_fleetState is FleetStatus.NotCreated or FleetStatus.Creating)
             {
+                _connectToAnywhereStatusBox.Close();
+                
                 var response = await _fleetManager?.CreateAnywhereFleet(text)!;
                 if (response.Success)
                 {
@@ -62,9 +65,8 @@ namespace Editor.Window
                 }
                 else
                 {
-                    _connectToAnywhereStatusBox.Show(StatusBox.StatusBoxType.Error);
-                    _connectToAnywhereStatusBox.SetText(response.ErrorMessage);
-                    _connectToAnywhereStatusBox.AddExternalButton(Urls.AwsIAMConsole, "View IAM console");
+                    var url = string.Format(Urls.AwsAnywhereFleetLogs, _stateManager.Region);
+                    _connectToAnywhereStatusBox.Show(StatusBox.StatusBoxType.Error, ErrorText + response.ErrorMessage, url, URLText);
                 }
             }
             
@@ -149,9 +151,8 @@ namespace Editor.Window
                 }
                 else
                 {
-                    _connectToAnywhereStatusBox.Show(StatusBox.StatusBoxType.Error);
-                    _connectToAnywhereStatusBox.SetText(fleetsListResponse.ErrorMessage);
-                    _connectToAnywhereStatusBox.AddExternalButton(Urls.AwsIAMConsole, "View IAM console");
+                    var url = string.Format(Urls.AwsAnywhereFleetLogs, _stateManager.Region);
+                    _connectToAnywhereStatusBox.Show(StatusBox.StatusBoxType.Error, ErrorText + fleetsListResponse.ErrorMessage, url, URLText);
                 }
             }
         }

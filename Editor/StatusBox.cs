@@ -30,6 +30,9 @@ namespace AmazonGameLift.Editor
                 { StatusBoxType.Error, ErrorBoxElementClass }
             };
 
+        private ElementLocalizer _elementLocalizer;
+        private readonly Button _externalButton;
+
         public StatusBox()
         {
             var asset = Resources.Load<VisualTreeAsset>("EditorWindow/Components/StatusBox");
@@ -37,7 +40,8 @@ namespace AmazonGameLift.Editor
 
             _container = this.Q("StatusBox");
             _statusTextLabel = _container.Q<Label>("StatusBoxLabel");
-
+            _externalButton = this.Q<Button>("StatusBoxExternalButton");
+            _elementLocalizer = new ElementLocalizer(_container);
             this.Q<Button>("StatusBoxCloseButton").RegisterCallback<ClickEvent>(_ =>
             {
                 Close();
@@ -46,60 +50,44 @@ namespace AmazonGameLift.Editor
             UpdateStatusBoxesState();
         }
 
-        public void AddExternalButton(string externalButtonLink, string externalButtonText)
+        private void AddExternalButton(string externalButtonLink, string externalButtonText)
         {
-            var externalButton = this.Q<Button>("StatusBoxExternalButton");
-            
             if (!string.IsNullOrWhiteSpace(externalButtonText))
             {
-                externalButton.text = externalButtonText;
-                externalButton.RegisterCallback<ClickEvent>(_ => Application.OpenURL(externalButtonLink));
-                externalButton.RemoveFromClassList(HiddenClassName);
+                _externalButton.text = externalButtonText;
+                _externalButton.RegisterCallback<ClickEvent>(_ => Application.OpenURL(externalButtonLink));
+                _externalButton.RemoveFromClassList(HiddenClassName);
             }
         }
         
-        private void RemoveExternalButton()
+        public void Show(StatusBoxType statusBoxType, string text, string externalButtonLink = "", string externalButtonText = "")
         {
-            var externalButton = this.Q<Button>("StatusBoxExternalButton");
-            externalButton.AddToClassList(HiddenClassName);
-        }
+            _container.RemoveFromClassList(_statusBoxClasses[_currentType]);
+            
+            _container.AddToClassList(_statusBoxClasses[statusBoxType]);
+            _currentType = statusBoxType;
+            
+            _elementLocalizer.SetElementText(_statusTextLabel.name, text);
+            
+            if (externalButtonLink != "")
+            {
+                AddExternalButton(externalButtonLink, externalButtonText);
+            }
+            else
+            {
+                _externalButton.AddToClassList(HiddenClassName);
+            }
 
-        public void Show(StatusBoxType statusBoxType)
-        {
-            RemoveExternalButton();
-            RemoveStatusBoxType();
-            AddStatusBoxType(statusBoxType);
             ShowElement = true;
             UpdateStatusBoxesState();
         }
 
-        public void SetText(ElementLocalizer localizer, string textKey)
-        {
-            localizer.SetElementText(_statusTextLabel.name, textKey);
-        }
-        
-        public void SetText(string text)
-        {
-            _statusTextLabel.text = text;
-        }
-
-        private void Close()
+        public void Close()
         {
             ShowElement = false;
             UpdateStatusBoxesState();
         }
 
-        private void AddStatusBoxType(StatusBoxType statusBoxType)
-        {
-            _container.AddToClassList(_statusBoxClasses[statusBoxType]);
-            _currentType = statusBoxType;
-        }
-
-        private void RemoveStatusBoxType()
-        {
-            _container.RemoveFromClassList(_statusBoxClasses[_currentType]);
-        }
-        
         private void UpdateStatusBoxesState()
         {
             if (ShowElement)
