@@ -27,8 +27,8 @@
         <ui:VisualElement class="form-row">
             <ui:VisualElement class="form-row__input form-row__input--no-label separator separator--horizontal">
                 <ui:Button name="AnywherePageComputeRegisterButton" class="button button--primary" text="Register Compute"/>
-                <ui:Button name="AnywherePageComputeRegisterNewButton" class="button" text="Register new Compute"/>
-                <ui:Button name="AnywherePageComputeCancelButton" class="button" text="Cancel Compute"/>
+                <ui:Button name="AnywherePageComputeReplaceComputeButton" class="button" text="Register new Compute"/>
+                <ui:Button name="AnywherePageComputeCancelReplace" class="button" text="Cancel Compute"/>
             </ui:VisualElement>
         </ui:VisualElement>
     </ui:VisualElement>

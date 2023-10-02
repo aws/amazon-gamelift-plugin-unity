@@ -4,11 +4,11 @@
 <ui:UXML xmlns:ui="UnityEngine.UIElements">
     <ui:Style src="./common.uss"/>
     <ui:VisualElement name="AnywherePageCreateFleet" class="separator">
-        <ui:VisualElement name="AnywherePageFleetName" class="form-row">
+        <ui:VisualElement name="AnywherePageCreateFleetName" class="form-row">
             <ui:Label name="AnywherePageCreateFleetName" class="form-row__label" text="Fleet Name"/>
             <ui:VisualElement class="form-row__input">
-                <ui:TextField name="AnywherePageCreateFleetInput" class="text-input" value="GameName-AnywhereFleet"/>
-                <ui:Label name="AnywherePageCreateFleetHint" class="input-hint" text="Fleet Name must have 1–1024 characters. Valid characters are A-Z, a-z, 0-9, _ and - (hyphen)"/>
+                <ui:TextField name="AnywherePageCreateFleetNameInput" class="text-input" value="GameName-AnywhereFleet"/>
+                <ui:Label name="AnywherePageCreateFleetNameHint" class="input-hint" text="Fleet Name must have 1–1024 characters. Valid characters are A-Z, a-z, 0-9, _ and - (hyphen)"/>
             </ui:VisualElement>
         </ui:VisualElement>
         <ui:VisualElement class="form-row">
@@ -19,9 +19,9 @@
         </ui:VisualElement>
     </ui:VisualElement>
     <ui:VisualElement name="AnywherePageConnectFleet" class="separator">
-        <ui:VisualElement name="AnywhereFleetName" class="form-row">
-            <ui:Label name="AnywherePageConnectFleetLabel" class="form-row__label" text="Fleet Name"/>
-            <ui:DropdownField name="AnywherePageConnectFleetDropdown" class="form-row__input dropdown"/>
+        <ui:VisualElement name="AnywherePageConnectFleetName" class="form-row">
+            <ui:Label name="AnywherePageConnectFleetNameLabel" class="form-row__label" text="Fleet Name"/>
+            <ui:DropdownField name="AnywherePageConnectFleetNameDropdown" class="form-row__input dropdown"/>
         </ui:VisualElement>
         <ui:VisualElement name="AnywherePageConnectFleetID" class="form-row">
             <ui:Label name="AnywherePageConnectFleetIDLabel" class="form-row__label" text="Fleet ID"/>

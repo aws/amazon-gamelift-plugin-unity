@@ -2,7 +2,6 @@
 using System.Collections.Generic;
 using System.Linq;
 using Editor.CoreAPI;
-using Editor.Resources.EditorWindow;
 using Editor.Window;
 using UnityEngine;
 using UnityEngine.UIElements;
@@ -43,8 +42,8 @@ namespace AmazonGameLift.Editor
             _ipInputs = container.Query<TextField>("AnywherePageComputeIPAddressInput").ToList();
             _computeStatus = container.Q("AnywherePageComputeStatus");
             _registerButton = container.Q<Button>("AnywherePageComputeRegisterButton");
-            _replaceComputeButton = container.Q<Button>("AnywherePageComputeRegisterNewButton");
-            _cancelReplaceButton = container.Q<Button>("AnywherePageComputeCancelButton");
+            _replaceComputeButton = container.Q<Button>("AnywherePageComputeReplaceComputeButton");
+            _cancelReplaceButton = container.Q<Button>("AnywherePageComputeCancelReplace");
             LocalizeText();
 
             GetComputeVisualElements();
@@ -178,8 +177,8 @@ namespace AmazonGameLift.Editor
             l.SetElementText("AnywherePageComputeIPLabel", Strings.AnywherePageComputeIPLabel);
             l.SetElementText("AnywherePageComputeStatusLabel", Strings.AnywherePageComputeStatusLabel);
             l.SetElementText("AnywherePageComputeRegisterButton", Strings.AnywherePageComputeRegisterButton);
-            l.SetElementText("AnywherePageComputeRegisterNewButton", Strings.AnywherePageComputeRegisterNewButton);
-            l.SetElementText("AnywherePageComputeCancelButton", Strings.AnywherePageComputeCancelButton);
+            l.SetElementText("AnywherePageComputeReplaceComputeButton", Strings.AnywherePageComputeReplaceComputeButton);
+            l.SetElementText("AnywherePageComputeCancelReplace", Strings.AnywherePageComputeCancelReplace);
         }
 
         public enum ComputeStatus

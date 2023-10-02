@@ -2,9 +2,9 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using Amazon.GameLift;
 using Amazon.GameLift.Model;
 using Editor.CoreAPI;
-using Editor.Resources.EditorWindow;
 using Editor.Window;
 using UnityEngine;
 using UnityEngine.UIElements;
@@ -104,8 +104,8 @@ namespace AmazonGameLift.Editor
 
         private void AssignUiElements(VisualElement container)
         {
-            _fleetNameInput = container.Q<TextField>("AnywherePageCreateFleetInput");
-            _fleetNameDropdownContainer = container.Q<DropdownField>("AnywherePageConnectFleetDropdown");
+            _fleetNameInput = container.Q<TextField>("AnywherePageCreateFleetNameInput");
+            _fleetNameDropdownContainer = container.Q<DropdownField>("AnywherePageConnectFleetNameDropdown");
             _fleetId = container.Q("AnywherePageConnectFleetID");
             _fleetIdText = container.Q<Label>("AnywherePageConnectFleetIDDisplay");
             _fleetStatus = container.Q("AnywherePageConnectFleetStatus");
@@ -132,7 +132,7 @@ namespace AmazonGameLift.Editor
         {
             if (_stateManager.GameLiftWrapper != null)
             {
-                _fleetsList = await _fleetManager.ListFleetAttributes();
+                _fleetsList = await _fleetManager.ListFleetAttributes(ComputeType.ANYWHERE);
                 s_fleetNameList.Clear();
                 _fleetsList.ForEach(fleet => s_fleetNameList.Add(fleet.Name));
                 _fleetNameDropdownContainer.choices = s_fleetNameList;
@@ -214,7 +214,7 @@ namespace AmazonGameLift.Editor
             var l = new ElementLocalizer(_container);
             l.SetElementText("AnywherePageCreateFleetName", Strings.AnywherePageCreateFleetName);
             l.SetElementText("AnywherePageConnectFleetName", Strings.AnywherePageConnectFleetName);
-            l.SetElementText("AnywherePageConnectFleetLabel", Strings.AnywherePageConnectFleetLabel);
+            l.SetElementText("AnywherePageConnectFleetNameLabel", Strings.AnywherePageConnectFleetNameLabel);
             l.SetElementText("AnywherePageConnectFleetIDLabel", Strings.AnywherePageConnectFleetIDLabel);
             l.SetElementText("AnywherePageConnectFleetStatusLabel", Strings.AnywherePageConnectFleetStatusLabel);
             l.SetElementText("AnywherePageConnectFleetNewButton", Strings.AnywherePageConnectFleetNewButton);

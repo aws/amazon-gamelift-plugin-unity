@@ -156,11 +156,11 @@ namespace AmazonGameLift.Editor
         public const string AnywherePageCreateFleetTitle = "AnywherePageCreateFleetTitle";
         public const string AnywherePageCreateFleetName = "AnywherePageCreateFleetName";
         public const string AnywherePageConnectFleetName = "AnywherePageConnectFleetName";
-        public const string AnywherePageCreateFleetHint = "AnywherePageCreateFleetHint";
+        public const string AnywherePageCreateFleetNameHint = "AnywherePageCreateFleetNameHint";
         public const string AnywherePageCreateFleetButton = "AnywherePageCreateFleetButton";
         public const string AnywherePageCreateFleetCancelButton = "AnywherePageCreateFleetCancelButton";
         public const string AnywherePageConnectFleetTitle = "AnywherePageConnectFleetTitle";
-        public const string AnywherePageConnectFleetLabel = "AnywherePageConnectFleetLabel";
+        public const string AnywherePageConnectFleetNameLabel = "AnywherePageConnectFleetNameLabel";
         public const string AnywherePageConnectFleetIDLabel = "AnywherePageConnectFleetIDLabel";
         public const string AnywherePageConnectFleetStatusLabel = "AnywherePageConnectFleetStatusLabel";
         public const string AnywherePageConnectFleetNewButton = "AnywherePageConnectFleetNewButton";
@@ -169,8 +169,8 @@ namespace AmazonGameLift.Editor
         public const string AnywherePageComputeIPLabel = "AnywherePageComputeIPLabel";
         public const string AnywherePageComputeStatusLabel = "AnywherePageComputeStatusLabel";
         public const string AnywherePageComputeRegisterButton = "AnywherePageComputeRegisterButton";
-        public const string AnywherePageComputeRegisterNewButton = "AnywherePageComputeRegisterNewButton";
-        public const string AnywherePageComputeCancelButton = "AnywherePageComputeCancelButton";
+        public const string AnywherePageComputeReplaceComputeButton = "AnywherePageComputeReplaceComputeButton";
+        public const string AnywherePageComputeCancelReplace = "AnywherePageComputeCancelReplace";
         public const string AnywherePageAuthTokenTitle = "AnywherePageAuthTokenTitle";
         public const string AnywherePageAuthTokenLabel = "AnywherePageAuthTokenLabel";
         public const string AnywherePageAuthTokenNote = "AnywherePageAuthTokenNote";

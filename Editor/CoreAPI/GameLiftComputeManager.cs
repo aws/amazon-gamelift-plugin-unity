@@ -29,7 +29,11 @@ namespace Editor.CoreAPI
         public async Task<bool> RegisterFleetCompute(string computeName, string fleetId, string fleetLocation,
             string ipAddress, string existingComputeName = null)
         {
-            await DeregisterCompute(existingComputeName, fleetId);
+            if (!string.IsNullOrWhiteSpace(existingComputeName))
+            {
+                await DeregisterCompute(existingComputeName, fleetId);
+            }
+
             var webSocketUrl = await RegisterCompute(computeName, fleetId, fleetLocation, ipAddress);
             if (webSocketUrl != null)
             {

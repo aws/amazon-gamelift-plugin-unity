@@ -140,7 +140,7 @@ namespace Editor.CoreAPI
             }
         }
 
-        public async Task<List<FleetAttributes>> ListFleetAttributes()
+        public async Task<List<FleetAttributes>> ListFleetAttributes(ComputeType computeType)
         {
             try
             {
@@ -153,7 +153,7 @@ namespace Editor.CoreAPI
                 };
 
                 var describeFleetResponse = await _amazonGameLiftWrapper.DescribeFleetAttributes(describeFleetRequest);
-                return describeFleetResponse.FleetAttributes.Where(fleet => fleet.ComputeType == ComputeType.ANYWHERE)
+                return describeFleetResponse.FleetAttributes.Where(fleet => fleet.ComputeType == computeType)
                     .ToList();
             }
             catch (Exception ex)
