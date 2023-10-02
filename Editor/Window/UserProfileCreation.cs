@@ -45,10 +45,6 @@ namespace AmazonGameLift.Editor
         public BootstrapSettings SetupBootstrap()
         {
             _bootstrapSettings = BootstrapSettingsFactory.Create();
-            _refreshBucketsCancellation = new CancellationTokenSource();
-            _bootstrapSettings.SetUp(_refreshBucketsCancellation.Token)
-                .ContinueWith(_ => { _bootstrapSettings.RefreshCurrentBucket(); },
-                    TaskContinuationOptions.ExecuteSynchronously);
             return _bootstrapSettings;
         }
 
