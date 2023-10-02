@@ -4,21 +4,22 @@ using System.Linq;
 using System.Net;
 using System.Threading.Tasks;
 using Amazon.GameLift;
+using Amazon.GameLift.Model;
 using Amazon.Runtime.Internal;
 using AmazonGameLift.Editor;
-using AmazonGameLiftPlugin.Core;
+using AmazonGameLiftPlugin.Core.ApiGatewayManagement;
 using AmazonGameLiftPlugin.Core.Shared;
+using Editor.Window.Models;
 using UnityEngine;
 using UnityEngine.UIElements;
 using ErrorCode = AmazonGameLift.Editor.ErrorCode;
-using Model = Amazon.GameLift.Model;
 
 namespace Editor.CoreAPI
 {
     public class GameLiftFleetManager
     {
         private readonly CoreApi _coreApi;
-        private readonly IAmazonGameLiftWrapper _amazonGameLiftWrapper;
+        private readonly IAmazonGameLiftClientWrapper _amazonGameLiftWrapper;
         private string _fleetName;
         private string _fleetId;
         private const string FleetLocation = "custom-location-1";
@@ -26,51 +27,46 @@ namespace Editor.CoreAPI
         private VisualElement _container;
         private ErrorResponse _logger;
 
-        public GameLiftFleetManager(CoreApi coreApi, IAmazonGameLiftWrapper wrapper)
+        public GameLiftFleetManager(CoreApi coreApi, IAmazonGameLiftClientWrapper wrapper)
         {
             _coreApi = coreApi;
             _amazonGameLiftWrapper = wrapper;
         }
-        
-        public async Task<Response> CreateAnywhereFleet(string fleetName)
+
+        internal async Task<Response> CreateAnywhereFleet(string fleetName)
         {
             if (_amazonGameLiftWrapper != null)
             {
-                var createCustomLocationIfNotExistsResponse = await CreateCustomLocationIfNotExists(FleetLocation);
-                if (createCustomLocationIfNotExistsResponse.Success)
+                var success = await CreateCustomLocationIfNotExists(FleetLocation);
+                if (success)
                 {
-                    var fleetCreateResponse = await CreateFleet(ComputeType.ANYWHERE, FleetLocation, fleetName);
-                    if (fleetCreateResponse.Success)
+                    var fleetId = await CreateFleet(ComputeType.ANYWHERE, FleetLocation, fleetName);
+                    var fleetNameResponse = _coreApi.PutSetting(SettingsKeys.FleetName, fleetName);
+                    var fleetIdResponse = _coreApi.PutSetting(SettingsKeys.FleetId, fleetId);
+                    if (!fleetNameResponse.Success)
                     {
-                        var fleetNameResponse = _coreApi.PutSetting(SettingsKeys.FleetName, fleetName);
-                        if (!fleetNameResponse.Success)
-                        {
-                            return fleetNameResponse;
-                        }
+                        return Response.Fail(new GenericResponse(ErrorCode.InvalidFleetName));
+                    }
 
-                        var fleetIdPutResponse = _coreApi.PutSetting(SettingsKeys.FleetId, fleetCreateResponse.FleetId);
-                        if (!fleetIdPutResponse.Success)
-                        {
-                            return fleetIdPutResponse;
-                        }
-                    }
-                    else
+                    if (!fleetIdResponse.Success)
                     {
-                        return fleetCreateResponse;
+                        return Response.Fail(new GenericResponse(ErrorCode.InvalidFleetId));
                     }
+
+                    return Response.Ok(new GenericResponse());
                 }
-                
-                return createCustomLocationIfNotExistsResponse;
+
+                return Response.Fail(new GenericResponse(ErrorCode.CustomLocationCreationFailed));
             }
 
-            return Response.Fail(ErrorCode.AccountProfileMissing, "Account Profile Missing");
+            return Response.Fail(new GenericResponse(ErrorCode.AccountProfileMissing));
         }
 
-        private async Task<Response> CreateCustomLocationIfNotExists(string fleetLocation)
+        private async Task<bool> CreateCustomLocationIfNotExists(string fleetLocation)
         {
             try
             {
-                var listLocationsResponse = await _amazonGameLiftWrapper.ListLocations(new Model.ListLocationsRequest
+                var listLocationsResponse = await _amazonGameLiftWrapper.ListLocations(new ListLocationsRequest
                 {
                     Filters = new List<string> { "CUSTOM" }
                 });
@@ -81,7 +77,7 @@ namespace Editor.CoreAPI
                 if (foundLocation == null)
                 {
                     var createLocationResponse = await _amazonGameLiftWrapper.CreateLocation(
-                        new Model.CreateLocationRequest()
+                        new CreateLocationRequest()
                         {
                             LocationName = fleetLocation
                         });
@@ -92,31 +88,34 @@ namespace Editor.CoreAPI
                     }
                 }
 
-                return Response.Ok(new Response());
+                return true;
             }
             catch (Exception ex)
             {
-                return Response.Fail(ErrorCode.CustomLocationCreationFailed, ex.Message);
+                // var errorBox = _container.Q<VisualElement>("FleetErrorInfoBox");
+                // errorBox.style.display = DisplayStyle.Flex;
+                // errorBox.Q<Label>().text = ex.Message;
+                return false;
             }
         }
 
-        private async Task<CreateFleetResponse> CreateFleet(ComputeType computeType, string fleetLocation, string fleetName)
+        private async Task<string> CreateAnywhereFleet(ComputeType computeType, string fleetLocation, string fleetName)
         {
             try
             {
-                var createFleetRequest = new Model.CreateFleetRequest
+                var createFleetRequest = new CreateFleetRequest
                 {
                     Name = fleetName,
                     ComputeType = computeType,
                     Description = FleetDescription,
-                    Locations = new List<Model.LocationConfiguration>
+                    Locations = new List<LocationConfiguration>
                     {
                         new()
                         {
                             Location = fleetLocation,
                         }
                     },
-                    Tags = new List<Model.Tag>
+                    Tags = new List<Tag>
                     {
                         { new() { Key = "CreatedBy", Value = "AmazonGameLiftUnityPlugin" } }
                     }
@@ -128,46 +127,40 @@ namespace Editor.CoreAPI
                     Debug.Log($"Created Fleet {fleetName}");
                 }
 
-                return Response.Ok(new CreateFleetResponse
-                {
-                    FleetId = createFleetResponse.FleetAttributes.FleetId
-                });
+                return createFleetResponse.FleetAttributes.FleetId;
             }
             catch (Exception ex)
             {
-                return Response.Fail(new CreateFleetResponse
-                {
-                    ErrorCode = ErrorCode.CustomFleetFailed,
-                    ErrorMessage = ex.Message
-                });
+                var errorBox = _container.Q<VisualElement>("FleetErrorInfoBox");
+                errorBox.style.display = DisplayStyle.Flex;
+                errorBox.Q<Label>().text = ex.Message;
+                Debug.Log(ex.Message);
+                return null;
             }
         }
 
-        public async Task<DescribeFleetAttributesResponse> DescribeFleetAttributes()
+        internal async Task<List<FleetAttributes>> DescribeFleetAttributes()
         {
             try
             {
-                var listFleetRequest = new Model.ListFleetsRequest();
+                var listFleetRequest = new ListFleetsRequest();
                 var listFleetResponse = await _amazonGameLiftWrapper.ListFleets(listFleetRequest);
 
-                var describeFleetRequest = new Model.DescribeFleetAttributesRequest()
+                var describeFleetRequest = new DescribeFleetAttributesRequest()
                 {
                     FleetIds = listFleetResponse.FleetIds
                 };
 
-                var describeFleetResponse = await _amazonGameLiftWrapper.DescribeFleetAttributes(describeFleetRequest);
-                return Response.Ok(new DescribeFleetAttributesResponse
-                {
-                    FleetAttributes = describeFleetResponse.FleetAttributes
-                });
+                var describeFleetResponse = await _amazonGameLiftWrapper.DescribeFleets(describeFleetRequest);
+                return describeFleetResponse.FleetAttributes;
             }
             catch (Exception ex)
             {
-                return Response.Fail(new DescribeFleetAttributesResponse()
-                {
-                    ErrorCode = ErrorCode.ListFleetAttributesFailed,
-                    ErrorMessage = ex.Message
-                });
+                var errorBox = _container.Q<VisualElement>("FleetErrorInfoBox");
+                errorBox.style.display = DisplayStyle.Flex;
+                errorBox.Q<Label>().text = ex.Message;
+                Debug.Log(ex.Message);
+                return null;
             }
         }
     }
