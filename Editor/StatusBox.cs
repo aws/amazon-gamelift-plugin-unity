@@ -32,6 +32,7 @@ namespace AmazonGameLift.Editor
 
         private ElementLocalizer _elementLocalizer;
         private readonly Button _externalButton;
+        private readonly Label _externalButtonLabel;
 
         public StatusBox()
         {
@@ -41,6 +42,7 @@ namespace AmazonGameLift.Editor
             _container = this.Q("StatusBox");
             _statusTextLabel = _container.Q<Label>("StatusBoxLabel");
             _externalButton = this.Q<Button>("StatusBoxExternalButton");
+            _externalButtonLabel = this.Q<Label>("StatusBoxExternalButtonLabel");
             _elementLocalizer = new ElementLocalizer(_container);
             this.Q<Button>("StatusBoxCloseButton").RegisterCallback<ClickEvent>(_ =>
             {
@@ -54,7 +56,7 @@ namespace AmazonGameLift.Editor
         {
             if (!string.IsNullOrWhiteSpace(externalButtonText))
             {
-                _externalButton.text = externalButtonText;
+                _externalButtonLabel.text = externalButtonText;
                 _externalButton.RegisterCallback<ClickEvent>(_ => Application.OpenURL(externalButtonLink));
                 _externalButton.RemoveFromClassList(HiddenClassName);
             }

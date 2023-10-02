@@ -3,10 +3,6 @@
 
 @import '../common.uss';
 
-:root {
-
-}
-
 .status-box {
     border-radius: 4px;
     border-width: var(--border-size-medium);
@@ -36,11 +32,18 @@
 
 .status-box__label {
     color: var(--color-font-accent);
-    -unity-text-align: middle-center;
+    -unity-text-align: middle-left;
+    flex-shrink: 1;
     margin-right: auto;
+    padding-right: var(--spacing-small)
 }
 
 .status-box__external-button {
+    align-self: center;
+}
+
+.status-box__external-button > Image {
+    --unity-image-tint-color: #000;
 }
 
 .status-box__close-button {
