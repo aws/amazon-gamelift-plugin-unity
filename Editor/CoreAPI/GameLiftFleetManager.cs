@@ -43,15 +43,15 @@ namespace Editor.CoreAPI
                     if (fleetCreateResponse.Success)
                     {
                         var fleetNameResponse = _coreApi.PutSetting(SettingsKeys.FleetName, fleetName);
-                        var fleetIdPutResponse = _coreApi.PutSetting(SettingsKeys.FleetId, fleetCreateResponse.FleetId);
                         if (!fleetNameResponse.Success)
                         {
-                            return Response.Fail(ErrorCode.InvalidFleetName, "Invalid Fleet Name");
+                            return fleetNameResponse;
                         }
 
+                        var fleetIdPutResponse = _coreApi.PutSetting(SettingsKeys.FleetId, fleetCreateResponse.FleetId);
                         if (!fleetIdPutResponse.Success)
                         {
-                            return Response.Fail(ErrorCode.InvalidFleetId, "Invalid Fleet Id");
+                            return fleetIdPutResponse;
                         }
                     }
                     else

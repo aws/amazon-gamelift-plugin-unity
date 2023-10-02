@@ -45,7 +45,9 @@ namespace Editor.Window
             RegisterCallBacks(container);
             SetupBootMenu();
             SetupStatusBox();
-            
+            _connectToAnywhereStatusBox.Show(StatusBox.StatusBoxType.Error);
+            _connectToAnywhereStatusBox.SetText("response.ErrorMessage");
+            _connectToAnywhereStatusBox.AddExternalButton(Urls.AwsIAMConsole, "View IAM console");
             UpdateGUI();
         }
         

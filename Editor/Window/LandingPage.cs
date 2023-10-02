@@ -12,7 +12,6 @@ namespace AmazonGameLift.Editor
     {
         private readonly VisualElement _container;
         private StatusBox _statusBox;
-        private StatusBox _warningBox;
         private ElementLocalizer _elementLocalizer;
 
         public LandingPage(VisualElement container)
@@ -31,7 +30,7 @@ namespace AmazonGameLift.Editor
                 _statusBox.Show(StatusBox.StatusBoxType.Info);
                 _statusBox.SetText(_elementLocalizer, Strings.LandingPageInfoStatusBoxText);
             }
-            //else if (!stateManager.IsBootstrapped)
+            //else if (!stateManager.IsBootstrapped) //TODO Once Merged, uncomment
             if (true)
             {
                 _statusBox.Show(StatusBox.StatusBoxType.Warning);

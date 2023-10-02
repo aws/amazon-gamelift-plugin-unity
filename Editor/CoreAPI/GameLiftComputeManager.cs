@@ -35,20 +35,21 @@ namespace Editor.CoreAPI
             if (webSocketUrl != null)
             {
                 var computeNameResponse = _coreApi.PutSetting(SettingsKeys.ComputeName, computeName);
-                var ipAddressResponse = _coreApi.PutSetting(SettingsKeys.IpAddress, ipAddress);
-                var webSocketResponse = _coreApi.PutSetting(SettingsKeys.WebSocketUrl, webSocketUrl);
-                
                 if (!computeNameResponse.Success)
                 {
-                    return Response.Fail(ErrorCode.InvalidComputeName, "Invalid Compute Name");
+                    return computeNameResponse;
                 }
+                
+                var ipAddressResponse = _coreApi.PutSetting(SettingsKeys.IpAddress, ipAddress);
                 if (!ipAddressResponse.Success)
                 {
-                    return Response.Fail(ErrorCode.InvalidIpAddress, "Invalid Ip Address");
+                    return ipAddressResponse;
                 }
+                
+                var webSocketResponse = _coreApi.PutSetting(SettingsKeys.WebSocketUrl, webSocketUrl);
                 if (!webSocketResponse.Success)
                 {
-                    return Response.Fail(ErrorCode.InvalidWebsocketUrl, "Invalid Websocket Response");
+                    return webSocketResponse;
                 }
             }
 

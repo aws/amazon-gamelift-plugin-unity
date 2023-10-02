@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UIElements;
 
@@ -19,6 +20,15 @@ namespace AmazonGameLift.Editor
         private const string  ErrorBoxElementClass = "status-box--error";
 
         private StatusBoxType _currentType;
+
+        private readonly IReadOnlyDictionary<StatusBoxType, string> _statusBoxClasses =
+            new Dictionary<StatusBoxType, string>()
+            {
+                { StatusBoxType.Success, SuccessBoxElementClass },
+                { StatusBoxType.Info, InfoBoxElementClass },
+                { StatusBoxType.Warning, WarningBoxElementClass },
+                { StatusBoxType.Error, ErrorBoxElementClass }
+            };
 
         public StatusBox()
         {
@@ -72,8 +82,8 @@ namespace AmazonGameLift.Editor
         {
             _statusTextLabel.text = text;
         }
-        
-        public void Close()
+
+        private void Close()
         {
             ShowElement = false;
             UpdateStatusBoxesState();
@@ -81,42 +91,13 @@ namespace AmazonGameLift.Editor
 
         private void AddStatusBoxType(StatusBoxType statusBoxType)
         {
-            switch (statusBoxType)
-            {
-                case StatusBoxType.Success:
-                    _container.AddToClassList(SuccessBoxElementClass);
-                    break;
-                case StatusBoxType.Info:
-                    _container.AddToClassList(InfoBoxElementClass);
-                    break;
-                case StatusBoxType.Warning: 
-                    _container.AddToClassList(WarningBoxElementClass);
-                    break;
-                case StatusBoxType.Error: 
-                    _container.AddToClassList(ErrorBoxElementClass);
-                    break;
-                default:
-                    throw new ArgumentOutOfRangeException(nameof(statusBoxType));
-            }
+            _container.AddToClassList(_statusBoxClasses[statusBoxType]);
+            _currentType = statusBoxType;
         }
 
         private void RemoveStatusBoxType()
         {
-            switch (_currentType)
-            {
-                case StatusBoxType.Success:
-                    _container.RemoveFromClassList(SuccessBoxElementClass);
-                    break;
-                case StatusBoxType.Info:
-                    _container.RemoveFromClassList(InfoBoxElementClass);
-                    break;
-                case StatusBoxType.Warning: 
-                    _container.RemoveFromClassList(WarningBoxElementClass);
-                    break;
-                case StatusBoxType.Error: 
-                    _container.RemoveFromClassList(ErrorBoxElementClass);
-                    break;
-            }
+            _container.RemoveFromClassList(_statusBoxClasses[_currentType]);
         }
         
         private void UpdateStatusBoxesState()

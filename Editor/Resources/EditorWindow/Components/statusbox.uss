@@ -34,10 +34,6 @@
     background-color: rgba(250, 39, 39, 0.2);
 }
 
-.status-box__icon {
-
-}
-
 .status-box__label {
     color: var(--color-font-accent);
     -unity-text-align: middle-center;
