@@ -45,7 +45,7 @@ namespace AmazonGameLift.Editor
                                   OperatingSystem.AMAZON_LINUX_2
             };
 
-            var mVisualTreeAsset = UnityEngine.Resources.Load<VisualTreeAsset>("EditorWindow/Pages/ManagedEC2Page");
+            var mVisualTreeAsset = Resources.Load<VisualTreeAsset>("EditorWindow/Pages/ManagedEC2Page");
             var uxml = mVisualTreeAsset.Instantiate();
 
             container.Add(uxml);
@@ -96,11 +96,15 @@ namespace AmazonGameLift.Editor
         {
             LocalizeText();
 
-            _deployButton.SetEnabled(_deploymentSettings.CurrentStackInfo.StackStatus == null && _deploymentSettings.CanDeploy);
-            _redeployButton.SetEnabled(_deploymentSettings.CurrentStackInfo.StackStatus != null && _deploymentSettings.CanDeploy);
-            _deleteButton.SetEnabled(_deploymentSettings.CurrentStackInfo.StackStatus != null && _deploymentSettings.IsCurrentStackModifiable);
+            _deployButton.SetEnabled(_deploymentSettings.CurrentStackInfo.StackStatus == null &&
+                                     _deploymentSettings.CanDeploy);
+            _redeployButton.SetEnabled(_deploymentSettings.CurrentStackInfo.StackStatus != null &&
+                                       _deploymentSettings.CanDeploy);
+            _deleteButton.SetEnabled(_deploymentSettings.CurrentStackInfo.StackStatus != null &&
+                                     _deploymentSettings.IsCurrentStackModifiable);
             _launchClientButton.SetEnabled(
-                _deploymentSettings.CurrentStackInfo.StackStatus is StackStatus.CreateComplete or StackStatus.UpdateComplete);
+                _deploymentSettings.CurrentStackInfo.StackStatus is StackStatus.CreateComplete
+                    or StackStatus.UpdateComplete);
 
             _deploymentScenariosInput.SetEnabled(_deploymentSettings.CanDeploy);
             _fleetParamsInput.SetEnabled(_deploymentSettings.CanDeploy);

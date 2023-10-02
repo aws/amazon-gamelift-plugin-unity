@@ -23,7 +23,10 @@ namespace AmazonGameLift.Editor
     internal class DeploymentSettings
     {
         private const int StackInfoRefreshDelayMs = 2000;
-        private readonly Dictionary<DeploymentScenarios, DeployerBase> _deployers = new Dictionary<DeploymentScenarios, DeployerBase>();
+
+        private readonly Dictionary<DeploymentScenarios, DeployerBase> _deployers =
+            new Dictionary<DeploymentScenarios, DeployerBase>();
+
         private readonly ScenarioLocator _scenarioLocator;
         private readonly PathConverter _pathConverter;
         private readonly CoreApi _coreApi;
@@ -76,13 +79,13 @@ namespace AmazonGameLift.Editor
         public string BuildFolderPath { get; set; }
 
         public string BuildFilePath { get; set; }
-        
+
         public string BuildOperatingSystem { get; set; }
-        
+
         public string FleetName { get; set; }
-        
+
         public string BuildName { get; set; }
-        
+
         public string LaunchParameters { get; set; }
 
         #endregion Scenario parameters
@@ -103,20 +106,23 @@ namespace AmazonGameLift.Editor
         }
 
         public bool IsFormFilled => !string.IsNullOrWhiteSpace(GameName)
-            && IsValidScenarioIndex
-            && IsBuildFolderPathFilled
-            && IsBuildFilePathFilled;
+                                    && IsValidScenarioIndex
+                                    && IsBuildFolderPathFilled
+                                    && IsBuildFilePathFilled;
 
         public bool IsBuildFilePathFilled => IsValidScenarioIndex
-            && (!_deployers[Scenario].HasGameServer || _coreApi.FileExists(BuildFilePath));
+                                             && (!_deployers[Scenario].HasGameServer ||
+                                                 _coreApi.FileExists(BuildFilePath));
 
         public bool IsBuildFolderPathFilled => IsValidScenarioIndex
-           && (!_deployers[Scenario].HasGameServer || _coreApi.FolderExists(BuildFolderPath));
+                                               && (!_deployers[Scenario].HasGameServer ||
+                                                   _coreApi.FolderExists(BuildFolderPath));
 
         public bool IsBuildRequired =>
             IsValidScenarioIndex && _deployers[Scenario].HasGameServer;
 
-        public bool IsValidScenarioIndex => Enum.IsDefined(typeof(DeploymentScenarios), _scenario) && _deployers.ContainsKey(_scenario);
+        public bool IsValidScenarioIndex => Enum.IsDefined(typeof(DeploymentScenarios), _scenario) &&
+                                            _deployers.ContainsKey(_scenario);
 
         public bool DoesDeploymentExist { get; private set; }
 
@@ -144,7 +150,9 @@ namespace AmazonGameLift.Editor
         public event Action CurrentStackInfoChanged;
 
         internal DeploymentSettings(ScenarioLocator scenarioLocator, PathConverter pathConverter,
-            CoreApi coreApi, ScenarioParametersUpdater parametersUpdater, TextProvider textProvider, DeploymentWaiter deploymentWaiter, IDeploymentIdContainer currentDeploymentId, Delay delay, ILogger logger, StateManager stateManager)
+            CoreApi coreApi, ScenarioParametersUpdater parametersUpdater, TextProvider textProvider,
+            DeploymentWaiter deploymentWaiter, IDeploymentIdContainer currentDeploymentId, Delay delay, ILogger logger,
+            StateManager stateManager)
         {
             _scenarioLocator = scenarioLocator ?? throw new ArgumentNullException(nameof(scenarioLocator));
             _pathConverter = pathConverter ?? throw new ArgumentNullException(nameof(pathConverter));
@@ -179,6 +187,7 @@ namespace AmazonGameLift.Editor
             {
                 _deployers.Add((DeploymentScenarios)i, deployers[i]);
             }
+
             AllScenarios = _deployers.Values.Select(deployer => deployer.DisplayName).ToArray();
             GetSettingResponse bucketNameResponse = _coreApi.GetSetting(SettingsKeys.CurrentBucketName);
             CurrentBucketName = bucketNameResponse.Success ? bucketNameResponse.Value : null;
@@ -207,14 +216,16 @@ namespace AmazonGameLift.Editor
 
             if (string.IsNullOrEmpty(CurrentProfile))
             {
-                _logger.Log(string.Format(DevStrings.FailedToDescribeStackTemplate, DevStrings.ProfileInvalid), LogType.Warning);
+                _logger.Log(string.Format(DevStrings.FailedToDescribeStackTemplate, DevStrings.ProfileInvalid),
+                    LogType.Warning);
                 ClearCurrentStackInfo();
                 return;
             }
 
             if (!_coreApi.IsValidRegion(CurrentRegion))
             {
-                _logger.Log(string.Format(DevStrings.FailedToDescribeStackTemplate, DevStrings.RegionInvalid), LogType.Warning);
+                _logger.Log(string.Format(DevStrings.FailedToDescribeStackTemplate, DevStrings.RegionInvalid),
+                    LogType.Warning);
                 ClearCurrentStackInfo();
                 return;
             }
@@ -228,7 +239,8 @@ namespace AmazonGameLift.Editor
                 return;
             }
 
-            CurrentStackInfo = DeploymentStackInfoFactory.Create(_textProvider, describeResponse, CurrentRegion, ScenarioName);
+            CurrentStackInfo =
+                DeploymentStackInfoFactory.Create(_textProvider, describeResponse, CurrentRegion, ScenarioName);
         }
 
         public void Restore()
@@ -236,7 +248,7 @@ namespace AmazonGameLift.Editor
             Scenario = DeploymentScenarios.SingleRegion; // Selects "Single-Region Fleet" Deployment Scenario by default
             BuildFilePath = null;
             BuildFolderPath = null;
-            
+
             Scenario = _stateManager.DeploymentScenario;
             GameName = _stateManager.DeploymentGameName;
             BuildFolderPath = _stateManager.DeploymentBuildFolderPath;
@@ -381,7 +393,8 @@ namespace AmazonGameLift.Editor
 
             try
             {
-                DeploymentResponse response = await currentDeployer.StartDeployment(ScenarioPath, BuildFolderPath, GameName,
+                DeploymentResponse response = await currentDeployer.StartDeployment(ScenarioPath, BuildFolderPath,
+                    GameName,
                     isDevelopmentBuild: EditorUserBuildSettings.development, confirmChanges);
 
                 if (!response.Success)

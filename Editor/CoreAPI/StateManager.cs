@@ -244,7 +244,14 @@ namespace Editor.CoreAPI
             }
             else
             {
-                _allProfiles = _deserializer.Deserialize<List<UserProfile>>(profiles);
+                try
+                {
+                    _allProfiles = _deserializer.Deserialize<List<UserProfile>>(profiles);
+                }
+                catch (Exception ex)
+                {
+                    _allProfiles = new List<UserProfile>();
+                }
             }
         }
 
