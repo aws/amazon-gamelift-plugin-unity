@@ -1,5 +1,4 @@
 ﻿using System;
-using Editor.Resources.EditorWindow;
 using UnityEngine;
 using UnityEngine.UIElements;
 
@@ -13,22 +12,76 @@ namespace AmazonGameLift.Editor
         private Label _statusTextLabel;
         private bool ShowElement { get; set; }
         
-        private const string  InactiveStatusBoxClassName = "hidden";
+        private const string  HiddenClassName = "hidden";
         private const string  SuccessBoxElementClass = "status-box--success";
         private const string  InfoBoxElementClass = "status-box--info";
         private const string  WarningBoxElementClass = "status-box--warning";
         private const string  ErrorBoxElementClass = "status-box--error";
 
-        public StatusBox(StatusBoxType type)
+        private StatusBoxType _currentType;
+
+        public StatusBox()
         {
             var asset = Resources.Load<VisualTreeAsset>("EditorWindow/Components/StatusBox");
             asset.CloneTree(this);
 
-            LocalizeText();
-
-            _container = this.Q("StatusBox").Q("StatusBox");
+            _container = this.Q("StatusBox");
             _statusTextLabel = _container.Q<Label>("StatusBoxLabel");
-            switch (type)
+
+            this.Q<Button>("StatusBoxCloseButton").RegisterCallback<ClickEvent>(_ =>
+            {
+                Close();
+            });
+
+            UpdateStatusBoxesState();
+        }
+
+        public void AddExternalButton(string externalButtonLink, string externalButtonText)
+        {
+            var externalButton = this.Q<Button>("StatusBoxExternalButton");
+            
+            if (!string.IsNullOrWhiteSpace(externalButtonText))
+            {
+                externalButton.text = externalButtonText;
+                externalButton.RegisterCallback<ClickEvent>(_ => Application.OpenURL(externalButtonLink));
+                externalButton.RemoveFromClassList(HiddenClassName);
+            }
+        }
+        
+        private void RemoveExternalButton()
+        {
+            var externalButton = this.Q<Button>("StatusBoxExternalButton");
+            externalButton.AddToClassList(HiddenClassName);
+        }
+
+        public void Show(StatusBoxType statusBoxType)
+        {
+            RemoveExternalButton();
+            RemoveStatusBoxType();
+            AddStatusBoxType(statusBoxType);
+            ShowElement = true;
+            UpdateStatusBoxesState();
+        }
+
+        public void SetText(ElementLocalizer localizer, string textKey)
+        {
+            localizer.SetElementText(_statusTextLabel.name, textKey);
+        }
+        
+        public void SetText(string text)
+        {
+            _statusTextLabel.text = text;
+        }
+        
+        public void Close()
+        {
+            ShowElement = false;
+            UpdateStatusBoxesState();
+        }
+
+        private void AddStatusBoxType(StatusBoxType statusBoxType)
+        {
+            switch (statusBoxType)
             {
                 case StatusBoxType.Success:
                     _container.AddToClassList(SuccessBoxElementClass);
@@ -43,55 +96,38 @@ namespace AmazonGameLift.Editor
                     _container.AddToClassList(ErrorBoxElementClass);
                     break;
                 default:
-                    throw new ArgumentOutOfRangeException(nameof(type));
-            }
-            
-            this.Q<Button>("StatusBoxCloseButton").RegisterCallback<ClickEvent>(_ =>
-            {
-                ShowElement = false;
-                UpdateStatusBoxesState();
-            });
-
-            UpdateStatusBoxesState();
-        }
-
-        public StatusBox()
-        {
-        }
-
-        public void AddExternalButton(string externalButtonLink, string externalButtonText)
-        {
-            var externalButton = this.Q<Button>("StatusBoxExternalButton");
-            
-            if (!string.IsNullOrWhiteSpace(externalButtonText))
-            {
-                externalButton.text = externalButtonText;
-                externalButton.RegisterCallback<ClickEvent>(_ => Application.OpenURL(externalButtonLink));
+                    throw new ArgumentOutOfRangeException(nameof(statusBoxType));
             }
         }
 
-        public void Show(string statusBoxText)
+        private void RemoveStatusBoxType()
         {
-            _statusTextLabel.text = statusBoxText;
-            ShowElement = true;
-            UpdateStatusBoxesState();
-        }
-        
-        public void Close()
-        {
-            ShowElement = false;
-            UpdateStatusBoxesState();
+            switch (_currentType)
+            {
+                case StatusBoxType.Success:
+                    _container.RemoveFromClassList(SuccessBoxElementClass);
+                    break;
+                case StatusBoxType.Info:
+                    _container.RemoveFromClassList(InfoBoxElementClass);
+                    break;
+                case StatusBoxType.Warning: 
+                    _container.RemoveFromClassList(WarningBoxElementClass);
+                    break;
+                case StatusBoxType.Error: 
+                    _container.RemoveFromClassList(ErrorBoxElementClass);
+                    break;
+            }
         }
         
         private void UpdateStatusBoxesState()
         {
             if (ShowElement)
             {
-                _container.RemoveFromClassList(InactiveStatusBoxClassName);
+                _container.RemoveFromClassList(HiddenClassName);
             }
             else
             {
-                _container.AddToClassList(InactiveStatusBoxClassName);
+                _container.AddToClassList(HiddenClassName);
             }
         }
 
@@ -101,15 +137,6 @@ namespace AmazonGameLift.Editor
             Info,
             Warning,
             Error
-        }
-        
-        private void LocalizeText()
-        {
-            var l = new ElementLocalizer(this);
-            // l.SetElementText("DropdownLabel", Strings.ProfileSelectorDropdownLabel);
-            // l.SetElementText("BucketNameLabel", Strings.ProfileSelectorBucketNameLabel);
-            // l.SetElementText("RegionLabel", Strings.ProfileSelectorRegionLabel);
-            // l.SetElementText("BootstrapStatusLabel", Strings.ProfileSelectorStatusLabel);
         }
     }
 }

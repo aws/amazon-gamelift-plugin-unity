@@ -2,6 +2,7 @@
 // SPDX-License-Identifier: Apache-2.0
 
 using AmazonGameLift.Editor;
+using Editor.CoreAPI;
 using UnityEngine;
 using UnityEngine.UIElements;
 
@@ -10,6 +11,9 @@ namespace AmazonGameLift.Editor
     public class LandingPage
     {
         private readonly VisualElement _container;
+        private StatusBox _statusBox;
+        private StatusBox _warningBox;
+        private ElementLocalizer _elementLocalizer;
 
         public LandingPage(VisualElement container)
         {
@@ -18,8 +22,22 @@ namespace AmazonGameLift.Editor
             var uxml = mVisualTreeAsset.Instantiate();
             
             container.Add(uxml);
+            SetupStatusBoxes();
             LocalizeText();
             
+            //if (stateManager.SelectedProfile == null) //TODO Once Merged, uncomment
+            if (true)
+            {
+                _statusBox.Show(StatusBox.StatusBoxType.Info);
+                _statusBox.SetText(_elementLocalizer, Strings.LandingPageInfoStatusBoxText);
+            }
+            //else if (!stateManager.IsBootstrapped)
+            if (true)
+            {
+                _statusBox.Show(StatusBox.StatusBoxType.Warning);
+                _statusBox.SetText(_elementLocalizer, Strings.LandingPageWarningStatusBoxText);
+            }
+
             _container.Q<Button>("CreateAccount").RegisterCallback<ClickEvent>(_ => OnCreateAccountClicked());
             _container.Q<Button>("AddProfile").RegisterCallback<ClickEvent>(_ => OnAddProfileClicked());
             _container.Q<Button>("DownloadSampleGame").RegisterCallback<ClickEvent>(_ => OnImportSampleClicked());
@@ -42,16 +60,23 @@ namespace AmazonGameLift.Editor
 
         private void LocalizeText()
         {
-            var l = new ElementLocalizer(_container);
-            l.SetElementText("LandingPageHeader", Strings.LandingPageHeader);
-            l.SetElementText("LandingPageDescription", Strings.LandingPageDescription);
-            l.SetElementText("LandingPageNoAccountCardText", Strings.LandingPageNoAccountCardText);
-            l.SetElementText("LandingPageNoAccountCardButton", Strings.LandingPageNoAccountCardButton);
-            l.SetElementText("LandingPageAccountCardText", Strings.LandingPageAccountCardText);
-            l.SetElementText("LandingPageAccountCardButton", Strings.LandingPageAccountCardButton);
-            l.SetElementText("LandingPageSampleHeader", Strings.LandingPageSampleHeader);
-            l.SetElementText("LandingPageSampleDescription", Strings.LandingPageSampleDescription);
-            l.SetElementText("DownloadSampleGame", Strings.LandingPageSampleButton);
+            _elementLocalizer = new ElementLocalizer(_container);
+            _elementLocalizer.SetElementText("LandingPageHeader", Strings.LandingPageHeader);
+            _elementLocalizer.SetElementText("LandingPageDescription", Strings.LandingPageDescription);
+            _elementLocalizer.SetElementText("LandingPageNoAccountCardText", Strings.LandingPageNoAccountCardText);
+            _elementLocalizer.SetElementText("LandingPageNoAccountCardButton", Strings.LandingPageNoAccountCardButton);
+            _elementLocalizer.SetElementText("LandingPageAccountCardText", Strings.LandingPageAccountCardText);
+            _elementLocalizer.SetElementText("LandingPageAccountCardButton", Strings.LandingPageAccountCardButton);
+            _elementLocalizer.SetElementText("LandingPageSampleHeader", Strings.LandingPageSampleHeader);
+            _elementLocalizer.SetElementText("LandingPageSampleDescription", Strings.LandingPageSampleDescription);
+            _elementLocalizer.SetElementText("DownloadSampleGame", Strings.LandingPageSampleButton);
+        }
+
+        private void SetupStatusBoxes()
+        {
+            _statusBox = new StatusBox();
+            var errorContainer = _container.Q("LandingPageErrorContainer");
+            errorContainer.Add(_statusBox);
         }
     }
 }

@@ -36,8 +36,8 @@ namespace Editor.CoreAPI
         {
             if (_amazonGameLiftWrapper != null)
             {
-                var createCustomLocationIfNotExists = await CreateCustomLocationIfNotExists(FleetLocation);
-                if (createCustomLocationIfNotExists.Success)
+                var createCustomLocationIfNotExistsResponse = await CreateCustomLocationIfNotExists(FleetLocation);
+                if (createCustomLocationIfNotExistsResponse.Success)
                 {
                     var fleetCreateResponse = await CreateFleet(ComputeType.ANYWHERE, FleetLocation, fleetName);
                     if (fleetCreateResponse.Success)
@@ -60,7 +60,7 @@ namespace Editor.CoreAPI
                     }
                 }
                 
-                return createCustomLocationIfNotExists;
+                return createCustomLocationIfNotExistsResponse;
             }
 
             return Response.Fail(ErrorCode.AccountProfileMissing, "Account Profile Missing");
@@ -143,7 +143,7 @@ namespace Editor.CoreAPI
             }
         }
 
-        public async Task<DescribeFleetAttributesResponse> ListFleetAttributes()
+        public async Task<DescribeFleetAttributesResponse> DescribeFleetAttributes()
         {
             try
             {

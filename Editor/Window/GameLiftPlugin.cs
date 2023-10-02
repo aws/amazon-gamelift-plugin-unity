@@ -50,7 +50,7 @@ namespace AmazonGameLift.Editor
             LocalizeText();
 
             var tabContentContainer = _root.Q(className: MainContentClassName);
-            var landingPage = new LandingPage(CreateContentContainer(Pages.Landing, tabContentContainer), _stateManager);
+            var landingPage = new LandingPage(CreateContentContainer(Pages.Landing, tabContentContainer));
             var anywherePage = new AnywherePage(CreateContentContainer(Pages.Anywhere, tabContentContainer), _stateManager);
             var ec2Page = new ManagedEC2Page(CreateContentContainer(Pages.ManagedEC2, tabContentContainer));
             var helpPage = new HelpAndDocumentationPage(CreateContentContainer(Pages.Help, tabContentContainer));
@@ -59,8 +59,6 @@ namespace AmazonGameLift.Editor
             _tabContent = _root.Query(className: TabContentClassName).ToList();
 
             _tabButtons.ForEach(button => button.RegisterCallback<ClickEvent>(_ => { OpenTab(button.name); }));
-            
-            OpenTab(Pages.Landing);
         }
 
         private void LocalizeText()

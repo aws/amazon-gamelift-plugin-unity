@@ -192,6 +192,8 @@ namespace AmazonGameLift.Editor
             { Strings.LandingPageSampleHeader, "Try our Sample Game" },
             { Strings.LandingPageSampleDescription, "Explore Amazon GameLift with our sample multiplayer game. View integration code, set up hosting with Amazon GameLift Anywhere or Managed EC2 fleets, and experiment with hosting features. Import the sample game into your project, and look for it in the project Assets." },
             { Strings.LandingPageSampleButton, "Import Sample Game" },
+            { Strings.LandingPageInfoStatusBoxText, "You will need to configure an AWS account profile to use Amazon GameLift." },
+            { Strings.LandingPageWarningStatusBoxText, "Profile configuration is incomplete, navigate to AWS Account Credentials for next steps" },
             
             { Strings.AnywherePageTitle, "Host with Amazon GameLift Anywhere"},
             { Strings.AnywherePageDescription, "Set up an Amazon GameLift Anywhere fleet to host game servers using your own hardware. With an Anywhere fleet, Amazon GameLift manages game sessions and placement (including matchmaking), while you control your own server hosting infrastructure under a single managed solution.\nCreate an Anywhere fleet for your on-premises or other compute resources. During game development, turn your local workstation into an Anywhere fleet to continuously deploy, test, and iterate your game builds."},

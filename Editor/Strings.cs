@@ -146,6 +146,8 @@ namespace AmazonGameLift.Editor
         public const string LandingPageSampleHeader = "LandingPageSampleHeader";
         public const string LandingPageSampleDescription = "LandingPageSampleDescription";
         public const string LandingPageSampleButton = "LandingPageSampleButton";
+        public const string LandingPageInfoStatusBoxText = "LandingPageInfoStatusBoxText";
+        public const string LandingPageWarningStatusBoxText = "LandingPageWarningStatusBoxText";
 
         public const string AnywherePageTitle = "AnywherePageTitle";
         public const string AnywherePageDescription = "AnywherePageDescription";

@@ -28,7 +28,7 @@ namespace Editor.Window
         private readonly GameLiftFleetManager _fleetManager;
         private readonly StateManager _stateManager;
         private Button _cancelButton;
-        private StatusBox _connectToAnywhereErrorBox;
+        private StatusBox _connectToAnywhereStatusBox;
         
         private FleetStatus _fleetState;
         private List<FleetAttributes> _fleetsList;
@@ -39,8 +39,7 @@ namespace Editor.Window
             _fleetState = initialState;
             _stateManager = stateManager;
             _fleetManager = stateManager.FleetManager;
-            
-            
+
             AssignUiElements(container);
             PopulateFleetVisualElements();
             RegisterCallBacks(container);
@@ -61,8 +60,9 @@ namespace Editor.Window
                 }
                 else
                 {
-                    _connectToAnywhereErrorBox.AddExternalButton(Urls.AwsIAMConsole, "View IAM console");
-                    _connectToAnywhereErrorBox.Show(response.ErrorMessage);
+                    _connectToAnywhereStatusBox.Show(StatusBox.StatusBoxType.Error);
+                    _connectToAnywhereStatusBox.SetText(response.ErrorMessage);
+                    _connectToAnywhereStatusBox.AddExternalButton(Urls.AwsIAMConsole, "View IAM console");
                 }
             }
             
@@ -137,7 +137,7 @@ namespace Editor.Window
         {
             if (_stateManager.GameLiftWrapper != null)
             {
-                var fleetsListResponse = await _fleetManager?.ListFleetAttributes()!;
+                var fleetsListResponse = await _fleetManager?.DescribeFleetAttributes()!;
                 if (fleetsListResponse.Success)
                 {
                     _fleetsList = fleetsListResponse.FleetAttributes;
@@ -147,8 +147,9 @@ namespace Editor.Window
                 }
                 else
                 {
-                    _connectToAnywhereErrorBox.AddExternalButton(Urls.AwsIAMConsole, "View IAM console");
-                    _connectToAnywhereErrorBox.Show(fleetsListResponse.ErrorMessage);
+                    _connectToAnywhereStatusBox.Show(StatusBox.StatusBoxType.Error);
+                    _connectToAnywhereStatusBox.SetText(fleetsListResponse.ErrorMessage);
+                    _connectToAnywhereStatusBox.AddExternalButton(Urls.AwsIAMConsole, "View IAM console");
                 }
             }
         }
@@ -202,9 +203,9 @@ namespace Editor.Window
         
         private void SetupStatusBox()
         {
-            _connectToAnywhereErrorBox = new StatusBox(StatusBox.StatusBoxType.Error);
+            _connectToAnywhereStatusBox = new StatusBox();
             var errorContainer = _container.Q("AnywherePageConnectFleetErrorContainer");
-            errorContainer.Add(_connectToAnywhereErrorBox);
+            errorContainer.Add(_connectToAnywhereStatusBox);
         }
 
         protected sealed override void UpdateGUI()

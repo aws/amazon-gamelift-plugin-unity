@@ -23,7 +23,7 @@ namespace Editor.Window
         private readonly GameLiftComputeManager _computeManager;
         private readonly ConnectToFleetInput _fleetDetails;
         private readonly StateManager _stateManager;
-        private StatusBox _registerComputeErrorBox;
+        private StatusBox _registerComputeStatusBox;
 
         private string _computeName = "ComputerName-ProfileName";
         private string _ipAddress = "120.120.120.120";
@@ -83,8 +83,9 @@ namespace Editor.Window
                 }
                 else
                 {
-                    _registerComputeErrorBox.AddExternalButton(Urls.AwsIAMConsole, "View IAM console");
-                    _registerComputeErrorBox.Show(registerFleetCompute.ErrorMessage);
+                    _registerComputeStatusBox.Show(StatusBox.StatusBoxType.Error);
+                    _registerComputeStatusBox.SetText(registerFleetCompute.ErrorMessage);
+                    _registerComputeStatusBox.AddExternalButton(Urls.AwsIAMConsole, "View IAM console");
                 }
             }
 
@@ -160,9 +161,9 @@ namespace Editor.Window
         
         private void SetupStatusBox()
         {
-            _registerComputeErrorBox =  new StatusBox(StatusBox.StatusBoxType.Error);
+            _registerComputeStatusBox =  new StatusBox();
             var errorContainer = _container.Q("AnywherePageComputeErrorContainer");
-            errorContainer.Add(_registerComputeErrorBox);
+            errorContainer.Add(_registerComputeStatusBox);
         }
 
         protected sealed override void UpdateGUI()
