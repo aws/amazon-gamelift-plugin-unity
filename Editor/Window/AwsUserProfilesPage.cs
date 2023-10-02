@@ -42,10 +42,10 @@ namespace AmazonGameLift.Editor
             _container.Add(uxml);
             LocalizeText();
             
-            _noAccountMenu =  _container.Q<VisualElement>("Cards");
-            _createMenu = _container.Q<VisualElement>("AddNewProfile");
-            _bootstrapMenu = _container.Q<VisualElement>("BootstrapMenu");
-            _completedMenu = _container.Q<VisualElement>("CompletedProfile");
+            _noAccountMenu =  _container.Q<VisualElement>("UserProfilePageNoAccountMenu");
+            _createMenu = _container.Q<VisualElement>("UserProfilePageCreateMenu");
+            _bootstrapMenu = _container.Q<VisualElement>("UserProfilePageBootstrapMenu");
+            _completedMenu = _container.Q<VisualElement>("UserProfilePageCompletedMenu");
             _allMenus = new List<VisualElement>()
             {
                 _noAccountMenu,
@@ -87,8 +87,8 @@ namespace AmazonGameLift.Editor
             l.SetElementText("UserProfilePageAccountNewProfileTitle", Strings.UserProfilePageAccountNewProfileTitle);
             l.SetElementText("UserProfilePageAccountNewProfileName", Strings.UserProfilePageAccountNewProfileName);
             l.SetElementText("UserProfilePageAccountNewProfileAccessKeyInput", Strings.UserProfilePageAccountNewProfileAccessKeyInput);
-            l.SetElementText("UserProfilePageAccountNewProfileSecretKeyInput", Strings.UserProfilePageAccountNewProfileSecretKeyInput);
-            l.SetElementText("UserProfilePageAccountNewProfileRegion", Strings.UserProfilePageAccountNewProfileRegion);
+            l.SetElementText("UserProfilePageAccountNewProfileSecretKeyLabel", Strings.UserProfilePageAccountNewProfileSecretKeyLabel);
+            l.SetElementText("UserProfilePageAccountNewProfileRegionLabel", Strings.UserProfilePageAccountNewProfileRegionLabel);
             l.SetElementText("UserProfilePageAccountNewProfileRegionPlaceholderDropdown", Strings.UserProfilePageAccountNewProfileRegionPlaceholderDropdown);
             l.SetElementText("UserProfilePageAccountCardNoAccountLink", Strings.UserProfilePageAccountCardNoAccountLink);
             l.SetElementText("UserProfilePageAccountNewProfileHelpLink", Strings.UserProfilePageAccountNewProfileHelpLink);
@@ -119,14 +119,14 @@ namespace AmazonGameLift.Editor
             _container.Q<Button>("UserProfilePageAccountCardNoAccountButton").RegisterCallback<ClickEvent>(_ => OpenLink(""));
             _container.Q<Button>("UserProfilePageBootstrapAnotherProfileButton").RegisterCallback<ClickEvent>(_ =>
             {
-                var targetWizard = _container.Q<VisualElement>("AddNewProfile");
+                var targetWizard = _container.Q<VisualElement>("UserProfilePageCreateMenu");
                 ShowProfileMenu(targetWizard);
             });
             _container.Q<Button>("UserProfilePageAccountNewProfileCreateButton").RegisterCallback<ClickEvent>(_ =>
             {
                 if (CreateUserProfile())
                 {
-                    var targetWizard = _container.Q<VisualElement>("BootstrapMenu");
+                    var targetWizard = _container.Q<VisualElement>("UserProfilePageBootstrapMenu");
                     ShowProfileMenu(targetWizard);
                 }
                 else
@@ -148,19 +148,19 @@ namespace AmazonGameLift.Editor
             {
                 OpenS3Popup(_stateManager.BucketName);
             });
-            _container.Q<Button>("AccessKeyToggleReveal").RegisterCallback<ClickEvent>(_ =>
+            _container.Q<Button>("UserProfilePageAccountNewProfileAccessKeyToggleReveal").RegisterCallback<ClickEvent>(_ =>
             {
-                var accessToggle = _container.Q<TextField>("AccessKeyField");
+                var accessToggle = _container.Q<TextField>("UserProfilePageAccountNewProfileAccessKeyInput");
                 ToggleHiddenText(accessToggle);
             });
-            _container.Q<Button>("SecretKeyToggleReveal").RegisterCallback<ClickEvent>(_ =>
+            _container.Q<Button>("UserProfilePageAccountNewProfileSecretKeyToggleReveal").RegisterCallback<ClickEvent>(_ =>
             {
-                var secretToggle = _container.Q<TextField>("SecretKeyField");
+                var secretToggle = _container.Q<TextField>("UserProfilePageAccountNewProfileSecretKeyInput");
                 ToggleHiddenText(secretToggle);
             });
-            _container.Q<Button>("AddProfile").RegisterCallback<ClickEvent>(_ =>
+            _container.Q<Button>("UserProfilePageAccountAddNewProfileButton").RegisterCallback<ClickEvent>(_ =>
             {
-                var targetWizard = _container.Q<VisualElement>("AddNewProfile");
+                var targetWizard = _container.Q<VisualElement>("UserProfilePageCreateMenu");
                 ShowProfileMenu(targetWizard);
             });
         }
