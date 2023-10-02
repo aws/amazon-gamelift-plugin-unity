@@ -23,6 +23,11 @@ namespace AmazonGameLift.Editor
         private readonly StateManager _stateManager;
         private readonly VisualElement _container;
         private readonly UserProfileCreation _userProfileCreation;
+        private readonly List<VisualElement> _allMenus;
+        private readonly VisualElement _noAccountMenu;
+        private readonly VisualElement _createMenu;
+        private readonly VisualElement _bootstrapMenu;
+        private readonly VisualElement _completedMenu;
 
         public AwsUserProfilesPage(VisualElement container, StateManager stateManager)
         {
@@ -36,12 +41,25 @@ namespace AmazonGameLift.Editor
 
             _container.Add(uxml);
             LocalizeText();
+            
+            _noAccountMenu =  _container.Q<VisualElement>("Cards");
+            _createMenu = _container.Q<VisualElement>("AddNewProfile");
+            _bootstrapMenu = _container.Q<VisualElement>("BootstrapMenu");
+            _completedMenu = _container.Q<VisualElement>("CompletedProfile");
+            _allMenus = new List<VisualElement>()
+            {
+                _noAccountMenu,
+                _createMenu,
+                _bootstrapMenu,
+                _completedMenu,
+            };
+            AccountDetailTextFields = _createMenu.Query<TextField>().ToList();
 
             _stateManager = stateManager;
             AwsCredentialsCreateModel.OnCreated += () => _stateManager.SetProfile(AwsCredentialsCreateModel.ProfileName);
             _stateManager.OnUserProfileUpdated += () =>
             {
-        AwsCredentialsUpdateModel.Refresh();
+                AwsCredentialsUpdateModel.Refresh();
                 AwsCredentialsUpdateModel.Update();
             };
             
@@ -53,7 +71,7 @@ namespace AmazonGameLift.Editor
             container.Q<DropdownField>("UserProfilePageAccountNewProfileRegionDropdown").choices =
                 _stateManager.CoreApi.ListAvailableRegions().ToList();
             
-            SetupBootMenu();
+            ChooseProfileMenu();
             SetupButtonCallbacks();
         }
         
@@ -102,14 +120,14 @@ namespace AmazonGameLift.Editor
             _container.Q<Button>("UserProfilePageBootstrapAnotherProfileButton").RegisterCallback<ClickEvent>(_ =>
             {
                 var targetWizard = _container.Q<VisualElement>("AddNewProfile");
-                ChangeWizard(targetWizard);
+                ShowProfileMenu(targetWizard);
             });
             _container.Q<Button>("UserProfilePageAccountNewProfileCreateButton").RegisterCallback<ClickEvent>(_ =>
             {
-                if (SaveProfile())
+                if (CreateUserProfile())
                 {
                     var targetWizard = _container.Q<VisualElement>("BootstrapMenu");
-                    ChangeWizard(targetWizard);
+                    ShowProfileMenu(targetWizard);
                 }
                 else
                 {
@@ -119,7 +137,7 @@ namespace AmazonGameLift.Editor
             _container.Q<Button>("UserProfilePageAccountNewProfileCancelButton").RegisterCallback<ClickEvent>(_ =>
             {
                 ClearCredentials();
-                SetupBootMenu();
+                ChooseProfileMenu();
             });
             _container.Q<Button>("UserProfilePageBootstrapStartButton").RegisterCallback<ClickEvent>(_ =>
             {
@@ -143,7 +161,7 @@ namespace AmazonGameLift.Editor
             _container.Q<Button>("AddProfile").RegisterCallback<ClickEvent>(_ =>
             {
                 var targetWizard = _container.Q<VisualElement>("AddNewProfile");
-                ChangeWizard(targetWizard);
+                ShowProfileMenu(targetWizard);
             });
         }
 
@@ -152,60 +170,27 @@ namespace AmazonGameLift.Editor
             Application.OpenURL(url);
         }
 
-        private void SetupBootMenu()
+        private void ChooseProfileMenu()
         {
-            VisualElement targetWizard;
-            // var tab2WarningBox = _container.Q<VisualElement>(null, "Tab2Warning");
-            var cardsMenu =  _container.Q<VisualElement>("Cards");
-            var newProfileMenu = _container.Q<VisualElement>("AddNewProfile");
-            var bootStrapMenu = _container.Q<VisualElement>("BootstrapMenu");
-            var completedMenu = _container.Q<VisualElement>("CompletedProfile");
-            cardsMenu.AddToClassList(hiddenClassName);
-            newProfileMenu.AddToClassList(hiddenClassName);
-            bootStrapMenu.AddToClassList(hiddenClassName);
-            completedMenu.AddToClassList(hiddenClassName);
-            AccountDetailTextFields = newProfileMenu.Query<TextField>().ToList();
-            switch (_stateManager.AllProfiles.Count)
+            if (_stateManager.AllProfiles.Count == 0)
             {
-                case 0:
-                    targetWizard = _container.Q<VisualElement>("Cards");
-                    break;
-                case 1:
-                    if (_stateManager.SelectedProfile == null)
-                    {
-                        // tab2WarningBox.style.display = DisplayStyle.Flex;
-                        //TODO Set SelectedProfile and change dropdown to "Choose Profile" and make all the below labels ---
-                    }
-
-                    targetWizard = _stateManager.IsBootstrapped == false
-                        ? bootStrapMenu
-                        : completedMenu;
-                    break;
-                default:
-                {
-                    if (_stateManager.AllProfiles.Any(profile => profile == "default"))
-                    {
-                        targetWizard = _stateManager.IsBootstrapped == false
-                            ? bootStrapMenu
-                            : completedMenu;
-                    }
-                    else
-                    {
-                        targetWizard = bootStrapMenu;
-                        if (_stateManager.SelectedProfile == null)
-                        {
-                            // tab2WarningBox.style.display = DisplayStyle.Flex;
-                        }
-                    }
-
-                    break;
-                }
+                ShowProfileMenu(_noAccountMenu);
             }
-
-            ChangeWizard(targetWizard);
+            else if (_stateManager.SelectedProfile == null)
+            {
+                ShowProfileMenu(_createMenu);
+            } 
+            else if (_stateManager.IsBootstrapped)
+            {
+                ShowProfileMenu(_completedMenu);
+            }
+            else
+            {
+                ShowProfileMenu(_bootstrapMenu);
+            }
         }
 
-        private bool SaveProfile()
+        private bool CreateUserProfile()
         {
             if (!_userProfileCreation.CreateUserProfile())
             {
@@ -229,17 +214,12 @@ namespace AmazonGameLift.Editor
             hiddenField.isPasswordField = !hiddenField.isPasswordField;
         }
         
-        private void ChangeWizard(VisualElement targetWizard)
+        private void ShowProfileMenu(VisualElement targetMenu)
         {
-            if (_currentElement != null)
+            _allMenus.ForEach(menu => menu.AddToClassList(hiddenClassName));
+            if (targetMenu != null)
             {
-                _currentElement.AddToClassList(hiddenClassName);
-            }
-
-            _currentElement = targetWizard;
-            if (_currentElement != null)
-            {
-                _currentElement.RemoveFromClassList(hiddenClassName);
+                targetMenu.RemoveFromClassList(hiddenClassName);
             }
         }
         

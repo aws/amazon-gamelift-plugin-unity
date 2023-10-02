@@ -120,7 +120,7 @@ namespace Editor.Window
         {
             if (_stateManager.GameLiftWrapper != null)
             {
-                _fleetsList = await _fleetManager.ListFleetAttributes() ?? new List<FleetAttributes>();
+                _fleetsList = await _fleetManager.ListFleetAttributes();
                 _fleetNameDropdownContainer.choices = _fleetsList.Select(fleet => fleet.Name).ToList();
                 _fleetNameDropdownContainer.value = _stateManager.AnywhereFleetName;
                 _fleetIdText.text = _stateManager.AnywhereFleetId;
