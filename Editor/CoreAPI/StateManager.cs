@@ -104,7 +104,7 @@ namespace Editor.CoreAPI
             OnProfileSelected?.Invoke();
         }
 
-        private string GetSetting(string key) => CoreApi.GetSetting(key).Value;
-        private void PutSetting(string key, string value) => CoreApi.PutSetting(key, value);
+        private string GetSetting(SettingsKeys key) => CoreApi.GetSetting(key).Value;
+        private void PutSetting(SettingsKeys key, string value) => CoreApi.PutSetting(key, value);
     }
 }
