@@ -12,6 +12,7 @@ using AmazonGameLiftPlugin.Core.SettingsManagement.Models;
 using AmazonGameLiftPlugin.Core.Shared;
 using UnityEditor;
 using UnityEngine;
+using CoreErrorCode = AmazonGameLiftPlugin.Core.Shared.ErrorCode;
 
 namespace AmazonGameLift.Editor
 {
@@ -24,7 +25,6 @@ namespace AmazonGameLift.Editor
         public const int SelectionMode = 1;
         public const int NoneLifeCyclePolicyIndex = 0;
         private const int DefaultLifeCyclePolicyIndex = 0;
-        private const string BucketNameEmptyErrorMessage = "Cannot Create Bucket, Bucket Name is Empty";
         private readonly Status _status = new Status();
         private readonly BucketUrlFormatter _bucketUrlFormatter = new BucketUrlFormatter();
         private readonly BucketPolicy[] _lifecyclePolicies;
@@ -124,7 +124,8 @@ namespace AmazonGameLift.Editor
             {
                 var emptyBucketNameResponse = new Response()
                 {
-                    ErrorMessage = BucketNameEmptyErrorMessage
+                    ErrorCode = CoreErrorCode.BucketNameCanNotBeEmpty,
+                    ErrorMessage = _textProvider.GetError(CoreErrorCode.BucketNameCanNotBeEmpty)
                 };
                 OnBucketCreationFailure(emptyBucketNameResponse);
                 return emptyBucketNameResponse;
