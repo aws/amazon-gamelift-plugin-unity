@@ -3,10 +3,6 @@
 
 @import "../common.uss";
 
-.float-right {
-    margin-left: auto;
-}
-
 Image#UserProfilePageAccountCardNoAccountIcon {
     --unity-image: resource("Images/Icons/NoAccountIcon");
 }

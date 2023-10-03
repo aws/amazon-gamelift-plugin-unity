@@ -375,10 +375,14 @@ Image#ExternalLinkIcon {
 }
 
 .card .button {
-     margin-top: auto;
-     align-self: center;
- }
+    margin-top: auto;
+    align-self: center;
+}
 
 .card__title {
     font-size: var(--font-size-extralarge);
+}
+
+.float-right {
+    margin-left: auto;
 }
