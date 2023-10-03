@@ -24,7 +24,7 @@ namespace AmazonGameLiftPlugin.Editor.UnitTests
         private Mock<CoreApi> _coreApiMock;
         private Mock<IAmazonGameLiftWrapperFactory> _amazonGameLiftClientFactoryMock;
         private AwsCredentialsTestProvider _awsCredentialsTestProvider;
-        private readonly IAmazonGameLiftClientFactory _amazonGameLiftClientFactory;
+        private readonly IAmazonGameLiftWrapperFactory _amazonGameLiftClientFactory;
         
         [SetUp]
         public void Setup()

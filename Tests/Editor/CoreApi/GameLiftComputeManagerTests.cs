@@ -21,7 +21,7 @@ namespace AmazonGameLiftPlugin.Editor.UnitTests
         private Mock<IAmazonGameLiftWrapper> _gameLiftWrapperMock;
         private Mock<IAwsCredentialsFactory> _awsCredentialsFactoryMock;
         private Mock<CoreApi> _coreApiMock;
-        private Mock<IAmazonGameLiftClientFactory> _amazonGameLiftClientFactoryMock;
+        private Mock<IAmazonGameLiftWrapperFactory> _amazonGameLiftClientFactoryMock;
         private AwsCredentialsTestProvider _awsCredentialsTestProvider;
 
         private const string FleetId = "fleetId-12345-12345-12345-12345";
@@ -48,9 +48,9 @@ namespace AmazonGameLiftPlugin.Editor.UnitTests
                 LocationName = "custom-location-1"
             });
             
-            _coreApiMock.Setup(f => f.PutSetting(It.IsAny<string>(), It.IsAny<string>())).Returns(Response.Ok(new PutSettingResponse()));
-            _coreApiMock.Setup(f => f.PutSetting(It.IsAny<string>(), null)).Returns(Response.Fail(new PutSettingResponse()));
-            _coreApiMock.Setup(f => f.PutSetting(It.IsAny<string>(), string.Empty)).Returns(Response.Fail(new PutSettingResponse()));
+            _coreApiMock.Setup(f => f.PutSetting(It.IsAny<SettingsKeys>(), It.IsAny<string>())).Returns(Response.Ok(new PutSettingResponse()));
+            _coreApiMock.Setup(f => f.PutSetting(It.IsAny<SettingsKeys>(), null)).Returns(Response.Fail(new PutSettingResponse()));
+            _coreApiMock.Setup(f => f.PutSetting(It.IsAny<SettingsKeys>(), string.Empty)).Returns(Response.Fail(new PutSettingResponse()));
             
             _gameLiftWrapperMock.Setup(wrapper => wrapper.RegisterCompute(It.IsAny<RegisterComputeRequest>())).Returns(Task.FromResult(
                 new RegisterComputeResponse()
@@ -81,13 +81,13 @@ namespace AmazonGameLiftPlugin.Editor.UnitTests
             var gameLiftComputeManager = ArrangeRegisterComputeHappyPath();
             
             //Act
-            var registerComputeResponse =  gameLiftComputeManager.RegisterFleetCompute(_computeName, _fleetId, _location, _ipAddress).GetAwaiter().GetResult();
+            var registerComputeResponse =  gameLiftComputeManager.RegisterFleetCompute(ComputeName, FleetId, Location, IPAddress).GetAwaiter().GetResult();
             
             //Assert
             _gameLiftWrapperMock.Verify(wrapper => wrapper.RegisterCompute(It.IsAny<RegisterComputeRequest>()), Times.Once);
             _coreApiMock.Verify(f => f.PutSetting(It.IsAny<SettingsKeys>(), It.IsAny<string>()), Times.Exactly(3));
             
-            Assert.IsTrue(registerComputeResponse);
+            Assert.IsTrue(registerComputeResponse.Success);
         }
         
         [Test]
@@ -116,7 +116,7 @@ namespace AmazonGameLiftPlugin.Editor.UnitTests
             
             //Assert
             _gameLiftWrapperMock.Verify(wrapper => wrapper.RegisterCompute(It.IsAny<RegisterComputeRequest>()), Times.Once);
-            _coreApiMock.Verify(f => f.PutSetting(It.IsAny<string>(), It.IsAny<string>()), Times.Exactly(3));
+            _coreApiMock.Verify(f => f.PutSetting(It.IsAny<SettingsKeys>(), It.IsAny<string>()), Times.Exactly(3));
             
             Assert.IsFalse(createFleetResult.Success);
         }
@@ -132,7 +132,7 @@ namespace AmazonGameLiftPlugin.Editor.UnitTests
             
             //Assert
             _gameLiftWrapperMock.Verify(wrapper => wrapper.RegisterCompute(It.IsAny<RegisterComputeRequest>()), Times.Once);
-            _coreApiMock.Verify(f => f.PutSetting(It.IsAny<string>(), It.IsAny<string>()), Times.Exactly(3));
+            _coreApiMock.Verify(f => f.PutSetting(It.IsAny<SettingsKeys>(), It.IsAny<string>()), Times.Exactly(3));
             
             Assert.IsFalse(createFleetResult.Success);
         }
@@ -151,7 +151,7 @@ namespace AmazonGameLiftPlugin.Editor.UnitTests
             
             //Assert
             _gameLiftWrapperMock.Verify(wrapper => wrapper.RegisterCompute(It.IsAny<RegisterComputeRequest>()), Times.Once);
-            _coreApiMock.Verify(f => f.PutSetting(It.IsAny<string>(), It.IsAny<string>()), Times.Never);
+            _coreApiMock.Verify(f => f.PutSetting(It.IsAny<SettingsKeys>(), It.IsAny<string>()), Times.Never);
             
             Assert.IsFalse(createFleetResult.Success);
         }

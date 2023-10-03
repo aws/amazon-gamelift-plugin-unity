@@ -73,7 +73,7 @@ namespace Editor.Window
             if (_computeState is ComputeStatus.NotRegistered or ComputeStatus.Registering)
             {
                 var success = await _computeManager.RegisterFleetCompute(_computeName, _fleetDetails.FleetId, _location, _ipAddress);
-                if (success)
+                if (success.Success)
                 {
                     _computeState = ComputeStatus.Registered;
                 }
