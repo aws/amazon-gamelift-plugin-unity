@@ -394,8 +394,7 @@ namespace AmazonGameLift.Editor
             try
             {
                 DeploymentResponse response = await currentDeployer.StartDeployment(ScenarioPath, BuildFolderPath,
-                    GameName,
-                    isDevelopmentBuild: EditorUserBuildSettings.development, confirmChanges);
+                    GameName, isDevelopmentBuild: EditorUserBuildSettings.development, confirmChanges);
 
                 if (!response.Success)
                 {
