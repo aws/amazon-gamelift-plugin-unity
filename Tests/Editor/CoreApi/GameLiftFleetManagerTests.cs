@@ -62,7 +62,7 @@ namespace AmazonGameLiftPlugin.Editor.UnitTests
             _awsCredentialsFactoryMock.Setup(f => f.Create())
                 .Returns(_awsCredentialsTestProvider.GetAwsCredentialsWithStubComponents(_coreApiMock.Object));
 
-            return new GameLiftFleetManager(_coreApiMock.Object, _gameLiftWrapperMock.Object);
+            return new GameLiftFleetManager(_gameLiftWrapperMock.Object);
         }
         
         [Test]
@@ -76,7 +76,6 @@ namespace AmazonGameLiftPlugin.Editor.UnitTests
             
             //Assert
             _gameLiftWrapperMock.Verify(wrapper => wrapper.CreateFleet(It.IsAny<CreateFleetRequest>()), Times.Once);
-            _coreApiMock.Verify(f => f.PutSetting(It.IsAny<SettingsKeys>(), It.IsAny<string>()), Times.Exactly(2));
             
             Assert.IsTrue(createFleetResult.Success);
         }
@@ -87,7 +86,7 @@ namespace AmazonGameLiftPlugin.Editor.UnitTests
             //Arrange
             ArrangeAnywhereFleetHappyPath();
 
-            var gameLiftFleetManager = new GameLiftFleetManager(_coreApiMock.Object, null);
+            var gameLiftFleetManager = new GameLiftFleetManager(null);
 
             //Act
             var createFleetResult =  gameLiftFleetManager.CreateAnywhereFleet("test").GetAwaiter().GetResult();
@@ -106,8 +105,7 @@ namespace AmazonGameLiftPlugin.Editor.UnitTests
             var createFleetResult =  gameLiftFleetManager.CreateAnywhereFleet(null).GetAwaiter().GetResult();
             
             //Assert
-            _gameLiftWrapperMock.Verify(wrapper => wrapper.CreateFleet(It.IsAny<CreateFleetRequest>()), Times.Once);
-            _coreApiMock.Verify(f => f.PutSetting(It.IsAny<SettingsKeys>(), It.IsAny<string>()), Times.Exactly(2));
+            _gameLiftWrapperMock.Verify(wrapper => wrapper.CreateFleet(It.IsAny<CreateFleetRequest>()), Times.Never);
             
             Assert.IsFalse(createFleetResult.Success);
         }
@@ -130,7 +128,6 @@ namespace AmazonGameLiftPlugin.Editor.UnitTests
             
             //Assert
             _gameLiftWrapperMock.Verify(wrapper => wrapper.CreateFleet(It.IsAny<CreateFleetRequest>()), Times.Once);
-            _coreApiMock.Verify(f => f.PutSetting(It.IsAny<SettingsKeys>(), It.IsAny<string>()), Times.Exactly(2));
             
             Assert.IsFalse(createFleetResult.Success);
         }

@@ -1,11 +1,10 @@
-﻿using System;
+﻿﻿using System;
 using System.Net;
 using System.Threading.Tasks;
 using Amazon.GameLift.Model;
 using Amazon.Runtime.Internal;
 using AmazonGameLift.Editor;
 using AmazonGameLiftPlugin.Core;
-using AmazonGameLiftPlugin.Core.ApiGatewayManagement;
 using AmazonGameLiftPlugin.Core.Shared;
 using UnityEngine;
 using UnityEngine.UIElements;
@@ -15,49 +14,45 @@ namespace Editor.CoreAPI
 {
     public class GameLiftComputeManager
     {
-        private readonly CoreApi _coreApi;
         private readonly IAmazonGameLiftWrapper _amazonGameLiftWrapper;
-        private string _fleetName;
-        private string _fleetId;
-        private VisualElement _container;
-        private ErrorResponse _logger;
 
-        public GameLiftComputeManager(CoreApi coreApi, IAmazonGameLiftWrapper wrapper)
+        public GameLiftComputeManager(IAmazonGameLiftWrapper wrapper)
         {
-            _coreApi = coreApi;
             _amazonGameLiftWrapper = wrapper;
         }
 
-        internal async Task<Response> RegisterFleetCompute(string computeName, string fleetId, string fleetLocation,
+        public async Task<RegisterFleetComputeResponse> RegisterFleetCompute(string computeName, string fleetId,
+            string fleetLocation,
             string ipAddress)
         {
-            if (_amazonGameLiftWrapper != null)
+            if (string.IsNullOrWhiteSpace(computeName))
             {
-                var webSocketUrl = await RegisterCompute(computeName, fleetId, fleetLocation, ipAddress);
-                if (webSocketUrl != null)
+                return Response.Fail(new RegisterFleetComputeResponse
                 {
-                    var computeNameResponse = _coreApi.PutSetting(SettingsKeys.ComputeName, computeName);
-                    var ipAddressResponse = _coreApi.PutSetting(SettingsKeys.IpAddress, ipAddress);
-                    
-                    _coreApi.PutSetting(SettingsKeys.WebSocketUrl, webSocketUrl);
-
-                    if (!computeNameResponse.Success)
-                    {
-                        return Response.Fail(new GenericResponse(ErrorCode.InvalidComputeName));
-                    }
-
-                    if (!ipAddressResponse.Success)
-                    {
-                        return Response.Fail(new GenericResponse(ErrorCode.InvalidIpAddress));
-                    }
-
-                    return Response.Ok(new GenericResponse());
-                }
-
-                return Response.Fail(new GenericResponse(ErrorCode.RegisterComputeFailed));
+                    ErrorCode = ErrorCode.InvalidComputeName
+                });
             }
             
-            return Response.Fail(new GenericResponse(ErrorCode.AccountProfileMissing));
+            if (string.IsNullOrWhiteSpace(ipAddress))
+            {
+                return Response.Fail(new RegisterFleetComputeResponse
+                {
+                    ErrorCode = ErrorCode.InvalidIpAddress
+                });
+            }
+
+            var webSocketUrl = await RegisterCompute(computeName, fleetId, fleetLocation, ipAddress);
+            if (webSocketUrl != null)
+            {
+                return Response.Ok(new RegisterFleetComputeResponse()
+                {
+                    ComputeName = computeName,
+                    IpAddress = ipAddress,
+                    WebSocketUrl = webSocketUrl
+                });
+            }
+
+            return Response.Fail(new RegisterFleetComputeResponse { ErrorCode = ErrorCode.RegisterComputeFailed });
         }
 
         private async Task<string> RegisterCompute(string computeName, string fleetId, string fleetLocation,
