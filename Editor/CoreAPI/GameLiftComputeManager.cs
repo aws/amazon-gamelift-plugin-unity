@@ -5,41 +5,38 @@ using Amazon.GameLift.Model;
 using Amazon.Runtime.Internal;
 using AmazonGameLift.Editor;
 using AmazonGameLiftPlugin.Core;
-using AmazonGameLiftPlugin.Core.ApiGatewayManagement;
+using AmazonGameLiftPlugin.Core.Shared;
 using UnityEngine;
 using UnityEngine.UIElements;
+using ErrorCode = AmazonGameLift.Editor.ErrorCode;
 
 namespace Editor.CoreAPI
 {
     public class GameLiftComputeManager
     {
-        private readonly CoreApi _coreApi;
         private readonly IAmazonGameLiftWrapper _amazonGameLiftWrapper;
-        private string _fleetName;
-        private string _fleetId;
-        private VisualElement _container;
-        private ErrorResponse _logger;
 
-        public GameLiftComputeManager(CoreApi coreApi, IAmazonGameLiftWrapper wrapper)
+        public GameLiftComputeManager(IAmazonGameLiftWrapper wrapper)
         {
-            _coreApi = coreApi;
             _amazonGameLiftWrapper = wrapper;
         }
 
-        public async Task<bool> RegisterFleetCompute(string computeName, string fleetId, string fleetLocation,
+        public async Task<RegisterFleetComputeResponse> RegisterFleetCompute(string computeName, string fleetId,
+            string fleetLocation,
             string ipAddress)
         {
             var webSocketUrl = await RegisterCompute(computeName, fleetId, fleetLocation, ipAddress);
             if (webSocketUrl != null)
             {
-                var computeNameResponse = _coreApi.PutSetting(SettingsKeys.ComputeName, computeName);
-                var ipAddressResponse = _coreApi.PutSetting(SettingsKeys.IpAddress, ipAddress);
-                var webSocketResponse = _coreApi.PutSetting(SettingsKeys.WebSocketUrl, webSocketUrl);
-
-                return computeNameResponse.Success && ipAddressResponse.Success && webSocketResponse.Success;
+                return Response.Ok(new RegisterFleetComputeResponse()
+                {
+                    ComputeName = computeName,
+                    IpAddress = ipAddress,
+                    WebSocketUrl = webSocketUrl
+                });
             }
 
-            return false;
+            return Response.Fail(new RegisterFleetComputeResponse { ErrorCode = ErrorCode.RegisterComputeFailed });
         }
 
         private async Task<string> RegisterCompute(string computeName, string fleetId, string fleetLocation,

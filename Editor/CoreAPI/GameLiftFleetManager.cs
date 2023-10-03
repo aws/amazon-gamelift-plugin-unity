@@ -8,9 +8,7 @@ using Amazon.GameLift.Model;
 using Amazon.Runtime.Internal;
 using AmazonGameLift.Editor;
 using AmazonGameLiftPlugin.Core;
-using AmazonGameLiftPlugin.Core.ApiGatewayManagement;
 using AmazonGameLiftPlugin.Core.Shared;
-using Editor.Window.Models;
 using UnityEngine;
 using UnityEngine.UIElements;
 using ErrorCode = AmazonGameLift.Editor.ErrorCode;
@@ -19,7 +17,6 @@ namespace Editor.CoreAPI
 {
     public class GameLiftFleetManager
     {
-        private readonly CoreApi _coreApi;
         private readonly IAmazonGameLiftWrapper _amazonGameLiftWrapper;
         private string _fleetName;
         private string _fleetId;
@@ -28,13 +25,12 @@ namespace Editor.CoreAPI
         private VisualElement _container;
         private ErrorResponse _logger;
 
-        public GameLiftFleetManager(CoreApi coreApi, IAmazonGameLiftWrapper wrapper)
+        public GameLiftFleetManager(IAmazonGameLiftWrapper amazonGameLiftWrapper)
         {
-            _coreApi = coreApi;
-            _amazonGameLiftWrapper = wrapper;
+            _amazonGameLiftWrapper = amazonGameLiftWrapper;
         }
 
-        public async Task<Response> CreateAnywhereFleet(string fleetName)
+        public async Task<CreateAnywhereFleetResponse> CreateAnywhereFleet(string fleetName)
         {
             if (_amazonGameLiftWrapper != null)
             {
@@ -42,25 +38,31 @@ namespace Editor.CoreAPI
                 if (success)
                 {
                     var fleetId = await CreateFleet(ComputeType.ANYWHERE, FleetLocation, fleetName);
-                    var fleetNameResponse = _coreApi.PutSetting(SettingsKeys.FleetName, fleetName);
-                    var fleetIdResponse = _coreApi.PutSetting(SettingsKeys.FleetId, fleetId);
-                    if (!fleetNameResponse.Success)
+                    if (fleetId == null)
                     {
-                        return Response.Fail(new GenericResponse(ErrorCode.InvalidFleetName));
+                        return Response.Fail(new CreateAnywhereFleetResponse
+                        {
+                            ErrorCode = ErrorCode.InvalidFleetName
+                        });
                     }
 
-                    if (!fleetIdResponse.Success)
+                    return Response.Ok(new CreateAnywhereFleetResponse()
                     {
-                        return Response.Fail(new GenericResponse(ErrorCode.InvalidFleetId));
-                    }
-
-                    return Response.Ok(new GenericResponse());
+                        FleetId = fleetId,
+                        FleetName = fleetName
+                    });
                 }
 
-                return Response.Fail(new GenericResponse(ErrorCode.CustomLocationCreationFailed));
+                return Response.Fail(new CreateAnywhereFleetResponse
+                {
+                    ErrorCode = ErrorCode.CustomLocationCreationFailed
+                });
             }
 
-            return Response.Fail(new GenericResponse(ErrorCode.AccountProfileMissing));
+            return Response.Fail(new CreateAnywhereFleetResponse
+            {
+                ErrorCode = ErrorCode.AccountProfileMissing
+            });
         }
 
         private async Task<bool> CreateCustomLocationIfNotExists(string fleetLocation)
@@ -69,11 +71,12 @@ namespace Editor.CoreAPI
             {
                 var listLocationsResponse = await _amazonGameLiftWrapper.ListLocations(new ListLocationsRequest
                 {
-                    Filters = new List<string> { "CUSTOM" }
+                    Filters = new List<string> { "CUSTOM" },
                 });
 
                 var foundLocation =
-                    listLocationsResponse.Locations.FirstOrDefault(l => l.LocationName.ToString() == fleetLocation);
+                    listLocationsResponse.Locations.FirstOrDefault(l =>
+                        l.LocationName.ToString() == fleetLocation);
 
                 if (foundLocation == null)
                 {
@@ -93,9 +96,6 @@ namespace Editor.CoreAPI
             }
             catch (Exception ex)
             {
-                // var errorBox = _container.Q<VisualElement>("FleetErrorInfoBox");
-                // errorBox.style.display = DisplayStyle.Flex;
-                // errorBox.Q<Label>().text = ex.Message;
                 return false;
             }
         }
@@ -132,9 +132,6 @@ namespace Editor.CoreAPI
             }
             catch (Exception ex)
             {
-                var errorBox = _container.Q<VisualElement>("FleetErrorInfoBox");
-                errorBox.style.display = DisplayStyle.Flex;
-                errorBox.Q<Label>().text = ex.Message;
                 Debug.Log(ex.Message);
                 return null;
             }
@@ -157,9 +154,6 @@ namespace Editor.CoreAPI
             }
             catch (Exception ex)
             {
-                var errorBox = _container.Q<VisualElement>("FleetErrorInfoBox");
-                errorBox.style.display = DisplayStyle.Flex;
-                errorBox.Q<Label>().text = ex.Message;
                 Debug.Log(ex.Message);
                 return null;
             }
