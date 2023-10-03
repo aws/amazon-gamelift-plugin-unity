@@ -8,9 +8,7 @@ using Amazon.GameLift.Model;
 using Amazon.Runtime.Internal;
 using AmazonGameLift.Editor;
 using AmazonGameLiftPlugin.Core;
-using AmazonGameLiftPlugin.Core.ApiGatewayManagement;
 using AmazonGameLiftPlugin.Core.Shared;
-using Editor.Window.Models;
 using UnityEngine;
 using UnityEngine.UIElements;
 using ErrorCode = AmazonGameLift.Editor.ErrorCode;
@@ -44,8 +42,7 @@ namespace Editor.CoreAPI
                     {
                         return Response.Fail(new CreateAnywhereFleetResponse
                         {
-                            ErrorCode =
-                                ErrorCode.InvalidFleetName
+                            ErrorCode = ErrorCode.InvalidFleetName
                         });
                     }
 
