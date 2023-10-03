@@ -192,6 +192,8 @@ namespace AmazonGameLift.Editor
         public const string AnywherePageLaunchClientTitle = "AnywherePageLaunchClientTitle";
         public const string AnywherePageLaunchClientLabel = "AnywherePageLaunchClientLabel";
         public const string AnywherePageLaunchClientButton = "AnywherePageLaunchClientButton";
+        public const string AnywherePageStatusBoxUrlTextButton = "AnywherePageStatusBoxUrlTextButton";
+        public const string AnywherePageStatusBoxDefaultErrorText = "AnywherePageStatusBoxDefaultErrorText";
 
         public const string ManagedEC2Title = "ManagedEC2Title";
         public const string ManagedEC2Description = "ManagedEC2Description";

@@ -29,12 +29,10 @@ namespace Editor.Window
         private readonly StateManager _stateManager;
         private Button _cancelButton;
         private StatusBox _connectToAnywhereStatusBox;
-        
-        private const string URLText = "View Logs";
-        private const string ErrorText = "An error occurred when trying to create the Anywhere fleet: ";
-        
+
         private FleetStatus _fleetState;
         private List<FleetAttributes> _fleetsList;
+        private ElementLocalizer elementLocalizer;
 
         public ConnectToFleetInput(VisualElement container, StateManager stateManager, FleetStatus initialState)
         {
@@ -42,6 +40,7 @@ namespace Editor.Window
             _fleetState = initialState;
             _stateManager = stateManager;
             _fleetManager = stateManager.FleetManager;
+            elementLocalizer = new ElementLocalizer(_container);
 
             AssignUiElements(container);
             PopulateFleetVisualElements();
@@ -66,7 +65,7 @@ namespace Editor.Window
                 else
                 {
                     var url = string.Format(Urls.AwsAnywhereFleetLogs, _stateManager.Region);
-                    _connectToAnywhereStatusBox.Show(StatusBox.StatusBoxType.Error, ErrorText + response.ErrorMessage, url, URLText);
+                    _connectToAnywhereStatusBox.Show(StatusBox.StatusBoxType.Error, elementLocalizer.GetText(Strings.AnywherePageStatusBoxDefaultErrorText) + response.ErrorMessage, url, elementLocalizer.GetText(Strings.AnywherePageStatusBoxUrlTextButton));
                 }
             }
             
@@ -152,7 +151,7 @@ namespace Editor.Window
                 else
                 {
                     var url = string.Format(Urls.AwsAnywhereFleetLogs, _stateManager.Region);
-                    _connectToAnywhereStatusBox.Show(StatusBox.StatusBoxType.Error, ErrorText + fleetsListResponse.ErrorMessage, url, URLText);
+                    _connectToAnywhereStatusBox.Show(StatusBox.StatusBoxType.Error, elementLocalizer.GetText(Strings.AnywherePageStatusBoxDefaultErrorText) + fleetsListResponse.ErrorMessage, url, elementLocalizer.GetText(Strings.AnywherePageStatusBoxUrlTextButton));
                 }
             }
         }
@@ -207,8 +206,8 @@ namespace Editor.Window
         private void SetupStatusBox()
         {
             _connectToAnywhereStatusBox = new StatusBox();
-            var errorContainer = _container.Q("AnywherePageConnectFleetErrorContainer");
-            errorContainer.Add(_connectToAnywhereStatusBox);
+            var statusBoxContainer = _container.Q("AnywherePageConnectFleetStatusBoxContainer");
+            statusBoxContainer.Add(_connectToAnywhereStatusBox);
         }
 
         protected sealed override void UpdateGUI()

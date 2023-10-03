@@ -28,19 +28,15 @@ namespace AmazonGameLiftPlugin.Core.Shared
             return response;
         }
 
-        private Response(string errorCode, string errorMessage = "")
+        public static Response Fail(string errorCode, string errorMessage = null)
         {
-            ErrorCode = errorCode;
-            ErrorMessage = errorMessage;
-        }
-        
-        public Response()
-        {
-        }
-        
-        public static Response Fail(string errorCode, string errorMessage = "")
-        {
-            return new Response(errorCode, errorMessage);
+            var response = new Response()
+            {
+                ErrorMessage = errorMessage,
+                ErrorCode = errorCode,
+                Success = false
+            };
+            return response;
         }
     }
 }

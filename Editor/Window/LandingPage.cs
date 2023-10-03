@@ -72,8 +72,8 @@ namespace AmazonGameLift.Editor
         private void SetupStatusBoxes()
         {
             _statusBox = new StatusBox();
-            var errorContainer = _container.Q("LandingPageErrorContainer");
-            errorContainer.Add(_statusBox);
+            var statusBoxContainer = _container.Q("LandingPageStatusBoxContainer");
+            statusBoxContainer.Add(_statusBox);
         }
     }
 }

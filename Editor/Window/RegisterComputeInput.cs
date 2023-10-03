@@ -24,9 +24,6 @@ namespace Editor.Window
         private readonly ConnectToFleetInput _fleetDetails;
         private readonly StateManager _stateManager;
         private StatusBox _registerComputeStatusBox;
-        
-        private const string URLText = "View Logs";
-        private const string ErrorText = "An error occurred when trying to register a compute: ";
 
         private string _computeName = "ComputerName-ProfileName";
         private string _ipAddress = "120.120.120.120";
@@ -87,7 +84,8 @@ namespace Editor.Window
                 else
                 {
                     var url = string.Format(Urls.AwsAnywhereFleetLogs, _stateManager.Region);
-                    _registerComputeStatusBox.Show(StatusBox.StatusBoxType.Error, ErrorText + registerFleetCompute.ErrorMessage, url, URLText);
+                    var elementLocalizer = new ElementLocalizer(_container);
+                    _registerComputeStatusBox.Show(StatusBox.StatusBoxType.Error, elementLocalizer.GetText(Strings.AnywherePageStatusBoxDefaultErrorText) + registerFleetCompute.ErrorMessage, url, elementLocalizer.GetText(Strings.AnywherePageStatusBoxUrlTextButton));
                 }
             }
 
@@ -164,8 +162,8 @@ namespace Editor.Window
         private void SetupStatusBox()
         {
             _registerComputeStatusBox =  new StatusBox();
-            var errorContainer = _container.Q("AnywherePageComputeErrorContainer");
-            errorContainer.Add(_registerComputeStatusBox);
+            var statusBoxContainer = _container.Q("AnywherePageComputeStatusBoxContainer");
+            statusBoxContainer.Add(_registerComputeStatusBox);
         }
 
         protected sealed override void UpdateGUI()

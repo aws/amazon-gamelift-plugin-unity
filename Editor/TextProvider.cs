@@ -223,6 +223,8 @@ namespace AmazonGameLift.Editor
             { Strings.AnywherePageLaunchClientTitle, "Launch Client"},
             { Strings.AnywherePageLaunchClientLabel, "Run Game"},
             { Strings.AnywherePageLaunchClientButton, "Launch Client"},
+            { Strings.AnywherePageStatusBoxUrlTextButton, "View Logs"},
+            { Strings.AnywherePageStatusBoxDefaultErrorText, "An error occurred when trying to register a compute: "},
             
             { Strings.ManagedEC2Title, "Managed EC2"},
             { Strings.ManagedEC2Description, "Managed EC2 fleets use Amazon EC2 instances to host your game servers.\nAmazon GameLift manages the instances and removes the burden of hardware and software management from hosting your games."},
