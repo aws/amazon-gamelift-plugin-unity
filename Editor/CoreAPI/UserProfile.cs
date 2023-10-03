@@ -39,7 +39,6 @@
         public string DeploymentBuildFilePath { get; set; }
         
         public string DeploymentBuildFolderPath { get; set; }
-        
 
         #endregion
     }
