@@ -9,9 +9,7 @@
         "AmazonGameLiftPlugin.Runtime.Core",
         "AmazonGameLiftPlugin.Utils.UnitTests"
     ],
-    "includePlatforms": [
-        "Editor"
-    ],
+    "includePlatforms": [],
     "excludePlatforms": [],
     "allowUnsafeCode": false,
     "overrideReferences": true,

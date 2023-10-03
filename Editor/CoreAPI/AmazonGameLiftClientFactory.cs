@@ -1,25 +1,26 @@
 ﻿using Amazon.GameLift;
 using AmazonGameLift.Editor;
+using AmazonGameLiftPlugin.Core;
 using AmazonGameLiftPlugin.Core.ApiGatewayManagement;
 
 namespace Editor.CoreAPI
 {
     
-    public interface IAmazonGameLiftClientFactory
+    public interface IAmazonGameLiftWrapperFactory
     {
-        IAmazonGameLiftClientWrapper Get(string profile);
+        IAmazonGameLiftWrapper Get(string profile);
     }
     
-    public class AmazonGameLiftClientFactory : IAmazonGameLiftClientFactory
+    public class AmazonGameLiftWrapperFactory : IAmazonGameLiftWrapperFactory
     {
         private readonly CoreApi _coreApi;
 
-        public AmazonGameLiftClientFactory(CoreApi coreApi)
+        public AmazonGameLiftWrapperFactory(CoreApi coreApi)
         {
             _coreApi = coreApi;
         }
 
-        public IAmazonGameLiftClientWrapper Get(string profile)
+        public IAmazonGameLiftWrapper Get(string profile)
         {
             var credentials = _coreApi.RetrieveAwsCredentials(profile);
             var client = new AmazonGameLiftClient(credentials.AccessKey, credentials.SecretKey);

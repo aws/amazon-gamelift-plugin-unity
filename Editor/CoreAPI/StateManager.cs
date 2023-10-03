@@ -1,5 +1,6 @@
 using System;
 using AmazonGameLift.Editor;
+using AmazonGameLiftPlugin.Core;
 using AmazonGameLiftPlugin.Core.ApiGatewayManagement;
 
 namespace Editor.CoreAPI
@@ -9,33 +10,46 @@ namespace Editor.CoreAPI
         public CoreApi CoreApi { get; }
 
         public GameLiftFleetManager FleetManager { get; set; }
+        public GameLiftComputeManager ComputeManager { get; set; }
 
-        public IAmazonGameLiftClientWrapper GameLiftWrapper { get; private set; }
+        public IAmazonGameLiftWrapper GameLiftWrapper { get; private set; }
 
-        public IAmazonGameLiftClientFactory AmazonGameLiftClientFactory { get; }
+        public IAmazonGameLiftWrapperFactory AmazonGameLiftWrapperFactory { get; }
 
         private string _selectedProfile;
 
         public string SelectedProfile
         {
             get => _selectedProfile;
-            private set => SetProfile(value);
+            set => SetProfile(value);
         }
+        
+        public Action OnProfileSelected { get; set; }
+        
+        public bool IsBootstrapped { get; set; }
+        public string BucketName { get; set; }
+        public string Region { get; set; }
+        public string SelectedFleetName { get; set; }
+        public string FleetLocation { get; set; }
 
         public StateManager(CoreApi coreApi)
         {
             CoreApi = coreApi;
-            AmazonGameLiftClientFactory = new AmazonGameLiftClientFactory(coreApi);
+            AmazonGameLiftWrapperFactory = new AmazonGameLiftWrapperFactory(coreApi);
 
             SetProfile(coreApi.GetSetting(SettingsKeys.CurrentProfileName).Value);
         }
 
         private void SetProfile(string profileName)
         {
-            if (string.IsNullOrWhiteSpace(profileName)) return;
+            if (string.IsNullOrWhiteSpace(profileName) || profileName == _selectedProfile) return;
             _selectedProfile = profileName;
-            GameLiftWrapper = AmazonGameLiftClientFactory.Get(SelectedProfile);
+            var credentials = CoreApi.RetrieveAwsCredentials(profileName);
+            Region = credentials.Region;
+            GameLiftWrapper = AmazonGameLiftWrapperFactory.Get(SelectedProfile);
             FleetManager = new GameLiftFleetManager(CoreApi, GameLiftWrapper);
+            ComputeManager = new GameLiftComputeManager(CoreApi, GameLiftWrapper);
+            OnProfileSelected?.Invoke();
         }
     }
 }

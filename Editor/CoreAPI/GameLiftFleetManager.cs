@@ -7,9 +7,8 @@ using Amazon.GameLift;
 using Amazon.GameLift.Model;
 using Amazon.Runtime.Internal;
 using AmazonGameLift.Editor;
-using AmazonGameLiftPlugin.Core.ApiGatewayManagement;
+using AmazonGameLiftPlugin.Core;
 using AmazonGameLiftPlugin.Core.Shared;
-using Editor.CoreAPI.Models;
 using UnityEngine;
 using UnityEngine.UIElements;
 using ErrorCode = AmazonGameLift.Editor.ErrorCode;
@@ -19,7 +18,7 @@ namespace Editor.CoreAPI
     public class GameLiftFleetManager
     {
         private readonly CoreApi _coreApi;
-        private readonly IAmazonGameLiftClientWrapper _amazonGameLiftWrapper;
+        private readonly IAmazonGameLiftWrapper _amazonGameLiftWrapper;
         private string _fleetName;
         private string _fleetId;
         private const string FleetLocation = "custom-location-1";
@@ -27,13 +26,13 @@ namespace Editor.CoreAPI
         private VisualElement _container;
         private ErrorResponse _logger;
 
-        public GameLiftFleetManager(CoreApi coreApi, IAmazonGameLiftClientWrapper wrapper)
+        public GameLiftFleetManager(CoreApi coreApi, IAmazonGameLiftWrapper wrapper)
         {
             _coreApi = coreApi;
             _amazonGameLiftWrapper = wrapper;
         }
 
-        internal async Task<Response> CreateAnywhereFleet(string fleetName)
+        public async Task<Response> CreateAnywhereFleet(string fleetName)
         {
             if (_amazonGameLiftWrapper != null)
             {
@@ -128,6 +127,31 @@ namespace Editor.CoreAPI
                 }
 
                 return createFleetResponse.FleetAttributes.FleetId;
+            }
+            catch (Exception ex)
+            {
+                var errorBox = _container.Q<VisualElement>("FleetErrorInfoBox");
+                errorBox.style.display = DisplayStyle.Flex;
+                errorBox.Q<Label>().text = ex.Message;
+                Debug.Log(ex.Message);
+                return null;
+            }
+        }
+
+        public async Task<List<FleetAttributes>> ListFleetAttributes()
+        {
+            try
+            {
+                var listFleetRequest = new ListFleetsRequest();
+                var listFleetResponse = await _amazonGameLiftWrapper.ListFleets(listFleetRequest);
+
+                var describeFleetRequest = new DescribeFleetAttributesRequest()
+                {
+                    FleetIds = listFleetResponse.FleetIds
+                };
+
+                var describeFleetResponse = await _amazonGameLiftWrapper.DescribeFleetAttributes(describeFleetRequest);
+                return describeFleetResponse.FleetAttributes;
             }
             catch (Exception ex)
             {

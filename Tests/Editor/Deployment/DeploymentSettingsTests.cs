@@ -26,23 +26,27 @@ namespace AmazonGameLiftPlugin.Editor.UnitTests
         [TestCase(false)]
         public void ScenarioIndex_WhenFormFilledAndRestore_IsExpected(bool coreSuccess)
         {
-            int testIndex = UnityEngine.Random.Range(int.MinValue, int.MaxValue);
-            int testIndex1 = UnityEngine.Random.Range(int.MinValue, int.MaxValue);
+            var initialScenario = DeploymentScenarios.FlexMatch;
+            var storedScenario = DeploymentScenarios.SpotFleet;
 
             var coreApiMock = new Mock<CoreApi>();
-            coreApiMock.SetUpCoreApiWithSetting(SettingsKeys.DeploymentScenarioIndex, coreSuccess, SettingsFormatter.FormatInt(testIndex1));
+            coreApiMock.SetUpCoreApiWithSetting(SettingsKeys.DeploymentScenarioIndex, coreSuccess, ((int)storedScenario).ToString());
             coreApiMock.SetUpCoreApiWithSetting(SettingsKeys.DeploymentGameName, false, null);
             coreApiMock.SetUpCoreApiWithSetting(SettingsKeys.DeploymentBuildFolderPath, false, null);
             coreApiMock.SetUpCoreApiWithSetting(SettingsKeys.DeploymentBuildFilePath, false, null);
+            coreApiMock.SetUpCoreApiWithSetting(SettingsKeys.LaunchParameters, false, null);
+            coreApiMock.SetUpCoreApiWithSetting(SettingsKeys.BuildOperatingSystem, false, null);
+            coreApiMock.SetUpCoreApiWithSetting(SettingsKeys.FleetName, false, null);
+            coreApiMock.SetUpCoreApiWithSetting(SettingsKeys.BuildName, false, null);
 
             DeploymentSettings underTest = GetUnitUnderTest(coreApi: coreApiMock);
 
             // Act
-            underTest.ScenarioIndex = testIndex;
+            underTest.Scenario = initialScenario;
             underTest.Restore();
 
             // Assert
-            Assert.AreEqual(coreSuccess ? testIndex1 : 1, underTest.ScenarioIndex);
+            Assert.AreEqual(coreSuccess ? storedScenario : DeploymentScenarios.SingleRegion, underTest.Scenario);
         }
 
         [Test]
@@ -59,7 +63,11 @@ namespace AmazonGameLiftPlugin.Editor.UnitTests
             coreApiMock.SetUpCoreApiWithSetting(SettingsKeys.DeploymentScenarioIndex, false, null);
             coreApiMock.SetUpCoreApiWithSetting(SettingsKeys.DeploymentBuildFolderPath, false, null);
             coreApiMock.SetUpCoreApiWithSetting(SettingsKeys.DeploymentBuildFilePath, false, null);
-
+            coreApiMock.SetUpCoreApiWithSetting(SettingsKeys.LaunchParameters, false, null);
+            coreApiMock.SetUpCoreApiWithSetting(SettingsKeys.BuildOperatingSystem, false, null);
+            coreApiMock.SetUpCoreApiWithSetting(SettingsKeys.FleetName, false, null);
+            coreApiMock.SetUpCoreApiWithSetting(SettingsKeys.BuildName, false, null);
+            
             DeploymentSettings underTest = GetUnitUnderTest(coreApi: coreApiMock);
 
             // Act
@@ -84,6 +92,11 @@ namespace AmazonGameLiftPlugin.Editor.UnitTests
             coreApiMock.SetUpCoreApiWithSetting(SettingsKeys.DeploymentGameName, false, null);
             coreApiMock.SetUpCoreApiWithSetting(SettingsKeys.DeploymentScenarioIndex, false, null);
             coreApiMock.SetUpCoreApiWithSetting(SettingsKeys.DeploymentBuildFilePath, false, null);
+            coreApiMock.SetUpCoreApiWithSetting(SettingsKeys.LaunchParameters, false, null);
+            coreApiMock.SetUpCoreApiWithSetting(SettingsKeys.BuildOperatingSystem, false, null);
+            coreApiMock.SetUpCoreApiWithSetting(SettingsKeys.FleetName, false, null);
+            coreApiMock.SetUpCoreApiWithSetting(SettingsKeys.BuildName, false, null);
+
 
             DeploymentSettings underTest = GetUnitUnderTest(coreApi: coreApiMock);
 
@@ -109,6 +122,11 @@ namespace AmazonGameLiftPlugin.Editor.UnitTests
             coreApiMock.SetUpCoreApiWithSetting(SettingsKeys.DeploymentGameName, false, null);
             coreApiMock.SetUpCoreApiWithSetting(SettingsKeys.DeploymentScenarioIndex, false, null);
             coreApiMock.SetUpCoreApiWithSetting(SettingsKeys.DeploymentBuildFolderPath, false, null);
+            coreApiMock.SetUpCoreApiWithSetting(SettingsKeys.LaunchParameters, false, null);
+            coreApiMock.SetUpCoreApiWithSetting(SettingsKeys.BuildOperatingSystem, false, null);
+            coreApiMock.SetUpCoreApiWithSetting(SettingsKeys.FleetName, false, null);
+            coreApiMock.SetUpCoreApiWithSetting(SettingsKeys.BuildName, false, null);
+
 
             DeploymentSettings underTest = GetUnitUnderTest(coreApi: coreApiMock);
 
@@ -206,7 +224,7 @@ namespace AmazonGameLiftPlugin.Editor.UnitTests
 
             // Act
             underTest.Refresh();
-            underTest.ScenarioIndex = 0;
+            underTest.Scenario = DeploymentScenarios.SingleRegion;
             underTest.BuildFolderPath = "test path";
             underTest.BuildFilePath = "test path/build.exe";
             underTest.GameName = testGameName;
@@ -273,7 +291,7 @@ namespace AmazonGameLiftPlugin.Editor.UnitTests
 
             // Act
             underTest.Refresh();
-            underTest.ScenarioIndex = 0;
+            underTest.Scenario = DeploymentScenarios.SingleRegion;
             underTest.BuildFolderPath = "test path";
             underTest.BuildFilePath = "test path/build.exe";
             underTest.GameName = testGameName;
@@ -299,7 +317,7 @@ namespace AmazonGameLiftPlugin.Editor.UnitTests
             DeploymentSettings underTest = GetUnitUnderTest(scenarioLocatorMock, coreApi: coreApiMock);
             // Act
             underTest.Refresh();
-            underTest.ScenarioIndex = -1;
+            underTest.Scenario = (DeploymentScenarios)(-1);
 
             // Assert
             scenarioLocatorMock.Verify();
@@ -323,7 +341,7 @@ namespace AmazonGameLiftPlugin.Editor.UnitTests
 
             // Act
             underTest.Refresh();
-            underTest.ScenarioIndex = 1;
+            underTest.Scenario = (DeploymentScenarios)10;
 
             // Assert
             scenarioLocatorMock.Verify();
@@ -347,7 +365,7 @@ namespace AmazonGameLiftPlugin.Editor.UnitTests
 
             // Act
             underTest.Refresh();
-            underTest.ScenarioIndex = 0;
+            underTest.Scenario = DeploymentScenarios.SingleRegion;
 
             // Assert
             scenarioLocatorMock.Verify();
@@ -373,7 +391,7 @@ namespace AmazonGameLiftPlugin.Editor.UnitTests
 
             // Act
             underTest.Refresh();
-            underTest.ScenarioIndex = 0;
+            underTest.Scenario = DeploymentScenarios.SingleRegion;
 
             // Assert
             scenarioLocatorMock.Verify();
@@ -411,7 +429,7 @@ namespace AmazonGameLiftPlugin.Editor.UnitTests
 
             // Act
             underTest.Refresh();
-            underTest.ScenarioIndex = 0;
+            underTest.Scenario = DeploymentScenarios.SingleRegion;
 
             // Assert
             pathConverterMock.Verify();
@@ -436,7 +454,7 @@ namespace AmazonGameLiftPlugin.Editor.UnitTests
 
             // Act
             underTest.Refresh();
-            underTest.ScenarioIndex = 0;
+            underTest.Scenario = DeploymentScenarios.SingleRegion;
 
             // Assert
             scenarioLocatorMock.Verify();
@@ -460,7 +478,7 @@ namespace AmazonGameLiftPlugin.Editor.UnitTests
 
             // Act
             underTest.Refresh();
-            underTest.ScenarioIndex = 0;
+            underTest.Scenario = DeploymentScenarios.SingleRegion;
 
             // Assert
             scenarioLocatorMock.Verify();
@@ -755,7 +773,7 @@ namespace AmazonGameLiftPlugin.Editor.UnitTests
             DeploymentSettings underTest = GetUnitUnderTest(scenarioLocatorMock, coreApi: coreApiMock, pathConverter: pathConverterMock, deploymentWaiter: deploymentWaiterMock);
 
             underTest.Refresh();
-            underTest.ScenarioIndex = 0;
+            underTest.Scenario = DeploymentScenarios.SingleRegion;
             underTest.BuildFolderPath = "test path";
             underTest.BuildFilePath = "test path/build.exe";
             underTest.GameName = testGameName;
@@ -850,7 +868,7 @@ namespace AmazonGameLiftPlugin.Editor.UnitTests
                 DeploymentSettings underTest = GetUnitUnderTest(scenarioLocatorMock, coreApi: coreApiMock);
 
                 underTest.Refresh();
-                underTest.ScenarioIndex = 0;
+                underTest.Scenario = DeploymentScenarios.SingleRegion;
                 underTest.GameName = testGameName;
                 underTest.BuildFolderPath = testBuildFolderPath;
                 underTest.BuildFilePath = testBuildFilePath;
@@ -879,7 +897,7 @@ namespace AmazonGameLiftPlugin.Editor.UnitTests
                 }, waitSuccess: false, hasGameServer);
 
                 underTest.Refresh();
-                underTest.ScenarioIndex = -1;
+                underTest.Scenario = (DeploymentScenarios)(-1);
                 underTest.BuildFolderPath = "test path";
                 underTest.BuildFilePath = "test path/build.exe";
                 underTest.GameName = "test";
@@ -980,7 +998,7 @@ namespace AmazonGameLiftPlugin.Editor.UnitTests
                 DeploymentSettings underTest = GetUnitUnderTest(coreApi: coreApiMock);
 
                 underTest.Refresh();
-                underTest.ScenarioIndex = 0;
+                underTest.Scenario = DeploymentScenarios.SingleRegion;
 
                 bool isEventRaised = false;
                 underTest.CurrentStackInfoChanged += () =>
@@ -1011,7 +1029,7 @@ namespace AmazonGameLiftPlugin.Editor.UnitTests
                 DeploymentSettings underTest = GetUnitUnderTest(coreApi: coreApiMock);
 
                 underTest.Refresh();
-                underTest.ScenarioIndex = 0;
+                underTest.Scenario = DeploymentScenarios.SingleRegion;
                 await underTest.SetGameNameAsync(testGameName);
 
                 bool isEventRaised = false;
@@ -1058,7 +1076,7 @@ namespace AmazonGameLiftPlugin.Editor.UnitTests
                 DeploymentSettings underTest = GetUnitUnderTest(coreApi: coreApiMock);
 
                 underTest.Refresh();
-                underTest.ScenarioIndex = 0;
+                underTest.Scenario = DeploymentScenarios.SingleRegion;
 
                 // Act
                 await underTest.SetGameNameAsync(testGameName);
@@ -1259,7 +1277,7 @@ namespace AmazonGameLiftPlugin.Editor.UnitTests
                 DeploymentSettings underTest = GetUnitUnderTest(coreApi: coreApiMock);
 
                 underTest.Refresh();
-                underTest.ScenarioIndex = 0;
+                underTest.Scenario = DeploymentScenarios.SingleRegion;
 
                 // Act
                 await underTest.SetGameNameAsync(testGameName);
@@ -1380,7 +1398,7 @@ namespace AmazonGameLiftPlugin.Editor.UnitTests
                 pathConverter: pathConverterMock, deploymentWaiter: deploymentWaiter, deploymentIdContainer: deploymentIdContainer);
 
             underTest.Refresh();
-            underTest.ScenarioIndex = 0;
+            underTest.Scenario = DeploymentScenarios.SingleRegion;
             underTest.GameName = testGameName;
 
             if (hasGameServer)
@@ -1418,7 +1436,7 @@ namespace AmazonGameLiftPlugin.Editor.UnitTests
 
             scenarioLocatorMock = scenarioLocatorMock ?? new Mock<ScenarioLocator>();
 
-            var scenarios = new DeployerBase[] { deployerMock.Object };
+            var scenarios = new DeployerBase[] { deployerMock.Object, deployerMock.Object };
             scenarioLocatorMock.Setup(target => target.GetScenarios())
                 .Returns(scenarios)
                 .Verifiable();

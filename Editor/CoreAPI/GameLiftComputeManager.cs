@@ -1,28 +1,28 @@
-﻿﻿using System;
+﻿using System;
 using System.Net;
 using System.Threading.Tasks;
 using Amazon.GameLift.Model;
 using Amazon.Runtime.Internal;
 using AmazonGameLift.Editor;
+using AmazonGameLiftPlugin.Core;
 using AmazonGameLiftPlugin.Core.ApiGatewayManagement;
- using AmazonGameLiftPlugin.Core.Shared;
- using Editor.CoreAPI.Models;
- using UnityEngine;
+using AmazonGameLiftPlugin.Core.Shared;
+using UnityEngine;
 using UnityEngine.UIElements;
- using ErrorCode = AmazonGameLift.Editor.ErrorCode;
+using ErrorCode = AmazonGameLift.Editor.ErrorCode;
 
- namespace Editor.CoreAPI
+namespace Editor.CoreAPI
 {
     public class GameLiftComputeManager
     {
         private readonly CoreApi _coreApi;
-        private readonly IAmazonGameLiftClientWrapper _amazonGameLiftWrapper;
+        private readonly IAmazonGameLiftWrapper _amazonGameLiftWrapper;
         private string _fleetName;
         private string _fleetId;
         private VisualElement _container;
         private ErrorResponse _logger;
 
-        public GameLiftComputeManager(CoreApi coreApi, IAmazonGameLiftClientWrapper wrapper)
+        public GameLiftComputeManager(CoreApi coreApi, IAmazonGameLiftWrapper wrapper)
         {
             _coreApi = coreApi;
             _amazonGameLiftWrapper = wrapper;
@@ -59,7 +59,6 @@ using UnityEngine.UIElements;
             
             return Response.Fail(new GenericResponse(ErrorCode.AccountProfileMissing));
         }
-    
 
         private async Task<string> RegisterCompute(string computeName, string fleetId, string fleetLocation,
             string ipAddress)
@@ -80,11 +79,50 @@ using UnityEngine.UIElements;
             }
             catch (Exception ex)
             {
-                // var errorBox = _container.Q<VisualElement>("ComputeErrorInfoBox");
-                // errorBox.style.display = DisplayStyle.Flex;
-                // errorBox.Q<Label>().text = ex.Message;
                 Debug.Log(ex.Message);
                 return null;
+            }
+        }
+
+        public async Task<bool> DeregisterCompute(string computeName, string fleetId)
+        {
+            try
+            {
+                var deregisterComputeRequest = new DeregisterComputeRequest()
+                {
+                    ComputeName = computeName,
+                    FleetId = fleetId
+                };
+                var deregisterComputeResponse =
+                    await _amazonGameLiftWrapper.DeregisterCompute(deregisterComputeRequest);
+
+                return deregisterComputeResponse.HttpStatusCode == HttpStatusCode.OK;
+            }
+            catch (Exception ex)
+            {
+                Debug.Log(ex.Message);
+                return false;
+            }
+        }
+
+        public async Task<bool> DescribeCompute(string computeName, string fleetId)
+        {
+            try
+            {
+                var describeComputeRequest = new DescribeComputeRequest()
+                {
+                    ComputeName = computeName,
+                    FleetId = fleetId,
+                };
+                var describeComputeResponse =
+                    await _amazonGameLiftWrapper.DescribeCompute(describeComputeRequest);
+
+                return describeComputeResponse.HttpStatusCode == HttpStatusCode.OK;
+            }
+            catch (Exception ex)
+            {
+                Debug.Log(ex.Message);
+                return false;
             }
         }
     }

@@ -1,35 +1,28 @@
-﻿// Copyright Amazon.com, Inc. or its affiliates. All Rights Reserved.
+// Copyright Amazon.com, Inc. or its affiliates. All Rights Reserved.
 // SPDX-License-Identifier: Apache-2.0
 
 using System;
 using System.Collections.Generic;
 using AmazonGameLift.Editor;
 using Editor.CoreAPI;
-using Editor.Resources.EditorWindow;
+using Editor.Window;
 using UnityEditor;
 using UnityEngine;
 using UnityEngine.UIElements;
 
-namespace Editor.Window
+namespace AmazonGameLift.Editor
 {
     public class GameLiftPlugin : EditorWindow
     {
         [SerializeField] private Texture _icon;
         internal Texture Icon => _icon;
+        internal readonly StateManager _stateManager;
 
         private VisualTreeAsset _visualTreeAsset;
         private VisualElement _root;
         private VisualElement _currentTab;
         private List<Button> _tabButtons;
         private List<VisualElement> _tabContent;
-        private VisualElement _tabContentContainer;
-
-        private readonly IAmazonGameLiftClientFactory _amazonGameLiftClientFactory;
-        public readonly CoreApi CoreApi;
-        public readonly AwsCredentialsCreation CreationModel;
-        public readonly AwsCredentialsUpdate UpdateModel;
-        
-        private readonly StateManager _stateManager;
 
         private const string MainContentClassName = "main__content";
         private const string TabContentSelectedClassName = "tab__content--selected";
@@ -37,86 +30,9 @@ namespace Editor.Window
         private const string TabButtonClassName = "tab__button";
         private const string TabContentClassName = "tab__content";
 
-        public GameLiftPlugin(IAwsCredentialsFactory awsCredentialsFactory, IAmazonGameLiftClientFactory amazonGameLiftClientFactory)
-        {
-            _stateManager = new StateManager(new CoreApi());
-            _amazonGameLiftClientFactory = amazonGameLiftClientFactory;
-
-            var awsCredentials = awsCredentialsFactory.Create();
-            CreationModel = awsCredentials.Creation;
-            UpdateModel = awsCredentials.Update;
-        }
-        
         private GameLiftPlugin()
         {
             _stateManager = new StateManager(new CoreApi());
-            
-            var awsCredentials = AwsCredentialsFactory.Create();
-            CreationModel = awsCredentials.Creation;
-            UpdateModel = awsCredentials.Update;
-        }
-        
-        private static GameLiftPlugin GetWindow()
-        {
-            var inspectorType = Type.GetType("UnityEditor.GameView,UnityEditor.dll");
-            var window = GetWindow<GameLiftPlugin>(inspectorType);
-            window.titleContent = new GUIContent("Amazon GameLift", window._icon);
-            return window;
-        }
-
-        [MenuItem("Amazon GameLift/Show Amazon GameLift Window", priority = 0)]
-        public static void ShowWindow()
-        {
-            GetWindow();
-        }
-
-        [MenuItem("Amazon GameLift/Bring Panel to Front", priority = 1)]
-        public static void FocusPanel()
-        {
-            ShowWindow();
-        }
-
-        [MenuItem("Amazon GameLift/Set AWS Account Profiles", priority = 100)]
-        public static void OpenAccountProfilesTab()
-        {
-            GetWindow().OpenTab(Pages.Credentials);
-        }
-
-        [MenuItem("Amazon GameLift/Host with Anywhere", priority = 101)]
-        public static void OpenAnywhereTab()
-        {
-            GetWindow().OpenTab(Pages.Anywhere);
-        }
-
-        [MenuItem("Amazon GameLift/Host with Managed EC2", priority = 102)]
-        public static void OpenEC2Tab()
-        {
-            GetWindow().OpenTab(Pages.ManagedEC2);
-        }
-
-        [MenuItem("Amazon GameLift/Import Sample Game", priority = 103)]
-        public static void ImportSampleGame()
-        {
-            string filePackagePath = $"Packages/{Paths.PackageName}/{Paths.SampleGameInPackage}";
-            AssetDatabase.ImportPackage(filePackagePath, interactive: true);
-        }
-
-        [MenuItem("Amazon GameLift/Help/Documentation", priority = 200)]
-        public static void OpenDocumentation()
-        {
-            Application.OpenURL(Urls.AwsHelpGameLiftUnity);
-        }
-
-        [MenuItem("Amazon GameLift/Help/AWS GameTech Forum", priority = 201)]
-        public static void OpenGameTechForums()
-        {
-            Application.OpenURL(Urls.AwsGameTechForums);
-        }
-
-        [MenuItem("Amazon GameLift/Help/Report Issues", priority = 202)]
-        public static void OpenReportIssues()
-        {
-            Application.OpenURL(Urls.GitHubAwsLabs);
         }
 
         private void CreateGUI()
@@ -135,11 +51,16 @@ namespace Editor.Window
 
             var tabContentContainer = _root.Q(className: MainContentClassName);
             var landingPage = new LandingPage(CreateContentContainer(Pages.Landing, tabContentContainer));
+            var anywherePage = new AnywherePage(CreateContentContainer(Pages.Anywhere, tabContentContainer), _stateManager);
+            var ec2Page = new ManagedEC2Page(CreateContentContainer(Pages.ManagedEC2, tabContentContainer));
+            var helpPage = new HelpAndDocumentationPage(CreateContentContainer(Pages.Help, tabContentContainer));
 
             _tabButtons = _root.Query<Button>(className: TabButtonClassName).ToList();
             _tabContent = _root.Query(className: TabContentClassName).ToList();
 
             _tabButtons.ForEach(button => button.RegisterCallback<ClickEvent>(_ => { OpenTab(button.name); }));
+            
+            OpenTab(Pages.Landing);
         }
 
         private void LocalizeText()
@@ -164,19 +85,8 @@ namespace Editor.Window
             contentContainer.Add(container);
             return container;
         }
-        
-        private VisualElement SetupTab(string tabName)
-        {
-            var container = new VisualElement
-            {
-                name = $"{tabName}Content",
-            };
-            container.AddToClassList(TabContentClassName);
-            _tabContentContainer.Add(container);
-            return container;
-        }
 
-        private void OpenTab(string tabName)
+      private void OpenTab(string tabName)
         {
             _tabContent.ForEach(page =>
             {

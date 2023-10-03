@@ -1,4 +1,4 @@
-﻿/* Copyright Amazon.com, Inc. or its affiliates. All Rights Reserved. */
+/* Copyright Amazon.com, Inc. or its affiliates. All Rights Reserved. */
 /* SPDX-License-Identifier: Apache-2.0 */
 
 :root {
@@ -11,17 +11,29 @@
     --color-border-accent: #4c4c4c;
     --color-font-default: #d2d2d2;
     --color-font-accent: #ffffff;
+    --color-font-error: #f30303;
+    --color-font-link: #4C7EFF;
+    --color-foldout-title: #e4e4e4;
+    --color-input-label: #c4c4c4;
+    --color-text-input-background: #2a2a2a;
+    --color-text-input-border: #0d0d0d;
+    --color-card-border: #0d0d0d;
+    --color-card-background: #2a2a2a;
 
+    --font-size-hint: 12px;
+    --font-size-small: 14px;
     --font-size-default: 16px;
     --font-size-large: 18px;
     --font-size-extralarge: 24px;
     --font-size-massive: 32px;
 
+    --icon-size-small: 24px;
     --icon-size-large: 60px;
     --border-size-thin: 1px;
     --border-size-medium: 2px;
 
     --spacing-tiny: 6px;
+    --spacing-smaller: 8px;
     --spacing-small: 12px;
     --spacing-medium: 18px;
     --spacing-large: 24px;
@@ -31,6 +43,9 @@
     --spacing-medium-negative: -18px;
     --spacing-large-negative: -24px;
 
+    --radio-button-inner: 14px;
+    --radio-button-outer: 24px;
+    --form-row-label-width: 240px;
     --page-width: 920px;
 
     font-size: var(--font-size-default);
@@ -46,6 +61,16 @@ Image.icon--large {
     height: var(--icon-size-large);
     width: var(--icon-size-large);
     flex: 0 0 auto;
+}
+
+Image.icon--small {
+    height: var(--icon-size-small);
+    width: var(--icon-size-small);
+    flex: 0 0 auto;
+}
+
+Image#FolderIcon {
+    --unity-image: resource("Images/Icons/Folder");
 }
 
 .button {
@@ -132,7 +157,13 @@ Image.icon--large {
 .external-link {
     border-bottom-width: var(--border-size-thin);
     border-bottom-color: var(--color-font-accent);
-    align-self: flex-start
+    align-self: flex-start;
+    align-items: center;
+    flex-direction: row;
+}
+
+Image#ExternalLinkIcon {
+    --unity-image: resource("Images/Icons/ExternalLink");
 }
 
 .page__title {
@@ -142,4 +173,187 @@ Image.icon--large {
 .page__subtitle {
     font-size: var(--font-size-extralarge);
     margin-bottom: var(--spacing-large);
+}
+
+.page__content {
+    color: var(--color-font-default);
+}
+
+.hidden {
+    display: none;
+}
+
+.foldout {
+    color: var(--color-foldout-title);
+}
+
+.foldout .unity-foldout__text {
+    font-size: var(--font-size-extralarge);
+}
+
+.foldout .unity-foldout__toggle {
+    margin: 0 0 var(--spacing-large) 0;
+}
+
+.form-row {
+    flex-direction: row;
+    align-items: center;
+}
+
+.form-row__label {
+    width: var(--form-row-label-width);
+    height: 32px;
+    margin-right: var(--spacing-large);
+    color: var(--color-input-label);
+    font-size: var(--font-size-large);
+    -unity-text-align: middle-left;
+}
+
+.form-row__input {
+    flex: 1 0 auto;
+    font-size: var(--font-size-large);
+}
+
+.form-row__input--inline {
+    flex-direction: row;
+}
+
+.form-row__text-display {
+    padding: 2px;
+}
+
+.form-row__input--no-label {
+    flex-direction: row;
+    margin-left: var(--form-row-label-width);
+    padding-left: var(--spacing-large);
+}
+
+.form-row__input--no-label > * {
+    flex-direction: row;
+    margin-right: var(--spacing-small);
+}
+
+.form-row__input .button {
+    margin-top: var(--spacing-small);
+}
+
+.form-row__radio-button .unity-radio-button__checkmark-background {
+    width: var(--radio-button-outer);
+    height: var(--radio-button-outer);
+    border-width: var(--border-size-thin);
+    border-color: var(--color-text-input-border);
+    border-radius: 100%;
+    padding: 0;
+    justify-content: center;
+}
+
+.form-row__radio-button .unity-radio-button__checkmark {
+    width: var(--radio-button-inner);
+    height: var(--radio-button-inner);
+    border-radius: 100px;
+}
+
+.form-row__radio-button .unity-radio-button__text,
+.form-row__radio-button .unity-radio-button__input {
+    flex-shrink: 1;
+}
+
+.text-input {
+    margin: 0 0 8px 0;
+    padding: 4px 8px 4px 8px;
+    border-width: var(--border-size-medium);
+    border-radius: 4px;
+    border-color: var(--color-text-input-border);
+    background-color: var(--color-text-input-background);
+    font-size: var(--font-size-large);
+}
+
+.text-input--tiny {
+    width: 50px;
+}
+
+.text-input--centered {
+    -unity-text-align: middle-center;
+}
+
+.text-input:hover {
+    border-color: var(--color-button-hover);
+}
+
+.text-input:focus {
+    border-color: var(--color-button-primary);
+}
+
+.text-input--error {
+    border-color: var(--color-font-error);
+}
+
+.text-input > .unity-text-field__input {
+    margin: 0;
+    padding: 0;
+    border-width: 0;
+    background-color: rgba(0, 0, 0, 0);
+    flex-grow: 0;
+}
+
+.input-hint {
+    font-size: var(--font-size-hint);
+}
+
+.dropdown {
+    margin: 0;
+    padding: 4px 8px 4px 8px;
+    border-width: var(--border-size-medium);
+    border-radius: 4px;
+    border-color: var(--color-button-border);
+    background-color: var(--color-button-default);
+    align-self: stretch;
+    font-size: var(--font-size-large);
+}
+
+.dropdown > .unity-popup-field__input {
+    padding: 0;
+    border-width: 0;
+    background-color: rgba(0, 0, 0, 0);
+}
+
+.card {
+    padding: var(--spacing-small);
+    border-width: var(--border-size-medium);
+    border-color: var(--color-card-border);
+    background-color: var(--color-card-background);
+    flex: 1 0 0;
+}
+
+.card--small {
+    flex-direction: row;
+    align-items: center;
+    justify-content: space-between;
+}
+
+.card--small .card__text {
+    font-size: var(--font-size-small);
+    margin: 0 8px 0 8px;
+}
+
+.card__container {
+    flex-direction: row;
+}
+
+.card__text {
+    font-size: var(--font-size-default);
+    -unity-text-align: middle-left;
+    flex: 1 1 auto;
+}
+
+.card__icon {
+    width: 36px;
+    height: 36px;
+    flex: 0 0 auto;
+}
+
+.card__icon--small {
+    width: 20px;
+    height: 20px;
+    flex: 0 0 auto;
 }
