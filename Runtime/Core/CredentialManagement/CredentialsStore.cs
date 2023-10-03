@@ -10,6 +10,7 @@ using AmazonGameLiftPlugin.Core.Shared.Logging;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using Amazon;
 
 namespace AmazonGameLiftPlugin.Core.CredentialManagement
 {
@@ -37,7 +38,7 @@ namespace AmazonGameLiftPlugin.Core.CredentialManagement
                 var options = new CredentialProfileOptions
                 {
                     AccessKey = request.AccessKey,
-                    SecretKey = request.SecretKey
+                    SecretKey = request.SecretKey,
                 };
 
                 if (_credentialProfileStoreChain.TryGetAWSCredentials(request.ProfileName,
@@ -50,7 +51,7 @@ namespace AmazonGameLiftPlugin.Core.CredentialManagement
                 }
 
                 var profile = new CredentialProfile(request.ProfileName, options);
-
+                profile.Region = RegionEndpoint.GetBySystemName(request.Region);
                 _sharedFile.RegisterProfile(profile);
                 FixEndOfFile();
 
@@ -78,7 +79,7 @@ namespace AmazonGameLiftPlugin.Core.CredentialManagement
                 {
                     AccessKey = credentials.AccessKey,
                     SecretKey = credentials.SecretKey,
-                    Region = profile.Region.SystemName,
+                    Region = profile.Region?.SystemName,
                 });
             }
 

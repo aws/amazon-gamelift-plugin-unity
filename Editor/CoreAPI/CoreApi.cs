@@ -128,13 +128,14 @@ namespace AmazonGameLift.Editor
             return _credentialsStore.RetriveAwsCredentials(request);
         }
 
-        public virtual SaveAwsCredentialsResponse SaveAwsCredentials(string profileName, string accessKey, string secretKey)
+        public virtual SaveAwsCredentialsResponse SaveAwsCredentials(string profileName, string accessKey, string secretKey, string region)
         {
             var request = new SaveAwsCredentialsRequest()
             {
                 ProfileName = profileName,
                 AccessKey = accessKey,
-                SecretKey = secretKey
+                SecretKey = secretKey,
+                Region = region,
             };
             return _credentialsStore.SaveAwsCredentials(request);
         }

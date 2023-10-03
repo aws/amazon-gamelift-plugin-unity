@@ -118,8 +118,9 @@ namespace AmazonGameLift.Editor
             _status.IsDisplayed &= string.IsNullOrEmpty(BucketName);
         }
 
-        public Response CreateBucket()
+        public Response CreateBucket(string bucketName)
         {
+            BucketName = bucketName;
             if (!CanCreate)
             {
                 var emptyBucketNameResponse = new Response()

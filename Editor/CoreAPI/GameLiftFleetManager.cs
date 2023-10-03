@@ -155,7 +155,7 @@ namespace Editor.CoreAPI
             catch (Exception ex)
             {
                 Debug.Log(ex.Message);
-                return new List<FleetAttributes>();
+                return null;
             }
         }
     }

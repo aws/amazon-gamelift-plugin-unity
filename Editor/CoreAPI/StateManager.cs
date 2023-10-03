@@ -217,7 +217,6 @@ namespace Editor.CoreAPI
             _selectedProfile = _allProfiles.FirstOrDefault(profile => profile.Name == profileName);
             if (_selectedProfile == null)
             {
-                Debug.Log("test user");
                 _selectedProfile = new UserProfile()
                 {
                     Name = profileName,

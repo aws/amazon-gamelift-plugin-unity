@@ -201,13 +201,15 @@ namespace AmazonGameLiftPlugin.Editor.UnitTests
             const string testProfileName = "TestProfile";
             const string testAccessKeyId = "TestKey";
             const string testSecretKey = "TestSecret";
+            const string testBucket = "TestBucket";
+
             string actualProfileName = null;
             string actualAccessKeyId = null;
             string actualSecretKey = null;
 
             var coreApiMock = new Mock<CoreApi>();
             SaveAwsCredentialsResponse saveResponse = Response.Ok(new SaveAwsCredentialsResponse());
-            coreApiMock.Setup(target => target.SaveAwsCredentials(testProfileName, testAccessKeyId, testSecretKey))
+            coreApiMock.Setup(target => target.SaveAwsCredentials(testProfileName, testAccessKeyId, testSecretKey, testBucket))
                 .Returns(saveResponse)
                 .Callback<string, string, string>((profileName, accessKeyId, secretKey) =>
                 {
@@ -278,10 +280,11 @@ namespace AmazonGameLiftPlugin.Editor.UnitTests
             const string testProfileName = "TestProfile";
             const string testAccessKeyId = "TestKey";
             const string testSecretKey = "TestSecret";
+            const string testBucket = "TestBucket";
 
             var coreApiMock = new Mock<CoreApi>();
             SaveAwsCredentialsResponse saveResponse = Response.Ok(new SaveAwsCredentialsResponse());
-            coreApiMock.Setup(target => target.SaveAwsCredentials(testProfileName, testAccessKeyId, testSecretKey))
+            coreApiMock.Setup(target => target.SaveAwsCredentials(testProfileName, testAccessKeyId, testSecretKey, testBucket))
                 .Returns(saveResponse)
                 .Verifiable();
 
@@ -311,10 +314,11 @@ namespace AmazonGameLiftPlugin.Editor.UnitTests
             const string testProfileName = "TestProfile";
             const string testAccessKeyId = "TestKey";
             const string testSecretKey = "TestSecret";
+            const string testBucket = "TestBucket";
 
             var coreApiMock = new Mock<CoreApi>();
             SaveAwsCredentialsResponse saveResponse = Response.Fail(new SaveAwsCredentialsResponse());
-            coreApiMock.Setup(target => target.SaveAwsCredentials(testProfileName, testAccessKeyId, testSecretKey))
+            coreApiMock.Setup(target => target.SaveAwsCredentials(testProfileName, testAccessKeyId, testSecretKey, testBucket))
                 .Returns(saveResponse)
                 .Verifiable();
 
@@ -338,10 +342,11 @@ namespace AmazonGameLiftPlugin.Editor.UnitTests
             const string testProfileName = "TestProfile";
             const string testAccessKeyId = "TestKey";
             const string testSecretKey = "TestSecret";
+            const string testBucket = "TestBucket";
 
             coreApiMock = new Mock<CoreApi>();
             SaveAwsCredentialsResponse saveResponse = Response.Ok(new SaveAwsCredentialsResponse());
-            coreApiMock.Setup(target => target.SaveAwsCredentials(testProfileName, testAccessKeyId, testSecretKey))
+            coreApiMock.Setup(target => target.SaveAwsCredentials(testProfileName, testAccessKeyId, testSecretKey, testBucket))
                 .Returns(saveResponse)
                 .Verifiable();
 

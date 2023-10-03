@@ -61,7 +61,7 @@ namespace Editor.Window
 
             _computeNameInput.value = _computeName;
             _computeNameInput.RegisterValueChangedCallback(_ =>
-                VerifyComputeTextFields(_computeNameInput, _ipInputs));
+                UpdateComputeTextFields(_computeNameInput, _ipInputs));
 
             var index = 0;
             var currentIp = _ipAddress.Split(".");
@@ -69,7 +69,7 @@ namespace Editor.Window
             {
                 ipField.value = currentIp[index];
                 ipField.RegisterValueChangedCallback(_ =>
-                    VerifyComputeTextFields(_computeNameInput, _ipInputs));
+                    UpdateComputeTextFields(_computeNameInput, _ipInputs));
                 index++;
             }
         }
@@ -119,7 +119,7 @@ namespace Editor.Window
             _ipInputs.ForEach(input => input.isReadOnly = value);
         }
 
-        private void VerifyComputeTextFields(TextField computeTextField, IEnumerable<TextField> ipTextField)
+        private void UpdateComputeTextFields(TextField computeTextField, IEnumerable<TextField> ipTextField)
         {
             var computeTextNameValid = computeTextField.value.Length >= 1;
             var ipText = ipTextField.ToList().Select(ipAddressField => ipAddressField.value).ToList();

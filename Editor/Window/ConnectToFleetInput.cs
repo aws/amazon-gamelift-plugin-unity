@@ -26,7 +26,7 @@ namespace Editor.Window
 
         private readonly VisualElement _container;
         private FleetStatus _fleetState;
-        private List<FleetAttributes> _fleetsList = new List<FleetAttributes>();
+        private List<FleetAttributes> _fleetAttributes = new List<FleetAttributes>();
 
         public ConnectToFleetInput(VisualElement container, StateManager stateManager, FleetStatus initialState)
         {
@@ -37,7 +37,7 @@ namespace Editor.Window
             AssignUiElements(container);
             PopulateFleetVisualElements();
             RegisterCallBacks(container);
-            SetupBootMenu();
+            SetupPage();
             _stateManager.OnUserProfileUpdated += () => UpdateFleetMenu();
 
             UpdateGUI();
@@ -84,7 +84,7 @@ namespace Editor.Window
 
         private void OnSelectFleetDropdown(string fleetName)
         {
-            var currentFleet = _fleetsList.First(fleet => fleet.Name == fleetName);
+            var currentFleet = _fleetAttributes.First(fleet => fleet.Name == fleetName);
             _fleetIdText.text = currentFleet.FleetId;
             _stateManager.AnywhereFleetName = currentFleet.Name;
             _stateManager.AnywhereFleetId = currentFleet.FleetId;
@@ -120,18 +120,22 @@ namespace Editor.Window
         {
             if (_stateManager.GameLiftWrapper != null)
             {
-                _fleetsList = await _fleetManager.ListFleetAttributes();
-                _fleetNameDropdownContainer.choices = _fleetsList.Select(fleet => fleet.Name).ToList();
+                var fleetList = await _fleetManager.ListFleetAttributes();
+                if (fleetList == null)
+                {
+                    _fleetAttributes = new List<FleetAttributes>();
+                }
+                _fleetNameDropdownContainer.choices = _fleetAttributes.Select(fleet => fleet.Name).ToList();
                 _fleetNameDropdownContainer.value = _stateManager.AnywhereFleetName;
                 _fleetIdText.text = _stateManager.AnywhereFleetId;
             }
         }
 
-        private async void SetupBootMenu()
+        private async void SetupPage()
         {
             await UpdateFleetMenu();
 
-            if (_fleetsList.Count >= 1 && string.IsNullOrWhiteSpace(_stateManager.AnywhereFleetName))
+            if (_fleetAttributes.Count >= 1 && string.IsNullOrWhiteSpace(_stateManager.AnywhereFleetName))
             {
                 _fleetState = FleetStatus.Selecting;
             }

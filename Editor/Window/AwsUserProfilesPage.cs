@@ -11,11 +11,10 @@ namespace AmazonGameLift.Editor
 {
     internal class AwsUserProfilesPage
     {
-        public List<TextField> AccountDetailTextFields = new();
-        
-        public readonly AwsCredentialsUpdate AwsCredentialsUpdateModel;
-        public readonly AwsCredentialsCreation AwsCredentialsCreateModel;
-        public readonly BootstrapSettings BootstrapSettings;
+        private List<TextField> AccountDetailTextFields = new();
+
+        private readonly AwsCredentialsUpdate AwsCredentialsUpdateModel;
+        private readonly BootstrapSettings BootstrapSettings;
         
         private VisualElement _currentElement;
 
@@ -28,12 +27,12 @@ namespace AmazonGameLift.Editor
         private readonly VisualElement _createMenu;
         private readonly VisualElement _bootstrapMenu;
         private readonly VisualElement _completedMenu;
+        private BootstrapSettings _bootstrapSettings;
 
         public AwsUserProfilesPage(VisualElement container, StateManager stateManager)
         {
             var awsCredentials = new AwsCredentialsFactory().Create();
-            AwsCredentialsCreateModel = awsCredentials.Creation;
-            AwsCredentialsUpdateModel = awsCredentials.Update;
+           AwsCredentialsUpdateModel = awsCredentials.Update;
             
             _container = container;
             var mVisualTreeAsset = Resources.Load<VisualTreeAsset>("EditorWindow/Pages/AwsUserProfilesPage");
@@ -56,15 +55,19 @@ namespace AmazonGameLift.Editor
             AccountDetailTextFields = _createMenu.Query<TextField>().ToList();
 
             _stateManager = stateManager;
-            AwsCredentialsCreateModel.OnCreated += () => _stateManager.SetProfile(AwsCredentialsCreateModel.ProfileName);
             _stateManager.OnUserProfileUpdated += () =>
             {
                 AwsCredentialsUpdateModel.Refresh();
                 AwsCredentialsUpdateModel.Update();
             };
-            
-            _userProfileCreation = new UserProfileCreation(_container, _stateManager, this);
-            BootstrapSettings = _userProfileCreation.SetupBootstrap();
+
+            var createProfileContainer = _container.Q("UserProfilePageCreateMenu");
+            _userProfileCreation = new UserProfileCreation(createProfileContainer, _stateManager);
+            _userProfileCreation.OnProfileCreated += () =>
+            {
+                ShowProfileMenu(_bootstrapMenu);
+            };
+            BootstrapSettings = BootstrapSettingsFactory.Create();
                 
             RefreshProfiles();
 
@@ -84,18 +87,9 @@ namespace AmazonGameLift.Editor
             l.SetElementText("UserProfilePageAccountCardNoAccountDescription", Strings.UserProfilePageAccountCardNoAccountDescription);
             l.SetElementText("UserProfilePageAccountCardNewAccountTitle", Strings.UserProfilePageAccountCardNewAccountTitle);
             l.SetElementText("UserProfilePageAccountCardNewAccountDescription", Strings.UserProfilePageAccountCardNewAccountDescription);
-            l.SetElementText("UserProfilePageAccountNewProfileTitle", Strings.UserProfilePageAccountNewProfileTitle);
-            l.SetElementText("UserProfilePageAccountNewProfileName", Strings.UserProfilePageAccountNewProfileName);
-            l.SetElementText("UserProfilePageAccountNewProfileAccessKeyInput", Strings.UserProfilePageAccountNewProfileAccessKeyInput);
-            l.SetElementText("UserProfilePageAccountNewProfileSecretKeyLabel", Strings.UserProfilePageAccountNewProfileSecretKeyLabel);
-            l.SetElementText("UserProfilePageAccountNewProfileRegionLabel", Strings.UserProfilePageAccountNewProfileRegionLabel);
-            l.SetElementText("UserProfilePageAccountNewProfileRegionPlaceholderDropdown", Strings.UserProfilePageAccountNewProfileRegionPlaceholderDropdown);
             l.SetElementText("UserProfilePageAccountCardNoAccountLink", Strings.UserProfilePageAccountCardNoAccountLink);
-            l.SetElementText("UserProfilePageAccountNewProfileHelpLink", Strings.UserProfilePageAccountNewProfileHelpLink);
             l.SetElementText("UserProfilePageAccountCardNoAccountButtonLabel", Strings.UserProfilePageAccountCardNoAccountButtonLabel);
             l.SetElementText("UserProfilePageAccountCardHasAccountButton", Strings.UserProfilePageAccountCardHasAccountButton);
-            l.SetElementText("UserProfilePageAccountNewProfileCreateButton", Strings.UserProfilePageAccountNewProfileCreateButton);
-            l.SetElementText("UserProfilePageAccountNewProfileCancelButton", Strings.UserProfilePageAccountNewProfileCancelButton);
             l.SetElementText("UserProfilePageBootstrapTitle", Strings.UserProfilePageBootstrapTitle);
             l.SetElementText("UserProfilePageBootstrapDescription", Strings.UserProfilePageBootstrapDescription);
             l.SetElementText("UserProfilePageBootstrapPricingText", Strings.UserProfilePageBootstrapPricingText);
@@ -122,27 +116,15 @@ namespace AmazonGameLift.Editor
                 var targetWizard = _container.Q<VisualElement>("UserProfilePageCreateMenu");
                 ShowProfileMenu(targetWizard);
             });
-            _container.Q<Button>("UserProfilePageAccountNewProfileCreateButton").RegisterCallback<ClickEvent>(_ =>
-            {
-                if (CreateUserProfile())
-                {
-                    var targetWizard = _container.Q<VisualElement>("UserProfilePageBootstrapMenu");
-                    ShowProfileMenu(targetWizard);
-                }
-                else
-                {
-                    Debug.Log("Error");
-                }
-            });
             _container.Q<Button>("UserProfilePageAccountNewProfileCancelButton").RegisterCallback<ClickEvent>(_ =>
             {
-                ClearCredentials();
+                _userProfileCreation.Reset();
                 ChooseProfileMenu();
             });
             _container.Q<Button>("UserProfilePageBootstrapStartButton").RegisterCallback<ClickEvent>(_ =>
             {
                 BootstrapSettings.RefreshBucketName();
-                OpenS3Popup(BootstrapSettings.BucketName);
+                OpenS3Popup(_stateManager.BucketName);
             });
             _container.Q<Button>("UserProfilePageBootstrapAnotherBucketButton").RegisterCallback<ClickEvent>(_ =>
             {
@@ -190,25 +172,6 @@ namespace AmazonGameLift.Editor
             }
         }
 
-        private bool CreateUserProfile()
-        {
-            if (!_userProfileCreation.CreateUserProfile())
-            {
-                return false;
-            }
-            Debug.Log("Saving Profile");
-            return true;
-        }
-
-        private void ClearCredentials()
-        {
-            AccountDetailTextFields = _container.Query<TextField>(null, "AccountDetailsInput").ToList();
-            foreach (var textField in AccountDetailTextFields)
-            {
-                textField.value = "";
-            }
-        }
-
         private void ToggleHiddenText(TextField hiddenField)
         {
             hiddenField.isPasswordField = !hiddenField.isPasswordField;
@@ -222,18 +185,28 @@ namespace AmazonGameLift.Editor
                 targetMenu.RemoveFromClassList(hiddenClassName);
             }
         }
-        
-        public void RefreshProfiles()
+
+        private void RefreshProfiles()
         {
             AwsCredentialsUpdateModel.Refresh();
         }
         
         private void BootstrapAccount(string bucketName)
         { 
-            _userProfileCreation.BootstrapAccount(bucketName);
+            var bucketResponse = _bootstrapSettings.CreateBucket(bucketName);
+            if (bucketResponse.Success)
+            {
+                // TODO: Add success status box
+                _stateManager.SetBucketBootstrap(bucketName);
+            }
+            else
+            {
+                // TODO: Add error status box
+                Debug.Log(bucketResponse.ErrorMessage);
+            }
         }
-        
-        public void OpenS3Popup(string bucketName)
+
+        private void OpenS3Popup(string bucketName)
         {
             var popup = ScriptableObject.CreateInstance<GameLiftPluginBucketPopup>();
             popup.Init(bucketName);
