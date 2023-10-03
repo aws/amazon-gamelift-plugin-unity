@@ -215,7 +215,7 @@ namespace AmazonGameLift.Editor
             { Strings.AnywherePageComputeStatusLabel, "Status"},
             { Strings.AnywherePageComputeRegisterButton, "Register Compute"},
             { Strings.AnywherePageComputeReplaceComputeButton, "Register new Compute"},
-            { Strings.AnywherePageComputeCancelReplace, "Cancel"},
+            { Strings.AnywherePageComputeCancelReplaceButton, "Cancel"},
             { Strings.AnywherePageAuthTokenTitle, "Generate Auth Token - optional"},
             { Strings.AnywherePageAuthTokenLabel, "Status"},
             { Strings.AnywherePageAuthTokenNote, "The auth token is generated when you launch your game."},

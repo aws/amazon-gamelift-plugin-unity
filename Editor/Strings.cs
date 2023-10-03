@@ -170,7 +170,7 @@ namespace AmazonGameLift.Editor
         public const string AnywherePageComputeStatusLabel = "AnywherePageComputeStatusLabel";
         public const string AnywherePageComputeRegisterButton = "AnywherePageComputeRegisterButton";
         public const string AnywherePageComputeReplaceComputeButton = "AnywherePageComputeReplaceComputeButton";
-        public const string AnywherePageComputeCancelReplace = "AnywherePageComputeCancelReplace";
+        public const string AnywherePageComputeCancelReplaceButton = "AnywherePageComputeCancelReplaceButton";
         public const string AnywherePageAuthTokenTitle = "AnywherePageAuthTokenTitle";
         public const string AnywherePageAuthTokenLabel = "AnywherePageAuthTokenLabel";
         public const string AnywherePageAuthTokenNote = "AnywherePageAuthTokenNote";

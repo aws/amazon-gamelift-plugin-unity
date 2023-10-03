@@ -43,7 +43,7 @@ namespace AmazonGameLift.Editor
             _computeStatus = container.Q("AnywherePageComputeStatus");
             _registerButton = container.Q<Button>("AnywherePageComputeRegisterButton");
             _replaceComputeButton = container.Q<Button>("AnywherePageComputeReplaceComputeButton");
-            _cancelReplaceButton = container.Q<Button>("AnywherePageComputeCancelReplace");
+            _cancelReplaceButton = container.Q<Button>("AnywherePageComputeCancelReplaceButton");
             LocalizeText();
 
             GetComputeVisualElements();
@@ -178,7 +178,7 @@ namespace AmazonGameLift.Editor
             l.SetElementText("AnywherePageComputeStatusLabel", Strings.AnywherePageComputeStatusLabel);
             l.SetElementText("AnywherePageComputeRegisterButton", Strings.AnywherePageComputeRegisterButton);
             l.SetElementText("AnywherePageComputeReplaceComputeButton", Strings.AnywherePageComputeReplaceComputeButton);
-            l.SetElementText("AnywherePageComputeCancelReplace", Strings.AnywherePageComputeCancelReplace);
+            l.SetElementText("AnywherePageComputeCancelReplaceButton", Strings.AnywherePageComputeCancelReplaceButton);
         }
 
         public enum ComputeStatus
