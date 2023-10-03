@@ -112,6 +112,10 @@ Image#FolderIcon {
     flex-direction: column;
 }
 
+.separator--centered {
+    align-items: center;
+}
+
 .separator.separator--horizontal {
     flex-direction: row;
 }
