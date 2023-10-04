@@ -189,15 +189,12 @@ namespace AmazonGameLift.Editor
             }
 
             AllScenarios = _deployers.Values.Select(deployer => deployer.DisplayName).ToArray();
-            GetSettingResponse bucketNameResponse = _coreApi.GetSetting(SettingsKeys.CurrentBucketName);
-            CurrentBucketName = bucketNameResponse.Success ? bucketNameResponse.Value : null;
-            GetSettingResponse currentRegionResponse = _coreApi.GetSetting(SettingsKeys.CurrentRegion);
-            CurrentRegion = currentRegionResponse.Success ? currentRegionResponse.Value : null;
+            CurrentBucketName = _stateManager.BucketName;
+            CurrentRegion = _stateManager.Region;
 
             HasCurrentBucket = !string.IsNullOrEmpty(CurrentBucketName) && _coreApi.IsValidRegion(CurrentRegion);
 
-            GetSettingResponse profileResponse = _coreApi.GetSetting(SettingsKeys.CurrentProfileName);
-            CurrentProfile = profileResponse.Success ? profileResponse.Value : null;
+            CurrentProfile = _stateManager.ProfileName;
             RefreshScenario();
         }
 
