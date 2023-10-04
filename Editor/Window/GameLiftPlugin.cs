@@ -16,7 +16,7 @@ namespace AmazonGameLift.Editor
     {
         [SerializeField] private Texture _icon;
         internal Texture Icon => _icon;
-        internal readonly StateManager _stateManager;
+        internal readonly StateManager StateManager;
 
         private VisualTreeAsset _visualTreeAsset;
         private VisualElement _root;
@@ -32,13 +32,13 @@ namespace AmazonGameLift.Editor
 
         private GameLiftPlugin()
         {
-            _stateManager = new StateManager(new CoreApi());
+            StateManager = new StateManager(new CoreApi());
         }
 
         private void CreateGUI()
         {
             _root = rootVisualElement;
-            _visualTreeAsset = UnityEngine.Resources.Load<VisualTreeAsset>("EditorWindow/GameLiftPlugin");
+            _visualTreeAsset = Resources.Load<VisualTreeAsset>("EditorWindow/GameLiftPlugin");
             if (_visualTreeAsset == null)
             {
                 return;
@@ -48,11 +48,12 @@ namespace AmazonGameLift.Editor
             _root.Add(uxml);
 
             LocalizeText();
-
+            
             var tabContentContainer = _root.Q(className: MainContentClassName);
             var landingPage = new LandingPage(CreateContentContainer(Pages.Landing, tabContentContainer));
-            var anywherePage = new AnywherePage(CreateContentContainer(Pages.Anywhere, tabContentContainer), _stateManager);
-            var ec2Page = new ManagedEC2Page(CreateContentContainer(Pages.ManagedEC2, tabContentContainer));
+            var credentialsPage = new AwsUserProfilesPage(CreateContentContainer(Pages.Credentials, tabContentContainer), StateManager);
+            var anywherePage = new AnywherePage(CreateContentContainer(Pages.Anywhere, tabContentContainer), StateManager);
+            var ec2Page = new ManagedEC2Page(CreateContentContainer(Pages.ManagedEC2, tabContentContainer), StateManager);
             var helpPage = new HelpAndDocumentationPage(CreateContentContainer(Pages.Help, tabContentContainer));
 
             _tabButtons = _root.Query<Button>(className: TabButtonClassName).ToList();

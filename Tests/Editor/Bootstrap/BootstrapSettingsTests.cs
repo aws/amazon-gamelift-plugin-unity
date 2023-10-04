@@ -30,7 +30,7 @@ namespace AmazonGameLiftPlugin.Editor.UnitTests
             BootstrapSettings underTest = GetUnitUnderTest(coreApi: coreApiMock, bootstrapUtility: bootstrapUtilityMock);
 
             // Act
-            underTest.CreateBucket();
+            underTest.CreateBucket("bucket-name");
 
             // Assert
             coreApiMock.Verify();
@@ -60,7 +60,7 @@ namespace AmazonGameLiftPlugin.Editor.UnitTests
             underTest.SelectBucket(testBucketName);
 
             // Act
-            underTest.CreateBucket();
+            underTest.CreateBucket(testBucketName);
 
             // Assert
             bootstrapUtilityMock.Verify();
@@ -93,7 +93,7 @@ namespace AmazonGameLiftPlugin.Editor.UnitTests
             underTest.SelectBucket(testBucketName);
 
             // Act
-            underTest.CreateBucket();
+            underTest.CreateBucket(testBucketName);
 
             // Assert
             coreApiMock.Verify();
@@ -109,7 +109,7 @@ namespace AmazonGameLiftPlugin.Editor.UnitTests
             BootstrapSettings underTest = SetUpCreateBucketSuccess(isPutSettingSuccess: false, coreApiMock: coreApiMock, bootstrapUtilityMock: bootstrapUtilityMock);
 
             // Act
-            underTest.CreateBucket();
+            underTest.CreateBucket("bucket-name");
 
             // Assert
             coreApiMock.Verify();
@@ -129,7 +129,7 @@ namespace AmazonGameLiftPlugin.Editor.UnitTests
 
             // Act
             underTest.LifeCyclePolicyIndex = 0;
-            underTest.CreateBucket();
+            underTest.CreateBucket("bucket-name");
 
             // Assert
             coreApiMock.Verify();
@@ -160,7 +160,7 @@ namespace AmazonGameLiftPlugin.Editor.UnitTests
 
             // Act
             underTest.LifeCyclePolicyIndex = 1;
-            underTest.CreateBucket();
+            underTest.CreateBucket(testBucketName);
 
             // Assert
             coreApiMock.Verify();

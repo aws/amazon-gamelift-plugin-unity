@@ -8,7 +8,9 @@ namespace AmazonGameLift.Editor
 {
     public class ProfileSelector : VisualElement
     {
-        public new class UxmlFactory : UxmlFactory<ProfileSelector> { }
+        public new class UxmlFactory : UxmlFactory<ProfileSelector>
+        {
+        }
 
         private readonly StateManager _stateManager;
         private readonly TextProvider _textProvider;
@@ -25,19 +27,19 @@ namespace AmazonGameLift.Editor
 
             LocalizeText();
 
-            _stateManager = EditorWindow.GetWindow<GameLiftPlugin>()._stateManager;
-            _stateManager.OnProfileSelected += UpdateGUI;
+            _stateManager = EditorWindow.GetWindow<GameLiftPlugin>().StateManager;
+            _stateManager.OnUserProfileUpdated += UpdateGUI;
             _textProvider = TextProviderFactory.Create();
 
-            _dropdown.RegisterValueChangedCallback(value => { _stateManager.SelectedProfile = value.newValue; });
+            _dropdown.RegisterValueChangedCallback(value => { _stateManager.SetProfile(value.newValue); });
             UpdateGUI();
         }
-
+ 
         private void UpdateGUI()
         {
             var profiles = _stateManager.AllProfiles;
             _dropdown.choices = profiles;
-            _dropdown.SetValueWithoutNotify(_stateManager.SelectedProfile);
+            _dropdown.SetValueWithoutNotify(_stateManager.ProfileName);
             _region.text = _stateManager.Region;
             if (_stateManager.IsBootstrapped)
             {

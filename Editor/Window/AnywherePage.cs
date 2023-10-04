@@ -18,18 +18,17 @@ namespace AmazonGameLift.Editor
             var uxml = mVisualTreeAsset.Instantiate();
 
             container.Add(uxml);
-            ApplyText();
+            LocalizeText();
 
-            var connectToFleetContainer = container.Q("AnywherePageConnectFleetTitle");
+            var fleetInputContainer = uxml.Q("AnywherePageConnectFleetContainer");
             var fleetInput =
-                new ConnectToFleetInput(connectToFleetContainer, stateManager, ConnectToFleetInput.FleetStatus.NotCreated);
-            var registerComputeContainer = container.Q("AnywherePageComputeTitle");
+                new ConnectToFleetInput(fleetInputContainer, stateManager, ConnectToFleetInput.FleetStatus.NotCreated);
+            var computeInputContainer = uxml.Q("AnywherePageComputeTitle");
             var computeInput =
-                new RegisterComputeInput(registerComputeContainer, stateManager, fleetInput,
-                    RegisterComputeInput.ComputeStatus.NotRegistered);
+                new RegisterComputeInput(computeInputContainer, stateManager); 
         }
 
-        private void ApplyText()
+        private void LocalizeText()
         {
             var l = new ElementLocalizer(_container);
             l.SetElementText("AnywherePageTitle", Strings.AnywherePageTitle);

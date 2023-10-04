@@ -1,4 +1,5 @@
-﻿using Amazon.GameLift;
+﻿using Amazon;
+using Amazon.GameLift;
 using AmazonGameLift.Editor;
 using AmazonGameLiftPlugin.Core;
 using AmazonGameLiftPlugin.Core.ApiGatewayManagement;
@@ -20,10 +21,10 @@ namespace Editor.CoreAPI
             _coreApi = coreApi;
         }
 
-        public IAmazonGameLiftWrapper Get(string profile)
+        public IAmazonGameLiftWrapper Get(string profile) 
         {
             var credentials = _coreApi.RetrieveAwsCredentials(profile);
-            var client = new AmazonGameLiftClient(credentials.AccessKey, credentials.SecretKey);
+            var client = new AmazonGameLiftClient(credentials.AccessKey, credentials.SecretKey, RegionEndpoint.GetBySystemName(credentials.Region));
             return new AmazonGameLiftWrapper(client);
         }
     }

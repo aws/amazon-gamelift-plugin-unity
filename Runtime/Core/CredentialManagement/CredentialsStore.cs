@@ -10,6 +10,7 @@ using AmazonGameLiftPlugin.Core.Shared.Logging;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using Amazon;
 
 namespace AmazonGameLiftPlugin.Core.CredentialManagement
 {
@@ -22,8 +23,12 @@ namespace AmazonGameLiftPlugin.Core.CredentialManagement
         public CredentialsStore(IFileWrapper fileWrapper, string filePath = default)
         {
             _file = fileWrapper ?? throw new ArgumentNullException(nameof(fileWrapper));
-            _sharedFile = string.IsNullOrEmpty(filePath) ? new SharedCredentialsFile() : new SharedCredentialsFile(filePath);
-            _credentialProfileStoreChain = string.IsNullOrEmpty(filePath) ? new CredentialProfileStoreChain() : new CredentialProfileStoreChain(filePath);
+            _sharedFile = string.IsNullOrEmpty(filePath)
+                ? new SharedCredentialsFile()
+                : new SharedCredentialsFile(filePath);
+            _credentialProfileStoreChain = string.IsNullOrEmpty(filePath)
+                ? new CredentialProfileStoreChain()
+                : new CredentialProfileStoreChain(filePath);
         }
 
         public SaveAwsCredentialsResponse SaveAwsCredentials(SaveAwsCredentialsRequest request)
@@ -33,10 +38,11 @@ namespace AmazonGameLiftPlugin.Core.CredentialManagement
                 var options = new CredentialProfileOptions
                 {
                     AccessKey = request.AccessKey,
-                    SecretKey = request.SecretKey
+                    SecretKey = request.SecretKey,
                 };
 
-                if (_credentialProfileStoreChain.TryGetAWSCredentials(request.ProfileName, out AWSCredentials awsCredentials))
+                if (_credentialProfileStoreChain.TryGetAWSCredentials(request.ProfileName,
+                        out AWSCredentials awsCredentials))
                 {
                     return Response.Fail(new SaveAwsCredentialsResponse()
                     {
@@ -45,7 +51,7 @@ namespace AmazonGameLiftPlugin.Core.CredentialManagement
                 }
 
                 var profile = new CredentialProfile(request.ProfileName, options);
-
+                profile.Region = RegionEndpoint.GetBySystemName(request.Region);
                 _sharedFile.RegisterProfile(profile);
                 FixEndOfFile();
 
@@ -64,7 +70,7 @@ namespace AmazonGameLiftPlugin.Core.CredentialManagement
 
         public RetriveAwsCredentialsResponse RetriveAwsCredentials(RetriveAwsCredentialsRequest request)
         {
-            if (_credentialProfileStoreChain.TryGetAWSCredentials(request.ProfileName, out var awsCredentials) && 
+            if (_credentialProfileStoreChain.TryGetAWSCredentials(request.ProfileName, out var awsCredentials) &&
                 _credentialProfileStoreChain.TryGetProfile(request.ProfileName, out var profile))
             {
                 ImmutableCredentials credentials = awsCredentials.GetCredentials();

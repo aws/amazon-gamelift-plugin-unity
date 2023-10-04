@@ -20,22 +20,18 @@ namespace AmazonGameLift.Editor
         private readonly VisualElement _computeStatus;
         private readonly VisualElement _container;
         private readonly GameLiftComputeManager _computeManager;
-        private readonly ConnectToFleetInput _fleetDetails;
         private readonly StateManager _stateManager;
 
         private string _computeName = "ComputerName-ProfileName";
         private string _ipAddress = "120.120.120.120";
         private string _location = "custom-location-1";
 
-        public RegisterComputeInput(VisualElement container, StateManager stateManager,
-            ConnectToFleetInput fleetDetails, ComputeStatus initialState)
+        public RegisterComputeInput(VisualElement container, StateManager stateManager)
         {
             var uxml = Resources.Load<VisualTreeAsset>("EditorWindow/Components/RegisterComputeInput");
             container.Add(uxml.Instantiate());
             _container = container;
 
-            _computeState = initialState;
-            _fleetDetails = fleetDetails;
             _stateManager = stateManager;
             _computeManager = stateManager.ComputeManager;
             _computeNameInput = container.Q<TextField>("AnywherePageComputeNameInput");
@@ -46,7 +42,14 @@ namespace AmazonGameLift.Editor
             _cancelReplaceButton = container.Q<Button>("AnywherePageComputeCancelReplaceButton");
             LocalizeText();
 
-            GetComputeVisualElements();
+            _computeState = !string.IsNullOrWhiteSpace(_stateManager.ComputeName) &&
+                            !string.IsNullOrWhiteSpace(_stateManager.IpAddress)
+                ? ComputeStatus.Registered
+                : ComputeStatus.NotRegistered;
+            _computeName = _stateManager.ComputeName ?? _computeName;
+            _ipAddress = _stateManager.IpAddress ?? _ipAddress;
+
+
             RegisterCallbacks();
             SetupConfigSettings();
             UpdateGUI();
@@ -58,9 +61,9 @@ namespace AmazonGameLift.Editor
             _replaceComputeButton.RegisterCallback<ClickEvent>(_ => OnReplaceComputeButtonClicked());
             _cancelReplaceButton.RegisterCallback<ClickEvent>(_ => OnCancelReplaceButtonClicked());
 
-            _computeNameInput.RegisterValueChangedCallback(_ =>
-                VerifyComputeTextFields(_computeNameInput, _ipInputs, _registerButton));
             _computeNameInput.value = _computeName;
+            _computeNameInput.RegisterValueChangedCallback(_ =>
+                UpdateComputeTextFields(_computeNameInput, _ipInputs));
 
             var index = 0;
             var currentIp = _ipAddress.Split(".");
@@ -68,7 +71,7 @@ namespace AmazonGameLift.Editor
             {
                 ipField.value = currentIp[index];
                 ipField.RegisterValueChangedCallback(_ =>
-                    VerifyComputeTextFields(_computeNameInput, _ipInputs, _registerButton));
+                    UpdateComputeTextFields(_computeNameInput, _ipInputs));
                 index++;
             }
         }
@@ -78,10 +81,14 @@ namespace AmazonGameLift.Editor
             if (_computeState is ComputeStatus.NotRegistered or ComputeStatus.Registering)
             {
                 var previousComputeName = _stateManager.ComputeName;
-                var success = await _computeManager.RegisterFleetCompute(_computeName, _fleetDetails.FleetId, _location,
-                    _ipAddress, previousComputeName);
-                if (success)
+                var response = await _computeManager.RegisterFleetCompute(_computeName,
+                    _stateManager.SelectedProfile.AnywhereFleetId, _location, _ipAddress, previousComputeName);
+                if (response.Success)
                 {
+                    _stateManager.ComputeName = response.ComputeName;
+                    _stateManager.IpAddress = response.IpAddress;
+                    _stateManager.WebSocketUrl = response.WebSocketUrl;
+
                     _computeState = ComputeStatus.Registered;
                 }
             }
@@ -115,15 +122,16 @@ namespace AmazonGameLift.Editor
             _ipInputs.ForEach(input => input.isReadOnly = value);
         }
 
-        private void VerifyComputeTextFields(TextField computeTextName, IEnumerable<TextField> ipTextField,
+        private void UpdateComputeTextFields(TextField computeTextField, IEnumerable<TextField> ipTextField,
             Button button)
         {
-            var computeTextNameValid = computeTextName.value.Length >= 1;
+            var computeTextNameValid = computeTextField.value.Length >= 1;
             var ipText = ipTextField.ToList().Select(ipAddressField => ipAddressField.value).ToList();
-            _computeName = computeTextName.value;
+            _computeName = computeTextField.value;
             var ipTextFieldsValid = ipText.All(text => text.Length >= 1) && ipText.All(s => int.TryParse(s, out _));
+            _ipAddress = string.Join(".", ipText);
 
-            button.SetEnabled(computeTextNameValid && ipTextFieldsValid);
+            _registerButton.SetEnabled(computeTextNameValid && ipTextFieldsValid);
         }
 
         private void SetupConfigSettings()
@@ -168,6 +176,9 @@ namespace AmazonGameLift.Editor
                     Hide(element);
                 }
             }
+
+            _container.SetEnabled(_stateManager.IsBootstrapped &&
+                                  !string.IsNullOrWhiteSpace(_stateManager.AnywhereFleetId));
         }
 
         private void LocalizeText()
@@ -177,7 +188,8 @@ namespace AmazonGameLift.Editor
             l.SetElementText("AnywherePageComputeIPLabel", Strings.AnywherePageComputeIPLabel);
             l.SetElementText("AnywherePageComputeStatusLabel", Strings.AnywherePageComputeStatusLabel);
             l.SetElementText("AnywherePageComputeRegisterButton", Strings.AnywherePageComputeRegisterButton);
-            l.SetElementText("AnywherePageComputeReplaceComputeButton", Strings.AnywherePageComputeReplaceComputeButton);
+            l.SetElementText("AnywherePageComputeReplaceComputeButton",
+                Strings.AnywherePageComputeReplaceComputeButton);
             l.SetElementText("AnywherePageComputeCancelReplaceButton", Strings.AnywherePageComputeCancelReplaceButton);
         }
 
