@@ -35,6 +35,7 @@ namespace AmazonGameLift.Editor
             _deploymentSettings.Refresh();
             var parameters = new ManagedEC2FleetParameters
             {
+                GameName = _deploymentSettings.GameName ?? Application.productName,
                 FleetName = _deploymentSettings.FleetName ?? $"{Application.productName}-ManagedFleet",
                 LaunchParameters = _deploymentSettings.LaunchParameters ?? $"",
                 BuildName = _deploymentSettings.BuildName ??
@@ -53,13 +54,12 @@ namespace AmazonGameLift.Editor
             var ec2Deployment = new ManagedEC2Deployment(_deploymentSettings, parameters);
             var scenarioContainer = container.Q("ManagedEC2ScenarioTitle");
             _deploymentScenariosInput =
-                new DeploymentScenariosInput(scenarioContainer, _deploymentSettings.Scenario, true);
-            _deploymentScenariosInput.SetEnabled(true);
+                new DeploymentScenariosInput(scenarioContainer, _deploymentSettings.Scenario, _stateManager.IsBootstrapped);
             _deploymentScenariosInput.OnValueChanged += value => { Debug.Log($"Fleet type changed to {value}"); };
             _ec2DeploymentStatusLabel = _container.Q<Label>("ManagedEC2DeployStatusText");
 
-            var parametersInput = container.Q<Foldout>("ManagedEC2ParametersTitle");
-            _fleetParamsInput = new FleetParametersInput(parametersInput, parameters);
+            var parametersContainer = container.Q<Foldout>("ManagedEC2ParametersTitle");
+            _fleetParamsInput = new FleetParametersInput(parametersContainer, parameters);
             _fleetParamsInput.OnValueChanged += fleetParameters =>
             {
                 ec2Deployment.UpdateModelFromParameters(fleetParameters);
@@ -106,8 +106,8 @@ namespace AmazonGameLift.Editor
                 _deploymentSettings.CurrentStackInfo.StackStatus is StackStatus.CreateComplete
                     or StackStatus.UpdateComplete);
 
-            _deploymentScenariosInput.SetEnabled(_deploymentSettings.CanDeploy);
-            _fleetParamsInput.SetEnabled(_deploymentSettings.CanDeploy);
+            _deploymentScenariosInput.SetEnabled(_stateManager.IsBootstrapped);
+            _fleetParamsInput.SetEnabled(!_deploymentSettings.IsDeploymentRunning); 
             _ec2DeploymentStatusLabel.text = _deploymentSettings.CurrentStackInfo.StackStatus;
         }
 
