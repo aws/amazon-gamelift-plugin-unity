@@ -1,7 +1,6 @@
 ﻿// Copyright Amazon.com, Inc. or its affiliates. All Rights Reserved.
 // SPDX-License-Identifier: Apache-2.0
 
-using AmazonGameLift.Editor;
 using Editor.CoreAPI;
 using UnityEngine.UIElements;
 
@@ -20,7 +19,7 @@ namespace AmazonGameLift.Editor
             container.Add(uxml);
             LocalizeText();
 
-            var fleetInputContainer = uxml.Q("AnywherePageConnectFleetContainer");
+            var fleetInputContainer = uxml.Q("AnywherePageConnectFleetTitle");
             var fleetInput =
                 new ConnectToFleetInput(fleetInputContainer, stateManager, ConnectToFleetInput.FleetStatus.NotCreated);
             var computeInputContainer = uxml.Q("AnywherePageComputeTitle");

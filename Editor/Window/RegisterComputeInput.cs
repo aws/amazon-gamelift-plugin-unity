@@ -122,8 +122,7 @@ namespace AmazonGameLift.Editor
             _ipInputs.ForEach(input => input.isReadOnly = value);
         }
 
-        private void UpdateComputeTextFields(TextField computeTextField, IEnumerable<TextField> ipTextField,
-            Button button)
+        private void UpdateComputeTextFields(TextField computeTextField, IEnumerable<TextField> ipTextField)
         {
             var computeTextNameValid = computeTextField.value.Length >= 1;
             var ipText = ipTextField.ToList().Select(ipAddressField => ipAddressField.value).ToList();

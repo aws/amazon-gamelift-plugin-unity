@@ -31,8 +31,6 @@ namespace AmazonGameLift.Editor
         private readonly VisualElement _container;
         private Button _cancelButton;
 
-        private readonly VisualElement _container;
-
         private FleetStatus _fleetState;
         private List<FleetAttributes> _fleetAttributes = new List<FleetAttributes>();
 
