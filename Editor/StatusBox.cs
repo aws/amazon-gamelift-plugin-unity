@@ -56,18 +56,26 @@ namespace AmazonGameLift.Editor
         {
             if (!string.IsNullOrWhiteSpace(externalButtonText))
             {
-                _externalButtonLabel.text = externalButtonText;
+                _externalButtonLabel.text = _elementLocalizer.GetText(externalButtonText);
                 _externalButton.RegisterCallback<ClickEvent>(_ => Application.OpenURL(externalButtonLink));
                 _externalButton.RemoveFromClassList(HiddenClassName);
             }
         }
         
-        public void Show(StatusBoxType statusBoxType, string text, string externalButtonLink = null, string externalButtonText = null)
+        public void Show(StatusBoxType statusBoxType, string text, string additionalText = null, string externalButtonLink = null, string externalButtonText = null)
         {
             _container.RemoveFromClassList(_statusBoxClasses[_currentType]);
             _container.AddToClassList(_statusBoxClasses[statusBoxType]);
             _currentType = statusBoxType;
-            _elementLocalizer.SetElementText(_statusTextLabel.name, text);
+            
+            if (string.IsNullOrWhiteSpace(additionalText))
+            {
+                _elementLocalizer.SetElementText(_statusTextLabel.name, text);
+            }
+            else
+            {
+                _elementLocalizer.SetElementText(_statusTextLabel.name, text, additionalText);
+            }
             
             if (string.IsNullOrWhiteSpace(externalButtonLink))
             {

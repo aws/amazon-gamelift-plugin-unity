@@ -93,9 +93,8 @@ namespace Editor.Window
                 }
                 else
                 {
-                    var url = string.Format(Urls.AwsAnywhereFleetLogs, _stateManager.Region);
-                    var elementLocalizer = new ElementLocalizer(_container);
-                    _registerComputeStatusBox.Show(StatusBox.StatusBoxType.Error, elementLocalizer.GetText(Strings.AnywherePageStatusBoxDefaultErrorText) + registerFleetComputeResponse.ErrorMessage, url, elementLocalizer.GetText(Strings.AnywherePageStatusBoxUrlTextButton));
+                    var url = string.Format(Urls.AwsGameLiftLogs, _stateManager.Region);
+                    _registerComputeStatusBox.Show(StatusBox.StatusBoxType.Error, Strings.AnywherePageStatusBoxDefaultErrorText, registerFleetComputeResponse.ErrorMessage, url, Strings.ViewLogsStatusBoxUrlTextButton);
                 }
             }
 

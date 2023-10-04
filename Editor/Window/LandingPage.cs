@@ -11,7 +11,6 @@ namespace AmazonGameLift.Editor
     {
         private readonly VisualElement _container;
         private StatusBox _statusBox;
-        private ElementLocalizer _elementLocalizer;
 
         public LandingPage(VisualElement container, StateManager stateManager)
         {
@@ -22,11 +21,11 @@ namespace AmazonGameLift.Editor
             SetupStatusBoxes();
             LocalizeText();
             
-            if (stateManager.SelectedProfile == null) //TODO Once Merged, uncomment
+            if (stateManager.SelectedProfile == null)
             {
                 _statusBox.Show(StatusBox.StatusBoxType.Info, Strings.LandingPageInfoStatusBoxText);
             }
-            else if (!stateManager.IsBootstrapped) //TODO Once Merged, uncomment
+            else if (!stateManager.IsBootstrapped)
             {
                 _statusBox.Show(StatusBox.StatusBoxType.Warning, Strings.LandingPageWarningStatusBoxText);
             }
@@ -53,16 +52,16 @@ namespace AmazonGameLift.Editor
 
         private void LocalizeText()
         {
-            _elementLocalizer = new ElementLocalizer(_container);
-            _elementLocalizer.SetElementText("LandingPageHeader", Strings.LandingPageHeader);
-            _elementLocalizer.SetElementText("LandingPageDescription", Strings.LandingPageDescription);
-            _elementLocalizer.SetElementText("LandingPageNoAccountCardText", Strings.LandingPageNoAccountCardText);
-            _elementLocalizer.SetElementText("LandingPageNoAccountCardButton", Strings.LandingPageNoAccountCardButton);
-            _elementLocalizer.SetElementText("LandingPageAccountCardText", Strings.LandingPageAccountCardText);
-            _elementLocalizer.SetElementText("LandingPageAccountCardButton", Strings.LandingPageAccountCardButton);
-            _elementLocalizer.SetElementText("LandingPageSampleHeader", Strings.LandingPageSampleHeader);
-            _elementLocalizer.SetElementText("LandingPageSampleDescription", Strings.LandingPageSampleDescription);
-            _elementLocalizer.SetElementText("DownloadSampleGame", Strings.LandingPageSampleButton);
+            var l = new ElementLocalizer(_container);
+            l.SetElementText("LandingPageHeader", Strings.LandingPageHeader);
+            l.SetElementText("LandingPageDescription", Strings.LandingPageDescription);
+            l.SetElementText("LandingPageNoAccountCardText", Strings.LandingPageNoAccountCardText);
+            l.SetElementText("LandingPageNoAccountCardButton", Strings.LandingPageNoAccountCardButton);
+            l.SetElementText("LandingPageAccountCardText", Strings.LandingPageAccountCardText);
+            l.SetElementText("LandingPageAccountCardButton", Strings.LandingPageAccountCardButton);
+            l.SetElementText("LandingPageSampleHeader", Strings.LandingPageSampleHeader);
+            l.SetElementText("LandingPageSampleDescription", Strings.LandingPageSampleDescription);
+            l.SetElementText("DownloadSampleGame", Strings.LandingPageSampleButton);
         }
 
         private void SetupStatusBoxes()

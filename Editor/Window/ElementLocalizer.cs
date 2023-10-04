@@ -27,6 +27,12 @@ namespace AmazonGameLift.Editor
             var text = _textProvider.Get(textKey);
             SetText(elementName, text);
         }
+        
+        public void SetElementText(string elementName, string textKey, string additionalText)
+        {
+            var text = _textProvider.Get(textKey);
+            SetText(elementName, text + additionalText);
+        }
 
         public void SetElementText(string elementName, string textKey, Dictionary<string, string> wordReplacements)
         {

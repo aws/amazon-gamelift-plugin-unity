@@ -64,8 +64,8 @@ namespace Editor.Window
                 }
                 else
                 {
-                    var url = string.Format(Urls.AwsAnywhereFleetLogs, _stateManager.Region);
-                    _connectToAnywhereStatusBox.Show(StatusBox.StatusBoxType.Error, elementLocalizer.GetText(Strings.AnywherePageStatusBoxDefaultErrorText) + response.ErrorMessage, url, elementLocalizer.GetText(Strings.AnywherePageStatusBoxUrlTextButton));
+                    var url = string.Format(Urls.AwsGameLiftLogs, _stateManager.Region);
+                    _connectToAnywhereStatusBox.Show(StatusBox.StatusBoxType.Error, Strings.AnywherePageStatusBoxDefaultErrorText, response.ErrorMessage, url, Strings.ViewLogsStatusBoxUrlTextButton);
                 }
             }
 
@@ -134,17 +134,15 @@ namespace Editor.Window
                 var fleetList = await _fleetManager.DescribeFleetAttributes();
                 if (fleetList == null)
                 {
+                    var url = string.Format(Urls.AwsGameLiftLogs, _stateManager.Region);
+                    _connectToAnywhereStatusBox.Show(StatusBox.StatusBoxType.Error, Strings.AnywherePageStatusBoxDefaultErrorText, "", externalButtonLink: url, externalButtonText:Strings.ViewLogsStatusBoxUrlTextButton);
                     _fleetAttributes = new List<FleetAttributes>(); 
                 }
                 _fleetNameDropdownContainer.choices = _fleetAttributes.Select(fleet => fleet.Name).ToList();
                 _fleetNameDropdownContainer.value = _stateManager.AnywhereFleetName;
                 _fleetIdText.text = _stateManager.AnywhereFleetId;
-            } 
-            // else
-            // {
-            //     var url = string.Format(Urls.AwsAnywhereFleetLogs, _stateManager.Region);
-            //     _connectToAnywhereStatusBox.Show(StatusBox.StatusBoxType.Error, elementLocalizer.GetText(Strings.AnywherePageStatusBoxDefaultErrorText) + fleetsListResponse.ErrorMessage, url, elementLocalizer.GetText(Strings.AnywherePageStatusBoxUrlTextButton));
-            // }//TODO Add Error Box
+            }
+                
         }
 
         private async void SetupPage()
