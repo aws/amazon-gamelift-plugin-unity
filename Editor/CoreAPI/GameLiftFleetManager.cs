@@ -34,13 +34,6 @@ namespace Editor.CoreAPI
         {
             if (_amazonGameLiftWrapper != null)
             {
-                if (string.IsNullOrWhiteSpace(fleetName))
-                {
-                    return Response.Fail(new CreateAnywhereFleetResponse
-                    {
-                        ErrorCode = ErrorCode.InvalidFleetName
-                    });
-                }
                 var success = await CreateCustomLocationIfNotExists(FleetLocation);
                 if (success)
                 {
@@ -49,7 +42,7 @@ namespace Editor.CoreAPI
                     {
                         return Response.Fail(new CreateAnywhereFleetResponse
                         {
-                            ErrorCode = ErrorCode.CreateFleetFailed
+                            ErrorCode = ErrorCode.InvalidFleetName
                         });
                     }
 
@@ -162,7 +155,7 @@ namespace Editor.CoreAPI
             catch (Exception ex)
             {
                 Debug.Log(ex.Message);
-                return new List<FleetAttributes>();
+                return null;
             }
         }
     }

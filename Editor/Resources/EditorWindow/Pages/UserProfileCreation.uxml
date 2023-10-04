@@ -1,0 +1,37 @@
+﻿<!-- Copyright Amazon.com, Inc. or its affiliates. All Rights Reserved. -->
+<!-- SPDX-License-Identifier: Apache-2.0 -->
+
+<ui:UXML xmlns:ui="UnityEngine.UIElements">
+    <Style src="../common.uss"/>
+    <ui:VisualElement class="separator separator--large">
+        <ui:Label name="UserProfilePageAccountNewProfileTitle" class="page__subtitle" text="AWS Account Details"/>
+        <ui:VisualElement>
+            <ui:VisualElement name="UserProfilePageAccountNewProfileName" class="form-row">
+                <ui:Label name="UserProfilePageAccountNewProfileName" class="form-row__label" text="AWS Account Profile"/>
+                <ui:TextField name="UserProfilePageAccountNewProfileNameInput" class="form-row__input text-input"/>
+            </ui:VisualElement>
+            <ui:VisualElement name="UserProfilePageAccountNewProfileAccessKey" class="form-row">
+                <ui:Label name="UserProfilePageAccountNewProfileAccessKeyInput" text="AWS Access Key" class="form-row__label"/>
+                <ui:TextField name="UserProfilePageAccountNewProfileAccessKeyInput" class="form-row__input text-input" password="true"/>
+                <ui:Button name="UserProfilePageAccountNewProfileAccessKeyToggleReveal" class="button" text="Show"/>
+            </ui:VisualElement>
+            <ui:VisualElement name="UserProfilePageAccountNewProfileSecretKey" class="form-row">
+                <ui:Label name="UserProfilePageAccountNewProfileSecretKeyLabel" class="form-row__label" text="AWS Secret Key"/>
+                <ui:TextField name="UserProfilePageAccountNewProfileSecretKeyInput" class="form-row__input  text-input" password="true"/>
+                <ui:Button name="UserProfilePageAccountNewProfileSecretKeyToggleReveal" class="button" text="Show"/>
+            </ui:VisualElement>
+            <ui:VisualElement name="UserProfilePageAccountNewProfileRegion" class="form-row">
+                <ui:Label name="UserProfilePageAccountNewProfileRegionLabel" class="form-row__label" text="AWS Region"/>
+                <ui:DropdownField name="UserProfilePageAccountNewProfileRegionDropdown" tooltip="Choose a region" class="form-row__input dropdown"/>
+            </ui:VisualElement>
+        </ui:VisualElement>
+        <ui:VisualElement class="separator separator--horizontal">
+            <ui:Button name="UserProfilePageAccountNewProfileCreateButton" class="button button--primary" text="Create Profile"/>
+            <ui:Button name="UserProfilePageAccountNewProfileCancelButton" class="button" text="Cancel"/>
+            <ui:VisualElement class="external-link">
+                <ui:Label name="UserProfilePageAccountNewProfileHelpLink" text="How do I create AWS credentials?"/>
+                <ui:Image name="ExternalLinkIcon" class="icon--small"/>
+            </ui:VisualElement>
+        </ui:VisualElement>
+    </ui:VisualElement>
+</ui:UXML>

@@ -18,16 +18,17 @@ namespace Editor.Window
             var uxml = mVisualTreeAsset.Instantiate();
 
             container.Add(uxml);
-            ApplyText();
+            LocalizeText();
 
+            var fleetInputContainer = uxml.Q("AnywherePageConnectFleetContainer");
             var fleetInput =
-                new ConnectToFleetInput(container, stateManager, ConnectToFleetInput.FleetStatus.NotCreated);
+                new ConnectToFleetInput(fleetInputContainer, stateManager, ConnectToFleetInput.FleetStatus.NotCreated);
+            var computeInputContainer = uxml.Q("AnywherePageComputeTitle");
             var computeInput =
-                new RegisterComputeInput(container, stateManager, fleetInput,
-                    RegisterComputeInput.ComputeStatus.NotRegistered);
+                new RegisterComputeInput(computeInputContainer, stateManager); 
         }
 
-        private void ApplyText()
+        private void LocalizeText()
         {
             var l = new ElementLocalizer(_container);
             l.SetElementText("AnywherePageTitle", Strings.AnywherePageTitle);

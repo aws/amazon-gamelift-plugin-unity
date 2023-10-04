@@ -10,7 +10,7 @@
     <PackageReference Include="AWSSDK.CloudFormation" Version="3.7.3.2" />
 	<PackageReference Include="AWSSDK.CognitoIdentityProvider" Version="3.7.1.13" />
     <PackageReference Include="AWSSDK.GameLift" Version="3.7.201.12" />
-    <PackageReference Include="AWSSDK.S3" Version="3.7.1.23" />
+    <PackageReference Include="AWSSDK.S3" Version="3.7.205" />
     <PackageReference Include="AWSSDK.SecurityToken" Version="3.7.1.23" />
     <PackageReference Include="Microsoft.IdentityModel.JsonWebTokens" Version="6.11.1" />
     <PackageReference Include="Microsoft.IdentityModel.Logging" Version="6.11.1" />
