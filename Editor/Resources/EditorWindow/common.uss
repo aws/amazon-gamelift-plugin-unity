@@ -120,6 +120,10 @@ Image#FolderIcon {
     flex-direction: column;
 }
 
+.separator--centered {
+    align-items: center;
+}
+
 .separator.separator--horizontal {
     flex-direction: row;
 }
@@ -345,6 +349,15 @@ Image#ExternalLinkIcon {
     margin: 0 8px 0 8px;
 }
 
+.card--large {
+    padding: var(--spacing-large);
+}
+
+.card--centered {
+    align-items: center;
+    -unity-text-align: middle-center;
+}
+
 .card__container {
     flex-direction: row;
 }
@@ -365,4 +378,23 @@ Image#ExternalLinkIcon {
     width: 20px;
     height: 20px;
     flex: 0 0 auto;
+}
+
+.card__icon--large {
+    width: 96px;
+    height: 96px;
+    flex: 0 0 auto;
+}
+
+.card .button {
+    margin-top: auto;
+    align-self: center;
+}
+
+.card__title {
+    font-size: var(--font-size-extralarge);
+}
+
+.float-right {
+    margin-left: auto;
 }

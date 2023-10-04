@@ -10,6 +10,7 @@ using AmazonGameLiftPlugin.Core.DeploymentManagement.Models;
 using AmazonGameLiftPlugin.Core.SettingsManagement.Models;
 using AmazonGameLiftPlugin.Core.Shared;
 using Castle.DynamicProxy.Generators.Emitters.SimpleAST;
+using Editor.CoreAPI;
 using UnityEditor;
 using UnityEngine;
 using CoreErrorCode = AmazonGameLiftPlugin.Core.Shared.ErrorCode;
@@ -22,7 +23,10 @@ namespace AmazonGameLift.Editor
     internal class DeploymentSettings
     {
         private const int StackInfoRefreshDelayMs = 2000;
-        private readonly Dictionary<DeploymentScenarios, DeployerBase> _deployers = new Dictionary<DeploymentScenarios, DeployerBase>();
+
+        private readonly Dictionary<DeploymentScenarios, DeployerBase> _deployers =
+            new Dictionary<DeploymentScenarios, DeployerBase>();
+
         private readonly ScenarioLocator _scenarioLocator;
         private readonly PathConverter _pathConverter;
         private readonly CoreApi _coreApi;
@@ -35,6 +39,7 @@ namespace AmazonGameLift.Editor
         private DeploymentStackInfo _currentStackInfo;
         private readonly IDeploymentIdContainer _currentDeploymentId;
         private readonly ILogger _logger;
+        private readonly StateManager _stateManager;
         private readonly Status _status = new Status();
 
         public IReadStatus Status => _status;
@@ -74,13 +79,13 @@ namespace AmazonGameLift.Editor
         public string BuildFolderPath { get; set; }
 
         public string BuildFilePath { get; set; }
-        
+
         public string BuildOperatingSystem { get; set; }
-        
+
         public string FleetName { get; set; }
-        
+
         public string BuildName { get; set; }
-        
+
         public string LaunchParameters { get; set; }
 
         #endregion Scenario parameters
@@ -101,20 +106,23 @@ namespace AmazonGameLift.Editor
         }
 
         public bool IsFormFilled => !string.IsNullOrWhiteSpace(GameName)
-            && IsValidScenarioIndex
-            && IsBuildFolderPathFilled
-            && IsBuildFilePathFilled;
+                                    && IsValidScenarioIndex
+                                    && IsBuildFolderPathFilled
+                                    && IsBuildFilePathFilled;
 
         public bool IsBuildFilePathFilled => IsValidScenarioIndex
-            && (!_deployers[Scenario].HasGameServer || _coreApi.FileExists(BuildFilePath));
+                                             && (!_deployers[Scenario].HasGameServer ||
+                                                 _coreApi.FileExists(BuildFilePath));
 
         public bool IsBuildFolderPathFilled => IsValidScenarioIndex
-           && (!_deployers[Scenario].HasGameServer || _coreApi.FolderExists(BuildFolderPath));
+                                               && (!_deployers[Scenario].HasGameServer ||
+                                                   _coreApi.FolderExists(BuildFolderPath));
 
         public bool IsBuildRequired =>
             IsValidScenarioIndex && _deployers[Scenario].HasGameServer;
 
-        public bool IsValidScenarioIndex => Enum.IsDefined(typeof(DeploymentScenarios), _scenario) && _deployers.ContainsKey(_scenario);
+        public bool IsValidScenarioIndex => Enum.IsDefined(typeof(DeploymentScenarios), _scenario) &&
+                                            _deployers.ContainsKey(_scenario);
 
         public bool DoesDeploymentExist { get; private set; }
 
@@ -142,7 +150,9 @@ namespace AmazonGameLift.Editor
         public event Action CurrentStackInfoChanged;
 
         internal DeploymentSettings(ScenarioLocator scenarioLocator, PathConverter pathConverter,
-            CoreApi coreApi, ScenarioParametersUpdater parametersUpdater, TextProvider textProvider, DeploymentWaiter deploymentWaiter, IDeploymentIdContainer currentDeploymentId, Delay delay, ILogger logger)
+            CoreApi coreApi, ScenarioParametersUpdater parametersUpdater, TextProvider textProvider,
+            DeploymentWaiter deploymentWaiter, IDeploymentIdContainer currentDeploymentId, Delay delay, ILogger logger,
+            StateManager stateManager)
         {
             _scenarioLocator = scenarioLocator ?? throw new ArgumentNullException(nameof(scenarioLocator));
             _pathConverter = pathConverter ?? throw new ArgumentNullException(nameof(pathConverter));
@@ -152,6 +162,7 @@ namespace AmazonGameLift.Editor
             _deploymentWaiter = deploymentWaiter ?? throw new ArgumentNullException(nameof(deploymentWaiter));
             _currentDeploymentId = currentDeploymentId ?? throw new ArgumentNullException(nameof(currentDeploymentId));
             _logger = logger ?? throw new ArgumentNullException(nameof(logger));
+            _stateManager = stateManager;
             ClearCurrentStackInfo();
             _delayedStackInfoRefresh = new DelayedOperation(RefreshCurrentStackInfo, delay, StackInfoRefreshDelayMs);
         }
@@ -176,6 +187,7 @@ namespace AmazonGameLift.Editor
             {
                 _deployers.Add((DeploymentScenarios)i, deployers[i]);
             }
+
             AllScenarios = _deployers.Values.Select(deployer => deployer.DisplayName).ToArray();
             GetSettingResponse bucketNameResponse = _coreApi.GetSetting(SettingsKeys.CurrentBucketName);
             CurrentBucketName = bucketNameResponse.Success ? bucketNameResponse.Value : null;
@@ -204,14 +216,16 @@ namespace AmazonGameLift.Editor
 
             if (string.IsNullOrEmpty(CurrentProfile))
             {
-                _logger.Log(string.Format(DevStrings.FailedToDescribeStackTemplate, DevStrings.ProfileInvalid), LogType.Warning);
+                _logger.Log(string.Format(DevStrings.FailedToDescribeStackTemplate, DevStrings.ProfileInvalid),
+                    LogType.Warning);
                 ClearCurrentStackInfo();
                 return;
             }
 
             if (!_coreApi.IsValidRegion(CurrentRegion))
             {
-                _logger.Log(string.Format(DevStrings.FailedToDescribeStackTemplate, DevStrings.RegionInvalid), LogType.Warning);
+                _logger.Log(string.Format(DevStrings.FailedToDescribeStackTemplate, DevStrings.RegionInvalid),
+                    LogType.Warning);
                 ClearCurrentStackInfo();
                 return;
             }
@@ -225,7 +239,8 @@ namespace AmazonGameLift.Editor
                 return;
             }
 
-            CurrentStackInfo = DeploymentStackInfoFactory.Create(_textProvider, describeResponse, CurrentRegion, ScenarioName);
+            CurrentStackInfo =
+                DeploymentStackInfoFactory.Create(_textProvider, describeResponse, CurrentRegion, ScenarioName);
         }
 
         public void Restore()
@@ -233,28 +248,27 @@ namespace AmazonGameLift.Editor
             Scenario = DeploymentScenarios.SingleRegion; // Selects "Single-Region Fleet" Deployment Scenario by default
             BuildFilePath = null;
             BuildFolderPath = null;
-            
-            var indexResult = Enum.TryParse<DeploymentScenarios>(_coreApi.GetSetting(SettingsKeys.DeploymentScenarioIndex).Value, out var index);
-            Scenario = indexResult ? index : DeploymentScenarios.SingleRegion;
-            GameName = _coreApi.GetSetting(SettingsKeys.DeploymentGameName).Value;
-            BuildFolderPath = _coreApi.GetSetting(SettingsKeys.DeploymentBuildFolderPath).Value;
-            BuildFilePath = _coreApi.GetSetting(SettingsKeys.DeploymentBuildFilePath).Value;
-            LaunchParameters = _coreApi.GetSetting(SettingsKeys.LaunchParameters).Value;
-            BuildOperatingSystem = _coreApi.GetSetting(SettingsKeys.BuildOperatingSystem).Value;
-            FleetName = _coreApi.GetSetting(SettingsKeys.FleetName).Value;
-            BuildName = _coreApi.GetSetting(SettingsKeys.BuildName).Value;
+
+            Scenario = _stateManager.DeploymentScenario;
+            GameName = _stateManager.DeploymentGameName;
+            BuildFolderPath = _stateManager.DeploymentBuildFolderPath;
+            BuildFilePath = _stateManager.DeploymentBuildFilePath;
+            LaunchParameters = _stateManager.LaunchParameters;
+            BuildOperatingSystem = _stateManager.BuildOperatingSystem;
+            FleetName = _stateManager.ManagedEC2FleetName;
+            BuildName = _stateManager.BuildName;
         }
 
         public void Save()
         {
-            _coreApi.PutSetting(SettingsKeys.DeploymentScenarioIndex, SettingsFormatter.FormatInt((int)Scenario));
-            _coreApi.PutSettingOrClear(SettingsKeys.DeploymentBuildFolderPath, BuildFolderPath);
-            _coreApi.PutSettingOrClear(SettingsKeys.DeploymentBuildFilePath, BuildFilePath);
-            _coreApi.PutSettingOrClear(SettingsKeys.DeploymentGameName, GameName);
-            _coreApi.PutSettingOrClear(SettingsKeys.LaunchParameters, LaunchParameters);
-            _coreApi.PutSettingOrClear(SettingsKeys.BuildOperatingSystem, BuildOperatingSystem);
-            _coreApi.PutSettingOrClear(SettingsKeys.FleetName, FleetName);
-            _coreApi.PutSettingOrClear(SettingsKeys.BuildName, BuildName);
+            _stateManager.DeploymentScenario = Scenario;
+            _stateManager.DeploymentBuildFolderPath = BuildFolderPath;
+            _stateManager.DeploymentBuildFilePath = BuildFilePath;
+            _stateManager.DeploymentGameName = GameName;
+            _stateManager.LaunchParameters = LaunchParameters;
+            _stateManager.BuildOperatingSystem = BuildOperatingSystem;
+            _stateManager.ManagedEC2FleetName = FleetName;
+            _stateManager.BuildName = BuildName;
         }
 
         public async Task WaitForCurrentDeployment()
@@ -379,8 +393,8 @@ namespace AmazonGameLift.Editor
 
             try
             {
-                DeploymentResponse response = await currentDeployer.StartDeployment(ScenarioPath, BuildFolderPath, GameName,
-                    isDevelopmentBuild: EditorUserBuildSettings.development, confirmChanges);
+                DeploymentResponse response = await currentDeployer.StartDeployment(ScenarioPath, BuildFolderPath,
+                    GameName, isDevelopmentBuild: EditorUserBuildSettings.development, confirmChanges);
 
                 if (!response.Success)
                 {

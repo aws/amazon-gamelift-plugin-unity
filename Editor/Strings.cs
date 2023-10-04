@@ -149,6 +149,49 @@ namespace AmazonGameLift.Editor
         public const string LandingPageInfoStatusBoxText = "LandingPageInfoStatusBoxText";
         public const string LandingPageWarningStatusBoxText = "LandingPageWarningStatusBoxText";
 
+        public const string UserProfilePageAccountCardNewAccountTitle = "UserProfilePageAccountCardNewAccountTitle";
+        public const string UserProfilePageAccountCardNewAccountDescription = "UserProfilePageAccountCardNewAccountDescription";
+        public const string UserProfilePageAccountCardNoAccountTitle = "UserProfilePageAccountCardNoAccountTitle";
+        public const string UserProfilePageAccountCardNoAccountDescription = "UserProfilePageAccountCardNoAccountDescription";
+        public const string UserProfilePageAccountCardNoAccountLink = "UserProfilePageAccountCardNoAccountLink";
+        public const string UserProfilePageAccountCardNoAccountButtonLabel = "UserProfilePageAccountCardNoAccountButton";
+        public const string UserProfilePageAccountExistingAccountTitle = "UserProfilePageAccountExistingAccountTitle";
+        public const string UserProfilePageAccountExistingAccountDescription = "UserProfilePageAccountExistingAccountDescription";
+        public const string UserProfilePageAccountCardHasAccountButton = "UserProfilePageAccountCardHasAccountButton";
+        public const string UserProfilePageAccountNewProfileTitle = "UserProfilePageAccountNewProfileTitle";
+        public const string UserProfilePageAccountNewProfileName = "UserProfilePageAccountNewProfileName";
+        public const string UserProfilePageAccountNewProfileAccessKeyInput = "UserProfilePageAccountNewProfileAccessKeyInput";
+        public const string UserProfilePageAccountNewProfileSecretKeyLabel = "UserProfilePageAccountNewProfileSecretKeyLabel";
+        public const string UserProfilePageAccountNewProfileRegionLabel = "UserProfilePageAccountNewProfileRegionLabel";
+        public const string UserProfilePageAccountNewProfileRegionPlaceholderDropdown = "UserProfilePageAccountNewProfileRegionPlaceholderDropdown";
+        public const string UserProfilePageAccountNewProfileCreateButton = "UserProfilePageAccountNewProfileCreateButton";
+        public const string UserProfilePageAccountNewProfileCancelButton = "UserProfilePageAccountNewProfileCancelButton";
+        public const string UserProfilePageAccountNewProfileHelpLink = "UserProfilePageAccountNewProfileHelpLink";
+        
+        public const string UserProfilePageBootstrapTitle = "UserProfilePageBootstrapTitle";
+        public const string UserProfilePageBootstrapDescription = "UserProfilePageBootstrapDescription";
+        public const string UserProfilePageBootstrapPricingText = "UserProfilePageBootstrapPricingText";
+        public const string UserProfilePageBootstrapPricingInfoText = "UserProfilePageBootstrapPricingInfoText";
+        public const string UserProfilePageBootstrapPricingFreeTierText = "UserProfilePageBootstrapPricingFreeTierText";
+        public const string UserProfilePageBootstrapProfileInputText = "UserProfilePageBootstrapProfileInputText";
+        public const string UserProfilePageBootstrapBucketText = "UserProfilePageBootstrapBucketText";
+        public const string UserProfilePageBootstrapBucketUnsetText = "UserProfilePageBootstrapBucketUnsetText";
+        public const string UserProfilePageBootstrapStatusText = "UserProfilePageBootstrapStatusText";
+        public const string UserProfilePageBootstrapStartButton = "UserProfilePageBootstrapStartButton";
+        public const string UserProfilePageBootstrapAnotherProfileButton = "UserProfilePageBootstrapAnotherProfileButton";
+        public const string UserProfilePageBootstrapHelpLink = "UserProfilePageBootstrapHelpLink";
+        public const string UserProfilePageBootstrapWarningText = "UserProfilePageBootstrapWarningText";
+        public const string UserProfilePageBootstrapProfilePlaceholderText = "UserProfilePageBootstrapProfilePlaceholderText";
+        public const string UserProfilePageBootstrapAnotherBucketButton = "UserProfilePageBootstrapAnotherBucketButton";
+        
+        public const string UserProfilePageBootstrapPopupWindowTitle = "UserProfilePageBootstrapPopupWindowTitle";
+        public const string UserProfilePageBootstrapPopupTitle = "UserProfilePageBootstrapPopupTitle";
+        public const string UserProfilePageBootstrapPopupDescription = "UserProfilePageBootstrapPopupDescription";
+        public const string UserProfilePageBootstrapPopupBucketText = "UserProfilePageBootstrapPopupBucketText";
+        public const string UserProfilePageBootstrapPopupFreeTierLink = "UserProfilePageBootstrapPopupFreeTierLink";
+        public const string UserProfilePageBootstrapPopupCancelButton = "UserProfilePageBootstrapPopupCancelButton";
+        public const string UserProfilePageBootstrapPopupContinueButton = "UserProfilePageBootstrapPopupContinueButton";
+
         public const string AnywherePageTitle = "AnywherePageTitle";
         public const string AnywherePageDescription = "AnywherePageDescription";
         public const string AnywherePageIntegrateTitle = "AnywherePageIntegrateTitle";

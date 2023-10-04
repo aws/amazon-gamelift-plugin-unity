@@ -1,67 +1,47 @@
 ﻿using System;
 using System.Net;
 using System.Threading.Tasks;
-using Amazon.Runtime.Internal;
-using AmazonGameLift.Editor;
+using Amazon.GameLift.Model;
 using AmazonGameLiftPlugin.Core;
 using AmazonGameLiftPlugin.Core.Shared;
 using UnityEngine;
-using UnityEngine.UIElements;
 using ErrorCode = AmazonGameLift.Editor.ErrorCode;
-using Model = Amazon.GameLift.Model;
 
 namespace Editor.CoreAPI
 {
     public class GameLiftComputeManager
     {
-        private readonly CoreApi _coreApi;
         private readonly IAmazonGameLiftWrapper _amazonGameLiftWrapper;
-        private string _fleetName;
-        private string _fleetId;
-        private VisualElement _container;
-        private ErrorResponse _logger;
 
-        public GameLiftComputeManager(CoreApi coreApi, IAmazonGameLiftWrapper wrapper)
+        public GameLiftComputeManager(IAmazonGameLiftWrapper wrapper)
         {
-            _coreApi = coreApi;
             _amazonGameLiftWrapper = wrapper;
         }
 
-        public async Task<Response> RegisterFleetCompute(string computeName, string fleetId, string fleetLocation,
+        public async Task<RegisterFleetComputeResponse> RegisterFleetCompute(string computeName, string fleetId,
+            string fleetLocation,
             string ipAddress)
         {
-            var registerComputeResponse = await RegisterCompute(computeName, fleetId, fleetLocation, ipAddress);
-            var webSocketUrl = registerComputeResponse.WebSocketUrl;
+            var webSocketUrl = await RegisterCompute(computeName, fleetId, fleetLocation, ipAddress);
             if (webSocketUrl != null)
             {
-                var computeNameResponse = _coreApi.PutSetting(SettingsKeys.ComputeName, computeName);
-                if (!computeNameResponse.Success)
+                return Response.Ok(new RegisterFleetComputeResponse()
                 {
-                    return computeNameResponse;
-                }
-                
-                var ipAddressResponse = _coreApi.PutSetting(SettingsKeys.IpAddress, ipAddress);
-                if (!ipAddressResponse.Success)
-                {
-                    return ipAddressResponse;
-                }
-                
-                var webSocketResponse = _coreApi.PutSetting(SettingsKeys.WebSocketUrl, webSocketUrl);
-                if (!webSocketResponse.Success)
-                {
-                    return webSocketResponse;
-                }
+                    ComputeName = computeName,
+                    IpAddress = ipAddress,
+                    WebSocketUrl = webSocketUrl
+                });
             }
 
-            return registerComputeResponse;
+            return Response.Fail(new RegisterFleetComputeResponse { ErrorCode = ErrorCode.RegisterComputeFailed });
         }
 
-        private async Task<RegisterComputeResponse> RegisterCompute(string computeName, string fleetId, string fleetLocation,
+        private async Task<string> RegisterCompute(string computeName, string fleetId, string fleetLocation,
             string ipAddress)
         {
             try
             {
-                var registerComputeRequest = new Model.RegisterComputeRequest()
+                var registerComputeRequest = new RegisterComputeRequest()
                 {
                     ComputeName = computeName,
                     FleetId = fleetId,
@@ -90,7 +70,7 @@ namespace Editor.CoreAPI
         {
             try
             {
-                var deregisterComputeRequest = new Model.DeregisterComputeRequest()
+                var deregisterComputeRequest = new DeregisterComputeRequest()
                 {
                     ComputeName = computeName,
                     FleetId = fleetId
@@ -111,7 +91,7 @@ namespace Editor.CoreAPI
         {
             try
             {
-                var describeComputeRequest = new Model.DescribeComputeRequest()
+                var describeComputeRequest = new DescribeComputeRequest()
                 {
                     ComputeName = computeName,
                     FleetId = fleetId,

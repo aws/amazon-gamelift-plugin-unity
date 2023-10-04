@@ -1,8 +1,6 @@
 ﻿// Copyright Amazon.com, Inc. or its affiliates. All Rights Reserved.
 // SPDX-License-Identifier: Apache-2.0
 
-using AmazonGameLift.Editor;
-using Editor.CoreAPI;
 using UnityEngine;
 using UnityEngine.UIElements;
 
@@ -24,13 +22,11 @@ namespace AmazonGameLift.Editor
             SetupStatusBoxes();
             LocalizeText();
             
-            //if (stateManager.SelectedProfile == null) //TODO Once Merged, uncomment
-            if (true)
+            if (stateManager.SelectedProfile == null) //TODO Once Merged, uncomment
             {
                 _statusBox.Show(StatusBox.StatusBoxType.Info, Strings.LandingPageInfoStatusBoxText);
             }
-            //else if (!stateManager.IsBootstrapped) //TODO Once Merged, uncomment
-            if (true)
+            else if (!stateManager.IsBootstrapped) //TODO Once Merged, uncomment
             {
                 _statusBox.Show(StatusBox.StatusBoxType.Warning, Strings.LandingPageWarningStatusBoxText);
             }

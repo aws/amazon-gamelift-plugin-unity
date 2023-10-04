@@ -5,6 +5,7 @@ using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 using AmazonGameLift.Editor;
+using Editor.CoreAPI;
 using UnityEditor;
 using UnityEngine;
 using UnityEngine.UIElements;
@@ -15,6 +16,7 @@ namespace AmazonGameLift.Editor
     public class ManagedEC2Page
     {
         private readonly VisualElement _container;
+        private readonly StateManager _stateManager;
         private readonly DeploymentSettings _deploymentSettings;
         private readonly Button _deployButton;
         private readonly Button _redeployButton;
@@ -24,10 +26,11 @@ namespace AmazonGameLift.Editor
         private readonly FleetParametersInput _fleetParamsInput;
         private readonly Label _ec2DeploymentStatusLabel;
 
-        public ManagedEC2Page(VisualElement container)
+        public ManagedEC2Page(VisualElement container, StateManager stateManager)
         {
             _container = container;
-            _deploymentSettings = DeploymentSettingsFactory.Create();
+            _stateManager = stateManager;
+            _deploymentSettings = DeploymentSettingsFactory.Create(stateManager);
             _deploymentSettings.Restore();
             _deploymentSettings.Refresh();
             var parameters = new ManagedEC2FleetParameters
@@ -42,7 +45,7 @@ namespace AmazonGameLift.Editor
                                   OperatingSystem.AMAZON_LINUX_2
             };
 
-            var mVisualTreeAsset = UnityEngine.Resources.Load<VisualTreeAsset>("EditorWindow/Pages/ManagedEC2Page");
+            var mVisualTreeAsset = Resources.Load<VisualTreeAsset>("EditorWindow/Pages/ManagedEC2Page");
             var uxml = mVisualTreeAsset.Instantiate();
 
             container.Add(uxml);
@@ -93,11 +96,15 @@ namespace AmazonGameLift.Editor
         {
             LocalizeText();
 
-            _deployButton.SetEnabled(_deploymentSettings.CurrentStackInfo.StackStatus == null && _deploymentSettings.CanDeploy);
-            _redeployButton.SetEnabled(_deploymentSettings.CurrentStackInfo.StackStatus != null && _deploymentSettings.CanDeploy);
-            _deleteButton.SetEnabled(_deploymentSettings.CurrentStackInfo.StackStatus != null && _deploymentSettings.IsCurrentStackModifiable);
+            _deployButton.SetEnabled(_deploymentSettings.CurrentStackInfo.StackStatus == null &&
+                                     _deploymentSettings.CanDeploy);
+            _redeployButton.SetEnabled(_deploymentSettings.CurrentStackInfo.StackStatus != null &&
+                                       _deploymentSettings.CanDeploy);
+            _deleteButton.SetEnabled(_deploymentSettings.CurrentStackInfo.StackStatus != null &&
+                                     _deploymentSettings.IsCurrentStackModifiable);
             _launchClientButton.SetEnabled(
-                _deploymentSettings.CurrentStackInfo.StackStatus is StackStatus.CreateComplete or StackStatus.UpdateComplete);
+                _deploymentSettings.CurrentStackInfo.StackStatus is StackStatus.CreateComplete
+                    or StackStatus.UpdateComplete);
 
             _deploymentScenariosInput.SetEnabled(_deploymentSettings.CanDeploy);
             _fleetParamsInput.SetEnabled(_deploymentSettings.CanDeploy);

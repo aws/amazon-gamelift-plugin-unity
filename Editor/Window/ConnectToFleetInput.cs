@@ -12,11 +12,7 @@ namespace Editor.Window
     public class ConnectToFleetInput : StatefulInput
     {
         private static IReadOnlyCollection<VisualElement> _fleetVisualElements;
-        
-        public string FleetId;
-        
-        private static readonly List<string> s_fleetNameList = new();
-        
+
         private TextField _fleetNameInput;
         private DropdownField _fleetNameDropdownContainer;
         private VisualElement _fleetCreateFoldout;
@@ -24,42 +20,46 @@ namespace Editor.Window
         private VisualElement _fleetId;
         private Label _fleetIdText;
         private VisualElement _fleetStatus;
-        private readonly VisualElement _container;
-        private readonly GameLiftFleetManager _fleetManager;
+        private GameLiftFleetManager _fleetManager => _stateManager.FleetManager;
         private readonly StateManager _stateManager;
         private Button _cancelButton;
-        private StatusBox _connectToAnywhereStatusBox;
 
+        private readonly VisualElement _container;
         private FleetStatus _fleetState;
-        private List<FleetAttributes> _fleetsList;
+        private List<FleetAttributes> _fleetAttributes = new List<FleetAttributes>();
         private ElementLocalizer elementLocalizer;
-
+        private StatusBox _connectToAnywhereStatusBox;
+        
         public ConnectToFleetInput(VisualElement container, StateManager stateManager, FleetStatus initialState)
         {
             _container = container;
             _fleetState = initialState;
             _stateManager = stateManager;
-            _fleetManager = stateManager.FleetManager;
             elementLocalizer = new ElementLocalizer(_container);
 
             AssignUiElements(container);
             PopulateFleetVisualElements();
             RegisterCallBacks(container);
-            SetupBootMenu();
+            SetupPage();
             SetupStatusBox();
-            
+            _stateManager.OnUserProfileUpdated += () => UpdateFleetMenu();
+
             UpdateGUI();
         }
-        
-        private async Task OnAnywhereConnectClicked(string text)
+
+        private async Task OnAnywhereConnectClicked(string fleetName)
         {
             if (_fleetState is FleetStatus.NotCreated or FleetStatus.Creating)
             {
                 _connectToAnywhereStatusBox.Close();
                 
-                var response = await _fleetManager?.CreateAnywhereFleet(text)!;
+                var response = await _fleetManager?.CreateAnywhereFleet(fleetName)!;
                 if (response.Success)
                 {
+                    _stateManager.SelectedProfile.AnywhereFleetName = response.FleetName;
+                    _stateManager.SelectedProfile.AnywhereFleetId = response.FleetId;
+                    await UpdateFleetMenu();
+                    _fleetNameDropdownContainer.value = fleetName;
                     _fleetState = FleetStatus.Selected;
                 }
                 else
@@ -68,7 +68,7 @@ namespace Editor.Window
                     _connectToAnywhereStatusBox.Show(StatusBox.StatusBoxType.Error, elementLocalizer.GetText(Strings.AnywherePageStatusBoxDefaultErrorText) + response.ErrorMessage, url, elementLocalizer.GetText(Strings.AnywherePageStatusBoxUrlTextButton));
                 }
             }
-            
+
             UpdateGUI();
         }
 
@@ -79,7 +79,7 @@ namespace Editor.Window
                 await UpdateFleetMenu();
                 _fleetState = FleetStatus.Creating;
             }
-            
+
             UpdateGUI();
         }
 
@@ -89,24 +89,29 @@ namespace Editor.Window
             {
                 _fleetState = FleetStatus.Selected;
             }
-            
+
             UpdateGUI();
         }
-        
-        private void OnSelectFleetDropdown()
+
+        private void OnSelectFleetDropdown(string fleetName)
         {
+            var currentFleet = _fleetAttributes.First(fleet => fleet.Name == fleetName);
+            _fleetIdText.text = currentFleet.FleetId;
+            _stateManager.AnywhereFleetName = currentFleet.Name;
+            _stateManager.AnywhereFleetId = currentFleet.FleetId;
+
             _fleetState = FleetStatus.Selected;
-            
+
             UpdateGUI();
         }
 
         private void RegisterCallBacks(VisualElement container)
         {
-            container.Q<Button>("AnywherePageCreateFleetButton").RegisterCallback<ClickEvent>(async _ => 
+            container.Q<Button>("AnywherePageCreateFleetButton").RegisterCallback<ClickEvent>(async _ =>
                 await OnAnywhereConnectClicked(_fleetNameInput.text));
-            container.Q<Button>("AnywherePageConnectFleetNewButton").RegisterCallback<ClickEvent>(async _ => 
+            container.Q<Button>("AnywherePageConnectFleetNewButton").RegisterCallback<ClickEvent>(async _ =>
                 await OnCreateNewFleetClicked());
-            _fleetNameDropdownContainer.RegisterValueChangedCallback(evt => OnSelectFleetDropdown());
+            _fleetNameDropdownContainer.RegisterValueChangedCallback(evt => OnSelectFleetDropdown(evt.newValue));
             _cancelButton.RegisterCallback<ClickEvent>(_ => OnCancelButtonClicked());
         }
 
@@ -121,50 +126,36 @@ namespace Editor.Window
             _fleetConnectFoldout = container.Q("AnywherePageConnectFleetTitle");
             _cancelButton = container.Q<Button>("AnywherePageCreateFleetCancelButton");
         }
-        
-        private async Task SetupFleetMenu()
-        {
-            await UpdateFleetMenu();
-            _fleetNameDropdownContainer.RegisterValueChangedCallback(_ =>
-                {
-                    _stateManager.SelectedFleetName = _fleetNameDropdownContainer.value;
-                    var currentFleet = _fleetsList.First(fleet => fleet.Name == _fleetNameDropdownContainer.value);
-                    _fleetIdText.text = currentFleet.FleetId;
-                    FleetId = currentFleet.FleetId;
-                    _stateManager.CoreApi.PutSetting(SettingsKeys.FleetName, currentFleet.Name);
-                }
-            );
-        }
-        
+
         private async Task UpdateFleetMenu()
         {
             if (_stateManager.GameLiftWrapper != null)
             {
-                var fleetsListResponse = await _fleetManager?.DescribeFleetAttributes()!;
-                if (fleetsListResponse.Success)
+                var fleetList = await _fleetManager.ListFleetAttributes();
+                if (fleetList == null)
                 {
-                    _fleetsList = fleetsListResponse.FleetAttributes;
-                    s_fleetNameList.Clear();
-                    _fleetsList.ForEach(fleet => s_fleetNameList.Add(fleet.Name));
-                    _fleetNameDropdownContainer.choices = s_fleetNameList;
+                    _fleetAttributes = new List<FleetAttributes>(); 
                 }
-                else
-                {
-                    var url = string.Format(Urls.AwsAnywhereFleetLogs, _stateManager.Region);
-                    _connectToAnywhereStatusBox.Show(StatusBox.StatusBoxType.Error, elementLocalizer.GetText(Strings.AnywherePageStatusBoxDefaultErrorText) + fleetsListResponse.ErrorMessage, url, elementLocalizer.GetText(Strings.AnywherePageStatusBoxUrlTextButton));
-                }
-            }
+                _fleetNameDropdownContainer.choices = _fleetAttributes.Select(fleet => fleet.Name).ToList();
+                _fleetNameDropdownContainer.value = _stateManager.AnywhereFleetName;
+                _fleetIdText.text = _stateManager.AnywhereFleetId;
+            } 
+            // else
+            // {
+            //     var url = string.Format(Urls.AwsAnywhereFleetLogs, _stateManager.Region);
+            //     _connectToAnywhereStatusBox.Show(StatusBox.StatusBoxType.Error, elementLocalizer.GetText(Strings.AnywherePageStatusBoxDefaultErrorText) + fleetsListResponse.ErrorMessage, url, elementLocalizer.GetText(Strings.AnywherePageStatusBoxUrlTextButton));
+            // }//TODO Add Error Box
         }
-        
-        private async void SetupBootMenu()
+
+        private async void SetupPage()
         {
-            await SetupFleetMenu();
-            
-            if (_fleetsList.Count >= 1)
+            await UpdateFleetMenu();
+
+            if (_fleetAttributes.Count >= 1 && string.IsNullOrWhiteSpace(_stateManager.AnywhereFleetName))
             {
                 _fleetState = FleetStatus.Selecting;
             }
-            _fleetNameDropdownContainer.index = _fleetNameDropdownContainer.choices.IndexOf(_stateManager.SelectedFleetName);
+
             UpdateGUI();
         }
 
@@ -215,14 +206,19 @@ namespace Editor.Window
             var elements = GetVisibleItemsByState();
             foreach (var element in _fleetVisualElements)
             {
-                if (elements.Contains(element)) {
+                if (elements.Contains(element))
+                {
                     Show(element);
-                } else {
+                }
+                else
+                {
                     Hide(element);
                 }
             }
+
+            _container.SetEnabled(_stateManager.IsBootstrapped);
         }
-        
+
         public enum FleetStatus
         {
             NotCreated,

@@ -12,6 +12,7 @@ using AmazonGameLiftPlugin.Core.SettingsManagement.Models;
 using AmazonGameLiftPlugin.Core.Shared;
 using UnityEditor;
 using UnityEngine;
+using CoreErrorCode = AmazonGameLiftPlugin.Core.Shared.ErrorCode;
 
 namespace AmazonGameLift.Editor
 {
@@ -117,11 +118,18 @@ namespace AmazonGameLift.Editor
             _status.IsDisplayed &= string.IsNullOrEmpty(BucketName);
         }
 
-        public void CreateBucket()
+        public Response CreateBucket(string bucketName)
         {
+            BucketName = bucketName;
             if (!CanCreate)
             {
-                return;
+                var emptyBucketNameResponse = new Response()
+                {
+                    ErrorCode = CoreErrorCode.BucketNameCanNotBeEmpty,
+                    ErrorMessage = _textProvider.GetError(CoreErrorCode.BucketNameCanNotBeEmpty)
+                };
+                OnBucketCreationFailure(emptyBucketNameResponse);
+                return emptyBucketNameResponse;
             }
 
             GetBootstrapDataResponse bootstrapResponse = _bootstrapUtility.GetBootstrapData();
@@ -129,7 +137,7 @@ namespace AmazonGameLift.Editor
             if (!bootstrapResponse.Success)
             {
                 OnBucketCreationFailure(bootstrapResponse);
-                return;
+                return bootstrapResponse;
             }
 
             CreateBucketResponse createResponse = _coreApi.CreateBucket(bootstrapResponse.Profile, bootstrapResponse.Region, BucketName);
@@ -137,10 +145,12 @@ namespace AmazonGameLift.Editor
             if (createResponse.Success)
             {
                 OnBucketCreated(bootstrapResponse.Profile, bootstrapResponse.Region, BucketName);
+                return createResponse;
             }
             else
             {
                 OnBucketCreationFailure(createResponse);
+                return createResponse;
             }
         }
 
