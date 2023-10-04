@@ -4,7 +4,6 @@
 using System;
 using System.Collections.Generic;
 using Editor.CoreAPI;
-using Editor.Window;
 using UnityEngine;
 using UnityEngine.UIElements;
 

@@ -1,6 +1,6 @@
 ﻿using UnityEngine.UIElements;
 
-namespace Editor.Window
+namespace AmazonGameLift.Editor
 {
     /*
      * StatefulInput represents a section of UI that holds inputs and/or can be affected by

@@ -3,11 +3,10 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using Amazon.GameLift.Model;
-using AmazonGameLift.Editor;
 using Editor.CoreAPI;
 using UnityEngine.UIElements;
 
-namespace Editor.Window
+namespace AmazonGameLift.Editor
 {
     public class ConnectToFleetInput : StatefulInput
     {

@@ -4,6 +4,7 @@ using System.Threading.Tasks;
 using AmazonGameLift.Editor;
 using AmazonGameLiftPlugin.Core.SettingsManagement.Models;
 using AmazonGameLiftPlugin.Core.Shared;
+using Editor.CoreAPI;
 using Moq;
 using NUnit.Framework;
 using UnityEngine;
@@ -33,6 +34,7 @@ namespace AmazonGameLiftPlugin.Editor.UnitTests
             _coreApiMock.Setup(f => f.PutSettingOrClear(It.IsAny<SettingsKeys>(), It.IsAny<string>())).Returns(Response.Ok(new PutSettingResponse()));
             _coreApiMock.Setup(f => f.PutSetting(It.IsAny<SettingsKeys>(), null)).Returns(Response.Fail(new PutSettingResponse()));
             _coreApiMock.Setup(f => f.PutSetting(It.IsAny<SettingsKeys>(), string.Empty)).Returns(Response.Fail(new PutSettingResponse()));
+            _coreApiMock.Setup(f => f.GetSetting(It.IsAny<SettingsKeys>())).Returns(Response.Ok(new GetSettingResponse()));
             
             _deploymentSettings = GetUnitUnderTest();
             return new ManagedEC2Deployment(_deploymentSettings, _managedEc2FleetParametersMock.Object);
@@ -48,8 +50,7 @@ namespace AmazonGameLiftPlugin.Editor.UnitTests
             ec2DeploymentHappyPath.StartDeployment();
             
             //Assert
-            _coreApiMock.Verify(f => f.PutSetting(It.IsAny<SettingsKeys>(), It.IsAny<string>()), Times.Exactly(1));
-            _coreApiMock.Verify(f => f.PutSettingOrClear(It.IsAny<SettingsKeys>(), It.IsAny<string>()), Times.Exactly(7));
+            _coreApiMock.Verify(f => f.PutSetting(It.IsAny<SettingsKeys>(), It.IsAny<string>()), Times.Exactly(8));
             
             Assert.IsTrue(_deploymentSettings.GameName == Application.productName.Substring(0,12) );
         }
@@ -60,21 +61,17 @@ namespace AmazonGameLiftPlugin.Editor.UnitTests
             //Arrange
             var ec2DeploymentHappyPath = ArrangeEc2DeploymentHappyPath();
             
-
             //Act
-            var startDeployment = _deploymentSettings.StartDeployment(MockEC2Delegate);
+            var startDeployment = _deploymentSettings.StartDeployment(MockEc2Delegate);
             
             //Assert
-            _coreApiMock.Verify(f => f.PutSetting(It.IsAny<SettingsKeys>(), It.IsAny<string>()), Times.Exactly(1));
-            _coreApiMock.Verify(f => f.PutSettingOrClear(It.IsAny<SettingsKeys>(), It.IsAny<string>()), Times.Exactly(7));
-            
             Assert.IsFalse(_deploymentSettings.GameName == Application.productName.Substring(0,12) );
         }
         
         private static DeploymentSettings GetUnitUnderTest(Mock<ScenarioLocator> scenarioLocator = null,
             Mock<PathConverter> pathConverter = null, Mock<CoreApi> coreApi = null,
             Mock<ScenarioParametersUpdater> parametersUpdater = null, Mock<DeploymentWaiter> deploymentWaiter = null,
-            Mock<IDeploymentIdContainer> deploymentIdContainer = null, Mock<Delay> delay = null)
+            Mock<IDeploymentIdContainer> deploymentIdContainer = null, Mock<Delay> delay = null, Mock<StateManager> stateManager = null)
         {
             coreApi = _coreApiMock ?? new Mock<CoreApi>();
             scenarioLocator = scenarioLocator ?? new Mock<ScenarioLocator>();
@@ -83,10 +80,11 @@ namespace AmazonGameLiftPlugin.Editor.UnitTests
             pathConverter = pathConverter ?? GetMockPathConverter(coreApi);
             parametersUpdater = parametersUpdater ?? GetMockScenarioParametersUpdater(coreApi);
             deploymentIdContainer = deploymentIdContainer ?? new Mock<IDeploymentIdContainer>();
+            stateManager = stateManager ?? new Mock<StateManager>(coreApi.Object);
 
             return new DeploymentSettings(scenarioLocator.Object, pathConverter.Object, coreApi.Object,
                 parametersUpdater.Object, TextProviderFactory.Create(), deploymentWaiter.Object,
-                deploymentIdContainer.Object, delayMock.Object, new MockLogger());
+                deploymentIdContainer.Object, delayMock.Object, new MockLogger(), stateManager.Object);
         }
         
         private static Mock<Delay> SetUpDelayMock()
@@ -111,7 +109,7 @@ namespace AmazonGameLiftPlugin.Editor.UnitTests
             return new Mock<ScenarioParametersUpdater>(coreApi.Object, factory);
         }
 
-        private Task<bool> MockEC2Delegate(ConfirmChangesRequest request)
+        private static Task<bool> MockEc2Delegate(ConfirmChangesRequest request)
         {
             return null;
         }

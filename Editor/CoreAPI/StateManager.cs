@@ -29,7 +29,7 @@ namespace Editor.CoreAPI
 
         #region Profile Settings
 
-        public string ProfileName => _selectedProfile?.Name;
+        public virtual string ProfileName => _selectedProfile?.Name;
 
         public string Region
         {
@@ -236,8 +236,8 @@ namespace Editor.CoreAPI
 
         public void RefreshProfiles()
         {
-            var profiles = CoreApi.GetSetting(SettingsKeys.UserProfiles).Value;
-            if (string.IsNullOrWhiteSpace(profiles))
+            var profilesResponse = CoreApi.GetSetting(SettingsKeys.UserProfiles);
+            if (!profilesResponse.Success || string.IsNullOrWhiteSpace(profilesResponse.Value))
             {
                 _allProfiles = new List<UserProfile>();
             }
@@ -245,7 +245,7 @@ namespace Editor.CoreAPI
             {
                 try
                 {
-                    _allProfiles = _deserializer.Deserialize<List<UserProfile>>(profiles);
+                    _allProfiles = _deserializer.Deserialize<List<UserProfile>>(profilesResponse.Value);
                 }
                 catch (Exception ex)
                 {
