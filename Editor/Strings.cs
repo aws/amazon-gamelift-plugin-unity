@@ -251,6 +251,7 @@ namespace AmazonGameLift.Editor
         public const string ManagedEC2ScenarioFlexMatchLink = "ManagedEC2ScenarioFlexMatchLink";
         public const string ManagedEC2ScenarioShowMoreButton = "ManagedEC2ScenarioShowMoreButton";
         public const string ManagedEC2ParametersTitle = "ManagedEC2ParametersTitle";
+        public const string ManagedEC2ParametersGameNameLabel = "ManagedEC2ParametersGameNameLabel";
         public const string ManagedEC2ParametersFleetNameLabel = "ManagedEC2ParametersFleetNameLabel";
         public const string ManagedEC2ParametersBuildNameLabel = "ManagedEC2ParametersBuildNameLabel";
         public const string ManagedEC2ParametersLaunchParametersLabel = "ManagedEC2ParametersLaunchParametersLabel";
