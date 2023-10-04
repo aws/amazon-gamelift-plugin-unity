@@ -47,11 +47,7 @@ namespace AmazonGameLiftPlugin.Editor.UnitTests
             {
                 LocationName = "custom-location-1"
             });
-            
-            //_coreApiMock.Setup(f => f.PutSetting(It.IsAny<SettingsKeys>(), It.IsAny<string>())).Returns(Response.Ok(new PutSettingResponse()));
-            //_coreApiMock.Setup(f => f.PutSetting(It.IsAny<SettingsKeys>(), null)).Returns(Response.Fail(new PutSettingResponse()));
-            //_coreApiMock.Setup(f => f.PutSetting(It.IsAny<SettingsKeys>(), string.Empty)).Returns(Response.Fail(new PutSettingResponse()));
-            
+
             _gameLiftWrapperMock.Setup(wrapper => wrapper.RegisterCompute(It.IsAny<RegisterComputeRequest>())).Returns(Task.FromResult(
                 new RegisterComputeResponse()
                 {
