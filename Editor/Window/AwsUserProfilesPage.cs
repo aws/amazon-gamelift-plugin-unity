@@ -13,8 +13,7 @@ namespace AmazonGameLift.Editor
     {
         private List<TextField> AccountDetailTextFields = new();
 
-        private readonly AwsCredentialsUpdate AwsCredentialsUpdateModel;
-        private readonly BootstrapSettings BootstrapSettings;
+        private readonly AwsCredentialsUpdate _awsCredentialsUpdateModel;
         
         private VisualElement _currentElement;
 
@@ -32,7 +31,7 @@ namespace AmazonGameLift.Editor
         public AwsUserProfilesPage(VisualElement container, StateManager stateManager)
         {
             var awsCredentials = new AwsCredentialsFactory().Create();
-           AwsCredentialsUpdateModel = awsCredentials.Update;
+           _awsCredentialsUpdateModel = awsCredentials.Update;
             
             _container = container;
             var mVisualTreeAsset = Resources.Load<VisualTreeAsset>("EditorWindow/Pages/AwsUserProfilesPage");
@@ -57,8 +56,8 @@ namespace AmazonGameLift.Editor
             _stateManager = stateManager;
             _stateManager.OnUserProfileUpdated += () =>
             {
-                AwsCredentialsUpdateModel.Refresh();
-                AwsCredentialsUpdateModel.Update();
+                _awsCredentialsUpdateModel.Refresh();
+                _awsCredentialsUpdateModel.Update();
             };
 
             var createProfileContainer = _container.Q("UserProfilePageCreateMenu");
@@ -67,7 +66,7 @@ namespace AmazonGameLift.Editor
             {
                 ShowProfileMenu(_bootstrapMenu);
             };
-            BootstrapSettings = BootstrapSettingsFactory.Create();
+            _bootstrapSettings = BootstrapSettingsFactory.Create();
                 
             RefreshProfiles();
 
@@ -123,11 +122,12 @@ namespace AmazonGameLift.Editor
             });
             _container.Q<Button>("UserProfilePageBootstrapStartButton").RegisterCallback<ClickEvent>(_ =>
             {
-                BootstrapSettings.RefreshBucketName();
+                _bootstrapSettings.RefreshBucketName();
                 OpenS3Popup(_stateManager.BucketName);
             });
             _container.Q<Button>("UserProfilePageBootstrapAnotherBucketButton").RegisterCallback<ClickEvent>(_ =>
             {
+                _bootstrapSettings.RefreshBucketName();
                 OpenS3Popup(_stateManager.BucketName);
             });
             _container.Q<Button>("UserProfilePageAccountNewProfileAccessKeyToggleReveal").RegisterCallback<ClickEvent>(_ =>
@@ -188,7 +188,7 @@ namespace AmazonGameLift.Editor
 
         private void RefreshProfiles()
         {
-            AwsCredentialsUpdateModel.Refresh();
+            _awsCredentialsUpdateModel.Refresh();
         }
         
         private void BootstrapAccount(string bucketName)
