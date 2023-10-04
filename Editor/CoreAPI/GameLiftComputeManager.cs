@@ -18,26 +18,8 @@ namespace Editor.CoreAPI
         {
             _amazonGameLiftWrapper = wrapper;
         }
-
-        public async Task<RegisterFleetComputeResponse> RegisterFleetCompute(string computeName, string fleetId,
-            string fleetLocation,
-            string ipAddress)
-        {
-            var registerFleetComputeResponse = await RegisterCompute(computeName, fleetId, fleetLocation, ipAddress);
-            if (registerFleetComputeResponse != null)
-            {
-                return Response.Ok(new RegisterFleetComputeResponse()
-                {
-                    ComputeName = computeName,
-                    IpAddress = ipAddress,
-                    WebSocketUrl = registerFleetComputeResponse.WebSocketUrl
-                });
-            }
-
-            return Response.Fail(new RegisterFleetComputeResponse { ErrorCode = ErrorCode.RegisterComputeFailed });
-        }
-
-        private async Task<RegisterFleetComputeResponse> RegisterCompute(string computeName, string fleetId, string fleetLocation,
+        
+        public async Task<RegisterFleetComputeResponse> RegisterFleetCompute(string computeName, string fleetId, string fleetLocation,
             string ipAddress)
         {
             try

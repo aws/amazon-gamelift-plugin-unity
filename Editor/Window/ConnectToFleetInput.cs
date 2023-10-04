@@ -56,8 +56,8 @@ namespace Editor.Window
                 var response = await _fleetManager?.CreateAnywhereFleet(fleetName)!;
                 if (response.Success)
                 {
-                    _stateManager.SelectedProfile.AnywhereFleetName = response.FleetName;
-                    _stateManager.SelectedProfile.AnywhereFleetId = response.FleetId;
+                    _stateManager.AnywhereFleetName = response.FleetName;
+                    _stateManager.AnywhereFleetId = response.FleetId;
                     await UpdateFleetMenu();
                     _fleetNameDropdownContainer.value = fleetName;
                     _fleetState = FleetStatus.Selected;
@@ -95,13 +95,16 @@ namespace Editor.Window
 
         private void OnSelectFleetDropdown(string fleetName)
         {
-            var currentFleet = _fleetAttributes.First(fleet => fleet.Name == fleetName);
-            _fleetIdText.text = currentFleet.FleetId;
-            _stateManager.AnywhereFleetName = currentFleet.Name;
-            _stateManager.AnywhereFleetId = currentFleet.FleetId;
-
-            _fleetState = FleetStatus.Selected;
-
+            var currentFleet = _fleetAttributes.FirstOrDefault(fleet => fleet.Name == fleetName);
+            if (currentFleet != null)
+            {
+                _fleetIdText.text = currentFleet.FleetId;
+                _stateManager.AnywhereFleetName = currentFleet.Name;
+                _stateManager.AnywhereFleetId = currentFleet.FleetId;
+                
+                _fleetState = FleetStatus.Selected;
+            }
+            
             UpdateGUI();
         }
 

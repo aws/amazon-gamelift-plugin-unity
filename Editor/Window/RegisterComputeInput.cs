@@ -47,7 +47,8 @@ namespace Editor.Window
             _computeName = _stateManager.ComputeName ?? _computeName;
             _ipAddress = _stateManager.IpAddress ?? _ipAddress;
 
-
+            _stateManager.OnUserProfileUpdated += UpdateGUI;
+            
             PopulateComputeVisualElements();
             RegisterCallbacks();
             SetupConfigSettings();
