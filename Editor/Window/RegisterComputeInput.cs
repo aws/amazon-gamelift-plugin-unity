@@ -81,13 +81,13 @@ namespace Editor.Window
         {
             if (_computeState is ComputeStatus.NotRegistered or ComputeStatus.Registering)
             {
-                var response = await _computeManager.RegisterFleetCompute(_computeName,
+                var registerFleetComputeResponse = await _computeManager.RegisterFleetCompute(_computeName,
                     _stateManager.SelectedProfile.AnywhereFleetId, _location, _ipAddress);
-                if (response.Success)
+                if (registerFleetComputeResponse.Success)
                 {
-                    _stateManager.ComputeName = response.ComputeName;
-                    _stateManager.IpAddress = response.IpAddress;
-                    _stateManager.WebSocketUrl = response.WebSocketUrl;
+                    _stateManager.ComputeName = registerFleetComputeResponse.ComputeName;
+                    _stateManager.IpAddress = registerFleetComputeResponse.IpAddress;
+                    _stateManager.WebSocketUrl = registerFleetComputeResponse.WebSocketUrl;
                     
                     _computeState = ComputeStatus.Registered;
                 }
@@ -95,7 +95,7 @@ namespace Editor.Window
                 {
                     var url = string.Format(Urls.AwsAnywhereFleetLogs, _stateManager.Region);
                     var elementLocalizer = new ElementLocalizer(_container);
-                    _registerComputeStatusBox.Show(StatusBox.StatusBoxType.Error, elementLocalizer.GetText(Strings.AnywherePageStatusBoxDefaultErrorText) + registerFleetCompute.ErrorMessage, url, elementLocalizer.GetText(Strings.AnywherePageStatusBoxUrlTextButton));
+                    _registerComputeStatusBox.Show(StatusBox.StatusBoxType.Error, elementLocalizer.GetText(Strings.AnywherePageStatusBoxDefaultErrorText) + registerFleetComputeResponse.ErrorMessage, url, elementLocalizer.GetText(Strings.AnywherePageStatusBoxUrlTextButton));
                 }
             }
 

@@ -131,7 +131,7 @@ namespace Editor.Window
         {
             if (_stateManager.GameLiftWrapper != null)
             {
-                var fleetList = await _fleetManager.ListFleetAttributes();
+                var fleetList = await _fleetManager.DescribeFleetAttributes();
                 if (fleetList == null)
                 {
                     _fleetAttributes = new List<FleetAttributes>(); 

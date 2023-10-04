@@ -1,6 +1,7 @@
 ﻿// Copyright Amazon.com, Inc. or its affiliates. All Rights Reserved.
 // SPDX-License-Identifier: Apache-2.0
 
+using Editor.CoreAPI;
 using UnityEngine;
 using UnityEngine.UIElements;
 
@@ -12,12 +13,11 @@ namespace AmazonGameLift.Editor
         private StatusBox _statusBox;
         private ElementLocalizer _elementLocalizer;
 
-        public LandingPage(VisualElement container)
+        public LandingPage(VisualElement container, StateManager stateManager)
         {
             _container = container;
             var mVisualTreeAsset = Resources.Load<VisualTreeAsset>("EditorWindow/Pages/LandingPage");
             var uxml = mVisualTreeAsset.Instantiate();
-            
             container.Add(uxml);
             SetupStatusBoxes();
             LocalizeText();

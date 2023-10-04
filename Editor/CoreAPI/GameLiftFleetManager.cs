@@ -6,6 +6,7 @@ using System.Threading.Tasks;
 using Amazon.GameLift;
 using Amazon.GameLift.Model;
 using Amazon.Runtime.Internal;
+using AmazonGameLift.Editor;
 using AmazonGameLiftPlugin.Core;
 using AmazonGameLiftPlugin.Core.Shared;
 using UnityEngine;
@@ -36,7 +37,7 @@ namespace Editor.CoreAPI
                 var success = await CreateCustomLocationIfNotExists(FleetLocation);
                 if (success)
                 {
-                    var fleetId = await CreateFleet(ComputeType.ANYWHERE, FleetLocation, fleetName);
+                    var fleetId = await CreateAnywhereFleet(ComputeType.ANYWHERE, FleetLocation, fleetName);
                     if (fleetId == null)
                     {
                         return Response.Fail(new CreateAnywhereFleetResponse

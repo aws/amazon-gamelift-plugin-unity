@@ -2,6 +2,7 @@
 using System.Net;
 using System.Threading.Tasks;
 using Amazon.GameLift.Model;
+using AmazonGameLift.Editor;
 using AmazonGameLiftPlugin.Core;
 using AmazonGameLiftPlugin.Core.Shared;
 using UnityEngine;
@@ -22,21 +23,21 @@ namespace Editor.CoreAPI
             string fleetLocation,
             string ipAddress)
         {
-            var webSocketUrl = await RegisterCompute(computeName, fleetId, fleetLocation, ipAddress);
-            if (webSocketUrl != null)
+            var registerFleetComputeResponse = await RegisterCompute(computeName, fleetId, fleetLocation, ipAddress);
+            if (registerFleetComputeResponse != null)
             {
                 return Response.Ok(new RegisterFleetComputeResponse()
                 {
                     ComputeName = computeName,
                     IpAddress = ipAddress,
-                    WebSocketUrl = webSocketUrl
+                    WebSocketUrl = registerFleetComputeResponse.WebSocketUrl
                 });
             }
 
             return Response.Fail(new RegisterFleetComputeResponse { ErrorCode = ErrorCode.RegisterComputeFailed });
         }
 
-        private async Task<string> RegisterCompute(string computeName, string fleetId, string fleetLocation,
+        private async Task<RegisterFleetComputeResponse> RegisterCompute(string computeName, string fleetId, string fleetLocation,
             string ipAddress)
         {
             try
@@ -51,14 +52,14 @@ namespace Editor.CoreAPI
                 var registerComputeResponse =
                     await _amazonGameLiftWrapper.RegisterCompute(registerComputeRequest);
 
-                return Response.Ok(new RegisterComputeResponse()
+                return Response.Ok(new RegisterFleetComputeResponse()
                 {
                     WebSocketUrl = registerComputeResponse.Compute.GameLiftServiceSdkEndpoint
                 });
             }
             catch (Exception ex)
             {
-                return Response.Fail(new RegisterComputeResponse
+                return Response.Fail(new RegisterFleetComputeResponse
                 {
                     ErrorCode = ErrorCode.RegisterComputeFailed,
                     ErrorMessage = ex.Message
