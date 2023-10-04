@@ -191,10 +191,10 @@ namespace AmazonGameLift.Editor
             AllScenarios = _deployers.Values.Select(deployer => deployer.DisplayName).ToArray();
             CurrentBucketName = _stateManager.BucketName;
             CurrentRegion = _stateManager.Region;
+            CurrentProfile = _stateManager.ProfileName;
 
             HasCurrentBucket = !string.IsNullOrEmpty(CurrentBucketName) && _coreApi.IsValidRegion(CurrentRegion);
 
-            CurrentProfile = _stateManager.ProfileName;
             RefreshScenario();
         }
 
