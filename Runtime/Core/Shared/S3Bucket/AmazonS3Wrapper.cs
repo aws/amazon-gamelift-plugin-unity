@@ -53,6 +53,9 @@ namespace AmazonGameLiftPlugin.Core.Shared.S3Bucket
         public GetLifecycleConfigurationResponse GetLifecycleConfiguration(string bucketName)
             => _amazonS3Client.GetLifecycleConfiguration(bucketName);
 
+        public PutBucketPolicyResponse PutBucketPolicy(PutBucketPolicyRequest request)
+            => _amazonS3Client.PutBucketPolicy(request);
+
         public bool DoesBucketExist(string bucketName)
             => _amazonS3Client.DoesS3BucketExist(bucketName);
 
