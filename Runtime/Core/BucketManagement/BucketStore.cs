@@ -117,7 +117,6 @@ namespace AmazonGameLiftPlugin.Core.BucketManagement
                 {
                     BucketName = loggingBucketName,
                     BucketRegionName = request.Region,
-                    CannedACL = S3CannedACL.LogDeliveryWrite,
                     ObjectOwnership = ObjectOwnership.BucketOwnerPreferred
                 });
 
@@ -129,39 +128,35 @@ namespace AmazonGameLiftPlugin.Core.BucketManagement
                         ErrorMessage = $"HTTP Status Code {putLoggingBucketResponse.HttpStatusCode}"
                     });
                 }
+                
+                var logPrefix = "GameLiftBootstrap";
+                var resourceArn = @"""arn:aws:s3:::" + loggingBucketName + "/" + logPrefix + @"*""";
+                var policy =  @"{
+                                ""Statement"":[{
+                                ""Sid"": ""S3ServerAccessLogsPolicy"",
+                                ""Effect"": ""Allow"",
+                                ""Principal"": { ""Service"": ""logging.s3.amazonaws.com"" },
+                                ""Action"": [""s3:PutObject""],
+                                ""Resource"": [" + resourceArn + @"],
+                                ""Condition"": {
+                                ""ArnLike"": { ""aws:SourceArn"": ""arn:aws:s3:::" + request.BucketName + @""" },
+                                ""StringEquals"": { ""aws:SourceAccount"": """ + request.AccountId + @""" }
+                                        }
+                                    }]
+                                }";
 
-                // Getting Existing ACL of the logging bucket
-                GetACLResponse getACLResponse = _amazonS3Wrapper.GetACL(new GetACLRequest
-                {
-                    BucketName = loggingBucketName
-                });
-
-                if (getACLResponse.HttpStatusCode != HttpStatusCode.OK)
-                {
-                    return Response.Fail(new CreateBucketResponse()
-                    {
-                        ErrorCode = ErrorCode.AwsError,
-                        ErrorMessage = $"HTTP Status Code {getACLResponse.HttpStatusCode}"
-                    });
-                }
-
-                S3AccessControlList s3AccessControlList = getACLResponse.AccessControlList;
-                s3AccessControlList.AddGrant(new S3Grantee { URI = "http://acs.amazonaws.com/groups/s3/LogDelivery" }, S3Permission.WRITE);
-                s3AccessControlList.AddGrant(new S3Grantee { URI = "http://acs.amazonaws.com/groups/s3/LogDelivery" }, S3Permission.READ_ACP);
-
-                // Grant logging access to the logging bucket
-                PutACLResponse putACLResponse = _amazonS3Wrapper.PutACL(new PutACLRequest
+                PutBucketPolicyRequest policyRequest = new PutBucketPolicyRequest()
                 {
                     BucketName = loggingBucketName,
-                    AccessControlList = s3AccessControlList
-                });
-
-                if (putACLResponse.HttpStatusCode != HttpStatusCode.OK)
+                    Policy = policy
+                };
+                var putBucketPolicyResponse = _amazonS3Wrapper.PutBucketPolicy(policyRequest);
+                if (putBucketPolicyResponse.HttpStatusCode != HttpStatusCode.NoContent)
                 {
                     return Response.Fail(new CreateBucketResponse()
                     {
                         ErrorCode = ErrorCode.AwsError,
-                        ErrorMessage = $"HTTP Status Code {putACLResponse.HttpStatusCode}"
+                        ErrorMessage = $"HTTP Status Code {putBucketPolicyResponse.HttpStatusCode}"
                     });
                 }
 
@@ -172,7 +167,7 @@ namespace AmazonGameLiftPlugin.Core.BucketManagement
                     LoggingConfig = new S3BucketLoggingConfig
                     {
                         TargetBucketName = loggingBucketName,
-                        TargetPrefix = "GameLiftBootstrap",
+                        TargetPrefix = logPrefix,
                     }
                 });
 

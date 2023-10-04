@@ -226,9 +226,19 @@ namespace AmazonGameLift.Editor
         /// </summary>
         public virtual CreateBucketResponse CreateBucket(string profileName, string region, string bucketName)
         {
+            var accountIdResponse = RetrieveAccountId(profileName);
+            if (!accountIdResponse.Success)
+            {
+                return Response.Fail(new CreateBucketResponse()
+                {
+                    ErrorCode = accountIdResponse.ErrorCode,
+                    ErrorMessage = accountIdResponse.ErrorMessage
+                });
+            }
             var bucketStore = new BucketStore(CreateS3Wrapper(profileName, region));
             var request = new CreateBucketRequest()
             {
+                AccountId = accountIdResponse.AccountId,
                 BucketName = bucketName,
                 Region = region
             };
