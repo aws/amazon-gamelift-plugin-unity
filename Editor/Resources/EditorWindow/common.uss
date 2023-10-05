@@ -5,6 +5,7 @@
     --color-background-accent: #333333;
     --color-background-primary: #3F3F3F;
     --color-button-primary: #2C5D87;
+    --color-button-secondary: #e4e4e4;
     --color-button-default: #585858;
     --color-button-hover: #386082;
     --color-button-border: #242424;
@@ -14,6 +15,7 @@
     --color-font-success: #58BC61;
     --color-font-error: #f30303;
     --color-font-link: #4C7EFF;
+    --color-font-dark: #090909;
     --color-foldout-title: #e4e4e4;
     --color-input-label: #c4c4c4;
     --color-text-input-background: #2a2a2a;
@@ -28,7 +30,7 @@
     --font-size-extralarge: 24px;
     --font-size-massive: 32px;
 
-    --icon-size-tiny: 18px;
+    --icon-size-tiny: 16px;
     --icon-size-small: 24px;
     --icon-size-large: 60px;
     --border-size-thin: 1px;
@@ -95,6 +97,11 @@ Image#FolderIcon {
 
 .button--primary {
     background-color: var(--color-button-primary);
+}
+
+.button--secondary {
+    background-color: var(--color-button-secondary);
+    color: var(--color-font-dark);
 }
 
 .button--small {
@@ -211,7 +218,7 @@ Image#ExternalLinkIcon {
 .foldout .unity-foldout__checkmark {
     height: 29px;
     width: 24px;
-     background-image: resource("Images/Icons/FoldoutArrowClosed");
+    background-image: resource("Images/Icons/FoldoutArrowClosed");
     -unity-slice-left: 0;
     -unity-slice-top: 0;
 }
