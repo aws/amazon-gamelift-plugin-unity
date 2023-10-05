@@ -263,8 +263,5 @@ namespace Editor.CoreAPI
             BucketName = bucketName;
             OnUserProfileUpdated?.Invoke();
         }
-
-        private string GetSetting(SettingsKeys key) => CoreApi.GetSetting(key).Value;
-        private void PutSetting(SettingsKeys key, string value) => CoreApi.PutSetting(key, value);
     }
 }
