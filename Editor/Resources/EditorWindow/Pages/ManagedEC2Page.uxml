@@ -1,7 +1,7 @@
 ﻿<!-- Copyright Amazon.com, Inc. or its affiliates. All Rights Reserved. -->
 <!-- SPDX-License-Identifier: Apache-2.0 -->
 
-<ui:UXML xmlns:ui="UnityEngine.UIElements">
+<ui:UXML xmlns:ui="UnityEngine.UIElements" xmlns:gl="AmazonGameLift.Editor">
     <Style src="../common.uss"/>
     <ui:VisualElement class="separator separator--large">
         <ui:VisualElement class="separator">
@@ -22,10 +22,7 @@
             <ui:Label name="ManagedEC2DeployDescription" class="foldout__description form-row" text="Deploying GameLift can take up to 30-40 minutes"/>
             <ui:VisualElement class="form-row form-row--free">
                 <ui:Label name="ManagedEC2DeployStatusLabel" class="form-row__label" text="Status"/>
-                <ui:VisualElement name="DeploymentStatus" class="form-row__input deploy-status deploy-status--deployed">
-                    <ui:VisualElement name="ManagedEC2DeployStatusIcon" class="deployStatus test deploy-status__icon"/>
-                    <ui:Label name="ManagedEC2DeployStatusText" class="deploy-status__label" text="State"/>
-                </ui:VisualElement>
+                <gl:StatusIndicator/>
             </ui:VisualElement>
             <ui:VisualElement class="form-row form-row--free">
                 <ui:Label name="ManagedEC2DeployActionsLabel" class="form-row__label" text="AWS Resource Actions"/>

@@ -24,7 +24,7 @@ namespace AmazonGameLift.Editor
         private readonly Button _launchClientButton;
         private readonly DeploymentScenariosInput _deploymentScenariosInput;
         private readonly FleetParametersInput _fleetParamsInput;
-        private readonly Label _ec2DeploymentStatusLabel;
+        private readonly StatusIndicator _statusIndicator;
 
         public ManagedEC2Page(VisualElement container, StateManager stateManager)
         {
@@ -56,7 +56,7 @@ namespace AmazonGameLift.Editor
                 new DeploymentScenariosInput(scenarioContainer, _deploymentSettings.Scenario, true);
             _deploymentScenariosInput.SetEnabled(true);
             _deploymentScenariosInput.OnValueChanged += value => { Debug.Log($"Fleet type changed to {value}"); };
-            _ec2DeploymentStatusLabel = _container.Q<Label>("ManagedEC2DeployStatusText");
+            _statusIndicator = _container.Q<StatusIndicator>();
 
             var parametersInput = container.Q<Foldout>("ManagedEC2ParametersTitle");
             _fleetParamsInput = new FleetParametersInput(parametersInput, parameters);
@@ -108,7 +108,35 @@ namespace AmazonGameLift.Editor
 
             _deploymentScenariosInput.SetEnabled(_deploymentSettings.CanDeploy);
             _fleetParamsInput.SetEnabled(_deploymentSettings.CanDeploy);
-            _ec2DeploymentStatusLabel.text = _deploymentSettings.CurrentStackInfo.StackStatus;
+
+            var stackStatus = _deploymentSettings.CurrentStackInfo.StackStatus;
+            if (stackStatus == null)
+            {
+                _statusIndicator.Set(State.Inactive, "Not Deployed");
+            }
+            else if (stackStatus.IsStackStatusOperationDone())
+            {
+                if (stackStatus.IsStackStatusFailed())
+                {
+                    _statusIndicator.Set(State.Failed, "Failed");
+                }
+                else
+                {
+                    _statusIndicator.Set(State.Success, "Deployed");
+                }
+            }
+            else if (stackStatus == StackStatus.DeleteInProgress)
+            {
+                _statusIndicator.Set(State.InProgress, "Deleting");
+            }
+            else if (stackStatus.IsStackStatusInProgress())
+            {
+                _statusIndicator.Set(State.InProgress, "Deploying");
+            }
+            else
+            {
+                _statusIndicator.Set(State.Inactive, "Not Deployed");
+            }
         }
 
         private void LocalizeText()
