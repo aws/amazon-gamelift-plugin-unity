@@ -15,8 +15,8 @@ namespace AmazonGameLift.Editor
     {
         private TextField _fleetNameInput;
         private DropdownField _fleetNameDropdownContainer;
-        private VisualElement _fleetCreateFoldout;
-        private VisualElement _fleetConnectFoldout;
+        private VisualElement _fleetCreateContainer;
+        private VisualElement _fleetConnectContainer;
         private VisualElement _fleetId;
         private Label _fleetIdText;
         private VisualElement _fleetStatus;
@@ -114,8 +114,8 @@ namespace AmazonGameLift.Editor
             _fleetId = container.Q("AnywherePageConnectFleetID");
             _fleetIdText = container.Q<Label>("AnywherePageConnectFleetIDDisplay");
             _fleetStatus = container.Q("AnywherePageConnectFleetStatus");
-            _fleetCreateFoldout = container.Q("AnywherePageCreateFleet");
-            _fleetConnectFoldout = container.Q("AnywherePageConnectFleet");
+            _fleetCreateContainer = container.Q("AnywherePageCreateFleet");
+            _fleetConnectContainer = container.Q("AnywherePageConnectFleet");
             _cancelButton = container.Q<Button>("AnywherePageCreateFleetCancelButton");
         }
 
@@ -153,10 +153,10 @@ namespace AmazonGameLift.Editor
         private List<VisualElement> GetFleetVisualElements() => new List<VisualElement>()
         {
             _fleetNameInput,
-            _fleetCreateFoldout,
+            _fleetCreateContainer,
             _fleetNameDropdownContainer,
             _cancelButton,
-            _fleetConnectFoldout,
+            _fleetConnectContainer,
             _fleetId,
             _fleetStatus,
         };
@@ -165,18 +165,18 @@ namespace AmazonGameLift.Editor
         {
             return _fleetState switch
             {
-                FleetStatus.NotCreated => new List<VisualElement>() { _fleetNameInput, _fleetCreateFoldout },
+                FleetStatus.NotCreated => new List<VisualElement>() { _fleetNameInput, _fleetCreateContainer },
                 FleetStatus.Creating => new List<VisualElement>()
                 {
-                    _fleetNameInput, _cancelButton, _fleetCreateFoldout
+                    _fleetNameInput, _cancelButton, _fleetCreateContainer
                 },
                 FleetStatus.Selecting => new List<VisualElement>()
                 {
-                    _fleetNameDropdownContainer, _fleetConnectFoldout
+                    _fleetNameDropdownContainer, _fleetConnectContainer
                 },
                 FleetStatus.Selected => new List<VisualElement>()
                 {
-                    _fleetNameDropdownContainer, _fleetId, _fleetStatus, _fleetConnectFoldout
+                    _fleetNameDropdownContainer, _fleetId, _fleetStatus, _fleetConnectContainer
                 },
                 _ => throw new ArgumentOutOfRangeException()
             };
