@@ -28,14 +28,14 @@ namespace AmazonGameLift.Editor
         private FleetStatus _fleetState;
         private List<FleetAttributes> _fleetAttributes = new List<FleetAttributes>();
 
-        public ConnectToFleetInput(VisualElement container, StateManager stateManager, FleetStatus initialState)
+        public ConnectToFleetInput(VisualElement container, StateManager stateManager)
         {
             var uxml = Resources.Load<VisualTreeAsset>("EditorWindow/Components/ConnectToFleetInput");
             container.Add(uxml.Instantiate());
             _container = container;
 
-            _fleetState = initialState;
             _stateManager = stateManager;
+            _fleetState = FleetStatus.NotCreated;
 
             AssignUiElements(container);
             RegisterCallBacks(container);
@@ -53,8 +53,8 @@ namespace AmazonGameLift.Editor
                 var response = await _fleetManager?.CreateAnywhereFleet(fleetName)!;
                 if (response.Success)
                 {
-                    _stateManager.SelectedProfile.AnywhereFleetName = response.FleetName;
-                    _stateManager.SelectedProfile.AnywhereFleetId = response.FleetId;
+                    _stateManager.AnywhereFleetName = response.FleetName;
+                    _stateManager.AnywhereFleetId = response.FleetId;
                     await UpdateFleetMenu();
                     _fleetNameDropdownContainer.value = fleetName;
                     _fleetState = FleetStatus.Selected;

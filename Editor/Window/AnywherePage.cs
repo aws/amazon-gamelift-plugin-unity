@@ -21,7 +21,7 @@ namespace AmazonGameLift.Editor
 
             var fleetInputContainer = uxml.Q("AnywherePageConnectFleetTitle");
             var fleetInput =
-                new ConnectToFleetInput(fleetInputContainer, stateManager, ConnectToFleetInput.FleetStatus.NotCreated);
+                new ConnectToFleetInput(fleetInputContainer, stateManager);
             var computeInputContainer = uxml.Q("AnywherePageComputeTitle");
             var computeInput =
                 new RegisterComputeInput(computeInputContainer, stateManager); 
