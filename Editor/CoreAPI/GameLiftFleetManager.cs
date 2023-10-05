@@ -1,4 +1,7 @@
-﻿using System;
+﻿// Copyright Amazon.com, Inc. or its affiliates. All Rights Reserved.
+// SPDX-License-Identifier: Apache-2.0
+
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Net;
@@ -30,14 +33,14 @@ namespace Editor.CoreAPI
             _amazonGameLiftWrapper = amazonGameLiftWrapper;
         }
 
-        public async Task<CreateAnywhereFleetResponse> CreateAnywhereFleet(string fleetName)
+        public async Task<CreateAnywhereFleetResponse> CreateFleet(string fleetName)
         {
             if (_amazonGameLiftWrapper != null)
             {
                 var success = await CreateCustomLocationIfNotExists(FleetLocation);
                 if (success)
                 {
-                    var fleetId = await CreateAnywhereFleet(ComputeType.ANYWHERE, FleetLocation, fleetName);
+                    var fleetId = await CreateFleet(ComputeType.ANYWHERE, FleetLocation, fleetName);
                     if (fleetId == null)
                     {
                         return Response.Fail(new CreateAnywhereFleetResponse
@@ -100,7 +103,7 @@ namespace Editor.CoreAPI
             }
         }
 
-        private async Task<string> CreateAnywhereFleet(ComputeType computeType, string fleetLocation, string fleetName)
+        private async Task<string> CreateFleet(ComputeType computeType, string fleetLocation, string fleetName)
         {
             try
             {

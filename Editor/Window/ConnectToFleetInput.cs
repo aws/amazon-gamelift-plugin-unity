@@ -1,4 +1,7 @@
-﻿using System;
+﻿// Copyright Amazon.com, Inc. or its affiliates. All Rights Reserved.
+// SPDX-License-Identifier: Apache-2.0
+
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
@@ -27,7 +30,6 @@ namespace Editor.Window
         private readonly VisualElement _container;
         private FleetStatus _fleetState;
         private List<FleetAttributes> _fleetAttributes = new List<FleetAttributes>();
-        private ElementLocalizer elementLocalizer;
         private StatusBox _connectToAnywhereStatusBox;
         
         public ConnectToFleetInput(VisualElement container, StateManager stateManager, FleetStatus initialState)
@@ -35,7 +37,6 @@ namespace Editor.Window
             _container = container;
             _fleetState = initialState;
             _stateManager = stateManager;
-            elementLocalizer = new ElementLocalizer(_container);
 
             AssignUiElements(container);
             PopulateFleetVisualElements();
@@ -53,7 +54,7 @@ namespace Editor.Window
             {
                 _connectToAnywhereStatusBox.Close();
                 
-                var response = await _fleetManager?.CreateAnywhereFleet(fleetName)!;
+                var response = await _fleetManager?.CreateFleet(fleetName)!;
                 if (response.Success)
                 {
                     _stateManager.AnywhereFleetName = response.FleetName;
@@ -134,13 +135,14 @@ namespace Editor.Window
         {
             if (_stateManager.GameLiftWrapper != null)
             {
-                var fleetList = await _fleetManager.DescribeFleetAttributes();
-                if (fleetList == null)
+                _fleetAttributes = await _fleetManager.DescribeFleetAttributes();
+                if (_fleetAttributes == null)
                 {
                     var url = string.Format(Urls.AwsGameLiftLogs, _stateManager.Region);
                     _connectToAnywhereStatusBox.Show(StatusBox.StatusBoxType.Error, Strings.AnywherePageStatusBoxDefaultErrorText, "", externalButtonLink: url, externalButtonText:Strings.ViewLogsStatusBoxUrlTextButton);
                     _fleetAttributes = new List<FleetAttributes>(); 
                 }
+                
                 _fleetNameDropdownContainer.choices = _fleetAttributes.Select(fleet => fleet.Name).ToList();
                 _fleetNameDropdownContainer.value = _stateManager.AnywhereFleetName;
                 _fleetIdText.text = _stateManager.AnywhereFleetId;
