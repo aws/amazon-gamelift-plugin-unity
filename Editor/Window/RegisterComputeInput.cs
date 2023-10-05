@@ -22,6 +22,7 @@ namespace Editor.Window
         private readonly VisualElement _container;
         private readonly GameLiftComputeManager _computeManager;
         private readonly StateManager _stateManager;
+        private StatusBox _registerComputeStatusBox;
 
         private string _computeName = "ComputerName-ProfileName";
         private string _ipAddress = "120.120.120.120";
@@ -46,10 +47,13 @@ namespace Editor.Window
             _computeName = _stateManager.ComputeName ?? _computeName;
             _ipAddress = _stateManager.IpAddress ?? _ipAddress;
 
-
+            _stateManager.OnUserProfileUpdated += UpdateGUI;
+            
             PopulateComputeVisualElements();
             RegisterCallbacks();
             SetupConfigSettings();
+            SetupStatusBox();
+            
             UpdateGUI();
         }
 
@@ -78,15 +82,20 @@ namespace Editor.Window
         {
             if (_computeState is ComputeStatus.NotRegistered or ComputeStatus.Registering)
             {
-                var response = await _computeManager.RegisterFleetCompute(_computeName,
+                var registerFleetComputeResponse = await _computeManager.RegisterFleetCompute(_computeName,
                     _stateManager.SelectedProfile.AnywhereFleetId, _location, _ipAddress);
-                if (response.Success)
+                if (registerFleetComputeResponse.Success)
                 {
-                    _stateManager.ComputeName = response.ComputeName;
-                    _stateManager.IpAddress = response.IpAddress;
-                    _stateManager.WebSocketUrl = response.WebSocketUrl;
+                    _stateManager.ComputeName = registerFleetComputeResponse.ComputeName;
+                    _stateManager.IpAddress = registerFleetComputeResponse.IpAddress;
+                    _stateManager.WebSocketUrl = registerFleetComputeResponse.WebSocketUrl;
                     
                     _computeState = ComputeStatus.Registered;
+                }
+                else
+                {
+                    var url = string.Format(Urls.AwsGameLiftLogs, _stateManager.Region);
+                    _registerComputeStatusBox.Show(StatusBox.StatusBoxType.Error, Strings.AnywherePageStatusBoxDefaultErrorText, registerFleetComputeResponse.ErrorMessage, url, Strings.ViewLogsStatusBoxUrlTextButton);
                 }
             }
 
@@ -157,6 +166,13 @@ namespace Editor.Window
                 ComputeStatus.Registered => new List<VisualElement>() { _computeStatus, _registerNewButton },
                 _ => throw new ArgumentOutOfRangeException()
             };
+        }
+        
+        private void SetupStatusBox()
+        {
+            _registerComputeStatusBox =  new StatusBox();
+            var statusBoxContainer = _container.Q("AnywherePageComputeStatusBoxContainer");
+            statusBoxContainer.Add(_registerComputeStatusBox);
         }
 
         protected sealed override void UpdateGUI()

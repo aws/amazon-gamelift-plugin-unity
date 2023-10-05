@@ -146,7 +146,9 @@ namespace AmazonGameLift.Editor
         public const string LandingPageSampleHeader = "LandingPageSampleHeader";
         public const string LandingPageSampleDescription = "LandingPageSampleDescription";
         public const string LandingPageSampleButton = "LandingPageSampleButton";
-        
+        public const string LandingPageInfoStatusBoxText = "LandingPageInfoStatusBoxText";
+        public const string LandingPageWarningStatusBoxText = "LandingPageWarningStatusBoxText";
+
         public const string UserProfilePageAccountCardNewAccountTitle = "UserProfilePageAccountCardNewAccountTitle";
         public const string UserProfilePageAccountCardNewAccountDescription = "UserProfilePageAccountCardNewAccountDescription";
         public const string UserProfilePageAccountCardNoAccountTitle = "UserProfilePageAccountCardNoAccountTitle";
@@ -189,6 +191,10 @@ namespace AmazonGameLift.Editor
         public const string UserProfilePageBootstrapPopupFreeTierLink = "UserProfilePageBootstrapPopupFreeTierLink";
         public const string UserProfilePageBootstrapPopupCancelButton = "UserProfilePageBootstrapPopupCancelButton";
         public const string UserProfilePageBootstrapPopupContinueButton = "UserProfilePageBootstrapPopupContinueButton";
+        
+        public const string UserProfilePageStatusBoxSuccessText = "UserProfilePageStatusBoxSuccessText";
+        public const string UserProfilePageStatusBoxWarningText = "UserProfilePageStatusBoxWarningText";
+        public const string UserProfilePageStatusBoxErrorText = "UserProfilePageStatusBoxErrorText";
 
         public const string AnywherePageTitle = "AnywherePageTitle";
         public const string AnywherePageDescription = "AnywherePageDescription";
@@ -233,6 +239,7 @@ namespace AmazonGameLift.Editor
         public const string AnywherePageLaunchClientTitle = "AnywherePageLaunchClientTitle";
         public const string AnywherePageLaunchClientLabel = "AnywherePageLaunchClientLabel";
         public const string AnywherePageLaunchClientButton = "AnywherePageLaunchClientButton";
+        public const string AnywherePageStatusBoxDefaultErrorText = "AnywherePageStatusBoxDefaultErrorText";
 
         public const string ManagedEC2Title = "ManagedEC2Title";
         public const string ManagedEC2Description = "ManagedEC2Description";
@@ -301,5 +308,7 @@ namespace AmazonGameLift.Editor
         public const string ProfileSelectorRegionLabel = "ProfileSelectorRegionLabel";
         public const string ProfileSelectorStatusLabel = "ProfileSelectorStatusLabel";
         public const string BootstrapNoBucketCreated = "BootstrapNoBucketCreated";
+        
+        public const string ViewLogsStatusBoxUrlTextButton = "ViewLogsStatusBoxUrlTextButton";
     }
 }

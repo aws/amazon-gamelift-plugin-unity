@@ -1,4 +1,7 @@
-﻿using System;
+﻿// Copyright Amazon.com, Inc. or its affiliates. All Rights Reserved.
+// SPDX-License-Identifier: Apache-2.0
+
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Net;
@@ -30,7 +33,7 @@ namespace Editor.CoreAPI
             _amazonGameLiftWrapper = amazonGameLiftWrapper;
         }
 
-        public async Task<CreateAnywhereFleetResponse> CreateAnywhereFleet(string fleetName)
+        public async Task<CreateAnywhereFleetResponse> CreateFleet(string fleetName)
         {
             if (_amazonGameLiftWrapper != null)
             {
@@ -137,7 +140,7 @@ namespace Editor.CoreAPI
             }
         }
 
-        public async Task<List<FleetAttributes>> ListFleetAttributes()
+        public async Task<List<FleetAttributes>> DescribeFleetAttributes()
         {
             try
             {

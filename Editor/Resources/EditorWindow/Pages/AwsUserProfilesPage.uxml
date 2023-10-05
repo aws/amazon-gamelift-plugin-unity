@@ -9,6 +9,7 @@
             <ui:Label name="UserProfilePageDescription" text="AWS Account Credentials are used for any account bootstrapping and CloudFormation deployments."/>
         </ui:VisualElement>
         <ui:VisualElement class="divider"/>
+        <ui:VisualElement name="UserProfilePageStatusBoxContainer" class="separator"/>
         <ui:VisualElement name="UserProfilePageNoAccountMenu" class="separator separator--large separator--horizontal">
             <ui:VisualElement class="card card--large card--centered separator">
                 <ui:Image name="UserProfilePageAccountCardNoAccountIcon" class="card__icon card__icon--large"/>

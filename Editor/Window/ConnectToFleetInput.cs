@@ -1,4 +1,7 @@
-﻿using System;
+﻿// Copyright Amazon.com, Inc. or its affiliates. All Rights Reserved.
+// SPDX-License-Identifier: Apache-2.0
+
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
@@ -27,7 +30,8 @@ namespace Editor.Window
         private readonly VisualElement _container;
         private FleetStatus _fleetState;
         private List<FleetAttributes> _fleetAttributes = new List<FleetAttributes>();
-
+        private StatusBox _connectToAnywhereStatusBox;
+        
         public ConnectToFleetInput(VisualElement container, StateManager stateManager, FleetStatus initialState)
         {
             _container = container;
@@ -38,6 +42,7 @@ namespace Editor.Window
             PopulateFleetVisualElements();
             RegisterCallBacks(container);
             SetupPage();
+            SetupStatusBox();
             _stateManager.OnUserProfileUpdated += () => UpdateFleetMenu();
 
             UpdateGUI();
@@ -47,14 +52,21 @@ namespace Editor.Window
         {
             if (_fleetState is FleetStatus.NotCreated or FleetStatus.Creating)
             {
-                var response = await _fleetManager?.CreateAnywhereFleet(fleetName)!;
+                _connectToAnywhereStatusBox.Close();
+                
+                var response = await _fleetManager?.CreateFleet(fleetName)!;
                 if (response.Success)
                 {
-                    _stateManager.SelectedProfile.AnywhereFleetName = response.FleetName;
-                    _stateManager.SelectedProfile.AnywhereFleetId = response.FleetId;
+                    _stateManager.AnywhereFleetName = response.FleetName;
+                    _stateManager.AnywhereFleetId = response.FleetId;
                     await UpdateFleetMenu();
                     _fleetNameDropdownContainer.value = fleetName;
                     _fleetState = FleetStatus.Selected;
+                }
+                else
+                {
+                    var url = string.Format(Urls.AwsGameLiftLogs, _stateManager.Region);
+                    _connectToAnywhereStatusBox.Show(StatusBox.StatusBoxType.Error, Strings.AnywherePageStatusBoxDefaultErrorText, response.ErrorMessage, url, Strings.ViewLogsStatusBoxUrlTextButton);
                 }
             }
 
@@ -89,8 +101,7 @@ namespace Editor.Window
             {
                 _fleetIdText.text = currentFleet.FleetId;
                 _stateManager.AnywhereFleetName = currentFleet.Name;
-                _stateManager.AnywhereFleetId = currentFleet.FleetId;
-
+                _stateManager.AnywhereFleetId = currentFleet.FleetId;     
                 _fleetState = FleetStatus.Selected;
             }
 
@@ -123,10 +134,10 @@ namespace Editor.Window
         {
             if (_stateManager.GameLiftWrapper != null)
             {
-                var fleetList = await _fleetManager.ListFleetAttributes();
-                if (fleetList == null)
+                _fleetAttributes = await _fleetManager.DescribeFleetAttributes();
+                if (_fleetAttributes == null)
                 {
-                    _fleetAttributes = new List<FleetAttributes>();
+                    _fleetAttributes = new List<FleetAttributes>(); 
                 }
 
                 _fleetNameDropdownContainer.choices = _fleetAttributes.Select(fleet => fleet.Name).ToList();
@@ -180,6 +191,13 @@ namespace Editor.Window
                 },
                 _ => throw new ArgumentOutOfRangeException()
             };
+        }
+        
+        private void SetupStatusBox()
+        {
+            _connectToAnywhereStatusBox = new StatusBox();
+            var statusBoxContainer = _container.Q("AnywherePageConnectFleetStatusBoxContainer");
+            statusBoxContainer.Add(_connectToAnywhereStatusBox);
         }
 
         protected sealed override void UpdateGUI()
