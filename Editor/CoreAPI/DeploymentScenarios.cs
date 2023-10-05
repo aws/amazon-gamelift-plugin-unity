@@ -5,8 +5,8 @@ namespace Editor.CoreAPI
 {
     public enum DeploymentScenarios
     {
-        SingleRegion = 1,
-        SpotFleet = 3,
-        FlexMatch = 4
+        SingleRegion = 0,
+        SpotFleet = 1,
+        FlexMatch = 2
     }
 }
