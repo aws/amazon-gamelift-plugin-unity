@@ -234,7 +234,6 @@ Image#ExternalLinkIcon {
 }
 
 .form-row__input--no-label {
-    flex-direction: row;
     margin-left: var(--form-row-label-width);
 }
 
