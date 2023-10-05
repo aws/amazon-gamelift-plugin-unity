@@ -322,7 +322,9 @@ namespace AmazonGameLift.Editor
             { Strings.ProfileSelectorBucketNameLabel, "S3 Bucket Name" },
             { Strings.ProfileSelectorRegionLabel, "AWS Region" },
             { Strings.ProfileSelectorStatusLabel, "Bootstrap Status" },
-            { Strings.BootstrapNoBucketCreated, "No bucket created" },
+            { Strings.BootstrapStatusActive, "Active" },
+            { Strings.BootstrapStatusInactive, "Inactive" },
+            { Strings.BootstrapStatusNoBucketCreated, "No bucket created" },
         };
 
         public string GetError(string errorCode = null)

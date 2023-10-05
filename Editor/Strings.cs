@@ -286,6 +286,8 @@ namespace AmazonGameLift.Editor
         public const string ProfileSelectorBucketNameLabel = "ProfileSelectorBucketNameLabel";
         public const string ProfileSelectorRegionLabel = "ProfileSelectorRegionLabel";
         public const string ProfileSelectorStatusLabel = "ProfileSelectorStatusLabel";
-        public const string BootstrapNoBucketCreated = "BootstrapNoBucketCreated";
+        public const string BootstrapStatusActive = "BootstrapStatusActive";
+        public const string BootstrapStatusInactive = "BootstrapStatusInactive";
+        public const string BootstrapStatusNoBucketCreated = "BootstrapStatusNoBucketCreated";
     }
 }
