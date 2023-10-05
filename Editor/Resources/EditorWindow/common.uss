@@ -203,7 +203,7 @@ Image#ExternalLinkIcon {
 .foldout .unity-foldout__checkmark {
     height: 29px;
     width: 24px;
-     background-image: resource("Images/Icons/FoldoutArrowClosed");
+    background-image: resource("Images/Icons/FoldoutArrowClosed");
     -unity-slice-left: 0;
     -unity-slice-top: 0;
 }

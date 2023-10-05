@@ -20,8 +20,7 @@ namespace AmazonGameLift.Editor
             LocalizeText();
 
             var fleetInputContainer = uxml.Q("AnywherePageConnectFleetTitle");
-            var fleetInput =
-                new ConnectToFleetInput(fleetInputContainer, stateManager);
+            var fleetInput = new ConnectToFleetInput(fleetInputContainer, stateManager);
             var computeInputContainer = uxml.Q("AnywherePageComputeTitle");
             var computeInput =
                 new RegisterComputeInput(computeInputContainer, stateManager); 
