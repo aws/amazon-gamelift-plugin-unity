@@ -236,7 +236,7 @@ namespace AmazonGameLift.Editor
             
             { Strings.UserProfilePageStatusBoxSuccessText, "Profile configuration and bootstrapping complete"},
             { Strings.UserProfilePageStatusBoxWarningText, "Profile configuration is incomplete, as bootstrapping not completed"},
-            { Strings.UserProfilePageStatusBoxErrorText, "An error occurred when trying to create your profile. "},
+            { Strings.UserProfilePageStatusBoxErrorText, "An error occurred when trying to create your profile"},
 
             { Strings.AnywherePageTitle, "Host with Amazon GameLift Anywhere"},
             { Strings.AnywherePageDescription, "Set up an Amazon GameLift Anywhere fleet to host game servers using your own hardware. With an Anywhere fleet, Amazon GameLift manages game sessions and placement (including matchmaking), while you control your own server hosting infrastructure under a single managed solution.\nCreate an Anywhere fleet for your on-premises or other compute resources. During game development, turn your local workstation into an Anywhere fleet to continuously deploy, test, and iterate your game builds."},
@@ -266,7 +266,7 @@ namespace AmazonGameLift.Editor
             { Strings.AnywherePageLaunchClientTitle, "Launch Client"},
             { Strings.AnywherePageLaunchClientLabel, "Run Game"},
             { Strings.AnywherePageLaunchClientButton, "Launch Client"},
-            { Strings.AnywherePageStatusBoxDefaultErrorText, "An error occurred when trying to register a compute: "},
+            { Strings.AnywherePageStatusBoxDefaultErrorText, "An error occurred when trying to register a compute"},
             
             { Strings.ManagedEC2Title, "Managed EC2"},
             { Strings.ManagedEC2Description, "Managed EC2 fleets use Amazon EC2 instances to host your game servers.\nAmazon GameLift manages the instances and removes the burden of hardware and software management from hosting your games."},

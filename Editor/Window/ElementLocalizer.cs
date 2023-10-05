@@ -32,7 +32,7 @@ namespace AmazonGameLift.Editor
         public void SetElementText(string elementName, string textKey, string additionalText)
         {
             var text = _textProvider.Get(textKey);
-            SetText(elementName, text + additionalText);
+            SetText(elementName, string.Format("{0}: {1}", text, additionalText));
         }
 
         public void SetElementText(string elementName, string textKey, Dictionary<string, string> wordReplacements)
