@@ -137,8 +137,6 @@ namespace Editor.Window
                 _fleetAttributes = await _fleetManager.DescribeFleetAttributes();
                 if (_fleetAttributes == null)
                 {
-                    var url = string.Format(Urls.AwsGameLiftLogs, _stateManager.Region);
-                    _connectToAnywhereStatusBox.Show(StatusBox.StatusBoxType.Error, Strings.AnywherePageStatusBoxDefaultErrorText, "", externalButtonLink: url, externalButtonText:Strings.ViewLogsStatusBoxUrlTextButton);
                     _fleetAttributes = new List<FleetAttributes>(); 
                 }
 
@@ -146,7 +144,6 @@ namespace Editor.Window
                 _fleetNameDropdownContainer.value = _stateManager.AnywhereFleetName;
                 _fleetIdText.text = _stateManager.AnywhereFleetId;
             }
-                
         }
 
         private async void SetupPage()
