@@ -203,10 +203,14 @@ Image#ExternalLinkIcon {
 .foldout .unity-foldout__checkmark {
     height: 29px;
     width: 24px;
-    background-image: resource("Images/Icons/FoldoutArrow");
+     background-image: resource("Images/Icons/FoldoutArrowClosed");
     -unity-slice-left: 0;
     -unity-slice-top: 0;
 }
+
+.foldout .unity-toggle__input:checked .unity-foldout__checkmark {
+    background-image: resource("Images/Icons/FoldoutArrow");
+ }
 
 .form-row {
     flex-direction: row;
