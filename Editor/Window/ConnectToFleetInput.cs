@@ -13,12 +13,6 @@ namespace AmazonGameLift.Editor
 {
     public class ConnectToFleetInput : StatefulInput
     {
-        private static IReadOnlyCollection<VisualElement> _fleetVisualElements;
-
-        public string FleetId;
-
-        private static readonly List<string> s_fleetNameList = new();
-
         private TextField _fleetNameInput;
         private DropdownField _fleetNameDropdownContainer;
         private VisualElement _fleetCreateFoldout;
