@@ -10,6 +10,7 @@ using Amazon.S3;
 using Amazon.S3.Model;
 using AmazonGameLiftPlugin.Core.BucketManagement.Models;
 using AmazonGameLiftPlugin.Core.Shared;
+using AmazonGameLiftPlugin.Core.Shared.FileSystem;
 using AmazonGameLiftPlugin.Core.Shared.Logging;
 using AmazonGameLiftPlugin.Core.Shared.S3Bucket;
 using Serilog;
@@ -25,10 +26,12 @@ namespace AmazonGameLiftPlugin.Core.BucketManagement
         private static readonly string s_s3BucketNamePattern = @"(?=^.{3,63}$)(?!^(\d+\.)+\d+$)(^(([a-z0-9]|[a-z0-9][a-z0-9\-]*[a-z0-9])\.)*([a-z0-9]|[a-z0-9][a-z0-9\-]*[a-z0-9])$)";
 
         private readonly IAmazonS3Wrapper _amazonS3Wrapper;
+        private readonly string _bucketPolicyPath;
 
-        public BucketStore(IAmazonS3Wrapper amazonS3Wrapper)
+        public BucketStore(IAmazonS3Wrapper amazonS3Wrapper, string bucketPolicyPath = null)
         {
             _amazonS3Wrapper = amazonS3Wrapper;
+            _bucketPolicyPath = bucketPolicyPath;
         }
 
         public CreateBucketResponse CreateBucket(CreateBucketRequest request)
@@ -130,25 +133,17 @@ namespace AmazonGameLiftPlugin.Core.BucketManagement
                 }
                 
                 var logPrefix = "GameLiftBootstrap";
-                var resourceArn = @"""arn:aws:s3:::" + loggingBucketName + "/" + logPrefix + @"*""";
-                var policy =  @"{
-                                ""Statement"":[{
-                                ""Sid"": ""S3ServerAccessLogsPolicy"",
-                                ""Effect"": ""Allow"",
-                                ""Principal"": { ""Service"": ""logging.s3.amazonaws.com"" },
-                                ""Action"": [""s3:PutObject""],
-                                ""Resource"": [" + resourceArn + @"],
-                                ""Condition"": {
-                                ""ArnLike"": { ""aws:SourceArn"": ""arn:aws:s3:::" + request.BucketName + @""" },
-                                ""StringEquals"": { ""aws:SourceAccount"": """ + request.AccountId + @""" }
-                                        }
-                                    }]
-                                }";
-
+                var policy = new FileWrapper().ReadAllText(_bucketPolicyPath);
+                var formattedPolicy = policy
+                    .Replace("{0}", loggingBucketName)
+                    .Replace("{1}", logPrefix)
+                    .Replace("{2}", request.BucketName)
+                    .Replace("{3}", request.AccountId);
+                
                 PutBucketPolicyRequest policyRequest = new PutBucketPolicyRequest()
                 {
                     BucketName = loggingBucketName,
-                    Policy = policy
+                    Policy = formattedPolicy
                 };
                 var putBucketPolicyResponse = _amazonS3Wrapper.PutBucketPolicy(policyRequest);
                 if (putBucketPolicyResponse.HttpStatusCode != HttpStatusCode.NoContent)
