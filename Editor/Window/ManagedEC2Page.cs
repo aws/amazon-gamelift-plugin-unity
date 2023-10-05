@@ -110,32 +110,33 @@ namespace AmazonGameLift.Editor
             _fleetParamsInput.SetEnabled(_deploymentSettings.CanDeploy);
 
             var stackStatus = _deploymentSettings.CurrentStackInfo.StackStatus;
+            var textProvider = new TextProvider();
             if (stackStatus == null)
             {
-                _statusIndicator.Set(State.Inactive, "Not Deployed");
+                _statusIndicator.Set(State.Inactive, textProvider.Get(Strings.ManagedEC2DeployStatusNotDeployed));
             }
             else if (stackStatus.IsStackStatusOperationDone())
             {
                 if (stackStatus.IsStackStatusFailed())
                 {
-                    _statusIndicator.Set(State.Failed, "Failed");
+                    _statusIndicator.Set(State.Failed, textProvider.Get(Strings.ManagedEC2DeployStatusFailed));
                 }
                 else
                 {
-                    _statusIndicator.Set(State.Success, "Deployed");
+                    _statusIndicator.Set(State.Success, textProvider.Get(Strings.ManagedEC2DeployStatusDeployed));
                 }
             }
             else if (stackStatus == StackStatus.DeleteInProgress)
             {
-                _statusIndicator.Set(State.InProgress, "Deleting");
+                _statusIndicator.Set(State.InProgress, textProvider.Get(Strings.ManagedEC2DeployStatusDeleting));
             }
             else if (stackStatus.IsStackStatusInProgress())
             {
-                _statusIndicator.Set(State.InProgress, "Deploying");
+                _statusIndicator.Set(State.InProgress, textProvider.Get(Strings.ManagedEC2DeployStatusDeploying));
             }
             else
             {
-                _statusIndicator.Set(State.Inactive, "Not Deployed");
+                _statusIndicator.Set(State.Inactive, textProvider.Get(Strings.ManagedEC2DeployStatusNotDeployed));
             }
         }
 
