@@ -43,6 +43,7 @@ namespace AmazonGameLift.Editor
             { CoreErrorCode.TokenAlreadyExists, "The token already exists."},
             { CoreErrorCode.UnknownError, "Unknown error."},
             { CoreErrorCode.UserNotConfirmed, "The user did not confirm registration."},
+            { ErrorCode.DeregisterComputeFailed, "There was a problem deregistering existing compute"},
             { ErrorCode.ChangeSetStatusInvalid, "There was a problem with the changeset status."},
             { ErrorCode.OperationCancelled, "The operation was cancelled."},
             { ErrorCode.OperationInvalid, "There was a problem with the operation."},

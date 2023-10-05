@@ -22,13 +22,8 @@ namespace Editor.CoreAPI
         }
 
         public async Task<RegisterFleetComputeResponse> RegisterFleetCompute(string computeName, string fleetId, string fleetLocation,
-            string ipAddress, string existingComputeName = null)
+            string ipAddress)
         {
-            if (!string.IsNullOrWhiteSpace(existingComputeName))
-            {
-                await DeregisterCompute(existingComputeName, fleetId);
-            }
-
             var webSocketUrl = await RegisterCompute(computeName, fleetId, fleetLocation, ipAddress);
             if (webSocketUrl != null)
             {

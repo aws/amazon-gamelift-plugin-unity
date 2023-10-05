@@ -82,14 +82,23 @@ namespace AmazonGameLift.Editor
             {
                 var previousComputeName = _stateManager.ComputeName;
                 var response = await _computeManager.RegisterFleetCompute(_computeName,
-                    _stateManager.SelectedProfile.AnywhereFleetId, _location, _ipAddress, previousComputeName);
+                    _stateManager.AnywhereFleetId, _location, _ipAddress);
                 if (response.Success)
                 {
                     _stateManager.ComputeName = response.ComputeName;
                     _stateManager.IpAddress = response.IpAddress;
                     _stateManager.WebSocketUrl = response.WebSocketUrl;
-
                     _computeState = ComputeStatus.Registered;
+
+                    if (!string.IsNullOrWhiteSpace(previousComputeName))
+                    {
+                        var deregisterResponse =
+                            await _computeManager.DeregisterCompute(previousComputeName, _stateManager.AnywhereFleetId);
+                        if (!deregisterResponse)
+                        {
+                            Debug.LogError(new TextProvider().GetError(ErrorCode.DeregisterComputeFailed));
+                        }
+                    }
                 }
             }
 
