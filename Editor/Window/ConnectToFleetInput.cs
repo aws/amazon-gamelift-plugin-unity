@@ -20,6 +20,7 @@ namespace AmazonGameLift.Editor
         private VisualElement _fleetId;
         private Label _fleetIdText;
         private VisualElement _fleetStatus;
+        private StatusIndicator _statusIndicator;
         private GameLiftFleetManager _fleetManager => _stateManager.FleetManager;
         private readonly StateManager _stateManager;
         private readonly VisualElement _container;
@@ -117,6 +118,7 @@ namespace AmazonGameLift.Editor
             _fleetCreateContainer = container.Q("AnywherePageCreateFleet");
             _fleetConnectContainer = container.Q("AnywherePageConnectFleet");
             _cancelButton = container.Q<Button>("AnywherePageCreateFleetCancelButton");
+            _statusIndicator = container.Q<StatusIndicator>();
         }
 
         private async Task UpdateFleetMenu()
@@ -132,9 +134,17 @@ namespace AmazonGameLift.Editor
                 {
                     _fleetAttributes = fleetList;
                 }
+
                 _fleetNameDropdownContainer.choices = _fleetAttributes.Select(fleet => fleet.Name).ToList();
                 _fleetNameDropdownContainer.value = _stateManager.AnywhereFleetName;
                 _fleetIdText.text = _stateManager.AnywhereFleetId;
+
+                var fleet = _fleetAttributes.FirstOrDefault(fleet => fleet.Name == _stateManager.AnywhereFleetName);
+                if (fleet != null)
+                {
+                    _statusIndicator.Set(State.Success,
+                        fleet.Status == Amazon.GameLift.FleetStatus.ERROR ? "Error" : "Active"); // TODO
+                }
             }
         }
 
