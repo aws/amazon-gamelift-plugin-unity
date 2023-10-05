@@ -142,8 +142,11 @@ namespace AmazonGameLift.Editor
                 var fleet = _fleetAttributes.FirstOrDefault(fleet => fleet.Name == _stateManager.AnywhereFleetName);
                 if (fleet != null)
                 {
+                    var textProvider = new TextProvider();
                     _statusIndicator.Set(State.Success,
-                        fleet.Status == Amazon.GameLift.FleetStatus.ERROR ? "Error" : "Active"); // TODO
+                        textProvider.Get(fleet.Status == Amazon.GameLift.FleetStatus.ERROR
+                            ? Strings.AnywherePageConnectFleetStatusError
+                            : Strings.AnywherePageConnectFleetStatusActive));
                 }
             }
         }

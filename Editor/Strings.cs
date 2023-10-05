@@ -206,6 +206,8 @@ namespace AmazonGameLift.Editor
         public const string AnywherePageConnectFleetNameLabel = "AnywherePageConnectFleetNameLabel";
         public const string AnywherePageConnectFleetIDLabel = "AnywherePageConnectFleetIDLabel";
         public const string AnywherePageConnectFleetStatusLabel = "AnywherePageConnectFleetStatusLabel";
+        public const string AnywherePageConnectFleetStatusError = "AnywherePageConnectFleetStatusError";
+        public const string AnywherePageConnectFleetStatusActive = "AnywherePageConnectFleetStatusActive";
         public const string AnywherePageConnectFleetNewButton = "AnywherePageConnectFleetNewButton";
         public const string AnywherePageComputeTitle = "AnywherePageComputeTitle";
         public const string AnywherePageComputeNameLabel = "AnywherePageComputeNameLabel";

@@ -248,6 +248,8 @@ namespace AmazonGameLift.Editor
             { Strings.AnywherePageConnectFleetNameLabel, "Fleet Name"},
             { Strings.AnywherePageConnectFleetIDLabel, "Fleet ID"},
             { Strings.AnywherePageConnectFleetStatusLabel, "Fleet status"},
+            { Strings.AnywherePageConnectFleetStatusError, "Error"},
+            { Strings.AnywherePageConnectFleetStatusActive, "Active"},
             { Strings.AnywherePageConnectFleetNewButton, "Create New Anywhere Fleet"},
             { Strings.AnywherePageComputeTitle, "Add Your Compute to the Fleet"},
             { Strings.AnywherePageComputeNameLabel, "Compute name"},
