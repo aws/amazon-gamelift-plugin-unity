@@ -144,10 +144,6 @@ namespace AmazonGameLift.Editor
                 {
                     _fleetAttributes = new List<FleetAttributes>(); 
                 }
-                else
-                {
-                    _fleetAttributes = fleetList;
-                }
 
                 _fleetNameDropdownContainer.choices = _fleetAttributes.Select(fleet => fleet.Name).ToList();
                 _fleetNameDropdownContainer.value = _stateManager.AnywhereFleetName;
