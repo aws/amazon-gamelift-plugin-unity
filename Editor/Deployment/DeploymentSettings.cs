@@ -142,6 +142,8 @@ namespace AmazonGameLift.Editor
 
         public bool CanCancel => _deploymentWaiter.CanCancel == true;
 
+        public bool CanEdit => !IsDeploymentRunning && IsBootstrapped && IsCurrentStackModifiable;
+
         public bool CanDeploy => !IsDeploymentRunning && IsBootstrapped && IsFormFilled && IsCurrentStackModifiable;
 
         public bool IsCurrentStackModifiable =>
@@ -189,15 +191,12 @@ namespace AmazonGameLift.Editor
             }
 
             AllScenarios = _deployers.Values.Select(deployer => deployer.DisplayName).ToArray();
-            GetSettingResponse bucketNameResponse = _coreApi.GetSetting(SettingsKeys.CurrentBucketName);
-            CurrentBucketName = bucketNameResponse.Success ? bucketNameResponse.Value : null;
-            GetSettingResponse currentRegionResponse = _coreApi.GetSetting(SettingsKeys.CurrentRegion);
-            CurrentRegion = currentRegionResponse.Success ? currentRegionResponse.Value : null;
+            CurrentBucketName = _stateManager.BucketName;
+            CurrentRegion = _stateManager.Region;
+            CurrentProfile = _stateManager.ProfileName;
 
             HasCurrentBucket = !string.IsNullOrEmpty(CurrentBucketName) && _coreApi.IsValidRegion(CurrentRegion);
 
-            GetSettingResponse profileResponse = _coreApi.GetSetting(SettingsKeys.CurrentProfileName);
-            CurrentProfile = profileResponse.Success ? profileResponse.Value : null;
             RefreshScenario();
         }
 

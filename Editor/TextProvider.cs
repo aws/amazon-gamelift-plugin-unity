@@ -278,6 +278,7 @@ namespace AmazonGameLift.Editor
             { Strings.ManagedEC2ScenarioFlexMatchLink, "Learn more"},
             { Strings.ManagedEC2ScenarioShowMoreButton, "Show more options"},
             { Strings.ManagedEC2ParametersTitle, "[GameName] parameters"},
+            { Strings.ManagedEC2ParametersGameNameLabel, "Game Name"},
             { Strings.ManagedEC2ParametersFleetNameLabel, "Fleet Name"},
             { Strings.ManagedEC2ParametersBuildNameLabel, "Build Name"},
             { Strings.ManagedEC2ParametersLaunchParametersLabel, "Launch Parameters"},
