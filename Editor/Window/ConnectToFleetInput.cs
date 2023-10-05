@@ -84,12 +84,15 @@ namespace Editor.Window
 
         private void OnSelectFleetDropdown(string fleetName)
         {
-            var currentFleet = _fleetAttributes.First(fleet => fleet.Name == fleetName);
-            _fleetIdText.text = currentFleet.FleetId;
-            _stateManager.AnywhereFleetName = currentFleet.Name;
-            _stateManager.AnywhereFleetId = currentFleet.FleetId;
+            var currentFleet = _fleetAttributes.FirstOrDefault(fleet => fleet.Name == fleetName);
+            if (currentFleet != null)
+            {
+                _fleetIdText.text = currentFleet.FleetId;
+                _stateManager.AnywhereFleetName = currentFleet.Name;
+                _stateManager.AnywhereFleetId = currentFleet.FleetId;
 
-            _fleetState = FleetStatus.Selected;
+                _fleetState = FleetStatus.Selected;
+            }
 
             UpdateGUI();
         }
@@ -125,6 +128,7 @@ namespace Editor.Window
                 {
                     _fleetAttributes = new List<FleetAttributes>();
                 }
+
                 _fleetNameDropdownContainer.choices = _fleetAttributes.Select(fleet => fleet.Name).ToList();
                 _fleetNameDropdownContainer.value = _stateManager.AnywhereFleetName;
                 _fleetIdText.text = _stateManager.AnywhereFleetId;
