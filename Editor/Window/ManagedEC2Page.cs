@@ -106,8 +106,8 @@ namespace AmazonGameLift.Editor
                 _deploymentSettings.CurrentStackInfo.StackStatus is StackStatus.CreateComplete
                     or StackStatus.UpdateComplete);
 
-            _deploymentScenariosInput.SetEnabled(_stateManager.IsBootstrapped);
-            _fleetParamsInput.SetEnabled(!_deploymentSettings.IsDeploymentRunning); 
+            _deploymentScenariosInput.SetEnabled(_deploymentSettings.CanEdit);
+            _fleetParamsInput.SetEnabled(_deploymentSettings.CanEdit); 
             _ec2DeploymentStatusLabel.text = _deploymentSettings.CurrentStackInfo.StackStatus;
         }
 

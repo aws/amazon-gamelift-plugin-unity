@@ -142,6 +142,8 @@ namespace AmazonGameLift.Editor
 
         public bool CanCancel => _deploymentWaiter.CanCancel == true;
 
+        public bool CanEdit => !IsDeploymentRunning && IsBootstrapped && IsCurrentStackModifiable;
+
         public bool CanDeploy => !IsDeploymentRunning && IsBootstrapped && IsFormFilled && IsCurrentStackModifiable;
 
         public bool IsCurrentStackModifiable =>
