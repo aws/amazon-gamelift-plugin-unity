@@ -11,6 +11,7 @@
     --color-border-accent: #4c4c4c;
     --color-font-default: #d2d2d2;
     --color-font-accent: #ffffff;
+    --color-font-success: #58BC61;
     --color-font-error: #f30303;
     --color-font-link: #4C7EFF;
     --color-foldout-title: #e4e4e4;
@@ -27,6 +28,7 @@
     --font-size-extralarge: 24px;
     --font-size-massive: 32px;
 
+    --icon-size-tiny: 18px;
     --icon-size-small: 24px;
     --icon-size-large: 60px;
     --border-size-thin: 1px;
@@ -66,6 +68,12 @@ Image.icon--large {
 Image.icon--small {
     height: var(--icon-size-small);
     width: var(--icon-size-small);
+    flex: 0 0 auto;
+}
+
+Image.icon--tiny {
+    height: var(--icon-size-tiny);
+    width: var(--icon-size-tiny);
     flex: 0 0 auto;
 }
 
