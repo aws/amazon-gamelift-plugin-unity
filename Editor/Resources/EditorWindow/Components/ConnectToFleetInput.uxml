@@ -3,6 +3,7 @@
 
 <ui:UXML xmlns:ui="UnityEngine.UIElements">
     <ui:Style src="./common.uss"/>
+    <ui:VisualElement name="AnywherePageConnectFleetStatusBoxContainer" class="separator"/>
     <ui:VisualElement name="AnywherePageCreateFleet" class="separator">
         <ui:VisualElement name="AnywherePageCreateFleetName" class="form-row">
             <ui:Label name="AnywherePageCreateFleetNameLabel" class="form-row__label" text="Fleet Name"/>
