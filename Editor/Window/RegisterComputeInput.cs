@@ -106,7 +106,7 @@ namespace AmazonGameLift.Editor
                 else
                 {
                     var url = string.Format(Urls.AwsGameLiftLogs, _stateManager.Region);
-                    _registerComputeStatusBox.Show(StatusBox.StatusBoxType.Error, Strings.AnywherePageStatusBoxDefaultErrorText, registerFleetComputeResponse.ErrorMessage, url, Strings.ViewLogsStatusBoxUrlTextButton);
+                    _registerComputeStatusBox.Show(StatusBox.StatusBoxType.Error, Strings.AnywherePageStatusBoxDefaultErrorText, registerResponse.ErrorMessage, url, Strings.ViewLogsStatusBoxUrlTextButton);
                 }
             }
 
