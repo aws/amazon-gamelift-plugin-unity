@@ -213,6 +213,7 @@ namespace AmazonGameLift.Editor
         public const string AnywherePageComputeNameLabel = "AnywherePageComputeNameLabel";
         public const string AnywherePageComputeIPLabel = "AnywherePageComputeIPLabel";
         public const string AnywherePageComputeStatusLabel = "AnywherePageComputeStatusLabel";
+        public const string AnywherePageComputeStatusRegistered = "AnywherePageComputeStatusRegistered";
         public const string AnywherePageComputeRegisterButton = "AnywherePageComputeRegisterButton";
         public const string AnywherePageComputeReplaceComputeButton = "AnywherePageComputeReplaceComputeButton";
         public const string AnywherePageComputeCancelReplaceButton = "AnywherePageComputeCancelReplaceButton";

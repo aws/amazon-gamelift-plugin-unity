@@ -192,7 +192,9 @@ namespace AmazonGameLift.Editor
 
             if (!string.IsNullOrWhiteSpace(_stateManager.ComputeName))
             {
-                _statusIndicator.Set(State.Success, "Registered"); // TODO
+                var textProvider = new TextProvider();
+                _statusIndicator.Set(State.Success,
+                    textProvider.Get(Strings.AnywherePageComputeStatusRegistered));
             }
         }
 

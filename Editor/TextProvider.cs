@@ -255,6 +255,7 @@ namespace AmazonGameLift.Editor
             { Strings.AnywherePageComputeNameLabel, "Compute name"},
             { Strings.AnywherePageComputeIPLabel, "IP address"},
             { Strings.AnywherePageComputeStatusLabel, "Status"},
+            { Strings.AnywherePageComputeStatusRegistered, "Registered"},
             { Strings.AnywherePageComputeRegisterButton, "Register Compute"},
             { Strings.AnywherePageComputeReplaceComputeButton, "Register new Compute"},
             { Strings.AnywherePageComputeCancelReplaceButton, "Cancel"},
