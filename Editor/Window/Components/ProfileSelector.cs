@@ -37,8 +37,7 @@ namespace AmazonGameLift.Editor
  
         private void UpdateGUI()
         {
-            var profiles = _stateManager.CoreApi.ListCredentialsProfiles().Profiles.ToList();
-            _dropdown.choices = profiles;
+            _dropdown.choices = _stateManager.AllProfiles.ToList();
             _dropdown.SetValueWithoutNotify(_stateManager.ProfileName);
             _region.text = _stateManager.Region;
             if (_stateManager.IsBootstrapped)

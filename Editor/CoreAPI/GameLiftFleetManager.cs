@@ -1,4 +1,4 @@
-﻿// Copyright Amazon.com, Inc. or its affiliates. All Rights Reserved.
+// Copyright Amazon.com, Inc. or its affiliates. All Rights Reserved.
 // SPDX-License-Identifier: Apache-2.0
 
 using System;
@@ -140,7 +140,7 @@ namespace Editor.CoreAPI
             }
         }
 
-        public async Task<List<FleetAttributes>> DescribeFleetAttributes()
+        public async Task<List<FleetAttributes>> DescribeFleetAttributes(ComputeType computeType)
         {
             try
             {
@@ -153,7 +153,8 @@ namespace Editor.CoreAPI
                 };
 
                 var describeFleetResponse = await _amazonGameLiftWrapper.DescribeFleetAttributes(describeFleetRequest);
-                return describeFleetResponse.FleetAttributes;
+                return describeFleetResponse.FleetAttributes.Where(fleet => fleet.ComputeType == computeType)
+                    .ToList();
             }
             catch (Exception ex)
             {

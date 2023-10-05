@@ -17,5 +17,6 @@ namespace AmazonGameLift.Editor
         public static readonly string InvalidFleetId = "InvalidFleetId";
         public static readonly string CustomLocationCreationFailed = "CustomLocationCreationFailed";
         public static readonly string RegisterComputeFailed = "RegisterComputeFailed";
+        public static readonly string DeregisterComputeFailed = "DeregisterComputeFailed";
     }
 }

@@ -4,7 +4,6 @@ using System.Linq;
 using AmazonGameLift.Editor;
 using AmazonGameLiftPlugin.Core;
 using AmazonGameLiftPlugin.Core.SettingsManagement.Models;
-using UnityEngine;
 using YamlDotNet.Serialization;
 
 namespace Editor.CoreAPI
@@ -17,7 +16,6 @@ namespace Editor.CoreAPI
         public GameLiftComputeManager ComputeManager { get; set; }
 
         public IAmazonGameLiftWrapper GameLiftWrapper { get; private set; }
-
         public IAmazonGameLiftWrapperFactory AmazonGameLiftWrapperFactory { get; }
 
         private UserProfile _selectedProfile = new UserProfile();
