@@ -21,7 +21,7 @@ namespace AmazonGameLift.Editor
                 .RegisterCallback<ClickEvent>(_ => OnLinkClicked(Urls.AwsHelpGameLiftUnity));
             this.Q<Label>("InfoLinkForumLink").RegisterCallback<ClickEvent>(_ => OnLinkClicked(Urls.AwsGameTechForums));
             this.Q<Label>("InfoLinkTroubleshootingLink")
-                .RegisterCallback<ClickEvent>(_ => OnLinkClicked("")); // TODO: Get correct action
+                .RegisterCallback<ClickEvent>(_ => OnLinkClicked(Urls.AwsTroubleShooting));
             this.Q<Label>("InfoLinkReportIssuesLink")
                 .RegisterCallback<ClickEvent>(_ => OnLinkClicked(Urls.GitHubAwsLabs));
         }

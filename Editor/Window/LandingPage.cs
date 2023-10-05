@@ -26,7 +26,7 @@ namespace AmazonGameLift.Editor
 
         private static void OnCreateAccountClicked()
         {
-            Application.OpenURL(""); // TODO: Confirm URL for this button
+            Application.OpenURL(Urls.CreateAwsAccountLearnMore);
         }
 
         private static void OnAddProfileClicked()
