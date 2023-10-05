@@ -15,6 +15,8 @@ namespace AmazonGameLift.Editor
         public const string AwsHelpGameLiftUnity = "https://docs.aws.amazon.com/gamelift/latest/developerguide/unity-plug-in.html";
         public const string AwsFreeTier = "https://aws.amazon.com/free/";
         public const string AwsS3Console = "https://s3.console.aws.amazon.com/s3/home";
+        public const string AwsIAMConsole = "https://us-east-1.console.aws.amazon.com/iamv2/home";
+        public const string AwsGameLiftLogs = "https://{0}.console.aws.amazon.com/cloudwatch/home?region={0}#logsV2:logs-insights"; 
         public const string AwsS3BucketTemplate = "https://s3.console.aws.amazon.com/s3/buckets/{0}?region={1}";
         public const string AwsS3Pricing = "https://aws.amazon.com/s3/pricing/";
         public const string AwsSecurity = "https://aws.amazon.com/security/vulnerability-reporting/";

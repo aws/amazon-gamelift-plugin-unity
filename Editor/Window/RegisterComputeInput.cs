@@ -21,6 +21,7 @@ namespace AmazonGameLift.Editor
         private readonly VisualElement _container;
         private readonly GameLiftComputeManager _computeManager;
         private readonly StateManager _stateManager;
+        private StatusBox _registerComputeStatusBox;
 
         private string _computeName = "ComputerName-ProfileName";
         private string _ipAddress = "120.120.120.120";
@@ -48,10 +49,12 @@ namespace AmazonGameLift.Editor
                 : ComputeStatus.NotRegistered;
             _computeName = _stateManager.ComputeName ?? _computeName;
             _ipAddress = _stateManager.IpAddress ?? _ipAddress;
-
+            _stateManager.OnUserProfileUpdated += UpdateGUI;
 
             RegisterCallbacks();
             SetupConfigSettings();
+            SetupStatusBox();
+            
             UpdateGUI();
         }
 
@@ -81,13 +84,13 @@ namespace AmazonGameLift.Editor
             if (_computeState is ComputeStatus.NotRegistered or ComputeStatus.Registering)
             {
                 var previousComputeName = _stateManager.ComputeName;
-                var response = await _computeManager.RegisterFleetCompute(_computeName,
+                var registerResponse = await _computeManager.RegisterFleetCompute(_computeName,
                     _stateManager.AnywhereFleetId, _location, _ipAddress);
-                if (response.Success)
+                if (registerResponse.Success)
                 {
-                    _stateManager.ComputeName = response.ComputeName;
-                    _stateManager.IpAddress = response.IpAddress;
-                    _stateManager.WebSocketUrl = response.WebSocketUrl;
+                    _stateManager.ComputeName = registerResponse.ComputeName;
+                    _stateManager.IpAddress = registerResponse.IpAddress;
+                    _stateManager.WebSocketUrl = registerResponse.WebSocketUrl;
                     _computeState = ComputeStatus.Registered;
 
                     if (!string.IsNullOrWhiteSpace(previousComputeName))
@@ -99,6 +102,11 @@ namespace AmazonGameLift.Editor
                             Debug.LogError(new TextProvider().GetError(ErrorCode.DeregisterComputeFailed));
                         }
                     }
+                }
+                else
+                {
+                    var url = string.Format(Urls.AwsGameLiftLogs, _stateManager.Region);
+                    _registerComputeStatusBox.Show(StatusBox.StatusBoxType.Error, Strings.AnywherePageStatusBoxDefaultErrorText, registerFleetComputeResponse.ErrorMessage, url, Strings.ViewLogsStatusBoxUrlTextButton);
                 }
             }
 
@@ -167,6 +175,13 @@ namespace AmazonGameLift.Editor
                 ComputeStatus.Registered => new List<VisualElement>() { _computeStatus, _replaceComputeButton },
                 _ => throw new ArgumentOutOfRangeException()
             };
+        }
+        
+        private void SetupStatusBox()
+        {
+            _registerComputeStatusBox =  new StatusBox();
+            var statusBoxContainer = _container.Q("AnywherePageComputeStatusBoxContainer");
+            statusBoxContainer.Add(_registerComputeStatusBox);
         }
 
         protected sealed override void UpdateGUI()

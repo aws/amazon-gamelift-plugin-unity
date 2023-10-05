@@ -10,6 +10,7 @@
             <gl:InfoLinks/>
         </ui:VisualElement>
         <ui:VisualElement class="divider"/>
+        <ui:VisualElement name="LandingPageStatusBoxContainer" class="separator"/>
         <ui:VisualElement class="separator separator--large separator--horizontal">
             <ui:VisualElement class="card">
                 <ui:VisualElement class="card__container">

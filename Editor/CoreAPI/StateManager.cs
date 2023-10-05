@@ -71,6 +71,7 @@ namespace Editor.CoreAPI
             {
                 _selectedProfile.AnywhereFleetId = value;
                 SaveProfiles();
+                OnUserProfileUpdated?.Invoke();
             }
         }
 
