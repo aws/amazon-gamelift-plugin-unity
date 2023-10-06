@@ -8,7 +8,7 @@ namespace AmazonGameLift.Editor
     {
         public new class UxmlFactory : UxmlFactory<StatusIndicator> { }
 
-        private Label _text => this.Q<Label>();
+        private Label _label => this.Q<Label>();
 
         private readonly Dictionary<State, string> _stateClassNames = new()
         {
@@ -29,7 +29,7 @@ namespace AmazonGameLift.Editor
         public void Set(State state, string text)
         {
             Reset();
-            _text.text = text;
+            _label.text = text;
             AddToClassList(_stateClassNames[state]);
         }
 
