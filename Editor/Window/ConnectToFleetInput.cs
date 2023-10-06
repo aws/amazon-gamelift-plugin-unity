@@ -8,6 +8,7 @@ using System.Threading.Tasks;
 using Amazon.GameLift;
 using Amazon.GameLift.Model;
 using Editor.CoreAPI;
+using Editor.Window;
 using UnityEngine;
 using UnityEngine.UIElements;
 

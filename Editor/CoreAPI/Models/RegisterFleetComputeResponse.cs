@@ -1,4 +1,5 @@
-﻿using AmazonGameLiftPlugin.Core.Shared;
+﻿using System;
+using AmazonGameLiftPlugin.Core.Shared;
 
 namespace AmazonGameLift.Editor
 {

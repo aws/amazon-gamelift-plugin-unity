@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Net;
 using System.Threading.Tasks;
 using Amazon.GameLift.Model;
@@ -18,47 +18,8 @@ namespace Editor.CoreAPI
         {
             _amazonGameLiftWrapper = wrapper;
         }
-
-        public async Task<RegisterFleetComputeResponse> RegisterFleetCompute(string computeName, string fleetId,
-            string fleetLocation,
-            string ipAddress)
-        {
-            if (_amazonGameLiftWrapper != null)
-            {
-                if (string.IsNullOrWhiteSpace(computeName))
-                {
-                    return Response.Fail(new RegisterFleetComputeResponse
-                    {
-                        ErrorCode = ErrorCode.InvalidComputeName
-                    });
-                }
-                
-                if (string.IsNullOrWhiteSpace(ipAddress))
-                {
-                    return Response.Fail(new RegisterFleetComputeResponse
-                    {
-                        ErrorCode = ErrorCode.InvalidIpAddress
-                    });
-                }
-                
-                var registerFleetComputeResponse = await RegisterCompute(computeName, fleetId, fleetLocation, ipAddress);
-                if (registerFleetComputeResponse.Success)
-                {
-                    return Response.Ok(new RegisterFleetComputeResponse()
-                    {
-                        ComputeName = computeName,
-                        IpAddress = ipAddress,
-                        WebSocketUrl = registerFleetComputeResponse.WebSocketUrl
-                    });
-                }
-
-                return registerFleetComputeResponse;
-            }
-
-            return Response.Fail(new RegisterFleetComputeResponse { ErrorCode = ErrorCode.AccountProfileMissing });
-        }
-
-        private async Task<RegisterFleetComputeResponse> RegisterCompute(string computeName, string fleetId, string fleetLocation,
+        
+        public async Task<RegisterFleetComputeResponse> RegisterFleetCompute(string computeName, string fleetId, string fleetLocation,
             string ipAddress)
         {
             try

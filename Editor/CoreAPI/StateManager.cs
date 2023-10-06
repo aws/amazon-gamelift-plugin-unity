@@ -1,4 +1,4 @@
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Linq;
 using AmazonGameLift.Editor;
@@ -27,7 +27,7 @@ namespace Editor.CoreAPI
 
         #region Profile Settings
 
-        public virtual string ProfileName => _selectedProfile?.Name;
+        public string ProfileName => _selectedProfile?.Name;
 
         public string Region
         {
@@ -235,8 +235,8 @@ namespace Editor.CoreAPI
 
         public void RefreshProfiles()
         {
-            var profilesResponse = CoreApi.GetSetting(SettingsKeys.UserProfiles);
-            if (!profilesResponse.Success || string.IsNullOrWhiteSpace(profilesResponse.Value))
+            var profiles = CoreApi.GetSetting(SettingsKeys.UserProfiles).Value;
+            if (string.IsNullOrWhiteSpace(profiles))
             {
                 _allProfiles = new List<UserProfile>();
             }
@@ -244,7 +244,7 @@ namespace Editor.CoreAPI
             {
                 try
                 {
-                    _allProfiles = _deserializer.Deserialize<List<UserProfile>>(profilesResponse.Value);
+                    _allProfiles = _deserializer.Deserialize<List<UserProfile>>(profiles);
                 }
                 catch (Exception ex)
                 {

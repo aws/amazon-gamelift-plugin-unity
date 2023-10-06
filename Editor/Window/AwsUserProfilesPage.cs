@@ -32,8 +32,8 @@ namespace AmazonGameLift.Editor
 
         public AwsUserProfilesPage(VisualElement container, StateManager stateManager)
         {
-            var awsCredentials = AwsCredentialsFactory.Create(); 
-            AwsCredentialsUpdateModel = awsCredentials.Update;
+            var awsCredentials = new AwsCredentialsFactory().Create();
+           AwsCredentialsUpdateModel = awsCredentials.Update;
             
             _container = container;
             var mVisualTreeAsset = Resources.Load<VisualTreeAsset>("EditorWindow/Pages/AwsUserProfilesPage");
@@ -69,7 +69,7 @@ namespace AmazonGameLift.Editor
             {
                 ShowProfileMenu(_bootstrapMenu);
             };
-            BootstrapSettings = BootstrapSettingsFactory.Create(_stateManager);
+            BootstrapSettings = BootstrapSettingsFactory.Create();
                 
             RefreshProfiles();
 

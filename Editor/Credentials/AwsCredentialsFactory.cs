@@ -3,13 +3,17 @@
 
 namespace AmazonGameLift.Editor
 {
-    internal class AwsCredentialsFactory 
+    internal class AwsCredentialsFactory : IAwsCredentialsFactory
     {
-        public static AwsCredentials Create()
+        public AwsCredentials Create()
         {
             TextProvider textProvider = TextProviderFactory.Create();
             return new AwsCredentials(textProvider, UnityLoggerFactory.Create(textProvider));
         }
     }
-}
 
+    internal interface IAwsCredentialsFactory
+    {
+        public AwsCredentials Create();
+    }
+}

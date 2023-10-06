@@ -11,7 +11,7 @@ using UnityEngine;
 
 namespace AmazonGameLift.Editor
 {
-    public class AwsCredentialsUpdate
+    internal class AwsCredentialsUpdate
     {
         private readonly CoreApi _coreApi;
         private readonly ILogger _logger;
@@ -21,9 +21,9 @@ namespace AmazonGameLift.Editor
         private string _currentAccessKeyId;
         private string _currentSecretKey;
 
-        internal IReadStatus Status => _status;
+        public IReadStatus Status => _status;
 
-        internal RegionBootstrap RegionBootstrap { get; }
+        public RegionBootstrap RegionBootstrap { get; }
 
         public bool CanUpdate =>
             SelectedProfileIndex >= 0 && _selectedProfileIndex < AllProlfileNames.Length
@@ -63,7 +63,7 @@ namespace AmazonGameLift.Editor
             }
         }
 
-        internal AwsCredentialsUpdate(TextProvider textProvider, RegionBootstrap regionBootstrap,
+        public AwsCredentialsUpdate(TextProvider textProvider, RegionBootstrap regionBootstrap,
             CoreApi coreApi, ILogger logger)
         {
             _coreApi = coreApi ?? throw new ArgumentNullException(nameof(coreApi));
