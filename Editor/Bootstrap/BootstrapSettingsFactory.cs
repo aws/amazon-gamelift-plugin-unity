@@ -4,12 +4,13 @@
 using System;
 using System.Collections.Generic;
 using AmazonGameLiftPlugin.Core.BucketManagement.Models;
+using Editor.CoreAPI;
 
 namespace AmazonGameLift.Editor
 {
     internal class BootstrapSettingsFactory
     {
-        public static BootstrapSettings Create()
+        public static BootstrapSettings Create(StateManager stateManager)
         {
             var allBucketLifecyclePolicies = (BucketPolicy[])Enum.GetValues(typeof(BucketPolicy));
             BucketLifecyclePolicyTextProvider bucketLifecyclePolicyTextProvider = BucketLifecyclePolicyTextProviderFactory.Create();
@@ -17,7 +18,7 @@ namespace AmazonGameLift.Editor
             TextProvider textProvider = TextProviderFactory.Create();
             UnityLogger logger = UnityLoggerFactory.Create(textProvider);
             return new BootstrapSettings(allBucketLifecyclePolicies, allBucketLifecyclePolicyNames,
-                textProvider, new BootstrapBucketFormatter(), logger);
+                textProvider, new BootstrapBucketFormatter(), logger, stateManager);
         }
     }
 }

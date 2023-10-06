@@ -37,23 +37,26 @@ namespace Editor.CoreAPI
         {
             if (_amazonGameLiftWrapper != null)
             {
+                if (string.IsNullOrWhiteSpace(fleetName))
+                {
+                    return Response.Fail(new CreateAnywhereFleetResponse
+                    {
+                        ErrorCode = ErrorCode.InvalidFleetName
+                    });
+                }
+                
                 var success = await CreateCustomLocationIfNotExists(FleetLocation);
                 if (success)
                 {
                     var fleetId = await CreateFleet(ComputeType.ANYWHERE, FleetLocation, fleetName);
-                    if (fleetId == null)
+                    if (!string.IsNullOrWhiteSpace(fleetId))
                     {
-                        return Response.Fail(new CreateAnywhereFleetResponse
+                        return Response.Ok(new CreateAnywhereFleetResponse()
                         {
-                            ErrorCode = ErrorCode.InvalidFleetName
+                            FleetId = fleetId,
+                            FleetName = fleetName
                         });
                     }
-
-                    return Response.Ok(new CreateAnywhereFleetResponse()
-                    {
-                        FleetId = fleetId,
-                        FleetName = fleetName
-                    });
                 }
 
                 return Response.Fail(new CreateAnywhereFleetResponse

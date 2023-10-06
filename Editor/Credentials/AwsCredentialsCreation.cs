@@ -11,16 +11,16 @@ using UnityEngine;
 
 namespace AmazonGameLift.Editor
 {
-    internal class AwsCredentialsCreation
+    public class AwsCredentialsCreation
     {
         private readonly CoreApi _coreApi;
         private readonly ILogger _logger;
         private readonly TextProvider _textProvider;
         private readonly Status _status = new Status();
 
-        public IReadStatus Status => _status;
+        internal IReadStatus Status => _status;
 
-        public RegionBootstrap RegionBootstrap { get; }
+        internal RegionBootstrap RegionBootstrap { get; }
 
         public bool CanCreate =>
           !string.IsNullOrEmpty(ProfileName)
@@ -36,7 +36,7 @@ namespace AmazonGameLift.Editor
 
         public event Action OnCreated;
 
-        public AwsCredentialsCreation(TextProvider textProvider, RegionBootstrap regionBootstrap,
+        internal AwsCredentialsCreation(TextProvider textProvider, RegionBootstrap regionBootstrap,
             CoreApi coreApi, ILogger logger)
         {
             _coreApi = coreApi ?? throw new ArgumentNullException(nameof(coreApi));
