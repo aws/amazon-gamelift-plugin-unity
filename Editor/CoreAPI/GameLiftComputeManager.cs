@@ -1,13 +1,11 @@
-﻿﻿using System;
+﻿using System;
 using System.Net;
 using System.Threading.Tasks;
 using Amazon.GameLift.Model;
-using Amazon.Runtime.Internal;
 using AmazonGameLift.Editor;
 using AmazonGameLiftPlugin.Core;
 using AmazonGameLiftPlugin.Core.Shared;
 using UnityEngine;
-using UnityEngine.UIElements;
 using ErrorCode = AmazonGameLift.Editor.ErrorCode;
 
 namespace Editor.CoreAPI
@@ -40,7 +38,7 @@ namespace Editor.CoreAPI
                     ErrorCode = ErrorCode.InvalidIpAddress
                 });
             }
-
+            
             var webSocketUrl = await RegisterCompute(computeName, fleetId, fleetLocation, ipAddress);
             if (webSocketUrl != null)
             {
@@ -48,14 +46,14 @@ namespace Editor.CoreAPI
                 {
                     ComputeName = computeName,
                     IpAddress = ipAddress,
-                    WebSocketUrl = webSocketUrl
+                    WebSocketUrl = webSocketUrl.WebSocketUrl
                 });
             }
 
             return Response.Fail(new RegisterFleetComputeResponse { ErrorCode = ErrorCode.RegisterComputeFailed });
         }
 
-        private async Task<string> RegisterCompute(string computeName, string fleetId, string fleetLocation,
+        private async Task<RegisterFleetComputeResponse> RegisterCompute(string computeName, string fleetId, string fleetLocation,
             string ipAddress)
         {
             try
@@ -70,12 +68,18 @@ namespace Editor.CoreAPI
                 var registerComputeResponse =
                     await _amazonGameLiftWrapper.RegisterCompute(registerComputeRequest);
 
-                return registerComputeResponse.Compute.GameLiftServiceSdkEndpoint;
+                return Response.Ok(new RegisterFleetComputeResponse()
+                {
+                    WebSocketUrl = registerComputeResponse.Compute.GameLiftServiceSdkEndpoint
+                });
             }
             catch (Exception ex)
             {
-                Debug.Log(ex.Message);
-                return null;
+                return Response.Fail(new RegisterFleetComputeResponse
+                {
+                    ErrorCode = ErrorCode.RegisterComputeFailed,
+                    ErrorMessage = ex.Message
+                });
             }
         }
 

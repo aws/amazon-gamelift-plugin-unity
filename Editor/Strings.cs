@@ -146,7 +146,9 @@ namespace AmazonGameLift.Editor
         public const string LandingPageSampleHeader = "LandingPageSampleHeader";
         public const string LandingPageSampleDescription = "LandingPageSampleDescription";
         public const string LandingPageSampleButton = "LandingPageSampleButton";
-        
+        public const string LandingPageInfoStatusBoxText = "LandingPageInfoStatusBoxText";
+        public const string LandingPageWarningStatusBoxText = "LandingPageWarningStatusBoxText";
+
         public const string UserProfilePageAccountCardNewAccountTitle = "UserProfilePageAccountCardNewAccountTitle";
         public const string UserProfilePageAccountCardNewAccountDescription = "UserProfilePageAccountCardNewAccountDescription";
         public const string UserProfilePageAccountCardNoAccountTitle = "UserProfilePageAccountCardNoAccountTitle";
@@ -189,6 +191,10 @@ namespace AmazonGameLift.Editor
         public const string UserProfilePageBootstrapPopupFreeTierLink = "UserProfilePageBootstrapPopupFreeTierLink";
         public const string UserProfilePageBootstrapPopupCancelButton = "UserProfilePageBootstrapPopupCancelButton";
         public const string UserProfilePageBootstrapPopupContinueButton = "UserProfilePageBootstrapPopupContinueButton";
+        
+        public const string UserProfilePageStatusBoxSuccessText = "UserProfilePageStatusBoxSuccessText";
+        public const string UserProfilePageStatusBoxWarningText = "UserProfilePageStatusBoxWarningText";
+        public const string UserProfilePageStatusBoxErrorText = "UserProfilePageStatusBoxErrorText";
 
         public const string AnywherePageTitle = "AnywherePageTitle";
         public const string AnywherePageDescription = "AnywherePageDescription";
@@ -197,42 +203,30 @@ namespace AmazonGameLift.Editor
         public const string AnywherePageIntegrateServerLink = "AnywherePageIntegrateServerLink";
         public const string AnywherePageIntegrateClientLink = "AnywherePageIntegrateClientLink";
         public const string AnywherePageCreateFleetTitle = "AnywherePageCreateFleetTitle";
-        public const string AnywherePageFleetName = "AnywherePageFleetName";
+        public const string AnywherePageCreateFleetNameLabel = "AnywherePageCreateFleetNameLabel";
         public const string AnywherePageConnectFleetName = "AnywherePageConnectFleetName";
-        public const string AnywherePageCreateFleetInput = "AnywherePageCreateFleetInput";
-        public const string AnywherePageCreateFleetHint = "AnywherePageCreateFleetHint";
+        public const string AnywherePageCreateFleetNameHint = "AnywherePageCreateFleetNameHint";
         public const string AnywherePageCreateFleetButton = "AnywherePageCreateFleetButton";
         public const string AnywherePageCreateFleetCancelButton = "AnywherePageCreateFleetCancelButton";
         public const string AnywherePageConnectFleetTitle = "AnywherePageConnectFleetTitle";
-        public const string AnywhereFleetName = "AnywhereFleetName";
-        public const string AnywherePageConnectFleetLabel = "AnywherePageConnectFleetLabel";
-        public const string AnywherePageConnectFleetDropdown = "AnywherePageConnectFleetDropdown";
-        public const string AnywherePageConnectFleetID = "AnywherePageConnectFleetID";
+        public const string AnywherePageConnectFleetNameLabel = "AnywherePageConnectFleetNameLabel";
         public const string AnywherePageConnectFleetIDLabel = "AnywherePageConnectFleetIDLabel";
-        public const string AnywherePageConnectFleetIDDisplay = "AnywherePageConnectFleetIDDisplay";
-        public const string AnywherePageConnectFleetStatus = "AnywherePageConnectFleetStatus";
         public const string AnywherePageConnectFleetStatusLabel = "AnywherePageConnectFleetStatusLabel";
-        public const string AnywherePageConnectFleetStatusDisplay = "AnywherePageConnectFleetStatusDisplay";
-        public const string AnywhereFleetButtons = "AnywhereFleetButtons";
         public const string AnywherePageConnectFleetNewButton = "AnywherePageConnectFleetNewButton";
         public const string AnywherePageComputeTitle = "AnywherePageComputeTitle";
         public const string AnywherePageComputeNameLabel = "AnywherePageComputeNameLabel";
-        public const string AnywherePageComputeNameInput = "AnywherePageComputeNameInput";
         public const string AnywherePageComputeIPLabel = "AnywherePageComputeIPLabel";
-        public const string AnywherePageComputeIpAddress = "AnywherePageComputeIpAddress";
-        public const string AnywherePageComputeStatus = "AnywherePageComputeStatus";
         public const string AnywherePageComputeStatusLabel = "AnywherePageComputeStatusLabel";
-        public const string AnywherePageComputeStatusDisplay = "AnywherePageComputeStatusDisplay";
         public const string AnywherePageComputeRegisterButton = "AnywherePageComputeRegisterButton";
-        public const string AnywherePageComputeRegisterNewButton = "AnywherePageComputeRegisterNewButton";
-        public const string AnywherePageComputeCancelButton = "AnywherePageComputeCancelButton";
+        public const string AnywherePageComputeReplaceComputeButton = "AnywherePageComputeReplaceComputeButton";
+        public const string AnywherePageComputeCancelReplaceButton = "AnywherePageComputeCancelReplaceButton";
         public const string AnywherePageAuthTokenTitle = "AnywherePageAuthTokenTitle";
         public const string AnywherePageAuthTokenLabel = "AnywherePageAuthTokenLabel";
-        public const string AnywherePageAuthTokenDisplay = "AnywherePageAuthTokenDisplay";
         public const string AnywherePageAuthTokenNote = "AnywherePageAuthTokenNote";
         public const string AnywherePageLaunchClientTitle = "AnywherePageLaunchClientTitle";
         public const string AnywherePageLaunchClientLabel = "AnywherePageLaunchClientLabel";
         public const string AnywherePageLaunchClientButton = "AnywherePageLaunchClientButton";
+        public const string AnywherePageStatusBoxDefaultErrorText = "AnywherePageStatusBoxDefaultErrorText";
 
         public const string ManagedEC2Title = "ManagedEC2Title";
         public const string ManagedEC2Description = "ManagedEC2Description";
@@ -301,5 +295,7 @@ namespace AmazonGameLift.Editor
         public const string ProfileSelectorRegionLabel = "ProfileSelectorRegionLabel";
         public const string ProfileSelectorStatusLabel = "ProfileSelectorStatusLabel";
         public const string BootstrapNoBucketCreated = "BootstrapNoBucketCreated";
+        
+        public const string ViewLogsStatusBoxUrlTextButton = "ViewLogsStatusBoxUrlTextButton";
     }
 }

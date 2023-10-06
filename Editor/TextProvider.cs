@@ -43,6 +43,7 @@ namespace AmazonGameLift.Editor
             { CoreErrorCode.TokenAlreadyExists, "The token already exists."},
             { CoreErrorCode.UnknownError, "Unknown error."},
             { CoreErrorCode.UserNotConfirmed, "The user did not confirm registration."},
+            { ErrorCode.DeregisterComputeFailed, "There was a problem deregistering existing compute"},
             { ErrorCode.ChangeSetStatusInvalid, "There was a problem with the changeset status."},
             { ErrorCode.OperationCancelled, "The operation was cancelled."},
             { ErrorCode.OperationInvalid, "There was a problem with the operation."},
@@ -192,6 +193,8 @@ namespace AmazonGameLift.Editor
             { Strings.LandingPageSampleHeader, "Try our Sample Game" },
             { Strings.LandingPageSampleDescription, "Explore Amazon GameLift with our sample multiplayer game. View integration code, set up hosting with Amazon GameLift Anywhere or Managed EC2 fleets, and experiment with hosting features. Import the sample game into your project, and look for it in the project Assets." },
             { Strings.LandingPageSampleButton, "Import Sample Game" },
+            { Strings.LandingPageInfoStatusBoxText, "You will need to configure an AWS account profile to use Amazon GameLift." },
+            { Strings.LandingPageWarningStatusBoxText, "Profile configuration is incomplete, navigate to AWS Account Credentials for next steps" },
 
             { Strings.UserProfilePageAccountCardNewAccountTitle, "Manage Your User Profiles"},
             { Strings.UserProfilePageAccountCardNewAccountDescription, "Create a profile to link to an AWS account and store your security credentials. Your profile also specifies the AWS Region you want to work in.\nYou can have multiple profiles, but only one can be active at a time. Check your active profile selection on the main page of the Amazon GameLift window."},
@@ -232,6 +235,10 @@ namespace AmazonGameLift.Editor
             { Strings.UserProfilePageBootstrapPopupCancelButton, "Cancel"},
             { Strings.UserProfilePageBootstrapPopupContinueButton, "Continue"},
             
+            { Strings.UserProfilePageStatusBoxSuccessText, "Profile configuration and bootstrapping complete"},
+            { Strings.UserProfilePageStatusBoxWarningText, "Profile configuration is incomplete, as bootstrapping not completed"},
+            { Strings.UserProfilePageStatusBoxErrorText, "An error occurred when trying to create your profile"},
+
             { Strings.AnywherePageTitle, "Host with Amazon GameLift Anywhere"},
             { Strings.AnywherePageDescription, "Set up an Amazon GameLift Anywhere fleet to host game servers using your own hardware. With an Anywhere fleet, Amazon GameLift manages game sessions and placement (including matchmaking), while you control your own server hosting infrastructure under a single managed solution.\nCreate an Anywhere fleet for your on-premises or other compute resources. During game development, turn your local workstation into an Anywhere fleet to continuously deploy, test, and iterate your game builds."},
             { Strings.AnywherePageIntegrateTitle, "Integrate Amazon GameLift With Your Game Project"},            
@@ -239,11 +246,12 @@ namespace AmazonGameLift.Editor
             { Strings.AnywherePageIntegrateServerLink, "Integrate game server functionality with the Amazon GameLift server SDK"},
             { Strings.AnywherePageIntegrateClientLink, "Integrate game client functionality with the AWS SDK"},
             { Strings.AnywherePageCreateFleetTitle, "Connect to an Anywhere Fleet"},
-            { Strings.AnywherePageCreateFleetHint, "Fleet Name must have 1–1024 characters. Valid characters are A-Z, a-z, 0-9, _ and - (hyphen)"},
+            { Strings.AnywherePageCreateFleetNameHint, "Fleet Name must have 1–1024 characters. Valid characters are A-Z, a-z, 0-9, _ and - (hyphen)"},
             { Strings.AnywherePageCreateFleetButton, "Create New Anywhere Fleet"},
             { Strings.AnywherePageCreateFleetCancelButton, "Cancel"},
             { Strings.AnywherePageConnectFleetTitle, "Integrate Amazon GameLift With Your Game Project"},
-            { Strings.AnywherePageConnectFleetLabel, "Fleet Name"},
+            { Strings.AnywherePageCreateFleetNameLabel, "Fleet Name"},
+            { Strings.AnywherePageConnectFleetNameLabel, "Fleet Name"},
             { Strings.AnywherePageConnectFleetIDLabel, "Fleet ID"},
             { Strings.AnywherePageConnectFleetStatusLabel, "Fleet status"},
             { Strings.AnywherePageConnectFleetNewButton, "Create New Anywhere Fleet"},
@@ -252,14 +260,15 @@ namespace AmazonGameLift.Editor
             { Strings.AnywherePageComputeIPLabel, "IP address"},
             { Strings.AnywherePageComputeStatusLabel, "Status"},
             { Strings.AnywherePageComputeRegisterButton, "Register Compute"},
-            { Strings.AnywherePageComputeRegisterNewButton, "Register new Compute"},
-            { Strings.AnywherePageComputeCancelButton, "Cancel"},
+            { Strings.AnywherePageComputeReplaceComputeButton, "Register new Compute"},
+            { Strings.AnywherePageComputeCancelReplaceButton, "Cancel"},
             { Strings.AnywherePageAuthTokenTitle, "Generate Auth Token - optional"},
             { Strings.AnywherePageAuthTokenLabel, "Status"},
             { Strings.AnywherePageAuthTokenNote, "The auth token is generated when you launch your game."},
             { Strings.AnywherePageLaunchClientTitle, "Launch Client"},
             { Strings.AnywherePageLaunchClientLabel, "Run Game"},
             { Strings.AnywherePageLaunchClientButton, "Launch Client"},
+            { Strings.AnywherePageStatusBoxDefaultErrorText, "An error occurred when trying to register a compute"},
             
             { Strings.ManagedEC2Title, "Managed EC2"},
             { Strings.ManagedEC2Description, "Managed EC2 fleets use Amazon EC2 instances to host your game servers.\nAmazon GameLift manages the instances and removes the burden of hardware and software management from hosting your games."},
@@ -322,6 +331,8 @@ namespace AmazonGameLift.Editor
             { Strings.ProfileSelectorRegionLabel, "AWS Region" },
             { Strings.ProfileSelectorStatusLabel, "Bootstrap Status" },
             { Strings.BootstrapNoBucketCreated, "No bucket created" },
+            
+            { Strings.ViewLogsStatusBoxUrlTextButton, "View Logs"},
         };
 
         public string GetError(string errorCode = null)

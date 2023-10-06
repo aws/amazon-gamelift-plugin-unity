@@ -9,6 +9,7 @@ using System.Threading.Tasks;
 using AmazonGameLift.Editor;
 using AmazonGameLiftPlugin.Core.DeploymentManagement.Models;
 using AmazonGameLiftPlugin.Core.Shared;
+using Editor.CoreAPI;
 using Moq;
 using NUnit.Framework;
 using UnityEngine.TestTools;
@@ -29,17 +30,11 @@ namespace AmazonGameLiftPlugin.Editor.UnitTests
             var initialScenario = DeploymentScenarios.FlexMatch;
             var storedScenario = DeploymentScenarios.SpotFleet;
 
-            var coreApiMock = new Mock<CoreApi>();
-            coreApiMock.SetUpCoreApiWithSetting(SettingsKeys.DeploymentScenarioIndex, coreSuccess, ((int)storedScenario).ToString());
-            coreApiMock.SetUpCoreApiWithSetting(SettingsKeys.DeploymentGameName, false, null);
-            coreApiMock.SetUpCoreApiWithSetting(SettingsKeys.DeploymentBuildFolderPath, false, null);
-            coreApiMock.SetUpCoreApiWithSetting(SettingsKeys.DeploymentBuildFilePath, false, null);
-            coreApiMock.SetUpCoreApiWithSetting(SettingsKeys.LaunchParameters, false, null);
-            coreApiMock.SetUpCoreApiWithSetting(SettingsKeys.BuildOperatingSystem, false, null);
-            coreApiMock.SetUpCoreApiWithSetting(SettingsKeys.FleetName, false, null);
-            coreApiMock.SetUpCoreApiWithSetting(SettingsKeys.BuildName, false, null);
+            var stateManagerMock = new Mock<StateManager>();
+            stateManagerMock.Object.DeploymentScenario =
+                coreSuccess ? storedScenario : DeploymentScenarios.SingleRegion;
 
-            DeploymentSettings underTest = GetUnitUnderTest(coreApi: coreApiMock);
+            DeploymentSettings underTest = GetUnitUnderTest(stateManager: stateManagerMock);
 
             // Act
             underTest.Scenario = initialScenario;
@@ -58,17 +53,11 @@ namespace AmazonGameLiftPlugin.Editor.UnitTests
             string testGameName = "test" + id;
             string testGameName1 = "test1" + id;
 
-            var coreApiMock = new Mock<CoreApi>();
-            coreApiMock.SetUpCoreApiWithSetting(SettingsKeys.DeploymentGameName, coreSuccess, testGameName1);
-            coreApiMock.SetUpCoreApiWithSetting(SettingsKeys.DeploymentScenarioIndex, false, null);
-            coreApiMock.SetUpCoreApiWithSetting(SettingsKeys.DeploymentBuildFolderPath, false, null);
-            coreApiMock.SetUpCoreApiWithSetting(SettingsKeys.DeploymentBuildFilePath, false, null);
-            coreApiMock.SetUpCoreApiWithSetting(SettingsKeys.LaunchParameters, false, null);
-            coreApiMock.SetUpCoreApiWithSetting(SettingsKeys.BuildOperatingSystem, false, null);
-            coreApiMock.SetUpCoreApiWithSetting(SettingsKeys.FleetName, false, null);
-            coreApiMock.SetUpCoreApiWithSetting(SettingsKeys.BuildName, false, null);
-            
-            DeploymentSettings underTest = GetUnitUnderTest(coreApi: coreApiMock);
+
+            var stateManagerMock = new Mock<StateManager>();
+            stateManagerMock.SetupProperty(state => state.DeploymentGameName, coreSuccess ? testGameName1 : null);
+
+            DeploymentSettings underTest = GetUnitUnderTest(stateManager: stateManagerMock);
 
             // Act
             underTest.GameName = testGameName;
@@ -87,18 +76,11 @@ namespace AmazonGameLiftPlugin.Editor.UnitTests
             string testBuildFolderPath = "test path" + id;
             string testBuildFolderPath1 = "test path1" + id;
 
-            var coreApiMock = new Mock<CoreApi>();
-            coreApiMock.SetUpCoreApiWithSetting(SettingsKeys.DeploymentBuildFolderPath, coreSuccess, testBuildFolderPath1);
-            coreApiMock.SetUpCoreApiWithSetting(SettingsKeys.DeploymentGameName, false, null);
-            coreApiMock.SetUpCoreApiWithSetting(SettingsKeys.DeploymentScenarioIndex, false, null);
-            coreApiMock.SetUpCoreApiWithSetting(SettingsKeys.DeploymentBuildFilePath, false, null);
-            coreApiMock.SetUpCoreApiWithSetting(SettingsKeys.LaunchParameters, false, null);
-            coreApiMock.SetUpCoreApiWithSetting(SettingsKeys.BuildOperatingSystem, false, null);
-            coreApiMock.SetUpCoreApiWithSetting(SettingsKeys.FleetName, false, null);
-            coreApiMock.SetUpCoreApiWithSetting(SettingsKeys.BuildName, false, null);
+            var stateManagerMock = new Mock<StateManager>();
+            stateManagerMock.SetupProperty(state => state.DeploymentBuildFolderPath,
+                coreSuccess ? testBuildFolderPath1 : null);
 
-
-            DeploymentSettings underTest = GetUnitUnderTest(coreApi: coreApiMock);
+            DeploymentSettings underTest = GetUnitUnderTest(stateManager: stateManagerMock);
 
             // Act
             underTest.BuildFolderPath = testBuildFolderPath;
@@ -117,18 +99,11 @@ namespace AmazonGameLiftPlugin.Editor.UnitTests
             string testBuildExePath = "test path" + id;
             string testBuildExePath1 = "test path1" + id;
 
-            var coreApiMock = new Mock<CoreApi>();
-            coreApiMock.SetUpCoreApiWithSetting(SettingsKeys.DeploymentBuildFilePath, coreSuccess, testBuildExePath1);
-            coreApiMock.SetUpCoreApiWithSetting(SettingsKeys.DeploymentGameName, false, null);
-            coreApiMock.SetUpCoreApiWithSetting(SettingsKeys.DeploymentScenarioIndex, false, null);
-            coreApiMock.SetUpCoreApiWithSetting(SettingsKeys.DeploymentBuildFolderPath, false, null);
-            coreApiMock.SetUpCoreApiWithSetting(SettingsKeys.LaunchParameters, false, null);
-            coreApiMock.SetUpCoreApiWithSetting(SettingsKeys.BuildOperatingSystem, false, null);
-            coreApiMock.SetUpCoreApiWithSetting(SettingsKeys.FleetName, false, null);
-            coreApiMock.SetUpCoreApiWithSetting(SettingsKeys.BuildName, false, null);
+            var stateManagerMock = new Mock<StateManager>();
+            stateManagerMock.SetupProperty(state => state.DeploymentBuildFilePath,
+                coreSuccess ? testBuildExePath1 : null);
 
-
-            DeploymentSettings underTest = GetUnitUnderTest(coreApi: coreApiMock);
+            DeploymentSettings underTest = GetUnitUnderTest(stateManager: stateManagerMock);
 
             // Act
             underTest.BuildFolderPath = testBuildExePath;
@@ -1455,7 +1430,7 @@ namespace AmazonGameLiftPlugin.Editor.UnitTests
         private static DeploymentSettings GetUnitUnderTest(Mock<ScenarioLocator> scenarioLocator = null,
             Mock<PathConverter> pathConverter = null, Mock<CoreApi> coreApi = null,
             Mock<ScenarioParametersUpdater> parametersUpdater = null, Mock<DeploymentWaiter> deploymentWaiter = null,
-            Mock<IDeploymentIdContainer> deploymentIdContainer = null, Mock<Delay> delay = null)
+            Mock<IDeploymentIdContainer> deploymentIdContainer = null, Mock<Delay> delay = null, Mock<StateManager> stateManager = null)
         {
             coreApi = coreApi ?? new Mock<CoreApi>();
             scenarioLocator = scenarioLocator ?? new Mock<ScenarioLocator>();
@@ -1464,10 +1439,11 @@ namespace AmazonGameLiftPlugin.Editor.UnitTests
             pathConverter = pathConverter ?? GetMockPathConverter(coreApi);
             parametersUpdater = parametersUpdater ?? GetMockScenarioParametersUpdater(coreApi);
             deploymentIdContainer = deploymentIdContainer ?? new Mock<IDeploymentIdContainer>();
+            stateManager = stateManager ?? new Mock<StateManager>();
 
             return new DeploymentSettings(scenarioLocator.Object, pathConverter.Object, coreApi.Object,
                 parametersUpdater.Object, TextProviderFactory.Create(), deploymentWaiter.Object,
-                deploymentIdContainer.Object, delayMock.Object, new MockLogger());
+                deploymentIdContainer.Object, delayMock.Object, new MockLogger(), stateManager.Object);
         }
 
         private static Mock<PathConverter> GetMockPathConverter(Mock<CoreApi> coreApi = null)

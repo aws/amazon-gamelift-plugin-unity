@@ -1,4 +1,4 @@
-// Copyright Amazon.com, Inc. or its affiliates. All Rights Reserved.
+﻿// Copyright Amazon.com, Inc. or its affiliates. All Rights Reserved.
 // SPDX-License-Identifier: Apache-2.0
 
 using System;
@@ -7,7 +7,6 @@ using System.Threading.Tasks;
 using Amazon.GameLift.Model;
 using AmazonGameLift.Editor;
 using AmazonGameLiftPlugin.Core;
-using AmazonGameLiftPlugin.Core.ApiGatewayManagement;
 using AmazonGameLiftPlugin.Core.SettingsManagement.Models;
 using Moq;
 using NUnit.Framework;
@@ -72,7 +71,7 @@ namespace AmazonGameLiftPlugin.Editor.UnitTests
             var gameLiftFleetManager = ArrangeAnywhereFleetHappyPath();
 
             //Act
-            var createFleetResult = gameLiftFleetManager.CreateAnywhereFleet("test").GetAwaiter().GetResult();
+            var createFleetResult = gameLiftFleetManager.CreateFleet("test").GetAwaiter().GetResult();
 
             //Assert
             _gameLiftWrapperMock.Verify(wrapper => wrapper.CreateFleet(It.IsAny<CreateFleetRequest>()), Times.Once);
@@ -89,7 +88,7 @@ namespace AmazonGameLiftPlugin.Editor.UnitTests
             var gameLiftFleetManager = new GameLiftFleetManager(null);
 
             //Act
-            var createFleetResult = gameLiftFleetManager.CreateAnywhereFleet("test").GetAwaiter().GetResult();
+            var createFleetResult = gameLiftFleetManager.CreateFleet("test").GetAwaiter().GetResult();
 
             //Assert
             Assert.IsFalse(createFleetResult.Success);
@@ -102,7 +101,7 @@ namespace AmazonGameLiftPlugin.Editor.UnitTests
             var gameLiftFleetManager = ArrangeAnywhereFleetHappyPath();
 
             //Act
-            var createFleetResult = gameLiftFleetManager.CreateAnywhereFleet(null).GetAwaiter().GetResult();
+            var createFleetResult = gameLiftFleetManager.CreateFleet(null).GetAwaiter().GetResult();
 
             //Assert
             _gameLiftWrapperMock.Verify(wrapper => wrapper.CreateFleet(It.IsAny<CreateFleetRequest>()), Times.Never);
@@ -125,7 +124,7 @@ namespace AmazonGameLiftPlugin.Editor.UnitTests
                     }));
 
             //Act
-            var createFleetResult = gameLiftFleetManager.CreateAnywhereFleet("test").GetAwaiter().GetResult();
+            var createFleetResult = gameLiftFleetManager.CreateFleet("test").GetAwaiter().GetResult();
 
             //Assert
             _gameLiftWrapperMock.Verify(wrapper => wrapper.CreateFleet(It.IsAny<CreateFleetRequest>()), Times.Once);
@@ -143,7 +142,7 @@ namespace AmazonGameLiftPlugin.Editor.UnitTests
                 .Throws(new NullReferenceException());
 
             //Act
-            var createFleetResult = gameLiftFleetManager.CreateAnywhereFleet("test").GetAwaiter().GetResult();
+            var createFleetResult = gameLiftFleetManager.CreateFleet("test").GetAwaiter().GetResult();
 
             //Assert
             _gameLiftWrapperMock.Verify(wrapper => wrapper.CreateFleet(It.IsAny<CreateFleetRequest>()), Times.Never);

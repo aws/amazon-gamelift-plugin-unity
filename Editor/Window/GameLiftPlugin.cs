@@ -49,7 +49,7 @@ namespace AmazonGameLift.Editor
             LocalizeText();
             
             var tabContentContainer = _root.Q(className: MainContentClassName);
-            var landingPage = new LandingPage(CreateContentContainer(Pages.Landing, tabContentContainer));
+            var landingPage = new LandingPage(CreateContentContainer(Pages.Landing, tabContentContainer), StateManager);
             var credentialsPage = new AwsUserProfilesPage(CreateContentContainer(Pages.Credentials, tabContentContainer), StateManager);
             var anywherePage = new AnywherePage(CreateContentContainer(Pages.Anywhere, tabContentContainer), StateManager);
             var ec2Page = new ManagedEC2Page(CreateContentContainer(Pages.ManagedEC2, tabContentContainer), StateManager);

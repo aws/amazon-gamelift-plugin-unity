@@ -2,6 +2,7 @@
 /* SPDX-License-Identifier: Apache-2.0 */
 
 @import "../common.uss";
+@import "../Components/statusbox.uss";
 
 .sample__image {
     width: 120px;
