@@ -115,16 +115,9 @@ namespace AmazonGameLift.Editor
             {
                 _statusIndicator.Set(State.Inactive, textProvider.Get(Strings.ManagedEC2DeployStatusNotDeployed));
             }
-            else if (stackStatus.IsStackStatusOperationDone())
+            else if (stackStatus.IsStackStatusFailed())
             {
-                if (stackStatus.IsStackStatusFailed())
-                {
-                    _statusIndicator.Set(State.Failed, textProvider.Get(Strings.ManagedEC2DeployStatusFailed));
-                }
-                else
-                {
-                    _statusIndicator.Set(State.Success, textProvider.Get(Strings.ManagedEC2DeployStatusDeployed));
-                }
+                _statusIndicator.Set(State.Failed, textProvider.Get(Strings.ManagedEC2DeployStatusFailed));
             }
             else if (stackStatus == StackStatus.DeleteInProgress)
             {
@@ -133,6 +126,10 @@ namespace AmazonGameLift.Editor
             else if (stackStatus.IsStackStatusInProgress())
             {
                 _statusIndicator.Set(State.InProgress, textProvider.Get(Strings.ManagedEC2DeployStatusDeploying));
+            }
+            else if (stackStatus.IsStackStatusOperationDone())
+            {
+                _statusIndicator.Set(State.Success, textProvider.Get(Strings.ManagedEC2DeployStatusDeployed));
             }
             else
             {
