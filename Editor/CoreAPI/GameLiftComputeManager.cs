@@ -36,6 +36,8 @@ namespace Editor.CoreAPI
 
                 return Response.Ok(new RegisterFleetComputeResponse()
                 {
+                    ComputeName = computeName,
+                    IpAddress = ipAddress,
                     WebSocketUrl = registerComputeResponse.Compute.GameLiftServiceSdkEndpoint
                 });
             }
