@@ -43,7 +43,7 @@ namespace AmazonGameLift.Editor
             if (_stateManager.IsBootstrapped)
             {
                 _bucketName.text = _stateManager.BucketName;
-                _statusIndicator.Set(State.Success, _textProvider.Get(Strings.BootstrapStatusActive) );
+                _statusIndicator.Set(State.Success, _textProvider.Get(Strings.BootstrapStatusActive));
             }
             else
             {
