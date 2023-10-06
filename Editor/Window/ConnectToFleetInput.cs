@@ -153,7 +153,7 @@ namespace AmazonGameLift.Editor
                 if (fleet != null)
                 {
                     var textProvider = new TextProvider();
-                    _statusIndicator.Set(State.Success,
+                    _statusIndicator.Set(State.Failed,
                         textProvider.Get(fleet.Status == Amazon.GameLift.FleetStatus.ERROR
                             ? Strings.AnywherePageConnectFleetStatusError
                             : Strings.AnywherePageConnectFleetStatusActive));
