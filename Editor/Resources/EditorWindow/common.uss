@@ -224,7 +224,7 @@ Image#ExternalLinkIcon {
 }
 
 .foldout .unity-toggle__input:checked .unity-foldout__checkmark {
-    background-image: resource("Images/Icons/FoldoutArrow");
+    background-image: resource("Images/Icons/FoldoutArrowOpen");
  }
 
 .form-row {
