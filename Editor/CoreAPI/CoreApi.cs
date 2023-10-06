@@ -282,14 +282,8 @@ namespace AmazonGameLift.Editor
         public virtual string GetBucketPolicyPath()
         {
             string internalPath = $"{Paths.PackageName}/{Paths.BucketPolicyPath}";
-            string assetPath = $"Assets/{internalPath}";
-            string policyPath = Path.GetFullPath(assetPath);
-
-            if (!FileExists(policyPath))
-            {
-                string packagePath = $"Packages/{internalPath}";
-                policyPath = Path.GetFullPath(packagePath);
-            }
+            string packagePath = $"Packages/{internalPath}";
+            string policyPath = Path.GetFullPath(packagePath);
 
             return policyPath;
         }
