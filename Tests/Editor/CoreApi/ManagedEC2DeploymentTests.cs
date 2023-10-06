@@ -2,12 +2,13 @@
 using System.Threading;
 using System.Threading.Tasks;
 using AmazonGameLift.Editor;
+using AmazonGameLiftPlugin.Core.DeploymentManagement.Models;
 using AmazonGameLiftPlugin.Core.SettingsManagement.Models;
 using AmazonGameLiftPlugin.Core.Shared;
 using Editor.CoreAPI;
 using Moq;
 using NUnit.Framework;
-using UnityEngine;
+using OperatingSystem = Amazon.GameLift.OperatingSystem;
 
 namespace AmazonGameLiftPlugin.Editor.UnitTests
 {
@@ -18,13 +19,19 @@ namespace AmazonGameLiftPlugin.Editor.UnitTests
         private DeploymentSettings _deploymentSettings;
         private Mock<ConfirmChangesRequest> _confirmChangesRequestMock;
         private static Mock<CoreApi> _coreApiMock;
+
+        private const string GameName = "TestGame";
+        private const string FleetName = "TestFleet";
+        private const string BuildName = "TestBuild";
+        private const string GameServerFile = "TestFile";
+        private const string GameServerFolder = "TestFolder";
+        private static readonly OperatingSystem OperatingSystemName = OperatingSystem.WINDOWS_2012;
         
         [SetUp]
         public void Setup()
         {
             _awsCredentialsTestProvider = new AwsCredentialsTestProvider();
             _managedEc2FleetParametersMock = new Mock<ManagedEC2FleetParameters>();
-            //_confirmChangesRequestMock = new Mock<ConfirmChangesRequest>();
             _coreApiMock = new Mock<CoreApi>();
         }
 
@@ -35,8 +42,24 @@ namespace AmazonGameLiftPlugin.Editor.UnitTests
             _coreApiMock.Setup(f => f.PutSetting(It.IsAny<SettingsKeys>(), null)).Returns(Response.Fail(new PutSettingResponse()));
             _coreApiMock.Setup(f => f.PutSetting(It.IsAny<SettingsKeys>(), string.Empty)).Returns(Response.Fail(new PutSettingResponse()));
             _coreApiMock.Setup(f => f.GetSetting(It.IsAny<SettingsKeys>())).Returns(Response.Ok(new GetSettingResponse()));
+
+            _managedEc2FleetParametersMock.Object.GameName = GameName;
+            _managedEc2FleetParametersMock.Object.FleetName = FleetName;
+            _managedEc2FleetParametersMock.Object.BuildName = BuildName;
+            _managedEc2FleetParametersMock.Object.GameServerFile = GameServerFile;
+            _managedEc2FleetParametersMock.Object.GameServerFolder = GameServerFolder;
+            _managedEc2FleetParametersMock.Object.OperatingSystem = OperatingSystemName;
             
-            _deploymentSettings = GetUnitUnderTest();
+            const string testScenarioName = "test scenario";
+            const string testScenarioDescription = "test scenario description";
+            const string testScenarioUrl = "test";
+
+            Mock<ScenarioLocator> scenarioLocatorMock = SetUpScenarioLocatorToReturnTestDeployer(
+                testScenarioName, testScenarioDescription, testScenarioUrl, hasServer: false, _coreApiMock);
+
+            _deploymentSettings = GetUnitUnderTest(scenarioLocator: scenarioLocatorMock);
+            
+            _deploymentSettings.Refresh();
             return new ManagedEC2Deployment(_deploymentSettings, _managedEc2FleetParametersMock.Object);
         }
         
@@ -52,7 +75,7 @@ namespace AmazonGameLiftPlugin.Editor.UnitTests
             //Assert
             _coreApiMock.Verify(f => f.PutSetting(It.IsAny<SettingsKeys>(), It.IsAny<string>()), Times.Exactly(8));
             
-            Assert.IsTrue(_deploymentSettings.GameName == Application.productName.Substring(0,12) );
+            Assert.AreEqual(_deploymentSettings.GameName, GameName);
         }
         
         [Test]
@@ -61,11 +84,43 @@ namespace AmazonGameLiftPlugin.Editor.UnitTests
             //Arrange
             var ec2DeploymentHappyPath = ArrangeEc2DeploymentHappyPath();
             
+            //Act & Assert
+            Assert.Throws<AggregateException>(() => _deploymentSettings.StartDeployment(null).Wait());
+        }
+        
+        [Test]
+        public void StartDeployment_WhenTaskIsFaultedWithContinueWith_ExpectFalse()
+        {
+            //Arrange
+            var ec2DeploymentHappyPath = ArrangeEc2DeploymentHappyPath();
+            var isErrored = false;
+            
             //Act
-            var startDeployment = _deploymentSettings.StartDeployment(MockEc2Delegate);
+            _deploymentSettings.StartDeployment(null).ContinueWith(task =>
+            {
+                if (task.IsFaulted)
+                {
+                    isErrored = true;
+                }
+            });
+                
+            //Assert
+            Assert.IsFalse(isErrored);
+        }
+        
+        [Test]
+        public void DeleteDeployment_WhenCorrectInputs_ExpectSuccess()
+        {
+            //Arrange
+            var ec2DeploymentHappyPath = ArrangeEc2DeploymentHappyPath();
+            _coreApiMock.Setup(target => target.DeleteStack(It.IsAny<string>(), It.IsAny<string>(), It.IsAny<string>()))
+                .Returns(Response.Ok(new DeleteStackResponse()));
+                
+            //Act
+            ec2DeploymentHappyPath.DeleteDeployment().Wait();
             
             //Assert
-            Assert.IsFalse(_deploymentSettings.GameName == Application.productName.Substring(0,12) );
+            _coreApiMock.Verify(f => f.DeleteStack(It.IsAny<string>(), It.IsAny<string>(), It.IsAny<string>()), Times.Once);
         }
         
         private static DeploymentSettings GetUnitUnderTest(Mock<ScenarioLocator> scenarioLocator = null,
@@ -108,10 +163,39 @@ namespace AmazonGameLiftPlugin.Editor.UnitTests
             var factory = (Func<ScenarioParametersEditor>)(() => scenarioParametersEditor.Object);
             return new Mock<ScenarioParametersUpdater>(coreApi.Object, factory);
         }
-
-        private static Task<bool> MockEc2Delegate(ConfirmChangesRequest request)
+        
+        private static Mock<ScenarioLocator> SetUpScenarioLocatorToReturnTestDeployer(
+            string name, string description, string url, bool hasServer,
+            Mock<CoreApi> coreApiMock, Mock<DeployerBase> deployerMock = null,
+            Mock<ScenarioLocator> scenarioLocatorMock = null, string scenarioFolder = null)
         {
-            return null;
+            Mock<Delay> delayMock = SetUpDelayMock();
+
+            deployerMock = deployerMock ?? new Mock<DeployerBase>(delayMock.Object, coreApiMock.Object);
+
+            deployerMock.SetupGet(target => target.DisplayName)
+                .Returns(name);
+
+            deployerMock.SetupGet(target => target.Description)
+                .Returns(description);
+
+            deployerMock.SetupGet(target => target.ScenarioFolder)
+                .Returns(scenarioFolder);
+
+            deployerMock.SetupGet(target => target.HelpUrl)
+                .Returns(url);
+
+            deployerMock.SetupGet(target => target.HasGameServer)
+                .Returns(hasServer);
+
+            scenarioLocatorMock = scenarioLocatorMock ?? new Mock<ScenarioLocator>();
+
+            var scenarios = new DeployerBase[] { deployerMock.Object, deployerMock.Object };
+            scenarioLocatorMock.Setup(target => target.GetScenarios())
+                .Returns(scenarios)
+                .Verifiable();
+
+            return scenarioLocatorMock;
         }
     }
 }

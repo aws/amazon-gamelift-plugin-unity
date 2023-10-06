@@ -32,8 +32,8 @@ namespace AmazonGameLift.Editor
 
         public AwsUserProfilesPage(VisualElement container, StateManager stateManager)
         {
-            var awsCredentials = new AwsCredentialsFactory().Create();
-           AwsCredentialsUpdateModel = awsCredentials.Update;
+            var awsCredentials = AwsCredentialsFactory.Create(); 
+            AwsCredentialsUpdateModel = awsCredentials.Update;
             
             _container = container;
             var mVisualTreeAsset = Resources.Load<VisualTreeAsset>("EditorWindow/Pages/AwsUserProfilesPage");

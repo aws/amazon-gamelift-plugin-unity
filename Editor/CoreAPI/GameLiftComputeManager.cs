@@ -23,34 +23,39 @@ namespace Editor.CoreAPI
             string fleetLocation,
             string ipAddress)
         {
-            if (string.IsNullOrWhiteSpace(computeName))
+            if (_amazonGameLiftWrapper != null)
             {
-                return Response.Fail(new RegisterFleetComputeResponse
+                if (string.IsNullOrWhiteSpace(computeName))
                 {
-                    ErrorCode = ErrorCode.InvalidComputeName
-                });
-            }
-            
-            if (string.IsNullOrWhiteSpace(ipAddress))
-            {
-                return Response.Fail(new RegisterFleetComputeResponse
+                    return Response.Fail(new RegisterFleetComputeResponse
+                    {
+                        ErrorCode = ErrorCode.InvalidComputeName
+                    });
+                }
+                
+                if (string.IsNullOrWhiteSpace(ipAddress))
                 {
-                    ErrorCode = ErrorCode.InvalidIpAddress
-                });
-            }
-            
-            var webSocketUrl = await RegisterCompute(computeName, fleetId, fleetLocation, ipAddress);
-            if (webSocketUrl != null)
-            {
-                return Response.Ok(new RegisterFleetComputeResponse()
+                    return Response.Fail(new RegisterFleetComputeResponse
+                    {
+                        ErrorCode = ErrorCode.InvalidIpAddress
+                    });
+                }
+                
+                var registerFleetComputeResponse = await RegisterCompute(computeName, fleetId, fleetLocation, ipAddress);
+                if (registerFleetComputeResponse.Success)
                 {
-                    ComputeName = computeName,
-                    IpAddress = ipAddress,
-                    WebSocketUrl = webSocketUrl.WebSocketUrl
-                });
+                    return Response.Ok(new RegisterFleetComputeResponse()
+                    {
+                        ComputeName = computeName,
+                        IpAddress = ipAddress,
+                        WebSocketUrl = registerFleetComputeResponse.WebSocketUrl
+                    });
+                }
+
+                return registerFleetComputeResponse;
             }
 
-            return Response.Fail(new RegisterFleetComputeResponse { ErrorCode = ErrorCode.RegisterComputeFailed });
+            return Response.Fail(new RegisterFleetComputeResponse { ErrorCode = ErrorCode.AccountProfileMissing });
         }
 
         private async Task<RegisterFleetComputeResponse> RegisterCompute(string computeName, string fleetId, string fleetLocation,

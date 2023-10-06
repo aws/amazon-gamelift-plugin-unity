@@ -2,7 +2,6 @@
 using System.Collections.Generic;
 using System.Linq;
 using Editor.CoreAPI;
-using Editor.Window;
 using UnityEngine;
 using UnityEngine.UIElements;
 

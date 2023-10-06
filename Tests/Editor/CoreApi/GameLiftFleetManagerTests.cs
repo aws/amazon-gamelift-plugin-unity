@@ -19,20 +19,15 @@ namespace AmazonGameLiftPlugin.Editor.UnitTests
     public class GameLiftFleetManagerTests
     {
         private Mock<IAmazonGameLiftWrapper> _gameLiftWrapperMock;
-        private Mock<IAwsCredentialsFactory> _awsCredentialsFactoryMock;
         private Mock<CoreApi> _coreApiMock;
         private Mock<IAmazonGameLiftWrapperFactory> _amazonGameLiftClientFactoryMock;
-        private AwsCredentialsTestProvider _awsCredentialsTestProvider;
-        private readonly IAmazonGameLiftWrapperFactory _amazonGameLiftClientFactory;
         
         [SetUp]
         public void Setup()
         {
             _gameLiftWrapperMock = new Mock<IAmazonGameLiftWrapper>();
-            _awsCredentialsFactoryMock = new Mock<IAwsCredentialsFactory>(); 
             _coreApiMock  = new Mock<CoreApi>();
             _amazonGameLiftClientFactoryMock = new Mock<IAmazonGameLiftWrapperFactory>();
-            _awsCredentialsTestProvider = new AwsCredentialsTestProvider();
         }
 
         private GameLiftFleetManager ArrangeAnywhereFleetHappyPath()
@@ -46,8 +41,8 @@ namespace AmazonGameLiftPlugin.Editor.UnitTests
             _coreApiMock.Setup(f => f.PutSetting(It.IsAny<SettingsKeys>(), It.IsAny<string>())).Returns(Response.Ok(new PutSettingResponse()));
             _coreApiMock.Setup(f => f.PutSetting(It.IsAny<SettingsKeys>(), null)).Returns(Response.Fail(new PutSettingResponse()));
             _coreApiMock.Setup(f => f.PutSetting(It.IsAny<SettingsKeys>(), string.Empty)).Returns(Response.Fail(new PutSettingResponse()));
+
             _gameLiftWrapperMock.Setup(wrapper => wrapper.ListLocations(It.IsAny<ListLocationsRequest>())).Returns(Task.FromResult(new ListLocationsResponse {Locations = listLocationModel}));
-            
             _gameLiftWrapperMock.Setup(wrapper => wrapper.CreateFleet(It.IsAny<CreateFleetRequest>())).Returns(Task.FromResult(
                 new CreateFleetResponse
                 {
@@ -57,9 +52,6 @@ namespace AmazonGameLiftPlugin.Editor.UnitTests
 
             _amazonGameLiftClientFactoryMock.Setup(f => f.Get(It.IsAny<string>()))
                 .Returns(_gameLiftWrapperMock.Object);
-
-            _awsCredentialsFactoryMock.Setup(f => f.Create())
-                .Returns(_awsCredentialsTestProvider.GetAwsCredentialsWithStubComponents(_coreApiMock.Object));
 
             return new GameLiftFleetManager(_gameLiftWrapperMock.Object);
         }

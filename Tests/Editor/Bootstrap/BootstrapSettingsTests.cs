@@ -15,10 +15,21 @@ namespace AmazonGameLiftPlugin.Editor.UnitTests
     public class BootstrapSettingsTests
     {
         private readonly BucketUrlFormatter _bucketUrlFormatter = new BucketUrlFormatter();
+        private static Mock<CoreApi> _coreApiMock;
+        private static Mock<StateManager> _stateManager;
         
         const string TestBucketName = "test-bucket";
         const string TestRegion = "test-region";
         const string TestProfile = "test-profile";
+        
+        
+        [SetUp]
+        public void Setup()
+        {
+            _coreApiMock = new Mock<CoreApi>();
+            _stateManager = new Mock<StateManager>(_coreApiMock.Object);
+            SetupHappyPath();
+        }
 
         #region CreateBucket
 
@@ -497,17 +508,6 @@ namespace AmazonGameLiftPlugin.Editor.UnitTests
                 }
             };
             _stateManager.SetupGet(l => l.ProfileName).Returns(TestProfile);
-        }
-
-        private static Mock<CoreApi> _coreApiMock;
-        private static Mock<StateManager> _stateManager;
-        
-        [SetUp]
-        public void Setup()
-        {
-            _coreApiMock = new Mock<CoreApi>();
-            _stateManager = new Mock<StateManager>(_coreApiMock.Object);
-            SetupHappyPath();
         }
     }
 }
