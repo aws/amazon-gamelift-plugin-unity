@@ -154,7 +154,6 @@ namespace AmazonGameLift.Editor
 
         public void RefreshCurrentBucket()
         {
-
             CurrentBucketName = _stateManager.BucketName;
             bool isRegionValid = _coreApi.IsValidRegion(_stateManager.Region);
             CurrentRegion = isRegionValid ? _stateManager.Region : null;

@@ -7,7 +7,7 @@ using AmazonGameLiftPlugin.Core.CredentialManagement.Models;
 
 namespace AmazonGameLift.Editor
 {
-    public class AwsCredentials
+    internal class AwsCredentials
     {
         private const int NewProfileMode = 0;
         private const int SelectProfileMode = 1;
@@ -31,7 +31,7 @@ namespace AmazonGameLift.Editor
         public AwsCredentialsUpdate Update { get; private set; }
         public bool CanSelect { get; private set; }
 
-        internal AwsCredentials(TextProvider textProvider, ILogger logger, CoreApi coreApi = null)
+        public AwsCredentials(TextProvider textProvider, ILogger logger, CoreApi coreApi = null)
         {
             _coreApi = coreApi ?? CoreApi.SharedInstance;
             var regionBootstrap = new RegionBootstrap(_coreApi);
@@ -40,7 +40,7 @@ namespace AmazonGameLift.Editor
             Creation.OnCreated += OnCreated;
         }
 
-        public AwsCredentials(AwsCredentialsCreation creation, AwsCredentialsUpdate update, CoreApi coreApi = null)
+        internal AwsCredentials(AwsCredentialsCreation creation, AwsCredentialsUpdate update, CoreApi coreApi = null)
         {
             _coreApi = coreApi ?? CoreApi.SharedInstance;
             Creation = creation ?? throw new ArgumentNullException(nameof(creation));
