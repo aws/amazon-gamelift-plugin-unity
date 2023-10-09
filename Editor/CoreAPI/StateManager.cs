@@ -32,7 +32,7 @@ namespace Editor.CoreAPI
 
         public virtual string ProfileName => _selectedProfile?.Name;
 
-        public string Region
+        public virtual string Region
         {
             get => _selectedProfile.Region;
             set
