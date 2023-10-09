@@ -8,7 +8,7 @@ using ILogger = AmazonGameLift.Editor.ILogger;
 
 namespace AmazonGameLiftPlugin.Editor.UnitTests
 {
-    public class MockLogger : ILogger
+    internal sealed class MockLogger : ILogger
     {
         
         public void Log(string message, LogType logType)
