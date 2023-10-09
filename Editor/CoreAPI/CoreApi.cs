@@ -235,7 +235,7 @@ namespace AmazonGameLift.Editor
                     ErrorMessage = accountIdResponse.ErrorMessage
                 });
             }
-            var bucketStore = new BucketStore(CreateS3Wrapper(profileName, region), GetBucketPolicyPath());
+            var bucketStore = new BucketStore(CreateS3Wrapper(profileName, region));
             var request = new CreateBucketRequest()
             {
                 AccountId = accountIdResponse.AccountId,
@@ -279,15 +279,6 @@ namespace AmazonGameLift.Editor
             return new AmazonS3Wrapper(string.Empty, string.Empty, string.Empty);
         }
         
-        public virtual string GetBucketPolicyPath()
-        {
-            string internalPath = $"{Paths.PackageName}/{Paths.BucketPolicyPath}";
-            string packagePath = $"Packages/{internalPath}";
-            string policyPath = Path.GetFullPath(packagePath);
-
-            return policyPath;
-        }
-
         #endregion
 
         #region Deployment

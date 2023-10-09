@@ -3,6 +3,7 @@
 
 using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Net;
 using System.Text.RegularExpressions;
@@ -26,12 +27,10 @@ namespace AmazonGameLiftPlugin.Core.BucketManagement
         private static readonly string s_s3BucketNamePattern = @"(?=^.{3,63}$)(?!^(\d+\.)+\d+$)(^(([a-z0-9]|[a-z0-9][a-z0-9\-]*[a-z0-9])\.)*([a-z0-9]|[a-z0-9][a-z0-9\-]*[a-z0-9])$)";
 
         private readonly IAmazonS3Wrapper _amazonS3Wrapper;
-        private readonly string _bucketPolicyPath;
 
-        public BucketStore(IAmazonS3Wrapper amazonS3Wrapper, string bucketPolicyPath = null)
+        public BucketStore(IAmazonS3Wrapper amazonS3Wrapper)
         {
             _amazonS3Wrapper = amazonS3Wrapper;
-            _bucketPolicyPath = bucketPolicyPath;
         }
 
         public CreateBucketResponse CreateBucket(CreateBucketRequest request)
@@ -133,7 +132,7 @@ namespace AmazonGameLiftPlugin.Core.BucketManagement
                 }
                 
                 var logPrefix = "GameLiftBootstrap";
-                var policy = new FileWrapper().ReadAllText(_bucketPolicyPath);
+                var policy = new FileWrapper().ReadAllText(GetBucketPolicyPath());
                 var formattedPolicy = policy
                     .Replace("{0}", loggingBucketName)
                     .Replace("{1}", logPrefix)
@@ -374,5 +373,17 @@ namespace AmazonGameLiftPlugin.Core.BucketManagement
 
             return Response.Fail(response);
         }
+        
+        public virtual string GetBucketPolicyPath()
+        {
+            string packageName = "com.amazonaws.gamelift";
+            string policyPath = "Editor/Resources/S3/BucketAccessPolicy.json";
+            string internalPath = $"{packageName}/{policyPath}";
+            string packagePath = $"Packages/{internalPath}";
+            string fullPath = Path.GetFullPath(packagePath);
+
+            return fullPath;
+        }
+
     }
 }
