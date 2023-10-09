@@ -1,12 +1,11 @@
 ﻿// Copyright Amazon.com, Inc. or its affiliates. All Rights Reserved.
 // SPDX-License-Identifier: Apache-2.0
 
-using AmazonGameLift.Editor;
 using Editor.CoreAPI;
 using UnityEngine;
 using UnityEngine.UIElements;
 
-namespace Editor.Window
+namespace AmazonGameLift.Editor
 {
     public class AnywherePage
     {
@@ -26,9 +25,8 @@ namespace Editor.Window
             container.Q<Label>("AnywherePageIntegrateClientLink")
                 .RegisterCallback<ClickEvent>(_ => OnLinkClicked(Urls.AnywherePageClientSetupDocumentation));
 
-            var fleetInputContainer = uxml.Q("AnywherePageConnectFleetContainer");
-            var fleetInput =
-                new ConnectToFleetInput(fleetInputContainer, stateManager, ConnectToFleetInput.FleetStatus.NotCreated);
+            var fleetInputContainer = uxml.Q("AnywherePageConnectFleetTitle");
+            var fleetInput = new ConnectToFleetInput(fleetInputContainer, stateManager);
             var computeInputContainer = uxml.Q("AnywherePageComputeTitle");
             var computeInput =
                 new RegisterComputeInput(computeInputContainer, stateManager); 
@@ -50,21 +48,8 @@ namespace Editor.Window
             l.SetElementText("AnywherePageIntegrateServerLink", Strings.AnywherePageIntegrateServerLink);
             l.SetElementText("AnywherePageIntegrateClientLink", Strings.AnywherePageIntegrateClientLink);
             l.SetElementText("AnywherePageCreateFleetTitle", Strings.AnywherePageCreateFleetTitle);
-            l.SetElementText("AnywherePageCreateFleetHint", Strings.AnywherePageCreateFleetHint);
-            l.SetElementText("AnywherePageCreateFleetButton", Strings.AnywherePageCreateFleetButton);
-            l.SetElementText("AnywherePageCreateFleetCancelButton", Strings.AnywherePageCreateFleetCancelButton);
             l.SetElementText("AnywherePageConnectFleetTitle", Strings.AnywherePageConnectFleetTitle);
-            l.SetElementText("AnywherePageConnectFleetLabel", Strings.AnywherePageConnectFleetLabel);
-            l.SetElementText("AnywherePageConnectFleetIDLabel", Strings.AnywherePageConnectFleetIDLabel);
-            l.SetElementText("AnywherePageConnectFleetStatusLabel", Strings.AnywherePageConnectFleetStatusLabel);
-            l.SetElementText("AnywherePageConnectFleetNewButton", Strings.AnywherePageConnectFleetNewButton);
             l.SetElementText("AnywherePageComputeTitle", Strings.AnywherePageComputeTitle);
-            l.SetElementText("AnywherePageComputeNameLabel", Strings.AnywherePageComputeNameLabel);
-            l.SetElementText("AnywherePageComputeIPLabel", Strings.AnywherePageComputeIPLabel);
-            l.SetElementText("AnywherePageComputeStatusLabel", Strings.AnywherePageComputeStatusLabel);
-            l.SetElementText("AnywherePageComputeRegisterButton", Strings.AnywherePageComputeRegisterButton);
-            l.SetElementText("AnywherePageComputeRegisterNewButton", Strings.AnywherePageComputeRegisterNewButton);
-            l.SetElementText("AnywherePageComputeCancelButton", Strings.AnywherePageComputeCancelButton);
             l.SetElementText("AnywherePageAuthTokenTitle", Strings.AnywherePageAuthTokenTitle);
             l.SetElementText("AnywherePageAuthTokenLabel", Strings.AnywherePageAuthTokenLabel);
             l.SetElementText("AnywherePageAuthTokenNote", Strings.AnywherePageAuthTokenNote);

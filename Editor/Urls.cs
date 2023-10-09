@@ -17,5 +17,15 @@ namespace AmazonGameLift.Editor
         public const string AnywherePageServerSetupDocumentation = "https://docs.aws.amazon.com/gamelift/latest/developerguide/integration-unity-server.html";
         public const string AnywherePageClientSetupDocumentation = "https://docs.aws.amazon.com/gamelift/latest/developerguide/integration-unity-client.html";
         public const string AwsTroubleShooting = ""; //TODO Get correct link
+        public const string AwsS3Console = "https://s3.console.aws.amazon.com/s3/home";
+        public const string AwsIAMConsole = "https://us-east-1.console.aws.amazon.com/iamv2/home";
+        public const string AwsGameLiftLogs = "https://{0}.console.aws.amazon.com/cloudwatch/home?region={0}#logsV2:logs-insights"; 
+        public const string AwsS3Pricing = "https://aws.amazon.com/s3/pricing/";
+        public const string AwsSecurity = "https://aws.amazon.com/security/vulnerability-reporting/";
+        public const string GitHubChangelog = "https://github.com/aws/amazon-gamelift-plugin-unity/blob/main/CHANGELOG.md";
+        public const string JavaDownload = "https://www.java.com/en/download/";
+        public const string GameLiftServerCSharpSdkIntegrationDoc = "https://docs.aws.amazon.com/gamelift/latest/developerguide/integration-engines-unity-using.html";
+        public const string GameLiftServerCSharpSdkApiDoc = "https://docs.aws.amazon.com/gamelift/latest/developerguide/integration-server-sdk-csharp-ref.html";
+        public const string GameLiftBootstrapInformation = "https://docs.aws.amazon.com/gamelift/latest/developerguide/unity-plug-in-profile.html";
     }
 }
