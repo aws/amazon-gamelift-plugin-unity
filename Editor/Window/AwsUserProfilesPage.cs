@@ -119,6 +119,13 @@ namespace AmazonGameLift.Editor
         {
             _container.Q<Button>("UserProfilePageAccountCardNoAccountButton")
                 .RegisterCallback<ClickEvent>(_ => OpenLink(Urls.CreateAwsAccountLearnMore));
+            _container.Q<VisualElement>("UserProfilePageBootstrapHelpLink")
+                .RegisterCallback<ClickEvent>(_ => OpenLink(Urls.MissingLink));
+            _container.Q<VisualElement>("UserProfilePageCompletedBootstrapHelpLink")
+                .RegisterCallback<ClickEvent>(_ => OpenLink(Urls.MissingLink));
+            _container.Q<VisualElement>("UserProfilePageAccountNewProfileHelpLink")
+                .RegisterCallback<ClickEvent>(_ => OpenLink(Urls.MissingLink));
+
             _container.Q<Button>("UserProfilePageAccountCardHasAccountButton").RegisterCallback<ClickEvent>(_ =>
             {
                 var targetWizard = _container.Q<VisualElement>("UserProfilePageCreateMenu");

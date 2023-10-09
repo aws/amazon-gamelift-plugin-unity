@@ -33,6 +33,9 @@ namespace AmazonGameLift.Editor
             _container.Q<Button>("CreateAccount").RegisterCallback<ClickEvent>(_ => OnCreateAccountClicked());
             _container.Q<Button>("AddProfile").RegisterCallback<ClickEvent>(_ => OnAddProfileClicked());
             _container.Q<Button>("DownloadSampleGame").RegisterCallback<ClickEvent>(_ => OnImportSampleClicked());
+            _container.Q<VisualElement>("CaseStudy1LearnMore").RegisterCallback<ClickEvent>(_ => OnLinkClicked(Urls.MissingLink));
+            _container.Q<VisualElement>("CaseStudy2LearnMore").RegisterCallback<ClickEvent>(_ => OnLinkClicked(Urls.MissingLink));
+            _container.Q<VisualElement>("CaseStudy3LearnMore").RegisterCallback<ClickEvent>(_ => OnLinkClicked(Urls.MissingLink));
         }
 
         private static void OnCreateAccountClicked()
@@ -48,6 +51,11 @@ namespace AmazonGameLift.Editor
         private static void OnImportSampleClicked()
         {
             EditorMenu.ImportSampleGame();
+        }
+        
+        private void OnLinkClicked(string url)
+        {
+            Application.OpenURL(url);
         }
 
         private void LocalizeText()

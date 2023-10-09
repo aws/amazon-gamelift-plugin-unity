@@ -27,5 +27,6 @@ namespace AmazonGameLift.Editor
         public const string GameLiftServerCSharpSdkIntegrationDoc = "https://docs.aws.amazon.com/gamelift/latest/developerguide/integration-engines-unity-using.html";
         public const string GameLiftServerCSharpSdkApiDoc = "https://docs.aws.amazon.com/gamelift/latest/developerguide/integration-server-sdk-csharp-ref.html";
         public const string GameLiftBootstrapInformation = "https://docs.aws.amazon.com/gamelift/latest/developerguide/unity-plug-in-profile.html";
+        public const string MissingLink = "www.google.com";
     }
 }

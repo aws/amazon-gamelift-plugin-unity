@@ -46,9 +46,22 @@ namespace AmazonGameLift.Editor
                 _isExpanded = true;
                 UpdateGUI();
             });
+            
+            _container.Q<VisualElement>("ManagedEC2ScenarioSingleFleetLink")
+                .RegisterCallback<ClickEvent>(_ => OpenLink(Urls.MissingLink));
+            _container.Q<VisualElement>("ManagedEC2ScenarioSpotFleetLink")
+                .RegisterCallback<ClickEvent>(_ => OpenLink(Urls.MissingLink));
+            _container.Q<VisualElement>("ManagedEC2ScenarioFlexMatchLink")
+                .RegisterCallback<ClickEvent>(_ => OpenLink(Urls.MissingLink));
+            
 
             LocalizeText();
             UpdateGUI();
+        }
+        
+        private void OpenLink(string url)
+        {
+            Application.OpenURL(url);
         }
 
         public void SetEnabled(bool value)
@@ -111,13 +124,13 @@ namespace AmazonGameLift.Editor
             var l = new ElementLocalizer(_container);
             l.SetElementText("ManagedEC2ScenarioSingleFleetLabel", Strings.ManagedEC2ScenarioSingleFleetLabel);
             l.SetElementText("ManagedEC2ScenarioSingleFleetRadio", Strings.ManagedEC2ScenarioSingleFleetRadio);
-            l.SetElementText("ManagedEC2ScenarioSingleFleetLink", Strings.ManagedEC2ScenarioSingleFleetLink);
+            l.SetElementText("ManagedEC2ScenarioSingleFleetLinkText", Strings.ManagedEC2ScenarioSingleFleetLink);
             l.SetElementText("ManagedEC2ScenarioSpotFleetLabel", Strings.ManagedEC2ScenarioSpotFleetLabel);
             l.SetElementText("ManagedEC2ScenarioSpotFleetRadio", Strings.ManagedEC2ScenarioSpotFleetRadio);
-            l.SetElementText("ManagedEC2ScenarioSpotFleetLink", Strings.ManagedEC2ScenarioSpotFleetLink);
+            l.SetElementText("ManagedEC2ScenarioSpotFleetLinkText", Strings.ManagedEC2ScenarioSpotFleetLink);
             l.SetElementText("ManagedEC2ScenarioFlexMatchLabel", Strings.ManagedEC2ScenarioFlexMatchLabel);
             l.SetElementText("ManagedEC2ScenarioFlexMatchRadio", Strings.ManagedEC2ScenarioFlexMatchRadio);
-            l.SetElementText("ManagedEC2ScenarioFlexMatchLink", Strings.ManagedEC2ScenarioFlexMatchLink);
+            l.SetElementText("ManagedEC2ScenarioFlexMatchLinkText", Strings.ManagedEC2ScenarioFlexMatchLink);
             l.SetElementText("ManagedEC2ScenarioShowMoreButton", Strings.ManagedEC2ScenarioShowMoreButton);
         }
     }
