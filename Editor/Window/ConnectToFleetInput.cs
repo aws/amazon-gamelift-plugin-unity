@@ -57,7 +57,7 @@ namespace AmazonGameLift.Editor
             if (_fleetState is FleetStatus.NotCreated or FleetStatus.Creating)
             {
                 _connectToAnywhereStatusBox.Close();
-                
+
                 var response = await _fleetManager?.CreateFleet(fleetName)!;
                 if (response.Success)
                 {
@@ -70,7 +70,9 @@ namespace AmazonGameLift.Editor
                 else
                 {
                     var url = string.Format(Urls.AwsGameLiftLogs, _stateManager.Region);
-                    _connectToAnywhereStatusBox.Show(StatusBox.StatusBoxType.Error, Strings.AnywherePageStatusBoxDefaultErrorText, response.ErrorMessage, url, Strings.ViewLogsStatusBoxUrlTextButton);
+                    _connectToAnywhereStatusBox.Show(StatusBox.StatusBoxType.Error,
+                        Strings.AnywherePageStatusBoxDefaultErrorText, response.ErrorMessage, url,
+                        Strings.ViewLogsStatusBoxUrlTextButton);
                 }
             }
 
@@ -105,7 +107,7 @@ namespace AmazonGameLift.Editor
             {
                 _fleetIdText.text = currentFleet.FleetId;
                 _stateManager.AnywhereFleetName = currentFleet.Name;
-                _stateManager.AnywhereFleetId = currentFleet.FleetId;     
+                _stateManager.AnywhereFleetId = currentFleet.FleetId;
                 _fleetState = FleetStatus.Selected;
             }
 
@@ -142,7 +144,7 @@ namespace AmazonGameLift.Editor
                 _fleetAttributes = await _fleetManager.DescribeFleetAttributes(ComputeType.ANYWHERE);
                 if (_fleetAttributes == null)
                 {
-                    _fleetAttributes = new List<FleetAttributes>(); 
+                    _fleetAttributes = new List<FleetAttributes>();
                 }
 
                 _fleetNameDropdownContainer.choices = _fleetAttributes.Select(fleet => fleet.Name).ToList();
@@ -153,10 +155,16 @@ namespace AmazonGameLift.Editor
                 if (fleet != null)
                 {
                     var textProvider = new TextProvider();
-                    _statusIndicator.Set(State.Failed,
-                        textProvider.Get(fleet.Status == Amazon.GameLift.FleetStatus.ERROR
-                            ? Strings.AnywherePageConnectFleetStatusError
-                            : Strings.AnywherePageConnectFleetStatusActive));
+                    if (fleet.Status == Amazon.GameLift.FleetStatus.ERROR)
+                    {
+                        _statusIndicator.Set(State.Failed,
+                            textProvider.Get(Strings.AnywherePageConnectFleetStatusError));
+                    }
+                    else
+                    {
+                        _statusIndicator.Set(State.Success,
+                            textProvider.Get(Strings.AnywherePageConnectFleetStatusActive));
+                    }
                 }
             }
         }
@@ -204,7 +212,7 @@ namespace AmazonGameLift.Editor
                 _ => throw new ArgumentOutOfRangeException()
             };
         }
-        
+
         private void SetupStatusBox()
         {
             _connectToAnywhereStatusBox = new StatusBox();
