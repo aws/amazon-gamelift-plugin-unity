@@ -19,6 +19,7 @@ namespace AmazonGameLift.Editor
 
         private readonly ManagedEC2FleetParameters _parameters;
         private readonly VisualElement _container;
+        private readonly TextField _gameNameInput;
         private readonly TextField _fleetNameInput;
         private readonly TextField _buildNameInput;
         private readonly TextField _launchParamsInput;
@@ -37,6 +38,8 @@ namespace AmazonGameLift.Editor
             _container = container;
             _parameters = parameters;
 
+            _gameNameInput = SetupInput("ManagedEC2ParametersGameNameInput", parameters.GameName,
+                value => parameters.GameName = value);
             _fleetNameInput = SetupInput("ManagedEC2ParametersFleetNameInput", parameters.FleetName,
                 value => parameters.FleetName = value);
             _buildNameInput = SetupInput("ManagedEC2ParametersBuildNameInput", parameters.BuildName,
@@ -105,6 +108,7 @@ namespace AmazonGameLift.Editor
 
         public void SetEnabled(bool value)
         {
+            _gameNameInput.SetEnabled(value);
             _fleetNameInput.SetEnabled(value);
             _buildNameInput.SetEnabled(value);
             _launchParamsInput.SetEnabled(value);
@@ -118,6 +122,7 @@ namespace AmazonGameLift.Editor
         private void LocalizeText()
         {
             var l = new ElementLocalizer(_container);
+            l.SetElementText("ManagedEC2ParametersGameNameLabel", Strings.ManagedEC2ParametersGameNameLabel);
             l.SetElementText("ManagedEC2ParametersFleetNameLabel", Strings.ManagedEC2ParametersFleetNameLabel);
             l.SetElementText("ManagedEC2ParametersBuildNameLabel", Strings.ManagedEC2ParametersBuildNameLabel);
             l.SetElementText("ManagedEC2ParametersLaunchParametersLabel", Strings.ManagedEC2ParametersLaunchParametersLabel);

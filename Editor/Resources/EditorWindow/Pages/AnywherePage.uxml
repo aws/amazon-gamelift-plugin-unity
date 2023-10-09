@@ -14,7 +14,7 @@
             <gl:ProfileSelector/>
         </ui:Foldout>
         <ui:Foldout name="AnywherePageIntegrateTitle" class="foldout separator separator--small" text="Integrate GameLift with your game client">
-            <ui:Label name="AnywherePageIntegrateDescription" text="Add the Amazon GameLift server SDK to your game server and add code to communicate with the GameLift hosting service. If you&apos;re working with the Amazon GameLift sample game, this integration is already done."/>
+            <ui:Label name="AnywherePageIntegrateDescription" class="page__content" text="Add the Amazon GameLift server SDK to your game server and add code to communicate with the GameLift hosting service. If you&apos;re working with the Amazon GameLift sample game, this integration is already done."/>
             <ui:VisualElement class="external-link">
                 <ui:Label name="AnywherePageIntegrateServerLink" text="Setup Amazon GameLift on a backend service \uf08e"/>
                 <ui:Image name="ExternalLinkIcon" class="icon--small"/>
@@ -24,71 +24,8 @@
                 <ui:Image name="ExternalLinkIcon" class="icon--small"/>
             </ui:VisualElement>
         </ui:Foldout>
-        <ui:VisualElement name="AnywherePageConnectFleetContainer">
-            <ui:Foldout name="AnywherePageCreateFleetTitle" class="foldout" text="Connect to Anywhere Fleet">
-                <ui:VisualElement name="AnywherePageFleetName" class="form-row">
-                    <ui:Label name="AnywherePageConnectFleetName" class="form-row__label" text="Fleet Name"/>
-                    <ui:VisualElement class="form-row__input">
-                        <ui:TextField name="AnywherePageCreateFleetInput" class="text-input" value="GameName-AnywhereFleet"/>
-                        <ui:Label name="AnywherePageCreateFleetHint" class="input-hint" text="Fleet Name must have 1–1024 characters. Valid characters are A-Z, a-z, 0-9, _ and - (hyphen)"/>
-                    </ui:VisualElement>
-                </ui:VisualElement>
-                <ui:VisualElement class="form-row">
-                    <ui:VisualElement class="form-row__input form-row__input--no-label">
-                        <ui:Button name="AnywherePageCreateFleetButton" class="button button--primary" text="Create Anywhere Fleet"/>
-                        <ui:Button name="AnywherePageCreateFleetCancelButton" class="button" text="Cancel"/>
-                    </ui:VisualElement>
-                </ui:VisualElement>
-            </ui:Foldout>
-            <ui:Foldout name="AnywherePageConnectFleetTitle" class="foldout" text="Connect to Anywhere Fleet">
-                <ui:VisualElement name="AnywhereFleetName" class="form-row">
-                    <ui:Label name="AnywherePageConnectFleetLabel" class="form-row__label" text="Fleet Name"/>
-                    <ui:DropdownField name="AnywherePageConnectFleetDropdown" class="form-row__input dropdown"/>
-                </ui:VisualElement>
-                <ui:VisualElement name="AnywherePageConnectFleetID" class="form-row form-row__hidden">
-                    <ui:Label name="AnywherePageConnectFleetIDLabel" class="form-row__label" text="Fleet ID"/>
-                    <ui:Label name="AnywherePageConnectFleetIDDisplay" class="form-row__text-display" text="1234567890"/>
-                </ui:VisualElement>
-                <ui:VisualElement name="AnywherePageConnectFleetStatus" class="form-row form-row__hidden">
-                    <ui:Label name="AnywherePageConnectFleetStatusLabel" class="form-row__label" text="Fleet status"/>
-                    <ui:Label name="AnywherePageConnectFleetStatusDisplay" class="form-row__text-display" text="Connected"/>
-                </ui:VisualElement>
-                <ui:VisualElement name="AnywherePageConnectFleetButtons" class="form-row form-row__hidden">
-                    <ui:VisualElement class="form-row__input form-row__input--no-label">
-                        <ui:Button name="AnywherePageConnectFleetNewButton" class="button button--primary" text="Create New Anywhere Fleet"/>
-                    </ui:VisualElement>
-                </ui:VisualElement>
-            </ui:Foldout>
-        </ui:VisualElement>
-        <ui:Foldout name="AnywherePageComputeTitle" class="foldout" text="Register Compute">
-            <ui:VisualElement class="form-row">
-                <ui:Label name="AnywherePageComputeNameLabel" class="form-row__label" text="Compute Name"/>
-                <ui:TextField name="AnywherePageComputeNameInput" class="form-row__input text-input" value="ComputerName-ProfileName"/>
-            </ui:VisualElement>
-            <ui:VisualElement class="form-row">
-                <ui:Label name="AnywherePageComputeIPLabel" class="form-row__label" text="IP Address"/>
-                <ui:VisualElement class="form-row__input form-row__input--inline">
-                    <ui:TextField name="AnywherePageComputeIPAddressInput" value="120" max-length="3" keyboard-type="NumberPad" class="text-input text-input--tiny text-input--centered"/>
-                    <ui:Label text="." class="ip-spacer"/>
-                    <ui:TextField name="AnywherePageComputeIPAddressInput" value="120" max-length="3" keyboard-type="NumberPad" class="text-input text-input--tiny text-input--centered"/>
-                    <ui:Label text="." class="ip-spacer"/>
-                    <ui:TextField name="AnywherePageComputeIPAddressInput" value="120" max-length="3" keyboard-type="NumberPad" class="text-input text-input--tiny text-input--centered"/>
-                    <ui:Label text="." class="ip-spacer"/>
-                    <ui:TextField name="AnywherePageComputeIPAddressInput" value="120" max-length="3" keyboard-type="NumberPad" class="text-input text-input--tiny text-input--centered"/>
-                </ui:VisualElement>
-            </ui:VisualElement>
-            <ui:VisualElement name="AnywherePageComputeStatus" class="form-row">
-                <ui:Label name="AnywherePageComputeStatusLabel" class="form-row__label" text="Status"/>
-                <ui:Label name="AnywherePageComputeStatusDisplay" class="form-row__text-display" text="Registered"/>
-            </ui:VisualElement>
-            <ui:VisualElement class="form-row">
-                <ui:VisualElement class="form-row__input form-row__input--no-label">
-                    <ui:Button name="AnywherePageComputeRegisterButton" class="button button--primary" text="Register Compute"/>
-                    <ui:Button name="AnywherePageComputeRegisterNewButton" class="button" text="Register new Compute"/>
-                    <ui:Button name="AnywherePageComputeCancelButton" class="button" text="Cancel Compute"/>
-                </ui:VisualElement>
-            </ui:VisualElement>
-        </ui:Foldout>
+        <ui:Foldout name="AnywherePageConnectFleetTitle" class="foldout" text="Connect to Anywhere Fleet"/>
+        <ui:Foldout name="AnywherePageComputeTitle" class="foldout" text="Register Compute"/>
         <ui:Foldout name="AnywherePageAuthTokenTitle" class="foldout" text="Generate Auth Token - optional">
             <ui:VisualElement class="form-row">
                 <ui:Label name="AnywherePageAuthTokenLabel" class="form-row__label" text="Status"/>
@@ -97,7 +34,7 @@
                 </ui:VisualElement>
             </ui:VisualElement>
             <ui:VisualElement class="form-row">
-                <ui:Label name="AnywherePageAuthTokenNote" class="form-row__text-display form-row__input form-row__input--no-label" text="The auth token is generated when you launch your game"/>
+                <ui:Label name="AnywherePageAuthTokenNote" class="form-row__text-display form-row__input form-row__input--no-label separator separator--horizontal" text="The auth token is generated when you launch your game"/>
             </ui:VisualElement>
         </ui:Foldout>
         <ui:Foldout name="AnywherePageLaunchClientTitle" class="foldout" text="Launch Client">

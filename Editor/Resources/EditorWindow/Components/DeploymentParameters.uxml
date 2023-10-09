@@ -4,6 +4,10 @@
 <ui:UXML xmlns:ui="UnityEngine.UIElements">
     <Style src="../common.uss"/>
     <ui:VisualElement class="form-row">
+        <ui:Label name="ManagedEC2ParametersGameNameLabel" class="form-row__label" text="Game Name"/>
+        <ui:TextField name="ManagedEC2ParametersGameNameInput" class="form-row__input text-input" value="GameName"/>
+    </ui:VisualElement>
+    <ui:VisualElement class="form-row">
         <ui:Label name="ManagedEC2ParametersFleetNameLabel" class="form-row__label" text="Fleet Name"/>
         <ui:TextField name="ManagedEC2ParametersFleetNameInput" class="form-row__input text-input" value="GameName-ManagedFleet"/>
     </ui:VisualElement>
