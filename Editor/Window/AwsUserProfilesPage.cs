@@ -135,11 +135,12 @@ namespace AmazonGameLift.Editor
             _container.Q<Button>("UserProfilePageBootstrapStartButton").RegisterCallback<ClickEvent>(_ =>
             {
                 _bootstrapSettings.RefreshBucketName();
-                OpenS3Popup(_stateManager.BucketName);
+                OpenS3Popup(_bootstrapSettings.BucketName);
             });
             _container.Q<Button>("UserProfilePageBootstrapAnotherBucketButton").RegisterCallback<ClickEvent>(_ =>
             {
-                OpenS3Popup(_stateManager.BucketName);
+                _bootstrapSettings.RefreshBucketName();
+                OpenS3Popup(_bootstrapSettings.BucketName);
             });
             _container.Q<Button>("UserProfilePageAccountNewProfileAccessKeyToggleReveal").RegisterCallback<ClickEvent>(_ =>
             {
