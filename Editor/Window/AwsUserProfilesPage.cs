@@ -14,7 +14,7 @@ namespace AmazonGameLift.Editor
         private List<TextField> AccountDetailTextFields = new();
 
         private readonly AwsCredentialsUpdate AwsCredentialsUpdateModel;
-        private readonly BootstrapSettings BootstrapSettings;
+        private readonly BootstrapSettings _bootstrapSettings;
         
         private VisualElement _currentElement;
 
@@ -27,7 +27,6 @@ namespace AmazonGameLift.Editor
         private readonly VisualElement _createMenu;
         private readonly VisualElement _bootstrapMenu;
         private readonly VisualElement _completedMenu;
-        private BootstrapSettings _bootstrapSettings;
         private StatusBox _statusBox;
 
         public AwsUserProfilesPage(VisualElement container, StateManager stateManager)
@@ -69,7 +68,7 @@ namespace AmazonGameLift.Editor
             {
                 ShowProfileMenu(_bootstrapMenu);
             };
-            BootstrapSettings = BootstrapSettingsFactory.Create();
+            _bootstrapSettings = BootstrapSettingsFactory.Create();
                 
             RefreshProfiles();
 
@@ -135,7 +134,7 @@ namespace AmazonGameLift.Editor
             });
             _container.Q<Button>("UserProfilePageBootstrapStartButton").RegisterCallback<ClickEvent>(_ =>
             {
-                BootstrapSettings.RefreshBucketName();
+                _bootstrapSettings.RefreshBucketName();
                 OpenS3Popup(_stateManager.BucketName);
             });
             _container.Q<Button>("UserProfilePageBootstrapAnotherBucketButton").RegisterCallback<ClickEvent>(_ =>
