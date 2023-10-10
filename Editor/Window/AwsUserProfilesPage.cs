@@ -14,7 +14,6 @@ namespace AmazonGameLift.Editor
         private List<TextField> AccountDetailTextFields = new();
 
         private readonly AwsCredentialsUpdate AwsCredentialsUpdateModel;
-        private readonly BootstrapSettings BootstrapSettings;
         
         private VisualElement _currentElement;
 
@@ -69,7 +68,7 @@ namespace AmazonGameLift.Editor
             {
                 ShowProfileMenu(_bootstrapMenu);
             };
-            BootstrapSettings = BootstrapSettingsFactory.Create();
+            _bootstrapSettings = BootstrapSettingsFactory.Create();
                 
             RefreshProfiles();
 
@@ -135,12 +134,13 @@ namespace AmazonGameLift.Editor
             });
             _container.Q<Button>("UserProfilePageBootstrapStartButton").RegisterCallback<ClickEvent>(_ =>
             {
-                BootstrapSettings.RefreshBucketName();
-                OpenS3Popup(_stateManager.BucketName);
+                _bootstrapSettings.RefreshBucketName();
+                OpenS3Popup(_bootstrapSettings.BucketName);
             });
             _container.Q<Button>("UserProfilePageBootstrapAnotherBucketButton").RegisterCallback<ClickEvent>(_ =>
             {
-                OpenS3Popup(_stateManager.BucketName);
+                _bootstrapSettings.RefreshBucketName();
+                OpenS3Popup(_bootstrapSettings.BucketName);
             });
             _container.Q<Button>("UserProfilePageAccountNewProfileAccessKeyToggleReveal").RegisterCallback<ClickEvent>(_ =>
             {
