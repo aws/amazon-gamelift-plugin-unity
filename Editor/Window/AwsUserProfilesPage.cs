@@ -14,6 +14,7 @@ namespace AmazonGameLift.Editor
         private List<TextField> AccountDetailTextFields = new();
 
         private readonly AwsCredentialsUpdate AwsCredentialsUpdateModel;
+        private readonly BootstrapSettings _bootstrapSettings;
         
         private VisualElement _currentElement;
 
@@ -26,7 +27,6 @@ namespace AmazonGameLift.Editor
         private readonly VisualElement _createMenu;
         private readonly VisualElement _bootstrapMenu;
         private readonly VisualElement _completedMenu;
-        private BootstrapSettings _bootstrapSettings;
         private StatusBox _statusBox;
 
         public AwsUserProfilesPage(VisualElement container, StateManager stateManager)
