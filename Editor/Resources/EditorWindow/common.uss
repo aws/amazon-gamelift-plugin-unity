@@ -401,6 +401,10 @@ Image#ExternalLinkIcon {
     align-self: center;
 }
 
+.card .external-link {
+    align-self: center;
+}
+
 .card__title {
     font-size: var(--font-size-extralarge);
 }
