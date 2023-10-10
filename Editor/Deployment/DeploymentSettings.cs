@@ -388,7 +388,7 @@ namespace AmazonGameLift.Editor
             if (!parameterUpdateResponse.Success)
             {
                 _status.IsDisplayed = true;
-                _status.SetMessage(_textProvider.Get(Strings.StatusDeploymentFailure), MessageType.Error);
+                _status.SetMessage(parameterUpdateResponse.ErrorMessage, MessageType.Error);
                 _logger.LogResponseError(parameterUpdateResponse);
                 return;
             }
