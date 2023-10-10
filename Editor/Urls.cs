@@ -7,6 +7,7 @@ namespace AmazonGameLift.Editor
     {
         public const string AwsCloudFormationChangeSetTemplate = "https://{0}.console.aws.amazon.com/cloudformation/home?region={0}#/stacks/changesets/changes?stackId={1}&changeSetId={2}";
         public const string AwsFleetIqDocumentation = "https://docs.aws.amazon.com/gamelift/latest/fleetiqguide/gsg-intro.html";
+        public const string AwsFlexMatchDocumentation = "https://docs.aws.amazon.com/gamelift/latest/developerguide/gamelift-match-intro.html";
         public const string AboutGameLift = "https://aws.amazon.com/gamelift/";
         public const string AboutGameLiftPricing = "https://aws.amazon.com/gamelift/pricing/";
         public const string AwsGameTech = "https://aws.amazon.com/gametech/";

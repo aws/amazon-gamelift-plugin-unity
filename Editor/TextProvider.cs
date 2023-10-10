@@ -323,7 +323,6 @@ namespace AmazonGameLift.Editor
             
             { Strings.InfoLinkDocumentationLink, "Documentation" },
             { Strings.InfoLinkForumLink, "AWS GameTech Forum" },
-            { Strings.InfoLinkTroubleshootingLink, "Troubleshooting" },
             { Strings.InfoLinkReportIssuesLink, "Report Issues" },
             
             { Strings.ProfileSelectorDropdownLabel, "AWS Account Profile" },

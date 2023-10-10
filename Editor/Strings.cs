@@ -267,7 +267,6 @@ namespace AmazonGameLift.Editor
 
         public const string InfoLinkDocumentationLink = "InfoLinkDocumentationLink";
         public const string InfoLinkForumLink = "InfoLinkForumLink";
-        public const string InfoLinkTroubleshootingLink = "InfoLinkTroubleshootingLink";
         public const string InfoLinkReportIssuesLink = "InfoLinkReportIssuesLink";
 
         public const string HelpPageTitle = "HelpPageTitle";

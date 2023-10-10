@@ -20,8 +20,6 @@ namespace AmazonGameLift.Editor
             this.Q<Label>("InfoLinkDocumentationLink")
                 .RegisterCallback<ClickEvent>(_ => OnLinkClicked(Urls.AwsHelpGameLiftUnityDocumentation));
             this.Q<Label>("InfoLinkForumLink").RegisterCallback<ClickEvent>(_ => OnLinkClicked(Urls.AwsGameTechForums));
-            this.Q<Label>("InfoLinkTroubleshootingLink")
-                .RegisterCallback<ClickEvent>(_ => OnLinkClicked(Urls.MissingLink));
             this.Q<Label>("InfoLinkReportIssuesLink")
                 .RegisterCallback<ClickEvent>(_ => OnLinkClicked(Urls.GitHubAwsIssues));
         }
@@ -36,7 +34,6 @@ namespace AmazonGameLift.Editor
             var l = new ElementLocalizer(this);
             l.SetElementText("InfoLinkDocumentationLink", Strings.InfoLinkDocumentationLink);
             l.SetElementText("InfoLinkForumLink", Strings.InfoLinkForumLink);
-            l.SetElementText("InfoLinkTroubleshootingLink", Strings.InfoLinkTroubleshootingLink);
             l.SetElementText("InfoLinkReportIssuesLink", Strings.InfoLinkReportIssuesLink);
         }
     }
