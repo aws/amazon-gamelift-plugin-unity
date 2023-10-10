@@ -929,7 +929,7 @@ namespace AmazonGameLiftPlugin.Editor.UnitTests
         #region DeleteDeployment
 
         [UnityTest]
-        public IEnumerator TestDeleteDeployment_CorrectInputs_ExpectDeleteStackSuccess()
+        public IEnumerator DeleteDeployment_WhenCorrectInputs_ExpectSuccess()
         {
             yield return Run().AsCoroutine();
 
