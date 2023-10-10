@@ -30,17 +30,12 @@ namespace AmazonGameLift.Editor
                 _statusBox.Show(StatusBox.StatusBoxType.Warning, Strings.LandingPageWarningStatusBoxText);
             }
 
-            _container.Q<Button>("CreateAccount").RegisterCallback<ClickEvent>(_ => OnCreateAccountClicked());
+            _container.Q<Button>("CreateAccount").RegisterCallback<ClickEvent>(_ => OnLinkClicked(Urls.CreateAwsAccountLearnMore));
             _container.Q<Button>("AddProfile").RegisterCallback<ClickEvent>(_ => OnAddProfileClicked());
             _container.Q<Button>("DownloadSampleGame").RegisterCallback<ClickEvent>(_ => OnImportSampleClicked());
             _container.Q<VisualElement>("CaseStudy1LearnMore").RegisterCallback<ClickEvent>(_ => OnLinkClicked(Urls.MissingLink));
             _container.Q<VisualElement>("CaseStudy2LearnMore").RegisterCallback<ClickEvent>(_ => OnLinkClicked(Urls.MissingLink));
             _container.Q<VisualElement>("CaseStudy3LearnMore").RegisterCallback<ClickEvent>(_ => OnLinkClicked(Urls.MissingLink));
-        }
-
-        private static void OnCreateAccountClicked()
-        {
-            Application.OpenURL(Urls.CreateAwsAccountLearnMore);
         }
 
         private static void OnAddProfileClicked()

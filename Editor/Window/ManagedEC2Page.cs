@@ -89,9 +89,7 @@ namespace AmazonGameLift.Editor
             
             
             _container.Q<VisualElement>("ManagedEC2IntegrateLink")
-                .RegisterCallback<ClickEvent>(_ => OpenLink(Urls.MissingLink));
-            _container.Q<VisualElement>("ManagedEC2IntegrateLink")
-                .RegisterCallback<ClickEvent>(_ => OpenLink(Urls.MissingLink));
+                .RegisterCallback<ClickEvent>(_ => OpenLink(Urls.ManagedEc2IntegrateLink));
 
             _deploymentSettings.CurrentStackInfoChanged += UpdateGUI;
             _deploymentSettings.Scenario = DeploymentScenarios.SingleRegion;

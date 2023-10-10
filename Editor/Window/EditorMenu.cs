@@ -58,7 +58,7 @@ namespace AmazonGameLift.Editor
         [MenuItem("Amazon GameLift/Help/Documentation", priority = 200)]
         public static void OpenDocumentation()
         {
-            Application.OpenURL(Urls.AwsHelpGameLiftUnity);
+            Application.OpenURL(Urls.AwsHelpGameLiftUnityDocumentation);
         }
 
         [MenuItem("Amazon GameLift/Help/AWS GameTech Forum", priority = 201)]
@@ -70,7 +70,7 @@ namespace AmazonGameLift.Editor
         [MenuItem("Amazon GameLift/Help/Report Issues", priority = 202)]
         public static void OpenReportIssues()
         {
-            Application.OpenURL(Urls.GitHubAwsLabs);
+            Application.OpenURL(Urls.GitHubAwsIssues);
         }
     }
 }

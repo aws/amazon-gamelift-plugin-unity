@@ -20,14 +20,14 @@ namespace Editor.Window
             container.Add(uxml);
             ApplyText();
             
-            _container.Q<Label>(Strings.HelpPageEstimatingPriceLink).RegisterCallback<ClickEvent>(_ => OnLinkClicked(Urls.MissingLink));
-            _container.Q<Label>(Strings.HelpPageFleetIQLink).RegisterCallback<ClickEvent>(_ => OnLinkClicked(Urls.MissingLink));
+            _container.Q<Label>(Strings.HelpPageEstimatingPriceLink).RegisterCallback<ClickEvent>(_ => OnLinkClicked(Urls.AboutGameLiftPricing));
+            _container.Q<Label>(Strings.HelpPageFleetIQLink).RegisterCallback<ClickEvent>(_ => OnLinkClicked(Urls.AwsFleetIqDocumentation));
             _container.Q<Label>(Strings.HelpPageFlexMatchLink).RegisterCallback<ClickEvent>(_ => OnLinkClicked(Urls.MissingLink));
             
-            _container.Q<VisualElement>("HelpPageReportIssueLink").RegisterCallback<ClickEvent>(_ => OnLinkClicked(Urls.MissingLink));
-            _container.Q<VisualElement>("HelpPageDocumentationLink").RegisterCallback<ClickEvent>(_ => OnLinkClicked(Urls.MissingLink));
+            _container.Q<VisualElement>("HelpPageReportIssueLink").RegisterCallback<ClickEvent>(_ => OnLinkClicked(Urls.GitHubAwsIssues));
+            _container.Q<VisualElement>("HelpPageDocumentationLink").RegisterCallback<ClickEvent>(_ => OnLinkClicked(Urls.AwsGameLiftDocs));
             _container.Q<VisualElement>("HelpPageVideoTutorialLink").RegisterCallback<ClickEvent>(_ => OnLinkClicked(Urls.MissingLink));
-            _container.Q<VisualElement>("HelpPageForumLink").RegisterCallback<ClickEvent>(_ => OnLinkClicked(Urls.MissingLink));
+            _container.Q<VisualElement>("HelpPageForumLink").RegisterCallback<ClickEvent>(_ => OnLinkClicked(Urls.AwsGameTechForums));
         }
 
         private void OnLinkClicked(string url)
