@@ -64,10 +64,10 @@ public class GameLiftServer
             var gameLiftClient = new AmazonGameLiftClient(credentialsResponse.AccessKey, credentialsResponse.SecretKey,
                 RegionEndpoint.GetBySystemName(region));
             authToken ??= gameLiftClient
-                .GetComputeAuthTokenAsync(new GetComputeAuthTokenRequest
+                .GetComputeAuthToken(new GetComputeAuthTokenRequest
                 {
                     ComputeName = computeName, FleetId = fleetID
-                }).Result.AuthToken;
+                }).AuthToken;
 #endif
             var serverParams =
                 new ServerParameters(websocketUrl, $"{Application.productName}-{Guid.NewGuid()}", computeName, fleetID, authToken);
