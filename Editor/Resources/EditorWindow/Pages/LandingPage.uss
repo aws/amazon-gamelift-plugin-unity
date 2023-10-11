@@ -12,6 +12,8 @@
 
 .case-study__image {
     --unity-image-size: scale-to-fit;
+    min-width: 200px;
+    height: 100px;
 }
 
 Image#LandingPageNoAccountImage {
@@ -27,13 +29,13 @@ Image#LandingPageSampleImage {
 }
 
 Image#CaseStudy1 {
-    --unity-image: resource("Images/LandingPage/RollerChamp");
+    --unity-image: resource("Images/LandingPage/Behaviour");
 }
 
 Image#CaseStudy2 {
-    --unity-image: resource("Images/LandingPage/DeadByDaylight");
+    --unity-image: resource("Images/LandingPage/Bethesda");
 }
 
 Image#CaseStudy3 {
-    --unity-image: resource("Images/LandingPage/MegaBaseball2");
+    --unity-image: resource("Images/LandingPage/Ubisoft");
 }

@@ -195,6 +195,9 @@ namespace AmazonGameLift.Editor
             { Strings.LandingPageSampleButton, "Import Sample Game" },
             { Strings.LandingPageInfoStatusBoxText, "You will need to configure an AWS account profile to use Amazon GameLift." },
             { Strings.LandingPageWarningStatusBoxText, "Profile configuration is incomplete, navigate to AWS Account Credentials for next steps" },
+            { Strings.LandingPageCaseStudy1Description, "How Dead by Deadlight survives the test of time using AWS" },
+            { Strings.LandingPageCaseStudy2Description, "How Amazon GameLift Makes Quake Champions Even Faster, Better" },
+            { Strings.LandingPageCaseStudy3Description, "Moving from P2P to Cloud: How For Honor Improved Player Experience" },
 
             { Strings.UserProfilePageAccountCardNewAccountTitle, "Manage Your User Profiles"},
             { Strings.UserProfilePageAccountCardNewAccountDescription, "Create a profile to link to an AWS account and store your security credentials. Your profile also specifies the AWS Region you want to work in.\nYou can have multiple profiles, but only one can be active at a time. Check your active profile selection on the main page of the Amazon GameLift window."},

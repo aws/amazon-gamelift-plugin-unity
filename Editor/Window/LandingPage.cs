@@ -62,6 +62,9 @@ namespace AmazonGameLift.Editor
             l.SetElementText("LandingPageSampleHeader", Strings.LandingPageSampleHeader);
             l.SetElementText("LandingPageSampleDescription", Strings.LandingPageSampleDescription);
             l.SetElementText("DownloadSampleGame", Strings.LandingPageSampleButton);
+            l.SetElementText("LandingPageCaseStudy1Description", Strings.LandingPageCaseStudy1Description);
+            l.SetElementText("LandingPageCaseStudy2Description", Strings.LandingPageCaseStudy2Description);
+            l.SetElementText("LandingPageCaseStudy3Description", Strings.LandingPageCaseStudy3Description);
         }
 
         private void SetupStatusBoxes()

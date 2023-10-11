@@ -42,17 +42,17 @@
             <ui:VisualElement class="separator separator--large separator--horizontal">
                 <ui:VisualElement class="separator">
                     <ui:Image name="CaseStudy1" class="case-study__image"/>
-                    <ui:Label name="LandingPageCaseStudy1Description" text="Lorem ipsum dolor sit amet, \n consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua."/>
+                    <ui:Label name="LandingPageCaseStudy1Description" text="How Dead by Deadlight survives the test of time using AWS"/>
                     <ui:Label name="LearnMore" text="Learn More" class="external-link"/>
                 </ui:VisualElement>
                 <ui:VisualElement class="separator">
                     <ui:Image name="CaseStudy2" class="case-study__image"/>
-                    <ui:Label name="LandingPageCaseStudy2Description" text="Lorem ipsum dolor sit amet, \n consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua."/>
+                    <ui:Label name="LandingPageCaseStudy2Description" text="How Amazon GameLift Makes Quake Champions Even Faster, Better"/>
                     <ui:Label name="LearnMore" text="Learn More" class="external-link"/>
                 </ui:VisualElement>
                 <ui:VisualElement class="separator">
                     <ui:Image name="CaseStudy3" class="case-study__image"/>
-                    <ui:Label name="LandingPageCaseStudy3Description" text="Lorem ipsum dolor sit amet, \n consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua."/>
+                    <ui:Label name="LandingPageCaseStudy3Description" text="Moving from P2P to Cloud: How For Honor Improved Player Experience"/>
                     <ui:Label name="LearnMore" text="Learn More" class="external-link"/>
                 </ui:VisualElement>
             </ui:VisualElement>
