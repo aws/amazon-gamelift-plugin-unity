@@ -108,6 +108,7 @@ namespace AmazonGameLift.Editor
                 _fleetIdText.text = currentFleet.FleetId;
                 _stateManager.AnywhereFleetName = currentFleet.Name;
                 _stateManager.AnywhereFleetId = currentFleet.FleetId;
+                _stateManager.AnywhereFleetLocation = _fleetManager.FleetLocation;
                 _fleetState = FleetStatus.Selected;
             }
 

@@ -24,7 +24,7 @@ namespace AmazonGameLift.Runtime
 {
     public class GameLiftCoreApi
     {
-        public const string ConfigFilePath = "GameLiftAnywhereClientSettings.yaml";
+        public static readonly string ConfigFilePath = "GameLiftAnywhereClientSettings.yaml";
         private readonly GameLiftConfiguration _configuration;
         private readonly bool _isAnywhereMode;
         private readonly IGameServerAdapter _gameServerAdapter;

@@ -19,7 +19,7 @@ public class GameLiftServer
 {
     private readonly GameLift _gl;
     private readonly Logger _logger;
-    private const string configFilePath = "GameLiftServerRuntimeSettings.yaml";
+    public static readonly string configFilePath = "GameLiftServerRuntimeSettings.yaml";
     private readonly Settings<SettingsKeys> _settings;
 #if UNITY_EDITOR
     private readonly ICredentialsStore _credentialsStore;
