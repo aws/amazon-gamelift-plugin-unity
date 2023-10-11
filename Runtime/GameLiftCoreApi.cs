@@ -34,13 +34,12 @@ namespace AmazonGameLift.Runtime
             _configuration = configuration;
             if (_configuration.IsGameLiftAnywhere)
             {
-                var settings = new Settings<ClientSettingsKeys>(ConfigFilePath);
-                var fleetId = settings.GetSetting(ClientSettingsKeys.FleetId).Value;
-                var fleetLocation = settings.GetSetting(ClientSettingsKeys.FleetLocation).Value;
+                var fleetId = configuration.FleetId;
+                var fleetLocation = configuration.FleetLocation;
                 var credentials = new CredentialsStore(new FileWrapper());
                 var credentialsResponse =
-                    credentials.RetriveAwsCredentials(new RetriveAwsCredentialsRequest(){ProfileName = settings.GetSetting(ClientSettingsKeys.CurrentProfileName).Value});
-                var region = settings.GetSetting(ClientSettingsKeys.CurrentRegion).Value;
+                    credentials.RetriveAwsCredentials(new RetriveAwsCredentialsRequest(){ProfileName = configuration.ProfileName});
+                var region = configuration.AwsRegion;
                 var gameLiftClient = new AmazonGameLiftClient(credentialsResponse.AccessKey, credentialsResponse.SecretKey, RegionEndpoint.GetBySystemName(region));
                 var gameLiftClientWrapper = new AmazonGameLiftWrapper(gameLiftClient); 
                 _gameServerAdapter = new AnywhereGameServerAdapter(gameLiftClientWrapper, fleetId, fleetLocation);

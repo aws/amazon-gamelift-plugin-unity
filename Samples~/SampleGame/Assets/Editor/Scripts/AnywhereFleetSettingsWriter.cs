@@ -28,7 +28,7 @@ namespace Editor.Scripts
         {
 #if !UNITY_SERVER
             var profile = GetProfile();
-            var path = Path.Join(directory, GameLiftCoreApi.ConfigFilePath);
+            var path = Path.Join(directory, GameLift.ClientConfigFilePath);
             var clientSettings = new Settings<ClientSettingsKeys>(path);
             clientSettings.PutSetting(ClientSettingsKeys.CurrentRegion, profile.Region);
             clientSettings.PutSetting(ClientSettingsKeys.FleetId, profile.AnywhereFleetId);

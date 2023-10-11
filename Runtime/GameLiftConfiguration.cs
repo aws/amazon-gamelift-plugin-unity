@@ -10,5 +10,8 @@ namespace AmazonGameLiftPlugin.Core
         public string UserPoolClientId;
         public string ApiGatewayEndpoint;
         public bool IsGameLiftAnywhere;
+        public string FleetId;
+        public string FleetLocation;
+        public string ProfileName;
     }
 }

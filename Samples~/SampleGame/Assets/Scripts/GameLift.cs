@@ -20,6 +20,7 @@ public class GameLift : MonoBehaviour
     public sealed class GameLiftConnectionChangedEvent : UnityEvent<bool> { }
 
     public GameLiftConnectionChangedEvent ConnectionChangedEvent;
+    public static readonly string ClientConfigFilePath = "GameLiftAnywhereClientSettings.yaml";
 
     [SerializeField]
     private GameLiftClientSettings _gameLiftSettings;
@@ -74,7 +75,16 @@ public class GameLift : MonoBehaviour
         _server = new GameLiftServer(this, _logger);
 #else
         _logger.Write(":) I AM CLIENT");
-        var coreApi = new LoggingGameLiftCoreApi(_gameLiftSettings.GetConfiguration());
+        var config = _gameLiftSettings.GetConfiguration();
+        if (config.IsGameLiftAnywhere)
+        {
+            var settings = new Settings<ClientSettingsKeys>(ClientConfigFilePath);
+            config.FleetId = settings.GetSetting(ClientSettingsKeys.FleetId).Value;
+            config.FleetLocation = settings.GetSetting(ClientSettingsKeys.FleetId).Value;
+            config.AwsRegion = settings.GetSetting(ClientSettingsKeys.FleetId).Value;
+            config.ProfileName = settings.GetSetting(ClientSettingsKeys.FleetId).Value;
+        }
+        var coreApi = new LoggingGameLiftCoreApi(config);
         _client = new GameLiftClient(coreApi, new Delay(), _logger);
 #endif
     }
