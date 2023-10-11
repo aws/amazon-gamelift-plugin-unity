@@ -37,6 +37,9 @@ namespace AmazonGameLift.Editor
         public const string GameLiftServerCSharpSdkIntegrationDoc = "https://docs.aws.amazon.com/gamelift/latest/developerguide/integration-engines-unity-using.html";
         public const string GameLiftServerCSharpSdkApiDoc = "https://docs.aws.amazon.com/gamelift/latest/developerguide/integration-server-sdk-csharp-ref.html";
         public const string GameLiftBootstrapInformation = "https://docs.aws.amazon.com/gamelift/latest/developerguide/unity-plug-in-profile.html";
+        public const string GameLiftCaseStudy1 = "https://aws.amazon.com/blogs/gametech/how-dead-by-daylight-survives-the-test-of-time-using-aws/";
+        public const string GameLiftCaseStudy2 = "https://bethesda.net/en/article/45clhZhnUkmUyoQ6mMg0YW/amazon-gamelift-quake-champions";
+        public const string GameLiftCaseStudy3 = "https://aws.amazon.com/blogs/gametech/for-honor-friday-the-13th-the-game-move-from-p2p-to-the-cloud-to-improve-player-experience/";
         
         
         public const string MissingLink = "www.google.com";
