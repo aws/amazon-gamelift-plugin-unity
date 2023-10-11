@@ -212,11 +212,14 @@ namespace AmazonGameLift.Editor
         public const string AnywherePageConnectFleetNameLabel = "AnywherePageConnectFleetNameLabel";
         public const string AnywherePageConnectFleetIDLabel = "AnywherePageConnectFleetIDLabel";
         public const string AnywherePageConnectFleetStatusLabel = "AnywherePageConnectFleetStatusLabel";
+        public const string AnywherePageConnectFleetStatusError = "AnywherePageConnectFleetStatusError";
+        public const string AnywherePageConnectFleetStatusActive = "AnywherePageConnectFleetStatusActive";
         public const string AnywherePageConnectFleetNewButton = "AnywherePageConnectFleetNewButton";
         public const string AnywherePageComputeTitle = "AnywherePageComputeTitle";
         public const string AnywherePageComputeNameLabel = "AnywherePageComputeNameLabel";
         public const string AnywherePageComputeIPLabel = "AnywherePageComputeIPLabel";
         public const string AnywherePageComputeStatusLabel = "AnywherePageComputeStatusLabel";
+        public const string AnywherePageComputeStatusRegistered = "AnywherePageComputeStatusRegistered";
         public const string AnywherePageComputeRegisterButton = "AnywherePageComputeRegisterButton";
         public const string AnywherePageComputeReplaceComputeButton = "AnywherePageComputeReplaceComputeButton";
         public const string AnywherePageComputeCancelReplaceButton = "AnywherePageComputeCancelReplaceButton";
@@ -257,6 +260,11 @@ namespace AmazonGameLift.Editor
         public const string ManagedEC2DeployStatusLabel = "ManagedEC2DeployStatusLabel";
         public const string ManagedEC2DeployStatusIcon = "ManagedEC2DeployStatusIcon";
         public const string ManagedEC2DeployStatusText = "ManagedEC2DeployStatusText";
+        public const string ManagedEC2DeployStatusNotDeployed = "ManagedEC2DeployStatusNotDeployed";
+        public const string ManagedEC2DeployStatusDeploying = "ManagedEC2DeployStatusDeploying";
+        public const string ManagedEC2DeployStatusDeployed = "ManagedEC2DeployStatusDeployed";
+        public const string ManagedEC2DeployStatusDeleting = "ManagedEC2DeployStatusDeleting";
+        public const string ManagedEC2DeployStatusFailed = "ManagedEC2DeployStatusFailed";
         public const string ManagedEC2DeployActionsLabel = "ManagedEC2DeployActionsLabel";
         public const string ManagedEC2CreateStackButton = "ManagedEC2CreateStackButton";
         public const string ManagedEC2RedeployStackButton = "ManagedEC2RedeployStackButton";
@@ -293,6 +301,9 @@ namespace AmazonGameLift.Editor
         public const string ProfileSelectorBucketNameLabel = "ProfileSelectorBucketNameLabel";
         public const string ProfileSelectorRegionLabel = "ProfileSelectorRegionLabel";
         public const string ProfileSelectorStatusLabel = "ProfileSelectorStatusLabel";
+        public const string BootstrapStatusActive = "BootstrapStatusActive";
+        public const string BootstrapStatusInactive = "BootstrapStatusInactive";
+        public const string BootstrapStatusNoBucketCreated = "BootstrapStatusNoBucketCreated";
         public const string BootstrapNoBucketCreated = "BootstrapNoBucketCreated";
         
         public const string ViewLogsStatusBoxUrlTextButton = "ViewLogsStatusBoxUrlTextButton";

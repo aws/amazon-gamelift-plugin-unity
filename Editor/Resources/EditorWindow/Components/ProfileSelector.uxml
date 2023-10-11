@@ -1,7 +1,7 @@
 ﻿<!-- Copyright Amazon.com, Inc. or its affiliates. All Rights Reserved. -->
 <!-- SPDX-License-Identifier: Apache-2.0 -->
 
-<ui:UXML xmlns:ui="UnityEngine.UIElements">
+<ui:UXML xmlns:ui="UnityEngine.UIElements" xmlns:gl="AmazonGameLift.Editor">
     <ui:Style src="../common.uss"/>
     <ui:VisualElement class="form-row">
         <ui:Label name="DropdownLabel" class="form-row__label"/>
@@ -17,6 +17,6 @@
     </ui:VisualElement>
     <ui:VisualElement class="form-row">
         <ui:Label name="BootstrapStatusLabel" class="form-row__label"/>
-        <ui:Label name="BootstrapStatus" class="form-row__text-display"/>
+        <gl:StatusIndicator/>
     </ui:VisualElement>
 </ui:UXML>

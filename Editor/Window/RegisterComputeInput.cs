@@ -19,6 +19,7 @@ namespace AmazonGameLift.Editor
         private readonly Button _cancelReplaceButton;
         private readonly VisualElement _computeStatus;
         private readonly VisualElement _container;
+        private readonly StatusIndicator _statusIndicator;
         private readonly GameLiftComputeManager _computeManager;
         private readonly StateManager _stateManager;
         private StatusBox _registerComputeStatusBox;
@@ -41,6 +42,7 @@ namespace AmazonGameLift.Editor
             _registerButton = container.Q<Button>("AnywherePageComputeRegisterButton");
             _replaceComputeButton = container.Q<Button>("AnywherePageComputeReplaceComputeButton");
             _cancelReplaceButton = container.Q<Button>("AnywherePageComputeCancelReplaceButton");
+            _statusIndicator = container.Q<StatusIndicator>();
             LocalizeText();
 
             _computeState = !string.IsNullOrWhiteSpace(_stateManager.ComputeName) &&
@@ -202,6 +204,13 @@ namespace AmazonGameLift.Editor
 
             _container.SetEnabled(_stateManager.IsBootstrapped &&
                                   !string.IsNullOrWhiteSpace(_stateManager.AnywhereFleetId));
+
+            if (!string.IsNullOrWhiteSpace(_stateManager.ComputeName))
+            {
+                var textProvider = new TextProvider();
+                _statusIndicator.Set(State.Success,
+                    textProvider.Get(Strings.AnywherePageComputeStatusRegistered));
+            }
         }
 
         private void LocalizeText()

@@ -18,7 +18,7 @@ namespace Editor.CoreAPI
         {
             _amazonGameLiftWrapper = wrapper;
         }
-        
+
         public async Task<RegisterFleetComputeResponse> RegisterFleetCompute(string computeName, string fleetId, string fleetLocation,
             string ipAddress)
         {
@@ -36,6 +36,8 @@ namespace Editor.CoreAPI
 
                 return Response.Ok(new RegisterFleetComputeResponse()
                 {
+                    ComputeName = computeName,
+                    IpAddress = ipAddress,
                     WebSocketUrl = registerComputeResponse.Compute.GameLiftServiceSdkEndpoint
                 });
             }

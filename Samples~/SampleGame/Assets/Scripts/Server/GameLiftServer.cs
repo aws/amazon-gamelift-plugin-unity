@@ -51,7 +51,7 @@ public class GameLiftServer
 
         try
         {
-            var websocketUrl = _settings.GetSetting(SettingsKeys.WebsocketUrl).Value;
+            var websocketUrl = _settings.GetSetting(SettingsKeys.WebSocketUrl).Value;
             var fleetID = _settings.GetSetting(SettingsKeys.FleetId).Value;
             var computeName = _settings.GetSetting(SettingsKeys.ComputeName).Value;
 
