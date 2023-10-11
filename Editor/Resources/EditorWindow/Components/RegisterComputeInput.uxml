@@ -1,7 +1,7 @@
 ﻿<!-- Copyright Amazon.com, Inc. or its affiliates. All Rights Reserved. -->
 <!-- SPDX-License-Identifier: Apache-2.0 -->
 
-<ui:UXML xmlns:ui="UnityEngine.UIElements">
+<ui:UXML xmlns:ui="UnityEngine.UIElements" xmlns:gl="AmazonGameLift.Editor">
     <ui:Style src="./common.uss"/>
     <ui:VisualElement name="AnywherePageComputeStatusBoxContainer" class="separator"/>
     <ui:VisualElement class="separator">
@@ -23,7 +23,7 @@
         </ui:VisualElement>
         <ui:VisualElement name="AnywherePageComputeStatus" class="form-row">
             <ui:Label name="AnywherePageComputeStatusLabel" class="form-row__label" text="Status"/>
-            <ui:Label name="AnywherePageComputeStatusDisplay" class="form-row__text-display" text="Registered"/>
+            <gl:StatusIndicator/>
         </ui:VisualElement>
         <ui:VisualElement class="form-row">
             <ui:VisualElement class="form-row__input form-row__input--no-label separator separator--horizontal">

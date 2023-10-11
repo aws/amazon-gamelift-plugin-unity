@@ -14,27 +14,41 @@ using ErrorCode = AmazonGameLift.Editor.ErrorCode;
      {
          private readonly IAmazonGameLiftWrapper _amazonGameLiftWrapper;
 
-         public GameLiftComputeManager(IAmazonGameLiftWrapper wrapper)
-         {
-             _amazonGameLiftWrapper = wrapper;
-         }
+        public GameLiftComputeManager(IAmazonGameLiftWrapper wrapper)
+        {
+            _amazonGameLiftWrapper = wrapper;
+        }
 
-         public async Task<RegisterFleetComputeResponse> RegisterFleetCompute(string computeName, string fleetId,
-             string fleetLocation,
-             string ipAddress)
-         {
-             try
-             {
-                 var registerComputeRequest = new RegisterComputeRequest()
-                 {
-                     ComputeName = computeName,
-                     FleetId = fleetId,
-                     IpAddress = ipAddress,
-                     Location = fleetLocation
-                 };
-                 var registerComputeResponse =
-                     await _amazonGameLiftWrapper.RegisterCompute(registerComputeRequest);
+        public async Task<RegisterFleetComputeResponse> RegisterFleetCompute(string computeName, string fleetId, string fleetLocation,
+            string ipAddress)
+        {
+            try
+            {
+                var registerComputeRequest = new RegisterComputeRequest()
+                {
+                    ComputeName = computeName,
+                    FleetId = fleetId,
+                    IpAddress = ipAddress,
+                    Location = fleetLocation
+                };
+                var registerComputeResponse =
+                    await _amazonGameLiftWrapper.RegisterCompute(registerComputeRequest);
 
+                return Response.Ok(new RegisterFleetComputeResponse()
+                {
+                    ComputeName = computeName,
+                    IpAddress = ipAddress,
+                    WebSocketUrl = registerComputeResponse.Compute.GameLiftServiceSdkEndpoint
+                });
+            }
+            catch (Exception ex)
+            {
+                return Response.Fail(new RegisterFleetComputeResponse
+                {
+                    ErrorCode = ErrorCode.RegisterComputeFailed,
+                    ErrorMessage = ex.Message
+                });
+              
                  return Response.Ok(new RegisterFleetComputeResponse()
                  {
                      ComputeName = computeName,
