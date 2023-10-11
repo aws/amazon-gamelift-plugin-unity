@@ -11,9 +11,10 @@
 }
 
 .case-study__image {
-    --unity-image-size: scale-to-fit;
-    min-width: 200px;
-    height: 100px;
+    align-self: center;
+    width: 240px;
+    height: 140px;
+    flex: 0 0 auto;
 }
 
 Image#LandingPageNoAccountImage {
@@ -29,13 +30,13 @@ Image#LandingPageSampleImage {
 }
 
 Image#CaseStudy1 {
-    --unity-image: resource("Images/LandingPage/Behaviour");
+    background-image: resource("Images/LandingPage/Behaviour");
 }
 
 Image#CaseStudy2 {
-    --unity-image: resource("Images/LandingPage/Bethesda");
+    background-image: resource("Images/LandingPage/Bethesda");
 }
 
 Image#CaseStudy3 {
-    --unity-image: resource("Images/LandingPage/Ubisoft");
+    background-image: resource("Images/LandingPage/Ubisoft");
 }
