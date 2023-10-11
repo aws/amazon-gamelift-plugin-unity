@@ -140,8 +140,7 @@ namespace AmazonGameLift.Editor
                 return bootstrapResponse;
             }
 
-            CreateBucketResponse createResponse =
-                _coreApi.CreateBucket(bootstrapResponse.Profile, bootstrapResponse.Region, BucketName);
+            CreateBucketResponse createResponse = _coreApi.CreateBucket(bootstrapResponse.Profile, bootstrapResponse.Region, BucketName);
 
             if (createResponse.Success)
             {
@@ -207,9 +206,7 @@ namespace AmazonGameLift.Editor
                     return;
                 }
 
-                GetBucketsResponse bucketsResponse =
-                    await Task.Run(() => _coreApi.ListBuckets(profileResponse.Value, regionResponse.Value),
-                        cancellationToken);
+                GetBucketsResponse bucketsResponse = await Task.Run(() => _coreApi.ListBuckets(profileResponse.Value, regionResponse.Value), cancellationToken);
 
                 if (!bucketsResponse.Success)
                 {
@@ -289,8 +286,7 @@ namespace AmazonGameLift.Editor
                 return;
             }
 
-            RetrieveAccountIdByCredentialsResponse
-                accountIdResponse = _coreApi.RetrieveAccountId(profileResponse.Value);
+            RetrieveAccountIdByCredentialsResponse accountIdResponse = _coreApi.RetrieveAccountId(profileResponse.Value);
 
             if (!accountIdResponse.Success)
             {
@@ -315,8 +311,7 @@ namespace AmazonGameLift.Editor
         private void SetErrorStatus(string statusKey, Response errorResponse)
         {
             string errorTemplate = _textProvider.Get(statusKey);
-            string message = string.Format(errorTemplate, _textProvider.GetError(errorResponse.ErrorCode),
-                errorResponse.ErrorMessage);
+            string message = string.Format(errorTemplate, _textProvider.GetError(errorResponse.ErrorCode), errorResponse.ErrorMessage);
             _status.SetMessage(message, MessageType.Error);
             _status.IsDisplayed = true;
         }
@@ -341,8 +336,7 @@ namespace AmazonGameLift.Editor
 
             if (policy != BucketPolicy.None)
             {
-                PutLifecycleConfigurationResponse putPolicyResponse =
-                    _coreApi.PutBucketLifecycleConfiguration(profileName, region, bucketName, policy);
+                PutLifecycleConfigurationResponse putPolicyResponse = _coreApi.PutBucketLifecycleConfiguration(profileName, region, bucketName, policy);
 
                 if (!putPolicyResponse.Success)
                 {

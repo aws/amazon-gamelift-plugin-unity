@@ -4,7 +4,6 @@
 using System;
 using System.Collections.Generic;
 using AmazonGameLiftPlugin.Core.BucketManagement.Models;
-using Editor.CoreAPI;
 
 namespace AmazonGameLift.Editor
 {
