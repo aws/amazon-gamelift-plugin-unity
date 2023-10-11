@@ -18,7 +18,7 @@ namespace AmazonGameLift.Editor
         private DropdownField _dropdown => this.Q<DropdownField>("Dropdown");
         private Label _bucketName => this.Q<Label>("BucketName");
         private Label _region => this.Q<Label>("Region");
-        private Label _status => this.Q<Label>("BootstrapStatus");
+        private StatusIndicator _statusIndicator => this.Q<StatusIndicator>();
 
         public ProfileSelector()
         {
@@ -37,19 +37,18 @@ namespace AmazonGameLift.Editor
  
         private void UpdateGUI()
         {
-            var profiles = _stateManager.CoreApi.ListCredentialsProfiles().Profiles.ToList();
-            _dropdown.choices = profiles;
+            _dropdown.choices = _stateManager.AllProfiles.ToList();
             _dropdown.SetValueWithoutNotify(_stateManager.ProfileName);
             _region.text = _stateManager.Region;
             if (_stateManager.IsBootstrapped)
             {
                 _bucketName.text = _stateManager.BucketName;
-                _status.text = "Active";
+                _statusIndicator.Set(State.Success, _textProvider.Get(Strings.BootstrapStatusActive));
             }
             else
             {
-                _bucketName.text = _textProvider.Get(Strings.BootstrapNoBucketCreated);
-                _status.text = "Inactive";
+                _bucketName.text = _textProvider.Get(Strings.BootstrapStatusNoBucketCreated);
+                _statusIndicator.Set(State.Inactive, _textProvider.Get(Strings.BootstrapStatusInactive));
             }
         }
 

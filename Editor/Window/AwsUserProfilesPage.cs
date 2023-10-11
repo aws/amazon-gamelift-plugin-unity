@@ -14,6 +14,7 @@ namespace AmazonGameLift.Editor
         private List<TextField> AccountDetailTextFields = new();
 
         private readonly AwsCredentialsUpdate _awsCredentialsUpdateModel;
+        private readonly BootstrapSettings _bootstrapSettings;
         
         private VisualElement _currentElement;
 
@@ -26,7 +27,7 @@ namespace AmazonGameLift.Editor
         private readonly VisualElement _createMenu;
         private readonly VisualElement _bootstrapMenu;
         private readonly VisualElement _completedMenu;
-        private BootstrapSettings _bootstrapSettings;
+        private StatusBox _statusBox;
 
         public AwsUserProfilesPage(VisualElement container, StateManager stateManager)
         {
@@ -38,6 +39,7 @@ namespace AmazonGameLift.Editor
             var uxml = mVisualTreeAsset.Instantiate();
 
             _container.Add(uxml);
+            SetupStatusBoxes();
             LocalizeText();
             
             _noAccountMenu =  _container.Q<VisualElement>("UserProfilePageNoAccountMenu");
@@ -59,7 +61,7 @@ namespace AmazonGameLift.Editor
                 _awsCredentialsUpdateModel.Refresh();
                 _awsCredentialsUpdateModel.Update();
             };
-
+            
             var createProfileContainer = _container.Q("UserProfilePageCreateMenu");
             _userProfileCreation = new UserProfileCreation(createProfileContainer, _stateManager);
             _userProfileCreation.OnProfileCreated += () =>
@@ -73,6 +75,11 @@ namespace AmazonGameLift.Editor
             container.Q<DropdownField>("UserProfilePageAccountNewProfileRegionDropdown").choices =
                 _stateManager.CoreApi.ListAvailableRegions().ToList();
             
+            if (!stateManager.IsBootstrapped)
+            {
+                _statusBox.Show(StatusBox.StatusBoxType.Warning, Strings.UserProfilePageStatusBoxWarningText);
+            }
+           
             ChooseProfileMenu();
             SetupButtonCallbacks();
         }
@@ -110,6 +117,11 @@ namespace AmazonGameLift.Editor
         private void SetupButtonCallbacks()
         {
             _container.Q<Button>("UserProfilePageAccountCardNoAccountButton").RegisterCallback<ClickEvent>(_ => OpenLink("")); // TODO: Investigate correct URL
+            _container.Q<Button>("UserProfilePageAccountCardHasAccountButton").RegisterCallback<ClickEvent>(_ =>
+            {
+                var targetWizard = _container.Q<VisualElement>("UserProfilePageCreateMenu");
+                ShowProfileMenu(targetWizard);
+            });
             _container.Q<Button>("UserProfilePageBootstrapAnotherProfileButton").RegisterCallback<ClickEvent>(_ =>
             {
                 var targetWizard = _container.Q<VisualElement>("UserProfilePageCreateMenu");
@@ -123,12 +135,12 @@ namespace AmazonGameLift.Editor
             _container.Q<Button>("UserProfilePageBootstrapStartButton").RegisterCallback<ClickEvent>(_ =>
             {
                 _bootstrapSettings.RefreshBucketName();
-                OpenS3Popup(_stateManager.BucketName);
+                OpenS3Popup(_bootstrapSettings.BucketName);
             });
             _container.Q<Button>("UserProfilePageBootstrapAnotherBucketButton").RegisterCallback<ClickEvent>(_ =>
             {
                 _bootstrapSettings.RefreshBucketName();
-                OpenS3Popup(_stateManager.BucketName);
+                OpenS3Popup(_bootstrapSettings.BucketName);
             });
             _container.Q<Button>("UserProfilePageAccountNewProfileAccessKeyToggleReveal").RegisterCallback<ClickEvent>(_ =>
             {
@@ -196,13 +208,12 @@ namespace AmazonGameLift.Editor
             var bucketResponse = _bootstrapSettings.CreateBucket(bucketName);
             if (bucketResponse.Success)
             {
-                // TODO: Add success status box
+                _statusBox.Show(StatusBox.StatusBoxType.Success, Strings.UserProfilePageStatusBoxSuccessText);
                 _stateManager.SetBucketBootstrap(bucketName);
             }
             else
             {
-                // TODO: Add error status box
-                Debug.Log(bucketResponse.ErrorMessage);
+                _statusBox.Show(StatusBox.StatusBoxType.Error, Strings.UserProfilePageStatusBoxErrorText, bucketResponse.ErrorMessage, string.Format(Urls.AwsGameLiftLogs, _stateManager.Region), Strings.ViewLogsStatusBoxUrlTextButton);
             }
         }
 
@@ -212,6 +223,13 @@ namespace AmazonGameLift.Editor
             popup.Init(bucketName);
             popup.OnConfirm += BootstrapAccount;
             popup.ShowModalUtility();
+        }
+        
+        private void SetupStatusBoxes()
+        {
+            _statusBox = new StatusBox();
+            var statusBoxContainer = _container.Q("UserProfilePageStatusBoxContainer");
+            statusBoxContainer.Add(_statusBox);
         }
     }
 }
