@@ -30,9 +30,9 @@ namespace Editor.CoreAPI
 
         #region Profile Settings
 
-        public virtual string ProfileName => _selectedProfile?.Name;
+        public string ProfileName => _selectedProfile?.Name;
 
-        public virtual string Region
+        public string Region
         {
             get => _selectedProfile.Region;
             set
