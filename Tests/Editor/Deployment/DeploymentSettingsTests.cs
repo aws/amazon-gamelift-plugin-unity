@@ -1419,6 +1419,7 @@ namespace AmazonGameLiftPlugin.Editor.UnitTests
             coreApiMock.Setup(target => target.GetSetting(It.IsAny<SettingsKeys>()))
                 .Returns(Response.Ok(new GetSettingResponse()))
                 .Verifiable();
+            coreApiMock.Setup(target => target.DeleteStack(It.IsAny<string>(), It.IsAny<string>(), It.IsAny<string>())).Verifiable();
             
             var stateManagerMock = new Mock<StateManager>(coreApiMock.Object);
 
