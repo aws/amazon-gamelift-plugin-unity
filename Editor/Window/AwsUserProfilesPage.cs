@@ -68,7 +68,7 @@ namespace AmazonGameLift.Editor
             {
                 ShowProfileMenu(_bootstrapMenu);
             };
-            _bootstrapSettings = BootstrapSettingsFactory.Create();
+            _bootstrapSettings = BootstrapSettingsFactory.Create(_stateManager);
                 
             RefreshProfiles();
 
