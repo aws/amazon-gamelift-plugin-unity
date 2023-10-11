@@ -20,7 +20,7 @@ public class GameLiftServer
     private readonly GameLift _gl;
     private readonly Logger _logger;
     public static readonly string configFilePath = "GameLiftServerRuntimeSettings.yaml";
-    private readonly Settings<SettingsKeys> _settings;
+    private readonly Settings<ServerSettingsKeys> _settings;
 #if UNITY_EDITOR
     private readonly ICredentialsStore _credentialsStore;
 #endif
@@ -34,7 +34,7 @@ public class GameLiftServer
     {
         _gl = gl ?? throw new ArgumentNullException(nameof(gl));
         _logger = logger ?? throw new ArgumentNullException(nameof(logger));
-        _settings = new Settings<SettingsKeys>(configFilePath);
+        _settings = new Settings<ServerSettingsKeys>(configFilePath);
 #if UNITY_EDITOR
         _credentialsStore = new CredentialsStore(new FileWrapper());
 #endif
@@ -51,16 +51,16 @@ public class GameLiftServer
 
         try
         {
-            var websocketUrl = _settings.GetSetting(SettingsKeys.WebSocketUrl).Value;
-            var fleetID = _settings.GetSetting(SettingsKeys.FleetId).Value;
-            var computeName = _settings.GetSetting(SettingsKeys.ComputeName).Value;
+            var websocketUrl = _settings.GetSetting(ServerSettingsKeys.WebSocketUrl).Value;
+            var fleetID = _settings.GetSetting(ServerSettingsKeys.FleetId).Value;
+            var computeName = _settings.GetSetting(ServerSettingsKeys.ComputeName).Value;
 
 #if UNITY_EDITOR
-            var profileName = _settings.GetSetting(SettingsKeys.CurrentProfileName).Value;
+            var profileName = _settings.GetSetting(ServerSettingsKeys.CurrentProfileName).Value;
             var credentialsResponse =
                 _credentialsStore.RetriveAwsCredentials(
                     new RetriveAwsCredentialsRequest() { ProfileName = profileName });
-            var region = _settings.GetSetting(SettingsKeys.CurrentRegion).Value;
+            var region = _settings.GetSetting(ServerSettingsKeys.CurrentRegion).Value;
             var gameLiftClient = new AmazonGameLiftClient(credentialsResponse.AccessKey, credentialsResponse.SecretKey,
                 RegionEndpoint.GetBySystemName(region));
             authToken ??= gameLiftClient
