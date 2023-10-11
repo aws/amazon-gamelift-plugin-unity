@@ -14,13 +14,13 @@ namespace Editor.Scripts
         public static void WriteServerSettings(string directory = "")
         {
 #if UNITY_SERVER
-        var profile = GetProfile();
-        var path = Path.Join(directory, GameLiftServer.configFilePath);
-        var serverSettings = new Settings<SettingsKeys>(path);
-        serverSettings.PutSetting(SettingsKeys.CurrentRegion, profile.Region);
-        serverSettings.PutSetting(SettingsKeys.FleetId, profile.AnywhereFleetId);
-        serverSettings.PutSetting(SettingsKeys.ComputeName, profile.ComputeName);
-        serverSettings.PutSetting(SettingsKeys.WebSocketUrl, profile.WebSocketUrl);
+            var profile = GetProfile();
+            var path = Path.Join(directory, GameLiftServer.configFilePath);
+            var serverSettings = new Settings<SettingsKeys>(path);
+            serverSettings.PutSetting(SettingsKeys.CurrentRegion, profile.Region);
+            serverSettings.PutSetting(SettingsKeys.FleetId, profile.AnywhereFleetId);
+            serverSettings.PutSetting(SettingsKeys.ComputeName, profile.ComputeName);
+            serverSettings.PutSetting(SettingsKeys.WebSocketUrl, profile.WebSocketUrl);
 #endif
         }
 
