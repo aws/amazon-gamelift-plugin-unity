@@ -1,4 +1,7 @@
-﻿using System;
+﻿// Copyright Amazon.com, Inc. or its affiliates. All Rights Reserved.
+// SPDX-License-Identifier: Apache-2.0
+
+using System;
 using System.Net;
 using System.Threading.Tasks;
 using Amazon.GameLift.Model;
@@ -19,7 +22,37 @@ namespace Editor.CoreAPI
             _amazonGameLiftWrapper = wrapper;
         }
 
-        public async Task<RegisterFleetComputeResponse> RegisterFleetCompute(string computeName, string fleetId, string fleetLocation,
+        public async Task<RegisterFleetComputeResponse> RegisterFleetCompute(string computeName, string fleetId,
+            string fleetLocation,
+            string ipAddress)
+        {
+            if (_amazonGameLiftWrapper != null)
+            {
+                if (string.IsNullOrWhiteSpace(computeName))
+                {
+                    return Response.Fail(new RegisterFleetComputeResponse
+                    {
+                        ErrorCode = ErrorCode.InvalidComputeName
+                    });
+                }
+                
+                if (string.IsNullOrWhiteSpace(ipAddress))
+                {
+                    return Response.Fail(new RegisterFleetComputeResponse
+                    {
+                        ErrorCode = ErrorCode.InvalidIpAddress
+                    });
+                }
+                
+                var registerFleetComputeResponse = await RegisterCompute(computeName, fleetId, fleetLocation, ipAddress);
+
+                return registerFleetComputeResponse;
+            }
+
+            return Response.Fail(new RegisterFleetComputeResponse { ErrorCode = ErrorCode.AccountProfileMissing });
+        }
+
+        private async Task<RegisterFleetComputeResponse> RegisterCompute(string computeName, string fleetId, string fleetLocation,
             string ipAddress)
         {
             try
