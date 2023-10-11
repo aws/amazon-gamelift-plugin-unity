@@ -47,7 +47,11 @@ namespace AmazonGameLift.Editor
             SetupPage();
             SetupStatusBox();
             LocalizeText();
-            _stateManager.OnUserProfileUpdated += () => UpdateFleetMenu();
+            _stateManager.OnUserProfileUpdated += async () =>
+            {
+                await UpdateFleetMenu();
+                UpdateGUI();
+            };
 
             UpdateGUI();
         }
