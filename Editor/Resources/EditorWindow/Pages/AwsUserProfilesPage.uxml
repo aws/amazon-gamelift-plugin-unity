@@ -9,12 +9,13 @@
             <ui:Label name="UserProfilePageDescription" text="AWS Account Credentials are used for any account bootstrapping and CloudFormation deployments."/>
         </ui:VisualElement>
         <ui:VisualElement class="divider"/>
+        <ui:VisualElement name="UserProfilePageStatusBoxContainer" class="separator"/>
         <ui:VisualElement name="UserProfilePageNoAccountMenu" class="separator separator--large separator--horizontal">
             <ui:VisualElement class="card card--large card--centered separator">
                 <ui:Image name="UserProfilePageAccountCardNoAccountIcon" class="card__icon card__icon--large"/>
                 <ui:Label name="UserProfilePageAccountCardNoAccountTitle" class="card__title" text="I don’t have an AWS account"/>
                 <ui:Label name="UserProfilePageAccountCardNoAccountDescription" text="[text about needing an AWS account and it can take a maximum of two sentences]"/>
-                <ui:VisualElement class="float-right">
+                <ui:VisualElement class="external-link">
                     <ui:Label name="UserProfilePageAccountCardNoAccountLink" text="Learn More"/>
                     <ui:Image name="ExternalLinkIcon" class="icon--small"/>
                 </ui:VisualElement>

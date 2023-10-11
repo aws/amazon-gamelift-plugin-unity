@@ -142,6 +142,8 @@ namespace AmazonGameLift.Editor
 
         public bool CanCancel => _deploymentWaiter.CanCancel == true;
 
+        public bool CanEdit => !IsDeploymentRunning && IsBootstrapped && IsCurrentStackModifiable;
+
         public bool CanDeploy => !IsDeploymentRunning && IsBootstrapped && IsFormFilled && IsCurrentStackModifiable;
 
         public bool IsCurrentStackModifiable =>
@@ -189,15 +191,12 @@ namespace AmazonGameLift.Editor
             }
 
             AllScenarios = _deployers.Values.Select(deployer => deployer.DisplayName).ToArray();
-            GetSettingResponse bucketNameResponse = _coreApi.GetSetting(SettingsKeys.CurrentBucketName);
-            CurrentBucketName = bucketNameResponse.Success ? bucketNameResponse.Value : null;
-            GetSettingResponse currentRegionResponse = _coreApi.GetSetting(SettingsKeys.CurrentRegion);
-            CurrentRegion = currentRegionResponse.Success ? currentRegionResponse.Value : null;
+            CurrentBucketName = _stateManager.BucketName;
+            CurrentRegion = _stateManager.Region;
+            CurrentProfile = _stateManager.ProfileName;
 
             HasCurrentBucket = !string.IsNullOrEmpty(CurrentBucketName) && _coreApi.IsValidRegion(CurrentRegion);
 
-            GetSettingResponse profileResponse = _coreApi.GetSetting(SettingsKeys.CurrentProfileName);
-            CurrentProfile = profileResponse.Success ? profileResponse.Value : null;
             RefreshScenario();
         }
 
@@ -385,7 +384,14 @@ namespace AmazonGameLift.Editor
             IReadOnlyDictionary<string, string> parameters = currentDeployer.HasGameServer
                 ? PrepareParameters(exeFilePath)
                 : PrepareGameParameter();
-            _parametersUpdater.Update(parametersPath, parameters);
+            var parameterUpdateResponse = _parametersUpdater.Update(parametersPath, parameters);
+            if (!parameterUpdateResponse.Success)
+            {
+                _status.IsDisplayed = true;
+                _status.SetMessage(parameterUpdateResponse.ErrorMessage, MessageType.Error);
+                _logger.LogResponseError(parameterUpdateResponse);
+                return;
+            }
             CurrentStackInfo = new DeploymentStackInfo(_textProvider.Get(Strings.StatusDeploymentStarting));
             string stackName = _coreApi.GetStackName(GameName);
             var deploymentId = new DeploymentId(CurrentProfile, CurrentRegion, stackName, currentDeployer.DisplayName);
@@ -461,15 +467,20 @@ namespace AmazonGameLift.Editor
         private IReadOnlyDictionary<string, string> PrepareParameters(string exeFilePathInBuild)
         {
             string launchPath = _coreApi.GetServerGamePath(exeFilePathInBuild);
-            return new Dictionary<string, string>
+            var parameters = new Dictionary<string, string>
             {
                 { ScenarioParameterKeys.GameName, GameName },
                 { ScenarioParameterKeys.LaunchPath, launchPath },
-                { ScenarioParameterKeys.LaunchParameters, LaunchParameters },
                 { ScenarioParameterKeys.BuildOperatingSystem, BuildOperatingSystem },
                 { ScenarioParameterKeys.FleetName, FleetName },
                 { ScenarioParameterKeys.BuildName, BuildName },
             };
+            if (!string.IsNullOrWhiteSpace(LaunchParameters))
+            {
+                parameters.Add(ScenarioParameterKeys.LaunchParameters, LaunchParameters);
+            }
+
+            return parameters;
         }
 
         private string GetExeFilePathInBuildOrNull()

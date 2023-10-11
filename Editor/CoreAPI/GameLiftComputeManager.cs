@@ -2,12 +2,10 @@
 using System.Net;
 using System.Threading.Tasks;
 using Amazon.GameLift.Model;
-using Amazon.Runtime.Internal;
 using AmazonGameLift.Editor;
 using AmazonGameLiftPlugin.Core;
 using AmazonGameLiftPlugin.Core.Shared;
 using UnityEngine;
-using UnityEngine.UIElements;
 using ErrorCode = AmazonGameLift.Editor.ErrorCode;
 
 namespace Editor.CoreAPI
@@ -21,25 +19,7 @@ namespace Editor.CoreAPI
             _amazonGameLiftWrapper = wrapper;
         }
 
-        public async Task<RegisterFleetComputeResponse> RegisterFleetCompute(string computeName, string fleetId,
-            string fleetLocation,
-            string ipAddress)
-        {
-            var webSocketUrl = await RegisterCompute(computeName, fleetId, fleetLocation, ipAddress);
-            if (webSocketUrl != null)
-            {
-                return Response.Ok(new RegisterFleetComputeResponse()
-                {
-                    ComputeName = computeName,
-                    IpAddress = ipAddress,
-                    WebSocketUrl = webSocketUrl
-                });
-            }
-
-            return Response.Fail(new RegisterFleetComputeResponse { ErrorCode = ErrorCode.RegisterComputeFailed });
-        }
-
-        private async Task<string> RegisterCompute(string computeName, string fleetId, string fleetLocation,
+        public async Task<RegisterFleetComputeResponse> RegisterFleetCompute(string computeName, string fleetId, string fleetLocation,
             string ipAddress)
         {
             try
@@ -54,12 +34,20 @@ namespace Editor.CoreAPI
                 var registerComputeResponse =
                     await _amazonGameLiftWrapper.RegisterCompute(registerComputeRequest);
 
-                return registerComputeResponse.Compute.GameLiftServiceSdkEndpoint;
+                return Response.Ok(new RegisterFleetComputeResponse()
+                {
+                    ComputeName = computeName,
+                    IpAddress = ipAddress,
+                    WebSocketUrl = registerComputeResponse.Compute.GameLiftServiceSdkEndpoint
+                });
             }
             catch (Exception ex)
             {
-                Debug.Log(ex.Message);
-                return null;
+                return Response.Fail(new RegisterFleetComputeResponse
+                {
+                    ErrorCode = ErrorCode.RegisterComputeFailed,
+                    ErrorMessage = ex.Message
+                });
             }
         }
 

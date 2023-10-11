@@ -24,7 +24,7 @@ namespace AmazonGameLift.Editor
         private readonly Button _launchClientButton;
         private readonly DeploymentScenariosInput _deploymentScenariosInput;
         private readonly FleetParametersInput _fleetParamsInput;
-        private readonly Label _ec2DeploymentStatusLabel;
+        private readonly StatusIndicator _statusIndicator;
 
         public ManagedEC2Page(VisualElement container, StateManager stateManager)
         {
@@ -35,6 +35,7 @@ namespace AmazonGameLift.Editor
             _deploymentSettings.Refresh();
             var parameters = new ManagedEC2FleetParameters
             {
+                GameName = _deploymentSettings.GameName ?? Application.productName,
                 FleetName = _deploymentSettings.FleetName ?? $"{Application.productName}-ManagedFleet",
                 LaunchParameters = _deploymentSettings.LaunchParameters ?? $"",
                 BuildName = _deploymentSettings.BuildName ??
@@ -53,13 +54,12 @@ namespace AmazonGameLift.Editor
             var ec2Deployment = new ManagedEC2Deployment(_deploymentSettings, parameters);
             var scenarioContainer = container.Q("ManagedEC2ScenarioTitle");
             _deploymentScenariosInput =
-                new DeploymentScenariosInput(scenarioContainer, _deploymentSettings.Scenario, true);
-            _deploymentScenariosInput.SetEnabled(true);
+                new DeploymentScenariosInput(scenarioContainer, _deploymentSettings.Scenario, _stateManager.IsBootstrapped);
             _deploymentScenariosInput.OnValueChanged += value => { Debug.Log($"Fleet type changed to {value}"); };
-            _ec2DeploymentStatusLabel = _container.Q<Label>("ManagedEC2DeployStatusText");
+            _statusIndicator = _container.Q<StatusIndicator>();
 
-            var parametersInput = container.Q<Foldout>("ManagedEC2ParametersTitle");
-            _fleetParamsInput = new FleetParametersInput(parametersInput, parameters);
+            var parametersContainer = container.Q<Foldout>("ManagedEC2ParametersTitle");
+            _fleetParamsInput = new FleetParametersInput(parametersContainer, parameters);
             _fleetParamsInput.OnValueChanged += fleetParameters =>
             {
                 ec2Deployment.UpdateModelFromParameters(fleetParameters);
@@ -106,9 +106,35 @@ namespace AmazonGameLift.Editor
                 _deploymentSettings.CurrentStackInfo.StackStatus is StackStatus.CreateComplete
                     or StackStatus.UpdateComplete);
 
-            _deploymentScenariosInput.SetEnabled(_deploymentSettings.CanDeploy);
-            _fleetParamsInput.SetEnabled(_deploymentSettings.CanDeploy);
-            _ec2DeploymentStatusLabel.text = _deploymentSettings.CurrentStackInfo.StackStatus;
+            _deploymentScenariosInput.SetEnabled(_deploymentSettings.CanEdit);
+            _fleetParamsInput.SetEnabled(_deploymentSettings.CanEdit);
+
+            var stackStatus = _deploymentSettings.CurrentStackInfo.StackStatus;
+            var textProvider = new TextProvider();
+            if (stackStatus == null)
+            {
+                _statusIndicator.Set(State.Inactive, textProvider.Get(Strings.ManagedEC2DeployStatusNotDeployed));
+            }
+            else if (stackStatus.IsStackStatusFailed())
+            {
+                _statusIndicator.Set(State.Failed, textProvider.Get(Strings.ManagedEC2DeployStatusFailed));
+            }
+            else if (stackStatus == StackStatus.DeleteInProgress)
+            {
+                _statusIndicator.Set(State.InProgress, textProvider.Get(Strings.ManagedEC2DeployStatusDeleting));
+            }
+            else if (stackStatus.IsStackStatusInProgress())
+            {
+                _statusIndicator.Set(State.InProgress, textProvider.Get(Strings.ManagedEC2DeployStatusDeploying));
+            }
+            else if (stackStatus.IsStackStatusOperationDone())
+            {
+                _statusIndicator.Set(State.Success, textProvider.Get(Strings.ManagedEC2DeployStatusDeployed));
+            }
+            else
+            {
+                _statusIndicator.Set(State.Inactive, textProvider.Get(Strings.ManagedEC2DeployStatusNotDeployed));
+            }
         }
 
         private void LocalizeText()

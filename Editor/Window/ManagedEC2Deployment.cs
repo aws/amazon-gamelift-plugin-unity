@@ -19,6 +19,7 @@ namespace AmazonGameLift.Editor
         
         public void UpdateModelFromParameters(ManagedEC2FleetParameters parameters)
         {
+            _deploymentSettings.GameName = parameters.GameName;
             _deploymentSettings.FleetName = parameters.FleetName;
             _deploymentSettings.BuildName = parameters.BuildName;
             _deploymentSettings.LaunchParameters = parameters.LaunchParameters;
@@ -29,7 +30,6 @@ namespace AmazonGameLift.Editor
         
         public void StartDeployment()
         {
-            _deploymentSettings.GameName = Application.productName.Substring(0, 12);
             _deploymentSettings.Save();
             _deploymentSettings.StartDeployment(ConfirmChanges).ContinueWith(task =>
             {

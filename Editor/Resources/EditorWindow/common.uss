@@ -5,14 +5,17 @@
     --color-background-accent: #333333;
     --color-background-primary: #3F3F3F;
     --color-button-primary: #2C5D87;
+    --color-button-secondary: #e4e4e4;
     --color-button-default: #585858;
     --color-button-hover: #386082;
     --color-button-border: #242424;
     --color-border-accent: #4c4c4c;
     --color-font-default: #d2d2d2;
     --color-font-accent: #ffffff;
+    --color-font-success: #58BC61;
     --color-font-error: #f30303;
     --color-font-link: #4C7EFF;
+    --color-font-dark: #090909;
     --color-foldout-title: #e4e4e4;
     --color-input-label: #c4c4c4;
     --color-text-input-background: #2a2a2a;
@@ -27,6 +30,7 @@
     --font-size-extralarge: 24px;
     --font-size-massive: 32px;
 
+    --icon-size-tiny: 16px;
     --icon-size-small: 24px;
     --icon-size-large: 60px;
     --border-size-thin: 1px;
@@ -69,6 +73,12 @@ Image.icon--small {
     flex: 0 0 auto;
 }
 
+Image.icon--tiny {
+    height: var(--icon-size-tiny);
+    width: var(--icon-size-tiny);
+    flex: 0 0 auto;
+}
+
 Image#FolderIcon {
     --unity-image: resource("Images/Icons/Folder");
 }
@@ -87,6 +97,11 @@ Image#FolderIcon {
 
 .button--primary {
     background-color: var(--color-button-primary);
+}
+
+.button--secondary {
+    background-color: var(--color-button-secondary);
+    color: var(--color-font-dark);
 }
 
 .button--small {
@@ -200,15 +215,25 @@ Image#ExternalLinkIcon {
     margin: 0 0 var(--spacing-large) 0;
 }
 
+.foldout .unity-foldout__checkmark {
+    height: 29px;
+    width: 24px;
+    background-image: resource("Images/Icons/FoldoutArrowClosed");
+    -unity-slice-left: 0;
+    -unity-slice-top: 0;
+}
+
+.foldout .unity-toggle__input:checked .unity-foldout__checkmark {
+    background-image: resource("Images/Icons/FoldoutArrowOpen");
+ }
+
 .form-row {
     flex-direction: row;
-    align-items: center;
 }
 
 .form-row__label {
     width: var(--form-row-label-width);
     height: 32px;
-    margin-right: var(--spacing-large);
     color: var(--color-input-label);
     font-size: var(--font-size-large);
     -unity-text-align: middle-left;
@@ -228,18 +253,7 @@ Image#ExternalLinkIcon {
 }
 
 .form-row__input--no-label {
-    flex-direction: row;
     margin-left: var(--form-row-label-width);
-    padding-left: var(--spacing-large);
-}
-
-.form-row__input--no-label > * {
-    flex-direction: row;
-    margin-right: var(--spacing-small);
-}
-
-.form-row__input .button {
-    margin-top: var(--spacing-small);
 }
 
 .form-row__radio-button .unity-radio-button__checkmark-background {
@@ -273,8 +287,12 @@ Image#ExternalLinkIcon {
     font-size: var(--font-size-large);
 }
 
-.text-input--tiny {
-    width: 50px;
+.text-input--fitted {
+    flex-shrink: 1;
+}
+
+.text-input--fitted .unity-text-element {
+    padding: 0;
 }
 
 .text-input--centered {
@@ -380,6 +398,10 @@ Image#ExternalLinkIcon {
 
 .card .button {
     margin-top: auto;
+    align-self: center;
+}
+
+.card .external-link {
     align-self: center;
 }
 
