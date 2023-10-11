@@ -377,7 +377,7 @@ namespace AmazonGameLiftPlugin.Core.BucketManagement
         public virtual string GetBucketPolicyPath()
         {
             string packageName = "com.amazonaws.gamelift";
-            string policyPath = "Editor/Resources/S3/BucketAccessPolicy.json";
+            string policyPath = "Runtime/Core/BucketManagement/BucketAccessPolicy.json";
             string internalPath = $"{packageName}/{policyPath}";
             string packagePath = $"Packages/{internalPath}";
             string fullPath = Path.GetFullPath(packagePath);
