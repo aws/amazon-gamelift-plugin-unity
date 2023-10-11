@@ -19,8 +19,7 @@ namespace Editor.CoreAPI
             _amazonGameLiftWrapper = wrapper;
         }
 
-        public async Task<RegisterFleetComputeResponse> RegisterFleetCompute(string computeName, string fleetId,
-            string fleetLocation,
+        public async Task<RegisterFleetComputeResponse> RegisterFleetCompute(string computeName, string fleetId, string fleetLocation,
             string ipAddress)
         {
             try
