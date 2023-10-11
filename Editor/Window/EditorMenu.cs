@@ -49,7 +49,7 @@ namespace AmazonGameLift.Editor
             GetPluginWindow().OpenTab(GameLiftPlugin.Pages.ManagedEC2);
         }
 
-        [MenuItem("Amazon GameLift/Import Sample Game", priority = 103)]
+        [MenuItem("Amazon GameLift/Sample Game/Import Sample Game", priority = 103)]
         public static void ImportSampleGame()
         {
             AssetDatabase.ImportPackage(_filePackagePath, interactive: true);
