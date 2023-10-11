@@ -21,6 +21,7 @@ namespace Editor.Scripts
             serverSettings.PutSetting(ServerSettingsKeys.FleetId, profile.AnywhereFleetId);
             serverSettings.PutSetting(ServerSettingsKeys.ComputeName, profile.ComputeName);
             serverSettings.PutSetting(ServerSettingsKeys.WebSocketUrl, profile.WebSocketUrl);
+            serverSettings.PutSetting(ServerSettingsKeys.CurrentProfileName, profile.Name);
 #endif
         }
 
