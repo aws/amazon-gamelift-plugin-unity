@@ -3,6 +3,7 @@
 
 using System;
 using System.Collections.Generic;
+using System.IO;
 using AmazonGameLift.Runtime;
 using AmazonGameLiftPlugin.Core.AccountManagement;
 using AmazonGameLiftPlugin.Core.AccountManagement.Models;
@@ -16,7 +17,6 @@ using AmazonGameLiftPlugin.Core.GameLiftLocalTesting;
 using AmazonGameLiftPlugin.Core.GameLiftLocalTesting.Models;
 using AmazonGameLiftPlugin.Core.JavaCheck;
 using AmazonGameLiftPlugin.Core.JavaCheck.Models;
-using AmazonGameLiftPlugin.Core.SettingsManagement;
 using AmazonGameLiftPlugin.Core.SettingsManagement.Models;
 using AmazonGameLiftPlugin.Core.Shared;
 using AmazonGameLiftPlugin.Core.Shared.FileSystem;
@@ -226,9 +226,19 @@ namespace AmazonGameLift.Editor
         /// </summary>
         public virtual CreateBucketResponse CreateBucket(string profileName, string region, string bucketName)
         {
+            var accountIdResponse = RetrieveAccountId(profileName);
+            if (!accountIdResponse.Success)
+            {
+                return Response.Fail(new CreateBucketResponse()
+                {
+                    ErrorCode = accountIdResponse.ErrorCode,
+                    ErrorMessage = accountIdResponse.ErrorMessage
+                });
+            }
             var bucketStore = new BucketStore(CreateS3Wrapper(profileName, region));
             var request = new CreateBucketRequest()
             {
+                AccountId = accountIdResponse.AccountId,
                 BucketName = bucketName,
                 Region = region
             };
@@ -268,7 +278,7 @@ namespace AmazonGameLift.Editor
         {
             return new AmazonS3Wrapper(string.Empty, string.Empty, string.Empty);
         }
-
+        
         #endregion
 
         #region Deployment

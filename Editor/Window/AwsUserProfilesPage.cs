@@ -13,7 +13,7 @@ namespace AmazonGameLift.Editor
     {
         private List<TextField> AccountDetailTextFields = new();
 
-        private readonly AwsCredentialsUpdate AwsCredentialsUpdateModel;
+        private readonly AwsCredentialsUpdate _awsCredentialsUpdateModel;
         private readonly BootstrapSettings _bootstrapSettings;
         
         private VisualElement _currentElement;
@@ -32,7 +32,7 @@ namespace AmazonGameLift.Editor
         public AwsUserProfilesPage(VisualElement container, StateManager stateManager)
         {
             var awsCredentials = new AwsCredentialsFactory().Create();
-           AwsCredentialsUpdateModel = awsCredentials.Update;
+           _awsCredentialsUpdateModel = awsCredentials.Update;
             
             _container = container;
             var mVisualTreeAsset = Resources.Load<VisualTreeAsset>("EditorWindow/Pages/AwsUserProfilesPage");
@@ -58,8 +58,8 @@ namespace AmazonGameLift.Editor
             _stateManager = stateManager;
             _stateManager.OnUserProfileUpdated += () =>
             {
-                AwsCredentialsUpdateModel.Refresh();
-                AwsCredentialsUpdateModel.Update();
+                _awsCredentialsUpdateModel.Refresh();
+                _awsCredentialsUpdateModel.Update();
             };
             
             var createProfileContainer = _container.Q("UserProfilePageCreateMenu");
@@ -200,7 +200,7 @@ namespace AmazonGameLift.Editor
 
         private void RefreshProfiles()
         {
-            AwsCredentialsUpdateModel.Refresh();
+            _awsCredentialsUpdateModel.Refresh();
         }
         
         private void BootstrapAccount(string bucketName)
