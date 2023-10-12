@@ -45,8 +45,8 @@ namespace Editor.CoreAPI
                 return Response.Fail(new CreateAnywhereFleetResponse { ErrorCode = ErrorCode.InvalidFleetName });
             }
             
-            var success = await CreateCustomLocationIfNotExists(FleetLocation);
-            if (!success)
+            var createLocationSuccess = await CreateCustomLocationIfNotExists(FleetLocation);
+            if (!createLocationSuccess)
             {
                 return Response.Fail(new CreateAnywhereFleetResponse { ErrorCode = ErrorCode.CustomLocationCreationFailed });
             }
