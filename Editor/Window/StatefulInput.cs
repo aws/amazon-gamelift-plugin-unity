@@ -1,6 +1,9 @@
-﻿using UnityEngine.UIElements;
+﻿// Copyright Amazon.com, Inc. or its affiliates. All Rights Reserved.
+// SPDX-License-Identifier: Apache-2.0
 
-namespace Editor.Window
+using UnityEngine.UIElements;
+
+namespace AmazonGameLift.Editor
 {
     /*
      * StatefulInput represents a section of UI that holds inputs and/or can be affected by

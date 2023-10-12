@@ -1,4 +1,7 @@
-﻿using System;
+﻿// Copyright Amazon.com, Inc. or its affiliates. All Rights Reserved.
+// SPDX-License-Identifier: Apache-2.0
+
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using AmazonGameLift.Editor;
@@ -235,8 +238,8 @@ namespace Editor.CoreAPI
 
         public void RefreshProfiles()
         {
-            var profiles = CoreApi.GetSetting(SettingsKeys.UserProfiles).Value;
-            if (string.IsNullOrWhiteSpace(profiles))
+            var profilesResponse = CoreApi.GetSetting(SettingsKeys.UserProfiles);
+            if (!profilesResponse.Success || string.IsNullOrWhiteSpace(profilesResponse.Value))
             {
                 _allProfiles = new List<UserProfile>();
             }
@@ -244,7 +247,7 @@ namespace Editor.CoreAPI
             {
                 try
                 {
-                    _allProfiles = _deserializer.Deserialize<List<UserProfile>>(profiles);
+                    _allProfiles = _deserializer.Deserialize<List<UserProfile>>(profilesResponse.Value);
                 }
                 catch (Exception ex)
                 {
