@@ -19,29 +19,14 @@ namespace AmazonGameLift.Editor
             container.Add(uxml);
             ApplyText();
             
-            _container.Q<Label>(Strings.HelpPageEstimatingPriceLink).RegisterCallback<ClickEvent>(_ => OnEstimatingLearnMoreClicked());
-            _container.Q<Label>(Strings.HelpPageFleetIQLink).RegisterCallback<ClickEvent>(_ => OnFleetIqLearnMoreClicked());
-            _container.Q<Label>(Strings.HelpPageFlexMatchLink).RegisterCallback<ClickEvent>(_ => OnFlexMatchLearnMoreClicked());
-        }
-
-        private void OnLinkClicked(string url)
-        {
-            Application.OpenURL(url);
-        }
-
-        private void OnEstimatingLearnMoreClicked()
-        {
-            OnLinkClicked(""); //TODO <ASG6> still need links for this. Has been requested.
-        }
-
-        private void OnFleetIqLearnMoreClicked()
-        {
-            OnLinkClicked(""); //TODO <ASG6> still need links for this. Has been requested
-        }
-        
-        private void OnFlexMatchLearnMoreClicked()
-        {
-            OnLinkClicked(""); //TODO <ASG6> still need links for this. Has been requested.
+            _container.Q<Label>(Strings.HelpPageEstimatingPriceLink).RegisterCallback<ClickEvent>(_ => Application.OpenURL(Urls.AboutGameLiftPricing));
+            _container.Q<Label>(Strings.HelpPageFleetIQLink).RegisterCallback<ClickEvent>(_ => Application.OpenURL(Urls.AwsFleetIqDocumentation));
+            _container.Q<Label>(Strings.HelpPageFlexMatchLink).RegisterCallback<ClickEvent>(_ => Application.OpenURL(Urls.AwsFlexMatchDocumentation));
+            
+            _container.Q<VisualElement>("HelpPageReportIssueLink").RegisterCallback<ClickEvent>(_ => Application.OpenURL(Urls.GitHubAwsIssues));
+            _container.Q<VisualElement>("HelpPageDocumentationLink").RegisterCallback<ClickEvent>(_ => Application.OpenURL(Urls.AwsGameLiftDocs));
+            _container.Q<VisualElement>("HelpPageVideoTutorialLink").RegisterCallback<ClickEvent>(_ => Application.OpenURL(Urls.MissingLink)); //TODO Still waiting on confirmation of this final link
+            _container.Q<VisualElement>("HelpPageForumLink").RegisterCallback<ClickEvent>(_ => Application.OpenURL(Urls.AwsGameTechForums));
         }
 
         private void ApplyText()

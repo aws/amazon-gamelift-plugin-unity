@@ -45,6 +45,13 @@ namespace AmazonGameLift.Editor
                 _isExpanded = true;
                 UpdateGUI();
             });
+            
+            _container.Q<VisualElement>("ManagedEC2ScenarioSingleFleetLink")
+                .RegisterCallback<ClickEvent>(_ => Application.OpenURL(Urls.ManagedEc2FleetLearnMore));
+            _container.Q<VisualElement>("ManagedEC2ScenarioSpotFleetLink")
+                .RegisterCallback<ClickEvent>(_ => Application.OpenURL(Urls.ManagedEc2FleetLearnMore));
+            _container.Q<VisualElement>("ManagedEC2ScenarioFlexMatchLink")
+                .RegisterCallback<ClickEvent>(_ => Application.OpenURL(Urls.ManagedEc2FleetLearnMore));
 
             LocalizeText();
             UpdateGUI();

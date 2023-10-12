@@ -2,14 +2,20 @@
 <!-- SPDX-License-Identifier: Apache-2.0 -->
 
 <ui:UXML xmlns:ui="UnityEngine.UIElements">
+    <Style src="../common.uss"/>
     <ui:VisualElement>
         <ui:Label name="UserProfilePageBootstrapPopupTitle" text="You might incur charges for creating an S3 Bucket..."/>
         <ui:Label name="UserProfilePageBootstrapPopupDescription" text="Check and see if you have exceeded the AWS Free Tier usage &#10;limits or your period expired."/>
         <ui:TextField name="UserProfilePageBootstrapPopupBucketText" label="Bucket Name" value="gamelift-bootstrap-012345678912-eu-west-1"/>
-        <ui:VisualElement>
-            <ui:Label name="UserProfilePageBootstrapPopupFreeTierLink" text="View AWS Pricing List \uf08e"/>
-            <ui:Button name="UserProfilePageBootstrapPopupCancelButton" text="Cancel"/>
-            <ui:Button name="UserProfilePageBootstrapPopupContinueButton" text="Continue"/>
+        <ui:VisualElement class="separator separator--horizontal">
+            <ui:VisualElement class="external-link">
+                <ui:Label name="UserProfilePageBootstrapPopupFreeTierLink"/>
+                <ui:Image name="ExternalLinkIcon" class="icon--small"/>
+            </ui:VisualElement>
+            <ui:VisualElement class="separator separator--horizontal float-right">
+                <ui:Button name="UserProfilePageBootstrapPopupCancelButton" text="Cancel"/>
+                <ui:Button name="UserProfilePageBootstrapPopupContinueButton" text="Continue"/>
+            </ui:VisualElement>
         </ui:VisualElement>
     </ui:VisualElement>
 </ui:UXML>

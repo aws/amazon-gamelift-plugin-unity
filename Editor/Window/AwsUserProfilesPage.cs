@@ -112,11 +112,20 @@ namespace AmazonGameLift.Editor
             l.SetElementText("UserProfilePageBootstrapStartButton", Strings.UserProfilePageBootstrapStartButton);
             l.SetElementText("UserProfilePageBootstrapAnotherProfileButton", Strings.UserProfilePageBootstrapAnotherProfileButton);
             l.SetElementText("UserProfilePageBootstrapAnotherBucketButton", Strings.UserProfilePageBootstrapAnotherBucketButton);
+            l.SetElementText("UserProfilePageCompletedBootstrapHelpLink", Strings.UserProfilePageCompletedBootstrapHelpLink);
         }
 
         private void SetupButtonCallbacks()
         {
-            _container.Q<Button>("UserProfilePageAccountCardNoAccountButton").RegisterCallback<ClickEvent>(_ => OpenLink("")); // TODO: Investigate correct URL
+            _container.Q<Button>("UserProfilePageAccountCardNoAccountButton")
+                .RegisterCallback<ClickEvent>(_ => Application.OpenURL(Urls.CreateAwsAccountLearnMore));
+            _container.Q<VisualElement>("UserProfilePageBootstrapHelpLink")
+                .RegisterCallback<ClickEvent>(_ => Application.OpenURL(Urls.S3BootstrapHelp));
+            _container.Q<VisualElement>("UserProfilePageCompletedBootstrapHelpLink")
+                .RegisterCallback<ClickEvent>(_ => Application.OpenURL(Urls.S3BootstrapHelp));
+            _container.Q<VisualElement>("UserProfilePageAccountNewProfileHelpLink")
+                .RegisterCallback<ClickEvent>(_ => Application.OpenURL(Urls.AwsIamDocumentation));
+
             _container.Q<Button>("UserProfilePageAccountCardHasAccountButton").RegisterCallback<ClickEvent>(_ =>
             {
                 var targetWizard = _container.Q<VisualElement>("UserProfilePageCreateMenu");
@@ -157,11 +166,6 @@ namespace AmazonGameLift.Editor
                 var targetWizard = _container.Q<VisualElement>("UserProfilePageCreateMenu");
                 ShowProfileMenu(targetWizard);
             });
-        }
-
-        private void OpenLink(string url)
-        {
-            Application.OpenURL(url);
         }
 
         private void ChooseProfileMenu()
