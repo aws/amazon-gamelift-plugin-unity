@@ -21,9 +21,9 @@ namespace AmazonGameLift.Editor
             LocalizeText();
             
             container.Q<Label>("AnywherePageIntegrateServerLink")
-                .RegisterCallback<ClickEvent>(_ => OnLinkClicked(Urls.AnywherePageServerSetupDocumentation));
+                .RegisterCallback<ClickEvent>(_ => Application.OpenURL(Urls.AnywherePageServerSetupDocumentation));
             container.Q<Label>("AnywherePageIntegrateClientLink")
-                .RegisterCallback<ClickEvent>(_ => OnLinkClicked(Urls.AnywherePageClientSetupDocumentation));
+                .RegisterCallback<ClickEvent>(_ => Application.OpenURL(Urls.AnywherePageClientSetupDocumentation));
 
             var fleetInputContainer = uxml.Q("AnywherePageConnectFleetTitle");
             var fleetInput = new ConnectToFleetInput(fleetInputContainer, stateManager);
@@ -31,13 +31,7 @@ namespace AmazonGameLift.Editor
             var computeInput =
                 new RegisterComputeInput(computeInputContainer, stateManager); 
         }
-
-        private void OnLinkClicked(string url)
-        {
-            Application.OpenURL(url);
-        }
-
-
+        
         private void LocalizeText()
         {
             var l = new ElementLocalizer(_container);

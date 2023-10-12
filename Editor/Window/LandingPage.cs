@@ -30,12 +30,12 @@ namespace AmazonGameLift.Editor
                 _statusBox.Show(StatusBox.StatusBoxType.Warning, Strings.LandingPageWarningStatusBoxText);
             }
 
-            _container.Q<Button>("CreateAccount").RegisterCallback<ClickEvent>(_ => OnLinkClicked(Urls.CreateAwsAccountLearnMore));
+            _container.Q<Button>("CreateAccount").RegisterCallback<ClickEvent>(_ => Application.OpenURL(Urls.CreateAwsAccountLearnMore));
             _container.Q<Button>("AddProfile").RegisterCallback<ClickEvent>(_ => OnAddProfileClicked());
             _container.Q<Button>("DownloadSampleGame").RegisterCallback<ClickEvent>(_ => OnImportSampleClicked());
-            _container.Q<VisualElement>("CaseStudy1LearnMore").RegisterCallback<ClickEvent>(_ => OnLinkClicked(Urls.GameLiftCaseStudy1));
-            _container.Q<VisualElement>("CaseStudy2LearnMore").RegisterCallback<ClickEvent>(_ => OnLinkClicked(Urls.GameLiftCaseStudy2));
-            _container.Q<VisualElement>("CaseStudy3LearnMore").RegisterCallback<ClickEvent>(_ => OnLinkClicked(Urls.GameLiftCaseStudy3));
+            _container.Q<VisualElement>("CaseStudy1LearnMore").RegisterCallback<ClickEvent>(_ => Application.OpenURL(Urls.GameLiftCaseStudy1));
+            _container.Q<VisualElement>("CaseStudy2LearnMore").RegisterCallback<ClickEvent>(_ => Application.OpenURL(Urls.GameLiftCaseStudy2));
+            _container.Q<VisualElement>("CaseStudy3LearnMore").RegisterCallback<ClickEvent>(_ => Application.OpenURL(Urls.GameLiftCaseStudy3));
         }
 
         private static void OnAddProfileClicked()
@@ -46,11 +46,6 @@ namespace AmazonGameLift.Editor
         private static void OnImportSampleClicked()
         {
             EditorMenu.ImportSampleGame();
-        }
-        
-        private void OnLinkClicked(string url)
-        {
-            Application.OpenURL(url);
         }
 
         private void LocalizeText()

@@ -117,13 +117,13 @@ namespace AmazonGameLift.Editor
         private void SetupButtonCallbacks()
         {
             _container.Q<Button>("UserProfilePageAccountCardNoAccountButton")
-                .RegisterCallback<ClickEvent>(_ => OpenLink(Urls.CreateAwsAccountLearnMore));
+                .RegisterCallback<ClickEvent>(_ => Application.OpenURL(Urls.CreateAwsAccountLearnMore));
             _container.Q<VisualElement>("UserProfilePageBootstrapHelpLink")
-                .RegisterCallback<ClickEvent>(_ => OpenLink(Urls.S3BootstrapHelp));
+                .RegisterCallback<ClickEvent>(_ => Application.OpenURL(Urls.S3BootstrapHelp));
             _container.Q<VisualElement>("UserProfilePageCompletedBootstrapHelpLink")
-                .RegisterCallback<ClickEvent>(_ => OpenLink(Urls.S3BootstrapHelp));
+                .RegisterCallback<ClickEvent>(_ => Application.OpenURL(Urls.S3BootstrapHelp));
             _container.Q<VisualElement>("UserProfilePageAccountNewProfileHelpLink")
-                .RegisterCallback<ClickEvent>(_ => OpenLink(Urls.AwsIamDocumentation));
+                .RegisterCallback<ClickEvent>(_ => Application.OpenURL(Urls.AwsIamDocumentation));
 
             _container.Q<Button>("UserProfilePageAccountCardHasAccountButton").RegisterCallback<ClickEvent>(_ =>
             {
@@ -165,11 +165,6 @@ namespace AmazonGameLift.Editor
                 var targetWizard = _container.Q<VisualElement>("UserProfilePageCreateMenu");
                 ShowProfileMenu(targetWizard);
             });
-        }
-
-        private void OpenLink(string url)
-        {
-            Application.OpenURL(url);
         }
 
         private void ChooseProfileMenu()

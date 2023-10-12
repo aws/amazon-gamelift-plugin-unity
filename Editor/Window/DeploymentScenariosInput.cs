@@ -48,19 +48,14 @@ namespace AmazonGameLift.Editor
             });
             
             _container.Q<VisualElement>("ManagedEC2ScenarioSingleFleetLink")
-                .RegisterCallback<ClickEvent>(_ => OpenLink(Urls.ManagedEc2FleetLearnMore));
+                .RegisterCallback<ClickEvent>(_ => Application.OpenURL(Urls.ManagedEc2FleetLearnMore));
             _container.Q<VisualElement>("ManagedEC2ScenarioSpotFleetLink")
-                .RegisterCallback<ClickEvent>(_ => OpenLink(Urls.ManagedEc2FleetLearnMore));
+                .RegisterCallback<ClickEvent>(_ => Application.OpenURL(Urls.ManagedEc2FleetLearnMore));
             _container.Q<VisualElement>("ManagedEC2ScenarioFlexMatchLink")
-                .RegisterCallback<ClickEvent>(_ => OpenLink(Urls.ManagedEc2FleetLearnMore));
+                .RegisterCallback<ClickEvent>(_ => Application.OpenURL(Urls.ManagedEc2FleetLearnMore));
 
             LocalizeText();
             UpdateGUI();
-        }
-        
-        private void OpenLink(string url)
-        {
-            Application.OpenURL(url);
         }
 
         public void SetEnabled(bool value)
