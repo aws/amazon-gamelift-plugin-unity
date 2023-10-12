@@ -14,7 +14,7 @@ namespace AmazonGameLift.Editor
         public static readonly string ValueInvalid = "ValueInvalid";
         public static readonly string AccountProfileMissing = "AccountProfileMissing";
         public static readonly string InvalidFleetName = "InvalidFleetName";
-        public static readonly string InvalidFleetId = "InvalidFleetId";
+        public static readonly string CreateFleetFailed = "CreateFleetFailed";
         public static readonly string CustomLocationCreationFailed = "CustomLocationCreationFailed";
         public static readonly string RegisterComputeFailed = "RegisterComputeFailed";
         public static readonly string DeregisterComputeFailed = "DeregisterComputeFailed";

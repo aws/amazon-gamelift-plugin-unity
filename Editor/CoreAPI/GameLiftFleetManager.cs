@@ -35,41 +35,36 @@ namespace Editor.CoreAPI
 
         public async Task<CreateAnywhereFleetResponse> CreateFleet(string fleetName)
         {
-            if (_amazonGameLiftWrapper != null)
+            if (_amazonGameLiftWrapper == null)
             {
-                if (string.IsNullOrWhiteSpace(fleetName))
-                {
-                    return Response.Fail(new CreateAnywhereFleetResponse
-                    {
-                        ErrorCode = ErrorCode.InvalidFleetName
-                    });
-                }
-                
-                var success = await CreateCustomLocationIfNotExists(FleetLocation);
-                if (success)
-                {
-                    var fleetId = await CreateFleet(ComputeType.ANYWHERE, FleetLocation, fleetName);
-                    if (!string.IsNullOrWhiteSpace(fleetId))
-                    {
-                        return Response.Ok(new CreateAnywhereFleetResponse()
-                        {
-                            FleetId = fleetId,
-                            FleetName = fleetName
-                        });
-                    }
-                }
-
-                return Response.Fail(new CreateAnywhereFleetResponse
-                {
-                    ErrorCode = ErrorCode.CustomLocationCreationFailed
-                });
+                return Response.Fail(new CreateAnywhereFleetResponse { ErrorCode = ErrorCode.AccountProfileMissing });
             }
 
-            return Response.Fail(new CreateAnywhereFleetResponse
+            if (string.IsNullOrWhiteSpace(fleetName))
             {
-                ErrorCode = ErrorCode.AccountProfileMissing
-            });
+                return Response.Fail(new CreateAnywhereFleetResponse { ErrorCode = ErrorCode.InvalidFleetName });
+            }
+            
+            var success = await CreateCustomLocationIfNotExists(FleetLocation);
+            if (!success)
+            {
+                return Response.Fail(new CreateAnywhereFleetResponse { ErrorCode = ErrorCode.CustomLocationCreationFailed });
+            }
+            
+            var fleetId = await CreateFleet(ComputeType.ANYWHERE, FleetLocation, fleetName);
+            if (!string.IsNullOrWhiteSpace(fleetId))
+            {
+                return Response.Ok(new CreateAnywhereFleetResponse()
+                {
+                    FleetId = fleetId,
+                    FleetName = fleetName
+                });
+            }
+            
+            return Response.Fail(new CreateAnywhereFleetResponse { ErrorCode = ErrorCode.CreateFleetFailed });
         }
+        
+        
 
         private async Task<bool> CreateCustomLocationIfNotExists(string fleetLocation)
         {

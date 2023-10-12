@@ -26,35 +26,21 @@ namespace Editor.CoreAPI
             string fleetLocation,
             string ipAddress)
         {
-            if (_amazonGameLiftWrapper != null)
+            if (_amazonGameLiftWrapper == null)
             {
-                if (string.IsNullOrWhiteSpace(computeName))
-                {
-                    return Response.Fail(new RegisterFleetComputeResponse
-                    {
-                        ErrorCode = ErrorCode.InvalidComputeName
-                    });
-                }
-                
-                if (string.IsNullOrWhiteSpace(ipAddress))
-                {
-                    return Response.Fail(new RegisterFleetComputeResponse
-                    {
-                        ErrorCode = ErrorCode.InvalidIpAddress
-                    });
-                }
-                
-                var registerFleetComputeResponse = await RegisterCompute(computeName, fleetId, fleetLocation, ipAddress);
-
-                return registerFleetComputeResponse;
+                return Response.Fail(new RegisterFleetComputeResponse { ErrorCode = ErrorCode.AccountProfileMissing });
             }
 
-            return Response.Fail(new RegisterFleetComputeResponse { ErrorCode = ErrorCode.AccountProfileMissing });
-        }
+            if (string.IsNullOrWhiteSpace(computeName))
+            {
+                return Response.Fail(new RegisterFleetComputeResponse { ErrorCode = ErrorCode.InvalidComputeName });
+            }
 
-        private async Task<RegisterFleetComputeResponse> RegisterCompute(string computeName, string fleetId, string fleetLocation,
-            string ipAddress)
-        {
+            if (string.IsNullOrWhiteSpace(ipAddress))
+            {
+                return Response.Fail(new RegisterFleetComputeResponse { ErrorCode = ErrorCode.InvalidIpAddress });
+            }
+
             try
             {
                 var registerComputeRequest = new RegisterComputeRequest()
