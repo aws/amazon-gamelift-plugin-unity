@@ -137,12 +137,6 @@ namespace AmazonGameLift.Editor
             UpdateGUI();
         }
 
-        private void SetInputsReadonly(bool value)
-        {
-            _computeNameInput.isReadOnly = value;
-            _ipInputs.ForEach(input => input.isReadOnly = value);
-        }
-
         private void UpdateComputeTextFields(TextField computeTextField, IEnumerable<TextField> ipTextField)
         {
             var computeTextNameValid = computeTextField.value.Length >= 1;
@@ -190,7 +184,6 @@ namespace AmazonGameLift.Editor
 
         protected sealed override void UpdateGUI()
         {
-            SetInputsReadonly(_computeState == ComputeStatus.Registered);
             var elements = GetVisibleItemsByState();
             foreach (var element in GetComputeVisualElements())
             {

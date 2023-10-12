@@ -15,7 +15,7 @@ public static class ClientServerSwitchMenu
     private const string MissingWindowsModuleError = "Please install Windows build module via UnityHub first. See: https://docs.unity3d.com/Manual/GettingStartedAddingEditorComponents.html";
 
 #if UNITY_EDITOR_OSX
-    [MenuItem("GameLift/Apply MacOS Sample Client Build Settings", priority = 9203)]
+    [MenuItem("Amazon GameLift/Sample Game/Apply MacOS Sample Client Build Settings", priority = 9203)]
     public static void ConfigureMacOsClient()
     {
 #if UNITY_2021_3_OR_NEWER
@@ -28,7 +28,7 @@ public static class ClientServerSwitchMenu
         LogSuccessMessage("Sample Client", "MacOS");
     }
 
-    [MenuItem("GameLift/Apply MacOS Sample Server Build Settings", priority = 9102)]
+    [MenuItem("Amazon GameLift/Sample Game/Apply MacOS Sample Server Build Settings", priority = 9102)]
     public static void ConfigureMacOsServer()
     {
 #if UNITY_2021_3_OR_NEWER
@@ -42,7 +42,7 @@ public static class ClientServerSwitchMenu
     }
 #endif
 
-    [MenuItem("GameLift/Apply Windows Sample Client Build Settings", priority = 9202)]
+    [MenuItem("Amazon GameLift/Sample Game/Apply Windows Sample Client Build Settings", priority = 9202)]
     public static void RunClient()
     {
         if (!BuildPipeline.IsBuildTargetSupported(BuildTargetGroup.Standalone, BuildTarget.StandaloneWindows64))
@@ -60,7 +60,7 @@ public static class ClientServerSwitchMenu
         LogSuccessMessage("Sample Client", "Windows");
     }
 
-    [MenuItem("GameLift/Apply Windows Sample Server Build Settings", priority = 9101)]
+    [MenuItem("Amazon GameLift/Sample Game/Apply Windows Sample Server Build Settings", priority = 9101)]
     public static void RunServer()
     {
         if (!BuildPipeline.IsBuildTargetSupported(BuildTargetGroup.Standalone, BuildTarget.StandaloneWindows64))
