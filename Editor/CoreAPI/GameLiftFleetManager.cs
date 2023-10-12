@@ -44,27 +44,25 @@ namespace Editor.CoreAPI
             {
                 return Response.Fail(new CreateAnywhereFleetResponse { ErrorCode = ErrorCode.InvalidFleetName });
             }
-            
+
             var createLocationSuccess = await CreateCustomLocationIfNotExists(FleetLocation);
             if (!createLocationSuccess)
             {
                 return Response.Fail(new CreateAnywhereFleetResponse { ErrorCode = ErrorCode.CustomLocationCreationFailed });
             }
-            
+
             var fleetId = await CreateFleet(ComputeType.ANYWHERE, FleetLocation, fleetName);
-            if (!string.IsNullOrWhiteSpace(fleetId))
+            if (string.IsNullOrWhiteSpace(fleetId))
             {
-                return Response.Ok(new CreateAnywhereFleetResponse()
-                {
-                    FleetId = fleetId,
-                    FleetName = fleetName
-                });
+                return Response.Fail(new CreateAnywhereFleetResponse { ErrorCode = ErrorCode.CreateFleetFailed });
             }
-            
-            return Response.Fail(new CreateAnywhereFleetResponse { ErrorCode = ErrorCode.CreateFleetFailed });
+
+            return Response.Ok(new CreateAnywhereFleetResponse()
+            {
+                FleetId = fleetId,
+                FleetName = fleetName
+            });
         }
-        
-        
 
         private async Task<bool> CreateCustomLocationIfNotExists(string fleetLocation)
         {
