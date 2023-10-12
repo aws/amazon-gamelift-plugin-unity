@@ -46,24 +46,24 @@
                 <ui:VisualElement class="separator">
                     <ui:Image name="CaseStudy1" class="case-study__image"/>
                     <ui:Label name="LandingPageCaseStudy1Description" text="Lorem ipsum dolor sit amet, \n consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua."/>
-                    <ui:VisualElement name="CaseStudy1LearnMore" class="external-link">
-                        <ui:Label text="Learn More"/>
+                    <ui:VisualElement class="external-link">
+                        <ui:Label name="CaseStudy1LearnMoreLink" text="Learn More"/>
                         <ui:Image name="ExternalLinkIcon" class="icon--small"/>
                     </ui:VisualElement>
                 </ui:VisualElement>
                 <ui:VisualElement class="separator">
                     <ui:Image name="CaseStudy2" class="case-study__image"/>
                     <ui:Label name="LandingPageCaseStudy2Description" text="Lorem ipsum dolor sit amet, \n consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua."/>
-                    <ui:VisualElement name="CaseStudy2LearnMore" class="external-link">
-                        <ui:Label text="Learn More"/>
+                    <ui:VisualElement class="external-link">
+                        <ui:Label name="CaseStudy2LearnMoreLink" text="Learn More"/>
                         <ui:Image name="ExternalLinkIcon" class="icon--small"/>
                     </ui:VisualElement>
                 </ui:VisualElement>
                 <ui:VisualElement class="separator">
                     <ui:Image name="CaseStudy3" class="case-study__image"/>
                     <ui:Label name="LandingPageCaseStudy3Description" text="Lorem ipsum dolor sit amet, \n consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua."/>
-                    <ui:VisualElement name="CaseStudy3LearnMore" class="external-link">
-                        <ui:Label text="Learn More"/>
+                    <ui:VisualElement class="external-link">
+                        <ui:Label name="CaseStudy3LearnMoreLink" text="Learn More"/>
                         <ui:Image name="ExternalLinkIcon" class="icon--small"/>
                     </ui:VisualElement>
                 </ui:VisualElement>

@@ -112,6 +112,7 @@ namespace AmazonGameLift.Editor
             l.SetElementText("UserProfilePageBootstrapStartButton", Strings.UserProfilePageBootstrapStartButton);
             l.SetElementText("UserProfilePageBootstrapAnotherProfileButton", Strings.UserProfilePageBootstrapAnotherProfileButton);
             l.SetElementText("UserProfilePageBootstrapAnotherBucketButton", Strings.UserProfilePageBootstrapAnotherBucketButton);
+            l.SetElementText("UserProfilePageCompletedBootstrapHelpLink", Strings.UserProfilePageCompletedBootstrapHelpLink);
         }
 
         private void SetupButtonCallbacks()

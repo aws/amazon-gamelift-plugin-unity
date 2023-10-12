@@ -40,8 +40,8 @@
             <ui:VisualElement class="separator separator--horizontal separator--centered">
                 <ui:Button name="UserProfilePageBootstrapStartButton" class="button button--primary" text="Bootstrap Profile"/>
                 <ui:Button name="UserProfilePageBootstrapAnotherProfileButton" class="button" text="Add another Profile"/>
-                <ui:VisualElement name="UserProfilePageBootstrapHelpLink" class="external-link float-right">
-                    <ui:Label text="What is bootstrapping?"/>
+                <ui:VisualElement class="external-link float-right">
+                    <ui:Label name="UserProfilePageBootstrapHelpLink" text="What is bootstrapping?"/>
                     <ui:Image name="ExternalLinkIcon" class="icon--small"/>
                 </ui:VisualElement>
             </ui:VisualElement>
@@ -51,8 +51,8 @@
             <ui:VisualElement class="form-row separator separator--horizontal">
                 <ui:Button name="UserProfilePageBootstrapAnotherBucketButton" class="button" text="Bootstrap to new S3 Bucket"/>
                 <ui:Button name="UserProfilePageAccountAddNewProfileButton" class="button" text="Add another Profile"/>
-                <ui:VisualElement name="UserProfilePageCompletedBootstrapHelpLink" class="external-link float-right">
-                    <ui:Label text="What is bootstrapping?"/>
+                <ui:VisualElement class="external-link float-right">
+                    <ui:Label name="UserProfilePageCompletedBootstrapHelpLink" text="What is bootstrapping?"/>
                     <ui:Image name="ExternalLinkIcon" class="icon--small"/>
                 </ui:VisualElement>
             </ui:VisualElement>

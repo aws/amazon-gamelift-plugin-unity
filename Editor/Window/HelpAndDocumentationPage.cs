@@ -35,10 +35,10 @@ namespace Editor.Window
             var l = new ElementLocalizer(_container);
             l.SetElementText("HelpPageTitle", Strings.HelpPageTitle);
             l.SetElementText("HelpPageDescription", Strings.HelpPageDescription);
-            l.SetElementText("HelpPageReportIssueLinkText", Strings.HelpPageReportIssueLink);
-            l.SetElementText("HelpPageDocumentationLinkText", Strings.HelpPageDocumentationLink);
-            l.SetElementText("HelpPageVideoTutorialLinkText", Strings.HelpPageVideoTutorialLink);
-            l.SetElementText("HelpPageForumLinkText", Strings.HelpPageForumLink);
+            l.SetElementText("HelpPageReportIssueLink", Strings.HelpPageReportIssueLink);
+            l.SetElementText("HelpPageDocumentationLink", Strings.HelpPageDocumentationLink);
+            l.SetElementText("HelpPageVideoTutorialLink", Strings.HelpPageVideoTutorialLink);
+            l.SetElementText("HelpPageForumLink", Strings.HelpPageForumLink);
             l.SetElementText("HelpPageEstimatingPriceTitle", Strings.HelpPageEstimatingPriceTitle);
             l.SetElementText("HelpPageEstimatingPriceDescription", Strings.HelpPageEstimatingPriceDescription);
             l.SetElementText("HelpPageEstimatingPriceLink", Strings.HelpPageEstimatingPriceLink);
