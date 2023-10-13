@@ -4,7 +4,8 @@
     "references": [
         "AmazonGameLiftPlugin.Runtime",
         "AmazonGameLiftPlugin.Runtime.Core",
-        "AmazonGameLiftSDKPlugin.Runtime"
+        "AmazonGameLiftSDKPlugin.Runtime",
+        "AmazonGameLiftPlugin.EditorCoreAPI"
     ],
     "includePlatforms": [
         "Editor",
