@@ -29,7 +29,6 @@ public static class ClientServerSwitchMenu
 #endif
         EditorUserBuildSettings.SwitchActiveBuildTarget( BuildTargetGroup.Standalone, BuildTarget.StandaloneOSX );
         Switch(RemoveServer);
-        AnywhereFleetSettingsWriter.WriteClientSettings();
         LogSuccessMessage("Sample Client", "MacOS");
     }
 
@@ -43,7 +42,6 @@ public static class ClientServerSwitchMenu
 #endif
         EditorUserBuildSettings.SwitchActiveBuildTarget( BuildTargetGroup.Standalone, BuildTarget.StandaloneOSX );
         Switch(AddServer);
-        AnywhereFleetSettingsWriter.WriteServerSettings();
         LogSuccessMessage("Sample Server", "MacOS");
     }
 #endif
@@ -63,7 +61,6 @@ public static class ClientServerSwitchMenu
         EditorUserBuildSettings.enableHeadlessMode = false;
 #endif
         Switch(RemoveServer);
-        AnywhereFleetSettingsWriter.WriteClientSettings();
         LogSuccessMessage("Sample Client", "Windows");
     }
 
@@ -82,7 +79,6 @@ public static class ClientServerSwitchMenu
         EditorUserBuildSettings.enableHeadlessMode = true;
 #endif
         Switch(AddServer);
-        AnywhereFleetSettingsWriter.WriteServerSettings();
         LogSuccessMessage("Sample Server", "Windows");
     }
 
