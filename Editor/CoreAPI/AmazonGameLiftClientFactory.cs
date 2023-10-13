@@ -1,6 +1,5 @@
 ﻿using Amazon;
 using Amazon.GameLift;
-using AmazonGameLift.Editor;
 using AmazonGameLiftPlugin.Core;
 
 namespace AmazonGameLift.Editor

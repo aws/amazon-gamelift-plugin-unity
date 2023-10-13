@@ -9,12 +9,10 @@ using System.Threading.Tasks;
 using Amazon.GameLift;
 using Amazon.GameLift.Model;
 using Amazon.Runtime.Internal;
-using AmazonGameLift.Editor;
 using AmazonGameLiftPlugin.Core;
 using AmazonGameLiftPlugin.Core.Shared;
 using UnityEngine;
 using UnityEngine.UIElements;
-using ErrorCode = AmazonGameLift.Editor.ErrorCode;
 
 namespace AmazonGameLift.Editor
 {
