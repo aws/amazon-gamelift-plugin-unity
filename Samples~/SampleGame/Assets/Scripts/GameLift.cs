@@ -5,11 +5,13 @@ using System;
 using System.Net;
 using System.Net.Security;
 using System.Security.Cryptography.X509Certificates;
+using AmazonGameLift.Editor;
 using AmazonGameLift.Runtime;
 #if !UNITY_SERVER
 using System.Threading;
 using System.Threading.Tasks;
 using AmazonGameLiftPlugin.Core.UserIdentityManagement.Models;
+using Editor.CoreAPI;
 #endif
 using UnityEngine;
 using UnityEngine.Events;
@@ -78,11 +80,18 @@ public class GameLift : MonoBehaviour
         var config = _gameLiftSettings.GetConfiguration();
         if (config.IsGameLiftAnywhere)
         {
-            var settings = new Settings<ClientSettingsKeys>(ClientConfigFilePath);
+#if UNITY_EDITOR
+            var stateManager = new StateManager(new CoreApi());
+            config.FleetId = stateManager.AnywhereFleetId;
+            config.FleetLocation = stateManager.AnywhereFleetLocation;
+            config.AwsRegion = stateManager.Region;
+            config.ProfileName = stateManager.ProfileName;
+#else
             config.FleetId = settings.GetSetting(ClientSettingsKeys.FleetId).Value;
             config.FleetLocation = settings.GetSetting(ClientSettingsKeys.FleetId).Value;
             config.AwsRegion = settings.GetSetting(ClientSettingsKeys.FleetId).Value;
             config.ProfileName = settings.GetSetting(ClientSettingsKeys.FleetId).Value;
+#endif
         }
         var coreApi = new LoggingGameLiftCoreApi(config);
         _client = new GameLiftClient(coreApi, new Delay(), _logger);
