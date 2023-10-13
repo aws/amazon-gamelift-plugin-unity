@@ -3,7 +3,6 @@
 
 using Editor.CoreAPI;
 using UnityEditor;
-using UnityEngine;
 using UnityEngine.UIElements;
 
 namespace AmazonGameLift.Editor
@@ -11,6 +10,7 @@ namespace AmazonGameLift.Editor
     public class AnywherePage
     {
         private readonly VisualElement _container;
+        private readonly ScriptingDefineSymbolEditor _defineEditor;
         private const string _unityServerDefine = "UNITY_SERVER";
 
         public AnywherePage(VisualElement container, StateManager stateManager)
@@ -28,15 +28,10 @@ namespace AmazonGameLift.Editor
             var computeInput =
                 new RegisterComputeInput(computeInputContainer, stateManager);
             var launchButton = uxml.Q<Button>("AnywherePageLaunchClientButton");
+            _defineEditor = new ScriptingDefineSymbolEditor(BuildTargetGroup.Standalone);
             launchButton.RegisterCallback<ClickEvent>(_ =>
             {
-                var defines = PlayerSettings.GetScriptingDefineSymbolsForGroup(BuildTargetGroup.Standalone);
-                if (!defines.Contains(_unityServerDefine) || !defines.Contains(_unityServerDefine + ';'))
-                {
-                    PlayerSettings.SetScriptingDefineSymbolsForGroup(BuildTargetGroup.Standalone,
-                        defines + ';' + _unityServerDefine);
-                }
-
+                _defineEditor.Add(_unityServerDefine);
                 EditorApplication.EnterPlaymode();
             });
         }

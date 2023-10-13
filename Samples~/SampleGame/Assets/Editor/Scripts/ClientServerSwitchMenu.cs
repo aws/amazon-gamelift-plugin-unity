@@ -2,7 +2,7 @@
 // SPDX-License-Identifier: Apache-2.0
 
 using System;
-using System.IO;
+using AmazonGameLift.Editor;
 using Editor.Scripts;
 using UnityEditor;
 using UnityEditor.SceneManagement;
@@ -14,6 +14,9 @@ public static class ClientServerSwitchMenu
     private const string GameScenePath = "Assets/Scenes/GameScene.unity";
     private const string UnityServerDefine = "UNITY_SERVER";
     private const string MissingWindowsModuleError = "Please install Windows build module via UnityHub first. See: https://docs.unity3d.com/Manual/GettingStartedAddingEditorComponents.html";
+
+    private static readonly ScriptingDefineSymbolEditor _defineEditor =
+        new ScriptingDefineSymbolEditor(BuildTargetGroup.Standalone);
 
 #if UNITY_EDITOR_OSX
     [MenuItem("GameLift/Apply MacOS Sample Client Build Settings", priority = 9203)]
@@ -87,7 +90,7 @@ public static class ClientServerSwitchMenu
         Debug.Log($"{name} has been successfully configured for {platform}. Please go to BuildSettings to build the project.");
     }
 
-    private static void Switch(Func<string, string> updateDefines)
+    private static void Switch(Action updateDefines)
     {
         EditorBuildSettings.scenes = new[]
         {
@@ -96,9 +99,7 @@ public static class ClientServerSwitchMenu
         };
 
         EditorSceneManager.OpenScene(BootstrapScenePath);
-        string defines = PlayerSettings.GetScriptingDefineSymbolsForGroup(BuildTargetGroup.Standalone);
-        defines = updateDefines(defines);
-        PlayerSettings.SetScriptingDefineSymbolsForGroup(BuildTargetGroup.Standalone, defines);
+        updateDefines();
 
 #if !UNITY_2019_4_OR_NEWER
         bool ok = EditorUtility.DisplayDialog("Unity restart required",
@@ -113,25 +114,13 @@ public static class ClientServerSwitchMenu
 #endif
     }
 
-    private static string AddServer(string defines)
+    private static void AddServer()
     {
-        if (defines.Contains(UnityServerDefine + ";") || defines.EndsWith(UnityServerDefine))
-        {
-            return defines;
-        }
-
-        return defines + ";" + UnityServerDefine;
+        _defineEditor.Add(UnityServerDefine);
     }
 
-    private static string RemoveServer(string defines)
+    private static void RemoveServer()
     {
-        int index = defines.IndexOf(UnityServerDefine);
-
-        if (index < 0)
-        {
-            return defines;
-        }
-
-        return defines.Remove(index, UnityServerDefine.Length);
+        _defineEditor.Remove(UnityServerDefine);
     }
 }

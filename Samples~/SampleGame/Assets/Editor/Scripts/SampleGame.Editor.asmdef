@@ -2,10 +2,11 @@
     "name": "SampleGame.Editor",
     "rootNamespace": "",
     "references": [
-        "GUID:4568397b360ba9043904be3be519a909",
-        "GUID:4a513d93856d0094c8aa8fa75aff1b38",
-        "GUID:1ff874e170fe5f94eaf8f0a3ea344e83",
-        "GUID:deadb68d17055254e911dfa18d153748"
+        "AmazonGameLiftPlugin.EditorCoreAPI",
+        "SampleGame",
+        "AmazonGameLiftPlugin.Runtime.Core",
+        "AmazonGameLiftPlugin.Runtime",
+        "AmazonGameLiftPlugin.Editor"
     ],
     "includePlatforms": [
         "Editor"
