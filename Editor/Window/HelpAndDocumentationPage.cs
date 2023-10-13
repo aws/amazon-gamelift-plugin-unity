@@ -25,7 +25,6 @@ namespace AmazonGameLift.Editor
             
             _container.Q<VisualElement>("HelpPageReportIssueLink").RegisterCallback<ClickEvent>(_ => Application.OpenURL(Urls.GitHubAwsIssues));
             _container.Q<VisualElement>("HelpPageDocumentationLink").RegisterCallback<ClickEvent>(_ => Application.OpenURL(Urls.AwsGameLiftDocs));
-            _container.Q<VisualElement>("HelpPageVideoTutorialLink").RegisterCallback<ClickEvent>(_ => Application.OpenURL(Urls.MissingLink)); //TODO Still waiting on confirmation of this final link
             _container.Q<VisualElement>("HelpPageForumLink").RegisterCallback<ClickEvent>(_ => Application.OpenURL(Urls.AwsGameTechForums));
         }
 
@@ -36,7 +35,6 @@ namespace AmazonGameLift.Editor
             l.SetElementText("HelpPageDescription", Strings.HelpPageDescription);
             l.SetElementText("HelpPageReportIssueLink", Strings.HelpPageReportIssueLink);
             l.SetElementText("HelpPageDocumentationLink", Strings.HelpPageDocumentationLink);
-            l.SetElementText("HelpPageVideoTutorialLink", Strings.HelpPageVideoTutorialLink);
             l.SetElementText("HelpPageForumLink", Strings.HelpPageForumLink);
             l.SetElementText("HelpPageEstimatingPriceTitle", Strings.HelpPageEstimatingPriceTitle);
             l.SetElementText("HelpPageEstimatingPriceDescription", Strings.HelpPageEstimatingPriceDescription);
