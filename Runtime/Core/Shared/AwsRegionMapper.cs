@@ -52,10 +52,6 @@ namespace AmazonGameLiftPlugin.Core.Shared
                 RegionEndpoint.CACentral1
             },
             {
-                "cn-north-1",
-                RegionEndpoint.CNNorth1
-            },
-            {
                 "eu-central-1",
                 RegionEndpoint.EUCentral1
             },
@@ -70,10 +66,6 @@ namespace AmazonGameLiftPlugin.Core.Shared
             {
                 "sa-east-1",
                 RegionEndpoint.SAEast1
-            },
-            {
-                "cn-northwest-1",
-                RegionEndpoint.CNNorthWest1
             }
         };
 
