@@ -33,9 +33,9 @@ namespace AmazonGameLift.Editor
             _container.Q<Button>("CreateAccount").RegisterCallback<ClickEvent>(_ => Application.OpenURL(Urls.CreateAwsAccountLearnMore));
             _container.Q<Button>("AddProfile").RegisterCallback<ClickEvent>(_ => OnAddProfileClicked());
             _container.Q<Button>("DownloadSampleGame").RegisterCallback<ClickEvent>(_ => OnImportSampleClicked());
-            _container.Q<VisualElement>("CaseStudy1LearnMoreLink").RegisterCallback<ClickEvent>(_ => Application.OpenURL(Urls.GameLiftCaseStudy1));
-            _container.Q<VisualElement>("CaseStudy2LearnMoreLink").RegisterCallback<ClickEvent>(_ => Application.OpenURL(Urls.GameLiftCaseStudy2));
-            _container.Q<VisualElement>("CaseStudy3LearnMoreLink").RegisterCallback<ClickEvent>(_ => Application.OpenURL(Urls.GameLiftCaseStudy3));
+            _container.Q<VisualElement>("CaseStudy1LearnMoreLinkParent").RegisterCallback<ClickEvent>(_ => Application.OpenURL(Urls.GameLiftCaseStudy1));
+            _container.Q<VisualElement>("CaseStudy2LearnMoreLinkParent").RegisterCallback<ClickEvent>(_ => Application.OpenURL(Urls.GameLiftCaseStudy2));
+            _container.Q<VisualElement>("CaseStudy3LearnMoreLinkParent").RegisterCallback<ClickEvent>(_ => Application.OpenURL(Urls.GameLiftCaseStudy3));
         }
 
         private static void OnAddProfileClicked()
