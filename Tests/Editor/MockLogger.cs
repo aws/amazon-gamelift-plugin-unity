@@ -2,22 +2,25 @@
 // SPDX-License-Identifier: Apache-2.0
 
 using System;
-using AmazonGameLiftPlugin.Core.Shared;
 using UnityEngine;
+using AmazonGameLiftPlugin.Core.Shared;
+using ILogger = AmazonGameLift.Editor.ILogger;
 
-namespace AmazonGameLift.Editor
+namespace AmazonGameLiftPlugin.Editor.UnitTests
 {
     internal sealed class MockLogger : ILogger
     {
+        
         public void Log(string message, LogType logType)
         {    
         }
 
-        public void LogException(Exception ex)
+        public void LogResponseError(Response response, LogType logType = LogType.Error)
         {
+            
         }
 
-        public void LogResponseError(Response response, LogType logType)
+        public void LogException(Exception ex)
         {
         }
     }

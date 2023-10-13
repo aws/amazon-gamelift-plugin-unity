@@ -8,7 +8,6 @@ using System.Threading.Tasks;
 using Amazon.GameLift;
 using Amazon.GameLift.Model;
 using Editor.CoreAPI;
-using Editor.Window;
 using UnityEngine;
 using UnityEngine.UIElements;
 
@@ -47,7 +46,11 @@ namespace AmazonGameLift.Editor
             SetupPage();
             SetupStatusBox();
             LocalizeText();
-            _stateManager.OnUserProfileUpdated += () => UpdateFleetMenu();
+            _stateManager.OnUserProfileUpdated += async () =>
+            {
+                await UpdateFleetMenu();
+                UpdateGUI();
+            };
 
             UpdateGUI();
         }

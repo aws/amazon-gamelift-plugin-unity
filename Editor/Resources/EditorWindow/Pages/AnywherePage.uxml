@@ -16,11 +16,11 @@
         <ui:Foldout name="AnywherePageIntegrateTitle" class="foldout separator separator--small" text="Integrate GameLift with your game client">
             <ui:Label name="AnywherePageIntegrateDescription" class="page__content" text="Add the Amazon GameLift server SDK to your game server and add code to communicate with the GameLift hosting service. If you&apos;re working with the Amazon GameLift sample game, this integration is already done."/>
             <ui:VisualElement class="external-link">
-                <ui:Label name="AnywherePageIntegrateServerLink" text="Setup Amazon GameLift on a backend service \uf08e"/>
+                <ui:Label name="AnywherePageIntegrateServerLink" text="Setup Amazon GameLift on a backend service"/>
                 <ui:Image name="ExternalLinkIcon" class="icon--small"/>
             </ui:VisualElement>
             <ui:VisualElement class="external-link">
-                <ui:Label name="AnywherePageIntegrateClientLink" text="Setup Amazon GameLift client \uf08e"/>
+                <ui:Label name="AnywherePageIntegrateClientLink" text="Setup Amazon GameLift client"/>
                 <ui:Image name="ExternalLinkIcon" class="icon--small"/>
             </ui:VisualElement>
         </ui:Foldout>

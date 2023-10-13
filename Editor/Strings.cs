@@ -148,6 +148,9 @@ namespace AmazonGameLift.Editor
         public const string LandingPageSampleButton = "LandingPageSampleButton";
         public const string LandingPageInfoStatusBoxText = "LandingPageInfoStatusBoxText";
         public const string LandingPageWarningStatusBoxText = "LandingPageWarningStatusBoxText";
+        public const string CaseStudy1LearnMoreLink = "CaseStudy1LearnMoreLink";
+        public const string CaseStudy2LearnMoreLink = "CaseStudy2LearnMoreLink";
+        public const string CaseStudy3LearnMoreLink = "CaseStudy3LearnMoreLink";
 
         public const string UserProfilePageAccountCardNewAccountTitle = "UserProfilePageAccountCardNewAccountTitle";
         public const string UserProfilePageAccountCardNewAccountDescription = "UserProfilePageAccountCardNewAccountDescription";
@@ -167,6 +170,7 @@ namespace AmazonGameLift.Editor
         public const string UserProfilePageAccountNewProfileCreateButton = "UserProfilePageAccountNewProfileCreateButton";
         public const string UserProfilePageAccountNewProfileCancelButton = "UserProfilePageAccountNewProfileCancelButton";
         public const string UserProfilePageAccountNewProfileHelpLink = "UserProfilePageAccountNewProfileHelpLink";
+        public const string UserProfilePageCompletedBootstrapHelpLink = "UserProfilePageCompletedBootstrapHelpLink";
         
         public const string UserProfilePageBootstrapTitle = "UserProfilePageBootstrapTitle";
         public const string UserProfilePageBootstrapDescription = "UserProfilePageBootstrapDescription";
@@ -275,18 +279,13 @@ namespace AmazonGameLift.Editor
 
         public const string InfoLinkDocumentationLink = "InfoLinkDocumentationLink";
         public const string InfoLinkForumLink = "InfoLinkForumLink";
-        public const string InfoLinkTroubleshootingLink = "InfoLinkTroubleshootingLink";
         public const string InfoLinkReportIssuesLink = "InfoLinkReportIssuesLink";
 
         public const string HelpPageTitle = "HelpPageTitle";
         public const string HelpPageDescription = "HelpPageDescription";
-        public const string HelpPageReportIssueIcon = "HelpPageReportIssueIcon";
         public const string HelpPageReportIssueLink = "HelpPageReportIssueLink";
-        public const string HelpPageDocumentationIcon = "HelpPageDocumentationIcon";
         public const string HelpPageDocumentationLink = "HelpPageDocumentationLink";
-        public const string HelpPageVideoTutorialIcon = "HelpPageVideoTutorialIcon";
         public const string HelpPageVideoTutorialLink = "HelpPageVideoTutorialLink";
-        public const string HelpPageForumIcon = "HelpPageForumIcon";
         public const string HelpPageForumLink = "HelpPageForumLink";
         public const string HelpPageEstimatingPriceTitle = "HelpPageEstimatingPriceTitle";
         public const string HelpPageEstimatingPriceDescription = "HelpPageEstimatingPriceDescription";

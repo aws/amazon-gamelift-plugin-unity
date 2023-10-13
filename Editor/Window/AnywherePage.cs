@@ -3,6 +3,7 @@
 
 using Editor.CoreAPI;
 using UnityEditor;
+using UnityEngine;
 using UnityEngine.UIElements;
 
 namespace AmazonGameLift.Editor
@@ -21,6 +22,11 @@ namespace AmazonGameLift.Editor
 
             container.Add(uxml);
             LocalizeText();
+            
+            container.Q<Label>("AnywherePageIntegrateServerLink")
+                .RegisterCallback<ClickEvent>(_ => Application.OpenURL(Urls.AnywherePageServerSetupDocumentation));
+            container.Q<Label>("AnywherePageIntegrateClientLink")
+                .RegisterCallback<ClickEvent>(_ => Application.OpenURL(Urls.AnywherePageClientSetupDocumentation));
 
             var fleetInputContainer = uxml.Q("AnywherePageConnectFleetTitle");
             var fleetInput = new ConnectToFleetInput(fleetInputContainer, stateManager);
@@ -35,7 +41,7 @@ namespace AmazonGameLift.Editor
                 EditorApplication.EnterPlaymode();
             });
         }
-
+        
         private void LocalizeText()
         {
             var l = new ElementLocalizer(_container);

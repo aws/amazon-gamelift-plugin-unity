@@ -86,6 +86,10 @@ namespace AmazonGameLift.Editor
             });
             _launchClientButton = container.Q<Button>("ManagedEC2LaunchClientButton");
             _launchClientButton.RegisterCallback<ClickEvent>(_ => EditorApplication.EnterPlaymode());
+            
+            
+            _container.Q<VisualElement>("ManagedEC2IntegrateLink")
+                .RegisterCallback<ClickEvent>(_ => Application.OpenURL(Urls.ManagedEc2IntegrateLink));
 
             _deploymentSettings.CurrentStackInfoChanged += UpdateGUI;
             _deploymentSettings.Scenario = DeploymentScenarios.SingleRegion;
