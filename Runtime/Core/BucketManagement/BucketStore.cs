@@ -3,6 +3,7 @@
 
 using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Net;
 using System.Text.RegularExpressions;
@@ -10,6 +11,7 @@ using Amazon.S3;
 using Amazon.S3.Model;
 using AmazonGameLiftPlugin.Core.BucketManagement.Models;
 using AmazonGameLiftPlugin.Core.Shared;
+using AmazonGameLiftPlugin.Core.Shared.FileSystem;
 using AmazonGameLiftPlugin.Core.Shared.Logging;
 using AmazonGameLiftPlugin.Core.Shared.S3Bucket;
 using Serilog;
@@ -117,7 +119,6 @@ namespace AmazonGameLiftPlugin.Core.BucketManagement
                 {
                     BucketName = loggingBucketName,
                     BucketRegionName = request.Region,
-                    CannedACL = S3CannedACL.LogDeliveryWrite,
                     ObjectOwnership = ObjectOwnership.BucketOwnerPreferred
                 });
 
@@ -129,39 +130,27 @@ namespace AmazonGameLiftPlugin.Core.BucketManagement
                         ErrorMessage = $"HTTP Status Code {putLoggingBucketResponse.HttpStatusCode}"
                     });
                 }
-
-                // Getting Existing ACL of the logging bucket
-                GetACLResponse getACLResponse = _amazonS3Wrapper.GetACL(new GetACLRequest
-                {
-                    BucketName = loggingBucketName
-                });
-
-                if (getACLResponse.HttpStatusCode != HttpStatusCode.OK)
-                {
-                    return Response.Fail(new CreateBucketResponse()
-                    {
-                        ErrorCode = ErrorCode.AwsError,
-                        ErrorMessage = $"HTTP Status Code {getACLResponse.HttpStatusCode}"
-                    });
-                }
-
-                S3AccessControlList s3AccessControlList = getACLResponse.AccessControlList;
-                s3AccessControlList.AddGrant(new S3Grantee { URI = "http://acs.amazonaws.com/groups/s3/LogDelivery" }, S3Permission.WRITE);
-                s3AccessControlList.AddGrant(new S3Grantee { URI = "http://acs.amazonaws.com/groups/s3/LogDelivery" }, S3Permission.READ_ACP);
-
-                // Grant logging access to the logging bucket
-                PutACLResponse putACLResponse = _amazonS3Wrapper.PutACL(new PutACLRequest
+                
+                var logPrefix = "GameLiftBootstrap";
+                var policy = new FileWrapper().ReadAllText(GetBucketPolicyPath());
+                var formattedPolicy = policy
+                    .Replace("{0}", loggingBucketName)
+                    .Replace("{1}", logPrefix)
+                    .Replace("{2}", request.BucketName)
+                    .Replace("{3}", request.AccountId);
+                
+                PutBucketPolicyRequest policyRequest = new PutBucketPolicyRequest()
                 {
                     BucketName = loggingBucketName,
-                    AccessControlList = s3AccessControlList
-                });
-
-                if (putACLResponse.HttpStatusCode != HttpStatusCode.OK)
+                    Policy = formattedPolicy
+                };
+                var putBucketPolicyResponse = _amazonS3Wrapper.PutBucketPolicy(policyRequest);
+                if (putBucketPolicyResponse.HttpStatusCode != HttpStatusCode.NoContent)
                 {
                     return Response.Fail(new CreateBucketResponse()
                     {
                         ErrorCode = ErrorCode.AwsError,
-                        ErrorMessage = $"HTTP Status Code {putACLResponse.HttpStatusCode}"
+                        ErrorMessage = $"HTTP Status Code {putBucketPolicyResponse.HttpStatusCode}"
                     });
                 }
 
@@ -172,7 +161,7 @@ namespace AmazonGameLiftPlugin.Core.BucketManagement
                     LoggingConfig = new S3BucketLoggingConfig
                     {
                         TargetBucketName = loggingBucketName,
-                        TargetPrefix = "GameLiftBootstrap",
+                        TargetPrefix = logPrefix,
                     }
                 });
 
@@ -384,5 +373,17 @@ namespace AmazonGameLiftPlugin.Core.BucketManagement
 
             return Response.Fail(response);
         }
+        
+        public virtual string GetBucketPolicyPath()
+        {
+            string packageName = "com.amazonaws.gamelift";
+            string policyPath = "Runtime/Core/BucketManagement/BucketAccessPolicy.json";
+            string internalPath = $"{packageName}/{policyPath}";
+            string packagePath = $"Packages/{internalPath}";
+            string fullPath = Path.GetFullPath(packagePath);
+
+            return fullPath;
+        }
+
     }
 }

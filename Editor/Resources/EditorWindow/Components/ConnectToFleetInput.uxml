@@ -2,7 +2,7 @@
 <!-- SPDX-License-Identifier: Apache-2.0 -->
 
 <ui:UXML xmlns:ui="UnityEngine.UIElements" xmlns:gl="AmazonGameLift.Editor">
-    <ui:Style src="./common.uss"/>
+    <ui:Style src="../common.uss"/>
     <ui:VisualElement name="AnywherePageConnectFleetStatusBoxContainer" class="separator"/>
     <ui:VisualElement name="AnywherePageCreateFleet" class="separator">
         <ui:VisualElement name="AnywherePageCreateFleetName" class="form-row">

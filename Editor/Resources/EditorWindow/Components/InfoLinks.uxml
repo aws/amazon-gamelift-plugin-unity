@@ -8,8 +8,6 @@
         <ui:VisualElement class="divider--vertical"/>
         <ui:Label name="InfoLinkForumLink"/>
         <ui:VisualElement class="divider--vertical"/>
-        <ui:Label name="InfoLinkTroubleshootingLink"/>
-        <ui:VisualElement class="divider--vertical"/>
         <ui:Label name="InfoLinkReportIssuesLink"/>
     </ui:VisualElement>
 </ui:UXML>

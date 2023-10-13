@@ -36,36 +36,32 @@ namespace Editor.CoreAPI
 
         public async Task<CreateAnywhereFleetResponse> CreateFleet(string fleetName)
         {
-            if (_amazonGameLiftWrapper != null)
+            if (_amazonGameLiftWrapper == null)
             {
-                var success = await CreateCustomLocationIfNotExists(FleetLocation);
-                if (success)
-                {
-                    var fleetId = await CreateFleet(ComputeType.ANYWHERE, FleetLocation, fleetName);
-                    if (fleetId == null)
-                    {
-                        return Response.Fail(new CreateAnywhereFleetResponse
-                        {
-                            ErrorCode = ErrorCode.InvalidFleetName
-                        });
-                    }
-
-                    return Response.Ok(new CreateAnywhereFleetResponse()
-                    {
-                        FleetId = fleetId,
-                        FleetName = fleetName
-                    });
-                }
-
-                return Response.Fail(new CreateAnywhereFleetResponse
-                {
-                    ErrorCode = ErrorCode.CustomLocationCreationFailed
-                });
+                return Response.Fail(new CreateAnywhereFleetResponse { ErrorCode = ErrorCode.AccountProfileMissing });
             }
 
-            return Response.Fail(new CreateAnywhereFleetResponse
+            if (string.IsNullOrWhiteSpace(fleetName))
             {
-                ErrorCode = ErrorCode.AccountProfileMissing
+                return Response.Fail(new CreateAnywhereFleetResponse { ErrorCode = ErrorCode.InvalidFleetName });
+            }
+
+            var createLocationSuccess = await CreateCustomLocationIfNotExists(FleetLocation);
+            if (!createLocationSuccess)
+            {
+                return Response.Fail(new CreateAnywhereFleetResponse { ErrorCode = ErrorCode.CustomLocationCreationFailed });
+            }
+
+            var fleetId = await CreateFleet(ComputeType.ANYWHERE, FleetLocation, fleetName);
+            if (string.IsNullOrWhiteSpace(fleetId))
+            {
+                return Response.Fail(new CreateAnywhereFleetResponse { ErrorCode = ErrorCode.CreateFleetFailed });
+            }
+
+            return Response.Ok(new CreateAnywhereFleetResponse()
+            {
+                FleetId = fleetId,
+                FleetName = fleetName
             });
         }
 
