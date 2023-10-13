@@ -2,6 +2,8 @@
 // SPDX-License-Identifier: Apache-2.0
 
 using Editor.CoreAPI;
+using UnityEditor;
+using UnityEngine;
 using UnityEngine.UIElements;
 
 namespace AmazonGameLift.Editor
@@ -9,6 +11,7 @@ namespace AmazonGameLift.Editor
     public class AnywherePage
     {
         private readonly VisualElement _container;
+        private const string _unityServerDefine = "UNITY_SERVER";
 
         public AnywherePage(VisualElement container, StateManager stateManager)
         {
@@ -23,7 +26,19 @@ namespace AmazonGameLift.Editor
             var fleetInput = new ConnectToFleetInput(fleetInputContainer, stateManager);
             var computeInputContainer = uxml.Q("AnywherePageComputeTitle");
             var computeInput =
-                new RegisterComputeInput(computeInputContainer, stateManager); 
+                new RegisterComputeInput(computeInputContainer, stateManager);
+            var launchButton = uxml.Q<Button>("AnywherePageLaunchClientButton");
+            launchButton.RegisterCallback<ClickEvent>(_ =>
+            {
+                var defines = PlayerSettings.GetScriptingDefineSymbolsForGroup(BuildTargetGroup.Standalone);
+                if (!defines.Contains(_unityServerDefine) || !defines.Contains(_unityServerDefine + ';'))
+                {
+                    PlayerSettings.SetScriptingDefineSymbolsForGroup(BuildTargetGroup.Standalone,
+                        defines + ';' + _unityServerDefine);
+                }
+
+                EditorApplication.EnterPlaymode();
+            });
         }
 
         private void LocalizeText()
