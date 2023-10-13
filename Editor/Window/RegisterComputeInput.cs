@@ -1,8 +1,10 @@
-﻿using System;
+﻿// Copyright Amazon.com, Inc. or its affiliates. All Rights Reserved.
+// SPDX-License-Identifier: Apache-2.0
+
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using Editor.CoreAPI;
-using Editor.Window;
 using UnityEngine;
 using UnityEngine.UIElements;
 
@@ -19,6 +21,7 @@ namespace AmazonGameLift.Editor
         private readonly Button _cancelReplaceButton;
         private readonly VisualElement _computeStatus;
         private readonly VisualElement _container;
+        private readonly StatusIndicator _statusIndicator;
         private readonly GameLiftComputeManager _computeManager;
         private readonly StateManager _stateManager;
         private StatusBox _registerComputeStatusBox;
@@ -41,6 +44,7 @@ namespace AmazonGameLift.Editor
             _registerButton = container.Q<Button>("AnywherePageComputeRegisterButton");
             _replaceComputeButton = container.Q<Button>("AnywherePageComputeReplaceComputeButton");
             _cancelReplaceButton = container.Q<Button>("AnywherePageComputeCancelReplaceButton");
+            _statusIndicator = container.Q<StatusIndicator>();
             LocalizeText();
 
             _computeState = !string.IsNullOrWhiteSpace(_stateManager.ComputeName) &&
@@ -133,12 +137,6 @@ namespace AmazonGameLift.Editor
             UpdateGUI();
         }
 
-        private void SetInputsReadonly(bool value)
-        {
-            _computeNameInput.isReadOnly = value;
-            _ipInputs.ForEach(input => input.isReadOnly = value);
-        }
-
         private void UpdateComputeTextFields(TextField computeTextField, IEnumerable<TextField> ipTextField)
         {
             var computeTextNameValid = computeTextField.value.Length >= 1;
@@ -186,7 +184,6 @@ namespace AmazonGameLift.Editor
 
         protected sealed override void UpdateGUI()
         {
-            SetInputsReadonly(_computeState == ComputeStatus.Registered);
             var elements = GetVisibleItemsByState();
             foreach (var element in GetComputeVisualElements())
             {
@@ -202,6 +199,13 @@ namespace AmazonGameLift.Editor
 
             _container.SetEnabled(_stateManager.IsBootstrapped &&
                                   !string.IsNullOrWhiteSpace(_stateManager.AnywhereFleetId));
+
+            if (!string.IsNullOrWhiteSpace(_stateManager.ComputeName))
+            {
+                var textProvider = new TextProvider();
+                _statusIndicator.Set(State.Success,
+                    textProvider.Get(Strings.AnywherePageComputeStatusRegistered));
+            }
         }
 
         private void LocalizeText()

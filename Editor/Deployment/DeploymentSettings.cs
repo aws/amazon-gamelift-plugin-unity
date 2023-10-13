@@ -384,7 +384,14 @@ namespace AmazonGameLift.Editor
             IReadOnlyDictionary<string, string> parameters = currentDeployer.HasGameServer
                 ? PrepareParameters(exeFilePath)
                 : PrepareGameParameter();
-            _parametersUpdater.Update(parametersPath, parameters);
+            var parameterUpdateResponse = _parametersUpdater.Update(parametersPath, parameters);
+            if (!parameterUpdateResponse.Success)
+            {
+                _status.IsDisplayed = true;
+                _status.SetMessage(parameterUpdateResponse.ErrorMessage, MessageType.Error);
+                _logger.LogResponseError(parameterUpdateResponse);
+                return;
+            }
             CurrentStackInfo = new DeploymentStackInfo(_textProvider.Get(Strings.StatusDeploymentStarting));
             string stackName = _coreApi.GetStackName(GameName);
             var deploymentId = new DeploymentId(CurrentProfile, CurrentRegion, stackName, currentDeployer.DisplayName);
@@ -460,15 +467,20 @@ namespace AmazonGameLift.Editor
         private IReadOnlyDictionary<string, string> PrepareParameters(string exeFilePathInBuild)
         {
             string launchPath = _coreApi.GetServerGamePath(exeFilePathInBuild);
-            return new Dictionary<string, string>
+            var parameters = new Dictionary<string, string>
             {
                 { ScenarioParameterKeys.GameName, GameName },
                 { ScenarioParameterKeys.LaunchPath, launchPath },
-                { ScenarioParameterKeys.LaunchParameters, LaunchParameters },
                 { ScenarioParameterKeys.BuildOperatingSystem, BuildOperatingSystem },
                 { ScenarioParameterKeys.FleetName, FleetName },
                 { ScenarioParameterKeys.BuildName, BuildName },
             };
+            if (!string.IsNullOrWhiteSpace(LaunchParameters))
+            {
+                parameters.Add(ScenarioParameterKeys.LaunchParameters, LaunchParameters);
+            }
+
+            return parameters;
         }
 
         private string GetExeFilePathInBuildOrNull()

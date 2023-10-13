@@ -24,7 +24,7 @@ namespace AmazonGameLift.Editor
         private readonly Button _launchClientButton;
         private readonly DeploymentScenariosInput _deploymentScenariosInput;
         private readonly FleetParametersInput _fleetParamsInput;
-        private readonly Label _ec2DeploymentStatusLabel;
+        private readonly StatusIndicator _statusIndicator;
 
         public ManagedEC2Page(VisualElement container, StateManager stateManager)
         {
@@ -56,7 +56,7 @@ namespace AmazonGameLift.Editor
             _deploymentScenariosInput =
                 new DeploymentScenariosInput(scenarioContainer, _deploymentSettings.Scenario, _stateManager.IsBootstrapped);
             _deploymentScenariosInput.OnValueChanged += value => { Debug.Log($"Fleet type changed to {value}"); };
-            _ec2DeploymentStatusLabel = _container.Q<Label>("ManagedEC2DeployStatusText");
+            _statusIndicator = _container.Q<StatusIndicator>();
 
             var parametersContainer = container.Q<Foldout>("ManagedEC2ParametersTitle");
             _fleetParamsInput = new FleetParametersInput(parametersContainer, parameters);
@@ -86,6 +86,10 @@ namespace AmazonGameLift.Editor
             });
             _launchClientButton = container.Q<Button>("ManagedEC2LaunchClientButton");
             _launchClientButton.RegisterCallback<ClickEvent>(_ => EditorApplication.EnterPlaymode());
+            
+            
+            _container.Q<VisualElement>("ManagedEC2IntegrateLink")
+                .RegisterCallback<ClickEvent>(_ => Application.OpenURL(Urls.ManagedEc2IntegrateLink));
 
             _deploymentSettings.CurrentStackInfoChanged += UpdateGUI;
             _deploymentSettings.Scenario = DeploymentScenarios.SingleRegion;
@@ -107,8 +111,34 @@ namespace AmazonGameLift.Editor
                     or StackStatus.UpdateComplete);
 
             _deploymentScenariosInput.SetEnabled(_deploymentSettings.CanEdit);
-            _fleetParamsInput.SetEnabled(_deploymentSettings.CanEdit); 
-            _ec2DeploymentStatusLabel.text = _deploymentSettings.CurrentStackInfo.StackStatus;
+            _fleetParamsInput.SetEnabled(_deploymentSettings.CanEdit);
+
+            var stackStatus = _deploymentSettings.CurrentStackInfo.StackStatus;
+            var textProvider = new TextProvider();
+            if (stackStatus == null)
+            {
+                _statusIndicator.Set(State.Inactive, textProvider.Get(Strings.ManagedEC2DeployStatusNotDeployed));
+            }
+            else if (stackStatus.IsStackStatusFailed())
+            {
+                _statusIndicator.Set(State.Failed, textProvider.Get(Strings.ManagedEC2DeployStatusFailed));
+            }
+            else if (stackStatus == StackStatus.DeleteInProgress)
+            {
+                _statusIndicator.Set(State.InProgress, textProvider.Get(Strings.ManagedEC2DeployStatusDeleting));
+            }
+            else if (stackStatus.IsStackStatusInProgress())
+            {
+                _statusIndicator.Set(State.InProgress, textProvider.Get(Strings.ManagedEC2DeployStatusDeploying));
+            }
+            else if (stackStatus.IsStackStatusOperationDone())
+            {
+                _statusIndicator.Set(State.Success, textProvider.Get(Strings.ManagedEC2DeployStatusDeployed));
+            }
+            else
+            {
+                _statusIndicator.Set(State.Inactive, textProvider.Get(Strings.ManagedEC2DeployStatusNotDeployed));
+            }
         }
 
         private void LocalizeText()

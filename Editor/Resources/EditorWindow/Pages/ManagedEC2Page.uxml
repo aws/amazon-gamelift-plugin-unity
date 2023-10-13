@@ -1,20 +1,21 @@
 ﻿<!-- Copyright Amazon.com, Inc. or its affiliates. All Rights Reserved. -->
 <!-- SPDX-License-Identifier: Apache-2.0 -->
 
-<ui:UXML xmlns:ui="UnityEngine.UIElements">
+<ui:UXML xmlns:ui="UnityEngine.UIElements" xmlns:gl="AmazonGameLift.Editor">
     <Style src="../common.uss"/>
     <ui:VisualElement class="separator separator--large">
         <ui:VisualElement class="separator">
             <ui:Label name="ManagedEC2Title" class="page__title" text="Managed EC2"/>
             <ui:Label name="ManagedEC2Description" text="Managed EC2 fleets use Amazon EC2 instances to host your game servers.&#10;Amazon GameLift manages the instances and removes the burden of hardware and software management from hosting your games."/>
+        <gl:InfoLinks/>
         </ui:VisualElement>
         <ui:VisualElement class="divider"/>
         <ui:Foldout name="ManagedEC2IntegrateTitle" class="foldout separator separator--small" text="Integrate GameLift with your game client">
             <ui:Label name="ManagedEC2IntegrateDescription" text="Add the Amazon GameLift server SDK to your game server and add code to communicate with the GameLift hosting service. If you&apos;re working with the Amazon GameLift sample game, this integration is already done."/>
             <ui:VisualElement class="external-link">
                 <ui:Label name="ManagedEC2IntegrateLink" text="Setup Amazon GameLift on a backend service"/>
-                <ui:Image name="ExternalLink" class="icon"/>
-        </ui:VisualElement>
+                <ui:Image name="ExternalLinkIcon" class="icon--small"/>
+            </ui:VisualElement>
         </ui:Foldout>
         <ui:Foldout name="ManagedEC2ScenarioTitle" class="foldout" text="Select Deployment Scenario"/>
         <ui:Foldout name="ManagedEC2ParametersTitle" class="foldout" text="[GameName] parameters"/>
@@ -22,10 +23,7 @@
             <ui:Label name="ManagedEC2DeployDescription" class="foldout__description form-row" text="Deploying GameLift can take up to 30-40 minutes"/>
             <ui:VisualElement class="form-row form-row--free">
                 <ui:Label name="ManagedEC2DeployStatusLabel" class="form-row__label" text="Status"/>
-                <ui:VisualElement name="DeploymentStatus" class="form-row__input deploy-status deploy-status--deployed">
-                    <ui:VisualElement name="ManagedEC2DeployStatusIcon" class="deployStatus test deploy-status__icon"/>
-                    <ui:Label name="ManagedEC2DeployStatusText" class="deploy-status__label" text="State"/>
-                </ui:VisualElement>
+                <gl:StatusIndicator/>
             </ui:VisualElement>
             <ui:VisualElement class="form-row form-row--free">
                 <ui:Label name="ManagedEC2DeployActionsLabel" class="form-row__label" text="AWS Resource Actions"/>

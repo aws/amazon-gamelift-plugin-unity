@@ -4,7 +4,7 @@
 #if UNITY_SERVER
 public enum SettingsKeys
 {
-    WebsocketUrl,
+    WebSocketUrl,
     FleetId,
     ComputeName,
     CurrentProfileName,

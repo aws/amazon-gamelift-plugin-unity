@@ -7,6 +7,7 @@
         <ui:VisualElement class="separator">
             <ui:Label name="UserProfilePageTitle" class="page__title" text="Configure your AWS Account"/>
             <ui:Label name="UserProfilePageDescription" text="AWS Account Credentials are used for any account bootstrapping and CloudFormation deployments."/>
+            <gl:InfoLinks/>
         </ui:VisualElement>
         <ui:VisualElement class="divider"/>
         <ui:VisualElement name="UserProfilePageStatusBoxContainer" class="separator"/>
@@ -15,7 +16,7 @@
                 <ui:Image name="UserProfilePageAccountCardNoAccountIcon" class="card__icon card__icon--large"/>
                 <ui:Label name="UserProfilePageAccountCardNoAccountTitle" class="card__title" text="I don’t have an AWS account"/>
                 <ui:Label name="UserProfilePageAccountCardNoAccountDescription" text="[text about needing an AWS account and it can take a maximum of two sentences]"/>
-                <ui:VisualElement class="float-right">
+                <ui:VisualElement class="external-link">
                     <ui:Label name="UserProfilePageAccountCardNoAccountLink" text="Learn More"/>
                     <ui:Image name="ExternalLinkIcon" class="icon--small"/>
                 </ui:VisualElement>
@@ -39,7 +40,10 @@
             <ui:VisualElement class="separator separator--horizontal separator--centered">
                 <ui:Button name="UserProfilePageBootstrapStartButton" class="button button--primary" text="Bootstrap Profile"/>
                 <ui:Button name="UserProfilePageBootstrapAnotherProfileButton" class="button" text="Add another Profile"/>
-                <ui:Label name="UserProfilePageBootstrapHelpLink" class="link" text="What is bootstrapping?  \uf08e"/>
+                <ui:VisualElement class="external-link float-right">
+                    <ui:Label name="UserProfilePageBootstrapHelpLink" text="What is bootstrapping?"/>
+                    <ui:Image name="ExternalLinkIcon" class="icon--small"/>
+                </ui:VisualElement>
             </ui:VisualElement>
         </ui:VisualElement>
         <ui:VisualElement name="UserProfilePageCompletedMenu" class="separator separator--large">
@@ -48,7 +52,7 @@
                 <ui:Button name="UserProfilePageBootstrapAnotherBucketButton" class="button" text="Bootstrap to new S3 Bucket"/>
                 <ui:Button name="UserProfilePageAccountAddNewProfileButton" class="button" text="Add another Profile"/>
                 <ui:VisualElement class="external-link float-right">
-                    <ui:Label text="What is bootstrapping?"/>
+                    <ui:Label name="UserProfilePageCompletedBootstrapHelpLink" text="What is bootstrapping?"/>
                     <ui:Image name="ExternalLinkIcon" class="icon--small"/>
                 </ui:VisualElement>
             </ui:VisualElement>

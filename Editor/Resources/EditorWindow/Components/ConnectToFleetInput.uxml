@@ -1,8 +1,8 @@
 ﻿<!-- Copyright Amazon.com, Inc. or its affiliates. All Rights Reserved. -->
 <!-- SPDX-License-Identifier: Apache-2.0 -->
 
-<ui:UXML xmlns:ui="UnityEngine.UIElements">
-    <ui:Style src="./common.uss"/>
+<ui:UXML xmlns:ui="UnityEngine.UIElements" xmlns:gl="AmazonGameLift.Editor">
+    <ui:Style src="../common.uss"/>
     <ui:VisualElement name="AnywherePageConnectFleetStatusBoxContainer" class="separator"/>
     <ui:VisualElement name="AnywherePageCreateFleet" class="separator">
         <ui:VisualElement name="AnywherePageCreateFleetName" class="form-row">
@@ -30,7 +30,7 @@
         </ui:VisualElement>
         <ui:VisualElement name="AnywherePageConnectFleetStatus" class="form-row">
             <ui:Label name="AnywherePageConnectFleetStatusLabel" class="form-row__label" text="Fleet status"/>
-            <ui:Label name="AnywherePageConnectFleetStatusDisplay" class="form-row__text-display" text="Connected"/>
+            <gl:StatusIndicator/>
         </ui:VisualElement>
         <ui:VisualElement name="AnywherePageConnectFleetButtons" class="form-row">
             <ui:VisualElement class="form-row__input form-row__input--no-label separator separator--horizontal">

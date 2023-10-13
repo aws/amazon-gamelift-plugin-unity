@@ -17,7 +17,10 @@
                     <ui:Image name="LandingPageNoAccountImage" class="card__icon icon--large"/>
                     <ui:Label name="LandingPageNoAccountCardText" class="card__text" text="I don&apos;t have an AWS account"/>
                 </ui:VisualElement>
-                <ui:Button class="button card__button button--large button--full-width" text="Create an AWS Account   \uf08e" name="CreateAccount"/>
+                <ui:Button class="button card__button button--large button--full-width" name="CreateAccount">
+                    <ui:Label name="LandingPageNoAccountCardButton" />
+                    <ui:Image name="ExternalLinkIcon" class="icon--small"/>
+                </ui:Button>
             </ui:VisualElement>
             <ui:VisualElement class="card">
                 <ui:VisualElement class="card__container">
@@ -43,17 +46,26 @@
                 <ui:VisualElement class="separator">
                     <ui:Image name="CaseStudy1" class="case-study__image"/>
                     <ui:Label name="LandingPageCaseStudy1Description" text="How Dead by Deadlight survives the test of time using AWS"/>
-                    <ui:Label name="LearnMore" text="Learn More" class="external-link"/>
+                    <ui:VisualElement class="external-link">
+                        <ui:Label name="CaseStudy1LearnMoreLink" text="Learn More"/>
+                        <ui:Image name="ExternalLinkIcon" class="icon--small"/>
+                    </ui:VisualElement>
                 </ui:VisualElement>
                 <ui:VisualElement class="separator">
                     <ui:Image name="CaseStudy2" class="case-study__image"/>
                     <ui:Label name="LandingPageCaseStudy2Description" text="How Amazon GameLift Makes Quake Champions Even Faster, Better"/>
-                    <ui:Label name="LearnMore" text="Learn More" class="external-link"/>
+                    <ui:VisualElement class="external-link">
+                        <ui:Label name="CaseStudy2LearnMoreLink" text="Learn More"/>
+                        <ui:Image name="ExternalLinkIcon" class="icon--small"/>
+                    </ui:VisualElement>
                 </ui:VisualElement>
                 <ui:VisualElement class="separator">
                     <ui:Image name="CaseStudy3" class="case-study__image"/>
                     <ui:Label name="LandingPageCaseStudy3Description" text="Moving from P2P to Cloud: How For Honor Improved Player Experience"/>
-                    <ui:Label name="LearnMore" text="Learn More" class="external-link"/>
+                    <ui:VisualElement class="external-link">
+                        <ui:Label name="CaseStudy3LearnMoreLink" text="Learn More"/>
+                        <ui:Image name="ExternalLinkIcon" class="icon--small"/>
+                    </ui:VisualElement>
                 </ui:VisualElement>
             </ui:VisualElement>
         </ui:VisualElement>
