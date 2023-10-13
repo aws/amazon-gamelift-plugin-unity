@@ -12,9 +12,8 @@
 
 .case-study__image {
     align-self: center;
-    width: 240px;
+    --unity-image-size: scale-to-fit;
     height: 140px;
-    flex: 0 0 auto;
 }
 
 Image#LandingPageNoAccountImage {
@@ -30,13 +29,13 @@ Image#LandingPageSampleImage {
 }
 
 Image#CaseStudy1 {
-    background-image: resource("Images/LandingPage/Behaviour");
+    --unity-image: resource("Images/LandingPage/Behaviour");
 }
 
 Image#CaseStudy2 {
-    background-image: resource("Images/LandingPage/Bethesda");
+    --unity-image: resource("Images/LandingPage/Bethesda");
 }
 
 Image#CaseStudy3 {
-    background-image: resource("Images/LandingPage/Ubisoft");
+    --unity-image: resource("Images/LandingPage/Ubisoft");
 }
