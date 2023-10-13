@@ -33,9 +33,6 @@ namespace AmazonGameLift.Editor
             _container.Q<Button>("CreateAccount").RegisterCallback<ClickEvent>(_ => Application.OpenURL(Urls.CreateAwsAccountLearnMore));
             _container.Q<Button>("AddProfile").RegisterCallback<ClickEvent>(_ => OnAddProfileClicked());
             _container.Q<Button>("DownloadSampleGame").RegisterCallback<ClickEvent>(_ => OnImportSampleClicked());
-            _container.Q<VisualElement>("CaseStudy1LearnMoreLink").RegisterCallback<ClickEvent>(_ => Application.OpenURL(Urls.GameLiftCaseStudy1));
-            _container.Q<VisualElement>("CaseStudy2LearnMoreLink").RegisterCallback<ClickEvent>(_ => Application.OpenURL(Urls.GameLiftCaseStudy2));
-            _container.Q<VisualElement>("CaseStudy3LearnMoreLink").RegisterCallback<ClickEvent>(_ => Application.OpenURL(Urls.GameLiftCaseStudy3));
         }
 
         private static void OnAddProfileClicked()
@@ -60,12 +57,6 @@ namespace AmazonGameLift.Editor
             l.SetElementText("LandingPageSampleHeader", Strings.LandingPageSampleHeader);
             l.SetElementText("LandingPageSampleDescription", Strings.LandingPageSampleDescription);
             l.SetElementText("DownloadSampleGame", Strings.LandingPageSampleButton);
-            l.SetElementText("LandingPageCaseStudy1Description", Strings.LandingPageCaseStudy1Description);
-            l.SetElementText("LandingPageCaseStudy2Description", Strings.LandingPageCaseStudy2Description);
-            l.SetElementText("LandingPageCaseStudy3Description", Strings.LandingPageCaseStudy3Description);
-            l.SetElementText("CaseStudy1LearnMoreLink", Strings.CaseStudy1LearnMoreLink);
-            l.SetElementText("CaseStudy2LearnMoreLink", Strings.CaseStudy2LearnMoreLink);
-            l.SetElementText("CaseStudy3LearnMoreLink", Strings.CaseStudy3LearnMoreLink);
         }
 
         private void SetupStatusBoxes()

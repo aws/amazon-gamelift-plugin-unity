@@ -40,34 +40,5 @@
                 </ui:VisualElement>
             </ui:VisualElement>
         </ui:VisualElement>
-        <ui:VisualElement>
-            <ui:Label name="LandingPageCaseStudiesHeader" class="page__subtitle" text="[Case Studies]"/>
-            <ui:VisualElement class="separator separator--large separator--horizontal">
-                <ui:VisualElement class="separator">
-                    <ui:Image name="CaseStudy1" class="case-study__image"/>
-                    <ui:Label name="LandingPageCaseStudy1Description" text="How Dead by Deadlight survives the test of time using AWS"/>
-                    <ui:VisualElement class="external-link">
-                        <ui:Label name="CaseStudy1LearnMoreLink" text="Learn More"/>
-                        <ui:Image name="ExternalLinkIcon" class="icon--small"/>
-                    </ui:VisualElement>
-                </ui:VisualElement>
-                <ui:VisualElement class="separator">
-                    <ui:Image name="CaseStudy2" class="case-study__image"/>
-                    <ui:Label name="LandingPageCaseStudy2Description" text="How Amazon GameLift Makes Quake Champions Even Faster, Better"/>
-                    <ui:VisualElement class="external-link">
-                        <ui:Label name="CaseStudy2LearnMoreLink" text="Learn More"/>
-                        <ui:Image name="ExternalLinkIcon" class="icon--small"/>
-                    </ui:VisualElement>
-                </ui:VisualElement>
-                <ui:VisualElement class="separator">
-                    <ui:Image name="CaseStudy3" class="case-study__image"/>
-                    <ui:Label name="LandingPageCaseStudy3Description" text="Moving from P2P to Cloud: How For Honor Improved Player Experience"/>
-                    <ui:VisualElement class="external-link">
-                        <ui:Label name="CaseStudy3LearnMoreLink" text="Learn More"/>
-                        <ui:Image name="ExternalLinkIcon" class="icon--small"/>
-                    </ui:VisualElement>
-                </ui:VisualElement>
-            </ui:VisualElement>
-        </ui:VisualElement>
     </ui:VisualElement>
 </ui:UXML>
