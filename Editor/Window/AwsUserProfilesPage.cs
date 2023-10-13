@@ -72,13 +72,8 @@ namespace AmazonGameLift.Editor
                 
             RefreshProfiles();
 
-            var regions = _stateManager.CoreApi.ListAvailableRegions().ToList();
-            var filteredList = regions
-                .Where(item => !item.Contains("cn-"))
-                .ToList();
-            
-            container.Q<DropdownField>("UserProfilePageAccountNewProfileRegionDropdown").choices = filteredList;
-                
+            container.Q<DropdownField>("UserProfilePageAccountNewProfileRegionDropdown").choices =
+                _stateManager.CoreApi.ListAvailableRegions().ToList();
             
             if (!stateManager.IsBootstrapped)
             {
