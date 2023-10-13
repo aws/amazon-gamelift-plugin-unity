@@ -16,7 +16,7 @@ using UnityEngine;
 using UnityEngine.UIElements;
 using ErrorCode = AmazonGameLift.Editor.ErrorCode;
 
-namespace Editor.CoreAPI
+namespace AmazonGameLift.Editor
 {
     public class GameLiftFleetManager
     {

@@ -1,4 +1,4 @@
-﻿namespace Editor.CoreAPI
+﻿namespace AmazonGameLift.Editor
 {
     public class UserProfile
     {

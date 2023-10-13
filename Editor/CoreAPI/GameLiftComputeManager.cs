@@ -11,7 +11,7 @@ using AmazonGameLiftPlugin.Core.Shared;
 using UnityEngine;
 using ErrorCode = AmazonGameLift.Editor.ErrorCode;
 
-namespace Editor.CoreAPI
+namespace AmazonGameLift.Editor
 {
     public class GameLiftComputeManager
     {

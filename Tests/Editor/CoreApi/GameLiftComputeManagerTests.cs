@@ -7,11 +7,8 @@ using System.Threading.Tasks;
 using Amazon.GameLift.Model;
 using AmazonGameLift.Editor;
 using AmazonGameLiftPlugin.Core;
-using AmazonGameLiftPlugin.Core.SettingsManagement.Models;
 using Moq;
 using NUnit.Framework;
-using AmazonGameLiftPlugin.Core.Shared;
-using Editor.CoreAPI;
 
 namespace AmazonGameLiftPlugin.Editor.UnitTests
 {

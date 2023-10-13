@@ -9,7 +9,7 @@ using AmazonGameLiftPlugin.Core;
 using AmazonGameLiftPlugin.Core.SettingsManagement.Models;
 using YamlDotNet.Serialization;
 
-namespace Editor.CoreAPI
+namespace AmazonGameLift.Editor
 {
     public class StateManager
     {
