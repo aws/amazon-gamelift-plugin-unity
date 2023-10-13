@@ -52,9 +52,9 @@ namespace Editor.CoreAPI
             }
 
             var fleetId = await CreateFleet(ComputeType.ANYWHERE, FleetLocation, fleetName);
-            if (string.IsNullOrWhiteSpace(fleetId))
+            if (fleetId.Contains("Exception"))
             {
-                return Response.Fail(new CreateAnywhereFleetResponse { ErrorCode = ErrorCode.CreateFleetFailed });
+                return Response.Fail(new CreateAnywhereFleetResponse { ErrorCode = ErrorCode.CreateFleetFailed, ErrorMessage = fleetId });
             }
 
             return Response.Ok(new CreateAnywhereFleetResponse()
@@ -132,7 +132,7 @@ namespace Editor.CoreAPI
             catch (Exception ex)
             {
                 Debug.Log(ex.Message);
-                return null;
+                return ex.Message;
             }
         }
 
