@@ -45,27 +45,6 @@ namespace Editor.CoreAPI
                 return Response.Fail(new CreateAnywhereFleetResponse { ErrorCode = ErrorCode.InvalidFleetName });
             }
 
-            var createLocationSuccess = await CreateCustomLocationIfNotExists(FleetLocation);
-            if (!createLocationSuccess)
-            {
-                return Response.Fail(new CreateAnywhereFleetResponse { ErrorCode = ErrorCode.CustomLocationCreationFailed });
-            }
-
-            var fleetId = await CreateFleet(ComputeType.ANYWHERE, FleetLocation, fleetName);
-            if (fleetId.Contains("Exception"))
-            {
-                return Response.Fail(new CreateAnywhereFleetResponse { ErrorCode = ErrorCode.CreateFleetFailed, ErrorMessage = fleetId });
-            }
-
-            return Response.Ok(new CreateAnywhereFleetResponse()
-            {
-                FleetId = fleetId,
-                FleetName = fleetName
-            });
-        }
-
-        private async Task<bool> CreateCustomLocationIfNotExists(string fleetLocation)
-        {
             try
             {
                 var listLocationsResponse = await _amazonGameLiftWrapper.ListLocations(new ListLocationsRequest
@@ -73,46 +52,38 @@ namespace Editor.CoreAPI
                     Filters = new List<string> { "CUSTOM" },
                 });
 
-                var foundLocation =
-                    listLocationsResponse.Locations.FirstOrDefault(l =>
-                        l.LocationName.ToString() == fleetLocation);
+                var foundLocation = listLocationsResponse.Locations
+                    .FirstOrDefault(l => l.LocationName.ToString() == FleetLocation);
 
                 if (foundLocation == null)
                 {
-                    var createLocationResponse = await _amazonGameLiftWrapper.CreateLocation(
-                        new CreateLocationRequest()
+                    await _amazonGameLiftWrapper.CreateLocation(new CreateLocationRequest()
                         {
-                            LocationName = fleetLocation
+                            LocationName = FleetLocation
                         });
-
-                    if (createLocationResponse.HttpStatusCode == HttpStatusCode.OK)
-                    {
-                        Debug.Log($"Created Custom Location {fleetLocation}");
-                    }
                 }
-
-                return true;
             }
             catch (Exception ex)
             {
-                return false;
+                return Response.Fail(new CreateAnywhereFleetResponse()
+                    { 
+                        ErrorCode = ErrorCode.CustomLocationCreationFailed, 
+                        ErrorMessage = ex.Message 
+                    });
             }
-        }
 
-        private async Task<string> CreateFleet(ComputeType computeType, string fleetLocation, string fleetName)
-        {
             try
             {
                 var createFleetRequest = new CreateFleetRequest
                 {
                     Name = fleetName,
-                    ComputeType = computeType,
+                    ComputeType = ComputeType.ANYWHERE,
                     Description = FleetDescription,
                     Locations = new List<LocationConfiguration>
                     {
                         new()
                         {
-                            Location = fleetLocation,
+                            Location = FleetLocation,
                         }
                     },
                     Tags = new List<Tag>
@@ -122,17 +93,19 @@ namespace Editor.CoreAPI
                 };
                 var createFleetResponse = await _amazonGameLiftWrapper.CreateFleet(createFleetRequest);
 
-                if (createFleetResponse.HttpStatusCode == HttpStatusCode.OK)
+                return Response.Ok(new CreateAnywhereFleetResponse()
                 {
-                    Debug.Log($"Created Fleet {fleetName}");
-                }
-
-                return createFleetResponse.FleetAttributes.FleetId;
+                    FleetId = createFleetResponse.FleetAttributes.FleetId,
+                    FleetName = fleetName
+                });
             }
             catch (Exception ex)
             {
-                Debug.Log(ex.Message);
-                return ex.Message;
+                return Response.Fail(new CreateAnywhereFleetResponse()
+                {
+                    ErrorCode = ErrorCode.CreateFleetFailed,
+                    ErrorMessage = ex.Message
+                });
             }
         }
 
