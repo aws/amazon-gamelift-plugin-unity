@@ -285,7 +285,6 @@ namespace AmazonGameLift.Editor
         public const string HelpPageDescription = "HelpPageDescription";
         public const string HelpPageReportIssueLink = "HelpPageReportIssueLink";
         public const string HelpPageDocumentationLink = "HelpPageDocumentationLink";
-        public const string HelpPageVideoTutorialLink = "HelpPageVideoTutorialLink";
         public const string HelpPageForumLink = "HelpPageForumLink";
         public const string HelpPageEstimatingPriceTitle = "HelpPageEstimatingPriceTitle";
         public const string HelpPageEstimatingPriceDescription = "HelpPageEstimatingPriceDescription";

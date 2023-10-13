@@ -321,7 +321,6 @@ namespace AmazonGameLift.Editor
             { Strings.HelpPageDescription, "Learn how to integrate and deploy games for hosting on GameLift. The GameLift service manages game server deployment, operation, and scaling. You can deploy custom-built game servers or use GameLift Realtime Servers to configure lightweight game servers for your game." },
             { Strings.HelpPageReportIssueLink, "Report Issues" },
             { Strings.HelpPageDocumentationLink, "Documentation" },
-            { Strings.HelpPageVideoTutorialLink, "Video Tutorials" },
             { Strings.HelpPageForumLink, "AWS Forum" },
             { Strings.HelpPageEstimatingPriceTitle, "Estimating Price" },
             { Strings.HelpPageEstimatingPriceDescription, "With AWS Pricing Calculator, you can create a pricing estimate for Amazon GameLift. You don't need an AWS account or in-depth knowledge of AWS to use the calculator." },
