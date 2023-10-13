@@ -81,6 +81,9 @@ namespace AmazonGameLift.Editor
             var dropdownField = _container.Q<DropdownField>("UserProfilePageAccountNewProfileRegionDropdown");
             var credentials = _container.Query<TextField>().ToList().Select(textField => textField.value).ToList();
 
+            var apiRegionList = _stateManager.CoreApi.ListAvailableRegions().ToList();
+            var actualIndex = apiRegionList.IndexOf(dropdownField.value);
+
             if (credentials.Any(string.IsNullOrWhiteSpace))
             {
                 return false;
@@ -89,7 +92,7 @@ namespace AmazonGameLift.Editor
             _awsCredentialsCreateModel.ProfileName = credentials[0];
             _awsCredentialsCreateModel.AccessKeyId = credentials[1];
             _awsCredentialsCreateModel.SecretKey = credentials[2];
-            _awsCredentialsCreateModel.RegionBootstrap.RegionIndex = dropdownField.index;
+            _awsCredentialsCreateModel.RegionBootstrap.RegionIndex = actualIndex;
             _awsCredentialsCreateModel.Create();
 
             return true;
