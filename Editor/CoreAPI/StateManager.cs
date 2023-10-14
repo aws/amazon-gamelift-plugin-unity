@@ -78,6 +78,16 @@ namespace Editor.CoreAPI
             }
         }
 
+        public string AnywhereFleetLocation
+        {
+            get => _selectedProfile.AnywhereFleetLocation;
+            set
+            {
+                _selectedProfile.AnywhereFleetLocation = value;
+                SaveProfiles();
+            }
+        }
+
         public string ComputeName
         {
             get => _selectedProfile.ComputeName;

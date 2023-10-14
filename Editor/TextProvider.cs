@@ -195,9 +195,6 @@ namespace AmazonGameLift.Editor
             { Strings.LandingPageSampleButton, "Import Sample Game" },
             { Strings.LandingPageInfoStatusBoxText, "You will need to configure an AWS account profile to use Amazon GameLift." },
             { Strings.LandingPageWarningStatusBoxText, "Profile configuration is incomplete, navigate to AWS Account Credentials for next steps" },
-            { Strings.CaseStudy1LearnMoreLink, "Learn More" },
-            { Strings.CaseStudy2LearnMoreLink, "Learn More" },
-            { Strings.CaseStudy3LearnMoreLink, "Learn More" },
 
             { Strings.UserProfilePageAccountCardNewAccountTitle, "Manage Your User Profiles"},
             { Strings.UserProfilePageAccountCardNewAccountDescription, "Create a profile to link to an AWS account and store your security credentials. Your profile also specifies the AWS Region you want to work in.\nYou can have multiple profiles, but only one can be active at a time. Check your active profile selection on the main page of the Amazon GameLift window."},
@@ -321,7 +318,6 @@ namespace AmazonGameLift.Editor
             { Strings.HelpPageDescription, "Learn how to integrate and deploy games for hosting on GameLift. The GameLift service manages game server deployment, operation, and scaling. You can deploy custom-built game servers or use GameLift Realtime Servers to configure lightweight game servers for your game." },
             { Strings.HelpPageReportIssueLink, "Report Issues" },
             { Strings.HelpPageDocumentationLink, "Documentation" },
-            { Strings.HelpPageVideoTutorialLink, "Video Tutorials" },
             { Strings.HelpPageForumLink, "AWS Forum" },
             { Strings.HelpPageEstimatingPriceTitle, "Estimating Price" },
             { Strings.HelpPageEstimatingPriceDescription, "With AWS Pricing Calculator, you can create a pricing estimate for Amazon GameLift. You don't need an AWS account or in-depth knowledge of AWS to use the calculator." },

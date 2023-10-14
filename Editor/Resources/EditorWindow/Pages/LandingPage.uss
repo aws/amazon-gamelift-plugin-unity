@@ -10,10 +10,6 @@
     flex: 0 0 auto;
 }
 
-.case-study__image {
-    --unity-image-size: scale-to-fit;
-}
-
 Image#LandingPageNoAccountImage {
     --unity-image: resource("Images/Icons/NoAccountIcon");
 }
@@ -24,16 +20,4 @@ Image#LandingPageAccountImage {
 
 Image#LandingPageSampleImage {
     --unity-image: resource("Images/LandingPage/SampleGame");
-}
-
-Image#CaseStudy1 {
-    --unity-image: resource("Images/LandingPage/RollerChamp");
-}
-
-Image#CaseStudy2 {
-    --unity-image: resource("Images/LandingPage/DeadByDaylight");
-}
-
-Image#CaseStudy3 {
-    --unity-image: resource("Images/LandingPage/MegaBaseball2");
 }

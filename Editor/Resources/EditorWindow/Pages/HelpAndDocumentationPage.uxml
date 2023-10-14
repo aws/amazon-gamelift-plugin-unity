@@ -21,11 +21,6 @@
                 <ui:Label name="HelpPageDocumentationLink" class="card__text" text="Documentation"/>
                 <ui:Image name="ExternalLinkIcon" class="card__icon--small"/>
             </ui:VisualElement>
-            <ui:VisualElement name="HelpPageVideoTutorialLinkParent" class="card card--small">
-                <ui:Image name="HelpPageVideoTutorialIcon" class="card__icon"/>
-                <ui:Label name="HelpPageVideoTutorialLink" class="card__text" text="Video Tutorialse"/>
-                <ui:Image name="ExternalLinkIcon" class="card__icon--small"/>
-            </ui:VisualElement>
             <ui:VisualElement name="HelpPageForumLinkParent" class="card card--small">
                 <ui:Image name="HelpPageForumIcon" class="card__icon"/>
                 <ui:Label name="HelpPageForumLink" class="card__text" text="AWS Forum"/>

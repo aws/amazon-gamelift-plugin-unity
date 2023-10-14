@@ -14,6 +14,8 @@
 
         public string AnywhereFleetId { get; set; }
 
+        public string AnywhereFleetLocation { get; set; }
+        
         public string ComputeName { get; set; }
 
         public string IpAddress { get; set; }

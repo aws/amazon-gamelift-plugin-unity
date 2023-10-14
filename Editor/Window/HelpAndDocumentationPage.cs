@@ -1,4 +1,4 @@
-﻿// Copyright Amazon.com, Inc. or its affiliates. All Rights Reserved.
+// Copyright Amazon.com, Inc. or its affiliates. All Rights Reserved.
 // SPDX-License-Identifier: Apache-2.0
 
 using UnityEngine;
@@ -25,7 +25,6 @@ namespace AmazonGameLift.Editor
             
             _container.Q<VisualElement>("HelpPageReportIssueLinkParent").RegisterCallback<ClickEvent>(_ => Application.OpenURL(Urls.GitHubAwsIssues));
             _container.Q<VisualElement>("HelpPageDocumentationLinkParent").RegisterCallback<ClickEvent>(_ => Application.OpenURL(Urls.AwsGameLiftDocs));
-            _container.Q<VisualElement>("HelpPageVideoTutorialLinkParent").RegisterCallback<ClickEvent>(_ => Application.OpenURL(Urls.MissingLink)); //TODO Still waiting on confirmation of this final link
             _container.Q<VisualElement>("HelpPageForumLinkParent").RegisterCallback<ClickEvent>(_ => Application.OpenURL(Urls.AwsGameTechForums));
         }
 
@@ -36,7 +35,6 @@ namespace AmazonGameLift.Editor
             l.SetElementText("HelpPageDescription", Strings.HelpPageDescription);
             l.SetElementText("HelpPageReportIssueLink", Strings.HelpPageReportIssueLink);
             l.SetElementText("HelpPageDocumentationLink", Strings.HelpPageDocumentationLink);
-            l.SetElementText("HelpPageVideoTutorialLink", Strings.HelpPageVideoTutorialLink);
             l.SetElementText("HelpPageForumLink", Strings.HelpPageForumLink);
             l.SetElementText("HelpPageEstimatingPriceTitle", Strings.HelpPageEstimatingPriceTitle);
             l.SetElementText("HelpPageEstimatingPriceDescription", Strings.HelpPageEstimatingPriceDescription);
