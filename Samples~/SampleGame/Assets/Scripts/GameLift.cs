@@ -90,10 +90,11 @@ public class GameLift : MonoBehaviour
             config.AwsRegion = stateManager.Region;
             config.ProfileName = stateManager.ProfileName;
 #else
+            var settings = new Settings<ClientSettingsKeys>(ClientConfigFilePath);
             config.FleetId = settings.GetSetting(ClientSettingsKeys.FleetId).Value;
-            config.FleetLocation = settings.GetSetting(ClientSettingsKeys.FleetId).Value;
-            config.AwsRegion = settings.GetSetting(ClientSettingsKeys.FleetId).Value;
-            config.ProfileName = settings.GetSetting(ClientSettingsKeys.FleetId).Value;
+            config.FleetLocation = settings.GetSetting(ClientSettingsKeys.FleetLocation).Value;
+            config.AwsRegion = settings.GetSetting(ClientSettingsKeys.CurrentRegion).Value;
+            config.ProfileName = settings.GetSetting(ClientSettingsKeys.CurrentProfileName).Value;
 #endif
         }
         var coreApi = new LoggingGameLiftCoreApi(config);
