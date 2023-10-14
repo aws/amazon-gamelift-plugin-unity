@@ -1,4 +1,4 @@
-// Copyright Amazon.com, Inc. or its affiliates. All Rights Reserved.
+﻿// Copyright Amazon.com, Inc. or its affiliates. All Rights Reserved.
 // SPDX-License-Identifier: Apache-2.0
 
 using System;
@@ -18,10 +18,11 @@ namespace AmazonGameLift.Editor
 {
     public class GameLiftFleetManager
     {
+        public readonly string FleetLocation = "custom-location-1";
+        
         private readonly IAmazonGameLiftWrapper _amazonGameLiftWrapper;
         private string _fleetName;
         private string _fleetId;
-        private const string FleetLocation = "custom-location-1";
         private const string FleetDescription = "Deployed by the Amazon GameLift Plug-in for Unity.";
         private VisualElement _container;
         private ErrorResponse _logger;

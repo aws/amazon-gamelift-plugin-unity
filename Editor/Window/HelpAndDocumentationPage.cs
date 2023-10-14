@@ -1,4 +1,4 @@
-﻿// Copyright Amazon.com, Inc. or its affiliates. All Rights Reserved.
+// Copyright Amazon.com, Inc. or its affiliates. All Rights Reserved.
 // SPDX-License-Identifier: Apache-2.0
 
 using UnityEngine;
@@ -19,14 +19,13 @@ namespace AmazonGameLift.Editor
             container.Add(uxml);
             ApplyText();
             
-            _container.Q<Label>(Strings.HelpPageEstimatingPriceLink).RegisterCallback<ClickEvent>(_ => Application.OpenURL(Urls.AboutGameLiftPricing));
-            _container.Q<Label>(Strings.HelpPageFleetIQLink).RegisterCallback<ClickEvent>(_ => Application.OpenURL(Urls.AwsFleetIqDocumentation));
-            _container.Q<Label>(Strings.HelpPageFlexMatchLink).RegisterCallback<ClickEvent>(_ => Application.OpenURL(Urls.AwsFlexMatchDocumentation));
+            _container.Q<VisualElement>("HelpPageEstimatingPriceLinkParent").RegisterCallback<ClickEvent>(_ => Application.OpenURL(Urls.AboutGameLiftPricing));
+            _container.Q<VisualElement>("HelpPageFleetIQLinkParent").RegisterCallback<ClickEvent>(_ => Application.OpenURL(Urls.AwsFleetIqDocumentation));
+            _container.Q<VisualElement>("HelpPageFlexMatchLinkParent").RegisterCallback<ClickEvent>(_ => Application.OpenURL(Urls.AwsFlexMatchDocumentation));
             
-            _container.Q<VisualElement>("HelpPageReportIssueLink").RegisterCallback<ClickEvent>(_ => Application.OpenURL(Urls.GitHubAwsIssues));
-            _container.Q<VisualElement>("HelpPageDocumentationLink").RegisterCallback<ClickEvent>(_ => Application.OpenURL(Urls.AwsGameLiftDocs));
-            _container.Q<VisualElement>("HelpPageVideoTutorialLink").RegisterCallback<ClickEvent>(_ => Application.OpenURL(Urls.MissingLink)); //TODO Still waiting on confirmation of this final link
-            _container.Q<VisualElement>("HelpPageForumLink").RegisterCallback<ClickEvent>(_ => Application.OpenURL(Urls.AwsGameTechForums));
+            _container.Q<VisualElement>("HelpPageReportIssueLinkParent").RegisterCallback<ClickEvent>(_ => Application.OpenURL(Urls.GitHubAwsIssues));
+            _container.Q<VisualElement>("HelpPageDocumentationLinkParent").RegisterCallback<ClickEvent>(_ => Application.OpenURL(Urls.AwsGameLiftDocs));
+            _container.Q<VisualElement>("HelpPageForumLinkParent").RegisterCallback<ClickEvent>(_ => Application.OpenURL(Urls.AwsGameTechForums));
         }
 
         private void ApplyText()
@@ -36,7 +35,6 @@ namespace AmazonGameLift.Editor
             l.SetElementText("HelpPageDescription", Strings.HelpPageDescription);
             l.SetElementText("HelpPageReportIssueLink", Strings.HelpPageReportIssueLink);
             l.SetElementText("HelpPageDocumentationLink", Strings.HelpPageDocumentationLink);
-            l.SetElementText("HelpPageVideoTutorialLink", Strings.HelpPageVideoTutorialLink);
             l.SetElementText("HelpPageForumLink", Strings.HelpPageForumLink);
             l.SetElementText("HelpPageEstimatingPriceTitle", Strings.HelpPageEstimatingPriceTitle);
             l.SetElementText("HelpPageEstimatingPriceDescription", Strings.HelpPageEstimatingPriceDescription);
