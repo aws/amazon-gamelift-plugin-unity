@@ -8,7 +8,5 @@ public enum ServerSettingsKeys
     FleetId,
     ComputeName,
     CurrentRegion,
-    // Optional key to have an auth token generated if server is run from within Unity
-    CurrentProfileName,
 }
 #endif

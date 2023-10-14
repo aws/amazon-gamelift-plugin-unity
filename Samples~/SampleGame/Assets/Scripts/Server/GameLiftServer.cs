@@ -21,7 +21,7 @@ public class GameLiftServer
 {
     private readonly GameLift _gl;
     private readonly Logger _logger;
-    public static readonly string configFilePath = "GameLiftServerRuntimeSettings.yaml";
+    public static readonly string ServerConfigFilePath = "GameLiftServerRuntimeSettings.yaml";
     private readonly Settings<ServerSettingsKeys> _settings;
 #if UNITY_EDITOR
     private readonly ICredentialsStore _credentialsStore;
@@ -36,7 +36,7 @@ public class GameLiftServer
     {
         _gl = gl ?? throw new ArgumentNullException(nameof(gl));
         _logger = logger ?? throw new ArgumentNullException(nameof(logger));
-        _settings = new Settings<ServerSettingsKeys>(configFilePath);
+        _settings = new Settings<ServerSettingsKeys>(ServerConfigFilePath);
 #if UNITY_EDITOR
         _credentialsStore = new CredentialsStore(new FileWrapper());
 #endif
