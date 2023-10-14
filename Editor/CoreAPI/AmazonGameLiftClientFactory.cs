@@ -1,9 +1,8 @@
 ﻿using Amazon;
 using Amazon.GameLift;
-using AmazonGameLift.Editor;
 using AmazonGameLiftPlugin.Core;
 
-namespace Editor.CoreAPI
+namespace AmazonGameLift.Editor
 {
     public interface IAmazonGameLiftWrapperFactory
     {
