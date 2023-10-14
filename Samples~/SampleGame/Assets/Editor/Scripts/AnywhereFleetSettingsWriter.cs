@@ -15,6 +15,10 @@ namespace Editor.Scripts
         {
 #if UNITY_SERVER
             var profile = GetProfile();
+            if (profile == null)
+            {
+                return;
+            }
             var path = Path.Join(directory, GameLiftServer.configFilePath);
             var serverSettings = new Settings<ServerSettingsKeys>(path);
             serverSettings.PutSetting(ServerSettingsKeys.CurrentRegion, profile.Region);
@@ -29,6 +33,10 @@ namespace Editor.Scripts
         {
 #if !UNITY_SERVER
             var profile = GetProfile();
+            if (profile == null)
+            {
+                return;
+            }
             var path = Path.Join(directory, GameLift.ClientConfigFilePath);
             var clientSettings = new Settings<ClientSettingsKeys>(path);
             clientSettings.PutSetting(ClientSettingsKeys.CurrentRegion, profile.Region);
