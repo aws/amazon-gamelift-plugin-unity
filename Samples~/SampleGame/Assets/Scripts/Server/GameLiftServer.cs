@@ -7,15 +7,18 @@ using System.Collections.Generic;
 using Amazon;
 using Amazon.GameLift;
 using Amazon.GameLift.Model;
-using AmazonGameLift.Editor;
 using AmazonGameLift.Runtime;
 using AmazonGameLiftPlugin.Core.CredentialManagement;
 using AmazonGameLiftPlugin.Core.CredentialManagement.Models;
 using AmazonGameLiftPlugin.Core.Shared.FileSystem;
 using Aws.GameLift;
 using Aws.GameLift.Server;
-using Editor.CoreAPI;
 using UnityEngine;
+
+#if UNITY_EDITOR
+using AmazonGameLift.Editor;
+using Editor.CoreAPI;
+#endif
 
 public class GameLiftServer
 {

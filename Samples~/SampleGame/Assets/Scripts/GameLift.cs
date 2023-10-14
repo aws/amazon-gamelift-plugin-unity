@@ -5,16 +5,19 @@ using System;
 using System.Net;
 using System.Net.Security;
 using System.Security.Cryptography.X509Certificates;
-using AmazonGameLift.Editor;
 using AmazonGameLift.Runtime;
 #if !UNITY_SERVER
 using System.Threading;
 using System.Threading.Tasks;
 using AmazonGameLiftPlugin.Core.UserIdentityManagement.Models;
-using Editor.CoreAPI;
 #endif
 using UnityEngine;
 using UnityEngine.Events;
+
+#if UNITY_EDITOR
+using AmazonGameLift.Editor;
+using Editor.CoreAPI;
+#endif
 
 public class GameLift : MonoBehaviour
 {
