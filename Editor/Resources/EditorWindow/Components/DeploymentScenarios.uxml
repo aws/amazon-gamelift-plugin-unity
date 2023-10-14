@@ -8,7 +8,7 @@
             <ui:Label name="ManagedEC2ScenarioSingleFleetLabel" class="form-row__label" text="Single-Region Fleet"/>
             <ui:VisualElement class="form-row__input">
                 <ui:RadioButton name="ManagedEC2ScenarioSingleFleetRadio" class="form-row__radio-button" text="Creates a game backend service with a single Amazon GameLift fleet."/>
-                <ui:VisualElement class="external-link">
+                <ui:VisualElement name="ManagedEC2ScenarioSingleFleetLinkParent" class="external-link">
                     <ui:Label name="ManagedEC2ScenarioSingleFleetLink" class="form-row__text-display input-hint foldout__link" text="Learn More"/>
                     <ui:Image name="ExternalLinkIcon" class="icon--small"/>
                 </ui:VisualElement>
@@ -18,7 +18,7 @@
             <ui:Label name="ManagedEC2ScenarioSpotFleetLabel" class="form-row__label" text="Spot Fleet"/>
             <ui:VisualElement class="form-row__input">
                 <ui:RadioButton name="ManagedEC2ScenarioSpotFleetRadio" class="form-row__radio-button" text="Forms matches by using Amazon GameLift queues and a custom matchmaker and configures three fleets."/>
-                <ui:VisualElement class="external-link">
+                <ui:VisualElement name="ManagedEC2ScenarioSpotFleetLinkParent" class="external-link">
                     <ui:Label name="ManagedEC2ScenarioSpotFleetLink" class="form-row__text-display input-hint foldout__link" text="Learn More"/>
                     <ui:Image name="ExternalLinkIcon" class="icon--small"/>
                 </ui:VisualElement>
@@ -28,7 +28,7 @@
             <ui:Label name="ManagedEC2ScenarioFlexMatchLabel" class="form-row__label" text="Flex Match"/>
             <ui:VisualElement class="form-row__input">
                 <ui:RadioButton name="ManagedEC2ScenarioFlexMatchRadio" class="form-row__radio-button" text="Uses FlexMatch, a managed matchmaking service, to match game players together."/>
-                <ui:VisualElement class="external-link">
+                <ui:VisualElement name="ManagedEC2ScenarioFlexMatchLinkParent" class="external-link">
                     <ui:Label name="ManagedEC2ScenarioFlexMatchLink" class="form-row__text-display input-hint foldout__link" text="Learn More"/>
                     <ui:Image name="ExternalLinkIcon" class="icon--small"/>
                 </ui:VisualElement>

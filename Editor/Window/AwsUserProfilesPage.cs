@@ -119,11 +119,11 @@ namespace AmazonGameLift.Editor
         {
             _container.Q<Button>("UserProfilePageAccountCardNoAccountButton")
                 .RegisterCallback<ClickEvent>(_ => Application.OpenURL(Urls.CreateAwsAccountLearnMore));
-            _container.Q<VisualElement>("UserProfilePageBootstrapHelpLink")
+            _container.Q<VisualElement>("UserProfilePageBootstrapHelpLinkParent")
                 .RegisterCallback<ClickEvent>(_ => Application.OpenURL(Urls.S3BootstrapHelp));
-            _container.Q<VisualElement>("UserProfilePageCompletedBootstrapHelpLink")
+            _container.Q<VisualElement>("UserProfilePageCompletedBootstrapHelpLinkParent")
                 .RegisterCallback<ClickEvent>(_ => Application.OpenURL(Urls.S3BootstrapHelp));
-            _container.Q<VisualElement>("UserProfilePageAccountNewProfileHelpLink")
+            _container.Q<VisualElement>("UserProfilePageAccountNewProfileHelpLinkParent")
                 .RegisterCallback<ClickEvent>(_ => Application.OpenURL(Urls.AwsIamDocumentation));
 
             _container.Q<Button>("UserProfilePageAccountCardHasAccountButton").RegisterCallback<ClickEvent>(_ =>

@@ -23,9 +23,9 @@ namespace AmazonGameLift.Editor
             container.Add(uxml);
             LocalizeText();
             
-            container.Q<Label>("AnywherePageIntegrateServerLink")
+            container.Q<VisualElement>("AnywherePageIntegrateServerLinkParent")
                 .RegisterCallback<ClickEvent>(_ => Application.OpenURL(Urls.AnywherePageServerSetupDocumentation));
-            container.Q<Label>("AnywherePageIntegrateClientLink")
+            container.Q<VisualElement>("AnywherePageIntegrateClientLinkParent")
                 .RegisterCallback<ClickEvent>(_ => Application.OpenURL(Urls.AnywherePageClientSetupDocumentation));
 
             var fleetInputContainer = uxml.Q("AnywherePageConnectFleetTitle");
