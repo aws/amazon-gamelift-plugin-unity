@@ -17,7 +17,6 @@ using UnityEngine;
 
 #if UNITY_EDITOR
 using AmazonGameLift.Editor;
-using Editor.CoreAPI;
 #endif
 
 public class GameLiftServer
