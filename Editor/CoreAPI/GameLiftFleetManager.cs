@@ -4,7 +4,6 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Net;
 using System.Threading.Tasks;
 using Amazon.GameLift;
 using Amazon.GameLift.Model;
@@ -32,18 +31,64 @@ namespace AmazonGameLift.Editor
             _amazonGameLiftWrapper = amazonGameLiftWrapper;
         }
 
-        public async Task<CreateAnywhereFleetResponse> CreateFleet(string fleetName)
+        public async Task<CreateFleetResponse> CreateFleet(string fleetName, string fleetLocation)
         {
             if (_amazonGameLiftWrapper == null)
             {
-                return Response.Fail(new CreateAnywhereFleetResponse { ErrorCode = ErrorCode.AccountProfileMissing });
+                return Response.Fail(new CreateFleetResponse { ErrorCode = ErrorCode.AccountProfileMissing });
             }
-
+            
             if (string.IsNullOrWhiteSpace(fleetName))
             {
-                return Response.Fail(new CreateAnywhereFleetResponse { ErrorCode = ErrorCode.InvalidFleetName });
+                return Response.Fail(new CreateFleetResponse { ErrorCode = ErrorCode.InvalidFleetName });
             }
+            
+            try
+            {
+                var createFleetRequest = new CreateFleetRequest
+                {
+                    Name = fleetName,
+                    ComputeType = ComputeType.ANYWHERE,
+                    Description = FleetDescription,
+                    Locations = new List<LocationConfiguration>
+                    {
+                        new()
+                        {
+                            Location = fleetLocation,
+                        }
+                    },
+                    Tags = new List<Tag>
+                    {
+                        { new() { Key = "CreatedBy", Value = "AmazonGameLiftUnityPlugin" } }
+                    }
+                };
+                
+                var createFleetResponse = await _amazonGameLiftWrapper.CreateFleet(createFleetRequest);
+                
+                return Response.Ok(new CreateFleetResponse()
+                {
+                    FleetId = createFleetResponse.FleetAttributes.FleetId,
+                    FleetName = fleetName
+                });
+            }
+            catch (Exception ex)
+            {
+                return Response.Fail(new CreateFleetResponse()
+                {
+                    ErrorCode = ErrorCode.CreateFleetFailed,
+                    ErrorMessage = ex.Message
+                });
+            }
+        }
 
+        public async Task<CreateCustomLocationResponse> CreateCustomLocationIfNotExists()
+        {
+            
+            if (_amazonGameLiftWrapper == null)
+            {
+                return Response.Fail(new CreateCustomLocationResponse { ErrorCode = ErrorCode.AccountProfileMissing });
+            }
+            
             try
             {
                 var listLocationsResponse = await _amazonGameLiftWrapper.ListLocations(new ListLocationsRequest
@@ -57,53 +102,22 @@ namespace AmazonGameLift.Editor
                 if (foundLocation == null)
                 {
                     await _amazonGameLiftWrapper.CreateLocation(new CreateLocationRequest()
-                        {
-                            LocationName = FleetLocation
-                        });
-                }
-            }
-            catch (Exception ex)
-            {
-                return Response.Fail(new CreateAnywhereFleetResponse()
-                    { 
-                        ErrorCode = ErrorCode.CustomLocationCreationFailed, 
-                        ErrorMessage = ex.Message 
+                    {
+                        LocationName = FleetLocation
                     });
-            }
+                }
 
-            try
-            {
-                var createFleetRequest = new CreateFleetRequest
+                return Response.Ok(new CreateCustomLocationResponse
                 {
-                    Name = fleetName,
-                    ComputeType = ComputeType.ANYWHERE,
-                    Description = FleetDescription,
-                    Locations = new List<LocationConfiguration>
-                    {
-                        new()
-                        {
-                            Location = FleetLocation,
-                        }
-                    },
-                    Tags = new List<Tag>
-                    {
-                        { new() { Key = "CreatedBy", Value = "AmazonGameLiftUnityPlugin" } }
-                    }
-                };
-                var createFleetResponse = await _amazonGameLiftWrapper.CreateFleet(createFleetRequest);
-
-                return Response.Ok(new CreateAnywhereFleetResponse()
-                {
-                    FleetId = createFleetResponse.FleetAttributes.FleetId,
-                    FleetName = fleetName
+                    Location = FleetLocation
                 });
             }
             catch (Exception ex)
             {
-                return Response.Fail(new CreateAnywhereFleetResponse()
-                {
-                    ErrorCode = ErrorCode.CreateFleetFailed,
-                    ErrorMessage = ex.Message
+                return Response.Fail(new CreateCustomLocationResponse()
+                { 
+                    ErrorCode = ErrorCode.CustomLocationCreationFailed, 
+                    ErrorMessage = ex.Message 
                 });
             }
         }

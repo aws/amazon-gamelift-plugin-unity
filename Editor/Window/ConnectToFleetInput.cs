@@ -56,25 +56,34 @@ namespace AmazonGameLift.Editor
 
         private async Task OnAnywhereConnectClicked(string fleetName)
         {
-            if (_fleetState is FleetStatus.NotCreated or FleetStatus.Creating)
+            if (_fleetManager != null && _fleetState is FleetStatus.NotCreated or FleetStatus.Creating)
             {
+                var url = string.Format(Urls.AwsGameLiftLogs, _stateManager.Region);
                 _connectToAnywhereStatusBox.Close();
-
-                var response = await _fleetManager?.CreateFleet(fleetName)!;
-                if (response.Success)
+                
+                var customLocationResponse = await _fleetManager.CreateCustomLocationIfNotExists();
+                if (!customLocationResponse.Success)
                 {
-                    _stateManager.AnywhereFleetName = response.FleetName;
-                    _stateManager.AnywhereFleetId = response.FleetId;
-                    _stateManager.AnywhereFleetLocation = _fleetManager.FleetLocation;
+                    _connectToAnywhereStatusBox.Show(StatusBox.StatusBoxType.Error,
+                        Strings.AnywherePageStatusBoxDefaultErrorText, customLocationResponse.ErrorMessage, url,
+                        Strings.ViewLogsStatusBoxUrlTextButton);
+                    return;
+                }
+                
+                var createFleetResponse = await _fleetManager.CreateFleet(fleetName, customLocationResponse.Location)!;
+                if (createFleetResponse.Success)
+                {
+                    _stateManager.AnywhereFleetName = createFleetResponse.FleetName;
+                    _stateManager.AnywhereFleetId = createFleetResponse.FleetId;
+                    _stateManager.AnywhereFleetLocation = customLocationResponse.Location;
                     await UpdateFleetMenu();
                     _fleetNameDropdownContainer.value = fleetName;
                     _fleetState = FleetStatus.Selected;
                 }
                 else
                 {
-                    var url = string.Format(Urls.AwsGameLiftLogs, _stateManager.Region);
                     _connectToAnywhereStatusBox.Show(StatusBox.StatusBoxType.Error,
-                        Strings.AnywherePageStatusBoxDefaultErrorText, response.ErrorMessage, url,
+                        Strings.AnywherePageStatusBoxDefaultErrorText, createFleetResponse.ErrorMessage, url,
                         Strings.ViewLogsStatusBoxUrlTextButton);
                 }
             }
