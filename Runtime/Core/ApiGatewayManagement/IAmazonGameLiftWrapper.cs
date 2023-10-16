@@ -46,6 +46,8 @@ namespace AmazonGameLiftPlugin.Core
         Task<DescribeComputeResponse> DescribeCompute(DescribeComputeRequest request);
         
         Task<ListFleetsResponse> ListFleets(ListFleetsRequest request);
+        
+        Task<DescribeFleetLocationAttributesResponse> DescribeFleetLocationAttributes(DescribeFleetLocationAttributesRequest request);
         #endregion
     }
 }

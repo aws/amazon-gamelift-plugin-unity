@@ -157,5 +157,32 @@ namespace AmazonGameLift.Editor
                 return null;
             }
         }
+        
+        public async Task<DescribeFleetLocationResponse> DescribeFleetLocationAttributes(string fleetId)
+        {
+            try
+            {
+                var describeFleetUtilizationRequest = new DescribeFleetLocationAttributesRequest()
+                {
+                    FleetId = fleetId
+                };
+
+                var describeFleetUtilizationResponse =
+                    await _amazonGameLiftWrapper.DescribeFleetLocationAttributes(describeFleetUtilizationRequest);
+
+                return Response.Ok(new DescribeFleetLocationResponse
+                {
+                    Location = describeFleetUtilizationResponse.LocationAttributes[0].LocationState.Location
+                });
+            }
+            catch (Exception ex)
+            {
+                return Response.Fail(new DescribeFleetLocationResponse()
+                { 
+                    ErrorCode = ErrorCode.CustomLocationCreationFailed, 
+                    ErrorMessage = ex.Message 
+                });
+            }
+        }
     }
 }

@@ -88,7 +88,7 @@ namespace AmazonGameLift.Editor
             {
                 var previousComputeName = _stateManager.ComputeName;
                 var registerResponse = await _computeManager.RegisterFleetCompute(_computeName,
-                    _stateManager.AnywhereFleetId, _location, _ipAddress);
+                    _stateManager.AnywhereFleetId, _stateManager.AnywhereFleetLocation, _ipAddress);
                 if (registerResponse.Success)
                 {
                     _stateManager.ComputeName = registerResponse.ComputeName;
