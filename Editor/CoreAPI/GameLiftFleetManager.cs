@@ -162,13 +162,13 @@ namespace AmazonGameLift.Editor
         {
             try
             {
-                var describeFleetUtilizationRequest = new DescribeFleetLocationAttributesRequest()
+                var describeFleetLocationAttributesRequest = new DescribeFleetLocationAttributesRequest()
                 {
                     FleetId = fleetId
                 };
 
                 var describeFleetUtilizationResponse =
-                    await _amazonGameLiftWrapper.DescribeFleetLocationAttributes(describeFleetUtilizationRequest);
+                    await _amazonGameLiftWrapper.DescribeFleetLocationAttributes(describeFleetLocationAttributesRequest);
 
                 return Response.Ok(new DescribeFleetLocationResponse
                 {
