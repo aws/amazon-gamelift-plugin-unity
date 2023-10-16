@@ -3,9 +3,6 @@
 
 using System;
 using System.Collections.Generic;
-using System.Threading.Tasks;
-using AmazonGameLift.Editor;
-using Editor.CoreAPI;
 using UnityEditor;
 using UnityEngine;
 using UnityEngine.UIElements;
@@ -88,7 +85,7 @@ namespace AmazonGameLift.Editor
             _launchClientButton.RegisterCallback<ClickEvent>(_ => EditorApplication.EnterPlaymode());
             
             
-            _container.Q<VisualElement>("ManagedEC2IntegrateLink")
+            _container.Q<VisualElement>("ManagedEC2IntegrateLinkParent")
                 .RegisterCallback<ClickEvent>(_ => Application.OpenURL(Urls.ManagedEc2IntegrateLink));
 
             _deploymentSettings.CurrentStackInfoChanged += UpdateGUI;

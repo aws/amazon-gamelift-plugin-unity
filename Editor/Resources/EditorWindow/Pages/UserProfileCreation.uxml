@@ -28,7 +28,7 @@
         <ui:VisualElement class="separator separator--horizontal">
             <ui:Button name="UserProfilePageAccountNewProfileCreateButton" class="button button--primary" text="Create Profile"/>
             <ui:Button name="UserProfilePageAccountNewProfileCancelButton" class="button" text="Cancel"/>
-            <ui:VisualElement class="external-link float-right">
+            <ui:VisualElement name="UserProfilePageAccountNewProfileHelpLinkParent" class="external-link float-right">
                 <ui:Label name="UserProfilePageAccountNewProfileHelpLink" text="How do I create AWS credentials?"/>
                 <ui:Image name="ExternalLinkIcon" class="icon--small"/>
             </ui:VisualElement>

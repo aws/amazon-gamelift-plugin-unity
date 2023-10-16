@@ -2,12 +2,11 @@
 // SPDX-License-Identifier: Apache-2.0
 
 #if UNITY_SERVER
-public enum SettingsKeys
+public enum ServerSettingsKeys
 {
     WebSocketUrl,
     FleetId,
     ComputeName,
-    CurrentProfileName,
     CurrentRegion,
 }
 #endif

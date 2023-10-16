@@ -148,9 +148,6 @@ namespace AmazonGameLift.Editor
         public const string LandingPageSampleButton = "LandingPageSampleButton";
         public const string LandingPageInfoStatusBoxText = "LandingPageInfoStatusBoxText";
         public const string LandingPageWarningStatusBoxText = "LandingPageWarningStatusBoxText";
-        public const string CaseStudy1LearnMoreLink = "CaseStudy1LearnMoreLink";
-        public const string CaseStudy2LearnMoreLink = "CaseStudy2LearnMoreLink";
-        public const string CaseStudy3LearnMoreLink = "CaseStudy3LearnMoreLink";
 
         public const string UserProfilePageAccountCardNewAccountTitle = "UserProfilePageAccountCardNewAccountTitle";
         public const string UserProfilePageAccountCardNewAccountDescription = "UserProfilePageAccountCardNewAccountDescription";
@@ -285,7 +282,6 @@ namespace AmazonGameLift.Editor
         public const string HelpPageDescription = "HelpPageDescription";
         public const string HelpPageReportIssueLink = "HelpPageReportIssueLink";
         public const string HelpPageDocumentationLink = "HelpPageDocumentationLink";
-        public const string HelpPageVideoTutorialLink = "HelpPageVideoTutorialLink";
         public const string HelpPageForumLink = "HelpPageForumLink";
         public const string HelpPageEstimatingPriceTitle = "HelpPageEstimatingPriceTitle";
         public const string HelpPageEstimatingPriceDescription = "HelpPageEstimatingPriceDescription";

@@ -10,7 +10,6 @@ using AmazonGameLift.Editor;
 using AmazonGameLiftPlugin.Core.DeploymentManagement.Models;
 using AmazonGameLiftPlugin.Core.SettingsManagement.Models;
 using AmazonGameLiftPlugin.Core.Shared;
-using Editor.CoreAPI;
 using Moq;
 using NUnit.Framework;
 using UnityEngine.TestTools;

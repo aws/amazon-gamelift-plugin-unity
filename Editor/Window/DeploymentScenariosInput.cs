@@ -3,7 +3,6 @@
 
 using System;
 using System.Collections.Generic;
-using Editor.CoreAPI;
 using UnityEngine;
 using UnityEngine.UIElements;
 
@@ -46,11 +45,11 @@ namespace AmazonGameLift.Editor
                 UpdateGUI();
             });
             
-            _container.Q<VisualElement>("ManagedEC2ScenarioSingleFleetLink")
+            _container.Q<VisualElement>("ManagedEC2ScenarioSingleFleetLinkParent")
                 .RegisterCallback<ClickEvent>(_ => Application.OpenURL(Urls.ManagedEc2FleetLearnMore));
-            _container.Q<VisualElement>("ManagedEC2ScenarioSpotFleetLink")
+            _container.Q<VisualElement>("ManagedEC2ScenarioSpotFleetLinkParent")
                 .RegisterCallback<ClickEvent>(_ => Application.OpenURL(Urls.ManagedEc2FleetLearnMore));
-            _container.Q<VisualElement>("ManagedEC2ScenarioFlexMatchLink")
+            _container.Q<VisualElement>("ManagedEC2ScenarioFlexMatchLinkParent")
                 .RegisterCallback<ClickEvent>(_ => Application.OpenURL(Urls.ManagedEc2FleetLearnMore));
 
             LocalizeText();

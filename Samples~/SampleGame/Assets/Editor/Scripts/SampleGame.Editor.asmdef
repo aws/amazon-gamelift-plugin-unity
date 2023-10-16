@@ -1,17 +1,15 @@
 {
-    "name": "SampleGame",
+    "name": "SampleGame.Editor",
     "rootNamespace": "",
     "references": [
-        "AmazonGameLiftPlugin.Runtime",
+        "AmazonGameLiftPlugin.EditorCoreAPI",
+        "SampleGame",
         "AmazonGameLiftPlugin.Runtime.Core",
-        "AmazonGameLiftSDKPlugin.Runtime",
-        "AmazonGameLiftPlugin.EditorCoreAPI"
+        "AmazonGameLiftPlugin.Runtime",
+        "AmazonGameLiftPlugin.Editor"
     ],
     "includePlatforms": [
-        "Editor",
-        "LinuxStandalone64",
-        "macOSStandalone",
-        "WindowsStandalone64"
+        "Editor"
     ],
     "excludePlatforms": [],
     "allowUnsafeCode": false,

@@ -4,15 +4,10 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Threading;
-using System.Threading.Tasks;
 using AmazonGameLiftPlugin.Core.AccountManagement.Models;
 using AmazonGameLiftPlugin.Core.BucketManagement.Models;
-using AmazonGameLiftPlugin.Core.SettingsManagement.Models;
 using AmazonGameLiftPlugin.Core.Shared;
-using Editor.CoreAPI;
 using UnityEditor;
-using UnityEngine;
 using CoreErrorCode = AmazonGameLiftPlugin.Core.Shared.ErrorCode;
 
 namespace AmazonGameLift.Editor

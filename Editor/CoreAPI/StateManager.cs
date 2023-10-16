@@ -4,12 +4,11 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using AmazonGameLift.Editor;
 using AmazonGameLiftPlugin.Core;
 using AmazonGameLiftPlugin.Core.SettingsManagement.Models;
 using YamlDotNet.Serialization;
 
-namespace Editor.CoreAPI
+namespace AmazonGameLift.Editor
 {
     public class StateManager
     {
@@ -75,6 +74,16 @@ namespace Editor.CoreAPI
                 _selectedProfile.AnywhereFleetId = value;
                 SaveProfiles();
                 OnUserProfileUpdated?.Invoke();
+            }
+        }
+
+        public string AnywhereFleetLocation
+        {
+            get => _selectedProfile.AnywhereFleetLocation;
+            set
+            {
+                _selectedProfile.AnywhereFleetLocation = value;
+                SaveProfiles();
             }
         }
 

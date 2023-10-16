@@ -3,7 +3,6 @@
 
 using System;
 using System.Collections.Generic;
-using Editor.CoreAPI;
 using UnityEditor;
 using UnityEngine;
 using UnityEngine.UIElements;
