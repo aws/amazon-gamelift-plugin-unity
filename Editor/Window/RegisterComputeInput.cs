@@ -50,8 +50,8 @@ namespace AmazonGameLift.Editor
                             !string.IsNullOrWhiteSpace(_stateManager.IpAddress)
                 ? ComputeStatus.Registered
                 : ComputeStatus.NotRegistered;
-            _computeName = _stateManager.ComputeName ?? _computeName;
-            _ipAddress = _stateManager.IpAddress ?? _ipAddress;
+            _computeName = !string.IsNullOrWhiteSpace(_stateManager.ComputeName) ? _stateManager.ComputeName:  _computeName;
+            _ipAddress = !string.IsNullOrWhiteSpace(_stateManager.IpAddress) ? _stateManager.IpAddress:  _ipAddress;
             _stateManager.OnUserProfileUpdated += UpdateGUI;
 
             RegisterCallbacks();
@@ -86,6 +86,12 @@ namespace AmazonGameLift.Editor
         {
             if (_computeState is ComputeStatus.NotRegistered or ComputeStatus.Registering)
             {
+                Debug.Log(_computeName);
+                Debug.Log(_stateManager);
+                Debug.Log(_stateManager.AnywhereFleetId);
+                Debug.Log(_location);
+                Debug.Log(_ipAddress);
+                Debug.Log(_computeManager);
                 var previousComputeName = _stateManager.ComputeName;
                 var registerResponse = await _computeManager.RegisterFleetCompute(_computeName,
                     _stateManager.AnywhereFleetId, _location, _ipAddress);
