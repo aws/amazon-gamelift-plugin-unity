@@ -73,14 +73,25 @@ namespace AmazonGameLift.Editor
 
             container.Q<DropdownField>("UserProfilePageAccountNewProfileRegionDropdown").choices =
                 _stateManager.CoreApi.ListAvailableRegions().ToList();
+
+            UpdateGui();
             
-            if (!stateManager.IsBootstrapped)
-            {
-                _statusBox.Show(StatusBox.StatusBoxType.Warning, Strings.UserProfilePageStatusBoxWarningText);
-            }
+            _stateManager.OnUserProfileUpdated += UpdateGui;
            
             ChooseProfileMenu();
             SetupButtonCallbacks();
+        }
+
+        private void UpdateGui()
+        {
+            if (!_stateManager.IsBootstrapped)
+            {
+                _statusBox.Show(StatusBox.StatusBoxType.Warning, Strings.UserProfilePageStatusBoxWarningText);
+            }
+            else
+            {
+                _statusBox.Close();
+            }
         }
         
         private void LocalizeText()
