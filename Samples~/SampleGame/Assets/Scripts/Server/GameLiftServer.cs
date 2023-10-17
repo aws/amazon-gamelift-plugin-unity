@@ -15,12 +15,16 @@ using Aws.GameLift;
 using Aws.GameLift.Server;
 using UnityEngine;
 
+#if UNITY_EDITOR
+using AmazonGameLift.Editor;
+#endif
+
 public class GameLiftServer
 {
     private readonly GameLift _gl;
     private readonly Logger _logger;
-    private const string configFilePath = "GameLiftServerRuntimeSettings.yaml";
-    private readonly Settings<SettingsKeys> _settings;
+    public static readonly string ServerConfigFilePath = "GameLiftServerRuntimeSettings.yaml";
+    private readonly Settings<ServerSettingsKeys> _settings;
 #if UNITY_EDITOR
     private readonly ICredentialsStore _credentialsStore;
 #endif
@@ -34,7 +38,7 @@ public class GameLiftServer
     {
         _gl = gl ?? throw new ArgumentNullException(nameof(gl));
         _logger = logger ?? throw new ArgumentNullException(nameof(logger));
-        _settings = new Settings<SettingsKeys>(configFilePath);
+        _settings = new Settings<ServerSettingsKeys>(ServerConfigFilePath);
 #if UNITY_EDITOR
         _credentialsStore = new CredentialsStore(new FileWrapper());
 #endif
@@ -51,26 +55,32 @@ public class GameLiftServer
 
         try
         {
-            var websocketUrl = _settings.GetSetting(SettingsKeys.WebsocketUrl).Value;
-            var fleetID = _settings.GetSetting(SettingsKeys.FleetId).Value;
-            var computeName = _settings.GetSetting(SettingsKeys.ComputeName).Value;
-
+            string websocketUrl;
+            string fleetID;
+            string computeName;
 #if UNITY_EDITOR
-            var profileName = _settings.GetSetting(SettingsKeys.CurrentProfileName).Value;
+            var stateManager = new StateManager(new CoreApi());
+            websocketUrl = stateManager.WebSocketUrl;
+            fleetID = stateManager.AnywhereFleetId;
+            computeName = stateManager.ComputeName;
+            var profileName = stateManager.ProfileName;
+            var region = stateManager.Region;
             var credentialsResponse =
                 _credentialsStore.RetriveAwsCredentials(
                     new RetriveAwsCredentialsRequest() { ProfileName = profileName });
-            var region = _settings.GetSetting(SettingsKeys.CurrentRegion).Value;
             var gameLiftClient = new AmazonGameLiftClient(credentialsResponse.AccessKey, credentialsResponse.SecretKey,
                 RegionEndpoint.GetBySystemName(region));
             authToken ??= gameLiftClient
-                .GetComputeAuthTokenAsync(new GetComputeAuthTokenRequest
-                {
-                    ComputeName = computeName, FleetId = fleetID
-                }).Result.AuthToken;
+                .GetComputeAuthToken(new GetComputeAuthTokenRequest { ComputeName = computeName, FleetId = fleetID })
+                .AuthToken;
+#else
+            websocketUrl = _settings.GetSetting(ServerSettingsKeys.WebSocketUrl).Value;
+            fleetID = _settings.GetSetting(ServerSettingsKeys.FleetId).Value;
+            computeName = _settings.GetSetting(ServerSettingsKeys.ComputeName).Value;
 #endif
             var serverParams =
-                new ServerParameters(websocketUrl, $"{Application.productName}-{Guid.NewGuid()}", computeName, fleetID, authToken);
+                new ServerParameters(websocketUrl, $"{Application.productName}-{Guid.NewGuid()}", computeName, fleetID,
+                    authToken);
 
             GenericOutcome initOutcome = GameLiftServerAPI.InitSDK(serverParams);
 

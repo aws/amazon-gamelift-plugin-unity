@@ -1,7 +1,6 @@
-﻿// Copyright Amazon.com, Inc. or its affiliates. All Rights Reserved.
+// Copyright Amazon.com, Inc. or its affiliates. All Rights Reserved.
 // SPDX-License-Identifier: Apache-2.0
 
-using Editor.CoreAPI;
 using UnityEngine;
 using UnityEngine.UIElements;
 
@@ -30,14 +29,9 @@ namespace AmazonGameLift.Editor
                 _statusBox.Show(StatusBox.StatusBoxType.Warning, Strings.LandingPageWarningStatusBoxText);
             }
 
-            _container.Q<Button>("CreateAccount").RegisterCallback<ClickEvent>(_ => OnCreateAccountClicked());
+            _container.Q<Button>("CreateAccount").RegisterCallback<ClickEvent>(_ => Application.OpenURL(Urls.CreateAwsAccountLearnMore));
             _container.Q<Button>("AddProfile").RegisterCallback<ClickEvent>(_ => OnAddProfileClicked());
             _container.Q<Button>("DownloadSampleGame").RegisterCallback<ClickEvent>(_ => OnImportSampleClicked());
-        }
-
-        private static void OnCreateAccountClicked()
-        {
-            Application.OpenURL(""); // TODO: Confirm URL for this button
         }
 
         private static void OnAddProfileClicked()

@@ -14,12 +14,17 @@ using AmazonGameLiftPlugin.Core.UserIdentityManagement.Models;
 using UnityEngine;
 using UnityEngine.Events;
 
+#if UNITY_EDITOR
+using AmazonGameLift.Editor;
+#endif
+
 public class GameLift : MonoBehaviour
 {
     [Serializable]
     public sealed class GameLiftConnectionChangedEvent : UnityEvent<bool> { }
 
     public GameLiftConnectionChangedEvent ConnectionChangedEvent;
+    public static readonly string ClientConfigFilePath = "GameLiftAnywhereClientSettings.yaml";
 
     [SerializeField]
     private GameLiftClientSettings _gameLiftSettings;
@@ -74,7 +79,24 @@ public class GameLift : MonoBehaviour
         _server = new GameLiftServer(this, _logger);
 #else
         _logger.Write(":) I AM CLIENT");
-        var coreApi = new LoggingGameLiftCoreApi(_gameLiftSettings.GetConfiguration());
+        var config = _gameLiftSettings.GetConfiguration();
+        if (config.IsGameLiftAnywhere)
+        {
+#if UNITY_EDITOR
+            var stateManager = new StateManager(new CoreApi());
+            config.FleetId = stateManager.AnywhereFleetId;
+            config.FleetLocation = stateManager.AnywhereFleetLocation;
+            config.AwsRegion = stateManager.Region;
+            config.ProfileName = stateManager.ProfileName;
+#else
+            var settings = new Settings<ClientSettingsKeys>(ClientConfigFilePath);
+            config.FleetId = settings.GetSetting(ClientSettingsKeys.FleetId).Value;
+            config.FleetLocation = settings.GetSetting(ClientSettingsKeys.FleetLocation).Value;
+            config.AwsRegion = settings.GetSetting(ClientSettingsKeys.CurrentRegion).Value;
+            config.ProfileName = settings.GetSetting(ClientSettingsKeys.CurrentProfileName).Value;
+#endif
+        }
+        var coreApi = new LoggingGameLiftCoreApi(config);
         _client = new GameLiftClient(coreApi, new Delay(), _logger);
 #endif
     }

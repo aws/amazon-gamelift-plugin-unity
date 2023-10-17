@@ -10,8 +10,6 @@ using AmazonGameLiftPlugin.Core.Shared;
 using Moq;
 using NUnit.Framework;
 using UnityEditor;
-using UnityEngine;
-using UnityEngine.TestTools;
 
 namespace AmazonGameLiftPlugin.Editor.UnitTests
 {

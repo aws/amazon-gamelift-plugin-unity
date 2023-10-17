@@ -30,6 +30,8 @@ namespace AmazonGameLiftPlugin.Core.Shared.S3Bucket
 
         GetLifecycleConfigurationResponse GetLifecycleConfiguration(string bucketName);
 
+        PutBucketPolicyResponse PutBucketPolicy(PutBucketPolicyRequest request);
+
         PutLifecycleConfigurationResponse PutLifecycleConfiguration(PutLifecycleConfigurationRequest request);
 
         PutObjectResponse PutObject(PutObjectRequest request);

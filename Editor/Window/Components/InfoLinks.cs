@@ -18,17 +18,10 @@ namespace AmazonGameLift.Editor
             LocalizeText();
 
             this.Q<Label>("InfoLinkDocumentationLink")
-                .RegisterCallback<ClickEvent>(_ => OnLinkClicked(Urls.AwsHelpGameLiftUnity));
-            this.Q<Label>("InfoLinkForumLink").RegisterCallback<ClickEvent>(_ => OnLinkClicked(Urls.AwsGameTechForums));
-            this.Q<Label>("InfoLinkTroubleshootingLink")
-                .RegisterCallback<ClickEvent>(_ => OnLinkClicked("")); // TODO: Get correct action
+                .RegisterCallback<ClickEvent>(_ => Application.OpenURL(Urls.AwsHelpGameLiftUnityDocumentation));
+            this.Q<Label>("InfoLinkForumLink").RegisterCallback<ClickEvent>(_ => Application.OpenURL(Urls.AwsGameTechForums));
             this.Q<Label>("InfoLinkReportIssuesLink")
-                .RegisterCallback<ClickEvent>(_ => OnLinkClicked(Urls.GitHubAwsLabs));
-        }
-
-        private void OnLinkClicked(string url)
-        {
-            Application.OpenURL(url);
+                .RegisterCallback<ClickEvent>(_ => Application.OpenURL(Urls.GitHubAwsIssues));
         }
 
         private void LocalizeText()
@@ -36,7 +29,6 @@ namespace AmazonGameLift.Editor
             var l = new ElementLocalizer(this);
             l.SetElementText("InfoLinkDocumentationLink", Strings.InfoLinkDocumentationLink);
             l.SetElementText("InfoLinkForumLink", Strings.InfoLinkForumLink);
-            l.SetElementText("InfoLinkTroubleshootingLink", Strings.InfoLinkTroubleshootingLink);
             l.SetElementText("InfoLinkReportIssuesLink", Strings.InfoLinkReportIssuesLink);
         }
     }

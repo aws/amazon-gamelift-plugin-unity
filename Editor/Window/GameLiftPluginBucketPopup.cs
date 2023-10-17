@@ -37,7 +37,8 @@ namespace AmazonGameLift.Editor
 
             var labelLink = _root.Q<Label>(Strings.UserProfilePageBootstrapPopupFreeTierLink);
             labelLink.text = _textProvider.Get(Strings.UserProfilePageBootstrapPopupFreeTierLink);
-            labelLink.RegisterCallback<ClickEvent>(_ => Application.OpenURL(Urls.AwsFreeTier));
+            _root.Q<VisualElement>("UserProfilePageBootstrapPopupFreeTierLinkParent")
+                .RegisterCallback<ClickEvent>(_ => Application.OpenURL(Urls.AwsFreeTier));
 
             var bucketNameTextField = _root.Q<TextField>(Strings.UserProfilePageBootstrapPopupBucketText);
             bucketNameTextField.label = _textProvider.Get(Strings.UserProfilePageBootstrapPopupBucketText);

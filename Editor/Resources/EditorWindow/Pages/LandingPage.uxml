@@ -17,7 +17,10 @@
                     <ui:Image name="LandingPageNoAccountImage" class="card__icon icon--large"/>
                     <ui:Label name="LandingPageNoAccountCardText" class="card__text" text="I don&apos;t have an AWS account"/>
                 </ui:VisualElement>
-                <ui:Button class="button card__button button--large button--full-width" text="Create an AWS Account   \uf08e" name="CreateAccount"/>
+                <ui:Button class="button card__button button--large button--full-width" name="CreateAccount">
+                    <ui:Label name="LandingPageNoAccountCardButton" />
+                    <ui:Image name="ExternalLinkIcon" class="icon--small"/>
+                </ui:Button>
             </ui:VisualElement>
             <ui:VisualElement class="card">
                 <ui:VisualElement class="card__container">
@@ -34,26 +37,6 @@
                 <ui:VisualElement class="separator">
                     <ui:Label name="LandingPageSampleDescription" text="Test out our sample multiplayer game with GameLift Anywhere."/>
                     <ui:Button name="DownloadSampleGame" class="button sample__button button--small" text="Import"/>
-                </ui:VisualElement>
-            </ui:VisualElement>
-        </ui:VisualElement>
-        <ui:VisualElement>
-            <ui:Label name="LandingPageCaseStudiesHeader" class="page__subtitle" text="[Case Studies]"/>
-            <ui:VisualElement class="separator separator--large separator--horizontal">
-                <ui:VisualElement class="separator">
-                    <ui:Image name="CaseStudy1" class="case-study__image"/>
-                    <ui:Label name="LandingPageCaseStudy1Description" text="Lorem ipsum dolor sit amet, \n consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua."/>
-                    <ui:Label name="LearnMore" text="Learn More" class="external-link"/>
-                </ui:VisualElement>
-                <ui:VisualElement class="separator">
-                    <ui:Image name="CaseStudy2" class="case-study__image"/>
-                    <ui:Label name="LandingPageCaseStudy2Description" text="Lorem ipsum dolor sit amet, \n consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua."/>
-                    <ui:Label name="LearnMore" text="Learn More" class="external-link"/>
-                </ui:VisualElement>
-                <ui:VisualElement class="separator">
-                    <ui:Image name="CaseStudy3" class="case-study__image"/>
-                    <ui:Label name="LandingPageCaseStudy3Description" text="Lorem ipsum dolor sit amet, \n consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua."/>
-                    <ui:Label name="LearnMore" text="Learn More" class="external-link"/>
                 </ui:VisualElement>
             </ui:VisualElement>
         </ui:VisualElement>

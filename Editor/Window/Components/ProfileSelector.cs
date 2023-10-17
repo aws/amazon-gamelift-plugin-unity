@@ -1,5 +1,7 @@
-﻿using System.Linq;
-using Editor.CoreAPI;
+﻿// Copyright Amazon.com, Inc. or its affiliates. All Rights Reserved.
+// SPDX-License-Identifier: Apache-2.0
+
+using System.Linq;
 using UnityEditor;
 using UnityEngine;
 using UnityEngine.UIElements;
@@ -18,7 +20,7 @@ namespace AmazonGameLift.Editor
         private DropdownField _dropdown => this.Q<DropdownField>("Dropdown");
         private Label _bucketName => this.Q<Label>("BucketName");
         private Label _region => this.Q<Label>("Region");
-        private Label _status => this.Q<Label>("BootstrapStatus");
+        private StatusIndicator _statusIndicator => this.Q<StatusIndicator>();
 
         public ProfileSelector()
         {
@@ -43,12 +45,12 @@ namespace AmazonGameLift.Editor
             if (_stateManager.IsBootstrapped)
             {
                 _bucketName.text = _stateManager.BucketName;
-                _status.text = "Active";
+                _statusIndicator.Set(State.Success, _textProvider.Get(Strings.BootstrapStatusActive));
             }
             else
             {
-                _bucketName.text = _textProvider.Get(Strings.BootstrapNoBucketCreated);
-                _status.text = "Inactive";
+                _bucketName.text = _textProvider.Get(Strings.BootstrapStatusNoBucketCreated);
+                _statusIndicator.Set(State.Inactive, _textProvider.Get(Strings.BootstrapStatusInactive));
             }
         }
 

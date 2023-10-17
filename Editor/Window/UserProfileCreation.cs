@@ -5,7 +5,6 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading;
-using Editor.CoreAPI;
 using UnityEngine;
 using UnityEngine.UIElements;
 
@@ -31,7 +30,7 @@ namespace AmazonGameLift.Editor
             container.Add(uxml.Instantiate());
             _textFields = container.Query<TextField>().ToList();
             
-            _awsCredentialsCreateModel = new AwsCredentialsFactory().Create().Creation;
+            _awsCredentialsCreateModel = AwsCredentialsFactory.Create().Creation;
             _awsCredentialsCreateModel.OnCreated += () =>
             {
                 _stateManager.SetProfile(_awsCredentialsCreateModel.ProfileName);

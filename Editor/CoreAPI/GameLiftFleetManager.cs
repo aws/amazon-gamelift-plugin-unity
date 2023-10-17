@@ -1,4 +1,4 @@
-// Copyright Amazon.com, Inc. or its affiliates. All Rights Reserved.
+﻿// Copyright Amazon.com, Inc. or its affiliates. All Rights Reserved.
 // SPDX-License-Identifier: Apache-2.0
 
 using System;
@@ -9,21 +9,20 @@ using System.Threading.Tasks;
 using Amazon.GameLift;
 using Amazon.GameLift.Model;
 using Amazon.Runtime.Internal;
-using AmazonGameLift.Editor;
 using AmazonGameLiftPlugin.Core;
 using AmazonGameLiftPlugin.Core.Shared;
 using UnityEngine;
 using UnityEngine.UIElements;
-using ErrorCode = AmazonGameLift.Editor.ErrorCode;
 
-namespace Editor.CoreAPI
+namespace AmazonGameLift.Editor
 {
     public class GameLiftFleetManager
     {
+        public readonly string FleetLocation = "custom-location-1";
+        
         private readonly IAmazonGameLiftWrapper _amazonGameLiftWrapper;
         private string _fleetName;
         private string _fleetId;
-        private const string FleetLocation = "custom-location-1";
         private const string FleetDescription = "Deployed by the Amazon GameLift Plug-in for Unity.";
         private VisualElement _container;
         private ErrorResponse _logger;
@@ -35,36 +34,32 @@ namespace Editor.CoreAPI
 
         public async Task<CreateAnywhereFleetResponse> CreateFleet(string fleetName)
         {
-            if (_amazonGameLiftWrapper != null)
+            if (_amazonGameLiftWrapper == null)
             {
-                var success = await CreateCustomLocationIfNotExists(FleetLocation);
-                if (success)
-                {
-                    var fleetId = await CreateFleet(ComputeType.ANYWHERE, FleetLocation, fleetName);
-                    if (fleetId == null)
-                    {
-                        return Response.Fail(new CreateAnywhereFleetResponse
-                        {
-                            ErrorCode = ErrorCode.InvalidFleetName
-                        });
-                    }
-
-                    return Response.Ok(new CreateAnywhereFleetResponse()
-                    {
-                        FleetId = fleetId,
-                        FleetName = fleetName
-                    });
-                }
-
-                return Response.Fail(new CreateAnywhereFleetResponse
-                {
-                    ErrorCode = ErrorCode.CustomLocationCreationFailed
-                });
+                return Response.Fail(new CreateAnywhereFleetResponse { ErrorCode = ErrorCode.AccountProfileMissing });
             }
 
-            return Response.Fail(new CreateAnywhereFleetResponse
+            if (string.IsNullOrWhiteSpace(fleetName))
             {
-                ErrorCode = ErrorCode.AccountProfileMissing
+                return Response.Fail(new CreateAnywhereFleetResponse { ErrorCode = ErrorCode.InvalidFleetName });
+            }
+
+            var createLocationSuccess = await CreateCustomLocationIfNotExists(FleetLocation);
+            if (!createLocationSuccess)
+            {
+                return Response.Fail(new CreateAnywhereFleetResponse { ErrorCode = ErrorCode.CustomLocationCreationFailed });
+            }
+
+            var fleetId = await CreateFleet(ComputeType.ANYWHERE, FleetLocation, fleetName);
+            if (string.IsNullOrWhiteSpace(fleetId))
+            {
+                return Response.Fail(new CreateAnywhereFleetResponse { ErrorCode = ErrorCode.CreateFleetFailed });
+            }
+
+            return Response.Ok(new CreateAnywhereFleetResponse()
+            {
+                FleetId = fleetId,
+                FleetName = fleetName
             });
         }
 

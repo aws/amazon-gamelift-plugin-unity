@@ -8,11 +8,10 @@ using System.Threading;
 using System.Threading.Tasks;
 using AmazonGameLift.Editor;
 using AmazonGameLiftPlugin.Core.DeploymentManagement.Models;
+using AmazonGameLiftPlugin.Core.SettingsManagement.Models;
 using AmazonGameLiftPlugin.Core.Shared;
-using Editor.CoreAPI;
 using Moq;
 using NUnit.Framework;
-using UnityEngine;
 using UnityEngine.TestTools;
 
 namespace AmazonGameLiftPlugin.Editor.UnitTests
@@ -926,6 +925,27 @@ namespace AmazonGameLiftPlugin.Editor.UnitTests
 
         #endregion
 
+        #region DeleteDeployment
+
+        [UnityTest]
+        public IEnumerator DeleteDeployment_WhenCorrectInputs_ExpectSuccess()
+        {
+            yield return Run().AsCoroutine();
+
+            async Task Run()
+            {
+                var coreApiMock = new Mock<CoreApi>();
+                var deploymentSettings = SetUpDeleteDeployment(coreApiMock);
+                deploymentSettings.Refresh();
+
+                await deploymentSettings.DeleteDeployment();
+
+                coreApiMock.Verify();
+            }
+        }
+
+        #endregion
+
         #region CurrentStackInfo
 
         [Test]
@@ -1383,6 +1403,35 @@ namespace AmazonGameLiftPlugin.Editor.UnitTests
                 underTest.BuildFilePath = buildFilePath;
             }
 
+            return underTest;
+        }
+        
+        private static DeploymentSettings SetUpDeleteDeployment(Mock<CoreApi> coreApiMock = null)
+        {
+            const string testGameName = "test";
+            const string testProfileName = "testProfile";
+            const string testRegion = "eu-west-1";
+
+            coreApiMock = coreApiMock ?? new Mock<CoreApi>();
+            coreApiMock.Setup(target => target.GetStackName(It.IsAny<string>()))
+                .Returns(testGameName)
+                .Verifiable();
+            coreApiMock.Setup(target => target.GetSetting(It.IsAny<SettingsKeys>()))
+                .Returns(Response.Ok(new GetSettingResponse()))
+                .Verifiable();
+
+            var stackName = coreApiMock.Object.GetStackName(testGameName);
+            coreApiMock.Setup(target => target.DeleteStack(testProfileName, testRegion, stackName))
+                .Returns(Response.Ok(new DeleteStackResponse()))
+                .Verifiable();
+            
+            var stateManagerMock = new Mock<StateManager>(coreApiMock.Object);
+
+            stateManagerMock.SetupGet(l => l.ProfileName).Returns(testProfileName);
+            stateManagerMock.SetupGet(l => l.Region).Returns(testRegion);
+
+            DeploymentSettings underTest = GetUnitUnderTest(coreApi: coreApiMock, stateManager: stateManagerMock);
+            
             return underTest;
         }
 

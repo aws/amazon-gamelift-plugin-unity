@@ -1,14 +1,15 @@
-﻿using System;
+﻿// Copyright Amazon.com, Inc. or its affiliates. All Rights Reserved.
+// SPDX-License-Identifier: Apache-2.0
+
+using System;
 using System.Net;
 using System.Threading.Tasks;
 using Amazon.GameLift.Model;
-using AmazonGameLift.Editor;
 using AmazonGameLiftPlugin.Core;
 using AmazonGameLiftPlugin.Core.Shared;
 using UnityEngine;
-using ErrorCode = AmazonGameLift.Editor.ErrorCode;
 
-namespace Editor.CoreAPI
+namespace AmazonGameLift.Editor
 {
     public class GameLiftComputeManager
     {
@@ -18,10 +19,25 @@ namespace Editor.CoreAPI
         {
             _amazonGameLiftWrapper = wrapper;
         }
-        
-        public async Task<RegisterFleetComputeResponse> RegisterFleetCompute(string computeName, string fleetId, string fleetLocation,
-            string ipAddress)
+
+        public async Task<RegisterFleetComputeResponse> RegisterFleetCompute(string computeName, string fleetId,
+            string fleetLocation, string ipAddress)
         {
+            if (_amazonGameLiftWrapper == null)
+            {
+                return Response.Fail(new RegisterFleetComputeResponse { ErrorCode = ErrorCode.AccountProfileMissing });
+            }
+
+            if (string.IsNullOrWhiteSpace(computeName))
+            {
+                return Response.Fail(new RegisterFleetComputeResponse { ErrorCode = ErrorCode.InvalidComputeName });
+            }
+
+            if (string.IsNullOrWhiteSpace(ipAddress))
+            {
+                return Response.Fail(new RegisterFleetComputeResponse { ErrorCode = ErrorCode.InvalidIpAddress });
+            }
+
             try
             {
                 var registerComputeRequest = new RegisterComputeRequest()
@@ -36,6 +52,8 @@ namespace Editor.CoreAPI
 
                 return Response.Ok(new RegisterFleetComputeResponse()
                 {
+                    ComputeName = computeName,
+                    IpAddress = ipAddress,
                     WebSocketUrl = registerComputeResponse.Compute.GameLiftServiceSdkEndpoint
                 });
             }
