@@ -5,8 +5,9 @@
 @import "../Components/statusbox.uss";
 
 .sample__image {
-    width: 120px;
-    height: 120px;
+    --unity-image-size: stretch-to-fill;
+    width: 270px;
+    height: 220px;
     flex: 0 0 auto;
 }
 
