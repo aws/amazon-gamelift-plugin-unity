@@ -39,7 +39,7 @@ namespace AmazonGameLift.Editor
                             $"{Application.productName}-{_deploymentSettings.ScenarioName.Replace(" ", "_")}-Build",
                 GameServerFile = _deploymentSettings.BuildFilePath,
                 GameServerFolder = _deploymentSettings.BuildFolderPath,
-                OperatingSystem = FleetParametersInput.GetOperatingSystem(_deploymentSettings.BuildOperatingSystem) ??
+                OperatingSystem = OperatingSystem.FindValue(_deploymentSettings.BuildOperatingSystem) ??
                                   OperatingSystem.AMAZON_LINUX_2
             };
 
