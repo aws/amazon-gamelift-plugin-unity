@@ -13,7 +13,7 @@ namespace AmazonGameLift.Editor
 
         public void OnActiveBuildTargetChanged(BuildTarget previousTarget, BuildTarget newTarget)
         {
-            var defineEditor = new ScriptingDefineSymbolEditor(BuildTargetGroup.Standalone);
+            var defineEditor = new ScriptingDefineSymbolEditor(EditorUserBuildSettings.selectedBuildTargetGroup);
             if (EditorUserBuildSettings.selectedBuildTargetGroup == BuildTargetGroup.Standalone &&
                 EditorUserBuildSettings.standaloneBuildSubtarget == StandaloneBuildSubtarget.Server)
             {
