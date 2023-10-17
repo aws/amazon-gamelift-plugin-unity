@@ -214,9 +214,11 @@ namespace AmazonGameLift.Editor
 
         private void SetErrorStatus(string statusKey, Response errorResponse)
         {
+            errorResponse.ErrorMessage = _textProvider.GetError(errorResponse.ErrorCode);
             string errorTemplate = _textProvider.Get(statusKey);
-            string message = string.Format(errorTemplate, _textProvider.GetError(errorResponse.ErrorCode),
+            string message = string.Format(errorTemplate, errorResponse.ErrorCode,
                 errorResponse.ErrorMessage);
+            
             _status.SetMessage(message, MessageType.Error);
             _status.IsDisplayed = true;
         }

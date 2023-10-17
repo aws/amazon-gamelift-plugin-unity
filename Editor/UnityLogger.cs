@@ -46,7 +46,7 @@ namespace AmazonGameLift.Editor
                 throw new ArgumentNullException(nameof(response));
             }
 
-            Log($"{_textProvider.GetError(response.ErrorCode)} {response.ErrorMessage}", logType);
+            Log($"{response.ErrorCode} {response.ErrorMessage}", logType);
         }
     }
 }
