@@ -3,7 +3,6 @@
 
 using System;
 using AmazonGameLift.Editor;
-using Editor.Scripts;
 using UnityEditor;
 using UnityEditor.SceneManagement;
 using UnityEngine;

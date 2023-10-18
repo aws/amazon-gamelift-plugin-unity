@@ -4,7 +4,6 @@
 using System.IO;
 using AmazonGameLift.Editor;
 using AmazonGameLift.Runtime;
-using Editor.CoreAPI;
 using UnityEditor;
 
 namespace Editor.Scripts
@@ -41,7 +40,7 @@ namespace Editor.Scripts
             clientSettings.PutSetting(ClientSettingsKeys.CurrentRegion, profile.Region);
             clientSettings.PutSetting(ClientSettingsKeys.FleetId, profile.AnywhereFleetId);
             clientSettings.PutSetting(ClientSettingsKeys.FleetLocation, profile.AnywhereFleetLocation);
-            clientSettings.PutSetting(ClientSettingsKeys.CurrentProfileName, profile.Region);
+            clientSettings.PutSetting(ClientSettingsKeys.CurrentProfileName, profile.Name);
 #endif
         }
 

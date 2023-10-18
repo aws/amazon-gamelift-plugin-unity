@@ -2,10 +2,6 @@
 // SPDX-License-Identifier: Apache-2.0
 
 using System.IO;
-using AmazonGameLift.Editor;
-using AmazonGameLift.Runtime;
-using Editor.CoreAPI;
-using UnityEditor;
 using UnityEditor.Build;
 using UnityEditor.Build.Reporting;
 

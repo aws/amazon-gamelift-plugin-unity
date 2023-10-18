@@ -84,16 +84,6 @@ namespace AmazonGameLift.Editor
             LocalizeText();
         }
 
-        public static OperatingSystem GetOperatingSystem(string operatingSystem)
-        {
-            if (operatingSystem == null)
-            {
-                return null;
-            }
-
-            return OSMappings.TryGetValue(operatingSystem, out var mapping) ? mapping : null;
-        }
-
         private TextField SetupInput(string inputName, string initialValue, Action<string> onChangeEvent)
         {
             var input = _container.Q<TextField>(inputName);
