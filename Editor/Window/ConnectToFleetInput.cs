@@ -155,10 +155,12 @@ namespace AmazonGameLift.Editor
                 _fleetNameDropdownContainer.value = _stateManager.AnywhereFleetName;
                 _fleetIdText.text = _stateManager.AnywhereFleetId;
 
+                var textProvider = new TextProvider();
+                
                 var fleet = _fleetAttributes.FirstOrDefault(fleet => fleet.Name == _stateManager.AnywhereFleetName);
                 if (fleet != null)
                 {
-                    var textProvider = new TextProvider();
+                    
                     if (fleet.Status == Amazon.GameLift.FleetStatus.ERROR)
                     {
                         _statusIndicator.Set(State.Failed,
@@ -166,9 +168,14 @@ namespace AmazonGameLift.Editor
                     }
                     else
                     {
-                        _statusIndicator.Set(State.Success,
+                        _statusIndicator.Set(State.Success, 
                             textProvider.Get(Strings.AnywherePageConnectFleetStatusActive));
                     }
+                }
+                else
+                {
+                    _fleetState = FleetStatus.NotCreated;
+                    UpdateGUI();
                 }
             }
         }
