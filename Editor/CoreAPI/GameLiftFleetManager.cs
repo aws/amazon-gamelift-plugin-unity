@@ -153,7 +153,7 @@ namespace AmazonGameLift.Editor
             }
             catch (Exception ex)
             {
-                Debug.Log(ex.Message);
+                Debug.LogError(ex.Message);
                 return null;
             }
         }
