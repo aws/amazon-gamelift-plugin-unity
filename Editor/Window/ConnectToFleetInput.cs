@@ -73,10 +73,9 @@ namespace AmazonGameLift.Editor
                 var createFleetResponse = await _fleetManager.CreateFleet(fleetName, customLocationResponse.Location)!;
                 if (createFleetResponse.Success)
                 {
-                    var fleetLocationResponse = await _fleetManager.FindFirstFleetLocation(response.FleetId);
-                    _stateManager.AnywhereFleetName = response.FleetName;
-                    _stateManager.AnywhereFleetId = response.FleetId;
-                    _stateManager.AnywhereFleetLocation = fleetLocationResponse.Location;
+                    _stateManager.AnywhereFleetName = createFleetResponse.FleetName;
+                    _stateManager.AnywhereFleetId = createFleetResponse.FleetId;
+                    _stateManager.AnywhereFleetLocation = customLocationResponse.Location;
 
                     await UpdateFleetMenu();
                     _fleetNameDropdownContainer.value = fleetName;
