@@ -2,7 +2,7 @@
 
 namespace AmazonGameLift.Editor
 {
-    public class DescribeFleetLocationResponse : Response
+    public class FindFleetLocationResponse : Response
     {
         public string Location;
     }

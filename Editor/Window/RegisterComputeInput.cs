@@ -27,7 +27,6 @@ namespace AmazonGameLift.Editor
 
         private string _computeName = "ComputerName-ProfileName";
         private string _ipAddress = "120.120.120.120";
-        private string _location = "custom-location-1";
 
         public RegisterComputeInput(VisualElement container, StateManager stateManager)
         {
