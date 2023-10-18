@@ -27,7 +27,7 @@ namespace AmazonGameLift.Editor
             container.Add(uxml.Instantiate());
 
             _container = container;
-            _isExpanded = deploymentScenario == DeploymentScenarios.SingleRegion;
+            _isExpanded = deploymentScenario != DeploymentScenarios.SingleRegion;
             _deploymentScenarios = deploymentScenario;
             _enabled = enabled;
             _container.SetEnabled(_enabled);
@@ -89,11 +89,11 @@ namespace AmazonGameLift.Editor
 
         private List<VisualElement> GetVisibleItemsByState() =>
             _isExpanded
-                ? new List<VisualElement>() { _showMoreScenariosButton }
-                : new List<VisualElement>()
+                ? new List<VisualElement>()
                 {
                     _spotFleetRadioGroup, _flexMatchRadioGroup
-                };
+                }
+                : new List<VisualElement>() { _showMoreScenariosButton };
 
         protected sealed override void UpdateGUI()
         {
