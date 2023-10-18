@@ -27,6 +27,7 @@ public static class UnityPackageExporter
         exportedPackageAssetList.Add("Assets\\Editor\\Scripts\\AnywhereFleetSettingsBuildProcessor.cs");
         exportedPackageAssetList.Add("Assets\\Editor\\Scripts\\AnywhereFleetSettingsWriter.cs");
         exportedPackageAssetList.Add("Assets\\Editor\\Scripts\\BuildTargetChangedHandler.cs");
+        exportedPackageAssetList.Add("Assets\\Editor\\Scripts\\SampleGame.Editor.asmdef");
 
         string outputFolder = @"..";
 
