@@ -174,10 +174,7 @@ namespace AmazonGameLift.Editor
 
             _gameName = value;
             ClearCurrentStackInfo();
-            if (_stateManager.IsBootstrapped)
-            {
-                await _delayedStackInfoRefresh.Request();
-            }
+            await _delayedStackInfoRefresh.Request();
         }
 
         public void Refresh()
