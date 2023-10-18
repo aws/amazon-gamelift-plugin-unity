@@ -76,6 +76,7 @@ namespace AmazonGameLift.Editor
                     _stateManager.AnywhereFleetName = createFleetResponse.FleetName;
                     _stateManager.AnywhereFleetId = createFleetResponse.FleetId;
                     _stateManager.AnywhereFleetLocation = customLocationResponse.Location;
+
                     await UpdateFleetMenu();
                     _fleetNameDropdownContainer.value = fleetName;
                     _fleetState = FleetStatus.Selected;
@@ -112,15 +113,16 @@ namespace AmazonGameLift.Editor
             UpdateGUI();
         }
 
-        private void OnSelectFleetDropdown(string fleetName)
+        private async void OnSelectFleetDropdown(string fleetName)
         {
             var currentFleet = _fleetAttributes.FirstOrDefault(fleet => fleet.Name == fleetName);
             if (currentFleet != null)
             {
+                var fleetLocationResponse = await _fleetManager.FindFirstFleetLocation(currentFleet.FleetId);
                 _fleetIdText.text = currentFleet.FleetId;
                 _stateManager.AnywhereFleetName = currentFleet.Name;
                 _stateManager.AnywhereFleetId = currentFleet.FleetId;
-                _stateManager.AnywhereFleetLocation = _fleetManager.FleetLocation;
+                _stateManager.AnywhereFleetLocation = fleetLocationResponse.Location;
                 _fleetState = FleetStatus.Selected;
             }
 

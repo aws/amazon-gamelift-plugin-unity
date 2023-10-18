@@ -27,7 +27,6 @@ namespace AmazonGameLift.Editor
 
         private string _computeName = "ComputerName-ProfileName";
         private string _ipAddress = "120.120.120.120";
-        private string _location = "custom-location-1";
 
         public RegisterComputeInput(VisualElement container, StateManager stateManager)
         {
@@ -88,7 +87,7 @@ namespace AmazonGameLift.Editor
             {
                 var previousComputeName = _stateManager.ComputeName;
                 var registerResponse = await _computeManager.RegisterFleetCompute(_computeName,
-                    _stateManager.AnywhereFleetId, _location, _ipAddress);
+                    _stateManager.AnywhereFleetId, _stateManager.AnywhereFleetLocation, _ipAddress);
                 if (registerResponse.Success)
                 {
                     _stateManager.ComputeName = registerResponse.ComputeName;

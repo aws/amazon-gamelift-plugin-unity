@@ -17,12 +17,12 @@ namespace AmazonGameLift.Editor
 {
     public class GameLiftFleetManager
     {
-        public readonly string FleetLocation = "custom-location-1";
         
+        private const string FleetLocation = "custom-location-1";
+        private const string FleetDescription = "Deployed by the Amazon GameLift Plug-in for Unity.";
         private readonly IAmazonGameLiftWrapper _amazonGameLiftWrapper;
         private string _fleetName;
         private string _fleetId;
-        private const string FleetDescription = "Deployed by the Amazon GameLift Plug-in for Unity.";
         private VisualElement _container;
         private ErrorResponse _logger;
 
@@ -142,6 +142,33 @@ namespace AmazonGameLift.Editor
             {
                 Debug.Log(ex.Message);
                 return null;
+            }
+        }
+        
+        public async Task<FindFleetLocationResponse> FindFirstFleetLocation(string fleetId)
+        {
+            try
+            {
+                var describeFleetLocationAttributesRequest = new DescribeFleetLocationAttributesRequest()
+                {
+                    FleetId = fleetId
+                };
+
+                var describeFleetUtilizationResponse =
+                    await _amazonGameLiftWrapper.DescribeFleetLocationAttributes(describeFleetLocationAttributesRequest);
+
+                return Response.Ok(new FindFleetLocationResponse
+                {
+                    Location = describeFleetUtilizationResponse.LocationAttributes[0].LocationState.Location
+                });
+            }
+            catch (Exception ex)
+            {
+                return Response.Fail(new FindFleetLocationResponse()
+                { 
+                    ErrorCode = ErrorCode.CustomLocationCreationFailed, 
+                    ErrorMessage = ex.Message 
+                });
             }
         }
     }
