@@ -48,6 +48,13 @@ namespace AmazonGameLift.Editor
             _stateManager.OnUserProfileUpdated += async () =>
             {
                 await UpdateFleetMenu();
+                
+                var fleet = _fleetAttributes.FirstOrDefault(fleet => fleet.Name == _stateManager.AnywhereFleetName);
+                if (fleet == null)
+                {
+                    _fleetState = FleetStatus.NotCreated;
+                }
+
                 UpdateGUI();
             };
 
@@ -180,11 +187,6 @@ namespace AmazonGameLift.Editor
                         _statusIndicator.Set(State.Success,
                             textProvider.Get(Strings.AnywherePageConnectFleetStatusActive));
                     }
-                }
-                else
-                {
-                    _fleetState = FleetStatus.NotCreated;
-                    UpdateGUI();
                 }
             }
         }
