@@ -314,7 +314,7 @@ namespace AmazonGameLift.Editor
             { Strings.ManagedEC2LaunchClientTitle, "Launch Client"},
             { Strings.ManagedEC2LaunchClientLabel, "Run Game"},
             { Strings.ManagedEC2LaunchClientButton, "Launch Client"},
-            { Strings.ManagedEC2StatusBoxNotBootstrappedWarning, "Profile configuration is incomplete, as bootstrapping is  not completed, navigate to AWS User Profiles for next steps"},
+            { Strings.ManagedEC2StatusBoxNotBootstrappedWarning, "Profile configuration is incomplete, as bootstrapping is not completed, navigate to AWS User Profiles for next steps"},
             
             { Strings.HelpPageTitle, "Help & Documentation" },
             { Strings.HelpPageDescription, "Learn how to integrate and deploy games for hosting on GameLift. The GameLift service manages game server deployment, operation, and scaling. You can deploy custom-built game servers or use GameLift Realtime Servers to configure lightweight game servers for your game." },
