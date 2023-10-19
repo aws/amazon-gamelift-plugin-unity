@@ -88,14 +88,14 @@ namespace AmazonGameLift.Editor
         {
             return new ManagedEC2FleetParameters
             {
-                GameName = _deploymentSettings.GameName ?? Application.productName,
-                FleetName = _deploymentSettings.FleetName ?? $"{Application.productName}-ManagedFleet",
-                LaunchParameters = _deploymentSettings.LaunchParameters ?? $"",
-                BuildName = _deploymentSettings.BuildName ??
-                            $"{Application.productName}-{_deploymentSettings.ScenarioName.Replace(" ", "_")}-Build",
-                GameServerFile = _deploymentSettings.BuildFilePath,
-                GameServerFolder = _deploymentSettings.BuildFolderPath,
-                OperatingSystem = OperatingSystem.FindValue(_deploymentSettings.BuildOperatingSystem) ??
+                GameName = deploymentSettings.GameName ?? Application.productName,
+                FleetName = deploymentSettings.FleetName ?? $"{Application.productName}-ManagedFleet",
+                LaunchParameters = deploymentSettings.LaunchParameters ?? $"",
+                BuildName = deploymentSettings.BuildName ??
+                            $"{Application.productName}-{deploymentSettings.ScenarioName.Replace(" ", "_")}-Build",
+                GameServerFile = deploymentSettings.BuildFilePath,
+                GameServerFolder = deploymentSettings.BuildFolderPath,
+                OperatingSystem = OperatingSystem.FindValue(deploymentSettings.BuildOperatingSystem) ??
                                   OperatingSystem.AMAZON_LINUX_2
             };           
         }
