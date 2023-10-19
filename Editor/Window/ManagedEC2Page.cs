@@ -30,18 +30,7 @@ namespace AmazonGameLift.Editor
             _stateManager = stateManager;
             _deploymentSettings = DeploymentSettingsFactory.Create(stateManager);
             _deploymentSettings.Refresh();
-            var parameters = new ManagedEC2FleetParameters
-            {
-                GameName = _deploymentSettings.GameName ?? Application.productName,
-                FleetName = _deploymentSettings.FleetName ?? $"{Application.productName}-ManagedFleet",
-                LaunchParameters = _deploymentSettings.LaunchParameters ?? $"",
-                BuildName = _deploymentSettings.BuildName ??
-                            $"{Application.productName}-{_deploymentSettings.ScenarioName.Replace(" ", "_")}-Build",
-                GameServerFile = _deploymentSettings.BuildFilePath,
-                GameServerFolder = _deploymentSettings.BuildFolderPath,
-                OperatingSystem = FleetParametersInput.GetOperatingSystem(_deploymentSettings.BuildOperatingSystem) ??
-                                  OperatingSystem.AMAZON_LINUX_2
-            };
+            var parameters = GetManagedEC2Parameters(_deploymentSettings);
 
             var mVisualTreeAsset = Resources.Load<VisualTreeAsset>("EditorWindow/Pages/ManagedEC2Page");
             var uxml = mVisualTreeAsset.Instantiate();
@@ -95,6 +84,22 @@ namespace AmazonGameLift.Editor
             UpdateGUI();
         }
 
+        private ManagedEC2FleetParameters GetManagedEC2Parameters(DeploymentSettings deploymentSettings)
+        {
+            return new ManagedEC2FleetParameters
+            {
+                GameName = deploymentSettings.GameName ?? Application.productName,
+                FleetName = deploymentSettings.FleetName ?? $"{Application.productName}-ManagedFleet",
+                LaunchParameters = deploymentSettings.LaunchParameters ?? $"",
+                BuildName = deploymentSettings.BuildName ??
+                            $"{Application.productName}-{deploymentSettings.ScenarioName.Replace(" ", "_")}-Build",
+                GameServerFile = deploymentSettings.BuildFilePath,
+                GameServerFolder = deploymentSettings.BuildFolderPath,
+                OperatingSystem = FleetParametersInput.GetOperatingSystem(deploymentSettings.BuildOperatingSystem) ??
+                                  OperatingSystem.AMAZON_LINUX_2
+            };
+        }
+
         private void UpdateDeploymentSettings()
         {
             ManagedEC2Deployment ec2Deployment;
@@ -102,18 +107,7 @@ namespace AmazonGameLift.Editor
             {
                 _deploymentSettings.Refresh();
                 _deploymentSettings.Restore();
-                _ec2Deployment.UpdateModelFromParameters(new ManagedEC2FleetParameters
-                {
-                    GameName = _deploymentSettings.GameName ?? Application.productName,
-                    FleetName = _deploymentSettings.FleetName ?? $"{Application.productName}-ManagedFleet",
-                    LaunchParameters = _deploymentSettings.LaunchParameters ?? $"",
-                    BuildName = _deploymentSettings.BuildName ??
-                                $"{Application.productName}-{_deploymentSettings.ScenarioName.Replace(" ", "_")}-Build",
-                    GameServerFile = _deploymentSettings.BuildFilePath,
-                    GameServerFolder = _deploymentSettings.BuildFolderPath,
-                    OperatingSystem = OperatingSystem.FindValue(_deploymentSettings.BuildOperatingSystem) ??
-                                      OperatingSystem.AMAZON_LINUX_2
-                });
+                _ec2Deployment.UpdateModelFromParameters(GetManagedEC2Parameters(_deploymentSettings));
             }
 
             UpdateGUI();
