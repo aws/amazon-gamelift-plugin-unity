@@ -9,6 +9,7 @@ using AmazonGameLift.Editor;
 using AmazonGameLiftPlugin.Core;
 using Moq;
 using NUnit.Framework;
+using CreateFleetResponse = Amazon.GameLift.Model.CreateFleetResponse;
 
 namespace AmazonGameLiftPlugin.Editor.UnitTests
 {
@@ -54,7 +55,7 @@ namespace AmazonGameLiftPlugin.Editor.UnitTests
             var gameLiftFleetManager = ArrangeAnywhereFleetHappyPath();
 
             //Act
-            var createFleetResult = gameLiftFleetManager.CreateFleet("test").GetAwaiter().GetResult();
+            var createFleetResult = gameLiftFleetManager.CreateFleet("test", "testLocation").GetAwaiter().GetResult();
 
             //Assert
             _gameLiftWrapperMock.Verify(wrapper => wrapper.CreateFleet(It.IsAny<CreateFleetRequest>()), Times.Once);
@@ -71,7 +72,7 @@ namespace AmazonGameLiftPlugin.Editor.UnitTests
             var gameLiftFleetManager = new GameLiftFleetManager(null);
 
             //Act
-            var createFleetResult = gameLiftFleetManager.CreateFleet("test").GetAwaiter().GetResult();
+            var createFleetResult = gameLiftFleetManager.CreateFleet("test", "testLocation").GetAwaiter().GetResult();
 
             //Assert
             Assert.IsFalse(createFleetResult.Success);
@@ -84,7 +85,7 @@ namespace AmazonGameLiftPlugin.Editor.UnitTests
             var gameLiftFleetManager = ArrangeAnywhereFleetHappyPath();
 
             //Act
-            var createFleetResult = gameLiftFleetManager.CreateFleet(null).GetAwaiter().GetResult();
+            var createFleetResult = gameLiftFleetManager.CreateFleet(null, "testLocation").GetAwaiter().GetResult();
 
             //Assert
             _gameLiftWrapperMock.Verify(wrapper => wrapper.CreateFleet(It.IsAny<CreateFleetRequest>()), Times.Never);
@@ -107,7 +108,7 @@ namespace AmazonGameLiftPlugin.Editor.UnitTests
                     }));
 
             //Act
-            var createFleetResult = gameLiftFleetManager.CreateFleet("test").GetAwaiter().GetResult();
+            var createFleetResult = gameLiftFleetManager.CreateFleet("test", "testLocation").GetAwaiter().GetResult();
 
             //Assert
             _gameLiftWrapperMock.Verify(wrapper => wrapper.CreateFleet(It.IsAny<CreateFleetRequest>()), Times.Once);
@@ -125,7 +126,7 @@ namespace AmazonGameLiftPlugin.Editor.UnitTests
                 .Throws(new NullReferenceException());
 
             //Act
-            var createFleetResult = gameLiftFleetManager.CreateFleet("test").GetAwaiter().GetResult();
+            var createFleetResult = gameLiftFleetManager.CreateFleet("test", "testLocation").GetAwaiter().GetResult();
 
             //Assert
             _gameLiftWrapperMock.Verify(wrapper => wrapper.CreateFleet(It.IsAny<CreateFleetRequest>()), Times.Never);

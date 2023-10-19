@@ -249,7 +249,6 @@ namespace AmazonGameLift.Editor
         private void OnBucketCreationFailure(Response response)
         {
             SetErrorStatus(Strings.StatusBootstrapFailedTemplate, response);
-            _logger.LogResponseError(response);
         }
     }
 }

@@ -49,6 +49,7 @@ namespace AmazonGameLift.Editor
             {
                 _selectedProfile.BucketName = value;
                 SaveProfiles();
+                CoreApi.PutSetting(SettingsKeys.CurrentBucketName, value);
             }
         }
 

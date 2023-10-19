@@ -14,8 +14,8 @@ namespace AmazonGameLift.Editor
         private VisualElement _root;
         private readonly TextProvider _textProvider = TextProviderFactory.Create();
         public Action<string> OnConfirm;
-        private const float PopupWidth = 500f;
-        private const float PopupHeight = 160f;
+        private const float PopupWidth = 600f;
+        private const float PopupHeight = 280f;
         
         public void OnEnable()
         {
@@ -32,7 +32,7 @@ namespace AmazonGameLift.Editor
             _root.Q<Label>(Strings.UserProfilePageBootstrapPopupTitle).text = _textProvider.Get(Strings.UserProfilePageBootstrapPopupTitle);
             _root.Q<Label>(Strings.UserProfilePageBootstrapPopupDescription).text =
                 _textProvider.Get(Strings.UserProfilePageBootstrapPopupDescription);
-            _root.Q<TextField>(Strings.UserProfilePageBootstrapPopupBucketText).label =
+            _root.Q<Label>("UserProfilePageBootstrapPopupBucketLabel").text =
                 _textProvider.Get(Strings.UserProfilePageBootstrapPopupBucketText);
 
             var labelLink = _root.Q<Label>(Strings.UserProfilePageBootstrapPopupFreeTierLink);
@@ -41,7 +41,6 @@ namespace AmazonGameLift.Editor
                 .RegisterCallback<ClickEvent>(_ => Application.OpenURL(Urls.AwsFreeTier));
 
             var bucketNameTextField = _root.Q<TextField>(Strings.UserProfilePageBootstrapPopupBucketText);
-            bucketNameTextField.label = _textProvider.Get(Strings.UserProfilePageBootstrapPopupBucketText);
             bucketNameTextField.value = bucketName;
 
             var cancelButton = _root.Q<Button>(Strings.UserProfilePageBootstrapPopupCancelButton);

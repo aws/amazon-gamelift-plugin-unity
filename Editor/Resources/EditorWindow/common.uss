@@ -285,6 +285,7 @@ Image#ExternalLinkIcon {
     border-color: var(--color-text-input-border);
     background-color: var(--color-text-input-background);
     font-size: var(--font-size-large);
+    flex: 1 1 auto;
 }
 
 .text-input--fitted {

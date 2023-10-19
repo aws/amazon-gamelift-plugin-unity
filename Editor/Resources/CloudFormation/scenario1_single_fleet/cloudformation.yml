@@ -365,6 +365,7 @@ Resources:
         Key: !Ref BuildS3KeyParameter
         RoleArn: !GetAtt BuildAccessRole.Arn
       Version: !Ref BuildVersionParameter
+      ServerSdkVersion: 5.1.1
 
   FleetResource:
     Type: "AWS::GameLift::Fleet"
