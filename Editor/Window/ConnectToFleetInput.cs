@@ -54,6 +54,10 @@ namespace AmazonGameLift.Editor
                 {
                     _fleetState = FleetStatus.NotCreated;
                 }
+                else
+                {
+                    _fleetState = FleetStatus.Selected;
+                }
 
                 UpdateGUI();
             };
