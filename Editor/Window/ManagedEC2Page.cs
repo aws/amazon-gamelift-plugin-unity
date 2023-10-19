@@ -29,6 +29,10 @@ namespace AmazonGameLift.Editor
             _container = container;
             _stateManager = stateManager;
             _deploymentSettings = DeploymentSettingsFactory.Create(stateManager);
+            if (_stateManager.IsBootstrapped)
+            {
+                _deploymentSettings.Restore();
+            }
             _deploymentSettings.Refresh();
             var parameters = GetManagedEC2Parameters(_deploymentSettings);
 
