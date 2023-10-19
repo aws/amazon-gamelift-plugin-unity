@@ -289,7 +289,7 @@ Image#ExternalLinkIcon {
 }
 
 .text-input--fitted {
-    flex-shrink: 1;
+    flex-grow: 0;
 }
 
 .text-input--fitted .unity-text-element {
