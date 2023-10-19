@@ -97,7 +97,6 @@ namespace AmazonGameLift.Editor
 
         private void UpdateDeploymentSettings()
         {
-            ManagedEC2Deployment ec2Deployment;
             if (_stateManager.IsBootstrapped)
             {
                 _deploymentSettings.Refresh();
