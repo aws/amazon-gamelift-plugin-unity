@@ -22,74 +22,97 @@ namespace AmazonGameLift.Editor
         private readonly DeploymentScenariosInput _deploymentScenariosInput;
         private readonly FleetParametersInput _fleetParamsInput;
         private readonly StatusIndicator _statusIndicator;
+        private readonly ManagedEC2Deployment _ec2Deployment;
 
         public ManagedEC2Page(VisualElement container, StateManager stateManager)
         {
             _container = container;
             _stateManager = stateManager;
             _deploymentSettings = DeploymentSettingsFactory.Create(stateManager);
-            _deploymentSettings.Restore();
-            _deploymentSettings.Refresh();
-            var parameters = new ManagedEC2FleetParameters
+            if (_stateManager.IsBootstrapped)
             {
-                GameName = _deploymentSettings.GameName ?? Application.productName,
-                FleetName = _deploymentSettings.FleetName ?? $"{Application.productName}-ManagedFleet",
-                LaunchParameters = _deploymentSettings.LaunchParameters ?? $"",
-                BuildName = _deploymentSettings.BuildName ??
-                            $"{Application.productName}-{_deploymentSettings.ScenarioName.Replace(" ", "_")}-Build",
-                GameServerFile = _deploymentSettings.BuildFilePath,
-                GameServerFolder = _deploymentSettings.BuildFolderPath,
-                OperatingSystem = OperatingSystem.FindValue(_deploymentSettings.BuildOperatingSystem) ??
-                                  OperatingSystem.AMAZON_LINUX_2
-            };
+                _deploymentSettings.Restore();
+            }
+            _deploymentSettings.Refresh();
+            var parameters = GetManagedEC2Parameters(_deploymentSettings);
 
             var mVisualTreeAsset = Resources.Load<VisualTreeAsset>("EditorWindow/Pages/ManagedEC2Page");
             var uxml = mVisualTreeAsset.Instantiate();
 
             container.Add(uxml);
 
-            var ec2Deployment = new ManagedEC2Deployment(_deploymentSettings, parameters);
+            _ec2Deployment = new ManagedEC2Deployment(_deploymentSettings);
             var scenarioContainer = container.Q("ManagedEC2ScenarioTitle");
             _deploymentScenariosInput =
-                new DeploymentScenariosInput(scenarioContainer, _deploymentSettings.Scenario, _stateManager.IsBootstrapped);
+                new DeploymentScenariosInput(scenarioContainer, _deploymentSettings.Scenario,
+                    _stateManager.IsBootstrapped);
             _deploymentScenariosInput.OnValueChanged += value => { Debug.Log($"Fleet type changed to {value}"); };
             _statusIndicator = _container.Q<StatusIndicator>();
-
             var parametersContainer = container.Q<Foldout>("ManagedEC2ParametersTitle");
             _fleetParamsInput = new FleetParametersInput(parametersContainer, parameters);
             _fleetParamsInput.OnValueChanged += fleetParameters =>
             {
-                ec2Deployment.UpdateModelFromParameters(fleetParameters);
+                _ec2Deployment.UpdateModelFromParameters(fleetParameters);
                 UpdateGUI();
             };
+
+            _stateManager.OnUserProfileUpdated += UpdateDeploymentSettings;
 
             _deployButton = container.Q<Button>("ManagedEC2CreateStackButton");
             _deployButton.RegisterCallback<ClickEvent>(_ =>
             {
-                ec2Deployment.StartDeployment();
+                _ec2Deployment.StartDeployment();
                 UpdateGUI();
             });
             _redeployButton = container.Q<Button>("ManagedEC2RedeployStackButton");
             _redeployButton.RegisterCallback<ClickEvent>(_ =>
             {
-                ec2Deployment.StartDeployment();
+                _ec2Deployment.StartDeployment();
                 UpdateGUI();
             });
             _deleteButton = container.Q<Button>("ManagedEC2DeleteStackButton");
             _deleteButton.RegisterCallback<ClickEvent>(async _ =>
             {
-                await ec2Deployment.DeleteDeployment();
+                await _ec2Deployment.DeleteDeployment();
                 UpdateGUI();
             });
             _launchClientButton = container.Q<Button>("ManagedEC2LaunchClientButton");
             _launchClientButton.RegisterCallback<ClickEvent>(_ => EditorApplication.EnterPlaymode());
-            
-            
+
+
             _container.Q<VisualElement>("ManagedEC2IntegrateLinkParent")
                 .RegisterCallback<ClickEvent>(_ => Application.OpenURL(Urls.ManagedEc2IntegrateLink));
 
             _deploymentSettings.CurrentStackInfoChanged += UpdateGUI;
             _deploymentSettings.Scenario = DeploymentScenarios.SingleRegion;
+            UpdateGUI();
+        }
+
+        private ManagedEC2FleetParameters GetManagedEC2Parameters(DeploymentSettings deploymentSettings)
+        {
+            return new ManagedEC2FleetParameters
+            {
+                GameName = deploymentSettings.GameName ?? Application.productName,
+                FleetName = deploymentSettings.FleetName ?? $"{Application.productName}-ManagedFleet",
+                LaunchParameters = deploymentSettings.LaunchParameters ?? $"",
+                BuildName = deploymentSettings.BuildName ??
+                            $"{Application.productName}-{deploymentSettings.ScenarioName.Replace(" ", "_")}-Build",
+                GameServerFile = deploymentSettings.BuildFilePath,
+                GameServerFolder = deploymentSettings.BuildFolderPath,
+                OperatingSystem = OperatingSystem.FindValue(deploymentSettings.BuildOperatingSystem) ??
+                                  OperatingSystem.AMAZON_LINUX_2
+            };           
+        }
+
+        private void UpdateDeploymentSettings()
+        {
+            if (_stateManager.IsBootstrapped)
+            {
+                _deploymentSettings.Refresh();
+                _deploymentSettings.Restore();
+                _ec2Deployment.UpdateModelFromParameters(GetManagedEC2Parameters(_deploymentSettings));
+            }
+
             UpdateGUI();
         }
 
