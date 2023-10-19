@@ -11,10 +11,13 @@ namespace AmazonGameLift.Editor
     public class AnywherePage
     {
         private readonly VisualElement _container;
+        private readonly StateManager _stateManager;
+        private StatusBox _statusBox;
 
         public AnywherePage(VisualElement container, StateManager stateManager)
         {
             _container = container;
+            _stateManager = stateManager;
             var mVisualTreeAsset = UnityEngine.Resources.Load<VisualTreeAsset>("EditorWindow/Pages/AnywherePage");
             var uxml = mVisualTreeAsset.Instantiate();
 
@@ -25,7 +28,10 @@ namespace AmazonGameLift.Editor
                 .RegisterCallback<ClickEvent>(_ => Application.OpenURL(Urls.AnywherePageServerSetupDocumentation));
             container.Q<VisualElement>("AnywherePageIntegrateClientLinkParent")
                 .RegisterCallback<ClickEvent>(_ => Application.OpenURL(Urls.AnywherePageClientSetupDocumentation));
+            SetupStatusBoxes();
 
+            _stateManager.OnUserProfileUpdated += UpdateGui;
+            
             var fleetInputContainer = uxml.Q("AnywherePageConnectFleetTitle");
             var fleetInput = new ConnectToFleetInput(fleetInputContainer, stateManager);
             var computeInputContainer = uxml.Q("AnywherePageComputeTitle");
@@ -38,6 +44,26 @@ namespace AmazonGameLift.Editor
                     EditorUserBuildSettings.selectedStandaloneTarget);
                 EditorApplication.EnterPlaymode();
             });
+            UpdateGui();
+        }
+
+        private void SetupStatusBoxes()
+        {
+            _statusBox = new StatusBox();
+            var statusBoxContainer = _container.Q("AnywherePageStatusBoxContainer");
+            statusBoxContainer.Add(_statusBox);
+        }
+        
+        private void UpdateGui()
+        {
+            if (!_stateManager.IsBootstrapped)
+            {
+                _statusBox.Show(StatusBox.StatusBoxType.Warning, Strings.AnywherePageStatusBoxNotBootstrappedWarning);
+            }
+            else
+            {
+                _statusBox.Close();
+            }
         }
 
         private void LocalizeText()
