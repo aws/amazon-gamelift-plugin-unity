@@ -21,7 +21,6 @@ namespace AmazonGameLift.Editor
         private readonly VisualElement _computeStatus;
         private readonly VisualElement _container;
         private readonly StatusIndicator _statusIndicator;
-        private readonly GameLiftComputeManager _computeManager;
         private readonly StateManager _stateManager;
         private StatusBox _registerComputeStatusBox;
 
@@ -35,7 +34,6 @@ namespace AmazonGameLift.Editor
             _container = container;
 
             _stateManager = stateManager;
-            _computeManager = stateManager.ComputeManager;
             _computeNameInput = container.Q<TextField>("AnywherePageComputeNameInput");
             _ipInputs = container.Query<TextField>("AnywherePageComputeIPAddressInput").ToList();
             _computeStatus = container.Q("AnywherePageComputeStatus");
@@ -86,7 +84,7 @@ namespace AmazonGameLift.Editor
             if (_computeState is ComputeStatus.NotRegistered or ComputeStatus.Registering)
             {
                 var previousComputeName = _stateManager.ComputeName;
-                var registerResponse = await _computeManager.RegisterFleetCompute(_computeName,
+                var registerResponse = await _stateManager.ComputeManager.RegisterFleetCompute(_computeName,
                     _stateManager.AnywhereFleetId, _stateManager.AnywhereFleetLocation, _ipAddress);
                 if (registerResponse.Success)
                 {
@@ -98,7 +96,7 @@ namespace AmazonGameLift.Editor
                     if (!string.IsNullOrWhiteSpace(previousComputeName))
                     {
                         var deregisterResponse =
-                            await _computeManager.DeregisterCompute(previousComputeName, _stateManager.AnywhereFleetId);
+                            await _stateManager.ComputeManager.DeregisterCompute(previousComputeName, _stateManager.AnywhereFleetId);
                         if (!deregisterResponse)
                         {
                             Debug.LogError(new TextProvider().GetError(ErrorCode.DeregisterComputeFailed));
