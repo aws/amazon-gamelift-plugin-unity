@@ -5,6 +5,7 @@ using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
 using UnityEngine.UIElements;
+using BucketErrorCode = AmazonGameLiftPlugin.Core.Shared.ErrorCode;
 
 namespace AmazonGameLift.Editor
 {
@@ -73,14 +74,25 @@ namespace AmazonGameLift.Editor
 
             container.Q<DropdownField>("UserProfilePageAccountNewProfileRegionDropdown").choices =
                 _stateManager.CoreApi.ListAvailableRegions().ToList();
+
+            UpdateGui();
             
-            if (!stateManager.IsBootstrapped)
-            {
-                _statusBox.Show(StatusBox.StatusBoxType.Warning, Strings.UserProfilePageStatusBoxWarningText);
-            }
+            _stateManager.OnUserProfileUpdated += UpdateGui;
            
             ChooseProfileMenu();
             SetupButtonCallbacks();
+        }
+
+        private void UpdateGui()
+        {
+            if (!_stateManager.IsBootstrapped)
+            {
+                _statusBox.Show(StatusBox.StatusBoxType.Warning, Strings.UserProfilePageStatusBoxWarningText);
+            }
+            else
+            {
+                _statusBox.Close();
+            }
         }
         
         private void LocalizeText()
@@ -209,7 +221,7 @@ namespace AmazonGameLift.Editor
         private void BootstrapAccount(string bucketName)
         { 
             var bucketResponse = _bootstrapSettings.CreateBucket(bucketName);
-            if (bucketResponse.Success)
+            if (bucketResponse.Success || bucketResponse.ErrorCode == BucketErrorCode.BucketNameAlreadyExists)
             {
                 _statusBox.Show(StatusBox.StatusBoxType.Success, Strings.UserProfilePageStatusBoxSuccessText);
                 _stateManager.SetBucketBootstrap(bucketName);

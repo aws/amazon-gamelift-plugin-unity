@@ -4,42 +4,43 @@
 using System.Collections.Generic;
 using System.Linq;
 using UnityEditor;
+using UnityEditor.Build;
 
 namespace AmazonGameLift.Editor
 {
     public class ScriptingDefineSymbolEditor
     {
-        private readonly BuildTargetGroup _buildTargetGroup;
+        private readonly NamedBuildTarget _namedBuildTarget;
 
-        public ScriptingDefineSymbolEditor(BuildTargetGroup buildTargetGroup)
+        public ScriptingDefineSymbolEditor(NamedBuildTarget namedBuildTarget)
         {
-            _buildTargetGroup = buildTargetGroup;
+            _namedBuildTarget = namedBuildTarget;
         }
 
         public void Add(string value)
         {
             IEnumerable<string> defines =
-                PlayerSettings.GetScriptingDefineSymbolsForGroup(_buildTargetGroup).Split(';');
+                PlayerSettings.GetScriptingDefineSymbols(_namedBuildTarget).Split(';');
             if (defines.Contains(value))
             {
                 return;
             }
 
             defines = defines.Append(value);
-            PlayerSettings.SetScriptingDefineSymbolsForGroup(_buildTargetGroup, string.Join(';', defines));
+            PlayerSettings.SetScriptingDefineSymbols(_namedBuildTarget, string.Join(';', defines));
         }
 
         public void Remove(string value)
         {
             IEnumerable<string> defines =
-                PlayerSettings.GetScriptingDefineSymbolsForGroup(_buildTargetGroup).Split(';');
+                PlayerSettings.GetScriptingDefineSymbols(_namedBuildTarget).Split(';');
             if (!defines.Contains(value))
             {
                 return;
             }
 
             defines = defines.Where(item => item != value);
-            PlayerSettings.SetScriptingDefineSymbolsForGroup(_buildTargetGroup, string.Join(';', defines));
+            PlayerSettings.SetScriptingDefineSymbols(_namedBuildTarget, string.Join(';', defines));
         }
     }
 }

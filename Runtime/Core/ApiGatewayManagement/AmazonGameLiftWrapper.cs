@@ -92,6 +92,11 @@ namespace AmazonGameLiftPlugin.Core
         {
             return _amazonGameLiftClient.ListFleetsAsync(request);
         }
+        
+        public Task<DescribeFleetLocationAttributesResponse> DescribeFleetLocationAttributes(DescribeFleetLocationAttributesRequest request)
+        {
+            return _amazonGameLiftClient.DescribeFleetLocationAttributesAsync(request);
+        }
         #endregion
     }
 }

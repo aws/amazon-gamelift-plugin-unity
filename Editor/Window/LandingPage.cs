@@ -10,6 +10,7 @@ namespace AmazonGameLift.Editor
     {
         private readonly VisualElement _container;
         private StatusBox _statusBox;
+        private StateManager _stateManager;
 
         public LandingPage(VisualElement container, StateManager stateManager)
         {
@@ -19,16 +20,12 @@ namespace AmazonGameLift.Editor
             container.Add(uxml);
             SetupStatusBoxes();
             LocalizeText();
-            
-            if (stateManager.SelectedProfile == null)
-            {
-                _statusBox.Show(StatusBox.StatusBoxType.Info, Strings.LandingPageInfoStatusBoxText);
-            }
-            else if (!stateManager.IsBootstrapped)
-            {
-                _statusBox.Show(StatusBox.StatusBoxType.Warning, Strings.LandingPageWarningStatusBoxText);
-            }
+            _stateManager = stateManager;
 
+            UpdateGui();
+            
+            _stateManager.OnUserProfileUpdated += UpdateGui;
+            
             _container.Q<Button>("CreateAccount").RegisterCallback<ClickEvent>(_ => Application.OpenURL(Urls.CreateAwsAccountLearnMore));
             _container.Q<Button>("AddProfile").RegisterCallback<ClickEvent>(_ => OnAddProfileClicked());
             _container.Q<Button>("DownloadSampleGame").RegisterCallback<ClickEvent>(_ => OnImportSampleClicked());
@@ -42,6 +39,22 @@ namespace AmazonGameLift.Editor
         private static void OnImportSampleClicked()
         {
             EditorMenu.ImportSampleGame();
+        }
+        
+        private void UpdateGui()
+        {
+            if (_stateManager.SelectedProfile == null)
+            {
+                _statusBox.Show(StatusBox.StatusBoxType.Info, Strings.LandingPageInfoStatusBoxText);
+            }
+            else if (!_stateManager.IsBootstrapped)
+            {
+                _statusBox.Show(StatusBox.StatusBoxType.Warning, Strings.LandingPageWarningStatusBoxText);
+            }
+            else
+            {
+                _statusBox.Close();
+            }
         }
 
         private void LocalizeText()
