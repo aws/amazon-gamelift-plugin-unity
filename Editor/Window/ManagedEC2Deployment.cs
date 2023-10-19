@@ -11,7 +11,7 @@ namespace AmazonGameLift.Editor
     {
         private readonly DeploymentSettings _deploymentSettings;
         
-        internal ManagedEC2Deployment(DeploymentSettings deploymentSettings, ManagedEC2FleetParameters parameters)
+        internal ManagedEC2Deployment(DeploymentSettings deploymentSettings)
         {
             _deploymentSettings = deploymentSettings;
         }
