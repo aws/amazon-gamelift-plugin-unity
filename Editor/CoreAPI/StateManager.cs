@@ -240,6 +240,7 @@ namespace AmazonGameLift.Editor
             CoreApi.PutSetting(SettingsKeys.CurrentProfileName, profileName);
             var credentials = CoreApi.RetrieveAwsCredentials(profileName);
             Region = credentials.Region;
+            BucketName = _selectedProfile.BucketName;
             GameLiftWrapper = AmazonGameLiftWrapperFactory.Get(ProfileName);
             FleetManager = new GameLiftFleetManager(GameLiftWrapper);
             ComputeManager = new GameLiftComputeManager(GameLiftWrapper);
