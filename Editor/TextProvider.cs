@@ -194,7 +194,7 @@ namespace AmazonGameLift.Editor
             { Strings.LandingPageSampleDescription, "Explore Amazon GameLift with our sample multiplayer game. View integration code, set up hosting with Amazon GameLift Anywhere or Managed EC2 fleets, and experiment with hosting features. Import the sample game into your project, and look for it in the project Assets." },
             { Strings.LandingPageSampleButton, "Import Sample Game" },
             { Strings.LandingPageInfoStatusBoxText, "You will need to configure an AWS account profile to use Amazon GameLift." },
-            { Strings.LandingPageWarningStatusBoxText, "Profile configuration is incomplete, navigate to AWS Account Credentials for next steps" },
+            { Strings.LandingPageWarningStatusBoxText, "Profile configuration is incomplete, navigate to AWS User Profiles for next steps" },
 
             { Strings.UserProfilePageAccountCardNewAccountTitle, "Manage Your User Profiles"},
             { Strings.UserProfilePageAccountCardNewAccountDescription, "Create a profile to link to an AWS account and store your security credentials. Your profile also specifies the AWS Region you want to work in.\nYou can have multiple profiles, but only one can be active at a time. Check your active profile selection on the main page of the Amazon GameLift window."},
@@ -237,7 +237,7 @@ namespace AmazonGameLift.Editor
             { Strings.UserProfilePageBootstrapPopupContinueButton, "Continue"},
             
             { Strings.UserProfilePageStatusBoxSuccessText, "Profile configuration and bootstrapping complete"},
-            { Strings.UserProfilePageStatusBoxWarningText, "Profile configuration is incomplete, as bootstrapping not completed"},
+            { Strings.UserProfilePageStatusBoxWarningText, "Profile configuration is incomplete, as bootstrapping is not completed"},
             { Strings.UserProfilePageStatusBoxErrorText, "An error occurred when trying to create your profile"},
 
             { Strings.AnywherePageTitle, "Host with Amazon GameLift Anywhere"},
@@ -273,6 +273,7 @@ namespace AmazonGameLift.Editor
             { Strings.AnywherePageLaunchClientLabel, "Run Game"},
             { Strings.AnywherePageLaunchClientButton, "Launch Client"},
             { Strings.AnywherePageStatusBoxDefaultErrorText, "An error occurred when trying to register a compute"},
+            { Strings.AnywherePageStatusBoxNotBootstrappedWarning, "Profile configuration is incomplete, as bootstrapping is not completed, navigate to AWS User Profiles for next steps"},
             
             { Strings.ManagedEC2Title, "Managed EC2"},
             { Strings.ManagedEC2Description, "Managed EC2 fleets use Amazon EC2 instances to host your game servers.\nAmazon GameLift manages the instances and removes the burden of hardware and software management from hosting your games."},
@@ -313,6 +314,7 @@ namespace AmazonGameLift.Editor
             { Strings.ManagedEC2LaunchClientTitle, "Launch Client"},
             { Strings.ManagedEC2LaunchClientLabel, "Run Game"},
             { Strings.ManagedEC2LaunchClientButton, "Launch Client"},
+            { Strings.ManagedEC2StatusBoxNotBootstrappedWarning, "Profile configuration is incomplete, as bootstrapping is  not completed, navigate to AWS User Profiles for next steps"},
             
             { Strings.HelpPageTitle, "Help & Documentation" },
             { Strings.HelpPageDescription, "Learn how to integrate and deploy games for hosting on GameLift. The GameLift service manages game server deployment, operation, and scaling. You can deploy custom-built game servers or use GameLift Realtime Servers to configure lightweight game servers for your game." },

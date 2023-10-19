@@ -22,6 +22,7 @@ namespace AmazonGameLift.Editor
         private readonly DeploymentScenariosInput _deploymentScenariosInput;
         private readonly FleetParametersInput _fleetParamsInput;
         private readonly StatusIndicator _statusIndicator;
+        private StatusBox _statusBox;
 
         public ManagedEC2Page(VisualElement container, StateManager stateManager)
         {
@@ -47,7 +48,9 @@ namespace AmazonGameLift.Editor
             var uxml = mVisualTreeAsset.Instantiate();
 
             container.Add(uxml);
+            SetupStatusBoxes();
 
+            _stateManager.OnUserProfileUpdated += UpdateStatusBoxes;
             var ec2Deployment = new ManagedEC2Deployment(_deploymentSettings, parameters);
             var scenarioContainer = container.Q("ManagedEC2ScenarioTitle");
             _deploymentScenariosInput =
@@ -91,6 +94,7 @@ namespace AmazonGameLift.Editor
             _deploymentSettings.CurrentStackInfoChanged += UpdateGUI;
             _deploymentSettings.Scenario = DeploymentScenarios.SingleRegion;
             UpdateGUI();
+            UpdateStatusBoxes();
         }
 
         private void UpdateGUI()
@@ -135,6 +139,25 @@ namespace AmazonGameLift.Editor
             else
             {
                 _statusIndicator.Set(State.Inactive, textProvider.Get(Strings.ManagedEC2DeployStatusNotDeployed));
+            }
+        }
+        
+        private void SetupStatusBoxes()
+        {
+            _statusBox = new StatusBox();
+            var statusBoxContainer = _container.Q("ManagedEC2StatusBoxContainer");
+            statusBoxContainer.Add(_statusBox);
+        }
+        
+        private void UpdateStatusBoxes()
+        {
+            if (!_stateManager.IsBootstrapped)
+            {
+                _statusBox.Show(StatusBox.StatusBoxType.Warning, Strings.ManagedEC2StatusBoxNotBootstrappedWarning);
+            }
+            else
+            {
+                _statusBox.Close();
             }
         }
 

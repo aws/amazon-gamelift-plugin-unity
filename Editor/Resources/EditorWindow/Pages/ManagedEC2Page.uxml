@@ -10,6 +10,7 @@
         <gl:InfoLinks/>
         </ui:VisualElement>
         <ui:VisualElement class="divider"/>
+        <ui:VisualElement name="ManagedEC2StatusBoxContainer" class="separator"/>
         <ui:Foldout name="ManagedEC2IntegrateTitle" class="foldout separator separator--small" text="Integrate GameLift with your game client">
             <ui:Label name="ManagedEC2IntegrateDescription" text="Add the Amazon GameLift server SDK to your game server and add code to communicate with the GameLift hosting service. If you&apos;re working with the Amazon GameLift sample game, this integration is already done."/>
             <ui:VisualElement name="ManagedEC2IntegrateLinkParent" class="external-link">

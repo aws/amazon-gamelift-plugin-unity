@@ -10,6 +10,7 @@
             <gl:InfoLinks/>
         </ui:VisualElement>
         <ui:VisualElement class="divider"/>
+        <ui:VisualElement name="AnywherePageStatusBoxContainer" class="separator"/>
         <ui:Foldout name="AnywherePageUserProfileTitle" class="foldout separator separator--small" text="AWS User Profile">
             <gl:ProfileSelector/>
         </ui:Foldout>
