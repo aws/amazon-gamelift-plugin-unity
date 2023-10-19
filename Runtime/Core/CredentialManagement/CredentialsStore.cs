@@ -133,7 +133,7 @@ namespace AmazonGameLiftPlugin.Core.CredentialManagement
         private void FixEndOfFile()
         {
             string filePath = _sharedFile.FilePath;
-            string text = _file.ReadAllText(filePath);
+            string text = _file.ReadAllText(filePath).Trim();
             text += Environment.NewLine;
             _file.WriteAllText(filePath, text);
         }
