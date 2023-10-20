@@ -25,7 +25,7 @@ namespace AmazonGameLift.Editor
         private StatusBox _registerComputeStatusBox;
 
         private string _computeName = "ComputerName-ProfileName";
-        private string _ipAddress = "120.120.120.120";
+        private string _ipAddress = "127.0.0.1";
 
         public RegisterComputeInput(VisualElement container, StateManager stateManager)
         {
