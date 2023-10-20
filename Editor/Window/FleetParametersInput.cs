@@ -74,7 +74,7 @@ namespace AmazonGameLift.Editor
             _serverFileButton.RegisterCallback<ClickEvent>(_ =>
             {
                 var value = EditorUtility.OpenFilePanel("Game Server Build File Path (exe)",
-                    _parameters.GameServerFolder,"" );
+                    _parameters.GameServerFolder, "" );
                 _parameters.GameServerFile = value;
                 _serverFileInput.value = value;
                 OnValueChanged(_parameters);
