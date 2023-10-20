@@ -88,7 +88,8 @@ namespace AmazonGameLift.Editor
             _awsCredentialsCreateModel.ProfileName = credentials[0];
             _awsCredentialsCreateModel.AccessKeyId = credentials[1];
             _awsCredentialsCreateModel.SecretKey = credentials[2];
-            _awsCredentialsCreateModel.RegionBootstrap.RegionIndex = dropdownField.index;
+            _awsCredentialsCreateModel.RegionBootstrap.RegionIndex = _awsCredentialsCreateModel.RegionBootstrap
+                .AllRegions.ToList().IndexOf(dropdownField.value);
             _awsCredentialsCreateModel.Create();
 
             return true;
