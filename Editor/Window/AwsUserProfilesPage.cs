@@ -63,7 +63,7 @@ namespace AmazonGameLift.Editor
             };
             
             var createProfileContainer = _container.Q("UserProfilePageCreateMenu");
-            _userProfileCreation = new UserProfileCreation(createProfileContainer, _stateManager);
+            _userProfileCreation = new UserProfileCreation(createProfileContainer, _stateManager, _statusBox);
             _userProfileCreation.OnProfileCreated += () =>
             {
                 ShowProfileMenu(_bootstrapMenu);

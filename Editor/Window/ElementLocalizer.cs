@@ -29,9 +29,10 @@ namespace AmazonGameLift.Editor
         }
         
         // The status box use case where you would want to display an Exception message in addition to the generic error text.
-        public void SetElementText(string elementName, string textKey, string additionalText)
+        public void SetElementText(string elementName, string textKey, string additionalTextKey)
         {
             var text = _textProvider.Get(textKey);
+            var additionalText = _textProvider.Get(additionalTextKey);
             SetText(elementName, string.Format("{0}: {1}", text, additionalText));
         }
 

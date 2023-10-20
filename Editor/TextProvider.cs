@@ -239,6 +239,7 @@ namespace AmazonGameLift.Editor
             { Strings.UserProfilePageStatusBoxSuccessText, "Profile configuration and bootstrapping complete"},
             { Strings.UserProfilePageStatusBoxWarningText, "Profile configuration is incomplete, as bootstrapping is not completed"},
             { Strings.UserProfilePageStatusBoxErrorText, "An error occurred when trying to create your profile"},
+            { Strings.UserProfilePageStatusBoxInvalidDetailsErrorText, "Invalid details"},
 
             { Strings.AnywherePageTitle, "Host with Amazon GameLift Anywhere"},
             { Strings.AnywherePageDescription, "Set up an Amazon GameLift Anywhere fleet to host game servers using your own hardware. With an Anywhere fleet, Amazon GameLift manages game sessions and placement (including matchmaking), while you control your own server hosting infrastructure under a single managed solution.\nCreate an Anywhere fleet for your on-premises or other compute resources. During game development, turn your local workstation into an Anywhere fleet to continuously deploy, test, and iterate your game builds."},

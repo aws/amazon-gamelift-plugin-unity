@@ -21,7 +21,7 @@ namespace AmazonGameLift.Editor
 
         public Action OnProfileCreated;
 
-        public UserProfileCreation(VisualElement container, StateManager stateManager)
+        public UserProfileCreation(VisualElement container, StateManager stateManager, StatusBox statusBox)
         {
             _container = container;
             _stateManager = stateManager;
@@ -46,7 +46,9 @@ namespace AmazonGameLift.Editor
                 }
                 else
                 {
-                    // TODO: Show error status box
+                    var url = string.Format(Urls.AwsGameLiftLogs, _stateManager.Region);
+                    statusBox.Show(StatusBox.StatusBoxType.Error,
+                        Strings.UserProfilePageStatusBoxErrorText, Strings.UserProfilePageStatusBoxInvalidDetailsErrorText);
                 }
             });
 
