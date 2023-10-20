@@ -20,8 +20,9 @@ namespace AmazonGameLift.Editor
         private readonly Button _showMoreScenariosButton;
 
         public Action<DeploymentScenarios> OnValueChanged;
+        private Dictionary<DeploymentScenarios , RadioButton> _radioButtons = new Dictionary<DeploymentScenarios, RadioButton>();
 
-        public DeploymentScenariosInput(VisualElement container, DeploymentScenarios deploymentScenario, bool enabled)
+        public DeploymentScenariosInput(VisualElement container, DeploymentScenarios deploymentScenario, bool enabled, StateManager stateManager)
         {
             var uxml = Resources.Load<VisualTreeAsset>("EditorWindow/Components/DeploymentScenarios");
             container.Add(uxml.Instantiate());
@@ -44,6 +45,15 @@ namespace AmazonGameLift.Editor
                 _isExpanded = true;
                 UpdateGUI();
             });
+            stateManager.OnUserProfileUpdated += () =>
+            {
+                SetValue(stateManager.DeploymentScenario);
+                if (stateManager.DeploymentScenario != DeploymentScenarios.SingleRegion)
+                {
+                    _isExpanded = true;
+                }
+                UpdateGUI();
+            };
             
             _container.Q<VisualElement>("ManagedEC2ScenarioSingleFleetLinkParent")
                 .RegisterCallback<ClickEvent>(_ => Application.OpenURL(Urls.ManagedEc2FleetLearnMore));
@@ -62,10 +72,16 @@ namespace AmazonGameLift.Editor
             _container.SetEnabled(_enabled);
         }
 
+        private void SetValue(DeploymentScenarios deploymentScenario)
+        {
+            _radioButtons[deploymentScenario].value = true;
+        }
+
         private void SetupRadioButton(string elementName, DeploymentScenarios deploymentScenario)
         {
             var radio = _container.Q<RadioButton>(elementName);
             if (radio == default) return;
+            _radioButtons.Add(deploymentScenario, radio);
             radio.value = _deploymentScenarios == deploymentScenario;
             radio.RegisterValueChangedCallback(v =>
             {
