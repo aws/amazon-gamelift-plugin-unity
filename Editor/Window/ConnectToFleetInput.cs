@@ -49,14 +49,15 @@ namespace AmazonGameLift.Editor
             {
                 await UpdateFleetMenu();
                 
-                var fleet = _fleetAttributes.FirstOrDefault(fleet => fleet.Name == _stateManager.AnywhereFleetName);
-                if (fleet == null)
+                if (_fleetAttributes.Count <= 0)
                 {
                     _fleetState = FleetStatus.NotCreated;
                 }
                 else
                 {
-                    _fleetState = FleetStatus.Selected;
+                    var fleet = _fleetAttributes.FirstOrDefault(fleet => fleet.Name == _stateManager.AnywhereFleetName);
+
+                    _fleetState = fleet == null ? FleetStatus.Selecting : FleetStatus.Selected;
                 }
 
                 UpdateGUI();

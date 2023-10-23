@@ -54,7 +54,9 @@ namespace AmazonGameLift.Editor
             RegisterCallbacks();
             SetupConfigSettings();
             SetupStatusBox();
-            
+
+            _stateManager.OnUserProfileUpdated += OnRegisterComputeButtonClicked;
+
             UpdateGUI();
         }
 
@@ -108,6 +110,11 @@ namespace AmazonGameLift.Editor
                     var url = string.Format(Urls.AwsGameLiftLogs, _stateManager.Region);
                     _registerComputeStatusBox.Show(StatusBox.StatusBoxType.Error, Strings.AnywherePageStatusBoxDefaultErrorText, registerResponse.ErrorMessage, url, Strings.ViewLogsStatusBoxUrlTextButton);
                 }
+            }
+            else if (_computeState is ComputeStatus.Registered)
+            {
+                await _stateManager.ComputeManager.RegisterFleetCompute(_computeName,
+                    _stateManager.AnywhereFleetId, _stateManager.AnywhereFleetLocation, _ipAddress);
             }
 
             UpdateGUI();
