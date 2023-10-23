@@ -3,7 +3,7 @@
 
 <ui:UXML xmlns:ui="UnityEngine.UIElements">
     <Style src="../common.uss"/>
-    <ui:VisualElement class="separator separator--large">
+    <ui:VisualElement class="separator separator--vertical separator--large">
         <ui:Label name="UserProfilePageAccountNewProfileTitle" class="page__subtitle" text="AWS Account Details"/>
         <ui:VisualElement>
             <ui:VisualElement name="UserProfilePageAccountNewProfileName" class="form-row">
