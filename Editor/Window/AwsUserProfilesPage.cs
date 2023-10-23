@@ -242,9 +242,7 @@ namespace AmazonGameLift.Editor
         
         private void SetupStatusBoxes()
         {
-            _statusBox = new StatusBox();
-            var statusBoxContainer = _container.Q("UserProfilePageStatusBoxContainer");
-            statusBoxContainer.Add(_statusBox);
+            _statusBox = _container.Q<StatusBox>("UserProfilePageStatusBox");
         }
     }
 }

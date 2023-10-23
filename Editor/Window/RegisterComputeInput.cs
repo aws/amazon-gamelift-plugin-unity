@@ -173,9 +173,7 @@ namespace AmazonGameLift.Editor
         
         private void SetupStatusBox()
         {
-            _registerComputeStatusBox =  new StatusBox();
-            var statusBoxContainer = _container.Q("AnywherePageComputeStatusBoxContainer");
-            statusBoxContainer.Add(_registerComputeStatusBox);
+            _registerComputeStatusBox = _container.Q<StatusBox>("AnywherePageComputeStatusBox");
         }
 
         protected sealed override void UpdateGUI()

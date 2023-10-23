@@ -241,9 +241,7 @@ namespace AmazonGameLift.Editor
 
         private void SetupStatusBox()
         {
-            _connectToAnywhereStatusBox = new StatusBox();
-            var statusBoxContainer = _container.Q("AnywherePageConnectFleetStatusBoxContainer");
-            statusBoxContainer.Add(_connectToAnywhereStatusBox);
+            _connectToAnywhereStatusBox = _container.Q<StatusBox>("AnywherePageConnectFleetStatusBox");
         }
 
         protected sealed override void UpdateGUI()
