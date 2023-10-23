@@ -1,5 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UIElements;
 
@@ -7,22 +6,23 @@ namespace AmazonGameLift.Editor
 {
     public class StatusBox : VisualElement
     {
-        public new class UxmlFactory : UxmlFactory<StatusBox> { }
+        public new class UxmlFactory : UxmlFactory<StatusBox>
+        {
+        }
 
-        private readonly VisualElement _container;
         private Label _statusTextLabel;
         private bool ShowElement { get; set; }
-        
-        private const string  HiddenClassName = "hidden";
-        private const string  SuccessBoxElementClass = "status-box--success";
-        private const string  InfoBoxElementClass = "status-box--info";
-        private const string  WarningBoxElementClass = "status-box--warning";
-        private const string  ErrorBoxElementClass = "status-box--error";
+
+        private const string HiddenClassName = "hidden";
+        private const string SuccessBoxElementClass = "status-box--success";
+        private const string InfoBoxElementClass = "status-box--info";
+        private const string WarningBoxElementClass = "status-box--warning";
+        private const string ErrorBoxElementClass = "status-box--error";
 
         private StatusBoxType _currentType;
 
         private readonly IReadOnlyDictionary<StatusBoxType, string> _statusBoxClasses =
-            new Dictionary<StatusBoxType, string>()
+            new Dictionary<StatusBoxType, string>
             {
                 { StatusBoxType.Success, SuccessBoxElementClass },
                 { StatusBoxType.Info, InfoBoxElementClass },
@@ -39,15 +39,15 @@ namespace AmazonGameLift.Editor
             var asset = Resources.Load<VisualTreeAsset>("EditorWindow/Components/StatusBox");
             asset.CloneTree(this);
 
-            _container = this.Q("StatusBox");
-            _statusTextLabel = _container.Q<Label>("StatusBoxLabel");
+            _statusTextLabel = this.Q<Label>("StatusBoxLabel");
             _externalButton = this.Q<Button>("StatusBoxExternalButton");
             _externalButtonLabel = this.Q<Label>("StatusBoxExternalButtonLabel");
-            _elementLocalizer = new ElementLocalizer(_container);
-            this.Q<Button>("StatusBoxCloseButton").RegisterCallback<ClickEvent>(_ =>
-            {
-                Close();
-            });
+            _elementLocalizer = new ElementLocalizer(this);
+            this.Q<Button>("StatusBoxCloseButton").RegisterCallback<ClickEvent>(_ => { Close(); });
+
+            AddToClassList("status-box");
+            AddToClassList("separator");
+            AddToClassList("separator--horizontal");
 
             UpdateStatusBoxesState();
         }
@@ -61,13 +61,14 @@ namespace AmazonGameLift.Editor
                 _externalButton.RemoveFromClassList(HiddenClassName);
             }
         }
-        
-        public void Show(StatusBoxType statusBoxType, string text, string additionalText = null, string externalButtonLink = null, string externalButtonText = null)
+
+        public void Show(StatusBoxType statusBoxType, string text, string additionalText = null,
+            string externalButtonLink = null, string externalButtonText = null)
         {
-            _container.RemoveFromClassList(_statusBoxClasses[_currentType]);
-            _container.AddToClassList(_statusBoxClasses[statusBoxType]);
+            RemoveFromClassList(_statusBoxClasses[_currentType]);
+            AddToClassList(_statusBoxClasses[statusBoxType]);
             _currentType = statusBoxType;
-            
+
             if (string.IsNullOrWhiteSpace(additionalText))
             {
                 _elementLocalizer.SetElementText(_statusTextLabel.name, text);
@@ -76,7 +77,7 @@ namespace AmazonGameLift.Editor
             {
                 _elementLocalizer.SetElementText(_statusTextLabel.name, text, additionalText);
             }
-            
+
             if (string.IsNullOrWhiteSpace(externalButtonLink))
             {
                 _externalButton.AddToClassList(HiddenClassName);
@@ -100,11 +101,11 @@ namespace AmazonGameLift.Editor
         {
             if (ShowElement)
             {
-                _container.RemoveFromClassList(HiddenClassName);
+                RemoveFromClassList(HiddenClassName);
             }
             else
             {
-                _container.AddToClassList(HiddenClassName);
+                AddToClassList(HiddenClassName);
             }
         }
 

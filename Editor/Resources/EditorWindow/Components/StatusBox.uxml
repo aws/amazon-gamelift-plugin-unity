@@ -3,13 +3,11 @@
 
 <ui:UXML xmlns:ui="UnityEngine.UIElements">
     <ui:Style src="./statusbox.uss"/>
-    <ui:VisualElement name="StatusBox" class="status-box separator separator--horizontal">
-        <ui:Image name="StatusBoxImage" class="status-box__icon"/>
-        <ui:Label name="StatusBoxLabel" class="status-box__label"/>
-        <ui:Button name="StatusBoxExternalButton" class="status-box__external-button button button--secondary button--small">
-            <ui:Label name="StatusBoxExternalButtonLabel"/>
-            <ui:Image name="ExternalLinkIcon" class="icon--small"/>
-        </ui:Button>
-        <ui:Button name="StatusBoxCloseButton" class="status-box__close-button"/>
-    </ui:VisualElement>
+    <ui:Image name="StatusBoxImage" class="status-box__icon"/>
+    <ui:Label name="StatusBoxLabel" class="status-box__label"/>
+    <ui:Button name="StatusBoxExternalButton" class="status-box__external-button button button--secondary button--small">
+        <ui:Label name="StatusBoxExternalButtonLabel"/>
+        <ui:Image name="ExternalLinkIcon" class="icon--small"/>
+    </ui:Button>
+    <ui:Button name="StatusBoxCloseButton" class="status-box__close-button"/>
 </ui:UXML>
