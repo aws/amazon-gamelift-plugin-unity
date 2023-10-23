@@ -47,14 +47,16 @@ namespace AmazonGameLift.Editor
                             !string.IsNullOrWhiteSpace(_stateManager.IpAddress)
                 ? ComputeStatus.Registered
                 : ComputeStatus.NotRegistered;
-            _computeName = !string.IsNullOrWhiteSpace(_stateManager.ComputeName) ? _stateManager.ComputeName:  _computeName;
-            _ipAddress = !string.IsNullOrWhiteSpace(_stateManager.IpAddress) ? _stateManager.IpAddress:  _ipAddress;
+            _computeName = !string.IsNullOrWhiteSpace(_stateManager.ComputeName)
+                ? _stateManager.ComputeName
+                : _computeName;
+            _ipAddress = !string.IsNullOrWhiteSpace(_stateManager.IpAddress) ? _stateManager.IpAddress : _ipAddress;
             _stateManager.OnUserProfileUpdated += UpdateGUI;
 
             RegisterCallbacks();
             SetupConfigSettings();
             SetupStatusBox();
-            
+
             UpdateGUI();
         }
 
@@ -96,7 +98,8 @@ namespace AmazonGameLift.Editor
                     if (!string.IsNullOrWhiteSpace(previousComputeName))
                     {
                         var deregisterResponse =
-                            await _stateManager.ComputeManager.DeregisterCompute(previousComputeName, _stateManager.AnywhereFleetId);
+                            await _stateManager.ComputeManager.DeregisterCompute(previousComputeName,
+                                _stateManager.AnywhereFleetId);
                         if (!deregisterResponse)
                         {
                             Debug.LogError(new TextProvider().GetError(ErrorCode.DeregisterComputeFailed));
@@ -106,7 +109,9 @@ namespace AmazonGameLift.Editor
                 else
                 {
                     var url = string.Format(Urls.AwsGameLiftLogs, _stateManager.Region);
-                    _registerComputeStatusBox.Show(StatusBox.StatusBoxType.Error, Strings.AnywherePageStatusBoxDefaultErrorText, registerResponse.ErrorMessage, url, Strings.ViewLogsStatusBoxUrlTextButton);
+                    _registerComputeStatusBox.Show(StatusBox.StatusBoxType.Error,
+                        Strings.AnywherePageStatusBoxDefaultErrorText, registerResponse.ErrorMessage, url,
+                        Strings.ViewLogsStatusBoxUrlTextButton);
                 }
             }
 
@@ -170,7 +175,7 @@ namespace AmazonGameLift.Editor
                 _ => throw new ArgumentOutOfRangeException()
             };
         }
-        
+
         private void SetupStatusBox()
         {
             _registerComputeStatusBox =  new StatusBox();
