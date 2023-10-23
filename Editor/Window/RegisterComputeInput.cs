@@ -25,7 +25,7 @@ namespace AmazonGameLift.Editor
         private StatusBox _registerComputeStatusBox;
 
         private string _computeName = "ComputerName-ProfileName";
-        private string _ipAddress = "120.120.120.120";
+        private string _ipAddress = "127.0.0.1";
 
         public RegisterComputeInput(VisualElement container, StateManager stateManager)
         {
@@ -47,10 +47,7 @@ namespace AmazonGameLift.Editor
                             !string.IsNullOrWhiteSpace(_stateManager.IpAddress)
                 ? ComputeStatus.Registered
                 : ComputeStatus.NotRegistered;
-            _computeName = !string.IsNullOrWhiteSpace(_stateManager.ComputeName)
-                ? _stateManager.ComputeName
-                : _computeName;
-            _ipAddress = !string.IsNullOrWhiteSpace(_stateManager.IpAddress) ? _stateManager.IpAddress : _ipAddress;
+
             _stateManager.OnUserProfileUpdated += UpdateGUI;
 
             RegisterCallbacks();
@@ -154,8 +151,14 @@ namespace AmazonGameLift.Editor
 
         private void SetupConfigSettings()
         {
-            _computeName = _stateManager.ComputeName;
-            _ipAddress = _stateManager.IpAddress;
+            if (!string.IsNullOrWhiteSpace(_stateManager.ComputeName))
+            {
+                _computeName = _stateManager.ComputeName;
+            }
+            if (!string.IsNullOrWhiteSpace(_stateManager.IpAddress))
+            {
+                _ipAddress = _stateManager.IpAddress;
+            }
         }
 
         private List<VisualElement> GetComputeVisualElements() =>
