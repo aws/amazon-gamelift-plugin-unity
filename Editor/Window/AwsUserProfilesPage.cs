@@ -73,7 +73,7 @@ namespace AmazonGameLift.Editor
             RefreshProfiles();
 
             container.Q<DropdownField>("UserProfilePageAccountNewProfileRegionDropdown").choices =
-                _stateManager.CoreApi.ListAvailableRegions().OrderBy(str => str).ToList();
+                _stateManager.CoreApi.ListAvailableRegions().ToList();
 
             UpdateGui();
             
