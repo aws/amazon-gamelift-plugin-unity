@@ -100,6 +100,7 @@ namespace AmazonGameLift.Editor
                         var deregisterResponse =
                             await _stateManager.ComputeManager.DeregisterCompute(previousComputeName,
                                 _stateManager.AnywhereFleetId);
+                                
                         if (!deregisterResponse)
                         {
                             Debug.LogError(new TextProvider().GetError(ErrorCode.DeregisterComputeFailed));
@@ -110,7 +111,9 @@ namespace AmazonGameLift.Editor
                 {
                     var url = string.Format(Urls.AwsGameLiftLogs, _stateManager.Region);
                     _registerComputeStatusBox.Show(StatusBox.StatusBoxType.Error,
-                        Strings.AnywherePageStatusBoxDefaultErrorText, registerResponse.ErrorMessage, url,
+                        Strings.AnywherePageStatusBoxDefaultErrorText, 
+                        registerResponse.ErrorMessage, 
+                        url,
                         Strings.ViewLogsStatusBoxUrlTextButton);
                 }
             }
