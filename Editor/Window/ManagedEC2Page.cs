@@ -202,8 +202,6 @@ namespace AmazonGameLift.Editor
             l.SetElementText("ManagedEC2DeployTitle", Strings.ManagedEC2DeployTitle, replacements);
             l.SetElementText("ManagedEC2DeployDescription", Strings.ManagedEC2DeployDescription);
             l.SetElementText("ManagedEC2DeployStatusLabel", Strings.ManagedEC2DeployStatusLabel);
-            l.SetElementText("ManagedEC2DeployStatusIcon", Strings.ManagedEC2DeployStatusIcon);
-            l.SetElementText("ManagedEC2DeployStatusText", Strings.ManagedEC2DeployStatusText);
             l.SetElementText("ManagedEC2DeployActionsLabel", Strings.ManagedEC2DeployActionsLabel);
             l.SetElementText("ManagedEC2CreateStackButton", Strings.ManagedEC2CreateStackButton);
             l.SetElementText("ManagedEC2RedeployStackButton", Strings.ManagedEC2RedeployStackButton);

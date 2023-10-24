@@ -3,8 +3,8 @@
 
 <ui:UXML xmlns:ui="UnityEngine.UIElements">
     <Style src="./GameLiftPluginBucketPopup.uss"/>
-    <ui:VisualElement class="separator separator--large">
-        <ui:VisualElement class="separator">
+    <ui:VisualElement class="separator separator--vertical separator--large">
+        <ui:VisualElement class="separator separator--vertical">
             <ui:Label name="UserProfilePageBootstrapPopupTitle" class="popup__heading" text="You might incur charges for creating an S3 Bucket..."/>
             <ui:Label name="UserProfilePageBootstrapPopupDescription" text="Check and see if you have exceeded the AWS Free Tier usage &#10;limits or your period expired."/>
             <ui:VisualElement name="UserProfilePageBootstrapPopupFreeTierLinkParent" class="external-link">

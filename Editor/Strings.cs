@@ -149,21 +149,20 @@ namespace AmazonGameLift.Editor
         public const string LandingPageInfoStatusBoxText = "LandingPageInfoStatusBoxText";
         public const string LandingPageWarningStatusBoxText = "LandingPageWarningStatusBoxText";
 
-        public const string UserProfilePageAccountCardNewAccountTitle = "UserProfilePageAccountCardNewAccountTitle";
-        public const string UserProfilePageAccountCardNewAccountDescription = "UserProfilePageAccountCardNewAccountDescription";
+        public const string UserProfilePageTitle = "UserProfilePageTitle";
+        public const string UserProfilePageDescription = "UserProfilePageDescription";
         public const string UserProfilePageAccountCardNoAccountTitle = "UserProfilePageAccountCardNoAccountTitle";
         public const string UserProfilePageAccountCardNoAccountDescription = "UserProfilePageAccountCardNoAccountDescription";
         public const string UserProfilePageAccountCardNoAccountLink = "UserProfilePageAccountCardNoAccountLink";
         public const string UserProfilePageAccountCardNoAccountButtonLabel = "UserProfilePageAccountCardNoAccountButton";
-        public const string UserProfilePageAccountExistingAccountTitle = "UserProfilePageAccountExistingAccountTitle";
-        public const string UserProfilePageAccountExistingAccountDescription = "UserProfilePageAccountExistingAccountDescription";
+        public const string UserProfilePageAccountCardNewAccountTitle = "UserProfilePageAccountCardNewAccountTitle";
+        public const string UserProfilePageAccountCardNewAccountDescription = "UserProfilePageAccountCardNewAccountDescription";
         public const string UserProfilePageAccountCardHasAccountButton = "UserProfilePageAccountCardHasAccountButton";
         public const string UserProfilePageAccountNewProfileTitle = "UserProfilePageAccountNewProfileTitle";
         public const string UserProfilePageAccountNewProfileName = "UserProfilePageAccountNewProfileName";
         public const string UserProfilePageAccountNewProfileAccessKeyInput = "UserProfilePageAccountNewProfileAccessKeyInput";
         public const string UserProfilePageAccountNewProfileSecretKeyLabel = "UserProfilePageAccountNewProfileSecretKeyLabel";
         public const string UserProfilePageAccountNewProfileRegionLabel = "UserProfilePageAccountNewProfileRegionLabel";
-        public const string UserProfilePageAccountNewProfileRegionPlaceholderDropdown = "UserProfilePageAccountNewProfileRegionPlaceholderDropdown";
         public const string UserProfilePageAccountNewProfileCreateButton = "UserProfilePageAccountNewProfileCreateButton";
         public const string UserProfilePageAccountNewProfileCancelButton = "UserProfilePageAccountNewProfileCancelButton";
         public const string UserProfilePageAccountNewProfileHelpLink = "UserProfilePageAccountNewProfileHelpLink";
@@ -171,18 +170,9 @@ namespace AmazonGameLift.Editor
         
         public const string UserProfilePageBootstrapTitle = "UserProfilePageBootstrapTitle";
         public const string UserProfilePageBootstrapDescription = "UserProfilePageBootstrapDescription";
-        public const string UserProfilePageBootstrapPricingText = "UserProfilePageBootstrapPricingText";
-        public const string UserProfilePageBootstrapPricingInfoText = "UserProfilePageBootstrapPricingInfoText";
-        public const string UserProfilePageBootstrapPricingFreeTierText = "UserProfilePageBootstrapPricingFreeTierText";
-        public const string UserProfilePageBootstrapProfileInputText = "UserProfilePageBootstrapProfileInputText";
-        public const string UserProfilePageBootstrapBucketText = "UserProfilePageBootstrapBucketText";
-        public const string UserProfilePageBootstrapBucketUnsetText = "UserProfilePageBootstrapBucketUnsetText";
-        public const string UserProfilePageBootstrapStatusText = "UserProfilePageBootstrapStatusText";
         public const string UserProfilePageBootstrapStartButton = "UserProfilePageBootstrapStartButton";
         public const string UserProfilePageBootstrapAnotherProfileButton = "UserProfilePageBootstrapAnotherProfileButton";
         public const string UserProfilePageBootstrapHelpLink = "UserProfilePageBootstrapHelpLink";
-        public const string UserProfilePageBootstrapWarningText = "UserProfilePageBootstrapWarningText";
-        public const string UserProfilePageBootstrapProfilePlaceholderText = "UserProfilePageBootstrapProfilePlaceholderText";
         public const string UserProfilePageBootstrapAnotherBucketButton = "UserProfilePageBootstrapAnotherBucketButton";
         
         public const string UserProfilePageBootstrapPopupWindowTitle = "UserProfilePageBootstrapPopupWindowTitle";
@@ -203,7 +193,6 @@ namespace AmazonGameLift.Editor
         public const string AnywherePageIntegrateDescription = "AnywherePageIntegrateDescription";
         public const string AnywherePageIntegrateServerLink = "AnywherePageIntegrateServerLink";
         public const string AnywherePageIntegrateClientLink = "AnywherePageIntegrateClientLink";
-        public const string AnywherePageCreateFleetTitle = "AnywherePageCreateFleetTitle";
         public const string AnywherePageCreateFleetNameLabel = "AnywherePageCreateFleetNameLabel";
         public const string AnywherePageConnectFleetName = "AnywherePageConnectFleetName";
         public const string AnywherePageCreateFleetNameHint = "AnywherePageCreateFleetNameHint";
@@ -260,8 +249,6 @@ namespace AmazonGameLift.Editor
         public const string ManagedEC2DeployTitle = "ManagedEC2DeployTitle";
         public const string ManagedEC2DeployDescription = "ManagedEC2DeployDescription";
         public const string ManagedEC2DeployStatusLabel = "ManagedEC2DeployStatusLabel";
-        public const string ManagedEC2DeployStatusIcon = "ManagedEC2DeployStatusIcon";
-        public const string ManagedEC2DeployStatusText = "ManagedEC2DeployStatusText";
         public const string ManagedEC2DeployStatusNotDeployed = "ManagedEC2DeployStatusNotDeployed";
         public const string ManagedEC2DeployStatusDeploying = "ManagedEC2DeployStatusDeploying";
         public const string ManagedEC2DeployStatusDeployed = "ManagedEC2DeployStatusDeployed";
@@ -302,7 +289,6 @@ namespace AmazonGameLift.Editor
         public const string BootstrapStatusActive = "BootstrapStatusActive";
         public const string BootstrapStatusInactive = "BootstrapStatusInactive";
         public const string BootstrapStatusNoBucketCreated = "BootstrapStatusNoBucketCreated";
-        public const string BootstrapNoBucketCreated = "BootstrapNoBucketCreated";
         
         public const string ViewLogsStatusBoxUrlTextButton = "ViewLogsStatusBoxUrlTextButton";
     }
