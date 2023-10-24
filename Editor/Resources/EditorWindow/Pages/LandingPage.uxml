@@ -27,7 +27,7 @@
                     <ui:Image name="LandingPageAccountImage" class="card__icon icon--large"/>
                     <ui:Label name="LandingPageAccountCardText" class="card__text" text="I have an AWS account"/>
                 </ui:VisualElement>
-                <ui:Button class="button button--primary button--large button--full-width" text="Add a new Profile" name="AddProfile"/>
+                <ui:Button name="LandingPageAccountCardButton" class="button button--primary button--large button--full-width" text="Add a new Profile"/>
             </ui:VisualElement>
         </ui:VisualElement>
         <ui:VisualElement>
@@ -36,7 +36,7 @@
                 <ui:Image name="LandingPageSampleImage" class="sample__image"/>
                 <ui:VisualElement class="separator separator--vertical">
                     <ui:Label name="LandingPageSampleDescription" text="Test out our sample multiplayer game with GameLift Anywhere."/>
-                    <ui:Button name="DownloadSampleGame" class="button sample__button button--small" text="Import"/>
+                    <ui:Button name="LandingPageSampleButton" class="button sample__button button--small" text="Import"/>
                 </ui:VisualElement>
             </ui:VisualElement>
         </ui:VisualElement>
