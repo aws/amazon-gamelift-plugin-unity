@@ -1,6 +1,8 @@
 // Copyright Amazon.com, Inc. or its affiliates. All Rights Reserved.
 // SPDX-License-Identifier: Apache-2.0
 
+using System.Threading.Tasks;
+using Amazon.GameLift.Model;
 using UnityEditor;
 using UnityEditor.Build;
 using UnityEngine;
@@ -31,7 +33,7 @@ namespace AmazonGameLift.Editor
             SetupStatusBoxes();
 
             _stateManager.OnUserProfileUpdated += UpdateGui;
-            
+
             var fleetInputContainer = uxml.Q("AnywherePageConnectFleetTitle");
             var fleetInput = new ConnectToFleetInput(fleetInputContainer, stateManager);
             var computeInputContainer = uxml.Q("AnywherePageComputeTitle");
@@ -43,8 +45,16 @@ namespace AmazonGameLift.Editor
                 EditorUserBuildSettings.SwitchActiveBuildTarget(NamedBuildTarget.Server,
                     EditorUserBuildSettings.selectedStandaloneTarget);
                 EditorApplication.EnterPlaymode();
+                GenerateAuthToken();
             });
             UpdateGui();
+        }
+
+        private async Task GenerateAuthToken()
+        {
+            var result = await _stateManager.GameLiftWrapper.GetComputeAuthToken(new GetComputeAuthTokenRequest()
+                { ComputeName = _stateManager.ComputeName, FleetId = _stateManager.AnywhereFleetId });
+            _container.Q<Label>("AnywherePageAuthTokenDisplay").text = result.AuthToken;
         }
 
         private void SetupStatusBoxes()
@@ -53,7 +63,7 @@ namespace AmazonGameLift.Editor
             var statusBoxContainer = _container.Q("AnywherePageStatusBoxContainer");
             statusBoxContainer.Add(_statusBox);
         }
-        
+
         private void UpdateGui()
         {
             if (!_stateManager.IsBootstrapped)
