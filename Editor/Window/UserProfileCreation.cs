@@ -13,19 +13,18 @@ namespace AmazonGameLift.Editor
     internal class UserProfileCreation
     {
         private readonly VisualElement _container;
+        private readonly Button _createProfileButton;
+        private readonly DropdownField _regionDropDown;
         private readonly AwsCredentialsCreation _awsCredentialsCreateModel;
         private readonly List<TextField> _textFields;
         private BootstrapSettings _bootstrapSettings;
         private CancellationTokenSource _refreshBucketsCancellation;
-        private StateManager _stateManager;
 
         public Action OnProfileCreated;
 
-        public UserProfileCreation(VisualElement container, StateManager stateManager, StatusBox statusBox)
+        public UserProfileCreation(VisualElement container, StateManager stateManager)
         {
             _container = container;
-            _stateManager = stateManager;
-
             var uxml = Resources.Load<VisualTreeAsset>("EditorWindow/Pages/UserProfileCreation");
             container.Add(uxml.Instantiate());
             _textFields = container.Query<TextField>().ToList();
@@ -33,25 +32,14 @@ namespace AmazonGameLift.Editor
             _awsCredentialsCreateModel = AwsCredentialsFactory.Create().Creation;
             _awsCredentialsCreateModel.OnCreated += () =>
             {
-                _stateManager.SetProfile(_awsCredentialsCreateModel.ProfileName);
+                stateManager.SetProfile(_awsCredentialsCreateModel.ProfileName);
                 OnProfileCreated?.Invoke();
             };
-
-            _container.Q<Button>("UserProfilePageAccountNewProfileCreateButton").RegisterCallback<ClickEvent>(_ =>
-            {
-                var result = CreateUserProfile();
-                if (result)
-                {
-                    OnProfileCreated?.Invoke();
-                }
-                else
-                {
-                    var url = string.Format(Urls.AwsGameLiftLogs, _stateManager.Region);
-                    statusBox.Show(StatusBox.StatusBoxType.Error,
-                        Strings.UserProfilePageStatusBoxErrorText, Strings.UserProfilePageStatusBoxInvalidDetailsErrorText);
-                }
-            });
-
+            _createProfileButton = _container.Q<Button>("UserProfilePageAccountNewProfileCreateButton");
+            _regionDropDown = _container.Q<DropdownField>("UserProfilePageAccountNewProfileRegionDropdown");
+            
+            SetupCallBacks();
+            ValidateInputs();
             LocalizeText();
         }
 
@@ -94,6 +82,47 @@ namespace AmazonGameLift.Editor
             _awsCredentialsCreateModel.Create();
 
             return true;
+        }
+        
+
+        private void SetupCallBacks()
+        {
+            _container.Q<TextField>("UserProfilePageAccountNewProfileNameInput").RegisterValueChangedCallback(_ =>
+            {
+                ValidateInputs();
+            });
+            _container.Q<TextField>("UserProfilePageAccountNewProfileAccessKeyInput").RegisterValueChangedCallback(_ =>
+            {
+                ValidateInputs();
+            });
+            _container.Q<TextField>("UserProfilePageAccountNewProfileSecretKeyInput").RegisterValueChangedCallback(_ =>
+            {
+                ValidateInputs();
+            });
+            
+            
+            _regionDropDown.RegisterValueChangedCallback(_ =>
+            {
+                ValidateInputs();
+            });
+        
+
+            _createProfileButton.RegisterCallback<ClickEvent>(_ =>
+            {
+                var result = CreateUserProfile();
+                if (result)
+                {
+                    OnProfileCreated?.Invoke();
+                }
+            });
+        }
+
+        private void ValidateInputs()
+        {
+            var anyEmptyFields = _textFields.Any(target => string.IsNullOrWhiteSpace(target.value));
+            var isRegionSelected = _regionDropDown.index >= 0 ;
+
+            _createProfileButton.SetEnabled(!anyEmptyFields && isRegionSelected);
         }
     }
 }

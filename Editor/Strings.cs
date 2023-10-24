@@ -196,7 +196,6 @@ namespace AmazonGameLift.Editor
         public const string UserProfilePageStatusBoxSuccessText = "UserProfilePageStatusBoxSuccessText";
         public const string UserProfilePageStatusBoxWarningText = "UserProfilePageStatusBoxWarningText";
         public const string UserProfilePageStatusBoxErrorText = "UserProfilePageStatusBoxErrorText";
-        public const string UserProfilePageStatusBoxInvalidDetailsErrorText = "UserProfilePageStatusBoxInvalidDetailsErrorText";
 
         public const string AnywherePageTitle = "AnywherePageTitle";
         public const string AnywherePageDescription = "AnywherePageDescription";
