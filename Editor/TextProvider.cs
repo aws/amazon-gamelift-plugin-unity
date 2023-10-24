@@ -220,6 +220,7 @@ namespace AmazonGameLift.Editor
             { Strings.UserProfilePageBootstrapAnotherBucketButton, "Bootstrap to New S3 Bucket"},
             { Strings.UserProfilePageBootstrapHelpLink, "What is bootstrapping?"},
             { Strings.UserProfilePageCompletedBootstrapHelpLink, "What is bootstrapping?"},
+            { Strings.UserProfilePageBootstrapErrorText, "An error occurred when trying to bootstrap your S3 bucket"},
             
             { Strings.UserProfilePageBootstrapPopupWindowTitle, "Allow potential charges for Amazon S3"},
             { Strings.UserProfilePageBootstrapPopupTitle, "Depending on your AWS Free Tier status, you might incur storage costs for your S3 bucket."},
