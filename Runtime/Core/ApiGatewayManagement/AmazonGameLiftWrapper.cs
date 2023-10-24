@@ -64,13 +64,9 @@ namespace AmazonGameLiftPlugin.Core
             return await _amazonGameLiftClient.RegisterComputeAsync(request);
         }
         
-        public Action<string> ReceivedAuthToken { get; set; }
-
         public async Task<GetComputeAuthTokenResponse> GetComputeAuthToken(GetComputeAuthTokenRequest request)
         {
-            var result = await _amazonGameLiftClient.GetComputeAuthTokenAsync(request);
-            ReceivedAuthToken?.Invoke(result.AuthToken);
-            return result;
+            return await _amazonGameLiftClient.GetComputeAuthTokenAsync(request);
         }
 
         public Task<CreateFleetResponse> CreateFleet(CreateFleetRequest request)
