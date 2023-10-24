@@ -79,7 +79,7 @@ namespace AmazonGameLiftPlugin.Core.CredentialManagement
                 {
                     AccessKey = credentials.AccessKey,
                     SecretKey = credentials.SecretKey,
-                    Region = profile.Region.SystemName,
+                    Region = profile.Region?.SystemName ?? RegionEndpoint.USEast1.SystemName,
                 });
             }
 
