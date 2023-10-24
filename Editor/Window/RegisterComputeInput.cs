@@ -154,7 +154,6 @@ namespace AmazonGameLift.Editor
                             _ipInputs[i].value = ipAddress[i];
                         }
 
-                        _computeState = ComputeStatus.Registered;
                     }
                 }
                 else
