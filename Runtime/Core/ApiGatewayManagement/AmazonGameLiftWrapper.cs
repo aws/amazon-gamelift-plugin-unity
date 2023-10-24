@@ -1,7 +1,6 @@
 // Copyright Amazon.com, Inc. or its affiliates. All Rights Reserved.
 // SPDX-License-Identifier: Apache-2.0
 
-using System;
 using System.Threading;
 using System.Threading.Tasks;
 using Amazon.GameLift;
@@ -63,7 +62,7 @@ namespace AmazonGameLiftPlugin.Core
         {
             return await _amazonGameLiftClient.RegisterComputeAsync(request);
         }
-        
+
         public async Task<GetComputeAuthTokenResponse> GetComputeAuthToken(GetComputeAuthTokenRequest request)
         {
             return await _amazonGameLiftClient.GetComputeAuthTokenAsync(request);
