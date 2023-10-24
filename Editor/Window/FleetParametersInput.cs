@@ -73,7 +73,8 @@ namespace AmazonGameLift.Editor
             _serverFileButton = container.Q<Button>("ManagedEC2ParametersGameServerFileButton");
             _serverFileButton.RegisterCallback<ClickEvent>(_ =>
             {
-                var value = EditorUtility.OpenFilePanel("Game Server Build File Path (exe)",
+                var popupTitle = new TextProvider().Get(Strings.ManagedEC2ParametersGameServerFilePath);
+                var value = EditorUtility.OpenFilePanel(popupTitle,
                     _parameters.GameServerFolder, "" );
                 _parameters.GameServerFile = value;
                 _serverFileInput.value = value;
