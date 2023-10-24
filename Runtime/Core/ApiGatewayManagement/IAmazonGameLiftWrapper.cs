@@ -43,7 +43,7 @@ namespace AmazonGameLiftPlugin.Core
         
         Task<DeregisterComputeResponse> DeregisterCompute(DeregisterComputeRequest request);
         
-        Task<DescribeComputeResponse> DescribeCompute(DescribeComputeRequest request);
+        Task<ListComputeResponse> ListCompute(ListComputeRequest request);
         
         Task<ListFleetsResponse> ListFleets(ListFleetsRequest request);
         

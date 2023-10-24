@@ -75,6 +75,7 @@ namespace AmazonGameLift.Editor
                 _selectedProfile.AnywhereFleetId = value;
                 SaveProfiles();
                 OnUserProfileUpdated?.Invoke();
+                OnFleetChanged?.Invoke();
             }
         }
 
@@ -213,6 +214,7 @@ namespace AmazonGameLift.Editor
                                       !string.IsNullOrWhiteSpace(_selectedProfile?.BucketName);
 
         public Action OnUserProfileUpdated { get; set; }
+        public Action OnFleetChanged { get; set; }
 
         public StateManager(CoreApi coreApi)
         {

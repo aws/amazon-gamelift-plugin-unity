@@ -88,24 +88,28 @@ namespace AmazonGameLift.Editor
             }
         }
 
-        public async Task<bool> DescribeCompute(string computeName, string fleetId)
+        public async Task<ListComputeResponse> ListCompute(string fleetId)
         {
             try
             {
-                var describeComputeRequest = new DescribeComputeRequest()
+                var describeComputeRequest = new ListComputeRequest
                 {
-                    ComputeName = computeName,
-                    FleetId = fleetId,
+                    FleetId = fleetId
                 };
-                var describeComputeResponse =
-                    await _amazonGameLiftWrapper.DescribeCompute(describeComputeRequest);
-
-                return describeComputeResponse.HttpStatusCode == HttpStatusCode.OK;
+                var listComputeResponse = await _amazonGameLiftWrapper.ListCompute(describeComputeRequest);
+                
+                return Response.Ok(new ListComputeResponse
+                {
+                    ComputeList = listComputeResponse.ComputeList
+                });
             }
             catch (Exception ex)
             {
-                Debug.Log(ex.Message);
-                return false;
+                return Response.Fail(new ListComputeResponse
+                {
+                    ErrorCode = ErrorCode.ListComputeFailed,
+                    ErrorMessage = ex.Message
+                });
             }
         }
     }

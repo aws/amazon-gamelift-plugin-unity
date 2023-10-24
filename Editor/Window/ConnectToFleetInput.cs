@@ -49,7 +49,7 @@ namespace AmazonGameLift.Editor
             {
                 await UpdateFleetMenu();
                 
-                if (_fleetAttributes.Count <= 0)
+                if (_fleetAttributes.Count == 0)
                 {
                     _fleetState = FleetStatus.NotCreated;
                 }

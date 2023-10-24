@@ -24,8 +24,10 @@ namespace AmazonGameLift.Editor
         private readonly StateManager _stateManager;
         private StatusBox _registerComputeStatusBox;
 
-        private string _computeName = "ComputerName-ProfileName";
-        private string _ipAddress = "127.0.0.1";
+        private readonly string _defaultComputeName = "ComputerName-ProfileName";
+        private readonly string _defaultIpAddress = "127.0.0.1";
+        private string _computeName;
+        private string _ipAddress;
 
         public RegisterComputeInput(VisualElement container, StateManager stateManager)
         {
@@ -50,9 +52,11 @@ namespace AmazonGameLift.Editor
 
             _stateManager.OnUserProfileUpdated += UpdateGUI;
 
-            RegisterCallbacks();
             SetupConfigSettings();
+            RegisterCallbacks();
             SetupStatusBox();
+
+            _stateManager.OnFleetChanged += CheckCompute;
 
             UpdateGUI();
         }
@@ -114,6 +118,50 @@ namespace AmazonGameLift.Editor
                         Strings.ViewLogsStatusBoxUrlTextButton);
                 }
             }
+            
+            UpdateGUI();
+        }
+
+        private async void CheckCompute()
+        {
+            if (_computeState is ComputeStatus.Registered)
+            {
+                var computes = await _stateManager.ComputeManager.ListCompute(_stateManager.AnywhereFleetId);
+                if (computes.Success)
+                {
+                    var matchingCompute =
+                        computes.ComputeList.FirstOrDefault(compute =>
+                            compute.ComputeName == _stateManager.ComputeName);
+                    if (matchingCompute == null)
+                    {
+                        _computeNameInput.value = _defaultComputeName;
+                        var defaultIpAddress = _defaultIpAddress.Split(".");
+                        for (var i = 0; i < defaultIpAddress.Length; i++)
+                        {
+                            _ipInputs[i].value = defaultIpAddress[i];
+                        }
+                        _computeState = ComputeStatus.NotRegistered;
+                    }
+                    else
+                    {
+                        _stateManager.ComputeName = matchingCompute.ComputeName;
+                        _stateManager.IpAddress = matchingCompute.IpAddress;
+                        _stateManager.WebSocketUrl = matchingCompute.GameLiftServiceSdkEndpoint;
+
+                        var ipAddress = matchingCompute.IpAddress.Split(".");
+                        for (var i = 0; i < ipAddress.Length; i++)
+                        {
+                            _ipInputs[i].value = ipAddress[i];
+                        }
+
+                        _computeState = ComputeStatus.Registered;
+                    }
+                }
+                else
+                {
+                    _computeState = ComputeStatus.NotRegistered;
+                }
+            }
 
             UpdateGUI();
         }
@@ -151,14 +199,8 @@ namespace AmazonGameLift.Editor
 
         private void SetupConfigSettings()
         {
-            if (!string.IsNullOrWhiteSpace(_stateManager.ComputeName))
-            {
-                _computeName = _stateManager.ComputeName;
-            }
-            if (!string.IsNullOrWhiteSpace(_stateManager.IpAddress))
-            {
-                _ipAddress = _stateManager.IpAddress;
-            }
+            _computeName = !string.IsNullOrWhiteSpace(_stateManager.ComputeName) ? _stateManager.ComputeName : _defaultComputeName;
+            _ipAddress = !string.IsNullOrWhiteSpace(_stateManager.IpAddress) ? _stateManager.IpAddress : _defaultIpAddress;
         }
 
         private List<VisualElement> GetComputeVisualElements() =>
