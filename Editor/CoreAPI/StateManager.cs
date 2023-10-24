@@ -206,6 +206,22 @@ namespace AmazonGameLift.Editor
 
         #endregion
 
+        public bool JustLaunchedServer
+        {
+            get => CoreApi.GetSetting(SettingsKeys.JustLaunchedServer).Value == "true";
+            set
+            {
+                if (value)
+                {
+                    CoreApi.PutSetting(SettingsKeys.JustLaunchedServer, "true");
+                }
+                else
+                {
+                    CoreApi.ClearSetting(SettingsKeys.JustLaunchedServer);
+                }
+            }
+        }
+
         public IReadOnlyList<string> AllProfiles => CoreApi.ListCredentialsProfiles().Profiles.ToList();
 
         public bool IsBootstrapped => !string.IsNullOrWhiteSpace(_selectedProfile?.Name) &&

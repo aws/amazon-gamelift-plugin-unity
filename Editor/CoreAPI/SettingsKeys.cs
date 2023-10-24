@@ -9,5 +9,6 @@ namespace AmazonGameLift.Editor
         CurrentProfileName,
         CurrentRegion,
         UserProfiles,
+        JustLaunchedServer
     }
 }

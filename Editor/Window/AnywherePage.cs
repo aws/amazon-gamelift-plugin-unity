@@ -44,13 +44,14 @@ namespace AmazonGameLift.Editor
             {
                 EditorUserBuildSettings.SwitchActiveBuildTarget(NamedBuildTarget.Server,
                     EditorUserBuildSettings.selectedStandaloneTarget);
+
+                stateManager.JustLaunchedServer = true;
                 EditorApplication.EnterPlaymode();
-                GenerateAuthToken();
             });
             UpdateGui();
         }
 
-        private async Task GenerateAuthToken()
+        public async Task GenerateAuthToken()
         {
             var result = await _stateManager.GameLiftWrapper.GetComputeAuthToken(new GetComputeAuthTokenRequest()
                 { ComputeName = _stateManager.ComputeName, FleetId = _stateManager.AnywhereFleetId });
