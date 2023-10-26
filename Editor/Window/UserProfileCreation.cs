@@ -24,17 +24,19 @@ namespace AmazonGameLift.Editor
 
         public UserProfileCreation(VisualElement container, StateManager stateManager)
         {
-            _container = container;
             var uxml = Resources.Load<VisualTreeAsset>("EditorWindow/Pages/UserProfileCreation");
             container.Add(uxml.Instantiate());
-            _textFields = container.Query<TextField>().ToList();
+
+            _container = container;
+            _textFields = _container.Query<TextField>().ToList();
             
             _awsCredentialsCreateModel = AwsCredentialsFactory.Create().Creation;
             _awsCredentialsCreateModel.OnCreated += () =>
             {
-                stateManager.SetProfile(_awsCredentialsCreateModel.ProfileName);
+                _stateManager.SetProfile(_awsCredentialsCreateModel.ProfileName);
                 OnProfileCreated?.Invoke();
             };
+            
             _createProfileButton = _container.Q<Button>("UserProfilePageAccountNewProfileCreateButton");
             _regionDropDown = _container.Q<DropdownField>("UserProfilePageAccountNewProfileRegionDropdown");
             
@@ -91,21 +93,21 @@ namespace AmazonGameLift.Editor
             {
                 ValidateInputs();
             });
+            
             _container.Q<TextField>("UserProfilePageAccountNewProfileAccessKeyInput").RegisterValueChangedCallback(_ =>
             {
                 ValidateInputs();
             });
+            
             _container.Q<TextField>("UserProfilePageAccountNewProfileSecretKeyInput").RegisterValueChangedCallback(_ =>
             {
                 ValidateInputs();
             });
             
-            
             _regionDropDown.RegisterValueChangedCallback(_ =>
             {
                 ValidateInputs();
             });
-        
 
             _createProfileButton.RegisterCallback<ClickEvent>(_ =>
             {
