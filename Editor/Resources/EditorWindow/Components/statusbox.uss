@@ -30,7 +30,7 @@
     background-color: rgba(250, 39, 39, 0.2);
 }
 
-.status-box__label {
+Label#StatusBoxLabel.status-box__label {
     color: var(--color-font-accent);
     -unity-text-align: middle-left;
     flex-shrink: 1;

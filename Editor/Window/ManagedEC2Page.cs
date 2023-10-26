@@ -48,8 +48,8 @@ namespace AmazonGameLift.Editor
             var scenarioContainer = container.Q("ManagedEC2ScenarioTitle");
             _deploymentScenariosInput =
                 new DeploymentScenariosInput(scenarioContainer, _deploymentSettings.Scenario,
-                    _stateManager.IsBootstrapped);
-            _deploymentScenariosInput.OnValueChanged += value => { Debug.Log($"Fleet type changed to {value}"); };
+                    _stateManager.IsBootstrapped, stateManager);
+            _deploymentScenariosInput.OnValueChanged += value => { _deploymentSettings.Scenario = value; };
             _statusIndicator = _container.Q<StatusIndicator>();
             var parametersContainer = container.Q<Foldout>("ManagedEC2ParametersTitle");
             _fleetParamsInput = new FleetParametersInput(parametersContainer, parameters);
@@ -202,8 +202,6 @@ namespace AmazonGameLift.Editor
             l.SetElementText("ManagedEC2DeployTitle", Strings.ManagedEC2DeployTitle, replacements);
             l.SetElementText("ManagedEC2DeployDescription", Strings.ManagedEC2DeployDescription);
             l.SetElementText("ManagedEC2DeployStatusLabel", Strings.ManagedEC2DeployStatusLabel);
-            l.SetElementText("ManagedEC2DeployStatusIcon", Strings.ManagedEC2DeployStatusIcon);
-            l.SetElementText("ManagedEC2DeployStatusText", Strings.ManagedEC2DeployStatusText);
             l.SetElementText("ManagedEC2DeployActionsLabel", Strings.ManagedEC2DeployActionsLabel);
             l.SetElementText("ManagedEC2CreateStackButton", Strings.ManagedEC2CreateStackButton);
             l.SetElementText("ManagedEC2RedeployStackButton", Strings.ManagedEC2RedeployStackButton);

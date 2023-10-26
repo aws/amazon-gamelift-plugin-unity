@@ -3,15 +3,15 @@
 
 <ui:UXML xmlns:ui="UnityEngine.UIElements" xmlns:gl="AmazonGameLift.Editor">
     <Style src="../common.uss"/>
-    <ui:VisualElement class="separator separator--large">
-        <ui:VisualElement class="separator">
+    <ui:VisualElement class="separator separator--vertical separator--large">
+        <ui:VisualElement class="separator separator--vertical">
             <ui:Label name="ManagedEC2Title" class="page__title" text="Managed EC2"/>
             <ui:Label name="ManagedEC2Description" text="Managed EC2 fleets use Amazon EC2 instances to host your game servers.&#10;Amazon GameLift manages the instances and removes the burden of hardware and software management from hosting your games."/>
         <gl:InfoLinks/>
         </ui:VisualElement>
         <ui:VisualElement class="divider"/>
-        <ui:VisualElement name="ManagedEC2StatusBoxContainer" class="separator"/>
-        <ui:Foldout name="ManagedEC2IntegrateTitle" class="foldout separator separator--small" text="Integrate GameLift with your game client">
+        <ui:VisualElement name="ManagedEC2StatusBoxContainer" class="separator separator--vertical"/>
+        <ui:Foldout name="ManagedEC2IntegrateTitle" class="foldout separator separator--vertical" text="Integrate GameLift with your game client">
             <ui:Label name="ManagedEC2IntegrateDescription" text="Add the Amazon GameLift server SDK to your game server and add code to communicate with the GameLift hosting service. If you&apos;re working with the Amazon GameLift sample game, this integration is already done."/>
             <ui:VisualElement name="ManagedEC2IntegrateLinkParent" class="external-link">
                 <ui:Label name="ManagedEC2IntegrateLink" text="Setup Amazon GameLift on a backend service"/>
@@ -20,7 +20,7 @@
         </ui:Foldout>
         <ui:Foldout name="ManagedEC2ScenarioTitle" class="foldout" text="Select Deployment Scenario"/>
         <ui:Foldout name="ManagedEC2ParametersTitle" class="foldout" text="[GameName] parameters"/>
-        <ui:Foldout name="ManagedEC2DeployTitle" class="foldout separator" text="Deploy (Single-region Fleet)">
+        <ui:Foldout name="ManagedEC2DeployTitle" class="foldout separator separator--vertical" text="Deploy (Single-region Fleet)">
             <ui:Label name="ManagedEC2DeployDescription" class="foldout__description form-row" text="Deploying GameLift can take up to 30-40 minutes"/>
             <ui:VisualElement class="form-row form-row--free">
                 <ui:Label name="ManagedEC2DeployStatusLabel" class="form-row__label" text="Status"/>
@@ -28,7 +28,7 @@
             </ui:VisualElement>
             <ui:VisualElement class="form-row form-row--free">
                 <ui:Label name="ManagedEC2DeployActionsLabel" class="form-row__label" text="AWS Resource Actions"/>
-                <ui:VisualElement class="form-row__input form-row__input--inline separator">
+                <ui:VisualElement class="form-row__input form-row__input--inline separator separator--horizontal">
                     <ui:Button name="ManagedEC2CreateStackButton" class="button button--primary" text="Create"/>
                     <ui:Button name="ManagedEC2RedeployStackButton" class="button" text="Redeploy"/>
                     <ui:Button name="ManagedEC2DeleteStackButton" class="button" text="Delete"/>

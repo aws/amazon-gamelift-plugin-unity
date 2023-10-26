@@ -21,7 +21,7 @@ namespace AmazonGameLiftPlugin.Editor.UnitTests
         private const string FleetId = "fleetId-12345-12345-12345-12345";
         private const string ComputeName = "TestComputeName";
         private const string Location = "TestLocation";
-        private const string IPAddress = "120.120.120.120";
+        private const string IPAddress = "127.0.0.1";
         private const string Endpoint = "wss://test.com";
         
         [SetUp]
