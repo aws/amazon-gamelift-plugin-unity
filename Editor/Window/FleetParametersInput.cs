@@ -74,8 +74,7 @@ namespace AmazonGameLift.Editor
             _serverFileButton.RegisterCallback<ClickEvent>(_ =>
             {
                 var popupTitle = new TextProvider().Get(Strings.ManagedEC2ParametersGameServerFilePath);
-                var value = EditorUtility.OpenFilePanel(popupTitle,
-                    _parameters.GameServerFolder, "" );
+                var value = EditorUtility.OpenFilePanel(popupTitle, _parameters.GameServerFolder, "" );
                 _parameters.GameServerFile = value;
                 _serverFileInput.value = value;
                 OnValueChanged(_parameters);
