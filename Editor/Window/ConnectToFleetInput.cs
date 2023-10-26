@@ -48,17 +48,7 @@ namespace AmazonGameLift.Editor
             _stateManager.OnUserProfileUpdated += async () =>
             {
                 await UpdateFleetMenu();
-                
-                var fleet = _fleetAttributes.FirstOrDefault(fleet => fleet.Name == _stateManager.AnywhereFleetName);
-                if (fleet == null)
-                {
-                    _fleetState = FleetStatus.NotCreated;
-                }
-                else
-                {
-                    _fleetState = FleetStatus.Selected;
-                }
-
+                SetFleetState();
                 UpdateGUI();
             };
 
@@ -194,16 +184,25 @@ namespace AmazonGameLift.Editor
                 }
             }
         }
+        
+        private void SetFleetState()
+        {
+            if (_fleetAttributes.Count == 0)
+            {
+                _fleetState = FleetStatus.NotCreated;
+            }
+            else
+            {
+                var fleet = _fleetAttributes.FirstOrDefault(fleet => fleet.Name == _stateManager.AnywhereFleetName);
+
+                _fleetState = fleet == null ? FleetStatus.Selecting : FleetStatus.Selected;
+            }
+        }
 
         private async void SetupPage()
         {
             await UpdateFleetMenu();
-
-            if (_fleetAttributes.Count >= 1 && string.IsNullOrWhiteSpace(_stateManager.AnywhereFleetName))
-            {
-                _fleetState = FleetStatus.Selecting;
-            }
-
+            SetFleetState();
             UpdateGUI();
         }
 

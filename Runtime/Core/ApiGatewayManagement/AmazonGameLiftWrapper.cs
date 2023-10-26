@@ -83,9 +83,9 @@ namespace AmazonGameLiftPlugin.Core
             return _amazonGameLiftClient.DeregisterComputeAsync(request);
         }
 
-        public Task<DescribeComputeResponse> DescribeCompute(DescribeComputeRequest request)
+        public Task<ListComputeResponse> ListCompute(ListComputeRequest request)
         {
-            return _amazonGameLiftClient.DescribeComputeAsync(request);
+            return _amazonGameLiftClient.ListComputeAsync(request);
         }
 
         public Task<ListFleetsResponse> ListFleets(ListFleetsRequest request)

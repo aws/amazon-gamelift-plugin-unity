@@ -24,8 +24,10 @@ namespace AmazonGameLift.Editor
         private readonly StateManager _stateManager;
         private StatusBox _registerComputeStatusBox;
 
-        private string _computeName = "ComputerName-ProfileName";
-        private string _ipAddress = "127.0.0.1";
+        private readonly string _defaultComputeName = "ComputerName-ProfileName";
+        private readonly string _defaultIpAddress = "127.0.0.1";
+        private string _computeName;
+        private string _ipAddress;
 
         public RegisterComputeInput(VisualElement container, StateManager stateManager)
         {
@@ -50,9 +52,11 @@ namespace AmazonGameLift.Editor
 
             _stateManager.OnUserProfileUpdated += UpdateGUI;
 
-            RegisterCallbacks();
             SetupConfigSettings();
+            RegisterCallbacks();
             SetupStatusBox();
+
+            _stateManager.OnFleetChanged += CheckCompute;
 
             UpdateGUI();
         }
@@ -66,15 +70,13 @@ namespace AmazonGameLift.Editor
             _computeNameInput.value = _computeName;
             _computeNameInput.RegisterValueChangedCallback(_ =>
                 UpdateComputeTextFields(_computeNameInput, _ipInputs));
-
-            var index = 0;
-            var currentIp = _ipAddress.Split(".");
+            
+            SetIpInputs(_ipAddress);
+            
             foreach (var ipField in _ipInputs)
             {
-                ipField.value = currentIp[index];
                 ipField.RegisterValueChangedCallback(_ =>
                     UpdateComputeTextFields(_computeNameInput, _ipInputs));
-                index++;
             }
         }
 
@@ -114,7 +116,38 @@ namespace AmazonGameLift.Editor
                         Strings.ViewLogsStatusBoxUrlTextButton);
                 }
             }
+            
+            UpdateGUI();
+        }
 
+        private async void CheckCompute()
+        {
+            var computes = await _stateManager.ComputeManager.ListCompute(_stateManager.AnywhereFleetId);
+            if (computes.Success)
+            {
+                var matchingCompute =
+                    computes.ComputeList.FirstOrDefault(compute =>
+                        compute.ComputeName == _stateManager.ComputeName);
+                if (matchingCompute == null)
+                {
+                    _computeNameInput.value = _defaultComputeName;
+                    SetIpInputs(_defaultIpAddress);
+                    _computeState = ComputeStatus.NotRegistered;
+                }
+                else
+                {
+                    _stateManager.ComputeName = matchingCompute.ComputeName;
+                    _stateManager.IpAddress = matchingCompute.IpAddress;
+                    _stateManager.WebSocketUrl = matchingCompute.GameLiftServiceSdkEndpoint;
+                    SetIpInputs(matchingCompute.IpAddress);
+                    _computeState = ComputeStatus.Registered;
+                }
+            }
+            else
+            {
+                Debug.LogError(computes.ErrorMessage);
+            }
+            
             UpdateGUI();
         }
 
@@ -151,14 +184,8 @@ namespace AmazonGameLift.Editor
 
         private void SetupConfigSettings()
         {
-            if (!string.IsNullOrWhiteSpace(_stateManager.ComputeName))
-            {
-                _computeName = _stateManager.ComputeName;
-            }
-            if (!string.IsNullOrWhiteSpace(_stateManager.IpAddress))
-            {
-                _ipAddress = _stateManager.IpAddress;
-            }
+            _computeName = !string.IsNullOrWhiteSpace(_stateManager.ComputeName) ? _stateManager.ComputeName : _defaultComputeName;
+            _ipAddress = !string.IsNullOrWhiteSpace(_stateManager.IpAddress) ? _stateManager.IpAddress : _defaultIpAddress;
         }
 
         private List<VisualElement> GetComputeVisualElements() =>
@@ -180,6 +207,15 @@ namespace AmazonGameLift.Editor
                 ComputeStatus.Registered => new List<VisualElement>() { _computeStatus, _replaceComputeButton },
                 _ => throw new ArgumentOutOfRangeException()
             };
+        }
+
+        private void SetIpInputs(string ipAddress)
+        {
+            var splitIpAddress = ipAddress.Split(".");
+            for (var i = 0; i < splitIpAddress.Length; i++)
+            {
+                _ipInputs[i].value = splitIpAddress[i];
+            }
         }
 
         private void SetupStatusBox()
