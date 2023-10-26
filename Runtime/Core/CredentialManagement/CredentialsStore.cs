@@ -79,6 +79,7 @@ namespace AmazonGameLiftPlugin.Core.CredentialManagement
                 {
                     AccessKey = credentials.AccessKey,
                     SecretKey = credentials.SecretKey,
+                    // https://docs.aws.amazon.com/sdk-for-java/v1/developer-guide/setup-credentials.html#setup-credentials-setting-region
                     Region = profile.Region?.SystemName ?? RegionEndpoint.USEast1.SystemName,
                 });
             }
