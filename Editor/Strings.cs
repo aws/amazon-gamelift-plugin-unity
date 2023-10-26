@@ -174,6 +174,7 @@ namespace AmazonGameLift.Editor
         public const string UserProfilePageBootstrapAnotherProfileButton = "UserProfilePageBootstrapAnotherProfileButton";
         public const string UserProfilePageBootstrapHelpLink = "UserProfilePageBootstrapHelpLink";
         public const string UserProfilePageBootstrapAnotherBucketButton = "UserProfilePageBootstrapAnotherBucketButton";
+        public const string UserProfilePageBootstrapErrorText = "UserProfilePageBootstrapErrorText";
         
         public const string UserProfilePageBootstrapPopupWindowTitle = "UserProfilePageBootstrapPopupWindowTitle";
         public const string UserProfilePageBootstrapPopupTitle = "UserProfilePageBootstrapPopupTitle";
