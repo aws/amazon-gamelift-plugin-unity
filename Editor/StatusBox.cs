@@ -45,10 +45,6 @@ namespace AmazonGameLift.Editor
             _elementLocalizer = new ElementLocalizer(this);
             this.Q<Button>("StatusBoxCloseButton").RegisterCallback<ClickEvent>(_ => { Close(); });
 
-            AddToClassList("status-box");
-            AddToClassList("separator");
-            AddToClassList("separator--horizontal");
-
             UpdateStatusBoxesState();
         }
 

@@ -1,7 +1,7 @@
 ﻿<!-- Copyright Amazon.com, Inc. or its affiliates. All Rights Reserved. -->
 <!-- SPDX-License-Identifier: Apache-2.0 -->
 
-<ui:UXML xmlns:ui="UnityEngine.UIElements">
+<ui:UXML xmlns:ui="UnityEngine.UIElements" class="status-box separator separator--horizontal">
     <ui:Style src="./statusbox.uss"/>
     <ui:Image name="StatusBoxImage" class="status-box__icon"/>
     <ui:Label name="StatusBoxLabel" class="status-box__label"/>
