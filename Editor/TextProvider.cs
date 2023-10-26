@@ -220,6 +220,7 @@ namespace AmazonGameLift.Editor
             { Strings.UserProfilePageBootstrapAnotherBucketButton, "Bootstrap to New S3 Bucket"},
             { Strings.UserProfilePageBootstrapHelpLink, "What is bootstrapping?"},
             { Strings.UserProfilePageCompletedBootstrapHelpLink, "What is bootstrapping?"},
+            { Strings.UserProfilePageBootstrapErrorText, "An error occurred when trying to bootstrap your S3 bucket"},
             
             { Strings.UserProfilePageBootstrapPopupWindowTitle, "Allow potential charges for Amazon S3"},
             { Strings.UserProfilePageBootstrapPopupTitle, "Depending on your AWS Free Tier status, you might incur storage costs for your S3 bucket."},
@@ -232,7 +233,7 @@ namespace AmazonGameLift.Editor
             { Strings.UserProfilePageStatusBoxSuccessText, "Profile configuration and bootstrapping complete"},
             { Strings.UserProfilePageStatusBoxWarningText, "Profile configuration is incomplete, as bootstrapping is not completed"},
             { Strings.UserProfilePageStatusBoxErrorText, "An error occurred when trying to create your profile"},
-
+            
             { Strings.AnywherePageTitle, "Host with Amazon GameLift Anywhere"},
             { Strings.AnywherePageDescription, "Set up an Amazon GameLift Anywhere fleet to host game servers using your own hardware. With an Anywhere fleet, Amazon GameLift manages game sessions and placement (including matchmaking), while you control your own server hosting infrastructure under a single managed solution.\nCreate an Anywhere fleet for your on-premises or other compute resources. During game development, turn your local workstation into an Anywhere fleet to continuously deploy, test, and iterate your game builds."},
             { Strings.AnywherePageIntegrateTitle, "Integrate Amazon GameLift With Your Game Project"},            
@@ -290,7 +291,8 @@ namespace AmazonGameLift.Editor
             { Strings.ManagedEC2ParametersLaunchParametersLabel, "Launch Parameters"},
             { Strings.ManagedEC2ParametersOperatingSystemLabel, "Build Operating System"},
             { Strings.ManagedEC2ParametersGameServerFolderLabel, "Game Server Folder"},
-            { Strings.ManagedEC2ParametersGameServerFileLabel, "Game Server File (.exe)"},
+            { Strings.ManagedEC2ParametersGameServerFileLabel, "Game Server File"},
+            { Strings.ManagedEC2ParametersGameServerFilePath, "Game Server Build File Path"},
             { Strings.ManagedEC2DeployTitle, "Deploy [ScenarioType]"},
             { Strings.ManagedEC2DeployDescription, "<b>Deploying GameLift can take up to 30-40 minutes</b>\nDeploying and running various AWS resources in the CloudFormation template will incur costs to your account. See AWS Pricing Plan for details on the costs for each resource in the CloudFormation template."},
             { Strings.ManagedEC2DeployStatusLabel, "Status"},

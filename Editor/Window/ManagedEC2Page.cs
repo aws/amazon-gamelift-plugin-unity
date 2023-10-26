@@ -48,8 +48,8 @@ namespace AmazonGameLift.Editor
             var scenarioContainer = container.Q("ManagedEC2ScenarioTitle");
             _deploymentScenariosInput =
                 new DeploymentScenariosInput(scenarioContainer, _deploymentSettings.Scenario,
-                    _stateManager.IsBootstrapped);
-            _deploymentScenariosInput.OnValueChanged += value => { Debug.Log($"Fleet type changed to {value}"); };
+                    _stateManager.IsBootstrapped, stateManager);
+            _deploymentScenariosInput.OnValueChanged += value => { _deploymentSettings.Scenario = value; };
             _statusIndicator = _container.Q<StatusIndicator>();
             var parametersContainer = container.Q<Foldout>("ManagedEC2ParametersTitle");
             _fleetParamsInput = new FleetParametersInput(parametersContainer, parameters);
