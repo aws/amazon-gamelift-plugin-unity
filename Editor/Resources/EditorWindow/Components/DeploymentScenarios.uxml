@@ -3,7 +3,7 @@
 
 <ui:UXML xmlns:ui="UnityEngine.UIElements">
     <Style src="../common.uss"/>
-    <ui:GroupBox class="separator">
+    <ui:GroupBox class="separator separator--vertical">
         <ui:VisualElement class="form-row form-row--free">
             <ui:Label name="ManagedEC2ScenarioSingleFleetLabel" class="form-row__label" text="Single-Region Fleet"/>
             <ui:VisualElement class="form-row__input">

@@ -2,7 +2,9 @@
 // SPDX-License-Identifier: Apache-2.0
 
 using System;
+using System.Collections.Generic;
 using System.Linq;
+using Amazon;
 using AmazonGameLiftPlugin.Core.SettingsManagement.Models;
 using AmazonGameLiftPlugin.Core.Shared;
 
@@ -13,11 +15,10 @@ namespace AmazonGameLift.Editor
     /// </summary>
     internal class RegionBootstrap
     {
-        private const int DefaultIndex = -1;
         private readonly CoreApi _coreApi;
         private int _currentIndex = -1;
 
-        public string[] AllRegions { get; private set; } = Array.Empty<string>();
+        public List<string> AllRegions { get; private set; } = new List<string>();
 
         public virtual bool CanSave => IsRegionInRange();
 
@@ -26,7 +27,7 @@ namespace AmazonGameLift.Editor
         public RegionBootstrap(CoreApi coreApi)
         {
             _coreApi = coreApi ?? throw new ArgumentNullException(nameof(coreApi));
-            AllRegions = _coreApi.ListAvailableRegions().ToArray();
+            AllRegions = _coreApi.ListAvailableRegions().ToList();
         }
 
         public virtual void Refresh()
@@ -35,15 +36,15 @@ namespace AmazonGameLift.Editor
 
             if (!getResponse.Success)
             {
-                RegionIndex = DefaultIndex;
+                RegionIndex = AllRegions.IndexOf(RegionEndpoint.USEast1.SystemName);
                 return;
             }
 
-            RegionIndex = Array.IndexOf(AllRegions, getResponse.Value);
+            RegionIndex = AllRegions.IndexOf(getResponse.Value);
 
             if (RegionIndex < 0)
             {
-                RegionIndex = DefaultIndex;
+                RegionIndex = AllRegions.IndexOf(RegionEndpoint.USEast1.SystemName);
                 return;
             }
 
@@ -87,7 +88,7 @@ namespace AmazonGameLift.Editor
 
         private bool IsRegionInRange()
         {
-            return RegionIndex >= 0 && RegionIndex < AllRegions.Length;
+            return RegionIndex >= 0 && RegionIndex < AllRegions.Count;
         }
     }
 }
