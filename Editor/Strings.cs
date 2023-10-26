@@ -293,5 +293,6 @@ namespace AmazonGameLift.Editor
         public const string BootstrapStatusNoBucketCreated = "BootstrapStatusNoBucketCreated";
         
         public const string ViewLogsStatusBoxUrlTextButton = "ViewLogsStatusBoxUrlTextButton";
+        public const string ViewS3LogsStatusBoxUrlTextButton = "ViewS3LogsStatusBoxUrlTextButton";
     }
 }

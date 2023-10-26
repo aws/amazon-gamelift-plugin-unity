@@ -338,6 +338,7 @@ namespace AmazonGameLift.Editor
             { Strings.BootstrapStatusNoBucketCreated, "No bucket created" },
             
             { Strings.ViewLogsStatusBoxUrlTextButton, "View Logs"},
+            { Strings.ViewS3LogsStatusBoxUrlTextButton, "View S3 Console"},
         };
 
         public string GetError(string errorCode = null)
