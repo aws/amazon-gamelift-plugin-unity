@@ -33,7 +33,7 @@ namespace AmazonGameLift.Editor
             _awsCredentialsCreateModel = AwsCredentialsFactory.Create().Creation;
             _awsCredentialsCreateModel.OnCreated += () =>
             {
-                _stateManager.SetProfile(_awsCredentialsCreateModel.ProfileName);
+                stateManager.SetProfile(_awsCredentialsCreateModel.ProfileName);
                 OnProfileCreated?.Invoke();
             };
             
