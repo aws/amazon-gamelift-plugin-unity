@@ -3,8 +3,8 @@
 
 <ui:UXML xmlns:ui="UnityEngine.UIElements" xmlns:gl="AmazonGameLift.Editor">
     <ui:Style src="../common.uss"/>
-    <ui:VisualElement name="AnywherePageComputeStatusBoxContainer" class="separator"/>
-    <ui:VisualElement class="separator">
+    <ui:VisualElement name="AnywherePageComputeStatusBoxContainer" class="separator separator--vertical"/>
+    <ui:VisualElement class="separator separator--vertical">
         <ui:VisualElement class="form-row">
             <ui:Label name="AnywherePageComputeNameLabel" class="form-row__label" text="Compute Name"/>
             <ui:TextField name="AnywherePageComputeNameInput" class="form-row__input text-input" value="ComputerName-ProfileName"/>

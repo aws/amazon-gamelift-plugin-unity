@@ -50,7 +50,7 @@ namespace AmazonGameLift.Editor
             _model.AccessKeyId = _awsKeyPasswordDrawer.Draw(_model.AccessKeyId);
             _model.SecretKey = _awsSecretKeyPasswordDrawer.Draw(_model.SecretKey);
             _model.RegionBootstrap.RegionIndex = _controlDrawer.DrawPopup(
-                _labelRegion, _model.RegionBootstrap.RegionIndex, _model.RegionBootstrap.AllRegions, _tooltipRegion);
+                _labelRegion, _model.RegionBootstrap.RegionIndex, _model.RegionBootstrap.AllRegions.ToArray(), _tooltipRegion);
 
             _controlDrawer.DrawSeparator();
             _controlDrawer.DrawReadOnlyText(_labelCurrentProfileName, _model.CurrentProfileName);

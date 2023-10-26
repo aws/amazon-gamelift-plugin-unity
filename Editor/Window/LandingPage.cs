@@ -27,8 +27,8 @@ namespace AmazonGameLift.Editor
             _stateManager.OnUserProfileUpdated += UpdateGui;
             
             _container.Q<Button>("CreateAccount").RegisterCallback<ClickEvent>(_ => Application.OpenURL(Urls.CreateAwsAccountLearnMore));
-            _container.Q<Button>("AddProfile").RegisterCallback<ClickEvent>(_ => OnAddProfileClicked());
-            _container.Q<Button>("DownloadSampleGame").RegisterCallback<ClickEvent>(_ => OnImportSampleClicked());
+            _container.Q<Button>("LandingPageAccountCardButton").RegisterCallback<ClickEvent>(_ => OnAddProfileClicked());
+            _container.Q<Button>("LandingPageSampleButton").RegisterCallback<ClickEvent>(_ => OnImportSampleClicked());
         }
 
         private static void OnAddProfileClicked()
@@ -68,7 +68,7 @@ namespace AmazonGameLift.Editor
             l.SetElementText("LandingPageAccountCardButton", Strings.LandingPageAccountCardButton);
             l.SetElementText("LandingPageSampleHeader", Strings.LandingPageSampleHeader);
             l.SetElementText("LandingPageSampleDescription", Strings.LandingPageSampleDescription);
-            l.SetElementText("DownloadSampleGame", Strings.LandingPageSampleButton);
+            l.SetElementText("LandingPageSampleButton", Strings.LandingPageSampleButton);
         }
 
         private void SetupStatusBoxes()
