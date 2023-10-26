@@ -31,7 +31,7 @@
             <ui:VisualElement class="form-row">
                 <ui:Label name="AnywherePageAuthTokenLabel" class="form-row__label" text="Status"/>
                 <ui:VisualElement class="form-row__input">
-                    <ui:Label name="AnywherePageAuthTokenDisplay" class="form-row__text-display" text="Not Generated"/>
+                    <gl:StatusIndicator name="AnywherePageAuthTokenDisplay"/>
                 </ui:VisualElement>
             </ui:VisualElement>
             <ui:VisualElement class="form-row">

@@ -15,6 +15,8 @@ namespace AmazonGameLift.Editor
         private readonly VisualElement _container;
         private readonly StateManager _stateManager;
         private StatusBox _statusBox;
+        private StatusIndicator _statusIndicator;
+        private TextProvider _textProvider;
 
         public AnywherePage(VisualElement container, StateManager stateManager)
         {
@@ -31,7 +33,11 @@ namespace AmazonGameLift.Editor
             container.Q<VisualElement>("AnywherePageIntegrateClientLinkParent")
                 .RegisterCallback<ClickEvent>(_ => Application.OpenURL(Urls.AnywherePageClientSetupDocumentation));
             SetupStatusBoxes();
-
+            _statusIndicator = container.Q<StatusIndicator>("AnywherePageAuthTokenDisplay");
+            
+            _textProvider = new TextProvider();
+            _statusIndicator.Set(State.Inactive,
+                _textProvider.Get(Strings.AnywherePageAuthTokenStatusNotGenerated));
             _stateManager.OnUserProfileUpdated += UpdateGui;
 
             var fleetInputContainer = uxml.Q("AnywherePageConnectFleetTitle");
@@ -55,7 +61,14 @@ namespace AmazonGameLift.Editor
         {
             var result = await _stateManager.GameLiftWrapper.GetComputeAuthToken(new GetComputeAuthTokenRequest()
                 { ComputeName = _stateManager.ComputeName, FleetId = _stateManager.AnywhereFleetId });
-            _container.Q<Label>("AnywherePageAuthTokenDisplay").text = result.AuthToken;
+            if (string.IsNullOrWhiteSpace(result.AuthToken))
+            {
+                _statusIndicator.Set(State.Inactive, _textProvider.Get(Strings.AnywherePageAuthTokenStatusNotGenerated));
+            }
+            else
+            {
+                _statusIndicator.Set(State.Success, result.AuthToken);
+            }
         }
 
         private void SetupStatusBoxes()
