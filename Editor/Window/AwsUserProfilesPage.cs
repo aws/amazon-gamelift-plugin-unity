@@ -220,7 +220,7 @@ namespace AmazonGameLift.Editor
             }
             else
             {
-                _statusBox.Show(StatusBox.StatusBoxType.Error, Strings.UserProfilePageStatusBoxErrorText, bucketResponse.ErrorMessage, string.Format(Urls.AwsGameLiftLogs, _stateManager.Region), Strings.ViewLogsStatusBoxUrlTextButton);
+                _statusBox.Show(StatusBox.StatusBoxType.Error, Strings.UserProfilePageBootstrapErrorText, bucketResponse.ErrorMessage, Urls.AwsS3Console, Strings.ViewLogsStatusBoxUrlTextButton);
             }
         }
 

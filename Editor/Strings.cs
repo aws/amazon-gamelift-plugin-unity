@@ -174,6 +174,7 @@ namespace AmazonGameLift.Editor
         public const string UserProfilePageBootstrapAnotherProfileButton = "UserProfilePageBootstrapAnotherProfileButton";
         public const string UserProfilePageBootstrapHelpLink = "UserProfilePageBootstrapHelpLink";
         public const string UserProfilePageBootstrapAnotherBucketButton = "UserProfilePageBootstrapAnotherBucketButton";
+        public const string UserProfilePageBootstrapErrorText = "UserProfilePageBootstrapErrorText";
         
         public const string UserProfilePageBootstrapPopupWindowTitle = "UserProfilePageBootstrapPopupWindowTitle";
         public const string UserProfilePageBootstrapPopupTitle = "UserProfilePageBootstrapPopupTitle";
@@ -246,6 +247,7 @@ namespace AmazonGameLift.Editor
         public const string ManagedEC2ParametersOperatingSystemLabel = "ManagedEC2ParametersOperatingSystemLabel";
         public const string ManagedEC2ParametersGameServerFolderLabel = "ManagedEC2ParametersGameServerFolderLabel";
         public const string ManagedEC2ParametersGameServerFileLabel = "ManagedEC2ParametersGameServerFileLabel";
+        public const string ManagedEC2ParametersGameServerFilePath = "ManagedEC2ParametersGameServerFilePath";
         public const string ManagedEC2DeployTitle = "ManagedEC2DeployTitle";
         public const string ManagedEC2DeployDescription = "ManagedEC2DeployDescription";
         public const string ManagedEC2DeployStatusLabel = "ManagedEC2DeployStatusLabel";

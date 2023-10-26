@@ -19,9 +19,12 @@ namespace AmazonGameLift.Editor
         private readonly VisualElement _flexMatchRadioGroup;
         private readonly Button _showMoreScenariosButton;
 
-        public Action<DeploymentScenarios> OnValueChanged;
+        private readonly StateManager _stateManager;
 
-        public DeploymentScenariosInput(VisualElement container, DeploymentScenarios deploymentScenario, bool enabled)
+        public Action<DeploymentScenarios> OnValueChanged;
+        private Dictionary<DeploymentScenarios , RadioButton> _radioButtons = new Dictionary<DeploymentScenarios, RadioButton>();
+
+        public DeploymentScenariosInput(VisualElement container, DeploymentScenarios deploymentScenario, bool enabled, StateManager stateManager)
         {
             var uxml = Resources.Load<VisualTreeAsset>("EditorWindow/Components/DeploymentScenarios");
             container.Add(uxml.Instantiate());
@@ -30,6 +33,8 @@ namespace AmazonGameLift.Editor
             _isExpanded = deploymentScenario != DeploymentScenarios.SingleRegion;
             _deploymentScenarios = deploymentScenario;
             _enabled = enabled;
+            _stateManager = stateManager;
+
             _container.SetEnabled(_enabled);
 
             _spotFleetRadioGroup = container.Q("ManagedEC2ScenarioSpotFleet");
@@ -38,12 +43,15 @@ namespace AmazonGameLift.Editor
             SetupRadioButton("ManagedEC2ScenarioSingleFleetRadio", DeploymentScenarios.SingleRegion);
             SetupRadioButton("ManagedEC2ScenarioSpotFleetRadio", DeploymentScenarios.SpotFleet);
             SetupRadioButton("ManagedEC2ScenarioFlexMatchRadio", DeploymentScenarios.FlexMatch);
+
             _showMoreScenariosButton = container.Q<Button>("ManagedEC2ScenarioShowMoreButton");
             _showMoreScenariosButton.RegisterCallback<ClickEvent>(e =>
             {
                 _isExpanded = true;
                 UpdateGUI();
             });
+            
+            stateManager.OnUserProfileUpdated += UpdateGUI;
             
             _container.Q<VisualElement>("ManagedEC2ScenarioSingleFleetLinkParent")
                 .RegisterCallback<ClickEvent>(_ => Application.OpenURL(Urls.ManagedEc2FleetLearnMore));
@@ -66,6 +74,7 @@ namespace AmazonGameLift.Editor
         {
             var radio = _container.Q<RadioButton>(elementName);
             if (radio == default) return;
+            _radioButtons.Add(deploymentScenario, radio);
             radio.value = _deploymentScenarios == deploymentScenario;
             radio.RegisterValueChangedCallback(v =>
             {
@@ -97,6 +106,13 @@ namespace AmazonGameLift.Editor
 
         protected sealed override void UpdateGUI()
         {
+            var deploymentScenario = _stateManager.DeploymentScenario;
+            _radioButtons[deploymentScenario].value = true;
+            if (deploymentScenario != DeploymentScenarios.SingleRegion)
+            {
+                _isExpanded = true;
+            }
+
             var elements = GetVisibleItemsByState();
             foreach (var element in GetExtraScenarioElements())
             {
