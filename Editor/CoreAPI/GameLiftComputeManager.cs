@@ -92,11 +92,11 @@ namespace AmazonGameLift.Editor
         {
             try
             {
-                var describeComputeRequest = new ListComputeRequest
+                var listComputeRequest = new ListComputeRequest
                 {
                     FleetId = fleetId
                 };
-                var listComputeResponse = await _amazonGameLiftWrapper.ListCompute(describeComputeRequest);
+                var listComputeResponse = await _amazonGameLiftWrapper.ListCompute(listComputeRequest);
                 
                 return Response.Ok(new ListComputeResponse
                 {
