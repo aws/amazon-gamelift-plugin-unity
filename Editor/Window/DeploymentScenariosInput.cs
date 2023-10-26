@@ -45,15 +45,7 @@ namespace AmazonGameLift.Editor
                 _isExpanded = true;
                 UpdateGUI();
             });
-            stateManager.OnUserProfileUpdated += () =>
-            {
-                SetValue(stateManager.DeploymentScenario);
-                if (stateManager.DeploymentScenario != DeploymentScenarios.SingleRegion)
-                {
-                    _isExpanded = true;
-                }
-                UpdateGUI();
-            };
+            stateManager.OnUserProfileUpdated += UpdateGUI;
             
             _container.Q<VisualElement>("ManagedEC2ScenarioSingleFleetLinkParent")
                 .RegisterCallback<ClickEvent>(_ => Application.OpenURL(Urls.ManagedEc2FleetLearnMore));
@@ -70,11 +62,6 @@ namespace AmazonGameLift.Editor
         {
             _enabled = value;
             _container.SetEnabled(_enabled);
-        }
-
-        private void SetValue(DeploymentScenarios deploymentScenario)
-        {
-            _radioButtons[deploymentScenario].value = true;
         }
 
         private void SetupRadioButton(string elementName, DeploymentScenarios deploymentScenario)
@@ -113,6 +100,12 @@ namespace AmazonGameLift.Editor
 
         protected sealed override void UpdateGUI()
         {
+            _radioButtons[deploymentScenario].value = true;
+            if (stateManager.DeploymentScenario != DeploymentScenarios.SingleRegion)
+            {
+                _isExpanded = true;
+            }
+
             var elements = GetVisibleItemsByState();
             foreach (var element in GetExtraScenarioElements())
             {
