@@ -19,6 +19,8 @@ namespace AmazonGameLift.Editor
         private readonly VisualElement _flexMatchRadioGroup;
         private readonly Button _showMoreScenariosButton;
 
+        private readonly StateManager _stateManager;
+
         public Action<DeploymentScenarios> OnValueChanged;
         private Dictionary<DeploymentScenarios , RadioButton> _radioButtons = new Dictionary<DeploymentScenarios, RadioButton>();
 
@@ -31,6 +33,8 @@ namespace AmazonGameLift.Editor
             _isExpanded = deploymentScenario != DeploymentScenarios.SingleRegion;
             _deploymentScenarios = deploymentScenario;
             _enabled = enabled;
+            _stateManager = stateManager;
+
             _container.SetEnabled(_enabled);
 
             _spotFleetRadioGroup = container.Q("ManagedEC2ScenarioSpotFleet");
@@ -39,12 +43,14 @@ namespace AmazonGameLift.Editor
             SetupRadioButton("ManagedEC2ScenarioSingleFleetRadio", DeploymentScenarios.SingleRegion);
             SetupRadioButton("ManagedEC2ScenarioSpotFleetRadio", DeploymentScenarios.SpotFleet);
             SetupRadioButton("ManagedEC2ScenarioFlexMatchRadio", DeploymentScenarios.FlexMatch);
+
             _showMoreScenariosButton = container.Q<Button>("ManagedEC2ScenarioShowMoreButton");
             _showMoreScenariosButton.RegisterCallback<ClickEvent>(e =>
             {
                 _isExpanded = true;
                 UpdateGUI();
             });
+            
             stateManager.OnUserProfileUpdated += UpdateGUI;
             
             _container.Q<VisualElement>("ManagedEC2ScenarioSingleFleetLinkParent")
@@ -100,8 +106,9 @@ namespace AmazonGameLift.Editor
 
         protected sealed override void UpdateGUI()
         {
+            var deploymentScenario = _stateManager.DeploymentScenario;
             _radioButtons[deploymentScenario].value = true;
-            if (stateManager.DeploymentScenario != DeploymentScenarios.SingleRegion)
+            if (deploymentScenario != DeploymentScenarios.SingleRegion)
             {
                 _isExpanded = true;
             }
