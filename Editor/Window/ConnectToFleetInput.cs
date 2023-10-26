@@ -55,8 +55,6 @@ namespace AmazonGameLift.Editor
             UpdateGUI();
         }
 
-        
-
         private async Task OnAnywhereConnectClicked(string fleetName)
         {
             if (_fleetManager != null && _fleetState is FleetStatus.NotCreated or FleetStatus.Creating)
