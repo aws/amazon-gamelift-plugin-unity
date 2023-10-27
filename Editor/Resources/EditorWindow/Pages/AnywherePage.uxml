@@ -27,17 +27,6 @@
         </ui:Foldout>
         <ui:Foldout name="AnywherePageConnectFleetTitle" class="foldout" text="Connect to Anywhere Fleet"/>
         <ui:Foldout name="AnywherePageComputeTitle" class="foldout" text="Register Compute"/>
-        <ui:Foldout name="AnywherePageAuthTokenTitle" class="foldout" text="Generate Auth Token - optional">
-            <ui:VisualElement class="form-row">
-                <ui:Label name="AnywherePageAuthTokenLabel" class="form-row__label" text="Status"/>
-                <ui:VisualElement class="form-row__input">
-                    <ui:Label name="AnywherePageAuthTokenDisplay" class="form-row__text-display" text="Not Generated"/>
-                </ui:VisualElement>
-            </ui:VisualElement>
-            <ui:VisualElement class="form-row">
-                <ui:Label name="AnywherePageAuthTokenNote" class="form-row__text-display form-row__input form-row__input--no-label separator separator--horizontal" text="The auth token is generated when you launch your game"/>
-            </ui:VisualElement>
-        </ui:Foldout>
         <ui:Foldout name="AnywherePageLaunchClientTitle" class="foldout" text="Launch Client">
             <ui:VisualElement class="form-row">
                 <ui:Label name="AnywherePageLaunchClientLabel" class="form-row__label" text="Run Game"/>
