@@ -77,9 +77,6 @@ namespace AmazonGameLift.Editor
             l.SetElementText("AnywherePageIntegrateClientLink", Strings.AnywherePageIntegrateClientLink);
             l.SetElementText("AnywherePageConnectFleetTitle", Strings.AnywherePageConnectFleetTitle);
             l.SetElementText("AnywherePageComputeTitle", Strings.AnywherePageComputeTitle);
-            l.SetElementText("AnywherePageAuthTokenTitle", Strings.AnywherePageAuthTokenTitle);
-            l.SetElementText("AnywherePageAuthTokenLabel", Strings.AnywherePageAuthTokenLabel);
-            l.SetElementText("AnywherePageAuthTokenNote", Strings.AnywherePageAuthTokenNote);
             l.SetElementText("AnywherePageLaunchClientTitle", Strings.AnywherePageLaunchClientTitle);
             l.SetElementText("AnywherePageLaunchClientLabel", Strings.AnywherePageLaunchClientLabel);
             l.SetElementText("AnywherePageLaunchClientButton", Strings.AnywherePageLaunchClientButton);
