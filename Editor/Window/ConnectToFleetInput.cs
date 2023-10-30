@@ -59,15 +59,13 @@ namespace AmazonGameLift.Editor
         {
             if (_fleetManager != null && _fleetState is FleetStatus.NotCreated or FleetStatus.Creating)
             {
-                var url = string.Format(Urls.AwsGameLiftLogs, _stateManager.Region);
                 _connectToAnywhereStatusBox.Close();
                 
                 var customLocationResponse = await _fleetManager.CreateCustomLocationIfNotExists();
                 if (!customLocationResponse.Success)
                 {
                     _connectToAnywhereStatusBox.Show(StatusBox.StatusBoxType.Error,
-                        Strings.AnywherePageStatusBoxDefaultErrorText, customLocationResponse.ErrorMessage, url,
-                        Strings.ViewLogsStatusBoxUrlTextButton);
+                        Strings.AnywherePageStatusBoxDefaultErrorText, customLocationResponse.ErrorMessage);
                     return;
                 }
                 
@@ -85,8 +83,7 @@ namespace AmazonGameLift.Editor
                 else
                 {
                     _connectToAnywhereStatusBox.Show(StatusBox.StatusBoxType.Error,
-                        Strings.AnywherePageStatusBoxDefaultErrorText, createFleetResponse.ErrorMessage, url,
-                        Strings.ViewLogsStatusBoxUrlTextButton);
+                        Strings.AnywherePageStatusBoxDefaultErrorText, createFleetResponse.ErrorMessage);
                 }
             }
 
