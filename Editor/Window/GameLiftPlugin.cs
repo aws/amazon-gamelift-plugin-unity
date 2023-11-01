@@ -56,11 +56,7 @@ namespace AmazonGameLift.Editor
             _tabButtons = _root.Query<Button>(className: TabButtonClassName).ToList();
             _tabContent = _root.Query(className: TabContentClassName).ToList();
 
-            _tabButtons.ForEach(button => button.RegisterCallback<ClickEvent>(_ =>
-            {
-                OpenTab(button.name);
-                StateManager.LastOpenTab = button.name;
-            }));
+            _tabButtons.ForEach(button => button.RegisterCallback<ClickEvent>(_ => { OpenTab(button.name); }));
 
             if (string.IsNullOrWhiteSpace(StateManager.LastOpenTab))
             {
@@ -95,8 +91,9 @@ namespace AmazonGameLift.Editor
             return container;
         }
 
-      private void OpenTab(string tabName)
+        private void OpenTab(string tabName)
         {
+            StateManager.LastOpenTab = button.name;
             _tabContent.ForEach(page =>
             {
                 if (page.name == $"{tabName}Content")
