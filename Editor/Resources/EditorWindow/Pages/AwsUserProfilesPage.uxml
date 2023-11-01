@@ -10,7 +10,7 @@
             <gl:InfoLinks/>
         </ui:VisualElement>
         <ui:VisualElement class="divider"/>
-        <ui:VisualElement name="UserProfilePageStatusBoxContainer" class="separator separator--vertical"/>
+        <gl:StatusBox name="UserProfilePageStatusBox"/>
         <ui:VisualElement name="UserProfilePageNoAccountMenu" class="separator separator--large separator--horizontal">
             <ui:VisualElement class="card card--large card--centered separator separator--vertical">
                 <ui:Image name="UserProfilePageAccountCardNoAccountIcon" class="card__icon card__icon--large"/>

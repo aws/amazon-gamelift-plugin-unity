@@ -167,9 +167,7 @@ namespace AmazonGameLift.Editor
         
         private void SetupStatusBoxes()
         {
-            _statusBox = new StatusBox();
-            var statusBoxContainer = _container.Q("ManagedEC2StatusBoxContainer");
-            statusBoxContainer.Add(_statusBox);
+            _statusBox = _container.Q<StatusBox>("ManagedEC2StatusBox");
         }
         
         private void UpdateStatusBoxes()

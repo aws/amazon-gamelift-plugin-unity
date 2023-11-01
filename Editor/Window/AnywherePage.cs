@@ -31,7 +31,7 @@ namespace AmazonGameLift.Editor
             SetupStatusBoxes();
 
             _stateManager.OnUserProfileUpdated += UpdateGui;
-            
+
             var fleetInputContainer = uxml.Q("AnywherePageConnectFleetTitle");
             var fleetInput = new ConnectToFleetInput(fleetInputContainer, stateManager);
             var computeInputContainer = uxml.Q("AnywherePageComputeTitle");
@@ -49,11 +49,9 @@ namespace AmazonGameLift.Editor
 
         private void SetupStatusBoxes()
         {
-            _statusBox = new StatusBox();
-            var statusBoxContainer = _container.Q("AnywherePageStatusBoxContainer");
-            statusBoxContainer.Add(_statusBox);
+            _statusBox = _container.Q<StatusBox>("AnywherePageStatusBox");
         }
-        
+
         private void UpdateGui()
         {
             if (!_stateManager.IsBootstrapped)
