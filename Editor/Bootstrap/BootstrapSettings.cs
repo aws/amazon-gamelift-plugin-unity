@@ -143,7 +143,10 @@ namespace AmazonGameLift.Editor
             }
             else
             {
-                createResponse.ErrorMessage = _textProvider.GetError(createResponse.ErrorCode);
+                if (string.IsNullOrWhiteSpace(createResponse.ErrorMessage))
+                {
+                    createResponse.ErrorMessage = _textProvider.GetError(createResponse.ErrorCode);
+                }
                 OnBucketCreationFailure(createResponse);
                 return createResponse;
             }
