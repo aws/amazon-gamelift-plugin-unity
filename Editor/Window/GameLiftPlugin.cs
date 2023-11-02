@@ -93,7 +93,7 @@ namespace AmazonGameLift.Editor
 
         private void OpenTab(string tabName)
         {
-            StateManager.LastOpenTab = button.name;
+            StateManager.LastOpenTab = tabName;
             _tabContent.ForEach(page =>
             {
                 if (page.name == $"{tabName}Content")
