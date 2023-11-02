@@ -60,7 +60,7 @@ namespace AmazonGameLift.Editor
             if (_fleetManager != null && _fleetState is FleetStatus.NotCreated or FleetStatus.Creating)
             {
                 _connectToAnywhereStatusBox.Close();
-                
+
                 var customLocationResponse = await _fleetManager.CreateCustomLocationIfNotExists();
                 if (!customLocationResponse.Success)
                 {
@@ -68,7 +68,7 @@ namespace AmazonGameLift.Editor
                         Strings.AnywherePageStatusBoxDefaultErrorText, customLocationResponse.ErrorMessage);
                     return;
                 }
-                
+
                 var createFleetResponse = await _fleetManager.CreateFleet(fleetName, customLocationResponse.Location)!;
                 if (createFleetResponse.Success)
                 {
@@ -111,9 +111,13 @@ namespace AmazonGameLift.Editor
             UpdateGUI();
         }
 
-        private async void OnSelectFleetDropdown(string fleetName)
+        private async void OnSelectFleetDropdown(string fleetSelection)
         {
-            var currentFleet = _fleetAttributes.FirstOrDefault(fleet => fleet.Name == fleetName);
+            var items = fleetSelection.Split(" | ");
+            var fleetName = items[0];
+            var fleetId = items[1];
+            var currentFleet =
+                _fleetAttributes.FirstOrDefault(fleet => fleet.Name == fleetName && fleet.FleetId == fleetId);
             if (currentFleet != null)
             {
                 var fleetLocationResponse = await _fleetManager.FindFirstFleetLocation(currentFleet.FleetId);
@@ -160,11 +164,13 @@ namespace AmazonGameLift.Editor
                     _fleetAttributes = new List<FleetAttributes>();
                 }
 
-                _fleetNameDropdownContainer.choices = _fleetAttributes.Select(fleet => fleet.Name).ToList();
-                _fleetNameDropdownContainer.value = _stateManager.AnywhereFleetName;
+                _fleetNameDropdownContainer.choices =
+                    _fleetAttributes.Select(fleet => $"{fleet.Name} | {fleet.FleetId}").ToList();
+                _fleetNameDropdownContainer.value =
+                    $"{_stateManager.AnywhereFleetName} | {_stateManager.AnywhereFleetId}";
                 _fleetIdText.text = _stateManager.AnywhereFleetId;
 
-                var fleet = _fleetAttributes.FirstOrDefault(fleet => fleet.Name == _stateManager.AnywhereFleetName);
+                var fleet = _fleetAttributes.FirstOrDefault(fleet => fleet.FleetId == _stateManager.AnywhereFleetId);
                 if (fleet != null)
                 {
                     var textProvider = new TextProvider();
@@ -181,7 +187,7 @@ namespace AmazonGameLift.Editor
                 }
             }
         }
-        
+
         private void SetFleetState()
         {
             if (_fleetAttributes.Count == 0)
@@ -190,7 +196,7 @@ namespace AmazonGameLift.Editor
             }
             else
             {
-                var fleet = _fleetAttributes.FirstOrDefault(fleet => fleet.Name == _stateManager.AnywhereFleetName);
+                var fleet = _fleetAttributes.FirstOrDefault(fleet => fleet.FleetId == _stateManager.AnywhereFleetId);
 
                 _fleetState = fleet == null ? FleetStatus.Selecting : FleetStatus.Selected;
             }
