@@ -173,7 +173,7 @@ namespace AmazonGameLift.Editor
                     $"{_stateManager.AnywhereFleetName} | {_stateManager.AnywhereFleetId}";
                 _fleetIdText.text = _stateManager.AnywhereFleetId;
 
-                var fleet = _fleetAttributes.FirstOrDefault(fleet => fleet.Name == _stateManager.AnywhereFleetName);
+                var fleet = _fleetAttributes.FirstOrDefault(fleet => fleet.FleetId == _stateManager.AnywhereFleetId);
                 if (fleet != null)
                 {
                     var textProvider = new TextProvider();
