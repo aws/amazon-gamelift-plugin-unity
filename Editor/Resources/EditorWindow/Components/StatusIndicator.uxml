@@ -5,7 +5,7 @@
     <ui:Style src="./StatusIndicator.uss"/>
     <ui:Image class="icon--tiny"/>
     <ui:VisualElement name="image-container">
-        <ui:Image class="icon--tiny spin"/>
+        <ui:Image class="icon--tiny"/>
     </ui:VisualElement>
     <ui:Label/>
 </ui:UXML>
