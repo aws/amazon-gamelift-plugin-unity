@@ -282,6 +282,12 @@ Image#ExternalLinkIcon {
     margin-left: var(--form-row-label-width);
 }
 
+.form-row__group-box.unity-group-box,
+.form-row__radio-button.unity-radio-button {
+    margin: 0;
+    padding: 0;
+}
+
 .form-row__radio-button .unity-radio-button__checkmark-background {
     width: var(--radio-button-outer);
     height: var(--radio-button-outer);
