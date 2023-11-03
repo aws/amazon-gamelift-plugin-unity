@@ -243,7 +243,7 @@ namespace AmazonGameLift.Editor
             { Strings.AnywherePageCreateFleetNameHint, "Fleet Name must have 1–1024 characters. Valid characters are A-Z, a-z, 0-9, _ and - (hyphen)"},
             { Strings.AnywherePageCreateFleetButton, "Create New Anywhere Fleet"},
             { Strings.AnywherePageCreateFleetCancelButton, "Cancel"},
-            { Strings.AnywherePageConnectFleetTitle, "Integrate Amazon GameLift With Your Game Project"},
+            { Strings.AnywherePageConnectFleetTitle, "Connect to an Anywhere Fleet"},
             { Strings.AnywherePageCreateFleetNameLabel, "Fleet Name"},
             { Strings.AnywherePageConnectFleetNameLabel, "Fleet Name"},
             { Strings.AnywherePageConnectFleetIDLabel, "Fleet ID"},
