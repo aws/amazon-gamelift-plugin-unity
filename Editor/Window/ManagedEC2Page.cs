@@ -207,6 +207,8 @@ namespace AmazonGameLift.Editor
             l.SetElementText("ManagedEC2LaunchClientTitle", Strings.ManagedEC2LaunchClientTitle);
             l.SetElementText("ManagedEC2LaunchClientLabel", Strings.ManagedEC2LaunchClientLabel);
             l.SetElementText("ManagedEC2LaunchClientButton", Strings.ManagedEC2LaunchClientButton);
+            l.SetElementText("ManagedEC2ConfigureClientLabel", Strings.ManagedEC2ConfigureClientLabel);
+            l.SetElementText("ManagedEC2ConfigureClientDescription", Strings.ManagedEC2ConfigureClientDescription);
         }
 
         private string GetScenarioType(ElementLocalizer l) => _deploymentSettings.Scenario switch

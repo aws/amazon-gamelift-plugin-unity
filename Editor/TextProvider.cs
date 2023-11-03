@@ -305,8 +305,10 @@ namespace AmazonGameLift.Editor
             { Strings.ManagedEC2RedeployStackButton, "Redeploy"},
             { Strings.ManagedEC2DeleteStackButton, "Delete"},
             { Strings.ManagedEC2LaunchClientTitle, "Launch Client"},
-            { Strings.ManagedEC2LaunchClientLabel, "Run Game"},
-            { Strings.ManagedEC2LaunchClientButton, "Launch Client"},
+            { Strings.ManagedEC2LaunchClientLabel, "Run Game Client"},
+            { Strings.ManagedEC2LaunchClientButton, "Launch Client in Editor"},
+            { Strings.ManagedEC2ConfigureClientLabel, "Configure Client"},
+            { Strings.ManagedEC2ConfigureClientDescription, "Set Client Connection Settings for EC2 using the dropdown menu."},
             { Strings.ManagedEC2StatusBoxNotBootstrappedWarning, "Profile configuration is incomplete, as bootstrapping is not completed, navigate to AWS User Profiles for next steps"},
             
             { Strings.HelpPageTitle, "Help & Documentation" },
