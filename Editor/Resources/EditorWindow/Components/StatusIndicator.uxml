@@ -4,5 +4,8 @@
 <ui:UXML xmlns:ui="UnityEngine.UIElements">
     <ui:Style src="./StatusIndicator.uss"/>
     <ui:Image class="icon--tiny"/>
+    <ui:VisualElement name="image-container">
+        <ui:Image class="icon--tiny spin"/>
+    </ui:VisualElement>
     <ui:Label/>
 </ui:UXML>

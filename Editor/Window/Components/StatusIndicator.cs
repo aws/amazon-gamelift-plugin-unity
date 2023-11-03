@@ -9,6 +9,7 @@ namespace AmazonGameLift.Editor
         public new class UxmlFactory : UxmlFactory<StatusIndicator> { }
 
         private Label _label => this.Q<Label>();
+        private VisualElement _imageContainer => this.Q<VisualElement>("image-container");
 
         private readonly Dictionary<State, string> _stateClassNames = new()
         {
@@ -22,8 +23,14 @@ namespace AmazonGameLift.Editor
         {
             var uxml = Resources.Load<VisualTreeAsset>("EditorWindow/Components/StatusIndicator");
             uxml.CloneTree(this);
+            AddToClassList("status-indicator");
             AddToClassList("separator");
             AddToClassList("separator--horizontal");
+        }
+
+        private void AddSpin()
+        {
+            schedule.Execute(() => { _imageContainer.AddToClassList("status-indicator--spin"); }).StartingIn(10);
         }
 
         public void Set(State state, string text)
@@ -31,6 +38,18 @@ namespace AmazonGameLift.Editor
             Reset();
             _label.text = text;
             AddToClassList(_stateClassNames[state]);
+            if (state == State.InProgress)
+            {
+                _imageContainer.RegisterCallback<TransitionEndEvent>(evt =>
+                {
+                    _imageContainer.RemoveFromClassList("status-indicator--spin");
+                    if (state == State.InProgress)
+                    {
+                        AddSpin();
+                    }
+                });
+                AddSpin();
+            }
         }
 
         private void Reset()
