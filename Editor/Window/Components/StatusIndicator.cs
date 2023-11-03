@@ -8,6 +8,7 @@ namespace AmazonGameLift.Editor
     {
         public new class UxmlFactory : UxmlFactory<StatusIndicator> { }
 
+        private const long SPIN_DELAY_MILLIS = 10;
         private Label _label => this.Q<Label>();
         private VisualElement _imageContainer => this.Q<VisualElement>("image-container");
 
@@ -30,7 +31,7 @@ namespace AmazonGameLift.Editor
 
         private void AddSpin()
         {
-            schedule.Execute(() => { _imageContainer.AddToClassList("status-indicator--spin"); }).StartingIn(10);
+            schedule.Execute(() => { _imageContainer.AddToClassList("status-indicator--spin"); }).StartingIn(SPIN_DELAY_MILLIS);
         }
 
         public void Set(State state, string text)
