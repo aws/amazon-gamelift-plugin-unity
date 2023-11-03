@@ -214,9 +214,11 @@ namespace AmazonGameLift.Editor
         public const string AnywherePageComputeRegisterButton = "AnywherePageComputeRegisterButton";
         public const string AnywherePageComputeReplaceComputeButton = "AnywherePageComputeReplaceComputeButton";
         public const string AnywherePageComputeCancelReplaceButton = "AnywherePageComputeCancelReplaceButton";
-        public const string AnywherePageLaunchClientTitle = "AnywherePageLaunchClientTitle";
-        public const string AnywherePageLaunchClientLabel = "AnywherePageLaunchClientLabel";
-        public const string AnywherePageLaunchClientButton = "AnywherePageLaunchClientButton";
+        public const string AnywherePageLaunchTitle = "AnywherePageLaunchTitle";
+        public const string AnywherePageLaunchServerLabel = "AnywherePageLaunchServerLabel";
+        public const string AnywherePageLaunchServerButton = "AnywherePageLaunchServerButton";
+        public const string AnywherePageConfigureClientLabel = "AnywherePageConfigureClientLabel";
+        public const string AnywherePageConfigureClientDescription = "AnywherePageConfigureClientDescription";
         public const string AnywherePageStatusBoxDefaultErrorText = "AnywherePageStatusBoxDefaultErrorText";
         public const string AnywherePageStatusBoxNotBootstrappedWarning = "AnywherePageStatusBoxNotBootstrappedWarning";
 

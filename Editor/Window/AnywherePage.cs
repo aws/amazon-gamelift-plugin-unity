@@ -37,7 +37,7 @@ namespace AmazonGameLift.Editor
             var computeInputContainer = uxml.Q("AnywherePageComputeTitle");
             var computeInput =
                 new RegisterComputeInput(computeInputContainer, stateManager);
-            var launchButton = uxml.Q<Button>("AnywherePageLaunchClientButton");
+            var launchButton = uxml.Q<Button>("AnywherePageLaunchServerButton");
             launchButton.RegisterCallback<ClickEvent>(_ =>
             {
                 EditorUserBuildSettings.SwitchActiveBuildTarget(NamedBuildTarget.Server,
@@ -75,9 +75,11 @@ namespace AmazonGameLift.Editor
             l.SetElementText("AnywherePageIntegrateClientLink", Strings.AnywherePageIntegrateClientLink);
             l.SetElementText("AnywherePageConnectFleetTitle", Strings.AnywherePageConnectFleetTitle);
             l.SetElementText("AnywherePageComputeTitle", Strings.AnywherePageComputeTitle);
-            l.SetElementText("AnywherePageLaunchClientTitle", Strings.AnywherePageLaunchClientTitle);
-            l.SetElementText("AnywherePageLaunchClientLabel", Strings.AnywherePageLaunchClientLabel);
-            l.SetElementText("AnywherePageLaunchClientButton", Strings.AnywherePageLaunchClientButton);
+            l.SetElementText("AnywherePageLaunchTitle", Strings.AnywherePageLaunchTitle);
+            l.SetElementText("AnywherePageConfigureClientLabel", Strings.AnywherePageConfigureClientLabel);
+            l.SetElementText("AnywherePageConfigureClientDescription", Strings.AnywherePageConfigureClientDescription);
+            l.SetElementText("AnywherePageLaunchServerLabel", Strings.AnywherePageLaunchServerLabel);
+            l.SetElementText("AnywherePageLaunchServerButton", Strings.AnywherePageLaunchServerButton);
         }
     }
 }
