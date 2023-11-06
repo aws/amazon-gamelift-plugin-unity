@@ -162,15 +162,15 @@ namespace AmazonGameLift.Editor
                 {
                     _fleetAttributes = new List<FleetAttributes>();
                 }
+                var textProvider = new TextProvider();
 
                 _fleetNameDropdownContainer.choices = _fleetAttributes.Select(fleet => fleet.Name).ToList();
-                _fleetNameDropdownContainer.value = _stateManager.AnywhereFleetName;
+                _fleetNameDropdownContainer.value = _stateManager.AnywhereFleetName ?? textProvider.Get(Strings.AnywherePageConnectFleetDefault);
                 _fleetIdText.text = _stateManager.AnywhereFleetId;
 
                 var fleet = _fleetAttributes.FirstOrDefault(fleet => fleet.Name == _stateManager.AnywhereFleetName);
                 if (fleet != null)
                 {
-                    var textProvider = new TextProvider();
                     if (fleet.Status == Amazon.GameLift.FleetStatus.ERROR)
                     {
                         _statusIndicator.Set(State.Failed,
