@@ -10,6 +10,9 @@ namespace AmazonGameLift.Editor
 
         private Label _label => this.Q<Label>();
         private VisualElement _imageContainer => this.Q<VisualElement>("image-container");
+        private State _state;
+
+        private const string SpinClassName = "status-indicator--spin";
 
         private readonly Dictionary<State, string> _stateClassNames = new()
         {
@@ -26,30 +29,37 @@ namespace AmazonGameLift.Editor
             AddToClassList("status-indicator");
             AddToClassList("separator");
             AddToClassList("separator--horizontal");
-        }
-
-        private void AddSpin()
-        {
-            schedule.Execute(() => { _imageContainer.AddToClassList("status-indicator--spin"); }).StartingIn(10);
+            _imageContainer.RegisterCallback<TransitionEndEvent>(evt =>
+            {
+                if (_state == State.InProgress)
+                {
+                    RemoveSpin();
+                    AddSpin();
+                }
+            });
         }
 
         public void Set(State state, string text)
         {
             Reset();
+            _state = state;
             _label.text = text;
             AddToClassList(_stateClassNames[state]);
+            RemoveSpin();
             if (state == State.InProgress)
             {
-                _imageContainer.RegisterCallback<TransitionEndEvent>(evt =>
-                {
-                    _imageContainer.RemoveFromClassList("status-indicator--spin");
-                    if (state == State.InProgress)
-                    {
-                        AddSpin();
-                    }
-                });
                 AddSpin();
             }
+        }
+        
+        private void AddSpin()
+        {
+            schedule.Execute(() => { _imageContainer.AddToClassList(SpinClassName); }).StartingIn(10);
+        }
+        
+        private void RemoveSpin()
+        {
+            _imageContainer.RemoveFromClassList(SpinClassName);
         }
 
         private void Reset()

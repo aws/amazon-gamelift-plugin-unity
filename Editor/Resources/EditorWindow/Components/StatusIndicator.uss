@@ -35,7 +35,7 @@
 }
 
 .status-indicator--spin {
-    rotate: 359deg;
+    rotate: 1turn;
     transition-property: rotate;
     transition-duration: 1s;
     transition-timing-function: linear;
