@@ -27,7 +27,7 @@ namespace AmazonGameLift.Editor
         private readonly VisualElement _container;
         private Button _cancelButton;
 
-        private FleetStatus _fleetState;
+        public FleetStatus FleetState { get; private set; }
         private List<FleetAttributes> _fleetAttributes = new List<FleetAttributes>();
         private StatusBox _connectToAnywhereStatusBox;
 
@@ -38,7 +38,7 @@ namespace AmazonGameLift.Editor
             _container = container;
 
             _stateManager = stateManager;
-            _fleetState = FleetStatus.NotCreated;
+            FleetState = FleetStatus.NotCreated;
 
             AssignUiElements(container);
             RegisterCallBacks(container);
@@ -57,7 +57,7 @@ namespace AmazonGameLift.Editor
 
         private async Task OnAnywhereConnectClicked(string fleetName)
         {
-            if (_fleetManager != null && _fleetState is FleetStatus.NotCreated or FleetStatus.Creating)
+            if (_fleetManager != null && FleetState is FleetStatus.NotCreated or FleetStatus.Creating)
             {
                 _connectToAnywhereStatusBox.Close();
 
@@ -78,7 +78,7 @@ namespace AmazonGameLift.Editor
 
                     await UpdateFleetMenu();
                     _fleetNameDropdownContainer.value = fleetName;
-                    _fleetState = FleetStatus.Selected;
+                    FleetState = FleetStatus.Selected;
                 }
                 else
                 {
@@ -92,10 +92,10 @@ namespace AmazonGameLift.Editor
 
         private async Task OnCreateNewFleetClicked()
         {
-            if (_fleetState is FleetStatus.Selected or FleetStatus.Selecting)
+            if (FleetState is FleetStatus.Selected or FleetStatus.Selecting)
             {
                 await UpdateFleetMenu();
-                _fleetState = FleetStatus.Creating;
+                FleetState = FleetStatus.Creating;
             }
 
             UpdateGUI();
@@ -103,9 +103,9 @@ namespace AmazonGameLift.Editor
 
         private void OnCancelButtonClicked()
         {
-            if (_fleetState is FleetStatus.Creating)
+            if (FleetState is FleetStatus.Creating)
             {
-                _fleetState = FleetStatus.Selected;
+                FleetState = FleetStatus.Selected;
             }
 
             UpdateGUI();
@@ -125,7 +125,7 @@ namespace AmazonGameLift.Editor
                 _stateManager.AnywhereFleetName = currentFleet.Name;
                 _stateManager.AnywhereFleetId = currentFleet.FleetId;
                 _stateManager.AnywhereFleetLocation = fleetLocationResponse.Location;
-                _fleetState = FleetStatus.Selected;
+                FleetState = FleetStatus.Selected;
             }
 
             UpdateGUI();
@@ -192,13 +192,13 @@ namespace AmazonGameLift.Editor
         {
             if (_fleetAttributes.Count == 0)
             {
-                _fleetState = FleetStatus.NotCreated;
+                FleetState = FleetStatus.NotCreated;
             }
             else
             {
                 var fleet = _fleetAttributes.FirstOrDefault(fleet => fleet.FleetId == _stateManager.AnywhereFleetId);
 
-                _fleetState = fleet == null ? FleetStatus.Selecting : FleetStatus.Selected;
+                FleetState = fleet == null ? FleetStatus.Selecting : FleetStatus.Selected;
             }
         }
 
@@ -222,7 +222,7 @@ namespace AmazonGameLift.Editor
 
         private List<VisualElement> GetVisibleItemsByState()
         {
-            return _fleetState switch
+            return FleetState switch
             {
                 FleetStatus.NotCreated => new List<VisualElement>() { _fleetNameInput, _fleetCreateContainer },
                 FleetStatus.Creating => new List<VisualElement>()

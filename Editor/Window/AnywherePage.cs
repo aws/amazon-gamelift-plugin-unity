@@ -13,6 +13,11 @@ namespace AmazonGameLift.Editor
         private readonly VisualElement _container;
         private readonly StateManager _stateManager;
         private StatusBox _statusBox;
+        private readonly ConnectToFleetInput _fleetInput;
+        private readonly RegisterComputeInput _computeInput;
+        private Foldout _launchClientFoldout;
+        
+        private const string InactiveFoldoutElementName = "hidden";
 
         public AnywherePage(VisualElement container, StateManager stateManager)
         {
@@ -28,14 +33,15 @@ namespace AmazonGameLift.Editor
                 .RegisterCallback<ClickEvent>(_ => Application.OpenURL(Urls.AnywherePageServerSetupDocumentation));
             container.Q<VisualElement>("AnywherePageIntegrateClientLinkParent")
                 .RegisterCallback<ClickEvent>(_ => Application.OpenURL(Urls.AnywherePageClientSetupDocumentation));
+            _launchClientFoldout = container.Q<Foldout>("AnywherePageLaunchTitle");
             SetupStatusBoxes();
 
             _stateManager.OnUserProfileUpdated += UpdateGui;
 
             var fleetInputContainer = uxml.Q("AnywherePageConnectFleetTitle");
-            var fleetInput = new ConnectToFleetInput(fleetInputContainer, stateManager);
+            _fleetInput = new ConnectToFleetInput(fleetInputContainer, stateManager);
             var computeInputContainer = uxml.Q("AnywherePageComputeTitle");
-            var computeInput =
+            _computeInput =
                 new RegisterComputeInput(computeInputContainer, stateManager);
             var launchButton = uxml.Q<Button>("AnywherePageLaunchServerButton");
             launchButton.RegisterCallback<ClickEvent>(_ =>
@@ -54,6 +60,8 @@ namespace AmazonGameLift.Editor
 
         private void UpdateGui()
         {
+            _launchClientFoldout.AddToClassList(InactiveFoldoutElementName);
+            
             if (!_stateManager.IsBootstrapped)
             {
                 _statusBox.Show(StatusBox.StatusBoxType.Warning, Strings.AnywherePageStatusBoxNotBootstrappedWarning);
@@ -61,6 +69,11 @@ namespace AmazonGameLift.Editor
             else
             {
                 _statusBox.Close();
+                if (_fleetInput.FleetState == ConnectToFleetInput.FleetStatus.Selected &&
+                    _computeInput.ComputeState == RegisterComputeInput.ComputeStatus.Registered)
+                {
+                    _launchClientFoldout.RemoveFromClassList(InactiveFoldoutElementName);
+                }
             }
         }
 

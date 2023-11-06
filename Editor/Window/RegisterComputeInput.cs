@@ -11,7 +11,7 @@ namespace AmazonGameLift.Editor
 {
     public class RegisterComputeInput : StatefulInput
     {
-        private ComputeStatus _computeState;
+        public ComputeStatus ComputeState { get; private set; }
 
         private readonly List<TextField> _ipInputs;
         private readonly TextField _computeNameInput;
@@ -45,7 +45,7 @@ namespace AmazonGameLift.Editor
             _statusIndicator = container.Q<StatusIndicator>();
             LocalizeText();
 
-            _computeState = !string.IsNullOrWhiteSpace(_stateManager.ComputeName) &&
+            ComputeState = !string.IsNullOrWhiteSpace(_stateManager.ComputeName) &&
                             !string.IsNullOrWhiteSpace(_stateManager.IpAddress)
                 ? ComputeStatus.Registered
                 : ComputeStatus.NotRegistered;
@@ -82,7 +82,7 @@ namespace AmazonGameLift.Editor
 
         private async void OnRegisterComputeButtonClicked()
         {
-            if (_computeState is ComputeStatus.NotRegistered or ComputeStatus.Registering)
+            if (ComputeState is ComputeStatus.NotRegistered or ComputeStatus.Registering)
             {
                 var previousComputeName = _stateManager.ComputeName;
                 var registerResponse = await _stateManager.ComputeManager.RegisterFleetCompute(_computeName,
@@ -92,7 +92,7 @@ namespace AmazonGameLift.Editor
                     _stateManager.ComputeName = registerResponse.ComputeName;
                     _stateManager.IpAddress = registerResponse.IpAddress;
                     _stateManager.WebSocketUrl = registerResponse.WebSocketUrl;
-                    _computeState = ComputeStatus.Registered;
+                    ComputeState = ComputeStatus.Registered;
 
                     if (!string.IsNullOrWhiteSpace(previousComputeName))
                     {
@@ -129,7 +129,7 @@ namespace AmazonGameLift.Editor
                 {
                     _computeNameInput.value = _defaultComputeName;
                     SetIpInputs(_defaultIpAddress);
-                    _computeState = ComputeStatus.NotRegistered;
+                    ComputeState = ComputeStatus.NotRegistered;
                 }
                 else
                 {
@@ -137,7 +137,7 @@ namespace AmazonGameLift.Editor
                     _stateManager.IpAddress = matchingCompute.IpAddress;
                     _stateManager.WebSocketUrl = matchingCompute.GameLiftServiceSdkEndpoint;
                     SetIpInputs(matchingCompute.IpAddress);
-                    _computeState = ComputeStatus.Registered;
+                    ComputeState = ComputeStatus.Registered;
                 }
             }
             else
@@ -150,9 +150,9 @@ namespace AmazonGameLift.Editor
 
         private void OnReplaceComputeButtonClicked()
         {
-            if (_computeState is ComputeStatus.Registered)
+            if (ComputeState is ComputeStatus.Registered)
             {
-                _computeState = ComputeStatus.Registering;
+                ComputeState = ComputeStatus.Registering;
             }
 
             UpdateGUI();
@@ -160,9 +160,9 @@ namespace AmazonGameLift.Editor
 
         private void OnCancelReplaceButtonClicked()
         {
-            if (_computeState is ComputeStatus.Registering)
+            if (ComputeState is ComputeStatus.Registering)
             {
-                _computeState = ComputeStatus.Registered;
+                ComputeState = ComputeStatus.Registered;
             }
 
             UpdateGUI();
@@ -196,7 +196,7 @@ namespace AmazonGameLift.Editor
 
         private List<VisualElement> GetVisibleItemsByState()
         {
-            return _computeState switch
+            return ComputeState switch
             {
                 ComputeStatus.Disabled => new List<VisualElement>(),
                 ComputeStatus.NotRegistered => new List<VisualElement>() { _registerButton, },
