@@ -8,11 +8,11 @@ namespace AmazonGameLift.Editor
     {
         public new class UxmlFactory : UxmlFactory<StatusIndicator> { }
 
+        private const long SPIN_DELAY_MILLIS = 10;
+        private const string SpinClassName = "status-indicator--spin";
         private Label _label => this.Q<Label>();
         private VisualElement _imageContainer => this.Q<VisualElement>("image-container");
         private State _state;
-
-        private const string SpinClassName = "status-indicator--spin";
 
         private readonly Dictionary<State, string> _stateClassNames = new()
         {
@@ -54,7 +54,7 @@ namespace AmazonGameLift.Editor
         
         private void AddSpin()
         {
-            schedule.Execute(() => { _imageContainer.AddToClassList(SpinClassName); }).StartingIn(10);
+            schedule.Execute(() => { _imageContainer.AddToClassList(SpinClassName); }).StartingIn(SPIN_DELAY_MILLIS);
         }
         
         private void RemoveSpin()
