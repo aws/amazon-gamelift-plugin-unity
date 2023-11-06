@@ -24,8 +24,9 @@ namespace AmazonGameLift.Editor
         private readonly StateManager _stateManager;
         private StatusBox _registerComputeStatusBox;
 
-        private readonly string _defaultComputeName = "ComputerName-ProfileName";
-        private readonly string _defaultIpAddress = "127.0.0.1";
+        private const string _primaryButtonClassName = "button--primary";
+        private const string _defaultComputeName = "ComputerName-ProfileName";
+        private const string _defaultIpAddress = "127.0.0.1";
         private string _computeName;
         private string _ipAddress;
 
@@ -243,6 +244,15 @@ namespace AmazonGameLift.Editor
                 var textProvider = new TextProvider();
                 _statusIndicator.Set(State.Success,
                     textProvider.Get(Strings.AnywherePageComputeStatusRegistered));
+            }
+
+            if (string.IsNullOrWhiteSpace(_stateManager.AnywhereFleetId))
+            {
+                _registerButton.RemoveFromClassList(_primaryButtonClassName);
+            }
+            else
+            {
+                _registerButton.AddToClassList(_primaryButtonClassName);
             }
         }
 

@@ -34,7 +34,7 @@
         </ui:VisualElement>
         <ui:VisualElement name="AnywherePageConnectFleetButtons" class="form-row">
             <ui:VisualElement class="form-row__input form-row__input--no-label separator separator--horizontal">
-                <ui:Button name="AnywherePageConnectFleetNewButton" class="button button--primary" text="Create New Anywhere Fleet"/>
+                <ui:Button name="AnywherePageConnectFleetNewButton" class="button" text="Create New Anywhere Fleet"/>
             </ui:VisualElement>
         </ui:VisualElement>
     </ui:VisualElement>

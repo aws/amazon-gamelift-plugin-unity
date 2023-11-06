@@ -10,9 +10,11 @@ namespace AmazonGameLift.Editor
 {
     public class AnywherePage
     {
+        private const string _primaryButtonClassName = "button--primary";
         private readonly VisualElement _container;
         private readonly StateManager _stateManager;
         private StatusBox _statusBox;
+        private Button _launchButton;
 
         public AnywherePage(VisualElement container, StateManager stateManager)
         {
@@ -37,8 +39,8 @@ namespace AmazonGameLift.Editor
             var computeInputContainer = uxml.Q("AnywherePageComputeTitle");
             var computeInput =
                 new RegisterComputeInput(computeInputContainer, stateManager);
-            var launchButton = uxml.Q<Button>("AnywherePageLaunchServerButton");
-            launchButton.RegisterCallback<ClickEvent>(_ =>
+            _launchButton = uxml.Q<Button>("AnywherePageLaunchServerButton");
+            _launchButton.RegisterCallback<ClickEvent>(_ =>
             {
                 EditorUserBuildSettings.SwitchActiveBuildTarget(NamedBuildTarget.Server,
                     EditorUserBuildSettings.selectedStandaloneTarget);
@@ -61,6 +63,18 @@ namespace AmazonGameLift.Editor
             else
             {
                 _statusBox.Close();
+            }
+
+            if (string.IsNullOrWhiteSpace(_stateManager.AnywhereFleetId) ||
+                string.IsNullOrWhiteSpace(_stateManager.ComputeName))
+            {
+                _launchButton.RemoveFromClassList(_primaryButtonClassName);
+                _launchButton.SetEnabled(false);
+            }
+            else
+            {
+                _launchButton.AddToClassList(_primaryButtonClassName);
+                _launchButton.SetEnabled(true);
             }
         }
 
