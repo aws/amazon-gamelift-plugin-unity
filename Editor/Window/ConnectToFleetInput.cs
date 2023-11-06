@@ -187,7 +187,7 @@ namespace AmazonGameLift.Editor
                 }
             }
         }
-        
+
         private void SetFleetState()
         {
             if (_fleetAttributes.Count == 0)
@@ -196,7 +196,7 @@ namespace AmazonGameLift.Editor
             }
             else
             {
-                var fleet = _fleetAttributes.FirstOrDefault(fleet => fleet.Name == _stateManager.AnywhereFleetName);
+                var fleet = _fleetAttributes.FirstOrDefault(fleet => fleet.FleetId == _stateManager.AnywhereFleetId);
 
                 _fleetState = fleet == null ? FleetStatus.Selecting : FleetStatus.Selected;
             }
