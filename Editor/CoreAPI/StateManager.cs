@@ -26,6 +26,15 @@ namespace AmazonGameLift.Editor
         private readonly IDeserializer _deserializer = new DeserializerBuilder().Build();
 
         public UserProfile SelectedProfile => _selectedProfile;
+        
+        public string LastOpenTab
+        {
+            get => CoreApi.GetSetting(SettingsKeys.LastOpenTab).Value;
+            set
+            {
+                CoreApi.PutSetting(SettingsKeys.LastOpenTab, value);
+            }
+        }
 
         #region Profile Settings
 

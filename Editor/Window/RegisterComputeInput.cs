@@ -71,9 +71,9 @@ namespace AmazonGameLift.Editor
             _computeNameInput.value = _computeName;
             _computeNameInput.RegisterValueChangedCallback(_ =>
                 UpdateComputeTextFields(_computeNameInput, _ipInputs));
-
+            
             SetIpInputs(_ipAddress);
-
+            
             foreach (var ipField in _ipInputs)
             {
                 ipField.RegisterValueChangedCallback(_ =>
@@ -100,7 +100,7 @@ namespace AmazonGameLift.Editor
                         var deregisterResponse =
                             await _stateManager.ComputeManager.DeregisterCompute(previousComputeName,
                                 _stateManager.AnywhereFleetId);
-
+                                
                         if (!deregisterResponse)
                         {
                             Debug.LogError(new TextProvider().GetError(ErrorCode.DeregisterComputeFailed));
@@ -109,12 +109,9 @@ namespace AmazonGameLift.Editor
                 }
                 else
                 {
-                    var url = string.Format(Urls.AwsGameLiftLogs, _stateManager.Region);
                     _registerComputeStatusBox.Show(StatusBox.StatusBoxType.Error,
                         Strings.AnywherePageStatusBoxDefaultErrorText,
-                        registerResponse.ErrorMessage,
-                        url,
-                        Strings.ViewLogsStatusBoxUrlTextButton);
+                        registerResponse.ErrorMessage);
                 }
             }
 
@@ -196,12 +193,8 @@ namespace AmazonGameLift.Editor
 
         private void SetupConfigSettings()
         {
-            _computeName = !string.IsNullOrWhiteSpace(_stateManager.ComputeName)
-                ? _stateManager.ComputeName
-                : _defaultComputeName;
-            _ipAddress = !string.IsNullOrWhiteSpace(_stateManager.IpAddress)
-                ? _stateManager.IpAddress
-                : _defaultIpAddress;
+            _computeName = !string.IsNullOrWhiteSpace(_stateManager.ComputeName) ? _stateManager.ComputeName : _defaultComputeName;
+            _ipAddress = !string.IsNullOrWhiteSpace(_stateManager.IpAddress) ? _stateManager.IpAddress : _defaultIpAddress;
         }
 
         private List<VisualElement> GetComputeVisualElements() =>
@@ -236,9 +229,7 @@ namespace AmazonGameLift.Editor
 
         private void SetupStatusBox()
         {
-            _registerComputeStatusBox = new StatusBox();
-            var statusBoxContainer = _container.Q("AnywherePageComputeStatusBoxContainer");
-            statusBoxContainer.Add(_registerComputeStatusBox);
+            _registerComputeStatusBox = _container.Q<StatusBox>("AnywherePageComputeStatusBox");
         }
 
         protected sealed override void UpdateGUI()

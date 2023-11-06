@@ -3,7 +3,7 @@
 
 <ui:UXML xmlns:ui="UnityEngine.UIElements" xmlns:gl="AmazonGameLift.Editor">
     <ui:Style src="../common.uss"/>
-    <ui:VisualElement name="AnywherePageConnectFleetStatusBoxContainer" class="separator separator--vertical"/>
+    <gl:StatusBox name="AnywherePageConnectFleetStatusBox"/>
     <ui:VisualElement name="AnywherePageCreateFleet" class="separator separator--vertical">
         <ui:VisualElement name="AnywherePageCreateFleetName" class="form-row">
             <ui:Label name="AnywherePageCreateFleetNameLabel" class="form-row__label" text="Fleet Name"/>

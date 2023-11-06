@@ -243,7 +243,7 @@ namespace AmazonGameLift.Editor
             { Strings.AnywherePageCreateFleetNameHint, "Fleet Name must have 1–1024 characters. Valid characters are A-Z, a-z, 0-9, _ and - (hyphen)"},
             { Strings.AnywherePageCreateFleetButton, "Create New Anywhere Fleet"},
             { Strings.AnywherePageCreateFleetCancelButton, "Cancel"},
-            { Strings.AnywherePageConnectFleetTitle, "Integrate Amazon GameLift With Your Game Project"},
+            { Strings.AnywherePageConnectFleetTitle, "Connect to an Anywhere Fleet"},
             { Strings.AnywherePageCreateFleetNameLabel, "Fleet Name"},
             { Strings.AnywherePageConnectFleetNameLabel, "Fleet Name"},
             { Strings.AnywherePageConnectFleetIDLabel, "Fleet ID"},
@@ -259,12 +259,11 @@ namespace AmazonGameLift.Editor
             { Strings.AnywherePageComputeRegisterButton, "Register Compute"},
             { Strings.AnywherePageComputeReplaceComputeButton, "Register new Compute"},
             { Strings.AnywherePageComputeCancelReplaceButton, "Cancel"},
-            { Strings.AnywherePageAuthTokenTitle, "Generate Auth Token - optional"},
-            { Strings.AnywherePageAuthTokenLabel, "Status"},
-            { Strings.AnywherePageAuthTokenNote, "The auth token is generated when you launch your game."},
-            { Strings.AnywherePageLaunchClientTitle, "Launch Client"},
-            { Strings.AnywherePageLaunchClientLabel, "Run Game"},
-            { Strings.AnywherePageLaunchClientButton, "Launch Client"},
+            { Strings.AnywherePageLaunchTitle, "Launch Anywhere Process"},
+            { Strings.AnywherePageLaunchServerLabel, "Run Game Server"},
+            { Strings.AnywherePageLaunchServerButton, "Launch Server in Editor"},
+            { Strings.AnywherePageConfigureClientLabel, "Configure Client"},
+            { Strings.AnywherePageConfigureClientDescription, "Set Client Connection Settings for Anywhere using the dropdown menu, then build and launch your game client."},
             { Strings.AnywherePageStatusBoxDefaultErrorText, "An error occurred when trying to register a compute"},
             { Strings.AnywherePageStatusBoxNotBootstrappedWarning, "Profile configuration is incomplete, as bootstrapping is not completed, navigate to AWS User Profiles for next steps"},
             
@@ -306,8 +305,10 @@ namespace AmazonGameLift.Editor
             { Strings.ManagedEC2RedeployStackButton, "Redeploy"},
             { Strings.ManagedEC2DeleteStackButton, "Delete"},
             { Strings.ManagedEC2LaunchClientTitle, "Launch Client"},
-            { Strings.ManagedEC2LaunchClientLabel, "Run Game"},
-            { Strings.ManagedEC2LaunchClientButton, "Launch Client"},
+            { Strings.ManagedEC2LaunchClientLabel, "Run Game Client"},
+            { Strings.ManagedEC2LaunchClientButton, "Launch Client in Editor"},
+            { Strings.ManagedEC2ConfigureClientLabel, "Configure Client"},
+            { Strings.ManagedEC2ConfigureClientDescription, "Set Client Connection Settings for EC2 using the dropdown menu."},
             { Strings.ManagedEC2StatusBoxNotBootstrappedWarning, "Profile configuration is incomplete, as bootstrapping is not completed, navigate to AWS User Profiles for next steps"},
             
             { Strings.HelpPageTitle, "Help & Documentation" },
@@ -338,6 +339,7 @@ namespace AmazonGameLift.Editor
             { Strings.BootstrapStatusNoBucketCreated, "No bucket created" },
             
             { Strings.ViewLogsStatusBoxUrlTextButton, "View Logs"},
+            { Strings.ViewS3LogsStatusBoxUrlTextButton, "View S3 Console"},
         };
 
         public string GetError(string errorCode = null)

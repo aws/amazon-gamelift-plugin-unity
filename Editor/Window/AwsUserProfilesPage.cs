@@ -220,7 +220,7 @@ namespace AmazonGameLift.Editor
             }
             else
             {
-                _statusBox.Show(StatusBox.StatusBoxType.Error, Strings.UserProfilePageBootstrapErrorText, bucketResponse.ErrorMessage, Urls.AwsS3Console, Strings.ViewLogsStatusBoxUrlTextButton);
+                _statusBox.Show(StatusBox.StatusBoxType.Error, Strings.UserProfilePageBootstrapErrorText, bucketResponse.ErrorMessage, Urls.AwsS3Console, Strings.ViewS3LogsStatusBoxUrlTextButton);
             }
         }
 
@@ -234,9 +234,7 @@ namespace AmazonGameLift.Editor
         
         private void SetupStatusBoxes()
         {
-            _statusBox = new StatusBox();
-            var statusBoxContainer = _container.Q("UserProfilePageStatusBoxContainer");
-            statusBoxContainer.Add(_statusBox);
+            _statusBox = _container.Q<StatusBox>("UserProfilePageStatusBox");
         }
     }
 }
