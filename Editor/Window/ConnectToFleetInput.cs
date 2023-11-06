@@ -202,20 +202,6 @@ namespace AmazonGameLift.Editor
             }
         }
 
-        private void SetFleetState()
-        {
-            if (_fleetAttributes.Count == 0)
-            {
-                _fleetState = FleetStatus.NotCreated;
-            }
-            else
-            {
-                var fleet = _fleetAttributes.FirstOrDefault(fleet => fleet.FleetId == _stateManager.AnywhereFleetId);
-
-                _fleetState = fleet == null ? FleetStatus.Selecting : FleetStatus.Selected;
-            }
-        }
-
         private async void SetupPage()
         {
             await UpdateFleetMenu();
