@@ -265,7 +265,7 @@ Image#ExternalLinkIcon {
 }
 
 .form-row__input {
-    flex: 1 0 auto;
+    flex: 1 1 auto;
     font-size: var(--font-size-large);
 }
 
@@ -274,11 +274,18 @@ Image#ExternalLinkIcon {
 }
 
 .form-row__text-display {
+    flex: 1 1 auto;
     padding: 2px;
 }
 
 .form-row__input--no-label {
     margin-left: var(--form-row-label-width);
+}
+
+.form-row__group-box.unity-group-box,
+.form-row__radio-button.unity-radio-button {
+    margin: 0;
+    padding: 0;
 }
 
 .form-row__radio-button .unity-radio-button__checkmark-background {

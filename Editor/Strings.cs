@@ -215,9 +215,11 @@ namespace AmazonGameLift.Editor
         public const string AnywherePageComputeRegisterButton = "AnywherePageComputeRegisterButton";
         public const string AnywherePageComputeReplaceComputeButton = "AnywherePageComputeReplaceComputeButton";
         public const string AnywherePageComputeCancelReplaceButton = "AnywherePageComputeCancelReplaceButton";
-        public const string AnywherePageLaunchClientTitle = "AnywherePageLaunchClientTitle";
-        public const string AnywherePageLaunchClientLabel = "AnywherePageLaunchClientLabel";
-        public const string AnywherePageLaunchClientButton = "AnywherePageLaunchClientButton";
+        public const string AnywherePageLaunchTitle = "AnywherePageLaunchTitle";
+        public const string AnywherePageLaunchServerLabel = "AnywherePageLaunchServerLabel";
+        public const string AnywherePageLaunchServerButton = "AnywherePageLaunchServerButton";
+        public const string AnywherePageConfigureClientLabel = "AnywherePageConfigureClientLabel";
+        public const string AnywherePageConfigureClientDescription = "AnywherePageConfigureClientDescription";
         public const string AnywherePageStatusBoxDefaultErrorText = "AnywherePageStatusBoxDefaultErrorText";
         public const string AnywherePageStatusBoxNotBootstrappedWarning = "AnywherePageStatusBoxNotBootstrappedWarning";
 
@@ -261,6 +263,8 @@ namespace AmazonGameLift.Editor
         public const string ManagedEC2LaunchClientTitle = "ManagedEC2LaunchClientTitle";
         public const string ManagedEC2LaunchClientLabel = "ManagedEC2LaunchClientLabel";
         public const string ManagedEC2LaunchClientButton = "ManagedEC2LaunchClientButton";
+        public const string ManagedEC2ConfigureClientLabel = "ManagedEC2ConfigureClientLabel";
+        public const string ManagedEC2ConfigureClientDescription = "ManagedEC2ConfigureClientDescription";
         public const string ManagedEC2StatusBoxNotBootstrappedWarning = "ManagedEC2StatusBoxNotBootstrappedWarning";
 
         public const string InfoLinkDocumentationLink = "InfoLinkDocumentationLink";

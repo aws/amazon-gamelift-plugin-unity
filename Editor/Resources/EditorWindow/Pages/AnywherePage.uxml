@@ -10,7 +10,7 @@
             <gl:InfoLinks/>
         </ui:VisualElement>
         <ui:VisualElement class="divider"/>
-        <ui:VisualElement name="AnywherePageStatusBoxContainer" class=" separator--vertical"/>
+        <gl:StatusBox name="AnywherePageStatusBox"/>
         <ui:Foldout name="AnywherePageUserProfileTitle" class="foldout separator separator--vertical" text="AWS User Profile">
             <gl:ProfileSelector/>
         </ui:Foldout>
@@ -27,11 +27,15 @@
         </ui:Foldout>
         <ui:Foldout name="AnywherePageConnectFleetTitle" class="foldout" text="Connect to Anywhere Fleet"/>
         <ui:Foldout name="AnywherePageComputeTitle" class="foldout" text="Register Compute"/>
-        <ui:Foldout name="AnywherePageLaunchClientTitle" class="foldout" text="Launch Client">
+        <ui:Foldout name="AnywherePageLaunchTitle" class="foldout separator separator--vertical" text="Launch foldout">
             <ui:VisualElement class="form-row">
-                <ui:Label name="AnywherePageLaunchClientLabel" class="form-row__label" text="Run Game"/>
+                <ui:Label name="AnywherePageConfigureClientLabel" class="form-row__label" text="Configure Client"/>
+                <ui:Label name="AnywherePageConfigureClientDescription" class="form-row__text-display" text="Description"/>
+            </ui:VisualElement>
+            <ui:VisualElement class="form-row">
+                <ui:Label name="AnywherePageLaunchServerLabel" class="form-row__label" text="Run Game"/>
                 <ui:VisualElement class="form-row__input">
-                    <ui:Button name="AnywherePageLaunchClientButton" class="button button--primary" text="Launch Client"/>
+                    <ui:Button name="AnywherePageLaunchServerButton" class="button button--primary" text="Launch button"/>
                 </ui:VisualElement>
             </ui:VisualElement>
         </ui:Foldout>

@@ -108,12 +108,9 @@ namespace AmazonGameLift.Editor
                 }
                 else
                 {
-                    var url = string.Format(Urls.AwsGameLiftLogs, _stateManager.Region);
                     _registerComputeStatusBox.Show(StatusBox.StatusBoxType.Error,
-                        Strings.AnywherePageStatusBoxDefaultErrorText, 
-                        registerResponse.ErrorMessage, 
-                        url,
-                        Strings.ViewLogsStatusBoxUrlTextButton);
+                        Strings.AnywherePageStatusBoxDefaultErrorText,
+                        registerResponse.ErrorMessage);
                 }
             }
             
@@ -220,9 +217,7 @@ namespace AmazonGameLift.Editor
 
         private void SetupStatusBox()
         {
-            _registerComputeStatusBox =  new StatusBox();
-            var statusBoxContainer = _container.Q("AnywherePageComputeStatusBoxContainer");
-            statusBoxContainer.Add(_registerComputeStatusBox);
+            _registerComputeStatusBox = _container.Q<StatusBox>("AnywherePageComputeStatusBox");
         }
 
         protected sealed override void UpdateGUI()
