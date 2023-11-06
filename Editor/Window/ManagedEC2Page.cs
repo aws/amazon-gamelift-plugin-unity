@@ -4,6 +4,7 @@
 using System;
 using System.Collections.Generic;
 using UnityEditor;
+using UnityEditor.Build;
 using UnityEngine;
 using UnityEngine.UIElements;
 using OperatingSystem = Amazon.GameLift.OperatingSystem;
@@ -80,7 +81,12 @@ namespace AmazonGameLift.Editor
                 UpdateGUI();
             });
             _launchClientButton = container.Q<Button>("ManagedEC2LaunchClientButton");
-            _launchClientButton.RegisterCallback<ClickEvent>(_ => EditorApplication.EnterPlaymode());
+            _launchClientButton.RegisterCallback<ClickEvent>(_ =>
+            {
+                EditorUserBuildSettings.SwitchActiveBuildTarget(NamedBuildTarget.Standalone,
+                    EditorUserBuildSettings.selectedStandaloneTarget);
+                EditorApplication.EnterPlaymode();
+            });
 
 
             _container.Q<VisualElement>("ManagedEC2IntegrateLinkParent")
@@ -207,6 +213,8 @@ namespace AmazonGameLift.Editor
             l.SetElementText("ManagedEC2LaunchClientTitle", Strings.ManagedEC2LaunchClientTitle);
             l.SetElementText("ManagedEC2LaunchClientLabel", Strings.ManagedEC2LaunchClientLabel);
             l.SetElementText("ManagedEC2LaunchClientButton", Strings.ManagedEC2LaunchClientButton);
+            l.SetElementText("ManagedEC2ConfigureClientLabel", Strings.ManagedEC2ConfigureClientLabel);
+            l.SetElementText("ManagedEC2ConfigureClientDescription", Strings.ManagedEC2ConfigureClientDescription);
         }
 
         private string GetScenarioType(ElementLocalizer l) => _deploymentSettings.Scenario switch
