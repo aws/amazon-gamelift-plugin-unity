@@ -24,7 +24,8 @@ namespace AmazonGameLift.Editor
         private readonly FleetParametersInput _fleetParamsInput;
         private readonly StatusIndicator _statusIndicator;
         private readonly ManagedEC2Deployment _ec2Deployment;
-        private StatusBox _statusBox;
+        private StatusBox _bootstrapStatusBox;
+        private StatusBox _deployStatusBox;
 
         public ManagedEC2Page(VisualElement container, StateManager stateManager)
         {
@@ -128,8 +129,8 @@ namespace AmazonGameLift.Editor
 
         private void UpdateGUI()
         {
-            LocalizeText();
-
+            LocalizeText(); 
+            _deployStatusBox.Close();
             _deployButton.SetEnabled(_deploymentSettings.CurrentStackInfo.StackStatus == null &&
                                      _deploymentSettings.CanDeploy);
             _redeployButton.SetEnabled(_deploymentSettings.CurrentStackInfo.StackStatus != null &&
@@ -161,6 +162,12 @@ namespace AmazonGameLift.Editor
             {
                 _statusIndicator.Set(State.InProgress, textProvider.Get(Strings.ManagedEC2DeployStatusDeploying));
             }
+            else if (stackStatus == StackStatus.RollbackComplete)
+            {
+                var errorText = textProvider.GetError(ErrorCode.StackStatusInvalid);
+                _statusIndicator.Set(State.Failed, errorText);
+                _deployStatusBox.Show(StatusBox.StatusBoxType.Error,  errorText, null, string.Format(Urls.AwsCloudFormationTemplate, _stateManager.Region), Strings.LabelDeploymentCloudFormationConsole);
+            }
             else if (stackStatus.IsStackStatusOperationDone())
             {
                 _statusIndicator.Set(State.Success, textProvider.Get(Strings.ManagedEC2DeployStatusDeployed));
@@ -173,18 +180,19 @@ namespace AmazonGameLift.Editor
         
         private void SetupStatusBoxes()
         {
-            _statusBox = _container.Q<StatusBox>("ManagedEC2StatusBox");
+            _bootstrapStatusBox = _container.Q<StatusBox>("ManagedEC2StatusBox");
+            _deployStatusBox = _container.Q<StatusBox>("ManagedEC2DeployStatusBox");
         }
         
         private void UpdateStatusBoxes()
         {
             if (!_stateManager.IsBootstrapped)
             {
-                _statusBox.Show(StatusBox.StatusBoxType.Warning, Strings.ManagedEC2StatusBoxNotBootstrappedWarning);
+                _bootstrapStatusBox.Show(StatusBox.StatusBoxType.Warning, Strings.ManagedEC2StatusBoxNotBootstrappedWarning);
             }
             else
             {
-                _statusBox.Close();
+                _bootstrapStatusBox.Close();
             }
         }
 

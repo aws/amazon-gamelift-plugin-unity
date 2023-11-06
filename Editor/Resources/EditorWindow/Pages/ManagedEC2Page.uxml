@@ -21,6 +21,7 @@
         <ui:Foldout name="ManagedEC2ScenarioTitle" class="foldout" text="Select Deployment Scenario"/>
         <ui:Foldout name="ManagedEC2ParametersTitle" class="foldout" text="[GameName] parameters"/>
         <ui:Foldout name="ManagedEC2DeployTitle" class="foldout separator separator--vertical" text="Deploy (Single-region Fleet)">
+            <gl:StatusBox name="ManagedEC2DeployStatusBox"/>
             <ui:Label name="ManagedEC2DeployDescription" class="foldout__description form-row" text="Deploying GameLift can take up to 30-40 minutes"/>
             <ui:VisualElement class="form-row">
                 <ui:Label name="ManagedEC2DeployStatusLabel" class="form-row__label" text="Status"/>
