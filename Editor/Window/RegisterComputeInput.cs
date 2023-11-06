@@ -165,6 +165,8 @@ namespace AmazonGameLift.Editor
                 _computeState = ComputeStatus.Registered;
             }
 
+            _computeNameInput.value = _stateManager.ComputeName;
+
             UpdateGUI();
         }
 
@@ -220,6 +222,26 @@ namespace AmazonGameLift.Editor
             _registerComputeStatusBox = _container.Q<StatusBox>("AnywherePageComputeStatusBox");
         }
 
+        private void CheckReadOnly()
+        {
+            if (_computeState == ComputeStatus.Registered)
+            {
+                _computeNameInput.isReadOnly = true;
+                foreach (var ipBox in _ipInputs)
+                {
+                    ipBox.isReadOnly = true;
+                }
+            }
+            else
+            {
+                _computeNameInput.isReadOnly = false;
+                foreach (var ipBox in _ipInputs)
+                {
+                    ipBox.isReadOnly = false;
+                }
+            }
+        }
+
         protected sealed override void UpdateGUI()
         {
             var elements = GetVisibleItemsByState();
@@ -244,6 +266,8 @@ namespace AmazonGameLift.Editor
                 _statusIndicator.Set(State.Success,
                     textProvider.Get(Strings.AnywherePageComputeStatusRegistered));
             }
+
+            CheckReadOnly();
         }
 
         private void LocalizeText()
