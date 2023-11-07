@@ -4,6 +4,7 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using Amazon.GameLift.Model;
 using UnityEngine;
 using UnityEngine.UIElements;
 
@@ -56,7 +57,7 @@ namespace AmazonGameLift.Editor
             RegisterCallbacks();
             SetupStatusBox();
 
-            _stateManager.OnFleetChanged += CheckCompute;
+            _stateManager.OnFleetChanged += SetValidCompute;
 
             UpdateGUI();
         }
@@ -113,11 +114,11 @@ namespace AmazonGameLift.Editor
                         registerResponse.ErrorMessage);
                 }
             }
-            
+
             UpdateGUI();
         }
 
-        private async void CheckCompute()
+        private async void SetValidCompute()
         {
             var computes = await _stateManager.ComputeManager.ListCompute(_stateManager.AnywhereFleetId);
             if (computes.Success)
@@ -125,27 +126,38 @@ namespace AmazonGameLift.Editor
                 var matchingCompute =
                     computes.ComputeList.FirstOrDefault(compute =>
                         compute.ComputeName == _stateManager.ComputeName);
-                if (matchingCompute == null)
+                if (matchingCompute != null)
+                {
+                    SetupComputeAfterSwitch(matchingCompute);
+                }
+                else if (computes.ComputeList.Count > 0)
+                {
+                    var firstCompute = computes.ComputeList.First();
+                    SetupComputeAfterSwitch(firstCompute);
+                }
+                else
                 {
                     _computeNameInput.value = _defaultComputeName;
                     SetIpInputs(_defaultIpAddress);
                     _computeState = ComputeStatus.NotRegistered;
-                }
-                else
-                {
-                    _stateManager.ComputeName = matchingCompute.ComputeName;
-                    _stateManager.IpAddress = matchingCompute.IpAddress;
-                    _stateManager.WebSocketUrl = matchingCompute.GameLiftServiceSdkEndpoint;
-                    SetIpInputs(matchingCompute.IpAddress);
-                    _computeState = ComputeStatus.Registered;
                 }
             }
             else
             {
                 Debug.LogError(computes.ErrorMessage);
             }
-            
+
             UpdateGUI();
+        }
+
+        private void SetupComputeAfterSwitch(Compute compute)
+        {
+            _stateManager.ComputeName = compute.ComputeName;
+            _stateManager.IpAddress = compute.IpAddress;
+            _stateManager.WebSocketUrl = compute.GameLiftServiceSdkEndpoint;
+            _computeNameInput.value = compute.ComputeName;
+            SetIpInputs(compute.IpAddress);
+            _computeState = ComputeStatus.Registered;
         }
 
         private void OnReplaceComputeButtonClicked()
