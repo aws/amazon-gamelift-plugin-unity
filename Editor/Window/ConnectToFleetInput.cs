@@ -77,7 +77,6 @@ namespace AmazonGameLift.Editor
                     _stateManager.AnywhereFleetLocation = customLocationResponse.Location;
 
                     await UpdateFleetMenu();
-                    _fleetNameDropdownContainer.value = fleetName;
                     _fleetState = FleetStatus.Selected;
                 }
                 else
