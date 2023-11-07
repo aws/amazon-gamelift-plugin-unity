@@ -179,7 +179,8 @@ namespace AmazonGameLift.Editor
             }
 
             _computeNameInput.value = _stateManager.ComputeName;
-
+            SetIpInputs(_stateManager.IpAddress);
+            
             UpdateGUI();
         }
 
@@ -240,17 +241,21 @@ namespace AmazonGameLift.Editor
             if (_computeState == ComputeStatus.Registered)
             {
                 _computeNameInput.isReadOnly = true;
+                _computeNameInput.SetEnabled(false);
                 foreach (var ipBox in _ipInputs)
                 {
                     ipBox.isReadOnly = true;
+                    ipBox.SetEnabled(false);
                 }
             }
             else
             {
                 _computeNameInput.isReadOnly = false;
+                _computeNameInput.SetEnabled(true);
                 foreach (var ipBox in _ipInputs)
                 {
                     ipBox.isReadOnly = false;
+                    ipBox.SetEnabled(true);
                 }
             }
         }
