@@ -145,7 +145,9 @@ namespace AmazonGameLift.Editor
             }
             else
             {
-                Debug.LogError(computes.ErrorMessage);
+                _computeNameInput.value = _defaultComputeName;
+                SetIpInputs(_defaultIpAddress);
+                _computeState = ComputeStatus.NotRegistered;
             }
 
             UpdateGUI();

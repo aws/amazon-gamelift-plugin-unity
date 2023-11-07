@@ -254,6 +254,7 @@ namespace AmazonGameLift.Editor
             GameLiftWrapper = AmazonGameLiftWrapperFactory.Get(ProfileName);
             FleetManager = new GameLiftFleetManager(GameLiftWrapper);
             ComputeManager = new GameLiftComputeManager(GameLiftWrapper);
+            ResetParameters();
             OnUserProfileUpdated?.Invoke();
         }
 
@@ -288,6 +289,12 @@ namespace AmazonGameLift.Editor
         {
             BucketName = bucketName;
             OnUserProfileUpdated?.Invoke();
+        }
+
+        private void ResetParameters()
+        {
+            AnywhereFleetId = "";
+            AnywhereFleetName = "";
         }
     }
 }
