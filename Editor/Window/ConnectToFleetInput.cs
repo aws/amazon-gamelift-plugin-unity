@@ -77,7 +77,6 @@ namespace AmazonGameLift.Editor
                     _stateManager.AnywhereFleetLocation = customLocationResponse.Location;
 
                     await UpdateFleetMenu();
-                    _fleetNameDropdownContainer.value = fleetName;
                     _fleetState = FleetStatus.Selected;
                 }
                 else
@@ -164,16 +163,26 @@ namespace AmazonGameLift.Editor
                     _fleetAttributes = new List<FleetAttributes>();
                 }
 
+                var textProvider = new TextProvider();
+
                 _fleetNameDropdownContainer.choices =
                     _fleetAttributes.Select(fleet => $"{fleet.Name} | {fleet.FleetId}").ToList();
-                _fleetNameDropdownContainer.value =
-                    $"{_stateManager.AnywhereFleetName} | {_stateManager.AnywhereFleetId}";
+                if (string.IsNullOrWhiteSpace(_stateManager.AnywhereFleetId))
+                {
+                    _fleetNameDropdownContainer.SetValueWithoutNotify(
+                        textProvider.Get(Strings.AnywherePageConnectFleetDefault));
+                }
+                else
+                {
+                    _fleetNameDropdownContainer.value =
+                        $"{_stateManager.AnywhereFleetName} | {_stateManager.AnywhereFleetId}";
+                }
+
                 _fleetIdText.text = _stateManager.AnywhereFleetId;
 
                 var fleet = _fleetAttributes.FirstOrDefault(fleet => fleet.FleetId == _stateManager.AnywhereFleetId);
                 if (fleet != null)
                 {
-                    var textProvider = new TextProvider();
                     if (fleet.Status == Amazon.GameLift.FleetStatus.ERROR)
                     {
                         _statusIndicator.Set(State.Failed,

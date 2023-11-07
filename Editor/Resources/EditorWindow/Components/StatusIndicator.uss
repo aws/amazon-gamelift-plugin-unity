@@ -3,6 +3,10 @@
 
 @import '../common.uss';
 
+.status-indicator {
+    align-items: center;
+}
+
 .status-indicator--in-progress {
     color: var(--color-font-link);
 }
@@ -30,3 +34,10 @@
     --unity-image: resource("Images/Icons/Failed");
 }
 
+.status-indicator--spin {
+    rotate: 1turn;
+    transition-property: rotate;
+    transition-duration: 1s;
+    transition-timing-function: linear;
+    transform-origin: center;
+}
