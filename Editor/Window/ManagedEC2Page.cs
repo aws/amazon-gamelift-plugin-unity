@@ -152,21 +152,23 @@ namespace AmazonGameLift.Editor
             }
             else if (stackStatus.IsStackStatusFailed())
             {
-                _statusIndicator.Set(State.Failed, textProvider.Get(Strings.ManagedEC2DeployStatusFailed));
+                var errorText = textProvider.Get(Strings.ManagedEC2DeployStatusFailed);
+                _statusIndicator.Set(State.Failed, errorText);
+                _deployStatusBox.Show(StatusBox.StatusBoxType.Error,  errorText, null, string.Format(Urls.AwsCloudFormationTemplate, _stateManager.Region, _deploymentSettings.CurrentStackInfo.StackId), Strings.LabelDeploymentCloudFormationConsole);
             }
             else if (stackStatus == StackStatus.DeleteInProgress)
             {
                 _statusIndicator.Set(State.InProgress, textProvider.Get(Strings.ManagedEC2DeployStatusDeleting));
             }
-            else if (stackStatus.IsStackStatusInProgress())
-            {
-                _statusIndicator.Set(State.InProgress, textProvider.Get(Strings.ManagedEC2DeployStatusDeploying));
-            }
-            else if (stackStatus == StackStatus.RollbackComplete)
+            else if (stackStatus.IsStackStatusRollback())
             {
                 var errorText = textProvider.GetError(ErrorCode.StackStatusInvalid);
                 _statusIndicator.Set(State.Failed, errorText);
-                _deployStatusBox.Show(StatusBox.StatusBoxType.Error,  errorText, null, string.Format(Urls.AwsCloudFormationTemplate, _stateManager.Region), Strings.LabelDeploymentCloudFormationConsole);
+                _deployStatusBox.Show(StatusBox.StatusBoxType.Error,  errorText, null, string.Format(Urls.AwsCloudFormationTemplate, _stateManager.Region, _deploymentSettings.CurrentStackInfo.StackId), Strings.LabelDeploymentCloudFormationConsole);
+            }
+            else if (stackStatus.IsStackStatusInProgress())
+            {
+                _statusIndicator.Set(State.InProgress, textProvider.Get(Strings.ManagedEC2DeployStatusDeploying));
             }
             else if (stackStatus.IsStackStatusOperationDone())
             {

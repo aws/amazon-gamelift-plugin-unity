@@ -19,7 +19,7 @@ namespace AmazonGameLift.Editor
 
             describeResponse.Outputs.TryGetValue(StackOutputKeys.ApiGatewayEndpoint, out string apiGatewayEndpoint);
             describeResponse.Outputs.TryGetValue(StackOutputKeys.UserPoolClientId, out string userPoolClientId);
-            return new DeploymentStackInfo(status, describeResponse.StackStatus, details, apiGatewayEndpoint, userPoolClientId);
+            return new DeploymentStackInfo(status, describeResponse.StackStatus, details, apiGatewayEndpoint, userPoolClientId, describeResponse.StackId);
         }
 
         public static DeploymentStackInfo Create(TextProvider textProvider, DeploymentInfo info)
