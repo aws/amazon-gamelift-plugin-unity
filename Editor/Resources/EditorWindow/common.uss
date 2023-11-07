@@ -349,7 +349,6 @@ Image#ExternalLinkIcon {
     padding: 0;
     border-width: 0;
     background-color: rgba(0, 0, 0, 0);
-    flex-grow: 0;
 }
 
 .input-hint {
