@@ -33,7 +33,11 @@ namespace AmazonGameLift.Editor
             _stateManager.OnUserProfileUpdated += UpdateGUI;
             _textProvider = TextProviderFactory.Create();
 
-            _dropdown.RegisterValueChangedCallback(value => { _stateManager.SetProfile(value.newValue); });
+            _dropdown.RegisterValueChangedCallback(value =>
+            {
+                _stateManager.SetProfile(value.newValue); 
+                _stateManager.OnUserProfileSelected?.Invoke();
+            });
             UpdateGUI();
         }
  

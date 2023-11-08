@@ -58,8 +58,16 @@ namespace AmazonGameLift.Editor
             RegisterCallbacks();
             SetupStatusBox();
 
-            _stateManager.OnFleetChanged += SetValidCompute;
+            _stateManager.OnFleetChanged += UpdateCompute;
 
+            _stateManager.OnUserProfileSelected += UpdateCompute;
+
+            UpdateGUI();
+        }
+
+        private void UpdateCompute()
+        {
+            SetValidCompute();
             UpdateGUI();
         }
 

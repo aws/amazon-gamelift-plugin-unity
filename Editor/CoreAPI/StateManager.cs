@@ -223,6 +223,7 @@ namespace AmazonGameLift.Editor
 
         public Action OnUserProfileUpdated { get; set; }
         public Action OnFleetChanged { get; set; }
+        public Action OnUserProfileSelected { get; set; }
 
         public StateManager(CoreApi coreApi)
         {
@@ -254,7 +255,6 @@ namespace AmazonGameLift.Editor
             GameLiftWrapper = AmazonGameLiftWrapperFactory.Get(ProfileName);
             FleetManager = new GameLiftFleetManager(GameLiftWrapper);
             ComputeManager = new GameLiftComputeManager(GameLiftWrapper);
-            ResetParameters();
             OnUserProfileUpdated?.Invoke();
         }
 
@@ -289,12 +289,6 @@ namespace AmazonGameLift.Editor
         {
             BucketName = bucketName;
             OnUserProfileUpdated?.Invoke();
-        }
-
-        private void ResetParameters()
-        {
-            AnywhereFleetId = "";
-            AnywhereFleetName = "";
         }
     }
 }

@@ -19,6 +19,7 @@ namespace AmazonGameLift.Editor
         private readonly List<TextField> _textFields;
         private BootstrapSettings _bootstrapSettings;
         private CancellationTokenSource _refreshBucketsCancellation;
+        private StateManager _stateManager;
 
         public Action OnProfileCreated;
 
@@ -28,8 +29,9 @@ namespace AmazonGameLift.Editor
             container.Add(uxml.Instantiate());
 
             _container = container;
-            _textFields = _container.Query<TextField>().ToList();
+            _stateManager = stateManager;
             
+            _textFields = _container.Query<TextField>().ToList();
             _awsCredentialsCreateModel = AwsCredentialsFactory.Create().Creation;
             _awsCredentialsCreateModel.OnCreated += () =>
             {
@@ -114,6 +116,7 @@ namespace AmazonGameLift.Editor
                 if (result)
                 {
                     OnProfileCreated?.Invoke();
+                    _stateManager.OnUserProfileSelected?.Invoke();
                 }
             });
         }
