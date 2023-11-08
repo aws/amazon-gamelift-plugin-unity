@@ -42,16 +42,12 @@ namespace AmazonGameLift.Editor
 
             AssignUiElements(container);
             RegisterCallBacks(container);
-            SetupPage();
+            UpdateFleetPage();
             SetupStatusBox();
             LocalizeText();
 
-            _stateManager.OnUserProfileSelected += async ()=>
-            {
-                await UpdateFleetMenu();
-                SetFleetState();
-                UpdateGUI();
-            };
+            _stateManager.OnUserProfileUpdated += UpdateGUI;
+            _stateManager.OnUserProfileSelected += UpdateFleetPage;
 
             UpdateGUI();
         }
@@ -212,7 +208,7 @@ namespace AmazonGameLift.Editor
             }
         }
 
-        private async void SetupPage()
+        private async void UpdateFleetPage()
         {
             await UpdateFleetMenu();
             SetFleetState();
