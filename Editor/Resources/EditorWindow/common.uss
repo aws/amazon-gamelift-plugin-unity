@@ -252,6 +252,10 @@ Image#ExternalLinkIcon {
     background-image: resource("Images/Icons/FoldoutArrowOpen");
  }
 
+.foldout .unity-foldout__content {
+    margin-left: 0;
+}
+
 .form-row {
     flex-direction: row;
 }
