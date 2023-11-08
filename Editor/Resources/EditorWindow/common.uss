@@ -50,6 +50,7 @@
     --radio-button-inner: 14px;
     --radio-button-outer: 24px;
     --form-row-label-width: 240px;
+    --form-row-height: 32px;
     --page-width: 920px;
 
     font-size: var(--font-size-default);
@@ -168,8 +169,8 @@ Image#FolderIcon {
 }
 
 .separator.separator--horizontal > * {
-     margin-right: var(--spacing-small);
- }
+    margin-right: var(--spacing-small);
+}
 
 .separator.separator--horizontal > .separator.separator--horizontal {
     /* small (parent) - small (child) */
@@ -250,7 +251,7 @@ Image#ExternalLinkIcon {
 
 .foldout .unity-toggle__input:checked .unity-foldout__checkmark {
     background-image: resource("Images/Icons/FoldoutArrowOpen");
- }
+}
 
 .form-row {
     flex-direction: row;
@@ -258,7 +259,7 @@ Image#ExternalLinkIcon {
 
 .form-row__label {
     width: var(--form-row-label-width);
-    height: 32px;
+    height: var(--form-row-height);
     color: var(--color-input-label);
     font-size: var(--font-size-large);
     -unity-text-align: middle-left;
@@ -282,6 +283,10 @@ Image#ExternalLinkIcon {
     margin-left: var(--form-row-label-width);
 }
 
+.form-row__radio-button {
+    min-height: var(--form-row-height);
+}
+
 .form-row__group-box.unity-group-box,
 .form-row__radio-button.unity-radio-button {
     margin: 0;
@@ -295,7 +300,9 @@ Image#ExternalLinkIcon {
     border-color: var(--color-text-input-border);
     border-radius: 100%;
     padding: 0;
+    margin-top: var(--spacing-tiny);
     justify-content: center;
+    align-self: flex-start;
 }
 
 .form-row__radio-button .unity-radio-button__checkmark {
@@ -304,9 +311,19 @@ Image#ExternalLinkIcon {
     border-radius: 100px;
 }
 
+.form-row__radio-button .unity-radio-button__text {
+    align-self: flex-start;
+    margin-top: var(--spacing-tiny);
+    margin-left: var(--spacing-small);
+}
+
 .form-row__radio-button .unity-radio-button__text,
 .form-row__radio-button .unity-radio-button__input {
     flex-shrink: 1;
+}
+
+.form-row__radio-button-link {
+    margin-left: 38px;
 }
 
 .text-input {
