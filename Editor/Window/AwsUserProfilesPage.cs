@@ -15,7 +15,7 @@ namespace AmazonGameLift.Editor
 
         private readonly AwsCredentialsUpdate _awsCredentialsUpdateModel;
         private readonly BootstrapSettings _bootstrapSettings;
-        
+
         private VisualElement _currentElement;
 
         private const string hiddenClassName = "hidden";
@@ -31,9 +31,9 @@ namespace AmazonGameLift.Editor
 
         public AwsUserProfilesPage(VisualElement container, StateManager stateManager)
         {
-            var awsCredentials = AwsCredentialsFactory.Create(); 
+            var awsCredentials = AwsCredentialsFactory.Create();
             _awsCredentialsUpdateModel = awsCredentials.Update;
-            
+
             _container = container;
             var mVisualTreeAsset = Resources.Load<VisualTreeAsset>("EditorWindow/Pages/AwsUserProfilesPage");
             var uxml = mVisualTreeAsset.Instantiate();
@@ -41,8 +41,8 @@ namespace AmazonGameLift.Editor
             _container.Add(uxml);
             SetupStatusBoxes();
             LocalizeText();
-            
-            _noAccountMenu =  _container.Q<VisualElement>("UserProfilePageNoAccountMenu");
+
+            _noAccountMenu = _container.Q<VisualElement>("UserProfilePageNoAccountMenu");
             _createMenu = _container.Q<VisualElement>("UserProfilePageCreateMenu");
             _bootstrapMenu = _container.Q<VisualElement>("UserProfilePageBootstrapMenu");
             _completedMenu = _container.Q<VisualElement>("UserProfilePageCompletedMenu");
@@ -61,7 +61,7 @@ namespace AmazonGameLift.Editor
                 _awsCredentialsUpdateModel.Refresh();
                 _awsCredentialsUpdateModel.Update();
             };
-            
+
             var createProfileContainer = _container.Q("UserProfilePageCreateMenu");
             _userProfileCreation = new UserProfileCreation(createProfileContainer, _stateManager);
             _userProfileCreation.OnProfileCreated += () =>
@@ -69,16 +69,16 @@ namespace AmazonGameLift.Editor
                 ShowProfileMenu(_bootstrapMenu);
             };
             _bootstrapSettings = BootstrapSettingsFactory.Create(_stateManager);
-                
+
             RefreshProfiles();
 
             container.Q<DropdownField>("UserProfilePageAccountNewProfileRegionDropdown").choices =
                 _stateManager.CoreApi.ListAvailableRegions().ToList();
 
             UpdateGui();
-            
+
             _stateManager.OnUserProfileUpdated += UpdateGui;
-           
+
             ChooseProfileMenu();
             SetupButtonCallbacks();
         }
@@ -94,7 +94,7 @@ namespace AmazonGameLift.Editor
                 _statusBox.Close();
             }
         }
-        
+
         private void LocalizeText()
         {
             var l = new ElementLocalizer(_container);
@@ -154,16 +154,6 @@ namespace AmazonGameLift.Editor
                 _bootstrapSettings.RefreshBucketName();
                 OpenS3Popup(_bootstrapSettings.BucketName);
             });
-            _container.Q<Button>("UserProfilePageAccountNewProfileAccessKeyToggleReveal").RegisterCallback<ClickEvent>(_ =>
-            {
-                var accessToggle = _container.Q<TextField>("UserProfilePageAccountNewProfileAccessKeyInput");
-                ToggleHiddenText(accessToggle);
-            });
-            _container.Q<Button>("UserProfilePageAccountNewProfileSecretKeyToggleReveal").RegisterCallback<ClickEvent>(_ =>
-            {
-                var secretToggle = _container.Q<TextField>("UserProfilePageAccountNewProfileSecretKeyInput");
-                ToggleHiddenText(secretToggle);
-            });
             _container.Q<Button>("UserProfilePageAccountAddNewProfileButton").RegisterCallback<ClickEvent>(_ =>
             {
                 var targetWizard = _container.Q<VisualElement>("UserProfilePageCreateMenu");
@@ -180,7 +170,7 @@ namespace AmazonGameLift.Editor
             else if (_stateManager.SelectedProfile == null)
             {
                 ShowProfileMenu(_createMenu);
-            } 
+            }
             else if (_stateManager.IsBootstrapped)
             {
                 ShowProfileMenu(_completedMenu);
@@ -191,11 +181,6 @@ namespace AmazonGameLift.Editor
             }
         }
 
-        private void ToggleHiddenText(TextField hiddenField)
-        {
-            hiddenField.isPasswordField = !hiddenField.isPasswordField;
-        }
-        
         private void ShowProfileMenu(VisualElement targetMenu)
         {
             _allMenus.ForEach(menu => menu.AddToClassList(hiddenClassName));
@@ -209,9 +194,9 @@ namespace AmazonGameLift.Editor
         {
             _awsCredentialsUpdateModel.Refresh();
         }
-        
+
         private void BootstrapAccount(string bucketName)
-        { 
+        {
             var bucketResponse = _bootstrapSettings.CreateBucket(bucketName);
             if (bucketResponse.Success || bucketResponse.ErrorCode == BucketErrorCode.BucketNameAlreadyExists)
             {
@@ -220,7 +205,8 @@ namespace AmazonGameLift.Editor
             }
             else
             {
-                _statusBox.Show(StatusBox.StatusBoxType.Error, Strings.UserProfilePageBootstrapErrorText, bucketResponse.ErrorMessage, Urls.AwsS3Console, Strings.ViewS3LogsStatusBoxUrlTextButton);
+                _statusBox.Show(StatusBox.StatusBoxType.Error, Strings.UserProfilePageBootstrapErrorText,
+                    bucketResponse.ErrorMessage, Urls.AwsS3Console, Strings.ViewS3LogsStatusBoxUrlTextButton);
             }
         }
 
@@ -231,7 +217,7 @@ namespace AmazonGameLift.Editor
             popup.OnConfirm += BootstrapAccount;
             popup.ShowModalUtility();
         }
-        
+
         private void SetupStatusBoxes()
         {
             _statusBox = _container.Q<StatusBox>("UserProfilePageStatusBox");

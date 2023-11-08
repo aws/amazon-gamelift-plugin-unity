@@ -103,6 +103,10 @@ Image#FolderIcon {
     background-color: var(--color-button-secondary);
     color: var(--color-font-dark);
 }
+    
+.button--narrow {
+    padding: 4px 8px;
+}
 
 .button--small {
     font-size: var(--font-size-default);
