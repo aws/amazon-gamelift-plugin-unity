@@ -30,7 +30,13 @@
         <ui:Foldout name="AnywherePageLaunchTitle" class="foldout separator separator--vertical" text="Launch foldout">
             <ui:VisualElement class="form-row">
                 <ui:Label name="AnywherePageConfigureClientLabel" class="form-row__label" text="Configure Client"/>
-                <ui:Label name="AnywherePageConfigureClientDescription" class="form-row__text-display" text="Description"/>
+                <ui:VisualElement class="form-row__input">
+                    <ui:Button name="AnywherePageConfigureClientButton" class="button button--primary" text="Configure button"/>
+                </ui:VisualElement>
+            </ui:VisualElement>
+            <ui:VisualElement class="form-row">
+                <ui:Label name="AnywherePageLaunchClientLabel" class="form-row__label" text="Configure Client"/>
+                <ui:Label name="AnywherePageLaunchClientDescription" class="form-row__text-display" text="Description"/>
             </ui:VisualElement>
             <ui:VisualElement class="form-row">
                 <ui:Label name="AnywherePageLaunchServerLabel" class="form-row__label" text="Run Game"/>

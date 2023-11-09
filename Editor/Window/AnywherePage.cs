@@ -5,6 +5,7 @@ using UnityEditor;
 using UnityEditor.Build;
 using UnityEngine;
 using UnityEngine.UIElements;
+using AmazonGameLift.Runtime;
 
 namespace AmazonGameLift.Editor
 {
@@ -14,7 +15,8 @@ namespace AmazonGameLift.Editor
         private readonly VisualElement _container;
         private readonly StateManager _stateManager;
         private StatusBox _statusBox;
-        private Button _launchButton;
+        private Button _launchServerButton;
+        private Button _configureClientButton;
 
         public AnywherePage(VisualElement container, StateManager stateManager)
         {
@@ -30,6 +32,7 @@ namespace AmazonGameLift.Editor
                 .RegisterCallback<ClickEvent>(_ => Application.OpenURL(Urls.AnywherePageServerSetupDocumentation));
             container.Q<VisualElement>("AnywherePageIntegrateClientLinkParent")
                 .RegisterCallback<ClickEvent>(_ => Application.OpenURL(Urls.AnywherePageClientSetupDocumentation));
+            
             SetupStatusBoxes();
 
             _stateManager.OnUserProfileUpdated += UpdateGui;
@@ -39,13 +42,21 @@ namespace AmazonGameLift.Editor
             var computeInputContainer = uxml.Q("AnywherePageComputeTitle");
             var computeInput =
                 new RegisterComputeInput(computeInputContainer, stateManager);
-            _launchButton = uxml.Q<Button>("AnywherePageLaunchServerButton");
-            _launchButton.RegisterCallback<ClickEvent>(_ =>
+            _launchServerButton = uxml.Q<Button>("AnywherePageLaunchServerButton");
+            _launchServerButton.RegisterCallback<ClickEvent>(_ =>
             {
                 EditorUserBuildSettings.SwitchActiveBuildTarget(NamedBuildTarget.Server,
                     EditorUserBuildSettings.selectedStandaloneTarget);
                 EditorApplication.EnterPlaymode();
             });
+
+            _configureClientButton = uxml.Q<Button>("AnywherePageConfigureClientButton");
+            _configureClientButton.RegisterCallback<ClickEvent>(_ =>
+            {
+                GameLiftClientSettings gameLiftClientSettings = AssetDatabase.LoadAssetAtPath<GameLiftClientSettings>("Assets/Settings/GameLiftClientSettings.asset");
+                gameLiftClientSettings.ConfigureAnywhereClientSettings();
+            });
+
             UpdateGui();
         }
 
@@ -68,13 +79,19 @@ namespace AmazonGameLift.Editor
             if (string.IsNullOrWhiteSpace(_stateManager.AnywhereFleetId) ||
                 string.IsNullOrWhiteSpace(_stateManager.ComputeName))
             {
-                _launchButton.RemoveFromClassList(_primaryButtonClassName);
-                _launchButton.SetEnabled(false);
+                _launchServerButton.RemoveFromClassList(_primaryButtonClassName);
+                _launchServerButton.SetEnabled(false);
+            
+                _configureClientButton.RemoveFromClassList(_primaryButtonClassName);
+                _configureClientButton.SetEnabled(false);
             }
             else
             {
-                _launchButton.AddToClassList(_primaryButtonClassName);
-                _launchButton.SetEnabled(true);
+                _launchServerButton.AddToClassList(_primaryButtonClassName);
+                _launchServerButton.SetEnabled(true);
+
+                _configureClientButton.AddToClassList(_primaryButtonClassName);
+                _configureClientButton.SetEnabled(true);
             }
         }
 
@@ -91,9 +108,11 @@ namespace AmazonGameLift.Editor
             l.SetElementText("AnywherePageComputeTitle", Strings.AnywherePageComputeTitle);
             l.SetElementText("AnywherePageLaunchTitle", Strings.AnywherePageLaunchTitle);
             l.SetElementText("AnywherePageConfigureClientLabel", Strings.AnywherePageConfigureClientLabel);
-            l.SetElementText("AnywherePageConfigureClientDescription", Strings.AnywherePageConfigureClientDescription);
+            l.SetElementText("AnywherePageConfigureClientButton", Strings.AnywherePageConfigureClientButton);
             l.SetElementText("AnywherePageLaunchServerLabel", Strings.AnywherePageLaunchServerLabel);
             l.SetElementText("AnywherePageLaunchServerButton", Strings.AnywherePageLaunchServerButton);
+            l.SetElementText("AnywherePageLaunchClientLabel", Strings.AnywherePageLaunchClientLabel);
+            l.SetElementText("AnywherePageLaunchClientDescription", Strings.AnywherePageLaunchClientDescription);
         }
     }
 }
