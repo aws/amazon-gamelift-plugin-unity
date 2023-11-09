@@ -200,8 +200,8 @@ namespace AmazonGameLift.Editor
             var bucketResponse = _bootstrapSettings.CreateBucket(bucketName);
             if (bucketResponse.Success || bucketResponse.ErrorCode == BucketErrorCode.BucketNameAlreadyExists)
             {
-                _statusBox.Show(StatusBox.StatusBoxType.Success, Strings.UserProfilePageStatusBoxSuccessText);
                 _stateManager.SetBucketBootstrap(bucketName);
+                _statusBox.Show(StatusBox.StatusBoxType.Success, Strings.UserProfilePageStatusBoxSuccessText);
             }
             else
             {
