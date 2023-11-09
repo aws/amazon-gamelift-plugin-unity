@@ -79,7 +79,7 @@ public class GameLiftServer
             computeName = _settings.GetSetting(ServerSettingsKeys.ComputeName).Value;
 #endif
             var serverParams =
-                new ServerParameters(websocketUrl, $"{Application.productName}-{Guid.NewGuid()}", computeName, fleetID,
+                new ServerParameters(websocketUrl, $"{Guid.NewGuid()}", computeName, fleetID,
                     authToken);
 
             GenericOutcome initOutcome = GameLiftServerAPI.InitSDK(serverParams);
@@ -254,6 +254,10 @@ public class GameLiftServer
         catch (Exception e)
         {
             _logger.Write(":( PROCESSENDING FAILED. ProcessEnding() exception " + Environment.NewLine + e.Message);
+        }
+        finally
+        {
+            GameLiftServerAPI.Destroy();
         }
     }
 
