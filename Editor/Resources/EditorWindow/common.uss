@@ -10,6 +10,7 @@
     --color-button-hover: #386082;
     --color-button-border: #242424;
     --color-border-accent: #4c4c4c;
+    --color-border-highlight: #9a9a9a;
     --color-font-default: #d2d2d2;
     --color-font-accent: #ffffff;
     --color-font-success: #58BC61;
