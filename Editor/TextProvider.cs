@@ -48,7 +48,7 @@ namespace AmazonGameLift.Editor
             { ErrorCode.OperationCancelled, "The operation was cancelled."},
             { ErrorCode.OperationInvalid, "There was a problem with the operation."},
             { ErrorCode.ReadingFileFailed, "There was a problem reading the file."},
-            { ErrorCode.StackStatusInvalid, "There was a problem with the stack status."},
+            { ErrorCode.StackStatusInvalid, "Something went wrong with the stack. Refer to the CloudFormation console for details. Delete and re-create the deployment once the problem is resolved."},
             { ErrorCode.ValueInvalid, "There was a problem with the value."},
             { ErrorCode.WritingFileFailed, "There was a problem writing to the file."},
         };
@@ -300,6 +300,8 @@ namespace AmazonGameLift.Editor
             { Strings.ManagedEC2DeployStatusDeployed, "Deployed"},
             { Strings.ManagedEC2DeployStatusDeleting, "Deleting"},
             { Strings.ManagedEC2DeployStatusFailed, "Failed"},
+            { Strings.ManagedEC2DeployStatusRolledBack, "Rolled back"},
+            { Strings.ManagedEC2DeployStatusRollingBack, "Rolling back"},
             { Strings.ManagedEC2DeployStatusLink, "View in CloudFormation Console"},
             { Strings.ManagedEC2DeployActionsLabel, "AWS Resource Actions"},
             { Strings.ManagedEC2CreateStackButton, "Create"},

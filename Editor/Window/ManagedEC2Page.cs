@@ -156,9 +156,8 @@ namespace AmazonGameLift.Editor
             }
             else if (stackStatus.IsStackStatusFailed())
             {
-                var errorText = textProvider.Get(Strings.ManagedEC2DeployStatusFailed);
-                _statusIndicator.Set(State.Failed, errorText);
-                _deployStatusBox.Show(StatusBox.StatusBoxType.Error,  errorText, null, string.Format(Urls.AwsCloudFormationTemplate, _stateManager.Region, _deploymentSettings.CurrentStackInfo.StackId), Strings.LabelDeploymentCloudFormationConsole);
+                _statusIndicator.Set(State.Failed, textProvider.GetError(ErrorCode.StackStatusInvalid));
+                _deployStatusBox.Show(StatusBox.StatusBoxType.Error, _deploymentSettings.CurrentStackInfo.Details);
             }
             else if (stackStatus == StackStatus.DeleteInProgress)
             {
@@ -166,9 +165,11 @@ namespace AmazonGameLift.Editor
             }
             else if (stackStatus.IsStackStatusRollback())
             {
-                var errorText = textProvider.GetError(ErrorCode.StackStatusInvalid);
-                _statusIndicator.Set(State.Failed, errorText);
-                _deployStatusBox.Show(StatusBox.StatusBoxType.Error,  errorText, null, string.Format(Urls.AwsCloudFormationTemplate, _stateManager.Region, _deploymentSettings.CurrentStackInfo.StackId), Strings.LabelDeploymentCloudFormationConsole);
+                _statusIndicator.Set(State.Failed, textProvider.Get(stackStatus.IsStackStatusInProgress()
+                    ? Strings.ManagedEC2DeployStatusRollingBack
+                    : Strings.ManagedEC2DeployStatusRolledBack));
+                _deployStatusBox.Show(StatusBox.StatusBoxType.Error,
+                    textProvider.GetError(ErrorCode.StackStatusInvalid));
             }
             else if (stackStatus.IsStackStatusInProgress())
             {
