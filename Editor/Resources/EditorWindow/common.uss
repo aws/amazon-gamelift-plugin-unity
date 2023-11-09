@@ -31,6 +31,7 @@
     --font-size-massive: 32px;
 
     --icon-size-tiny: 16px;
+    --icon-size-extrasmall: 20px;
     --icon-size-small: 24px;
     --icon-size-large: 60px;
     --border-size-thin: 1px;
@@ -71,6 +72,12 @@ Image.icon--large {
 Image.icon--small {
     height: var(--icon-size-small);
     width: var(--icon-size-small);
+    flex: 0 0 auto;
+}
+
+Image.icon--extrasmall {
+    height: var(--icon-size-extrasmall);
+    width: var(--icon-size-extrasmall);
     flex: 0 0 auto;
 }
 
@@ -315,6 +322,7 @@ Image#ExternalLinkIcon {
     align-self: flex-start;
     margin-top: var(--spacing-tiny);
     margin-left: var(--spacing-small);
+    font-size: vaR(--font-size-default);
 }
 
 .form-row__radio-button .unity-radio-button__text,
@@ -324,6 +332,7 @@ Image#ExternalLinkIcon {
 
 .form-row__radio-button-link {
     margin-left: 38px;
+    font-size: vaR(--font-size-default);
 }
 
 .text-input {
