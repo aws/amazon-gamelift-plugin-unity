@@ -33,6 +33,7 @@ namespace AmazonGameLift.Editor
             SetupStatusBoxes();
 
             _stateManager.OnUserProfileUpdated += UpdateGui;
+            _stateManager.OnComputeChanged += UpdateGui;
 
             var fleetInputContainer = uxml.Q("AnywherePageConnectFleetTitle");
             var fleetInput = new ConnectToFleetInput(fleetInputContainer, stateManager);

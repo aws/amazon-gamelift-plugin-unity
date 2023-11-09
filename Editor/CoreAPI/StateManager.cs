@@ -104,6 +104,7 @@ namespace AmazonGameLift.Editor
             {
                 _selectedProfile.ComputeName = value;
                 SaveProfiles();
+                OnComputeChanged?.Invoke();
             }
         }
 
@@ -223,6 +224,7 @@ namespace AmazonGameLift.Editor
 
         public Action OnUserProfileUpdated { get; set; }
         public Action OnFleetChanged { get; set; }
+        public Action OnComputeChanged { get; set; }
 
         public StateManager(CoreApi coreApi)
         {
@@ -280,7 +282,6 @@ namespace AmazonGameLift.Editor
         public PutSettingResponse SaveProfiles()
         {
             var profiles = _serializer.Serialize(_allProfiles);
-            OnUserProfileUpdated?.Invoke();
             return CoreApi.PutSetting(SettingsKeys.UserProfiles, profiles);
         }
 
