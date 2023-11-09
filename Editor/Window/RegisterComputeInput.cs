@@ -4,6 +4,7 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using Amazon.GameLift.Model;
 using UnityEngine;
 using UnityEngine.UIElements;
 
@@ -24,8 +25,9 @@ namespace AmazonGameLift.Editor
         private readonly StateManager _stateManager;
         private StatusBox _registerComputeStatusBox;
 
-        private readonly string _defaultComputeName = "ComputerName-ProfileName";
-        private readonly string _defaultIpAddress = "127.0.0.1";
+        private const string _primaryButtonClassName = "button--primary";
+        private const string _defaultComputeName = "ComputerName-ProfileName";
+        private const string _defaultIpAddress = "127.0.0.1";
         private string _computeName;
         private string _ipAddress;
 
@@ -56,7 +58,7 @@ namespace AmazonGameLift.Editor
             RegisterCallbacks();
             SetupStatusBox();
 
-            _stateManager.OnFleetChanged += CheckCompute;
+            _stateManager.OnFleetChanged += SetValidCompute;
 
             UpdateGUI();
         }
@@ -113,11 +115,11 @@ namespace AmazonGameLift.Editor
                         registerResponse.ErrorMessage);
                 }
             }
-            
+
             UpdateGUI();
         }
 
-        private async void CheckCompute()
+        private async void SetValidCompute()
         {
             var computes = await _stateManager.ComputeManager.ListCompute(_stateManager.AnywhereFleetId);
             if (computes.Success)
@@ -125,27 +127,38 @@ namespace AmazonGameLift.Editor
                 var matchingCompute =
                     computes.ComputeList.FirstOrDefault(compute =>
                         compute.ComputeName == _stateManager.ComputeName);
-                if (matchingCompute == null)
+                if (matchingCompute != null)
+                {
+                    SetupComputeAfterSwitch(matchingCompute);
+                }
+                else if (computes.ComputeList.Count > 0)
+                {
+                    var firstCompute = computes.ComputeList.First();
+                    SetupComputeAfterSwitch(firstCompute);
+                }
+                else
                 {
                     _computeNameInput.value = _defaultComputeName;
                     SetIpInputs(_defaultIpAddress);
                     _computeState = ComputeStatus.NotRegistered;
-                }
-                else
-                {
-                    _stateManager.ComputeName = matchingCompute.ComputeName;
-                    _stateManager.IpAddress = matchingCompute.IpAddress;
-                    _stateManager.WebSocketUrl = matchingCompute.GameLiftServiceSdkEndpoint;
-                    SetIpInputs(matchingCompute.IpAddress);
-                    _computeState = ComputeStatus.Registered;
                 }
             }
             else
             {
                 Debug.LogError(computes.ErrorMessage);
             }
-            
+
             UpdateGUI();
+        }
+
+        private void SetupComputeAfterSwitch(Compute compute)
+        {
+            _stateManager.ComputeName = compute.ComputeName;
+            _stateManager.IpAddress = compute.IpAddress;
+            _stateManager.WebSocketUrl = compute.GameLiftServiceSdkEndpoint;
+            _computeNameInput.value = compute.ComputeName;
+            SetIpInputs(compute.IpAddress);
+            _computeState = ComputeStatus.Registered;
         }
 
         private void OnReplaceComputeButtonClicked()
@@ -165,6 +178,9 @@ namespace AmazonGameLift.Editor
                 _computeState = ComputeStatus.Registered;
             }
 
+            _computeNameInput.value = _stateManager.ComputeName;
+            SetIpInputs(_stateManager.IpAddress);
+            
             UpdateGUI();
         }
 
@@ -220,6 +236,30 @@ namespace AmazonGameLift.Editor
             _registerComputeStatusBox = _container.Q<StatusBox>("AnywherePageComputeStatusBox");
         }
 
+        private void CheckReadOnly()
+        {
+            if (_computeState == ComputeStatus.Registered)
+            {
+                _computeNameInput.isReadOnly = true;
+                _computeNameInput.SetEnabled(false);
+                foreach (var ipBox in _ipInputs)
+                {
+                    ipBox.isReadOnly = true;
+                    ipBox.SetEnabled(false);
+                }
+            }
+            else
+            {
+                _computeNameInput.isReadOnly = false;
+                _computeNameInput.SetEnabled(true);
+                foreach (var ipBox in _ipInputs)
+                {
+                    ipBox.isReadOnly = false;
+                    ipBox.SetEnabled(true);
+                }
+            }
+        }
+
         protected sealed override void UpdateGUI()
         {
             var elements = GetVisibleItemsByState();
@@ -244,6 +284,17 @@ namespace AmazonGameLift.Editor
                 _statusIndicator.Set(State.Success,
                     textProvider.Get(Strings.AnywherePageComputeStatusRegistered));
             }
+
+            if (string.IsNullOrWhiteSpace(_stateManager.AnywhereFleetId))
+            {
+                _registerButton.RemoveFromClassList(_primaryButtonClassName);
+            }
+            else
+            {
+                _registerButton.AddToClassList(_primaryButtonClassName);
+            }
+
+            CheckReadOnly();
         }
 
         private void LocalizeText()
