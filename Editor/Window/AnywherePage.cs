@@ -42,6 +42,7 @@ namespace AmazonGameLift.Editor
             var computeInputContainer = uxml.Q("AnywherePageComputeTitle");
             var computeInput =
                 new RegisterComputeInput(computeInputContainer, stateManager);
+            
             _launchServerButton = uxml.Q<Button>("AnywherePageLaunchServerButton");
             _launchServerButton.RegisterCallback<ClickEvent>(_ =>
             {

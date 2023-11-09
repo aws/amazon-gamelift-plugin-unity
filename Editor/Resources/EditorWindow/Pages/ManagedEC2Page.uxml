@@ -38,7 +38,7 @@
         <ui:Foldout name="ManagedEC2LaunchClientTitle" class="foldout separator separator--vertical" text="Launch Client">
             <ui:VisualElement class="form-row">
                 <ui:Label name="ManagedEC2ConfigureClientLabel" class="form-row__label" text="Configure Client"/>
-                <ui:Label name="ManagedEC2ConfigureClientDescription" class="form-row__text-display" text="Description"/>
+                <ui:Button name="ManagedEC2ConfigureClientButton" class="button button--primary" text="Configure Client"/>
             </ui:VisualElement>
             <ui:VisualElement class="form-row">
                 <ui:Label name="ManagedEC2LaunchClientLabel" class="form-row__label" text="Run Game"/>

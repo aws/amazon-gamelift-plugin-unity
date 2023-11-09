@@ -83,6 +83,7 @@ namespace AmazonGameLift.Editor
             {
                 _selectedProfile.AnywhereFleetId = value;
                 SaveProfiles();
+                OnUserProfileUpdated?.Invoke();
                 OnFleetChanged?.Invoke();
             }
         }
@@ -280,7 +281,6 @@ namespace AmazonGameLift.Editor
         public PutSettingResponse SaveProfiles()
         {
             var profiles = _serializer.Serialize(_allProfiles);
-            OnUserProfileUpdated?.Invoke();
             return CoreApi.PutSetting(SettingsKeys.UserProfiles, profiles);
         }
 
