@@ -255,6 +255,7 @@ namespace AmazonGameLift.Editor
         public const string ManagedEC2DeployStatusDeployed = "ManagedEC2DeployStatusDeployed";
         public const string ManagedEC2DeployStatusDeleting = "ManagedEC2DeployStatusDeleting";
         public const string ManagedEC2DeployStatusFailed = "ManagedEC2DeployStatusFailed";
+        public const string ManagedEC2DeployStatusLink = "ManagedEC2DeployStatusLink";
         public const string ManagedEC2DeployActionsLabel = "ManagedEC2DeployActionsLabel";
         public const string ManagedEC2CreateStackButton = "ManagedEC2CreateStackButton";
         public const string ManagedEC2RedeployStackButton = "ManagedEC2RedeployStackButton";

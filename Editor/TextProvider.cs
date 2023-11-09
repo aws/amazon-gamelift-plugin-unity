@@ -300,6 +300,7 @@ namespace AmazonGameLift.Editor
             { Strings.ManagedEC2DeployStatusDeployed, "Deployed"},
             { Strings.ManagedEC2DeployStatusDeleting, "Deleting"},
             { Strings.ManagedEC2DeployStatusFailed, "Failed"},
+            { Strings.ManagedEC2DeployStatusLink, "View in CloudFormation Console"},
             { Strings.ManagedEC2DeployActionsLabel, "AWS Resource Actions"},
             { Strings.ManagedEC2CreateStackButton, "Create"},
             { Strings.ManagedEC2RedeployStackButton, "Redeploy"},

@@ -203,8 +203,11 @@ Image#FolderIcon {
     border-bottom-width: var(--border-size-thin);
     border-bottom-color: var(--color-font-accent);
     align-self: flex-start;
-    align-items: center;
     flex-direction: row;
+}
+
+.external-link--centered {
+    align-self: center;
 }
 
 Image#ExternalLinkIcon {

@@ -24,6 +24,7 @@ namespace AmazonGameLift.Editor
             uxml.CloneTree(this);
             AddToClassList("separator");
             AddToClassList("separator--horizontal");
+            AddToClassList("separator--centered");
         }
 
         public void Set(State state, string text)

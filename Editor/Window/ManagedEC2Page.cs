@@ -20,6 +20,7 @@ namespace AmazonGameLift.Editor
         private readonly Button _redeployButton;
         private readonly Button _deleteButton;
         private readonly Button _launchClientButton;
+        private readonly VisualElement _statusLink;
         private readonly DeploymentScenariosInput _deploymentScenariosInput;
         private readonly FleetParametersInput _fleetParamsInput;
         private readonly StatusIndicator _statusIndicator;
@@ -89,6 +90,9 @@ namespace AmazonGameLift.Editor
                 EditorApplication.EnterPlaymode();
             });
 
+            _statusLink = container.Q("ManagedEC2DeployStatusLink");
+            container.Q("ManagedEC2DeployStatusLinkLabel").RegisterCallback<ClickEvent>(_ => 
+                Application.OpenURL(string.Format(Urls.AwsCloudFormationTemplate, _stateManager.Region, _deploymentSettings.CurrentStackInfo.StackId)));
 
             _container.Q<VisualElement>("ManagedEC2IntegrateLinkParent")
                 .RegisterCallback<ClickEvent>(_ => Application.OpenURL(Urls.ManagedEc2IntegrateLink));
@@ -178,6 +182,8 @@ namespace AmazonGameLift.Editor
             {
                 _statusIndicator.Set(State.Inactive, textProvider.Get(Strings.ManagedEC2DeployStatusNotDeployed));
             }
+
+            _statusLink.visible = !_deploymentSettings.HasCurrentStack;
         }
         
         private void SetupStatusBoxes()
@@ -225,6 +231,7 @@ namespace AmazonGameLift.Editor
             l.SetElementText("ManagedEC2LaunchClientButton", Strings.ManagedEC2LaunchClientButton);
             l.SetElementText("ManagedEC2ConfigureClientLabel", Strings.ManagedEC2ConfigureClientLabel);
             l.SetElementText("ManagedEC2ConfigureClientDescription", Strings.ManagedEC2ConfigureClientDescription);
+            l.SetElementText("ManagedEC2DeployStatusLinkLabel", Strings.ManagedEC2DeployStatusLink);
         }
 
         private string GetScenarioType(ElementLocalizer l) => _deploymentSettings.Scenario switch
