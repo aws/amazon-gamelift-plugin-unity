@@ -75,6 +75,7 @@ namespace AmazonGameLift.Editor
                     _stateManager.AnywhereFleetName = createFleetResponse.FleetName;
                     _stateManager.AnywhereFleetId = createFleetResponse.FleetId;
                     _stateManager.AnywhereFleetLocation = customLocationResponse.Location;
+                    _stateManager.ComputeName = "";
 
                     await UpdateFleetMenu();
                     _fleetState = FleetStatus.Selected;
