@@ -50,6 +50,7 @@
     --radio-button-inner: 14px;
     --radio-button-outer: 24px;
     --form-row-label-width: 240px;
+    --password-reveal-width: 70px;
     --page-width: 920px;
 
     font-size: var(--font-size-default);
@@ -288,6 +289,10 @@ Image#ExternalLinkIcon {
 
 .form-row__input--no-label {
     margin-left: var(--form-row-label-width);
+}
+
+.form-row__reveal-button {
+    width: var(--password-reveal-width);
 }
 
 .form-row__group-box.unity-group-box,
