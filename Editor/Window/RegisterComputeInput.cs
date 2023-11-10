@@ -100,7 +100,7 @@ namespace AmazonGameLift.Editor
                 else
                 {
                     _registerComputeStatusBox.Show(StatusBox.StatusBoxType.Error,
-                        Strings.AnywherePageStatusBoxDefaultErrorText,
+                        Strings.AnywherePageStatusBoxDefaultComputeErrorText,
                         registerResponse.ErrorMessage);
                 }
             }
