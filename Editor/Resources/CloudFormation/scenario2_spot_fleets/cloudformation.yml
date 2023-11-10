@@ -8,7 +8,7 @@ Description: >
   matchmaker. For simplicity sake, this custom matchmaker forms matches by taking the oldest players in the
   waiting pool and not considering any other factors such as skills or latency. Once the group of players to form
   matches is identified, a lambda function calls GameLift:StartGameSessionPlacement to start a queue placement. The queue
-  contains 3 fleets as destination, 2 of the fleets being SPOT fleets containing nuanced instance types. This is to demonstrate the
+  contains 3 fleets as destinations, 2 of the fleets being SPOT fleets containing nuanced instance types. This is to demonstrate the
   best practices in using GameLift queues to keep availability high and cost low.
 
 Parameters:
