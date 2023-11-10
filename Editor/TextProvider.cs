@@ -310,7 +310,6 @@ namespace AmazonGameLift.Editor
             { Strings.ManagedEC2DeployStatusLink, "View in CloudFormation Console"},
             { Strings.ManagedEC2DeployActionsLabel, "AWS Resource Actions"},
             { Strings.ManagedEC2CreateStackButton, "Create"},
-            { Strings.ManagedEC2RedeployStackButton, "Redeploy"},
             { Strings.ManagedEC2DeleteStackButton, "Delete"},
             { Strings.ManagedEC2LaunchClientTitle, "Launch Game Client"},
             { Strings.ManagedEC2LaunchClientLabel, "Run Client"},
