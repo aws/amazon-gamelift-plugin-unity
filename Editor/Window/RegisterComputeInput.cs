@@ -75,6 +75,7 @@ namespace AmazonGameLift.Editor
         {
             if (_computeState is ComputeStatus.NotRegistered or ComputeStatus.Registering)
             {
+                var previousComputeName = _stateManager.ComputeName;
                 var registerResponse = await _stateManager.ComputeManager.RegisterFleetCompute(_computeName,
                     _stateManager.AnywhereFleetId, _stateManager.AnywhereFleetLocation, _ipAddress);
                 if (registerResponse.Success)
@@ -84,7 +85,6 @@ namespace AmazonGameLift.Editor
                     _stateManager.WebSocketUrl = registerResponse.WebSocketUrl;
                     _computeState = ComputeStatus.Registered;
 
-                    var previousComputeName = _stateManager.ComputeName;                 
                     if (!string.IsNullOrWhiteSpace(previousComputeName) && previousComputeName != _computeName)
                     {
                         var deregisterResponse =
