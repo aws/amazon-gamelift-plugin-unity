@@ -32,6 +32,7 @@
     --font-size-massive: 32px;
 
     --icon-size-tiny: 16px;
+    --icon-size-extrasmall: 20px;
     --icon-size-small: 24px;
     --icon-size-large: 60px;
     --border-size-thin: 1px;
@@ -51,6 +52,7 @@
     --radio-button-inner: 14px;
     --radio-button-outer: 24px;
     --form-row-label-width: 240px;
+    --form-row-height: 32px;
     --password-reveal-width: 70px;
     --page-width: 920px;
 
@@ -72,6 +74,12 @@ Image.icon--large {
 Image.icon--small {
     height: var(--icon-size-small);
     width: var(--icon-size-small);
+    flex: 0 0 auto;
+}
+
+Image.icon--extrasmall {
+    height: var(--icon-size-extrasmall);
+    width: var(--icon-size-extrasmall);
     flex: 0 0 auto;
 }
 
@@ -174,8 +182,8 @@ Image#FolderIcon {
 }
 
 .separator.separator--horizontal > * {
-     margin-right: var(--spacing-small);
- }
+    margin-right: var(--spacing-small);
+}
 
 .separator.separator--horizontal > .separator.separator--horizontal {
     /* small (parent) - small (child) */
@@ -256,7 +264,7 @@ Image#ExternalLinkIcon {
 
 .foldout .unity-toggle__input:checked .unity-foldout__checkmark {
     background-image: resource("Images/Icons/FoldoutArrowOpen");
- }
+}
 
 .foldout .unity-foldout__content {
     margin-left: 0;
@@ -268,7 +276,7 @@ Image#ExternalLinkIcon {
 
 .form-row__label {
     width: var(--form-row-label-width);
-    height: 32px;
+    height: var(--form-row-height);
     color: var(--color-input-label);
     font-size: var(--font-size-large);
     -unity-text-align: middle-left;
@@ -292,6 +300,10 @@ Image#ExternalLinkIcon {
     margin-left: var(--form-row-label-width);
 }
 
+.form-row__radio-button {
+    min-height: var(--form-row-height);
+}
+
 .form-row__reveal-button {
     width: var(--password-reveal-width);
 }
@@ -309,7 +321,9 @@ Image#ExternalLinkIcon {
     border-color: var(--color-text-input-border);
     border-radius: 100%;
     padding: 0;
+    margin-top: var(--spacing-tiny);
     justify-content: center;
+    align-self: flex-start;
 }
 
 .form-row__radio-button .unity-radio-button__checkmark {
@@ -318,9 +332,21 @@ Image#ExternalLinkIcon {
     border-radius: 100px;
 }
 
+.form-row__radio-button .unity-radio-button__text {
+    align-self: flex-start;
+    margin-top: var(--spacing-tiny);
+    margin-left: var(--spacing-small);
+    font-size: vaR(--font-size-default);
+}
+
 .form-row__radio-button .unity-radio-button__text,
 .form-row__radio-button .unity-radio-button__input {
     flex-shrink: 1;
+}
+
+.form-row__radio-button-link {
+    margin-left: 38px;
+    font-size: vaR(--font-size-default);
 }
 
 .text-input {

@@ -105,6 +105,7 @@ namespace AmazonGameLift.Editor
             {
                 _selectedProfile.ComputeName = value;
                 SaveProfiles();
+                OnComputeChanged?.Invoke();
             }
         }
 
@@ -224,6 +225,7 @@ namespace AmazonGameLift.Editor
 
         public Action OnUserProfileUpdated { get; set; }
         public Action OnFleetChanged { get; set; }
+        public Action OnComputeChanged { get; set; }
 
         public StateManager(CoreApi coreApi)
         {
