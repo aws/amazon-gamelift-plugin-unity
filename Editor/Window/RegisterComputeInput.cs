@@ -14,7 +14,6 @@ namespace AmazonGameLift.Editor
     {
         private ComputeStatus _computeState;
 
-        private readonly List<TextField> _ipInputs;
         private readonly TextField _computeNameInput;
         private readonly Button _registerButton;
         private readonly Button _replaceComputeButton;
@@ -39,7 +38,6 @@ namespace AmazonGameLift.Editor
 
             _stateManager = stateManager;
             _computeNameInput = container.Q<TextField>("AnywherePageComputeNameInput");
-            _ipInputs = container.Query<TextField>("AnywherePageComputeIPAddressInput").ToList();
             _computeStatus = container.Q("AnywherePageComputeStatus");
             _registerButton = container.Q<Button>("AnywherePageComputeRegisterButton");
             _replaceComputeButton = container.Q<Button>("AnywherePageComputeReplaceComputeButton");
@@ -70,16 +68,7 @@ namespace AmazonGameLift.Editor
             _cancelReplaceButton.RegisterCallback<ClickEvent>(_ => OnCancelReplaceButtonClicked());
 
             _computeNameInput.value = _computeName;
-            _computeNameInput.RegisterValueChangedCallback(_ =>
-                UpdateComputeTextFields(_computeNameInput, _ipInputs));
-            
-            SetIpInputs(_ipAddress);
-            
-            foreach (var ipField in _ipInputs)
-            {
-                ipField.RegisterValueChangedCallback(_ =>
-                    UpdateComputeTextFields(_computeNameInput, _ipInputs));
-            }
+            _computeNameInput.RegisterValueChangedCallback(_ => UpdateComputeTextFields(_computeNameInput));
         }
 
         private async void OnRegisterComputeButtonClicked()
@@ -96,7 +85,7 @@ namespace AmazonGameLift.Editor
                     _stateManager.WebSocketUrl = registerResponse.WebSocketUrl;
                     _computeState = ComputeStatus.Registered;
 
-                    if (!string.IsNullOrWhiteSpace(previousComputeName))
+                    if (!string.IsNullOrWhiteSpace(previousComputeName) && previousComputeName != _computeName)
                     {
                         var deregisterResponse =
                             await _stateManager.ComputeManager.DeregisterCompute(previousComputeName,
@@ -139,7 +128,6 @@ namespace AmazonGameLift.Editor
                 else
                 {
                     _computeNameInput.value = _defaultComputeName;
-                    SetIpInputs(_defaultIpAddress);
                     _computeState = ComputeStatus.NotRegistered;
                 }
             }
@@ -157,7 +145,6 @@ namespace AmazonGameLift.Editor
             _stateManager.IpAddress = compute.IpAddress;
             _stateManager.WebSocketUrl = compute.GameLiftServiceSdkEndpoint;
             _computeNameInput.value = compute.ComputeName;
-            SetIpInputs(compute.IpAddress);
             _computeState = ComputeStatus.Registered;
         }
 
@@ -179,20 +166,16 @@ namespace AmazonGameLift.Editor
             }
 
             _computeNameInput.value = _stateManager.ComputeName;
-            SetIpInputs(_stateManager.IpAddress);
             
             UpdateGUI();
         }
 
-        private void UpdateComputeTextFields(TextField computeTextField, IEnumerable<TextField> ipTextField)
+        private void UpdateComputeTextFields(TextField computeTextField)
         {
             var computeTextNameValid = computeTextField.value.Length >= 1;
-            var ipText = ipTextField.ToList().Select(ipAddressField => ipAddressField.value).ToList();
             _computeName = computeTextField.value;
-            var ipTextFieldsValid = ipText.All(text => text.Length >= 1) && ipText.All(s => int.TryParse(s, out _));
-            _ipAddress = string.Join(".", ipText);
 
-            _registerButton.SetEnabled(computeTextNameValid && ipTextFieldsValid);
+            _registerButton.SetEnabled(computeTextNameValid);
         }
 
         private void SetupConfigSettings()
@@ -222,15 +205,6 @@ namespace AmazonGameLift.Editor
             };
         }
 
-        private void SetIpInputs(string ipAddress)
-        {
-            var splitIpAddress = ipAddress.Split(".");
-            for (var i = 0; i < splitIpAddress.Length; i++)
-            {
-                _ipInputs[i].value = splitIpAddress[i];
-            }
-        }
-
         private void SetupStatusBox()
         {
             _registerComputeStatusBox = _container.Q<StatusBox>("AnywherePageComputeStatusBox");
@@ -242,21 +216,11 @@ namespace AmazonGameLift.Editor
             {
                 _computeNameInput.isReadOnly = true;
                 _computeNameInput.SetEnabled(false);
-                foreach (var ipBox in _ipInputs)
-                {
-                    ipBox.isReadOnly = true;
-                    ipBox.SetEnabled(false);
-                }
             }
             else
             {
                 _computeNameInput.isReadOnly = false;
                 _computeNameInput.SetEnabled(true);
-                foreach (var ipBox in _ipInputs)
-                {
-                    ipBox.isReadOnly = false;
-                    ipBox.SetEnabled(true);
-                }
             }
         }
 
@@ -302,6 +266,7 @@ namespace AmazonGameLift.Editor
             var l = new ElementLocalizer(_container);
             l.SetElementText("AnywherePageComputeNameLabel", Strings.AnywherePageComputeNameLabel);
             l.SetElementText("AnywherePageComputeIPLabel", Strings.AnywherePageComputeIPLabel);
+            l.SetElementText("AnywherePageComputeIPDescription", _defaultIpAddress);
             l.SetElementText("AnywherePageComputeStatusLabel", Strings.AnywherePageComputeStatusLabel);
             l.SetElementText("AnywherePageComputeRegisterButton", Strings.AnywherePageComputeRegisterButton);
             l.SetElementText("AnywherePageComputeReplaceComputeButton",
