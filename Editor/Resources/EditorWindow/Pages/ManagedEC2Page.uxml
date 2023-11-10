@@ -21,10 +21,17 @@
         <ui:Foldout name="ManagedEC2ScenarioTitle" class="foldout" text="Select Deployment Scenario"/>
         <ui:Foldout name="ManagedEC2ParametersTitle" class="foldout" text="[GameName] parameters"/>
         <ui:Foldout name="ManagedEC2DeployTitle" class="foldout separator separator--vertical" text="Deploy (Single-region Fleet)">
+            <gl:StatusBox name="ManagedEC2DeployStatusBox"/>
             <ui:Label name="ManagedEC2DeployDescription" class="foldout__description form-row" text="Deploying GameLift can take up to 30-40 minutes"/>
             <ui:VisualElement class="form-row">
                 <ui:Label name="ManagedEC2DeployStatusLabel" class="form-row__label" text="Status"/>
-                <gl:StatusIndicator/>
+                <ui:VisualElement class="separator separator--horizontal separator--centered">
+                    <gl:StatusIndicator/>
+                    <ui:VisualElement name="ManagedEC2DeployStatusLink" class="external-link external-link--centered">
+                        <ui:Label name="ManagedEC2DeployStatusLinkLabel" text="Learn More"/>
+                        <ui:Image name="ExternalLinkIcon" class="icon--small"/>
+                    </ui:VisualElement>
+                </ui:VisualElement>
             </ui:VisualElement>
             <ui:VisualElement class="form-row">
                 <ui:Label name="ManagedEC2DeployActionsLabel" class="form-row__label" text="AWS Resource Actions"/>

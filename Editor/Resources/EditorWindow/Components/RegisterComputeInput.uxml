@@ -12,15 +12,7 @@
             </ui:VisualElement>
             <ui:VisualElement class="form-row">
                 <ui:Label name="AnywherePageComputeIPLabel" class="form-row__label" text="IP Address"/>
-                <ui:VisualElement class="form-row__input form-row__input--inline">
-                    <ui:TextField name="AnywherePageComputeIPAddressInput" value="120" max-length="3" keyboard-type="NumberPad" class="text-input text-input--fitted text-input--centered"/>
-                    <ui:Label text="." class="ip-spacer"/>
-                    <ui:TextField name="AnywherePageComputeIPAddressInput" value="120" max-length="3" keyboard-type="NumberPad" class="text-input text-input--fitted text-input--centered"/>
-                    <ui:Label text="." class="ip-spacer"/>
-                    <ui:TextField name="AnywherePageComputeIPAddressInput" value="120" max-length="3" keyboard-type="NumberPad" class="text-input text-input--fitted text-input--centered"/>
-                    <ui:Label text="." class="ip-spacer"/>
-                    <ui:TextField name="AnywherePageComputeIPAddressInput" value="120" max-length="3" keyboard-type="NumberPad" class="text-input text-input--fitted text-input--centered"/>
-                </ui:VisualElement>
+                <ui:Label name="AnywherePageComputeIPDescription" class="form-row__label" text="127.0.0.1"/>            
             </ui:VisualElement>
             <ui:VisualElement name="AnywherePageComputeStatus" class="form-row">
                 <ui:Label name="AnywherePageComputeStatusLabel" class="form-row__label" text="Status"/>

@@ -210,6 +210,7 @@ namespace AmazonGameLift.Editor
         public const string AnywherePageComputeTitle = "AnywherePageComputeTitle";
         public const string AnywherePageComputeNameLabel = "AnywherePageComputeNameLabel";
         public const string AnywherePageComputeIPLabel = "AnywherePageComputeIPLabel";
+        public const string AnywherePageComputeIPDescription = "AnywherePageComputeStatusDescription";
         public const string AnywherePageComputeStatusLabel = "AnywherePageComputeStatusLabel";
         public const string AnywherePageComputeStatusRegistered = "AnywherePageComputeStatusRegistered";
         public const string AnywherePageComputeRegisterButton = "AnywherePageComputeRegisterButton";
@@ -260,6 +261,9 @@ namespace AmazonGameLift.Editor
         public const string ManagedEC2DeployStatusDeployed = "ManagedEC2DeployStatusDeployed";
         public const string ManagedEC2DeployStatusDeleting = "ManagedEC2DeployStatusDeleting";
         public const string ManagedEC2DeployStatusFailed = "ManagedEC2DeployStatusFailed";
+        public const string ManagedEC2DeployStatusRolledBack = "ManagedEC2DeployStatusRolledBack";
+        public const string ManagedEC2DeployStatusRollingBack = "ManagedEC2DeployStatusRollingBack";
+        public const string ManagedEC2DeployStatusLink = "ManagedEC2DeployStatusLink";
         public const string ManagedEC2DeployActionsLabel = "ManagedEC2DeployActionsLabel";
         public const string ManagedEC2CreateStackButton = "ManagedEC2CreateStackButton";
         public const string ManagedEC2RedeployStackButton = "ManagedEC2RedeployStackButton";
