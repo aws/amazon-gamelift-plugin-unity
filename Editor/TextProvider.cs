@@ -255,7 +255,6 @@ namespace AmazonGameLift.Editor
             { Strings.AnywherePageComputeTitle, "Add Your Compute to the Fleet"},
             { Strings.AnywherePageComputeNameLabel, "Compute name"},
             { Strings.AnywherePageComputeIPLabel, "IP address"},
-            { Strings.AnywherePageComputeIPDescription, "127.0.0.1"},
             { Strings.AnywherePageComputeStatusLabel, "Status"},
             { Strings.AnywherePageComputeStatusRegistered, "Registered"},
             { Strings.AnywherePageComputeRegisterButton, "Register Compute"},

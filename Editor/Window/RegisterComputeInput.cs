@@ -266,7 +266,7 @@ namespace AmazonGameLift.Editor
             var l = new ElementLocalizer(_container);
             l.SetElementText("AnywherePageComputeNameLabel", Strings.AnywherePageComputeNameLabel);
             l.SetElementText("AnywherePageComputeIPLabel", Strings.AnywherePageComputeIPLabel);
-            l.SetElementText("AnywherePageComputeIPDescription", Strings.AnywherePageComputeIPDescription);
+            l.SetElementText("AnywherePageComputeIPDescription", _defaultIpAddress);
             l.SetElementText("AnywherePageComputeStatusLabel", Strings.AnywherePageComputeStatusLabel);
             l.SetElementText("AnywherePageComputeRegisterButton", Strings.AnywherePageComputeRegisterButton);
             l.SetElementText("AnywherePageComputeReplaceComputeButton",
