@@ -336,7 +336,7 @@ Image#ExternalLinkIcon {
     align-self: flex-start;
     margin-top: var(--spacing-tiny);
     margin-left: var(--spacing-small);
-    font-size: vaR(--font-size-default);
+    font-size: var(--font-size-default);
 }
 
 .form-row__radio-button .unity-radio-button__text,
@@ -346,7 +346,7 @@ Image#ExternalLinkIcon {
 
 .form-row__radio-button-link {
     margin-left: 38px;
-    font-size: vaR(--font-size-default);
+    font-size: var(--font-size-default);
 }
 
 .text-input {
