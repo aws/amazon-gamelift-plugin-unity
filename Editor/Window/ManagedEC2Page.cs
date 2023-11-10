@@ -156,8 +156,8 @@ namespace AmazonGameLift.Editor
             }
             else if (stackStatus.IsStackStatusFailed())
             {
-                _statusIndicator.Set(State.Failed, textProvider.GetError(ErrorCode.StackStatusInvalid));
-                _deployStatusBox.Show(StatusBox.StatusBoxType.Error, _deploymentSettings.CurrentStackInfo.Details);
+                _statusIndicator.Set(State.Failed, textProvider.Get(Strings.ManagedEC2DeployStatusFailed));
+                _deployStatusBox.Show(StatusBox.StatusBoxType.Error, textProvider.GetError(ErrorCode.StackStatusInvalid));
             }
             else if (stackStatus == StackStatus.DeleteInProgress)
             {
