@@ -65,7 +65,7 @@ namespace AmazonGameLift.Editor
                 if (!customLocationResponse.Success)
                 {
                     _connectToAnywhereStatusBox.Show(StatusBox.StatusBoxType.Error,
-                        Strings.AnywherePageStatusBoxDefaultErrorText, customLocationResponse.ErrorMessage);
+                        Strings.AnywherePageStatusBoxDefaultFleetErrorText, customLocationResponse.ErrorMessage);
                     return;
                 }
 
@@ -83,7 +83,7 @@ namespace AmazonGameLift.Editor
                 else
                 {
                     _connectToAnywhereStatusBox.Show(StatusBox.StatusBoxType.Error,
-                        Strings.AnywherePageStatusBoxDefaultErrorText, createFleetResponse.ErrorMessage);
+                        Strings.AnywherePageStatusBoxDefaultFleetErrorText, createFleetResponse.ErrorMessage);
                 }
             }
 
