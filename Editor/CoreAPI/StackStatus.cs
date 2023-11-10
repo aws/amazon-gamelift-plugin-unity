@@ -57,6 +57,16 @@ namespace AmazonGameLift.Editor
             return stackStatus.Contains("_IN_PROGRESS");
         }
 
+        public static bool IsStackStatusRollback(this string stackStatus)
+        {
+            if (stackStatus is null)
+            {
+                throw new ArgumentNullException(nameof(stackStatus));
+            }
+
+            return stackStatus.Contains("ROLLBACK");
+        }
+
         public static bool IsStackStatusModifiable(this string stackStatus)
         {
             if (stackStatus is null)
