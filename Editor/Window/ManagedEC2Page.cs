@@ -204,6 +204,7 @@ namespace AmazonGameLift.Editor
             _deploymentScenariosInput.SetEnabled(_deploymentSettings.CanEdit);
             _fleetParamsInput.SetEnabled(_deploymentSettings.CanEdit);
 
+            _deployStatusBox.Close();
             var stackStatus = _deploymentSettings.CurrentStackInfo.StackStatus;
             var textProvider = new TextProvider();
             if (stackStatus == null)
