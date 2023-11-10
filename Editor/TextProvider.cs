@@ -267,8 +267,8 @@ namespace AmazonGameLift.Editor
             { Strings.AnywherePageConfigureClientButton, "Apply Anywhere Settings"},
             { Strings.AnywherePageLaunchClientLabel, "Run Client"},
             { Strings.AnywherePageLaunchClientDescription, "Build and launch your configured client."},
-            { Strings.AnywherePageStatusBoxDefaultComputeErrorText, "An error occurred when trying to register a compute"},
-            { Strings.AnywherePageStatusBoxDefaultFleetErrorText, "An error occurred when trying to create a fleet"},
+            { Strings.AnywherePageStatusBoxDefaultComputeErrorText, "An error occurred when trying to register a compute."},
+            { Strings.AnywherePageStatusBoxDefaultFleetErrorText, "An error occurred when trying to create a fleet."},
             { Strings.AnywherePageStatusBoxNotBootstrappedWarning, "Profile configuration is incomplete, as bootstrapping is not completed, navigate to AWS User Profiles for next steps."},
             
             { Strings.ManagedEC2Title, "Host with Managed EC2"},
