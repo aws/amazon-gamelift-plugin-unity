@@ -110,8 +110,11 @@ namespace AmazonGameLift.Editor
             _statusLink.RegisterCallback<ClickEvent>(_ => Application.OpenURL(
                 string.Format(Urls.AwsCloudFormationEventsTemplate, _stateManager.Region, _deploymentSettings.CurrentStackInfo.StackId)));
 
-            _container.Q<VisualElement>("ManagedEC2IntegrateLinkParent")
-                .RegisterCallback<ClickEvent>(_ => Application.OpenURL(Urls.ManagedEc2IntegrateLink));
+            _container.Q<VisualElement>("ManagedEC2IntegrateServerLinkParent")
+                .RegisterCallback<ClickEvent>(_ => Application.OpenURL(Urls.ManagedEC2IntegrateServerLink));
+            
+            _container.Q<VisualElement>("ManagedEC2IntegrateClientLinkParent")
+                .RegisterCallback<ClickEvent>(_ => Application.OpenURL(Urls.ManagedEC2IntegrateClientLink));
 
             _deploymentSettings.CurrentStackInfoChanged += UpdateGUI;
             _deploymentSettings.Scenario = DeploymentScenarios.SingleRegion;    
@@ -274,7 +277,8 @@ namespace AmazonGameLift.Editor
             l.SetElementText("ManagedEC2Description", Strings.ManagedEC2Description);
             l.SetElementText("ManagedEC2IntegrateTitle", Strings.ManagedEC2IntegrateTitle);
             l.SetElementText("ManagedEC2IntegrateDescription", Strings.ManagedEC2IntegrateDescription);
-            l.SetElementText("ManagedEC2IntegrateLink", Strings.ManagedEC2IntegrateLink);
+            l.SetElementText("ManagedEC2IntegrateServerLink", Strings.ManagedEC2IntegrateServerLink);
+            l.SetElementText("ManagedEC2IntegrateClientLink", Strings.ManagedEC2IntegrateClientLink);
             l.SetElementText("ManagedEC2ScenarioTitle", Strings.ManagedEC2ScenarioTitle);
             l.SetElementText("ManagedEC2ParametersTitle", Strings.ManagedEC2ParametersTitle, replacements);
             l.SetElementText("ManagedEC2DeployTitle", Strings.ManagedEC2DeployTitle, replacements);

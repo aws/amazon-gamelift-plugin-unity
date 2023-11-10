@@ -4,8 +4,11 @@
 AWSTemplateFormatVersion: "2010-09-09"
 
 Description: >
-  This CloudFormation template sets up the exact same scenario as scenario3_mrf_queue, except that 3 fleets are created
-  instead of 1, with 2 of the fleets being SPOT fleets containing nuanced instance types. This is to demonstrate the
+  This CloudFormation template sets up a scenario where Amazon GameLift queues are used in conjunction with a custom
+  matchmaker. For simplicity sake, this custom matchmaker forms matches by taking the oldest players in the
+  waiting pool and not considering any other factors such as skills or latency. Once the group of players to form
+  matches is identified, a lambda function calls GameLift:StartGameSessionPlacement to start a queue placement. The queue
+  contains 3 fleets as destinations, 2 of the fleets being SPOT fleets containing nuanced instance types. This is to demonstrate the
   best practices in using GameLift queues to keep availability high and cost low.
 
 Parameters:

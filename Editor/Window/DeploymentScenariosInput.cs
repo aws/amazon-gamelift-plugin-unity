@@ -54,11 +54,11 @@ namespace AmazonGameLift.Editor
             stateManager.OnUserProfileUpdated += UpdateGUI;
             
             _container.Q<VisualElement>("ManagedEC2ScenarioSingleFleetLinkParent")
-                .RegisterCallback<ClickEvent>(_ => Application.OpenURL(Urls.ManagedEc2FleetLearnMore));
+                .RegisterCallback<ClickEvent>(_ => Application.OpenURL(Urls.ManagedEC2FleetLearnMore));
             _container.Q<VisualElement>("ManagedEC2ScenarioSpotFleetLinkParent")
-                .RegisterCallback<ClickEvent>(_ => Application.OpenURL(Urls.ManagedEc2FleetLearnMore));
+                .RegisterCallback<ClickEvent>(_ => Application.OpenURL(Urls.ManagedEC2FleetLearnMore));
             _container.Q<VisualElement>("ManagedEC2ScenarioFlexMatchLinkParent")
-                .RegisterCallback<ClickEvent>(_ => Application.OpenURL(Urls.ManagedEc2FleetLearnMore));
+                .RegisterCallback<ClickEvent>(_ => Application.OpenURL(Urls.ManagedEC2FleetLearnMore));
 
             LocalizeText();
             UpdateGUI();
