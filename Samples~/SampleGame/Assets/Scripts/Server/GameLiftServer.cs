@@ -21,9 +21,10 @@ using AmazonGameLift.Editor;
 
 public class GameLiftServer
 {
+    public static readonly string ServerConfigFilePath = "GameLiftServerRuntimeSettings.yaml";
+    private static readonly string ProcessIDPrefix = "Amazon-GameLift-SampleGame";
     private readonly GameLift _gl;
     private readonly Logger _logger;
-    public static readonly string ServerConfigFilePath = "GameLiftServerRuntimeSettings.yaml";
     private readonly Settings<ServerSettingsKeys> _settings;
 #if UNITY_EDITOR
     private readonly ICredentialsStore _credentialsStore;
@@ -79,8 +80,7 @@ public class GameLiftServer
             computeName = _settings.GetSetting(ServerSettingsKeys.ComputeName).Value;
 #endif
             var serverParams =
-                new ServerParameters(websocketUrl, $"{Guid.NewGuid()}", computeName, fleetID,
-                    authToken);
+                new ServerParameters(websocketUrl, $"{ProcessIDPrefix}-{Guid.NewGuid()}", computeName, fleetID, authToken);
 
             GenericOutcome initOutcome = GameLiftServerAPI.InitSDK(serverParams);
 
