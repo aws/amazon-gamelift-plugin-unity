@@ -83,7 +83,6 @@ namespace AmazonGameLift.Editor
             {
                 _selectedProfile.AnywhereFleetId = value;
                 SaveProfiles();
-                OnUserProfileUpdated?.Invoke();
                 OnFleetChanged?.Invoke();
             }
         }

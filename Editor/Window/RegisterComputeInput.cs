@@ -60,7 +60,8 @@ namespace AmazonGameLift.Editor
             RegisterCallbacks();
             SetupStatusBox();
 
-            _stateManager.OnFleetChanged += SetValidCompute; 
+            _stateManager.OnFleetChanged += SetValidCompute;
+            _stateManager.OnFleetChanged += UpdateGUI; 
 
             UpdateGUI();
         }
@@ -93,10 +94,10 @@ namespace AmazonGameLift.Editor
                     _stateManager.AnywhereFleetId, _stateManager.AnywhereFleetLocation, _ipAddress);
                 if (registerResponse.Success)
                 {
+                    _computeState = ComputeStatus.Registered;
                     _stateManager.ComputeName = registerResponse.ComputeName;
                     _stateManager.IpAddress = registerResponse.IpAddress;
                     _stateManager.WebSocketUrl = registerResponse.WebSocketUrl;
-                    _computeState = ComputeStatus.Registered;
 
                     if (!string.IsNullOrWhiteSpace(previousComputeName))
                     {
@@ -141,7 +142,7 @@ namespace AmazonGameLift.Editor
                 else
                 {
                     _computeState = ComputeStatus.NotRegistered;
-                    _stateManager.ComputeName = _defaultComputeName;
+                    _stateManager.ComputeName = "";
                     _computeNameInput.value = _defaultComputeName;
                     SetIpInputs(_defaultIpAddress);
                 }
