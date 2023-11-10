@@ -91,8 +91,8 @@ namespace AmazonGameLift.Editor
             });
 
             _statusLink = container.Q("ManagedEC2DeployStatusLink");
-            container.Q("ManagedEC2DeployStatusLinkLabel").RegisterCallback<ClickEvent>(_ => 
-                Application.OpenURL(string.Format(Urls.AwsCloudFormationTemplate, _stateManager.Region, _deploymentSettings.CurrentStackInfo.StackId)));
+            _statusLink.RegisterCallback<ClickEvent>(_ => Application.OpenURL(
+                string.Format(Urls.AwsCloudFormationEventsTemplate, _stateManager.Region, _deploymentSettings.CurrentStackInfo.StackId)));
 
             _container.Q<VisualElement>("ManagedEC2IntegrateLinkParent")
                 .RegisterCallback<ClickEvent>(_ => Application.OpenURL(Urls.ManagedEc2IntegrateLink));
@@ -184,7 +184,7 @@ namespace AmazonGameLift.Editor
                 _statusIndicator.Set(State.Inactive, textProvider.Get(Strings.ManagedEC2DeployStatusNotDeployed));
             }
 
-            _statusLink.visible = !_deploymentSettings.HasCurrentStack;
+            _statusLink.visible = _deploymentSettings.HasCurrentStack;
         }
         
         private void SetupStatusBoxes()

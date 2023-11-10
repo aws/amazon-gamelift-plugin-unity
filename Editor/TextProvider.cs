@@ -48,7 +48,7 @@ namespace AmazonGameLift.Editor
             { ErrorCode.OperationCancelled, "The operation was cancelled."},
             { ErrorCode.OperationInvalid, "There was a problem with the operation."},
             { ErrorCode.ReadingFileFailed, "There was a problem reading the file."},
-            { ErrorCode.StackStatusInvalid, "Something went wrong with the stack. Refer to the CloudFormation console for details. Delete and re-create the deployment once the problem is resolved."},
+            { ErrorCode.StackStatusInvalid, "Something went wrong  with the deployment that requires attention. Go to the AWS CloudFormation console and view details for the failing stack. After resolving the problem, delete and re-create the deployment."},
             { ErrorCode.ValueInvalid, "There was a problem with the value."},
             { ErrorCode.WritingFileFailed, "There was a problem writing to the file."},
         };
