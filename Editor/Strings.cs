@@ -230,7 +230,8 @@ namespace AmazonGameLift.Editor
         public const string ManagedEC2Description = "ManagedEC2Description";
         public const string ManagedEC2IntegrateTitle = "ManagedEC2IntegrateTitle";
         public const string ManagedEC2IntegrateDescription = "ManagedEC2IntegrateDescription";
-        public const string ManagedEC2IntegrateLink = "ManagedEC2IntegrateLink";
+        public const string ManagedEC2IntegrateServerLink = "ManagedEC2IntegrateServerLink";
+        public const string ManagedEC2IntegrateClientLink = "ManagedEC2IntegrateClientLink";
         public const string ManagedEC2ScenarioTitle = "ManagedEC2ScenarioTitle";
         public const string ManagedEC2ScenarioSingleFleetLabel = "ManagedEC2ScenarioSingleFleetLabel";
         public const string ManagedEC2ScenarioSingleFleetRadio = "ManagedEC2ScenarioSingleFleetRadio";

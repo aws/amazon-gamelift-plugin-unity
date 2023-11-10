@@ -13,8 +13,12 @@
         <gl:StatusBox name="ManagedEC2StatusBox"/>
         <ui:Foldout name="ManagedEC2IntegrateTitle" class="foldout separator separator--vertical" text="Integrate GameLift with your game client">
             <ui:Label name="ManagedEC2IntegrateDescription" text="Add the Amazon GameLift server SDK to your game server and add code to communicate with the GameLift hosting service. If you&apos;re working with the Amazon GameLift sample game, this integration is already done."/>
-            <ui:VisualElement name="ManagedEC2IntegrateLinkParent" class="external-link">
-                <ui:Label name="ManagedEC2IntegrateLink" text="Setup Amazon GameLift on a backend service"/>
+            <ui:VisualElement name="ManagedEC2IntegrateServerLinkParent" class="external-link">
+                <ui:Label name="ManagedEC2IntegrateServerLink" text="Setup Amazon GameLift on a backend service"/>
+                <ui:Image name="ExternalLinkIcon" class="icon--small"/>
+            </ui:VisualElement>
+            <ui:VisualElement name="ManagedEC2IntegrateClientLinkParent" class="external-link">
+                <ui:Label name="ManagedEC2IntegrateClientLink" text="Setup Amazon GameLift client"/>
                 <ui:Image name="ExternalLinkIcon" class="icon--small"/>
             </ui:VisualElement>
         </ui:Foldout>

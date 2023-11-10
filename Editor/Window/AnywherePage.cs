@@ -27,9 +27,9 @@ namespace AmazonGameLift.Editor
             LocalizeText();
 
             container.Q<VisualElement>("AnywherePageIntegrateServerLinkParent")
-                .RegisterCallback<ClickEvent>(_ => Application.OpenURL(Urls.AnywherePageServerSetupDocumentation));
+                .RegisterCallback<ClickEvent>(_ => Application.OpenURL(Urls.AnywherePageIntegrateServerLink));
             container.Q<VisualElement>("AnywherePageIntegrateClientLinkParent")
-                .RegisterCallback<ClickEvent>(_ => Application.OpenURL(Urls.AnywherePageClientSetupDocumentation));
+                .RegisterCallback<ClickEvent>(_ => Application.OpenURL(Urls.AnywherePageIntegrateClientLink));
             SetupStatusBoxes();
 
             _stateManager.OnUserProfileUpdated += UpdateGui;
