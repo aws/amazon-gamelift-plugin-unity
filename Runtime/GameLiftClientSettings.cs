@@ -24,5 +24,21 @@ namespace AmazonGameLift.Runtime
                 IsGameLiftAnywhere = IsGameLiftAnywhere
             };
         }
+
+        public void ConfigureAnywhereClientSettings()
+        {
+            IsGameLiftAnywhere = true;
+            AwsRegion = "";
+            ApiGatewayUrl = "";
+            UserPoolClientId = "";
+        }
+
+        public void ConfigureManagedEC2ClientSettings(string awsRegion, string apiGatewayUrl, string userPoolClientId) 
+        {
+            IsGameLiftAnywhere = false;
+            AwsRegion = awsRegion;
+            ApiGatewayUrl = apiGatewayUrl;
+            UserPoolClientId = userPoolClientId;
+        }
     }
 }

@@ -30,6 +30,8 @@ namespace AmazonGameLift.Editor
         private string _computeName;
         private string _ipAddress;
 
+        private Action _onComputeChanged;
+
         public RegisterComputeInput(VisualElement container, StateManager stateManager)
         {
             var uxml = Resources.Load<VisualTreeAsset>("EditorWindow/Components/RegisterComputeInput");
@@ -57,6 +59,7 @@ namespace AmazonGameLift.Editor
             SetupStatusBox();
 
             _stateManager.OnFleetChanged += SetValidCompute;
+            _stateManager.OnFleetChanged += UpdateGUI; 
 
             UpdateGUI();
         }
@@ -80,10 +83,10 @@ namespace AmazonGameLift.Editor
                     _stateManager.AnywhereFleetId, _stateManager.AnywhereFleetLocation, _ipAddress);
                 if (registerResponse.Success)
                 {
+                    _computeState = ComputeStatus.Registered;
                     _stateManager.ComputeName = registerResponse.ComputeName;
                     _stateManager.IpAddress = registerResponse.IpAddress;
                     _stateManager.WebSocketUrl = registerResponse.WebSocketUrl;
-                    _computeState = ComputeStatus.Registered;
 
                     if (!string.IsNullOrWhiteSpace(previousComputeName) && previousComputeName != _computeName)
                     {
@@ -127,8 +130,9 @@ namespace AmazonGameLift.Editor
                 }
                 else
                 {
-                    _computeNameInput.value = _defaultComputeName;
                     _computeState = ComputeStatus.NotRegistered;
+                    _stateManager.ComputeName = "";
+                    _computeNameInput.value = _defaultComputeName;
                 }
             }
             else
@@ -141,11 +145,11 @@ namespace AmazonGameLift.Editor
 
         private void SetupComputeAfterSwitch(Compute compute)
         {
+            _computeState = ComputeStatus.Registered;
             _stateManager.ComputeName = compute.ComputeName;
             _stateManager.IpAddress = compute.IpAddress;
             _stateManager.WebSocketUrl = compute.GameLiftServiceSdkEndpoint;
             _computeNameInput.value = compute.ComputeName;
-            _computeState = ComputeStatus.Registered;
         }
 
         private void OnReplaceComputeButtonClicked()
@@ -274,12 +278,9 @@ namespace AmazonGameLift.Editor
             l.SetElementText("AnywherePageComputeCancelReplaceButton", Strings.AnywherePageComputeCancelReplaceButton);
         }
 
-        public enum ComputeStatus
+        public ComputeStatus getComputeStatus() 
         {
-            Disabled,
-            NotRegistered,
-            Registering,
-            Registered,
+            return _computeState;
         }
     }
 }

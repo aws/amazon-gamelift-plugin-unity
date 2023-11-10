@@ -225,6 +225,7 @@ namespace AmazonGameLift.Editor
         public Action OnUserProfileUpdated { get; set; }
         public Action OnFleetChanged { get; set; }
         public Action OnComputeChanged { get; set; }
+        public Action OnClientSettingsChanged { get; set; }
 
         public StateManager(CoreApi coreApi)
         {

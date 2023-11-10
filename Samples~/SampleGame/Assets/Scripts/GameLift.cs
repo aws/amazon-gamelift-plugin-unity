@@ -27,7 +27,7 @@ public class GameLift : MonoBehaviour
     public static readonly string ClientConfigFilePath = "GameLiftAnywhereClientSettings.yaml";
 
     [SerializeField]
-    private GameLiftClientSettings _gameLiftSettings;
+    private GameLiftClientSettings _gameLiftClientSettings;
 
     private readonly Logger _logger = Logger.SharedInstance;
 #if UNITY_SERVER
@@ -79,7 +79,7 @@ public class GameLift : MonoBehaviour
         _server = new GameLiftServer(this, _logger);
 #else
         _logger.Write(":) I AM CLIENT");
-        var config = _gameLiftSettings.GetConfiguration();
+        var config = _gameLiftClientSettings.GetConfiguration();
         if (config.IsGameLiftAnywhere)
         {
 #if UNITY_EDITOR

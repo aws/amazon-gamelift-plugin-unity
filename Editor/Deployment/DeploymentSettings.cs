@@ -234,8 +234,7 @@ namespace AmazonGameLift.Editor
                 return;
             }
 
-            CurrentStackInfo =
-                DeploymentStackInfoFactory.Create(_textProvider, describeResponse, CurrentRegion, ScenarioName);
+            CurrentStackInfo = DeploymentStackInfoFactory.Create(_textProvider, describeResponse, CurrentRegion, ScenarioName);
         }
 
         public void Restore()
