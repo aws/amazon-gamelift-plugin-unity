@@ -41,7 +41,6 @@
                 <ui:Label name="ManagedEC2DeployActionsLabel" class="form-row__label" text="AWS Resource Actions"/>
                 <ui:VisualElement class="form-row__input form-row__input--inline separator separator--horizontal">
                     <ui:Button name="ManagedEC2CreateStackButton" class="button button--primary" text="Create"/>
-                    <ui:Button name="ManagedEC2RedeployStackButton" class="button" text="Redeploy"/>
                     <ui:Button name="ManagedEC2DeleteStackButton" class="button" text="Delete"/>
                 </ui:VisualElement>
             </ui:VisualElement>

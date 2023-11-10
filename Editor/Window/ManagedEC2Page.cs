@@ -75,14 +75,7 @@ namespace AmazonGameLift.Editor
                 _ec2Deployment.StartDeployment();
                 UpdateGUI();
             });
-            
-            _redeployButton = container.Q<Button>("ManagedEC2RedeployStackButton");
-            _redeployButton.RegisterCallback<ClickEvent>(_ =>
-            {
-                _ec2Deployment.StartDeployment();
-                UpdateGUI();
-            });
-            
+                        
             _deleteButton = container.Q<Button>("ManagedEC2DeleteStackButton");
             _deleteButton.RegisterCallback<ClickEvent>(async _ =>
             {
@@ -286,7 +279,6 @@ namespace AmazonGameLift.Editor
             l.SetElementText("ManagedEC2DeployStatusLabel", Strings.ManagedEC2DeployStatusLabel);
             l.SetElementText("ManagedEC2DeployActionsLabel", Strings.ManagedEC2DeployActionsLabel);
             l.SetElementText("ManagedEC2CreateStackButton", Strings.ManagedEC2CreateStackButton);
-            l.SetElementText("ManagedEC2RedeployStackButton", Strings.ManagedEC2RedeployStackButton);
             l.SetElementText("ManagedEC2DeleteStackButton", Strings.ManagedEC2DeleteStackButton);
             l.SetElementText("ManagedEC2LaunchClientTitle", Strings.ManagedEC2LaunchClientTitle);
             l.SetElementText("ManagedEC2LaunchClientLabel", Strings.ManagedEC2LaunchClientLabel);
