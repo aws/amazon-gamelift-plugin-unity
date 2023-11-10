@@ -29,7 +29,6 @@ public class GameLiftServer
     private readonly ICredentialsStore _credentialsStore;
 #endif
 
-    private bool _gameLiftRequestedTermination = false;
     private int _port;
     private bool _isConnected;
     private string _logFilePath;
@@ -222,7 +221,6 @@ public class GameLiftServer
             onProcessTerminate: () =>
             {
                 _logger.Write(":| GAMELIFT PROCESS TERMINATION REQUESTED (OK BYE)");
-                _gameLiftRequestedTermination = true;
                 _gl.TerminateServer();
             },
             onHealthCheck: () =>

@@ -274,7 +274,7 @@ namespace AmazonGameLift.Editor
                 {
                     _allProfiles = _deserializer.Deserialize<List<UserProfile>>(profilesResponse.Value);
                 }
-                catch (Exception ex)
+                catch (Exception _)
                 {
                     _allProfiles = new List<UserProfile>();
                 }

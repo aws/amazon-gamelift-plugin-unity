@@ -271,10 +271,10 @@ namespace AmazonGameLift.Editor
             { Strings.AnywherePageStatusBoxDefaultFleetErrorText, "An error occurred when trying to create a fleet"},
             { Strings.AnywherePageStatusBoxNotBootstrappedWarning, "Profile configuration is incomplete, as bootstrapping is not completed, navigate to AWS User Profiles for next steps."},
             
-            { Strings.ManagedEC2Title, "Managed EC2"},
+            { Strings.ManagedEC2Title, "Host with Managed EC2"},
             { Strings.ManagedEC2Description, "Managed EC2 fleets use Amazon EC2 instances to host your game servers.\nAmazon GameLift manages the instances and removes the burden of hardware and software management from hosting your games."},
-            { Strings.ManagedEC2IntegrateTitle, "Integrate GameLift with your game client"},
-            { Strings.ManagedEC2IntegrateDescription, "Add the Amazon GameLift server SDK to your game server and add code to communicate with the GameLift hosting service. If you're working with the Amazon GameLift sample game, this integration is already done."},
+            { Strings.ManagedEC2IntegrateTitle, "Integrate Amazon GameLift With Your Game Project"},
+            { Strings.ManagedEC2IntegrateDescription, "Use the provided C# libraries to add Amazon GameLift functionality to your game to enable hosting. Working with the sample game? Integration is already done!"},
             { Strings.ManagedEC2IntegrateLink, "Setup Amazon GameLift on a backend service"},
             { Strings.ManagedEC2ScenarioTitle, "Select Deployment Scenario"},
             { Strings.ManagedEC2ScenarioSingleFleetLabel, "Single-region Fleet"},
