@@ -22,10 +22,6 @@ namespace AmazonGameLift.Editor
             _container.Q<VisualElement>("HelpPageEstimatingPriceLinkParent").RegisterCallback<ClickEvent>(_ => Application.OpenURL(Urls.AboutGameLiftPricing));
             _container.Q<VisualElement>("HelpPageFleetIQLinkParent").RegisterCallback<ClickEvent>(_ => Application.OpenURL(Urls.AwsFleetIqDocumentation));
             _container.Q<VisualElement>("HelpPageFlexMatchLinkParent").RegisterCallback<ClickEvent>(_ => Application.OpenURL(Urls.AwsFlexMatchDocumentation));
-            
-            _container.Q<VisualElement>("HelpPageReportIssueLinkParent").RegisterCallback<ClickEvent>(_ => Application.OpenURL(Urls.GitHubAwsIssues));
-            _container.Q<VisualElement>("HelpPageDocumentationLinkParent").RegisterCallback<ClickEvent>(_ => Application.OpenURL(Urls.AwsGameLiftDocs));
-            _container.Q<VisualElement>("HelpPageForumLinkParent").RegisterCallback<ClickEvent>(_ => Application.OpenURL(Urls.AwsGameTechForums));
         }
 
         private void ApplyText()
@@ -33,9 +29,6 @@ namespace AmazonGameLift.Editor
             var l = new ElementLocalizer(_container);
             l.SetElementText("HelpPageTitle", Strings.HelpPageTitle);
             l.SetElementText("HelpPageDescription", Strings.HelpPageDescription);
-            l.SetElementText("HelpPageReportIssueLink", Strings.HelpPageReportIssueLink);
-            l.SetElementText("HelpPageDocumentationLink", Strings.HelpPageDocumentationLink);
-            l.SetElementText("HelpPageForumLink", Strings.HelpPageForumLink);
             l.SetElementText("HelpPageEstimatingPriceTitle", Strings.HelpPageEstimatingPriceTitle);
             l.SetElementText("HelpPageEstimatingPriceDescription", Strings.HelpPageEstimatingPriceDescription);
             l.SetElementText("HelpPageEstimatingPriceLink", Strings.HelpPageEstimatingPriceLink);
