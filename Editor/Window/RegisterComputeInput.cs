@@ -31,6 +31,8 @@ namespace AmazonGameLift.Editor
         private string _computeName;
         private string _ipAddress;
 
+        private Action _onComputeChanged;
+
         public RegisterComputeInput(VisualElement container, StateManager stateManager)
         {
             var uxml = Resources.Load<VisualTreeAsset>("EditorWindow/Components/RegisterComputeInput");
@@ -58,7 +60,7 @@ namespace AmazonGameLift.Editor
             RegisterCallbacks();
             SetupStatusBox();
 
-            _stateManager.OnFleetChanged += SetValidCompute;
+            _stateManager.OnFleetChanged += SetValidCompute; 
 
             UpdateGUI();
         }
@@ -138,9 +140,10 @@ namespace AmazonGameLift.Editor
                 }
                 else
                 {
+                    _computeState = ComputeStatus.NotRegistered;
+                    _stateManager.ComputeName = _defaultComputeName;
                     _computeNameInput.value = _defaultComputeName;
                     SetIpInputs(_defaultIpAddress);
-                    _computeState = ComputeStatus.NotRegistered;
                 }
             }
             else
@@ -153,12 +156,12 @@ namespace AmazonGameLift.Editor
 
         private void SetupComputeAfterSwitch(Compute compute)
         {
+            _computeState = ComputeStatus.Registered;
             _stateManager.ComputeName = compute.ComputeName;
             _stateManager.IpAddress = compute.IpAddress;
             _stateManager.WebSocketUrl = compute.GameLiftServiceSdkEndpoint;
             _computeNameInput.value = compute.ComputeName;
             SetIpInputs(compute.IpAddress);
-            _computeState = ComputeStatus.Registered;
         }
 
         private void OnReplaceComputeButtonClicked()
@@ -309,12 +312,9 @@ namespace AmazonGameLift.Editor
             l.SetElementText("AnywherePageComputeCancelReplaceButton", Strings.AnywherePageComputeCancelReplaceButton);
         }
 
-        public enum ComputeStatus
+        public ComputeStatus getComputeStatus() 
         {
-            Disabled,
-            NotRegistered,
-            Registering,
-            Registered,
+            return _computeState;
         }
     }
 }

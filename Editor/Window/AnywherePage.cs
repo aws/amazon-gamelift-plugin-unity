@@ -14,6 +14,8 @@ namespace AmazonGameLift.Editor
         private const string _primaryButtonClassName = "button--primary";
         private readonly VisualElement _container;
         private readonly StateManager _stateManager;
+        private readonly RegisterComputeInput _registerComputeInput;
+        private readonly GameLiftClientSettings _gameLiftClientSettings;
         private StatusBox _statusBox;
         private Button _launchServerButton;
         private Button _configureClientButton;
@@ -35,14 +37,15 @@ namespace AmazonGameLift.Editor
             
             SetupStatusBoxes();
 
+            _stateManager.OnFleetChanged += UpdateGui;
             _stateManager.OnUserProfileUpdated += UpdateGui;
             _stateManager.OnComputeChanged += UpdateGui;
+            _stateManager.OnClientSettingsChanged += UpdateGui;
 
             var fleetInputContainer = uxml.Q("AnywherePageConnectFleetTitle");
             var fleetInput = new ConnectToFleetInput(fleetInputContainer, stateManager);
             var computeInputContainer = uxml.Q("AnywherePageComputeTitle");
-            var computeInput =
-                new RegisterComputeInput(computeInputContainer, stateManager);
+            _registerComputeInput = new RegisterComputeInput(computeInputContainer, stateManager);
             
             _launchServerButton = uxml.Q<Button>("AnywherePageLaunchServerButton");
             _launchServerButton.RegisterCallback<ClickEvent>(_ =>
@@ -52,11 +55,12 @@ namespace AmazonGameLift.Editor
                 EditorApplication.EnterPlaymode();
             });
 
+            _gameLiftClientSettings = AssetDatabase.LoadAssetAtPath<GameLiftClientSettings>("Assets/Settings/GameLiftClientSettings.asset");
             _configureClientButton = uxml.Q<Button>("AnywherePageConfigureClientButton");
             _configureClientButton.RegisterCallback<ClickEvent>(_ =>
             {
-                GameLiftClientSettings gameLiftClientSettings = AssetDatabase.LoadAssetAtPath<GameLiftClientSettings>("Assets/Settings/GameLiftClientSettings.asset");
-                gameLiftClientSettings.ConfigureAnywhereClientSettings();
+                _gameLiftClientSettings.ConfigureAnywhereClientSettings();
+                _stateManager.OnClientSettingsChanged?.Invoke();
             });
 
             UpdateGui();
@@ -78,23 +82,36 @@ namespace AmazonGameLift.Editor
                 _statusBox.Close();
             }
 
-            if (string.IsNullOrWhiteSpace(_stateManager.AnywhereFleetId) ||
-                string.IsNullOrWhiteSpace(_stateManager.ComputeName))
-            {
-                _launchServerButton.RemoveFromClassList(_primaryButtonClassName);
-                _launchServerButton.SetEnabled(false);
+            ComputeStatus computeStatus = _registerComputeInput.getComputeStatus();
+            bool isComputeRegistered = computeStatus is ComputeStatus.Registered;
             
-                _configureClientButton.RemoveFromClassList(_primaryButtonClassName);
-                _configureClientButton.SetEnabled(false);
+            bool isClientConfigured = _gameLiftClientSettings.IsGameLiftAnywhere;
+
+
+
+            bool isConfigureClientEnabled = isComputeRegistered && !isClientConfigured;
+            _configureClientButton.SetEnabled(isConfigureClientEnabled);
+            
+            if (isConfigureClientEnabled)
+            {
+                _configureClientButton.AddToClassList(_primaryButtonClassName);
             }
             else
             {
-                _launchServerButton.AddToClassList(_primaryButtonClassName);
-                _launchServerButton.SetEnabled(true);
-
-                _configureClientButton.AddToClassList(_primaryButtonClassName);
-                _configureClientButton.SetEnabled(true);
+                _configureClientButton.RemoveFromClassList(_primaryButtonClassName);
             }
+            
+            bool isLaunchServerEnabled = isComputeRegistered && isClientConfigured;
+            _launchServerButton.SetEnabled(isLaunchServerEnabled);
+
+            if (isLaunchServerEnabled) 
+            {
+                _launchServerButton.AddToClassList(_primaryButtonClassName);
+            }
+            else 
+            {
+                _launchServerButton.RemoveFromClassList(_primaryButtonClassName);
+            }       
         }
 
         private void LocalizeText()

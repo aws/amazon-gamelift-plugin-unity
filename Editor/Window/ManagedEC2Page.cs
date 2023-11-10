@@ -14,6 +14,7 @@ namespace AmazonGameLift.Editor
 {
     public class ManagedEC2Page
     {
+        private const string _primaryButtonClassName = "button--primary";
         private readonly VisualElement _container;
         private readonly StateManager _stateManager;
         private readonly DeploymentSettings _deploymentSettings;
@@ -26,6 +27,7 @@ namespace AmazonGameLift.Editor
         private readonly FleetParametersInput _fleetParamsInput;
         private readonly StatusIndicator _statusIndicator;
         private readonly ManagedEC2Deployment _ec2Deployment;
+        private readonly GameLiftClientSettings _gameLiftClientSettings;
         private StatusBox _statusBox;
 
         public ManagedEC2Page(VisualElement container, StateManager stateManager)
@@ -63,6 +65,7 @@ namespace AmazonGameLift.Editor
             };
 
             _stateManager.OnUserProfileUpdated += UpdateDeploymentSettings;
+            _stateManager.OnClientSettingsChanged += UpdateGUI;
 
             _deployButton = container.Q<Button>("ManagedEC2CreateStackButton");
             _deployButton.RegisterCallback<ClickEvent>(_ =>
@@ -93,12 +96,12 @@ namespace AmazonGameLift.Editor
                 EditorApplication.EnterPlaymode();
             });
 
-             TextProvider textProvider = TextProviderFactory.Create();
+            _gameLiftClientSettings = AssetDatabase.LoadAssetAtPath<GameLiftClientSettings>("Assets/Settings/GameLiftClientSettings.asset");
             _configureClientButton = container.Q<Button>("ManagedEC2ConfigureClientButton");
             _configureClientButton.RegisterCallback<ClickEvent>(_ =>
             {
-                GameLiftClientSettings gameLiftClientSettings = AssetDatabase.LoadAssetAtPath<GameLiftClientSettings>("Assets/Settings/GameLiftClientSettings.asset");
-                gameLiftClientSettings.ConfigureManagedEC2ClientSettings(_stateManager.Region, _deploymentSettings.CurrentStackInfo.ApiGatewayEndpoint, _deploymentSettings.CurrentStackInfo.UserPoolClientId);
+                _gameLiftClientSettings.ConfigureManagedEC2ClientSettings(_stateManager.Region, _deploymentSettings.CurrentStackInfo.ApiGatewayEndpoint, _deploymentSettings.CurrentStackInfo.UserPoolClientId);
+                _stateManager.OnClientSettingsChanged?.Invoke();
             });
 
             _container.Q<VisualElement>("ManagedEC2IntegrateLinkParent")
@@ -143,15 +146,54 @@ namespace AmazonGameLift.Editor
         {
             LocalizeText();
 
-            _deployButton.SetEnabled(_deploymentSettings.CurrentStackInfo.StackStatus == null &&
-                                     _deploymentSettings.CanDeploy);
+            bool canDeploy = _deploymentSettings.CurrentStackInfo.StackStatus == null &&
+                                     _deploymentSettings.CanDeploy;
+
+            _deployButton.SetEnabled(canDeploy);
+            if(canDeploy) 
+            {
+                _deployButton.AddToClassList(_primaryButtonClassName);
+            }
+            else
+            {
+                _deployButton.RemoveFromClassList(_primaryButtonClassName);
+            }
+
             _redeployButton.SetEnabled(_deploymentSettings.CurrentStackInfo.StackStatus != null &&
                                        _deploymentSettings.CanDeploy);
             _deleteButton.SetEnabled(_deploymentSettings.CurrentStackInfo.StackStatus != null &&
                                      _deploymentSettings.IsCurrentStackModifiable);
-            _launchClientButton.SetEnabled(
-                _deploymentSettings.CurrentStackInfo.StackStatus is StackStatus.CreateComplete
-                    or StackStatus.UpdateComplete);
+
+            bool canLaunchClient = _deploymentSettings.CurrentStackInfo.StackStatus is StackStatus.CreateComplete or StackStatus.UpdateComplete;
+
+            // if the client settings have changed due to a deployment or due to manual changes, this will require the user to configure the client settings again
+            bool isClientConfigured = !_gameLiftClientSettings.IsGameLiftAnywhere 
+                                            && _gameLiftClientSettings.AwsRegion == _stateManager.Region
+                                            && _gameLiftClientSettings.ApiGatewayUrl == _deploymentSettings.CurrentStackInfo.ApiGatewayEndpoint
+                                            && _gameLiftClientSettings.UserPoolClientId == _deploymentSettings.CurrentStackInfo.UserPoolClientId;
+
+            bool isLaunchClientEnabled = canLaunchClient && isClientConfigured;
+            bool isConfigureClientEnabled = canLaunchClient && !isClientConfigured;
+
+            _launchClientButton.SetEnabled(isLaunchClientEnabled);
+            if (isLaunchClientEnabled)
+            {
+                _launchClientButton.AddToClassList(_primaryButtonClassName);
+            }
+            else
+            {
+                _launchClientButton.RemoveFromClassList(_primaryButtonClassName);
+            }
+
+            _configureClientButton.SetEnabled(isConfigureClientEnabled);
+            if(isConfigureClientEnabled) 
+            {
+                _configureClientButton.AddToClassList(_primaryButtonClassName);   
+            }
+            else
+            {
+                _configureClientButton.RemoveFromClassList(_primaryButtonClassName);   
+            }
 
             _deploymentScenariosInput.SetEnabled(_deploymentSettings.CanEdit);
             _fleetParamsInput.SetEnabled(_deploymentSettings.CanEdit);
