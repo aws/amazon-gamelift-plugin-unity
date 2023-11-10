@@ -70,8 +70,6 @@ namespace AmazonGameLift.Editor
 
         public int SelectedMode { get; set; }
 
-        public event Action<IReadOnlyList<string>> OnBucketsLoaded = default;
-
         public BootstrapSettings(IEnumerable<BucketPolicy> lifecyclePolicies,
             IEnumerable<string> lifecyclePolicyNames, TextProvider textProvider,
             IBucketNameFormatter bucketFormatter, ILogger logger, StateManager stateManager, CoreApi coreApi = null,
