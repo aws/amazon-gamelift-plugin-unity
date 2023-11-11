@@ -5,24 +5,20 @@
     <Style src="../common.uss"/>
     <ui:VisualElement class="separator separator--vertical separator--large">
         <ui:Label name="UserProfilePageAccountNewProfileTitle" class="page__subtitle" text="AWS Account Details"/>
-        <ui:VisualElement>
+        <ui:VisualElement class="separator separator--vertical">
             <ui:VisualElement name="UserProfilePageAccountNewProfileName" class="form-row">
                 <ui:Label name="UserProfilePageAccountNewProfileName" class="form-row__label" text="AWS Account Profile"/>
                 <ui:TextField name="UserProfilePageAccountNewProfileNameInput" class="form-row__input text-input"/>
             </ui:VisualElement>
             <ui:VisualElement name="UserProfilePageAccountNewProfileAccessKey" class="form-row">
                 <ui:Label name="UserProfilePageAccountNewProfileAccessKeyInput" text="AWS Access Key" class="form-row__label"/>
-                <ui:VisualElement class="separator separator--horizontal form-row__input">
-                    <ui:TextField name="UserProfilePageAccountNewProfileAccessKeyInput" class="text-input" password="true"/>
-                    <ui:Button name="UserProfilePageAccountNewProfileAccessKeyToggleReveal" class="button button--narrow form-row__reveal-button" text="Show"/>
-                </ui:VisualElement>
+                <ui:TextField name="UserProfilePageAccountNewProfileAccessKeyInput" class="text-input form-row__input separator__single--small separator--horizontal" password="true"/>
+                <ui:Button name="UserProfilePageAccountNewProfileAccessKeyToggleReveal" class="button button--narrow form-row__reveal-button" text="Show"/>
             </ui:VisualElement>
             <ui:VisualElement name="UserProfilePageAccountNewProfileSecretKey" class="form-row">
                 <ui:Label name="UserProfilePageAccountNewProfileSecretKeyLabel" class="form-row__label" text="AWS Secret Key"/>
-                <ui:VisualElement class="separator separator--horizontal form-row__input">
-                    <ui:TextField name="UserProfilePageAccountNewProfileSecretKeyInput" class="text-input" password="true"/>
-                    <ui:Button name="UserProfilePageAccountNewProfileSecretKeyToggleReveal" class="button button--narrow form-row__reveal-button" text="Show"/>
-                </ui:VisualElement>
+                <ui:TextField name="UserProfilePageAccountNewProfileSecretKeyInput" class="text-input form-row__input separator__single--small separator--horizontal" password="true"/>
+                <ui:Button name="UserProfilePageAccountNewProfileSecretKeyToggleReveal" class="button button--narrow form-row__reveal-button" text="Show"/>
             </ui:VisualElement>
             <ui:VisualElement name="UserProfilePageAccountNewProfileRegion" class="form-row">
                 <ui:Label name="UserProfilePageAccountNewProfileRegionLabel" class="form-row__label" text="AWS Region"/>
