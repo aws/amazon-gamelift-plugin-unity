@@ -98,6 +98,8 @@ Image#FolderIcon {
     margin: 0;
     font-size: var(--font-size-large);
     align-self: flex-start;
+    align-items: center;
+    justify-content: center;
     flex-direction: row;
 }
 
@@ -124,7 +126,7 @@ Image#FolderIcon {
 }
 
 .button--full-width {
-    align-self: stretch;
+    width: 100%;
 }
 
 .divider {
