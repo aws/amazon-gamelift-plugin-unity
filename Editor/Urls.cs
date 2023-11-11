@@ -23,7 +23,7 @@ namespace AmazonGameLift.Editor
         public const string GitHubAwsIssues = "https://github.com/aws/amazon-gamelift-plugin-unity/issues";
         public const string GameLiftPluginReleaseNotes = "https://github.com/aws/amazon-gamelift-plugin-unity/blob/main/CHANGELOG.md";
         public const string CreateAwsAccountLearnMore = "https://docs.aws.amazon.com/SetUp/latest/UserGuide/setup-AWSsignup.html";
-        public const string AnywherePageIntegrateServerLink = "https://docs.aws.amazon.com/gamelift/latest/developerguide/unity-plug-in-ec2.html#unity-plug-in-ec2-integrate-server";
+        public const string AnywherePageIntegrateServerLink = "https://docs.aws.amazon.com/gamelift/latest/developerguide/unity-plug-in-anywhere.html#unity-plug-in-anywhere-integrate-server";
         public const string AnywherePageIntegrateClientLink = "https://docs.aws.amazon.com/gamelift/latest/developerguide/unity-plug-in-anywhere.html#unity-plug-in-anywhere-integrate-client";
         public const string ManagedEC2IntegrateServerLink = "https://docs.aws.amazon.com/gamelift/latest/developerguide/unity-plug-in-ec2.html#unity-plug-in-ec2-integrate-server";
         public const string ManagedEC2IntegrateClientLink = "https://docs.aws.amazon.com/gamelift/latest/developerguide/unity-plug-in-ec2.html#unity-plug-in-ec2-integrate-client";
