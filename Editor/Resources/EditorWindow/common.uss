@@ -94,19 +94,20 @@ Image#FolderIcon {
 }
 
 .button {
-    border-radius: 4px;
-    border-width: var(--border-size-medium);
-    border-color: var(--color-button-border);
-    padding: var(--spacing-tiny) var(--spacing-large) var(--spacing-tiny) var(--spacing-large);
+    padding: var(--spacing-tiny) var(--spacing-large);
     margin: 0;
-    background-color: var(--color-button-default);
     font-size: var(--font-size-large);
     align-self: flex-start;
     flex-direction: row;
 }
 
-.button--primary {
+.button--primary,
+.button--primary.unity-disabled:hover {
     background-color: var(--color-button-primary);
+}
+
+.button--primary:hover {
+    background-color: var(--color-button-hover);
 }
 
 .button--secondary {
@@ -124,10 +125,6 @@ Image#FolderIcon {
 
 .button--full-width {
     align-self: stretch;
-}
-
-.button:hover {
-    background-color: var(--color-button-hover);
 }
 
 .divider {
@@ -211,6 +208,14 @@ Image#FolderIcon {
 .separator.separator--horizontal.separator--large > .separator.separator--horizontal.separator--large {
     /* large (parent) - large (child) */
     margin-right: 0;
+}
+
+.separator__single--small.separator--horizontal {
+    margin-right: var(--spacing-small);
+}
+
+.separator__single--tiny.separator--vertical {
+    margin-bottom: var(--spacing-tiny);
 }
 
 .external-link {
@@ -320,8 +325,6 @@ Image#ExternalLinkIcon {
 .form-row__radio-button .unity-radio-button__checkmark-background {
     width: var(--radio-button-outer);
     height: var(--radio-button-outer);
-    border-width: var(--border-size-thin);
-    border-color: var(--color-text-input-border);
     border-radius: 100%;
     padding: 0;
     margin-top: var(--spacing-tiny);
@@ -353,14 +356,14 @@ Image#ExternalLinkIcon {
 }
 
 .text-input {
-    margin: 0 0 8px 0;
-    padding: 4px 8px 4px 8px;
-    border-width: var(--border-size-medium);
-    border-radius: 4px;
-    border-color: var(--color-text-input-border);
-    background-color: var(--color-text-input-background);
+    margin: 0;
     font-size: var(--font-size-large);
     flex: 1 1 auto;
+}
+
+.text-input > .unity-text-field__input {
+    margin: 0;
+    padding: 4px 8px;
 }
 
 .text-input--fitted {
@@ -375,23 +378,8 @@ Image#ExternalLinkIcon {
     -unity-text-align: middle-center;
 }
 
-.text-input:hover {
-    border-color: var(--color-button-hover);
-}
-
-.text-input:focus {
-    border-color: var(--color-button-primary);
-}
-
 .text-input--error {
     border-color: var(--color-font-error);
-}
-
-.text-input > .unity-text-field__input {
-    margin: 0;
-    padding: 0;
-    border-width: 0;
-    background-color: rgba(0, 0, 0, 0);
 }
 
 .input-hint {
@@ -400,19 +388,13 @@ Image#ExternalLinkIcon {
 
 .dropdown {
     margin: 0;
-    padding: 4px 8px 4px 8px;
-    border-width: var(--border-size-medium);
-    border-radius: 4px;
-    border-color: var(--color-button-border);
-    background-color: var(--color-button-default);
     align-self: stretch;
     font-size: var(--font-size-large);
 }
 
 .dropdown > .unity-popup-field__input {
-    padding: 0;
-    border-width: 0;
-    background-color: rgba(0, 0, 0, 0);
+    margin: 0;
+    padding: 4px 8px;
 }
 
 .card {
@@ -431,7 +413,7 @@ Image#ExternalLinkIcon {
 
 .card--small .card__text {
     font-size: var(--font-size-small);
-    margin: 0 8px 0 8px;
+    margin: 0 8px;
 }
 
 .card--large {

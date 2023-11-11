@@ -9,7 +9,7 @@
             <ui:VisualElement name="AnywherePageCreateFleetName" class="form-row">
                 <ui:Label name="AnywherePageCreateFleetNameLabel" class="form-row__label" text="Fleet Name"/>
                 <ui:VisualElement class="form-row__input">
-                    <ui:TextField name="AnywherePageCreateFleetNameInput" class="text-input" value="GameName-AnywhereFleet"/>
+                    <ui:TextField name="AnywherePageCreateFleetNameInput" class="text-input separator__single--tiny separator--vertical" value="GameName-AnywhereFleet"/>
                     <ui:Label name="AnywherePageCreateFleetNameHint" class="input-hint" text="Fleet Name must have 1–1024 characters. Valid characters are A-Z, a-z, 0-9, _ and - (hyphen)"/>
                 </ui:VisualElement>
             </ui:VisualElement>
