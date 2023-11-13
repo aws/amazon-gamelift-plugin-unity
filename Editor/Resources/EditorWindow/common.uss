@@ -7,7 +7,8 @@
     --color-button-primary: #2C5D87;
     --color-button-secondary: #e4e4e4;
     --color-button-default: #585858;
-    --color-button-hover: #386082;
+    --color-button-primary-hover: #336C9D;
+    --color-button-default-hover: #666666;
     --color-button-border: #242424;
     --color-border-accent: #4c4c4c;
     --color-border-highlight: #9a9a9a;
@@ -23,6 +24,7 @@
     --color-text-input-border: #0d0d0d;
     --color-card-border: #0d0d0d;
     --color-card-background: #2a2a2a;
+    --color-clear: rgba(0,0,0,0);
 
     --font-size-hint: 12px;
     --font-size-small: 14px;
@@ -89,6 +91,12 @@ Image.icon--tiny {
     flex: 0 0 auto;
 }
 
+Image.icon--fill {
+    height: 100%;
+    width: 100%;
+    flex: 0 0 auto;
+}
+
 Image#FolderIcon {
     --unity-image: resource("Images/Icons/Folder");
 }
@@ -98,7 +106,21 @@ Image#FolderIcon {
     margin: 0;
     font-size: var(--font-size-large);
     align-self: flex-start;
+    align-items: center;
+    justify-content: center;
     flex-direction: row;
+}
+
+.button--icon {
+    padding: 0;
+    align-items: center;
+    justify-content: center;
+    background-color: var(--color-clear);
+    border-color: var(--color-clear);
+}
+
+.button--icon:hover {
+    background-color: var(--color-button-default-hover);
 }
 
 .button--primary,
@@ -107,7 +129,7 @@ Image#FolderIcon {
 }
 
 .button--primary:hover {
-    background-color: var(--color-button-hover);
+    background-color: var(--color-button-primary-hover);
 }
 
 .button--secondary {
@@ -124,7 +146,11 @@ Image#FolderIcon {
 }
 
 .button--full-width {
-    align-self: stretch;
+    width: 100%;
+}
+
+.button--full-height {
+    height: 100%;
 }
 
 .divider {
@@ -214,6 +240,10 @@ Image#FolderIcon {
     margin-right: var(--spacing-small);
 }
 
+.separator__single--tiny.separator--horizontal {
+    margin-right: var(--spacing-tiny);
+}
+
 .separator__single--tiny.separator--vertical {
     margin-bottom: var(--spacing-tiny);
 }
@@ -280,6 +310,7 @@ Image#ExternalLinkIcon {
 
 .form-row {
     flex-direction: row;
+    -unity-text-align: middle-left;
 }
 
 .form-row__label {
@@ -287,7 +318,6 @@ Image#ExternalLinkIcon {
     height: var(--form-row-height);
     color: var(--color-input-label);
     font-size: var(--font-size-large);
-    -unity-text-align: middle-left;
 }
 
 .form-row__input {
@@ -301,7 +331,6 @@ Image#ExternalLinkIcon {
 
 .form-row__text-display {
     flex: 1 1 auto;
-    padding: 2px;
 }
 
 .form-row__input--no-label {
