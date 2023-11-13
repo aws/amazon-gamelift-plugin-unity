@@ -19,7 +19,6 @@ namespace AmazonGameLift.Editor
         private readonly StateManager _stateManager;
         private readonly DeploymentSettings _deploymentSettings;
         private readonly Button _deployButton;
-        private readonly Button _redeployButton;
         private readonly Button _deleteButton;
         private readonly Button _launchClientButton;
         private readonly Button _configureClientButton;
@@ -80,6 +79,7 @@ namespace AmazonGameLift.Editor
             _deleteButton.RegisterCallback<ClickEvent>(async _ =>
             {
                 await _ec2Deployment.DeleteDeployment();
+                _deploymentSettings.RefreshCurrentStackInfo();
                 UpdateGUI();
             });
             
@@ -161,8 +161,6 @@ namespace AmazonGameLift.Editor
                 _deployButton.RemoveFromClassList(_primaryButtonClassName);
             }
 
-            _redeployButton.SetEnabled(_deploymentSettings.CurrentStackInfo.StackStatus != null &&
-                                       _deploymentSettings.CanDeploy);
             _deleteButton.SetEnabled(_deploymentSettings.CurrentStackInfo.StackStatus != null &&
                                      _deploymentSettings.IsCurrentStackModifiable);
 
