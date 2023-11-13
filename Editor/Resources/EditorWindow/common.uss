@@ -7,7 +7,7 @@
     --color-button-primary: #2C5D87;
     --color-button-secondary: #e4e4e4;
     --color-button-default: #585858;
-    --color-button-primary-hover: #386082;
+    --color-button-primary-hover: #336C9D;
     --color-button-default-hover: #666666;
     --color-button-border: #242424;
     --color-border-accent: #4c4c4c;
