@@ -15,12 +15,14 @@ namespace AmazonGameLift.Editor
     public class ManagedEC2Page
     {
         private const string _primaryButtonClassName = "button--primary";
+        private const string _hiddenClassName = "hidden";
         private readonly VisualElement _container;
         private readonly StateManager _stateManager;
         private readonly DeploymentSettings _deploymentSettings;
         private readonly Button _deployButton;
         private readonly Button _deleteButton;
         private readonly Button _launchClientButton;
+        private readonly VisualElement _launchClientDescription;
         private readonly Button _configureClientButton;
         private readonly VisualElement _statusLink;
         private readonly DeploymentScenariosInput _deploymentScenariosInput;
@@ -90,6 +92,8 @@ namespace AmazonGameLift.Editor
                     EditorUserBuildSettings.selectedStandaloneTarget);
                 EditorApplication.EnterPlaymode();
             });
+
+            _launchClientDescription = container.Q<VisualElement>("ManagedEC2LaunchClientDescription");
 
             _gameLiftClientSettings = AssetDatabase.LoadAssetAtPath<GameLiftClientSettings>("Assets/Settings/GameLiftClientSettings.asset");
             _configureClientButton = container.Q<Button>("ManagedEC2ConfigureClientButton");
@@ -182,6 +186,17 @@ namespace AmazonGameLift.Editor
             else
             {
                 _launchClientButton.RemoveFromClassList(_primaryButtonClassName);
+            }
+
+            if (_deploymentSettings.Scenario == DeploymentScenarios.SpotFleet || _deploymentSettings.Scenario == DeploymentScenarios.FlexMatch)
+            {
+                _launchClientButton.AddToClassList(_hiddenClassName);
+                _launchClientDescription.RemoveFromClassList(_hiddenClassName);
+            }
+            else
+            {
+                _launchClientButton.RemoveFromClassList(_hiddenClassName);
+                _launchClientDescription.AddToClassList(_hiddenClassName);
             }
 
             _configureClientButton.SetEnabled(isConfigureClientEnabled);
@@ -280,6 +295,7 @@ namespace AmazonGameLift.Editor
             l.SetElementText("ManagedEC2LaunchClientTitle", Strings.ManagedEC2LaunchClientTitle);
             l.SetElementText("ManagedEC2LaunchClientLabel", Strings.ManagedEC2LaunchClientLabel);
             l.SetElementText("ManagedEC2LaunchClientButton", Strings.ManagedEC2LaunchClientButton);
+            l.SetElementText("ManagedEC2LaunchClientDescription", Strings.ManagedEC2LaunchClientDescription);
             l.SetElementText("ManagedEC2ConfigureClientLabel", Strings.ManagedEC2ConfigureClientLabel);
             l.SetElementText("ManagedEC2ConfigureClientButton", Strings.ManagedEC2ConfigureClientButton);
             l.SetElementText("ManagedEC2DeployStatusLinkLabel", Strings.ManagedEC2DeployStatusLink);

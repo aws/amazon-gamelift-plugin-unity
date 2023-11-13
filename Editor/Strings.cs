@@ -271,6 +271,7 @@ namespace AmazonGameLift.Editor
         public const string ManagedEC2LaunchClientTitle = "ManagedEC2LaunchClientTitle";
         public const string ManagedEC2LaunchClientLabel = "ManagedEC2LaunchClientLabel";
         public const string ManagedEC2LaunchClientButton = "ManagedEC2LaunchClientButton";
+        public const string ManagedEC2LaunchClientDescription = "ManagedEC2LaunchClientDescription";
         public const string ManagedEC2ConfigureClientLabel = "ManagedEC2ConfigureClientLabel";
         public const string ManagedEC2ConfigureClientButton = "ManagedEC2ConfigureClientButton";
         public const string ManagedEC2StatusBoxNotBootstrappedWarning = "ManagedEC2StatusBoxNotBootstrappedWarning";

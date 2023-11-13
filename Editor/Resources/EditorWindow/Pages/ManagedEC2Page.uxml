@@ -53,6 +53,7 @@
             <ui:VisualElement class="form-row">
                 <ui:Label name="ManagedEC2LaunchClientLabel" class="form-row__label" text="Run Game"/>
                 <ui:Button name="ManagedEC2LaunchClientButton" class="button button--primary" text="Launch Client"/>
+                <ui:Label name="ManagedEC2LaunchClientDescription" class="form-row__text-display" text="Launch Client"/>
             </ui:VisualElement>
         </ui:Foldout>
     </ui:VisualElement>
