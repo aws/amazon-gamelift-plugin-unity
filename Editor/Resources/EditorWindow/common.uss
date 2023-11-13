@@ -310,6 +310,7 @@ Image#ExternalLinkIcon {
 
 .form-row {
     flex-direction: row;
+    -unity-text-align: middle-left;
 }
 
 .form-row__label {
@@ -317,7 +318,6 @@ Image#ExternalLinkIcon {
     height: var(--form-row-height);
     color: var(--color-input-label);
     font-size: var(--font-size-large);
-    -unity-text-align: middle-left;
 }
 
 .form-row__input {
@@ -331,7 +331,6 @@ Image#ExternalLinkIcon {
 
 .form-row__text-display {
     flex: 1 1 auto;
-    padding: 2px;
 }
 
 .form-row__input--no-label {
