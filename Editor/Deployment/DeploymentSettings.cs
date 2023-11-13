@@ -442,7 +442,7 @@ namespace AmazonGameLift.Editor
         {
             var stackName = _coreApi.GetStackName(_gameName);
             _coreApi.DeleteStack(CurrentProfile, CurrentRegion, stackName);
-            RefreshCurrentStackInfo();
+            _currentDeploymentId.Set(new DeploymentId(CurrentProfile, CurrentRegion, stackName, _deployers[Scenario].DisplayName));
             await WaitForCurrentDeployment();
         }
 
