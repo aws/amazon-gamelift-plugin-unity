@@ -145,6 +145,8 @@ namespace AmazonGameLift.Editor
         public bool IsCurrentStackModifiable =>
             CurrentStackInfo.StackStatus == null || CurrentStackInfo.StackStatus.IsStackStatusModifiable();
 
+        public bool CanDelete => CurrentStackInfo.StackStatus != null && CurrentStackInfo.StackStatus.IsStackStatusOperationDone();
+
         public event Action CurrentStackInfoChanged;
 
         internal DeploymentSettings(ScenarioLocator scenarioLocator, PathConverter pathConverter,

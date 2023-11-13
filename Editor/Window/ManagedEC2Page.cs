@@ -161,8 +161,7 @@ namespace AmazonGameLift.Editor
                 _deployButton.RemoveFromClassList(_primaryButtonClassName);
             }
 
-            _deleteButton.SetEnabled(_deploymentSettings.CurrentStackInfo.StackStatus != null &&
-                                     _deploymentSettings.IsCurrentStackModifiable);
+            _deleteButton.SetEnabled(_deploymentSettings.CanDelete);
 
             bool canLaunchClient = _deploymentSettings.CurrentStackInfo.StackStatus is StackStatus.CreateComplete or StackStatus.UpdateComplete;
 
