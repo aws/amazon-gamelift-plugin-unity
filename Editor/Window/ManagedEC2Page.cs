@@ -114,7 +114,7 @@ namespace AmazonGameLift.Editor
                 .RegisterCallback<ClickEvent>(_ => Application.OpenURL(Urls.ManagedEC2IntegrateClientLink));
 
             _deploymentSettings.CurrentStackInfoChanged += UpdateGUI;
-            _deploymentSettings.Scenario = DeploymentScenarios.SingleRegion;    
+            _deploymentSettings.Scenario = _stateManager.DeploymentScenario;    
             
             UpdateGUI();
             UpdateStatusBoxes();
