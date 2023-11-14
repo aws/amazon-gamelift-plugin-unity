@@ -61,7 +61,7 @@ namespace AmazonGameLift.Editor
             _stateManager.OnFleetChanged += UpdateCompute; 
             _stateManager.OnUserProfileSelected += UpdateCompute;
 
-            UpdateGUI();
+            UpdateCompute();
         }
 
         private void UpdateCompute()
