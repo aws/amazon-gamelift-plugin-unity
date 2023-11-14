@@ -9,7 +9,7 @@
             <ui:Label name="UserProfilePageBootstrapPopupDescription" text="Check and see if you have exceeded the AWS Free Tier usage &#10;limits or your period expired."/>
             <ui:VisualElement name="UserProfilePageBootstrapPopupFreeTierLinkParent" class="external-link">
                 <ui:Label name="UserProfilePageBootstrapPopupFreeTierLink"/>
-                <ui:Image name="ExternalLinkIcon" class="icon--small"/>
+                <ui:Image name="ExternalLinkIcon" class="icon--extrasmall"/>
             </ui:VisualElement>
             <ui:VisualElement class="separator separator--large separator--horizontal separator--centered">
                 <ui:Label name="UserProfilePageBootstrapPopupBucketLabel"/>
