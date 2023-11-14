@@ -22,7 +22,6 @@ public static class UnityPackageExporter
         Debug.Log("Exporting Sample Game...");
 
         exportedPackageAssetList.AddRange(Directory.EnumerateFiles("Assets"));
-        exportedPackageAssetList.Add("Assets\\Editor\\Scripts\\GameLiftClientSettingsMenu.cs");
         exportedPackageAssetList.Add("Assets\\Editor\\Scripts\\ClientServerSwitchMenu.cs");
         exportedPackageAssetList.Add("Assets\\Editor\\Scripts\\AnywhereFleetSettingsBuildProcessor.cs");
         exportedPackageAssetList.Add("Assets\\Editor\\Scripts\\AnywhereFleetSettingsWriter.cs");
