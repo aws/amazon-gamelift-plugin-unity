@@ -308,6 +308,10 @@ Image#ExternalLinkIcon {
     margin-left: 0;
 }
 
+.foldout__description {
+    color: var(--color-font-default);
+}
+
 .form-row {
     flex-direction: row;
     -unity-text-align: middle-left;

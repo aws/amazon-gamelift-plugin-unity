@@ -298,7 +298,7 @@ namespace AmazonGameLift.Editor
             { Strings.ManagedEC2ParametersGameServerFileLabel, "Game Server File"},
             { Strings.ManagedEC2ParametersGameServerFilePath, "Game Server Build File Path"},
             { Strings.ManagedEC2DeployTitle, "Deploy [ScenarioType]"},
-            { Strings.ManagedEC2DeployDescription, $"<b>Deploying GameLift can take up to 30-40 minutes</b>\nDeploying and running various AWS resources in the CloudFormation template will incur costs to your account. See <a href=\"{Urls.AboutGameLiftPricing}\">AWS Pricing Plan</a> for details on the costs for each resource in the CloudFormation template."},
+            { Strings.ManagedEC2DeployDescription, $"<b>Deploying GameLift can take up to 30-40 minutes</b>\nDeploying and running various AWS resources in the CloudFormation template will incur costs to your account. See <a href=\"{Urls.AboutGameLiftPricing}\"><color=#D2D2D2><u>AWS Pricing Plan</u></color></a> for details on the costs for each resource in the CloudFormation template."},
             { Strings.ManagedEC2DeployStatusLabel, "Status"},
             { Strings.ManagedEC2DeployStatusNotDeployed, "Not Deployed"},
             { Strings.ManagedEC2DeployStatusDeploying, "Deploying"},
