@@ -19,6 +19,10 @@ namespace AmazonGameLift.Editor
         private readonly VisualElement _flexMatchRadioGroup;
         private readonly Button _showMoreScenariosButton;
 
+        private readonly RadioButton _singleRegionRadioButton;
+        private readonly RadioButton _spotFleetRadioButton;
+        private readonly RadioButton _flexMatchRadioButton;
+        
         private readonly StateManager _stateManager;
 
         public Action<DeploymentScenarios> OnValueChanged;
@@ -34,15 +38,19 @@ namespace AmazonGameLift.Editor
             _deploymentScenarios = deploymentScenario;
             _enabled = enabled;
             _stateManager = stateManager;
-
-            _container.SetEnabled(_enabled);
-
+            
             _spotFleetRadioGroup = container.Q("ManagedEC2ScenarioSpotFleet");
             _flexMatchRadioGroup = container.Q("ManagedEC2ScenarioFlexMatch");
 
-            SetupRadioButton("ManagedEC2ScenarioSingleFleetRadio", DeploymentScenarios.SingleRegion);
-            SetupRadioButton("ManagedEC2ScenarioSpotFleetRadio", DeploymentScenarios.SpotFleet);
-            SetupRadioButton("ManagedEC2ScenarioFlexMatchRadio", DeploymentScenarios.FlexMatch);
+            _singleRegionRadioButton = container.Q<RadioButton>("ManagedEC2ScenarioSingleFleetRadio");
+            _spotFleetRadioButton = container.Q<RadioButton>("ManagedEC2ScenarioSpotFleetRadio");
+            _flexMatchRadioButton = container.Q<RadioButton>("ManagedEC2ScenarioFlexMatchRadio");
+
+            ToggleRadioButtons(_enabled);
+
+            SetupRadioButton(_singleRegionRadioButton, DeploymentScenarios.SingleRegion);
+            SetupRadioButton(_spotFleetRadioButton, DeploymentScenarios.SpotFleet);
+            SetupRadioButton(_flexMatchRadioButton, DeploymentScenarios.FlexMatch);
 
             _showMoreScenariosButton = container.Q<Button>("ManagedEC2ScenarioShowMoreButton");
             _showMoreScenariosButton.RegisterCallback<ClickEvent>(e =>
@@ -67,12 +75,11 @@ namespace AmazonGameLift.Editor
         public void SetEnabled(bool value)
         {
             _enabled = value;
-            _container.SetEnabled(_enabled);
+            ToggleRadioButtons(value);
         }
 
-        private void SetupRadioButton(string elementName, DeploymentScenarios deploymentScenario)
+        private void SetupRadioButton(RadioButton radio, DeploymentScenarios deploymentScenario)
         {
-            var radio = _container.Q<RadioButton>(elementName);
             if (radio == default) return;
             _radioButtons.Add(deploymentScenario, radio);
             radio.value = _deploymentScenarios == deploymentScenario;
@@ -125,6 +132,13 @@ namespace AmazonGameLift.Editor
                     Hide(element);
                 }
             }
+        }
+        
+        private void ToggleRadioButtons(bool enabled)
+        {
+            _singleRegionRadioButton.SetEnabled(enabled);
+            _spotFleetRadioButton.SetEnabled(enabled);
+            _flexMatchRadioButton.SetEnabled(enabled);
         }
 
         private void LocalizeText()
