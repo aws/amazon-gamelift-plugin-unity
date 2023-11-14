@@ -26,6 +26,7 @@ namespace AmazonGameLift.Editor
         private readonly StateManager _stateManager;
         private readonly VisualElement _container;
         private Button _cancelButton;
+        private Button _createFleetButton;
 
         private FleetStatus _fleetState;
         private List<FleetAttributes> _fleetAttributes = new List<FleetAttributes>();
@@ -133,7 +134,8 @@ namespace AmazonGameLift.Editor
 
         private void RegisterCallBacks(VisualElement container)
         {
-            container.Q<Button>("AnywherePageCreateFleetButton").RegisterCallback<ClickEvent>(async _ =>
+            _createFleetButton = container.Q<Button>("AnywherePageCreateFleetButton");
+            _createFleetButton.RegisterCallback<ClickEvent>(async _ =>
                 await OnAnywhereConnectClicked(_fleetNameInput.text));
             container.Q<Button>("AnywherePageConnectFleetNewButton").RegisterCallback<ClickEvent>(async _ =>
                 await OnCreateNewFleetClicked());
@@ -271,7 +273,16 @@ namespace AmazonGameLift.Editor
                 }
             }
 
-            _container.SetEnabled(_stateManager.IsBootstrapped);
+            UpdateFleetGui();
+        }
+        
+        private void UpdateFleetGui()
+        {
+            var enabled = _stateManager.IsBootstrapped && !string.IsNullOrWhiteSpace(_stateManager.AnywhereFleetId);
+            
+            _fleetNameInput.SetEnabled(enabled);
+            _createFleetButton.SetEnabled(enabled);
+            
         }
 
         public enum FleetStatus

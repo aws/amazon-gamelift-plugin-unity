@@ -243,9 +243,8 @@ namespace AmazonGameLift.Editor
                 }
             }
 
-            _container.SetEnabled(_stateManager.IsBootstrapped &&
-                                  !string.IsNullOrWhiteSpace(_stateManager.AnywhereFleetId));
-
+            
+            
             if (!string.IsNullOrWhiteSpace(_stateManager.ComputeName))
             {
                 var textProvider = new TextProvider();
@@ -263,6 +262,16 @@ namespace AmazonGameLift.Editor
             }
 
             CheckReadOnly();
+            UpdateComputeGui();
+        }
+
+        private void UpdateComputeGui()
+        {
+            var enabled = _stateManager.IsBootstrapped && !string.IsNullOrWhiteSpace(_stateManager.AnywhereFleetId);
+            
+            _computeNameInput.SetEnabled(enabled);
+            _registerButton.SetEnabled(enabled);
+            
         }
 
         private void LocalizeText()
@@ -278,7 +287,7 @@ namespace AmazonGameLift.Editor
             l.SetElementText("AnywherePageComputeCancelReplaceButton", Strings.AnywherePageComputeCancelReplaceButton);
         }
 
-        public ComputeStatus getComputeStatus() 
+        public ComputeStatus GetComputeStatus() 
         {
             return _computeState;
         }

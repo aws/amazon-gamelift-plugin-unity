@@ -81,7 +81,7 @@ namespace AmazonGameLift.Editor
                 _statusBox.Close();
             }
 
-            ComputeStatus computeStatus = _registerComputeInput.getComputeStatus();
+            ComputeStatus computeStatus = _registerComputeInput.GetComputeStatus();
             bool isComputeRegistered = computeStatus is ComputeStatus.Registered;
             bool isClientConfigured = _gameLiftClientSettings.IsGameLiftAnywhere;
             bool isConfigureClientEnabled = isComputeRegistered && !isClientConfigured;
