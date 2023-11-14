@@ -6,5 +6,5 @@
     <ui:VisualElement name="image-container">
         <ui:Image class="icon--tiny"/>
     </ui:VisualElement>
-    <ui:Label/>
+    <ui:Label class="status-indicator__text"/>
 </ui:UXML>
