@@ -8,23 +8,30 @@ using UnityEditor.Build;
 using UnityEngine;
 using UnityEngine.UIElements;
 using OperatingSystem = Amazon.GameLift.OperatingSystem;
+using AmazonGameLift.Runtime;
 
 namespace AmazonGameLift.Editor
 {
     public class ManagedEC2Page
     {
+        private const string _primaryButtonClassName = "button--primary";
+        private const string _hiddenClassName = "hidden";
         private readonly VisualElement _container;
         private readonly StateManager _stateManager;
         private readonly DeploymentSettings _deploymentSettings;
         private readonly Button _deployButton;
-        private readonly Button _redeployButton;
         private readonly Button _deleteButton;
         private readonly Button _launchClientButton;
+        private readonly VisualElement _launchClientDescription;
+        private readonly Button _configureClientButton;
+        private readonly VisualElement _statusLink;
         private readonly DeploymentScenariosInput _deploymentScenariosInput;
         private readonly FleetParametersInput _fleetParamsInput;
         private readonly StatusIndicator _statusIndicator;
         private readonly ManagedEC2Deployment _ec2Deployment;
-        private StatusBox _statusBox;
+        private readonly GameLiftClientSettings _gameLiftClientSettings;
+        private StatusBox _bootstrapStatusBox;
+        private StatusBox _deployStatusBox;
 
         public ManagedEC2Page(VisualElement container, StateManager stateManager)
         {
@@ -61,6 +68,7 @@ namespace AmazonGameLift.Editor
             };
 
             _stateManager.OnUserProfileUpdated += UpdateDeploymentSettings;
+            _stateManager.OnClientSettingsChanged += UpdateGUI;
 
             _deployButton = container.Q<Button>("ManagedEC2CreateStackButton");
             _deployButton.RegisterCallback<ClickEvent>(_ =>
@@ -68,18 +76,15 @@ namespace AmazonGameLift.Editor
                 _ec2Deployment.StartDeployment();
                 UpdateGUI();
             });
-            _redeployButton = container.Q<Button>("ManagedEC2RedeployStackButton");
-            _redeployButton.RegisterCallback<ClickEvent>(_ =>
-            {
-                _ec2Deployment.StartDeployment();
-                UpdateGUI();
-            });
+                        
             _deleteButton = container.Q<Button>("ManagedEC2DeleteStackButton");
             _deleteButton.RegisterCallback<ClickEvent>(async _ =>
             {
                 await _ec2Deployment.DeleteDeployment();
+                _deploymentSettings.RefreshCurrentStackInfo();
                 UpdateGUI();
             });
+            
             _launchClientButton = container.Q<Button>("ManagedEC2LaunchClientButton");
             _launchClientButton.RegisterCallback<ClickEvent>(_ =>
             {
@@ -88,12 +93,29 @@ namespace AmazonGameLift.Editor
                 EditorApplication.EnterPlaymode();
             });
 
+            _launchClientDescription = container.Q<VisualElement>("ManagedEC2LaunchClientDescription");
 
-            _container.Q<VisualElement>("ManagedEC2IntegrateLinkParent")
-                .RegisterCallback<ClickEvent>(_ => Application.OpenURL(Urls.ManagedEc2IntegrateLink));
+            _gameLiftClientSettings = AssetDatabase.LoadAssetAtPath<GameLiftClientSettings>("Assets/Settings/GameLiftClientSettings.asset");
+            _configureClientButton = container.Q<Button>("ManagedEC2ConfigureClientButton");
+            _configureClientButton.RegisterCallback<ClickEvent>(_ =>
+            {
+                _gameLiftClientSettings.ConfigureManagedEC2ClientSettings(_stateManager.Region, _deploymentSettings.CurrentStackInfo.ApiGatewayEndpoint, _deploymentSettings.CurrentStackInfo.UserPoolClientId);
+                _stateManager.OnClientSettingsChanged?.Invoke();
+            });
+            
+            _statusLink = container.Q("ManagedEC2DeployStatusLink");
+            _statusLink.RegisterCallback<ClickEvent>(_ => Application.OpenURL(
+                string.Format(Urls.AwsCloudFormationEventsTemplate, _stateManager.Region, _deploymentSettings.CurrentStackInfo.StackId)));
+
+            _container.Q<VisualElement>("ManagedEC2IntegrateServerLinkParent")
+                .RegisterCallback<ClickEvent>(_ => Application.OpenURL(Urls.ManagedEC2IntegrateServerLink));
+            
+            _container.Q<VisualElement>("ManagedEC2IntegrateClientLinkParent")
+                .RegisterCallback<ClickEvent>(_ => Application.OpenURL(Urls.ManagedEC2IntegrateClientLink));
 
             _deploymentSettings.CurrentStackInfoChanged += UpdateGUI;
-            _deploymentSettings.Scenario = DeploymentScenarios.SingleRegion;
+            _deploymentSettings.Scenario = _stateManager.DeploymentScenario;    
+            
             UpdateGUI();
             UpdateStatusBoxes();
         }
@@ -130,19 +152,67 @@ namespace AmazonGameLift.Editor
         {
             LocalizeText();
 
-            _deployButton.SetEnabled(_deploymentSettings.CurrentStackInfo.StackStatus == null &&
-                                     _deploymentSettings.CanDeploy);
-            _redeployButton.SetEnabled(_deploymentSettings.CurrentStackInfo.StackStatus != null &&
-                                       _deploymentSettings.CanDeploy);
-            _deleteButton.SetEnabled(_deploymentSettings.CurrentStackInfo.StackStatus != null &&
-                                     _deploymentSettings.IsCurrentStackModifiable);
-            _launchClientButton.SetEnabled(
-                _deploymentSettings.CurrentStackInfo.StackStatus is StackStatus.CreateComplete
-                    or StackStatus.UpdateComplete);
+            bool canDeploy = _deploymentSettings.CurrentStackInfo.StackStatus == null &&
+                                     _deploymentSettings.CanDeploy;
+
+            _deployButton.SetEnabled(canDeploy);
+            if(canDeploy) 
+            {
+                _deployButton.AddToClassList(_primaryButtonClassName);
+            }
+            else
+            {
+                _deployButton.RemoveFromClassList(_primaryButtonClassName);
+            }
+
+            _deleteButton.SetEnabled(_deploymentSettings.CanDelete);
+
+            bool canLaunchClient = _deploymentSettings.CurrentStackInfo.StackStatus is StackStatus.CreateComplete or StackStatus.UpdateComplete;
+
+            // if the client settings have changed due to a deployment or due to manual changes, this will require the user to configure the client settings again
+            bool isClientConfigured = !_gameLiftClientSettings.IsGameLiftAnywhere 
+                                            && _gameLiftClientSettings.AwsRegion == _stateManager.Region
+                                            && _gameLiftClientSettings.ApiGatewayUrl == _deploymentSettings.CurrentStackInfo.ApiGatewayEndpoint
+                                            && _gameLiftClientSettings.UserPoolClientId == _deploymentSettings.CurrentStackInfo.UserPoolClientId;
+
+            bool isLaunchClientEnabled = canLaunchClient && isClientConfigured;
+            bool isConfigureClientEnabled = canLaunchClient && !isClientConfigured;
+
+            _launchClientButton.SetEnabled(isLaunchClientEnabled);
+            if (isLaunchClientEnabled)
+            {
+                _launchClientButton.AddToClassList(_primaryButtonClassName);
+            }
+            else
+            {
+                _launchClientButton.RemoveFromClassList(_primaryButtonClassName);
+            }
+
+            if (_deploymentSettings.Scenario == DeploymentScenarios.SpotFleet || _deploymentSettings.Scenario == DeploymentScenarios.FlexMatch)
+            {
+                _launchClientButton.AddToClassList(_hiddenClassName);
+                _launchClientDescription.RemoveFromClassList(_hiddenClassName);
+            }
+            else
+            {
+                _launchClientButton.RemoveFromClassList(_hiddenClassName);
+                _launchClientDescription.AddToClassList(_hiddenClassName);
+            }
+
+            _configureClientButton.SetEnabled(isConfigureClientEnabled);
+            if(isConfigureClientEnabled) 
+            {
+                _configureClientButton.AddToClassList(_primaryButtonClassName);   
+            }
+            else
+            {
+                _configureClientButton.RemoveFromClassList(_primaryButtonClassName);   
+            }
 
             _deploymentScenariosInput.SetEnabled(_deploymentSettings.CanEdit);
             _fleetParamsInput.SetEnabled(_deploymentSettings.CanEdit);
 
+            _deployStatusBox.Close();
             var stackStatus = _deploymentSettings.CurrentStackInfo.StackStatus;
             var textProvider = new TextProvider();
             if (stackStatus == null)
@@ -152,10 +222,19 @@ namespace AmazonGameLift.Editor
             else if (stackStatus.IsStackStatusFailed())
             {
                 _statusIndicator.Set(State.Failed, textProvider.Get(Strings.ManagedEC2DeployStatusFailed));
+                _deployStatusBox.Show(StatusBox.StatusBoxType.Error, textProvider.GetError(ErrorCode.StackStatusInvalid));
             }
             else if (stackStatus == StackStatus.DeleteInProgress)
             {
                 _statusIndicator.Set(State.InProgress, textProvider.Get(Strings.ManagedEC2DeployStatusDeleting));
+            }
+            else if (stackStatus.IsStackStatusRollback())
+            {
+                _statusIndicator.Set(State.Failed, textProvider.Get(stackStatus.IsStackStatusInProgress()
+                    ? Strings.ManagedEC2DeployStatusRollingBack
+                    : Strings.ManagedEC2DeployStatusRolledBack));
+                _deployStatusBox.Show(StatusBox.StatusBoxType.Error,
+                    textProvider.GetError(ErrorCode.StackStatusInvalid));
             }
             else if (stackStatus.IsStackStatusInProgress())
             {
@@ -169,22 +248,25 @@ namespace AmazonGameLift.Editor
             {
                 _statusIndicator.Set(State.Inactive, textProvider.Get(Strings.ManagedEC2DeployStatusNotDeployed));
             }
+
+            _statusLink.visible = _deploymentSettings.HasCurrentStack;
         }
         
         private void SetupStatusBoxes()
         {
-            _statusBox = _container.Q<StatusBox>("ManagedEC2StatusBox");
+            _bootstrapStatusBox = _container.Q<StatusBox>("ManagedEC2StatusBox");
+            _deployStatusBox = _container.Q<StatusBox>("ManagedEC2DeployStatusBox");
         }
         
         private void UpdateStatusBoxes()
         {
             if (!_stateManager.IsBootstrapped)
             {
-                _statusBox.Show(StatusBox.StatusBoxType.Warning, Strings.ManagedEC2StatusBoxNotBootstrappedWarning);
+                _bootstrapStatusBox.Show(StatusBox.StatusBoxType.Warning, Strings.ManagedEC2StatusBoxNotBootstrappedWarning);
             }
             else
             {
-                _statusBox.Close();
+                _bootstrapStatusBox.Close();
             }
         }
 
@@ -200,7 +282,8 @@ namespace AmazonGameLift.Editor
             l.SetElementText("ManagedEC2Description", Strings.ManagedEC2Description);
             l.SetElementText("ManagedEC2IntegrateTitle", Strings.ManagedEC2IntegrateTitle);
             l.SetElementText("ManagedEC2IntegrateDescription", Strings.ManagedEC2IntegrateDescription);
-            l.SetElementText("ManagedEC2IntegrateLink", Strings.ManagedEC2IntegrateLink);
+            l.SetElementText("ManagedEC2IntegrateServerLink", Strings.ManagedEC2IntegrateServerLink);
+            l.SetElementText("ManagedEC2IntegrateClientLink", Strings.ManagedEC2IntegrateClientLink);
             l.SetElementText("ManagedEC2ScenarioTitle", Strings.ManagedEC2ScenarioTitle);
             l.SetElementText("ManagedEC2ParametersTitle", Strings.ManagedEC2ParametersTitle, replacements);
             l.SetElementText("ManagedEC2DeployTitle", Strings.ManagedEC2DeployTitle, replacements);
@@ -208,13 +291,14 @@ namespace AmazonGameLift.Editor
             l.SetElementText("ManagedEC2DeployStatusLabel", Strings.ManagedEC2DeployStatusLabel);
             l.SetElementText("ManagedEC2DeployActionsLabel", Strings.ManagedEC2DeployActionsLabel);
             l.SetElementText("ManagedEC2CreateStackButton", Strings.ManagedEC2CreateStackButton);
-            l.SetElementText("ManagedEC2RedeployStackButton", Strings.ManagedEC2RedeployStackButton);
             l.SetElementText("ManagedEC2DeleteStackButton", Strings.ManagedEC2DeleteStackButton);
             l.SetElementText("ManagedEC2LaunchClientTitle", Strings.ManagedEC2LaunchClientTitle);
             l.SetElementText("ManagedEC2LaunchClientLabel", Strings.ManagedEC2LaunchClientLabel);
             l.SetElementText("ManagedEC2LaunchClientButton", Strings.ManagedEC2LaunchClientButton);
+            l.SetElementText("ManagedEC2LaunchClientDescription", Strings.ManagedEC2LaunchClientDescription);
             l.SetElementText("ManagedEC2ConfigureClientLabel", Strings.ManagedEC2ConfigureClientLabel);
-            l.SetElementText("ManagedEC2ConfigureClientDescription", Strings.ManagedEC2ConfigureClientDescription);
+            l.SetElementText("ManagedEC2ConfigureClientButton", Strings.ManagedEC2ConfigureClientButton);
+            l.SetElementText("ManagedEC2DeployStatusLinkLabel", Strings.ManagedEC2DeployStatusLink);
         }
 
         private string GetScenarioType(ElementLocalizer l) => _deploymentSettings.Scenario switch

@@ -1,7 +1,7 @@
 ﻿<!-- Copyright Amazon.com, Inc. or its affiliates. All Rights Reserved. -->
 <!-- SPDX-License-Identifier: Apache-2.0 -->
 
-<ui:UXML xmlns:ui="UnityEngine.UIElements">
+<ui:UXML xmlns:ui="UnityEngine.UIElements" class="separator separator--vertical">
     <Style src="../common.uss"/>
     <ui:VisualElement class="form-row">
         <ui:Label name="ManagedEC2ParametersGameNameLabel" class="form-row__label" text="Game Name"/>
@@ -25,16 +25,16 @@
     </ui:VisualElement>
     <ui:VisualElement class="form-row">
         <ui:Label name="ManagedEC2ParametersGameServerFolderLabel" class="form-row__label" text="Game Server Folder"/>
-        <ui:TextField name="ManagedEC2ParametersGameServerFolderInput" class="form-row__input text-input" value="..."/>
-        <ui:Button name="ManagedEC2ParametersGameServerFolderButton">
-            <ui:Image name="FolderIcon" class="icon" />
+        <ui:TextField name="ManagedEC2ParametersGameServerFolderInput" class="form-row__input text-input separator__single--tiny separator--horizontal" value="..."/>
+        <ui:Button name="ManagedEC2ParametersGameServerFolderButton" class="button button--icon button--full-height">
+            <ui:Image name="FolderIcon" class="icon--fill" />
         </ui:Button>
     </ui:VisualElement>
     <ui:VisualElement class="form-row">
         <ui:Label name="ManagedEC2ParametersGameServerFileLabel" class="form-row__label" text="Game Server file (.exe)"/>
-        <ui:TextField name="ManagedEC2ParametersGameServerFileInput" class="form-row__input text-input" value="..."/>
-        <ui:Button name="ManagedEC2ParametersGameServerFileButton">
-            <ui:Image name="FolderIcon" class="icon" />
+        <ui:TextField name="ManagedEC2ParametersGameServerFileInput" class="form-row__input text-input separator__single--tiny separator--horizontal" value="..."/>
+        <ui:Button name="ManagedEC2ParametersGameServerFileButton" class="button button--icon button--full-height">
+            <ui:Image name="FolderIcon" class="icon--fill" />
         </ui:Button>
     </ui:VisualElement>
 </ui:UXML>

@@ -10,23 +10,6 @@
             <gl:InfoLinks/>
         </ui:VisualElement>
         <ui:VisualElement class="divider"/>
-        <ui:VisualElement class="separator separator--horizontal">
-            <ui:VisualElement name="HelpPageReportIssueLinkParent" class="card card--small">
-                <ui:Image name="HelpPageReportIssueIcon" class="card__icon"/>
-                <ui:Label name="HelpPageReportIssueLink" class="card__text" text="Report Issue"/>
-                <ui:Image name="ExternalLinkIcon" class="card__icon--small"/>
-            </ui:VisualElement>
-            <ui:VisualElement name="HelpPageDocumentationLinkParent" class="card card--small">
-                <ui:Image name="HelpPageDocumentationIcon" class="card__icon"/>
-                <ui:Label name="HelpPageDocumentationLink" class="card__text" text="Documentation"/>
-                <ui:Image name="ExternalLinkIcon" class="card__icon--small"/>
-            </ui:VisualElement>
-            <ui:VisualElement name="HelpPageForumLinkParent" class="card card--small">
-                <ui:Image name="HelpPageForumIcon" class="card__icon"/>
-                <ui:Label name="HelpPageForumLink" class="card__text" text="AWS Forum"/>
-                <ui:Image name="ExternalLinkIcon" class="card__icon--small"/>
-            </ui:VisualElement>
-        </ui:VisualElement>
         <ui:VisualElement class="separator separator--vertical">
             <ui:Label name="HelpPageEstimatingPriceTitle" class="page__subtitle" text="Estimating Price"/>
             <ui:Label name="HelpPageEstimatingPriceDescription" text="With AWS Pricing Calculator, you can create a pricing estimate for Amazon GameLift. You don&apos;t need an AWS account or in-depth knowledge of AWS to use the calculator."/>

@@ -145,6 +145,8 @@ namespace AmazonGameLift.Editor
         public bool IsCurrentStackModifiable =>
             CurrentStackInfo.StackStatus == null || CurrentStackInfo.StackStatus.IsStackStatusModifiable();
 
+        public bool CanDelete => CurrentStackInfo.StackStatus != null && CurrentStackInfo.StackStatus.IsStackStatusOperationDone();
+
         public event Action CurrentStackInfoChanged;
 
         internal DeploymentSettings(ScenarioLocator scenarioLocator, PathConverter pathConverter,
@@ -234,8 +236,7 @@ namespace AmazonGameLift.Editor
                 return;
             }
 
-            CurrentStackInfo =
-                DeploymentStackInfoFactory.Create(_textProvider, describeResponse, CurrentRegion, ScenarioName);
+            CurrentStackInfo = DeploymentStackInfoFactory.Create(_textProvider, describeResponse, CurrentRegion, ScenarioName);
         }
 
         public void Restore()
@@ -443,7 +444,7 @@ namespace AmazonGameLift.Editor
         {
             var stackName = _coreApi.GetStackName(_gameName);
             _coreApi.DeleteStack(CurrentProfile, CurrentRegion, stackName);
-            RefreshCurrentStackInfo();
+            _currentDeploymentId.Set(new DeploymentId(CurrentProfile, CurrentRegion, stackName, _deployers[Scenario].DisplayName));
             await WaitForCurrentDeployment();
         }
 

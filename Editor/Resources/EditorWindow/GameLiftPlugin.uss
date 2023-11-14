@@ -40,7 +40,7 @@
 }
 
 .tab__button:hover {
-    background-color: var(--color-button-hover);
+    background-color: var(--color-button-default-hover);
 }
 
 .tab__button--selected {

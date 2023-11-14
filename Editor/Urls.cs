@@ -6,6 +6,7 @@ namespace AmazonGameLift.Editor
     internal static class Urls
     {
         public const string AwsCloudFormationChangeSetTemplate = "https://{0}.console.aws.amazon.com/cloudformation/home?region={0}#/stacks/changesets/changes?stackId={1}&changeSetId={2}";
+        public const string AwsCloudFormationEventsTemplate = "https://{0}.console.aws.amazon.com/cloudformation/home?region={0}#/stacks/events?stackId={1}";
         public const string AwsFleetIqDocumentation = "https://docs.aws.amazon.com/gamelift/latest/fleetiqguide/gsg-intro.html";
         public const string AwsFlexMatchDocumentation = "https://docs.aws.amazon.com/gamelift/latest/developerguide/gamelift-match-intro.html";
         public const string AboutGameLift = "https://aws.amazon.com/gamelift/";
@@ -22,10 +23,11 @@ namespace AmazonGameLift.Editor
         public const string GitHubAwsIssues = "https://github.com/aws/amazon-gamelift-plugin-unity/issues";
         public const string GameLiftPluginReleaseNotes = "https://github.com/aws/amazon-gamelift-plugin-unity/blob/main/CHANGELOG.md";
         public const string CreateAwsAccountLearnMore = "https://docs.aws.amazon.com/SetUp/latest/UserGuide/setup-AWSsignup.html";
-        public const string AnywherePageServerSetupDocumentation = "https://docs.aws.amazon.com/gamelift/latest/developerguide/integration-unity-server.html";
-        public const string AnywherePageClientSetupDocumentation = "https://docs.aws.amazon.com/gamelift/latest/developerguide/integration-unity-client.html";
-        public const string ManagedEc2IntegrateLink = "https://docs.aws.amazon.com/gamelift/latest/developerguide/unity-plug-in-anywhere.html#unity-plug-in-ec2-integrate-server";
-        public const string ManagedEc2FleetLearnMore = "https://docs.aws.amazon.com/gamelift/latest/developerguide/unity-plug-in-ec2.html#unity-plug-in-ec2-scenarios";
+        public const string AnywherePageIntegrateServerLink = "https://docs.aws.amazon.com/gamelift/latest/developerguide/unity-plug-in-anywhere.html#unity-plug-in-anywhere-integrate-server";
+        public const string AnywherePageIntegrateClientLink = "https://docs.aws.amazon.com/gamelift/latest/developerguide/unity-plug-in-anywhere.html#unity-plug-in-anywhere-integrate-client";
+        public const string ManagedEC2IntegrateServerLink = "https://docs.aws.amazon.com/gamelift/latest/developerguide/unity-plug-in-ec2.html#unity-plug-in-ec2-integrate-server";
+        public const string ManagedEC2IntegrateClientLink = "https://docs.aws.amazon.com/gamelift/latest/developerguide/unity-plug-in-ec2.html#unity-plug-in-ec2-integrate-client";
+        public const string ManagedEC2FleetLearnMore = "https://docs.aws.amazon.com/gamelift/latest/developerguide/unity-plug-in-ec2.html#unity-plug-in-ec2-scenarios";
         public const string S3BootstrapHelp = "https://docs.aws.amazon.com/gamelift/latest/developerguide/unity-plug-in-scenario.html#unity-plug-in-scenario-boot";
         public const string AwsS3Console = "https://s3.console.aws.amazon.com/s3/home";
         public const string AwsIAMConsole = "https://us-east-1.console.aws.amazon.com/iamv2/home";

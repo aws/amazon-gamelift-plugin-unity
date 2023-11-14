@@ -29,6 +29,7 @@ namespace AmazonGameLift.Editor
             AddToClassList("status-indicator");
             AddToClassList("separator");
             AddToClassList("separator--horizontal");
+            AddToClassList("separator--centered");
             _imageContainer.RegisterCallback<TransitionEndEvent>(evt =>
             {
                 if (_state == State.InProgress)

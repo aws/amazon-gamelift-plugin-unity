@@ -60,6 +60,15 @@ namespace AmazonGameLift.Editor
             l.SetElementText("UserProfilePageAccountNewProfileCancelButton", Strings.UserProfilePageAccountNewProfileCancelButton);
         }
 
+        private void ToggleHiddenText(Button button, TextField hiddenField)
+        {
+            var textProvider = TextProviderFactory.Create();
+            hiddenField.isPasswordField = !hiddenField.isPasswordField;
+            button.text = !hiddenField.isPasswordField
+                ? textProvider.Get(Strings.LabelPasswordHide)
+                : textProvider.Get(Strings.LabelPasswordShow);
+        }
+
         public void Reset()
         {
             foreach (var field in _textFields)
@@ -86,7 +95,6 @@ namespace AmazonGameLift.Editor
 
             return true;
         }
-        
 
         private void SetupCallBacks()
         {
@@ -95,14 +103,28 @@ namespace AmazonGameLift.Editor
                 ValidateInputs();
             });
             
-            _container.Q<TextField>("UserProfilePageAccountNewProfileAccessKeyInput").RegisterValueChangedCallback(_ =>
+            var accessKeyInput = _container.Q<TextField>("UserProfilePageAccountNewProfileAccessKeyInput");
+            accessKeyInput.RegisterValueChangedCallback(_ =>
             {
                 ValidateInputs();
             });
             
-            _container.Q<TextField>("UserProfilePageAccountNewProfileSecretKeyInput").RegisterValueChangedCallback(_ =>
+            var secretKeyInput = _container.Q<TextField>("UserProfilePageAccountNewProfileSecretKeyInput");
+            secretKeyInput.RegisterValueChangedCallback(_ =>
             {
                 ValidateInputs();
+            });
+            
+            var accessKeyRevealButton = _container.Q<Button>("UserProfilePageAccountNewProfileAccessKeyToggleReveal");
+            accessKeyRevealButton.RegisterCallback<ClickEvent>(_ =>
+            {
+                ToggleHiddenText(accessKeyRevealButton, accessKeyInput);
+            });
+            
+            var secretKeyRevealButton = _container.Q<Button>("UserProfilePageAccountNewProfileSecretKeyToggleReveal");
+            secretKeyRevealButton.RegisterCallback<ClickEvent>(_ =>
+            {
+                ToggleHiddenText(secretKeyRevealButton, secretKeyInput);
             });
             
             _regionDropDown.RegisterValueChangedCallback(_ =>

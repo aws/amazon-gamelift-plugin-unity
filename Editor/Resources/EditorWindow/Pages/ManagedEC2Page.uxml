@@ -13,24 +13,34 @@
         <gl:StatusBox name="ManagedEC2StatusBox"/>
         <ui:Foldout name="ManagedEC2IntegrateTitle" class="foldout separator separator--vertical" text="Integrate GameLift with your game client">
             <ui:Label name="ManagedEC2IntegrateDescription" text="Add the Amazon GameLift server SDK to your game server and add code to communicate with the GameLift hosting service. If you&apos;re working with the Amazon GameLift sample game, this integration is already done."/>
-            <ui:VisualElement name="ManagedEC2IntegrateLinkParent" class="external-link">
-                <ui:Label name="ManagedEC2IntegrateLink" text="Setup Amazon GameLift on a backend service"/>
+            <ui:VisualElement name="ManagedEC2IntegrateServerLinkParent" class="external-link">
+                <ui:Label name="ManagedEC2IntegrateServerLink" text="Setup Amazon GameLift on a backend service"/>
+                <ui:Image name="ExternalLinkIcon" class="icon--small"/>
+            </ui:VisualElement>
+            <ui:VisualElement name="ManagedEC2IntegrateClientLinkParent" class="external-link">
+                <ui:Label name="ManagedEC2IntegrateClientLink" text="Setup Amazon GameLift client"/>
                 <ui:Image name="ExternalLinkIcon" class="icon--small"/>
             </ui:VisualElement>
         </ui:Foldout>
         <ui:Foldout name="ManagedEC2ScenarioTitle" class="foldout" text="Select Deployment Scenario"/>
         <ui:Foldout name="ManagedEC2ParametersTitle" class="foldout" text="[GameName] parameters"/>
         <ui:Foldout name="ManagedEC2DeployTitle" class="foldout separator separator--vertical" text="Deploy (Single-region Fleet)">
+            <gl:StatusBox name="ManagedEC2DeployStatusBox"/>
             <ui:Label name="ManagedEC2DeployDescription" class="foldout__description form-row" text="Deploying GameLift can take up to 30-40 minutes"/>
             <ui:VisualElement class="form-row">
                 <ui:Label name="ManagedEC2DeployStatusLabel" class="form-row__label" text="Status"/>
-                <gl:StatusIndicator/>
+                <ui:VisualElement class="separator separator--horizontal separator--centered">
+                    <gl:StatusIndicator/>
+                    <ui:VisualElement name="ManagedEC2DeployStatusLink" class="external-link external-link--centered">
+                        <ui:Label name="ManagedEC2DeployStatusLinkLabel" text="Learn More"/>
+                        <ui:Image name="ExternalLinkIcon" class="icon--small"/>
+                    </ui:VisualElement>
+                </ui:VisualElement>
             </ui:VisualElement>
             <ui:VisualElement class="form-row">
                 <ui:Label name="ManagedEC2DeployActionsLabel" class="form-row__label" text="AWS Resource Actions"/>
                 <ui:VisualElement class="form-row__input form-row__input--inline separator separator--horizontal">
                     <ui:Button name="ManagedEC2CreateStackButton" class="button button--primary" text="Create"/>
-                    <ui:Button name="ManagedEC2RedeployStackButton" class="button" text="Redeploy"/>
                     <ui:Button name="ManagedEC2DeleteStackButton" class="button" text="Delete"/>
                 </ui:VisualElement>
             </ui:VisualElement>
@@ -38,11 +48,12 @@
         <ui:Foldout name="ManagedEC2LaunchClientTitle" class="foldout separator separator--vertical" text="Launch Client">
             <ui:VisualElement class="form-row">
                 <ui:Label name="ManagedEC2ConfigureClientLabel" class="form-row__label" text="Configure Client"/>
-                <ui:Label name="ManagedEC2ConfigureClientDescription" class="form-row__text-display" text="Description"/>
+                <ui:Button name="ManagedEC2ConfigureClientButton" class="button button--primary" text="Configure Client"/>
             </ui:VisualElement>
             <ui:VisualElement class="form-row">
                 <ui:Label name="ManagedEC2LaunchClientLabel" class="form-row__label" text="Run Game"/>
                 <ui:Button name="ManagedEC2LaunchClientButton" class="button button--primary" text="Launch Client"/>
+                <ui:Label name="ManagedEC2LaunchClientDescription" class="form-row__text-display" text="Launch Client"/>
             </ui:VisualElement>
         </ui:Foldout>
     </ui:VisualElement>

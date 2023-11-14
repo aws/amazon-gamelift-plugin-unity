@@ -5,6 +5,9 @@
 
 :root {
     padding: var(--spacing-large);
+    border-width: var(--border-size-medium);
+    border-color: var(--color-border-highlight);
+    height: 100%;
 }
 
 .popup__heading {
