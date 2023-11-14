@@ -15,11 +15,11 @@
             <ui:Label name="ManagedEC2IntegrateDescription" text="Add the Amazon GameLift server SDK to your game server and add code to communicate with the GameLift hosting service. If you&apos;re working with the Amazon GameLift sample game, this integration is already done."/>
             <ui:VisualElement name="ManagedEC2IntegrateServerLinkParent" class="external-link">
                 <ui:Label name="ManagedEC2IntegrateServerLink" text="Setup Amazon GameLift on a backend service"/>
-                <ui:Image name="ExternalLinkIcon" class="icon--small"/>
+                <ui:Image name="ExternalLinkIcon" class="icon--extrasmall"/>
             </ui:VisualElement>
             <ui:VisualElement name="ManagedEC2IntegrateClientLinkParent" class="external-link">
                 <ui:Label name="ManagedEC2IntegrateClientLink" text="Setup Amazon GameLift client"/>
-                <ui:Image name="ExternalLinkIcon" class="icon--small"/>
+                <ui:Image name="ExternalLinkIcon" class="icon--extrasmall"/>
             </ui:VisualElement>
         </ui:Foldout>
         <ui:Foldout name="ManagedEC2ScenarioTitle" class="foldout" text="Select Deployment Scenario"/>
@@ -33,7 +33,7 @@
                     <gl:StatusIndicator/>
                     <ui:VisualElement name="ManagedEC2DeployStatusLink" class="external-link external-link--centered">
                         <ui:Label name="ManagedEC2DeployStatusLinkLabel" text="Learn More"/>
-                        <ui:Image name="ExternalLinkIcon" class="icon--small"/>
+                        <ui:Image name="ExternalLinkIcon" class="icon--extrasmall"/>
                     </ui:VisualElement>
                 </ui:VisualElement>
             </ui:VisualElement>

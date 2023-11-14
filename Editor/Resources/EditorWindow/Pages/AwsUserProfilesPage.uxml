@@ -18,11 +18,11 @@
                 <ui:Label name="UserProfilePageAccountCardNoAccountDescription" text="[text about needing an AWS account and it can take a maximum of two sentences]"/>
                 <ui:VisualElement name="UserProfilePageAccountCardNoAccountParent" class="external-link">
                     <ui:Label name="UserProfilePageAccountCardNoAccountLink" text="Learn More"/>
-                    <ui:Image name="ExternalLinkIcon" class="icon--small"/>
+                    <ui:Image name="ExternalLinkIcon" class="icon--extrasmall"/>
                 </ui:VisualElement>
                 <ui:Button name="UserProfilePageAccountCardNoAccountButton" class="button">
                     <ui:Label name="UserProfilePageAccountCardNoAccountButtonLabel" text="Create an AWS Account"/>
-                    <ui:Image name="ExternalLinkIcon" class="icon--small"/>
+                    <ui:Image name="ExternalLinkIcon" class="icon--extrasmall"/>
                 </ui:Button>
             </ui:VisualElement>
             <ui:VisualElement class="card card--large card--centered separator separator--vertical">
@@ -42,7 +42,7 @@
                 <ui:Button name="UserProfilePageBootstrapAnotherProfileButton" class="button" text="Add another Profile"/>
                 <ui:VisualElement name="UserProfilePageBootstrapHelpLinkParent" class="external-link float-right">
                     <ui:Label name="UserProfilePageBootstrapHelpLink" text="What is bootstrapping?"/>
-                    <ui:Image name="ExternalLinkIcon" class="icon--small"/>
+                    <ui:Image name="ExternalLinkIcon" class="icon--extrasmall"/>
                 </ui:VisualElement>
             </ui:VisualElement>
         </ui:VisualElement>
@@ -53,7 +53,7 @@
                 <ui:Button name="UserProfilePageAccountAddNewProfileButton" class="button" text="Add another Profile"/>
                 <ui:VisualElement name="UserProfilePageCompletedBootstrapHelpLinkParent" class="external-link float-right">
                     <ui:Label name="UserProfilePageCompletedBootstrapHelpLink" text="What is bootstrapping?"/>
-                    <ui:Image name="ExternalLinkIcon" class="icon--small"/>
+                    <ui:Image name="ExternalLinkIcon" class="icon--extrasmall"/>
                 </ui:VisualElement>
             </ui:VisualElement>
         </ui:VisualElement>

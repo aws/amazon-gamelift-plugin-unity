@@ -30,7 +30,7 @@
             <ui:Button name="UserProfilePageAccountNewProfileCancelButton" class="button" text="Cancel"/>
             <ui:VisualElement name="UserProfilePageAccountNewProfileHelpLinkParent" class="external-link float-right">
                 <ui:Label name="UserProfilePageAccountNewProfileHelpLink" text="How do I create AWS credentials?"/>
-                <ui:Image name="ExternalLinkIcon" class="icon--small"/>
+                <ui:Image name="ExternalLinkIcon" class="icon--extrasmall"/>
             </ui:VisualElement>
         </ui:VisualElement>
     </ui:VisualElement>

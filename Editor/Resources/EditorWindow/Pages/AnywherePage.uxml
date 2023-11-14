@@ -18,11 +18,11 @@
             <ui:Label name="AnywherePageIntegrateDescription" class="page__content" text="Add the Amazon GameLift server SDK to your game server and add code to communicate with the GameLift hosting service. If you&apos;re working with the Amazon GameLift sample game, this integration is already done."/>
             <ui:VisualElement name="AnywherePageIntegrateServerLinkParent" class="external-link">
                 <ui:Label name="AnywherePageIntegrateServerLink" text="Setup Amazon GameLift on a backend service"/>
-                <ui:Image name="ExternalLinkIcon" class="icon--small"/>
+                <ui:Image name="ExternalLinkIcon" class="icon--extrasmall"/>
             </ui:VisualElement>
             <ui:VisualElement name="AnywherePageIntegrateClientLinkParent" class="external-link">
                 <ui:Label name="AnywherePageIntegrateClientLink" text="Setup Amazon GameLift client"/>
-                <ui:Image name="ExternalLinkIcon" class="icon--small"/>
+                <ui:Image name="ExternalLinkIcon" class="icon--extrasmall"/>
             </ui:VisualElement>
         </ui:Foldout>
         <ui:Foldout name="AnywherePageConnectFleetTitle" class="foldout" text="Connect to Anywhere Fleet"/>

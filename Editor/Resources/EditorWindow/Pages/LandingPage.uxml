@@ -19,7 +19,7 @@
                 </ui:VisualElement>
                 <ui:Button class="button card__button button--large button--full-width" name="CreateAccount">
                     <ui:Label name="LandingPageNoAccountCardButton"/>
-                    <ui:Image name="ExternalLinkIcon" class="icon--small"/>
+                    <ui:Image name="ExternalLinkIcon" class="icon--extrasmall"/>
                 </ui:Button>
             </ui:VisualElement>
             <ui:VisualElement class="card">
