@@ -24,6 +24,7 @@
     --color-text-input-border: #0d0d0d;
     --color-card-border: #0d0d0d;
     --color-card-background: #2a2a2a;
+    --color-sample-image-border: #0d0d0d;
     --color-clear: rgba(0,0,0,0);
 
     --font-size-hint: 12px;

@@ -9,6 +9,8 @@
     width: 270px;
     height: 220px;
     flex: 0 0 auto;
+    border-width: var(--border-size-medium);
+    border-color: var(--color-sample-image-border);
 }
 
 Image#LandingPageNoAccountImage {
