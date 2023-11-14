@@ -83,7 +83,7 @@ namespace AmazonGameLift.Editor
 
             ComputeStatus computeStatus = _registerComputeInput.getComputeStatus();
             bool isComputeRegistered = computeStatus is ComputeStatus.Registered;
-            bool isClientConfigured = _gameLiftClientSettings.IsGameLiftAnywhere;
+            bool isClientConfigured = _gameLiftClientSettings && _gameLiftClientSettings.IsGameLiftAnywhere;
             bool isConfigureClientEnabled = isComputeRegistered && !isClientConfigured;
             
             _configureClientButton.SetEnabled(isConfigureClientEnabled);
