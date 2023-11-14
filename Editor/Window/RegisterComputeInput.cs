@@ -144,7 +144,6 @@ namespace AmazonGameLift.Editor
             else
             {
                 _computeNameInput.value = _defaultComputeName;
-                SetIpInputs(_defaultIpAddress);
                 _computeState = ComputeStatus.NotRegistered;
             }
 
