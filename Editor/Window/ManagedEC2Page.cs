@@ -16,6 +16,7 @@ namespace AmazonGameLift.Editor
     {
         private const string _primaryButtonClassName = "button--primary";
         private const string _hiddenClassName = "hidden";
+        private const int RefreshUIMilliseconds = 2000;
         private readonly VisualElement _container;
         private readonly StateManager _stateManager;
         private readonly DeploymentSettings _deploymentSettings;
@@ -29,9 +30,11 @@ namespace AmazonGameLift.Editor
         private readonly FleetParametersInput _fleetParamsInput;
         private readonly StatusIndicator _statusIndicator;
         private readonly ManagedEC2Deployment _ec2Deployment;
-        private readonly GameLiftClientSettings _gameLiftClientSettings;
+        private GameLiftClientSettings _gameLiftClientSettings;
+        private GameLiftClientSettingsLoader _gameLiftClientSettingsLoader;
         private StatusBox _bootstrapStatusBox;
         private StatusBox _deployStatusBox;
+        private StatusBox _launchStatusBox;
 
         public ManagedEC2Page(VisualElement container, StateManager stateManager)
         {
@@ -95,7 +98,7 @@ namespace AmazonGameLift.Editor
 
             _launchClientDescription = container.Q<VisualElement>("ManagedEC2LaunchClientDescription");
 
-            _gameLiftClientSettings = AssetDatabase.LoadAssetAtPath<GameLiftClientSettings>("Assets/Settings/GameLiftClientSettings.asset");
+            LoadGameLiftClientSettings();
             _configureClientButton = container.Q<Button>("ManagedEC2ConfigureClientButton");
             _configureClientButton.RegisterCallback<ClickEvent>(_ =>
             {
@@ -148,6 +151,15 @@ namespace AmazonGameLift.Editor
             UpdateGUI();
         }
 
+        private void LoadGameLiftClientSettings()
+        {
+            _gameLiftClientSettings = _gameLiftClientSettingsLoader.LoadAsset();
+            _container.schedule.Execute(() => {
+                LoadGameLiftClientSettings();
+                UpdateGUI();
+            }).StartingIn(RefreshUIMilliseconds);
+        }
+
         private void UpdateGUI()
         {
             LocalizeText();
@@ -170,13 +182,13 @@ namespace AmazonGameLift.Editor
             bool canLaunchClient = _deploymentSettings.CurrentStackInfo.StackStatus is StackStatus.CreateComplete or StackStatus.UpdateComplete;
 
             // if the client settings have changed due to a deployment or due to manual changes, this will require the user to configure the client settings again
-            bool isClientConfigured = !_gameLiftClientSettings.IsGameLiftAnywhere 
+            bool isClientConfigured = _gameLiftClientSettings && !_gameLiftClientSettings.IsGameLiftAnywhere
                                             && _gameLiftClientSettings.AwsRegion == _stateManager.Region
                                             && _gameLiftClientSettings.ApiGatewayUrl == _deploymentSettings.CurrentStackInfo.ApiGatewayEndpoint
                                             && _gameLiftClientSettings.UserPoolClientId == _deploymentSettings.CurrentStackInfo.UserPoolClientId;
 
             bool isLaunchClientEnabled = canLaunchClient && isClientConfigured;
-            bool isConfigureClientEnabled = canLaunchClient && !isClientConfigured;
+            bool isConfigureClientEnabled = canLaunchClient && !isClientConfigured && _gameLiftClientSettings;
 
             _launchClientButton.SetEnabled(isLaunchClientEnabled);
             if (isLaunchClientEnabled)
@@ -256,6 +268,8 @@ namespace AmazonGameLift.Editor
         {
             _bootstrapStatusBox = _container.Q<StatusBox>("ManagedEC2StatusBox");
             _deployStatusBox = _container.Q<StatusBox>("ManagedEC2DeployStatusBox");
+            _launchStatusBox = _container.Q<StatusBox>("ManagedEC2LaunchStatusBox");
+            _gameLiftClientSettingsLoader = new GameLiftClientSettingsLoader(_launchStatusBox);
         }
         
         private void UpdateStatusBoxes()

@@ -51,6 +51,8 @@ namespace AmazonGameLift.Editor
             { ErrorCode.StackStatusInvalid, "Something went wrong  with the deployment that requires attention. Go to the AWS CloudFormation console and view details for the failing stack. After resolving the problem, delete and re-create the deployment."},
             { ErrorCode.ValueInvalid, "There was a problem with the value."},
             { ErrorCode.WritingFileFailed, "There was a problem writing to the file."},
+            { ErrorCode.GameLiftClientSettingsNotFoundText, "No GameLiftClientSettings asset found. Please import the sample game or create one custom."},
+            { ErrorCode.GameLiftClientSettingsMoreThanOneFoundTemplate, "More than one GameLiftClientSettings asset was found. Using asset found at \"{0}\"."},
         };
 
         private readonly Dictionary<string, string> _textsByKey = new Dictionary<string, string>
