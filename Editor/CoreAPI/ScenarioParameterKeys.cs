@@ -7,5 +7,9 @@ namespace AmazonGameLift.Editor
     {
         public const string GameName = "GameNameParameter";
         public const string LaunchPath = "LaunchPathParameter";
+        public const string LaunchParameters = "LaunchParametersParameter";
+        public const string BuildOperatingSystem = "BuildOperatingSystemParameter";
+        public const string FleetName = "FleetNameParameter";
+        public const string BuildName = "BuildNameParameter";
     }
 }

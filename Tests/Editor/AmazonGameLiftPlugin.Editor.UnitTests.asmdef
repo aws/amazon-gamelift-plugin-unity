@@ -6,17 +6,17 @@
         "AmazonGameLiftPlugin.EditorCoreAPI",
         "UnityEngine.TestRunner",
         "UnityEditor.TestRunner",
-        "AmazonGameLiftPlugin.Runtime.Core"
+        "AmazonGameLiftPlugin.Runtime.Core",
+        "AmazonGameLiftPlugin.Utils.UnitTests"
     ],
-    "includePlatforms": [
-        "Editor"
-    ],
+    "includePlatforms": [],
     "excludePlatforms": [],
     "allowUnsafeCode": false,
     "overrideReferences": true,
     "precompiledReferences": [
         "nunit.framework.dll",
-        "Moq.dll"
+        "Moq.dll",
+        "AWSSDK.GameLift.dll"
     ],
     "autoReferenced": false,
     "defineConstraints": [

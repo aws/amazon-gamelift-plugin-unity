@@ -1,0 +1,10 @@
+﻿<!-- Copyright Amazon.com, Inc. or its affiliates. All Rights Reserved. -->
+<!-- SPDX-License-Identifier: Apache-2.0 -->
+
+<ui:UXML xmlns:ui="UnityEngine.UIElements">
+    <ui:Style src="./StatusIndicator.uss"/>
+    <ui:VisualElement name="image-container">
+        <ui:Image class="icon--tiny"/>
+    </ui:VisualElement>
+    <ui:Label class="status-indicator__text"/>
+</ui:UXML>

@@ -1,0 +1,47 @@
+﻿/* Copyright Amazon.com, Inc. or its affiliates. All Rights Reserved. */
+/* SPDX-License-Identifier: Apache-2.0 */
+
+@import '../common.uss';
+
+.status-indicator {
+    align-items: center;
+}
+
+.status-indicator__text {
+    -unity-font-style: bold;
+}
+
+.status-indicator--in-progress {
+    color: var(--color-font-link);
+}
+.status-indicator--success {
+    color: var(--color-font-success);
+}
+
+.status-indicator--failed {
+    color: var(--color-font-error);
+}
+
+.status-indicator--inactive Image {
+    --unity-image: resource("Images/Icons/Inactive");
+}
+
+.status-indicator--in-progress Image {
+    --unity-image: resource("Images/Icons/InProgress");
+}
+
+.status-indicator--success Image {
+    --unity-image: resource("Images/Icons/Completed");
+}
+
+.status-indicator--failed Image {
+    --unity-image: resource("Images/Icons/Failed");
+}
+
+.status-indicator--spin {
+    rotate: 1turn;
+    transition-property: rotate;
+    transition-duration: 1s;
+    transition-timing-function: linear;
+    transform-origin: center;
+}

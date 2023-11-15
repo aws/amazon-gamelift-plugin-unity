@@ -1,5 +1,12 @@
 CHANGELOG
 
+# 2.0.0 (11/16/2023)
+
+- Added support for Amazon GameLift Server SDK 5 and Amazon GameLift Anywhere.
+- Native integration with the Unity Package Manager and the GameLift Server SDK plugin for Unity.
+- Added support for Unity's .NET Standard profile (already supports .NET Framework profile)
+- Updated user interface
+
 # 1.3.1 (08/04/2023)
 
 - Add support for Unity version 2022.3

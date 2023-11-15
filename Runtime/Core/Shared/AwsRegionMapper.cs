@@ -12,28 +12,16 @@ namespace AmazonGameLiftPlugin.Core.Shared
         private static readonly Dictionary<string, RegionEndpoint> s_regions = new Dictionary<string, RegionEndpoint>
         {
             {
-                "us-east-2",
-                RegionEndpoint.USEast2
-            },
-            {
-                "us-east-1",
-                RegionEndpoint.USEast1
-            },
-            {
-                "us-west-1",
-                RegionEndpoint.USWest1
-            },
-            {
-                "us-west-2",
-                RegionEndpoint.USWest2
-            },
-            {
-                "ap-south-1",
-                RegionEndpoint.APSouth1
+                "ap-northeast-1",
+                RegionEndpoint.APNortheast1
             },
             {
                 "ap-northeast-2",
                 RegionEndpoint.APNortheast2
+            },
+            {
+                "ap-south-1",
+                RegionEndpoint.APSouth1
             },
             {
                 "ap-southeast-1",
@@ -44,16 +32,8 @@ namespace AmazonGameLiftPlugin.Core.Shared
                 RegionEndpoint.APSoutheast2
             },
             {
-                "ap-northeast-1",
-                RegionEndpoint.APNortheast1
-            },
-            {
                 "ca-central-1",
                 RegionEndpoint.CACentral1
-            },
-            {
-                "cn-north-1",
-                RegionEndpoint.CNNorth1
             },
             {
                 "eu-central-1",
@@ -72,8 +52,20 @@ namespace AmazonGameLiftPlugin.Core.Shared
                 RegionEndpoint.SAEast1
             },
             {
-                "cn-northwest-1",
-                RegionEndpoint.CNNorthWest1
+                "us-east-1",
+                RegionEndpoint.USEast1
+            },
+            {
+                "us-east-2",
+                RegionEndpoint.USEast2
+            },
+            {
+                "us-west-1",
+                RegionEndpoint.USWest1
+            },
+            {
+                "us-west-2",
+                RegionEndpoint.USWest2
             }
         };
 

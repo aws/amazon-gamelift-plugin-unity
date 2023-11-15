@@ -10,8 +10,6 @@ using AmazonGameLiftPlugin.Core.Shared;
 using Moq;
 using NUnit.Framework;
 using UnityEditor;
-using UnityEngine;
-using UnityEngine.TestTools;
 
 namespace AmazonGameLiftPlugin.Editor.UnitTests
 {
@@ -25,7 +23,7 @@ namespace AmazonGameLiftPlugin.Editor.UnitTests
         public void Refresh_WhenAnyProfilesAndCurrentSaved_AllPropertiesAreUpdated()
         {
             PrepareProfileList(out AwsCredentialsUpdate awsCredentials, out List<string> testProfiles,
-                out Mock<CoreApi> coreApiMock, out _);
+                out Mock<CoreApi> coreApiMock);
 
             // Act
             awsCredentials.Refresh();
@@ -200,7 +198,7 @@ namespace AmazonGameLiftPlugin.Editor.UnitTests
         [Test]
         public void CanUpdate_WhenRefreshedAndUpdatedFields_IsTrue()
         {
-            PrepareProfileList(out AwsCredentialsUpdate awsCredentials, out _, out _, out _);
+            PrepareProfileList(out AwsCredentialsUpdate awsCredentials, out _, out _);
 
             awsCredentials.Refresh();
 
@@ -222,7 +220,7 @@ namespace AmazonGameLiftPlugin.Editor.UnitTests
             const string testSecretKey = "TestSecret";
 
             PrepareProfileList(out AwsCredentialsUpdate awsCredentials, out List<string> testProfiles,
-                out Mock<CoreApi> coreApiMock, out _);
+                out Mock<CoreApi> coreApiMock);
             awsCredentials.Refresh();
             string testProfileName = testProfiles[awsCredentials.SelectedProfileIndex];
 
@@ -283,7 +281,7 @@ namespace AmazonGameLiftPlugin.Editor.UnitTests
             const string testSecretKey = "TestSecret";
 
             PrepareProfileList(out AwsCredentialsUpdate awsCredentials, out List<string> testProfiles,
-                out coreApiMock, out _);
+                out coreApiMock);
             awsCredentials.Refresh();
             string testProfileName = testProfiles[awsCredentials.SelectedProfileIndex];
 
@@ -321,7 +319,7 @@ namespace AmazonGameLiftPlugin.Editor.UnitTests
             const string testSecretKey = "TestSecret";
 
             PrepareProfileList(out AwsCredentialsUpdate awsCredentials, out List<string> testProfiles,
-                out Mock<CoreApi> coreApiMock, out _);
+                out Mock<CoreApi> coreApiMock);
 
             awsCredentials.Refresh();
 
@@ -357,7 +355,7 @@ namespace AmazonGameLiftPlugin.Editor.UnitTests
             const string testSecretKey = "TestSecret";
 
             PrepareProfileList(out AwsCredentialsUpdate awsCredentials, out List<string> testProfiles,
-                out Mock<CoreApi> coreApiMock, out _);
+                out Mock<CoreApi> coreApiMock);
 
             awsCredentials.Refresh();
 
@@ -393,7 +391,7 @@ namespace AmazonGameLiftPlugin.Editor.UnitTests
             const string testSecretKey = "TestSecret";
 
             PrepareProfileList(out AwsCredentialsUpdate awsCredentials, out List<string> testProfiles,
-                out Mock<CoreApi> coreApiMock, out _);
+                out Mock<CoreApi> coreApiMock);
 
             awsCredentials.Refresh();
 
@@ -442,8 +440,7 @@ namespace AmazonGameLiftPlugin.Editor.UnitTests
         }
 
         private void PrepareProfileList(out AwsCredentialsUpdate awsCredentials,
-            out List<string> testProfiles, out Mock<CoreApi> coreApiMock,
-            out Mock<CredentialsSetting> settingMock)
+            out List<string> testProfiles, out Mock<CoreApi> coreApiMock)
         {
             coreApiMock = new Mock<CoreApi>();
             testProfiles = coreApiMock.SetUpWithTestProfileListOf2();
@@ -459,9 +456,6 @@ namespace AmazonGameLiftPlugin.Editor.UnitTests
             coreApiMock.Setup(target => target.RetrieveAwsCredentials(currentProfile))
                 .Returns(credentialsResponse)
                 .Verifiable();
-
-            // The setting mock
-            settingMock = new Mock<CredentialsSetting>(coreApiMock.Object);
 
             awsCredentials = GetUpdateInstanceWithMockRegion(coreApiMock.Object);
         }

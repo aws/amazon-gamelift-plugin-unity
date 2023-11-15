@@ -3,7 +3,7 @@
 
 namespace AmazonGameLift.Editor
 {
-    internal class AwsCredentialsFactory
+    internal class AwsCredentialsFactory 
     {
         public static AwsCredentials Create()
         {
@@ -12,4 +12,3 @@ namespace AmazonGameLift.Editor
         }
     }
 }
-
