@@ -123,13 +123,17 @@ Image#FolderIcon {
     background-color: var(--color-button-default-hover);
 }
 
-.button--primary,
-.button--primary.unity-disabled:hover {
+.button--primary {
     background-color: var(--color-button-primary);
 }
 
 .button--primary:hover {
     background-color: var(--color-button-primary-hover);
+}
+
+.button--primary.unity-disabled,
+.button--primary.unity-disabled:hover {
+    background-color: var(--color-button-default);
 }
 
 .button--secondary {
