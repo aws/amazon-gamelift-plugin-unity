@@ -12,11 +12,14 @@ namespace AmazonGameLift.Editor
     public class AnywherePage
     {
         private const string _primaryButtonClassName = "button--primary";
+        private const int RefreshUIMilliseconds = 2000;
         private readonly VisualElement _container;
         private readonly StateManager _stateManager;
         private readonly RegisterComputeInput _registerComputeInput;
-        private readonly GameLiftClientSettings _gameLiftClientSettings;
+        private GameLiftClientSettings _gameLiftClientSettings;
+        private GameLiftClientSettingsLoader _gameLiftClientSettingsLoader;
         private StatusBox _statusBox;
+        private StatusBox _launchStatusBox;
         private Button _launchServerButton;
         private Button _configureClientButton;
 
@@ -54,7 +57,7 @@ namespace AmazonGameLift.Editor
                 EditorApplication.EnterPlaymode();
             });
 
-            _gameLiftClientSettings = AssetDatabase.LoadAssetAtPath<GameLiftClientSettings>("Assets/Settings/GameLiftClientSettings.asset");
+            LoadGameLiftClientSettings();
             _configureClientButton = uxml.Q<Button>("AnywherePageConfigureClientButton");
             _configureClientButton.RegisterCallback<ClickEvent>(_ =>
             {
@@ -65,9 +68,20 @@ namespace AmazonGameLift.Editor
             UpdateGui();
         }
 
+        private void LoadGameLiftClientSettings()
+        {
+            _gameLiftClientSettings = _gameLiftClientSettingsLoader.LoadAsset();
+            _container.schedule.Execute(() => {
+                LoadGameLiftClientSettings();
+                UpdateGui();
+            }).StartingIn(RefreshUIMilliseconds);
+        }
+
         private void SetupStatusBoxes()
         {
             _statusBox = _container.Q<StatusBox>("AnywherePageStatusBox");
+            _launchStatusBox = _container.Q<StatusBox>("AnywherePageLaunchStatusBox");
+            _gameLiftClientSettingsLoader = new GameLiftClientSettingsLoader(_launchStatusBox);
         }
 
         private void UpdateGui()
@@ -84,7 +98,7 @@ namespace AmazonGameLift.Editor
             ComputeStatus computeStatus = _registerComputeInput.getComputeStatus();
             bool isComputeRegistered = computeStatus is ComputeStatus.Registered;
             bool isClientConfigured = _gameLiftClientSettings && _gameLiftClientSettings.IsGameLiftAnywhere;
-            bool isConfigureClientEnabled = isComputeRegistered && !isClientConfigured;
+            bool isConfigureClientEnabled = isComputeRegistered && !isClientConfigured && _gameLiftClientSettings;
             
             _configureClientButton.SetEnabled(isConfigureClientEnabled);
             

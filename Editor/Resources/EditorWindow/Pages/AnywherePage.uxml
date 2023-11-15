@@ -28,6 +28,7 @@
         <ui:Foldout name="AnywherePageConnectFleetTitle" class="foldout" text="Connect to Anywhere Fleet"/>
         <ui:Foldout name="AnywherePageComputeTitle" class="foldout" text="Register Compute"/>
         <ui:Foldout name="AnywherePageLaunchTitle" class="foldout separator separator--vertical" text="Launch foldout">
+            <gl:StatusBox name="AnywherePageLaunchStatusBox"/>
             <ui:VisualElement class="form-row">
                 <ui:Label name="AnywherePageConfigureClientLabel" class="form-row__label" text="Configure Client"/>
                 <ui:VisualElement class="form-row__input">

@@ -46,6 +46,7 @@
             </ui:VisualElement>
         </ui:Foldout>
         <ui:Foldout name="ManagedEC2LaunchClientTitle" class="foldout separator separator--vertical" text="Launch Client">
+            <gl:StatusBox name="ManagedEC2LaunchStatusBox"/>
             <ui:VisualElement class="form-row">
                 <ui:Label name="ManagedEC2ConfigureClientLabel" class="form-row__label" text="Configure Client"/>
                 <ui:Button name="ManagedEC2ConfigureClientButton" class="button button--primary" text="Configure Client"/>
