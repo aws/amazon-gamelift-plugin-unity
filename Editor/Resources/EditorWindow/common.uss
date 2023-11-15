@@ -32,30 +32,30 @@
     --font-size-large: 14px;
     --font-size-extralarge: 19px;
 
-    --icon-size-tiny: 16px;
-    --icon-size-extrasmall: 20px;
-    --icon-size-small: 24px;
-    --icon-size-large: 60px;
+    --icon-size-tiny: 12px;
+    --icon-size-extrasmall: 14px;
+    --icon-size-small: 16px;
+    --icon-size-large: 30px;
     --border-size-thin: 1px;
     --border-size-medium: 2px;
 
-    --spacing-tiny: 6px;
-    --spacing-smaller: 8px;
-    --spacing-small: 12px;
-    --spacing-medium: 18px;
-    --spacing-large: 24px;
+    --spacing-tiny: 4px;
+    --spacing-smaller: 6px;
+    --spacing-small: 8px;
+    --spacing-medium: 10px;
+    --spacing-large: 12px;
 
-    --spacing-tiny-negative: -6px;
-    --spacing-small-negative: -12px;
-    --spacing-medium-negative: -18px;
-    --spacing-large-negative: -24px;
+    --spacing-tiny-negative: -4px;
+    --spacing-small-negative: -8px;
+    --spacing-medium-negative: -10px;
+    --spacing-large-negative: -12px;
 
     --radio-button-inner: 14px;
     --radio-button-outer: 24px;
-    --form-row-label-width: 240px;
-    --form-row-height: 32px;
+    --form-row-label-width: 180px;
+    --form-row-height: 24px;
     --password-reveal-width: 70px;
-    --page-width: 920px;
+    --page-width: 600px;
 
     font-size: var(--font-size-default);
     color: var(--color-font-default);
