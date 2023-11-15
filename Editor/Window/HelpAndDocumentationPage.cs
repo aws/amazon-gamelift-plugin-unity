@@ -19,8 +19,7 @@ namespace AmazonGameLift.Editor
             container.Add(uxml);
             ApplyText();
             
-            _container.Q<VisualElement>("HelpPageEstimatingPriceLinkParent").RegisterCallback<ClickEvent>(_ => Application.OpenURL(Urls.AboutGameLiftPricing));
-            _container.Q<VisualElement>("HelpPageFleetIQLinkParent").RegisterCallback<ClickEvent>(_ => Application.OpenURL(Urls.AwsFleetIqDocumentation));
+            _container.Q<VisualElement>("HelpPageEstimatingPriceLinkParent").RegisterCallback<ClickEvent>(_ => Application.OpenURL(Urls.GameLiftPricingCalculator));
             _container.Q<VisualElement>("HelpPageFlexMatchLinkParent").RegisterCallback<ClickEvent>(_ => Application.OpenURL(Urls.AwsFlexMatchDocumentation));
         }
 
@@ -32,9 +31,6 @@ namespace AmazonGameLift.Editor
             l.SetElementText("HelpPageEstimatingPriceTitle", Strings.HelpPageEstimatingPriceTitle);
             l.SetElementText("HelpPageEstimatingPriceDescription", Strings.HelpPageEstimatingPriceDescription);
             l.SetElementText("HelpPageEstimatingPriceLink", Strings.HelpPageEstimatingPriceLink);
-            l.SetElementText("HelpPageFleetIQTitle", Strings.HelpPageFleetIQTitle);
-            l.SetElementText("HelpPageFleetIQDescription", Strings.HelpPageFleetIQDescription);
-            l.SetElementText("HelpPageFleetIQLink", Strings.HelpPageFleetIQLink);
             l.SetElementText("HelpPageFlexMatchTitle", Strings.HelpPageFlexMatchTitle);
             l.SetElementText("HelpPageFlexMatchDescription", Strings.HelpPageFlexMatchDescription);
             l.SetElementText("HelpPageFlexMatchLink", Strings.HelpPageFlexMatchLink);
