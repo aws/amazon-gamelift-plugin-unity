@@ -26,12 +26,11 @@
     --color-card-background: #2a2a2a;
     --color-clear: rgba(0,0,0,0);
 
-    --font-size-hint: 12px;
-    --font-size-small: 14px;
-    --font-size-default: 16px;
-    --font-size-large: 18px;
-    --font-size-extralarge: 24px;
-    --font-size-massive: 32px;
+    --font-size-tiny: 9px;
+    --font-size-small: 10px;
+    --font-size-default: 12px;
+    --font-size-large: 14px;
+    --font-size-extralarge: 19px;
 
     --icon-size-tiny: 16px;
     --icon-size-extrasmall: 20px;
@@ -264,11 +263,11 @@ Image#ExternalLinkIcon {
 }
 
 .page__title {
-    font-size: var(--font-size-massive);
+    font-size: var(--font-size-extralarge);
 }
 
 .page__subtitle {
-    font-size: var(--font-size-extralarge);
+    font-size: var(--font-size-large);
     margin-bottom: var(--spacing-large);
 }
 
@@ -285,7 +284,7 @@ Image#ExternalLinkIcon {
 }
 
 .foldout .unity-foldout__text {
-    font-size: var(--font-size-extralarge);
+    font-size: var(--font-size-large);
 }
 
 .foldout .unity-foldout__toggle {
@@ -416,7 +415,7 @@ Image#ExternalLinkIcon {
 }
 
 .input-hint {
-    font-size: var(--font-size-hint);
+    font-size: var(--font-size-tiny);
 }
 
 .dropdown {
@@ -496,7 +495,7 @@ Image#ExternalLinkIcon {
 }
 
 .card__title {
-    font-size: var(--font-size-extralarge);
+    font-size: var(--font-size-large);
 }
 
 .float-right {
