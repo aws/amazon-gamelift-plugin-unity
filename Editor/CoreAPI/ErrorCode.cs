@@ -21,5 +21,7 @@ namespace AmazonGameLift.Editor
         public static readonly string DeregisterComputeFailed = "DeregisterComputeFailed";
         public static readonly string InvalidComputeName = "InvalidComputeName";
         public static readonly string InvalidIpAddress = "InvalidIpAddress";
+        public static readonly string GameLiftClientSettingsNotFoundText = "GameLiftClientSettingsNotFoundText";
+        public static readonly string GameLiftClientSettingsMoreThanOneFoundTemplate = "GameLiftClientSettingsMoreThanOneFoundTemplate";
     }
 }
