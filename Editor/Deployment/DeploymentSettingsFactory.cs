@@ -5,14 +5,14 @@ namespace AmazonGameLift.Editor
 {
     internal class DeploymentSettingsFactory
     {
-        public static DeploymentSettings Create()
+        public static DeploymentSettings Create(StateManager stateManager)
         {
             var parametersUpdater = new ScenarioParametersUpdater(CoreApi.SharedInstance, () => new ScenarioParametersEditor());
             TextProvider textProvider = TextProviderFactory.Create();
             UnityLogger logger = UnityLoggerFactory.Create(textProvider);
             return new DeploymentSettings(ScenarioLocator.SharedInstance, PathConverter.SharedInstance,
                             CoreApi.SharedInstance, parametersUpdater, textProvider,
-                            new DeploymentWaiter(), DeploymentIdContainerFactory.Create(), new Delay(), logger);
+                            new DeploymentWaiter(), DeploymentIdContainerFactory.Create(), new Delay(), logger, stateManager);
         }
     }
 }

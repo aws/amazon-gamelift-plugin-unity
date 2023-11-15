@@ -3,6 +3,8 @@
 
 using System;
 using System.Collections.Generic;
+using System.IO;
+using AmazonGameLift.Runtime;
 using AmazonGameLiftPlugin.Core.AccountManagement;
 using AmazonGameLiftPlugin.Core.AccountManagement.Models;
 using AmazonGameLiftPlugin.Core.BucketManagement;
@@ -15,7 +17,6 @@ using AmazonGameLiftPlugin.Core.GameLiftLocalTesting;
 using AmazonGameLiftPlugin.Core.GameLiftLocalTesting.Models;
 using AmazonGameLiftPlugin.Core.JavaCheck;
 using AmazonGameLiftPlugin.Core.JavaCheck.Models;
-using AmazonGameLiftPlugin.Core.SettingsManagement;
 using AmazonGameLiftPlugin.Core.SettingsManagement.Models;
 using AmazonGameLiftPlugin.Core.Shared;
 using AmazonGameLiftPlugin.Core.Shared.FileSystem;
@@ -32,11 +33,11 @@ namespace AmazonGameLift.Editor
 
         public static CoreApi SharedInstance { get; } = new CoreApi();
 
-        internal CoreApi()
+        public CoreApi()
         {
-            _settingsStore = new SettingsStore(_fileWrapper, settingsFilePath: Paths.PluginSettingsFile);
+            _settingsStore = new Settings<SettingsKeys>(Paths.PluginSettingsFile);
             Bootstrapper.Initialize();
-        }
+        }        
 
         #region File system
 
@@ -127,13 +128,14 @@ namespace AmazonGameLift.Editor
             return _credentialsStore.RetriveAwsCredentials(request);
         }
 
-        public virtual SaveAwsCredentialsResponse SaveAwsCredentials(string profileName, string accessKey, string secretKey)
+        public virtual SaveAwsCredentialsResponse SaveAwsCredentials(string profileName, string accessKey, string secretKey, string region)
         {
             var request = new SaveAwsCredentialsRequest()
             {
                 ProfileName = profileName,
                 AccessKey = accessKey,
-                SecretKey = secretKey
+                SecretKey = secretKey,
+                Region = region,
             };
             return _credentialsStore.SaveAwsCredentials(request);
         }
@@ -153,42 +155,31 @@ namespace AmazonGameLift.Editor
 
         #region Settings
 
-        private readonly ISettingsStore _settingsStore;
+        private readonly Settings<SettingsKeys> _settingsStore;
 
-        public virtual GetSettingResponse GetSetting(string key)
+        public virtual GetSettingResponse GetSetting(SettingsKeys key)
         {
-            var request = new GetSettingRequest() { Key = key };
-            return _settingsStore.GetSetting(request);
+            return _settingsStore.GetSetting(key);
         }
 
-        public virtual PutSettingResponse PutSetting(string key, string value)
+        public virtual PutSettingResponse PutSetting(SettingsKeys key, string value)
         {
-            var request = new PutSettingRequest()
-            {
-                Key = key,
-                Value = value
-            };
-            return _settingsStore.PutSetting(request);
+            return _settingsStore.PutSetting(key, value);
         }
 
-        public virtual ClearSettingResponse ClearSetting(string key)
+        public virtual ClearSettingResponse ClearSetting(SettingsKeys key)
         {
-            var request = new ClearSettingRequest() { Key = key };
-            return _settingsStore.ClearSetting(request);
+            return _settingsStore.ClearSetting(key);
         }
 
-        public virtual Response PutSettingOrClear(string key, string value)
+        public virtual Response PutSettingOrClear(SettingsKeys key, string value)
         {
             if (string.IsNullOrEmpty(value))
             {
-                return _settingsStore.ClearSetting(new ClearSettingRequest() { Key = key });
+                return _settingsStore.ClearSetting( key );
             }
 
-            return _settingsStore.PutSetting(new PutSettingRequest()
-            {
-                Key = key,
-                Value = value
-            });
+            return _settingsStore.PutSetting(key, value);
         }
 
         #endregion
@@ -235,9 +226,19 @@ namespace AmazonGameLift.Editor
         /// </summary>
         public virtual CreateBucketResponse CreateBucket(string profileName, string region, string bucketName)
         {
+            var accountIdResponse = RetrieveAccountId(profileName);
+            if (!accountIdResponse.Success)
+            {
+                return Response.Fail(new CreateBucketResponse()
+                {
+                    ErrorCode = accountIdResponse.ErrorCode,
+                    ErrorMessage = accountIdResponse.ErrorMessage
+                });
+            }
             var bucketStore = new BucketStore(CreateS3Wrapper(profileName, region));
             var request = new CreateBucketRequest()
             {
+                AccountId = accountIdResponse.AccountId,
                 BucketName = bucketName,
                 Region = region
             };
@@ -277,7 +278,7 @@ namespace AmazonGameLift.Editor
         {
             return new AmazonS3Wrapper(string.Empty, string.Empty, string.Empty);
         }
-
+        
         #endregion
 
         #region Deployment

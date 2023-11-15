@@ -201,19 +201,23 @@ namespace AmazonGameLiftPlugin.Editor.UnitTests
             const string testProfileName = "TestProfile";
             const string testAccessKeyId = "TestKey";
             const string testSecretKey = "TestSecret";
+            const string testRegion = "eu-west-1";
+
             string actualProfileName = null;
             string actualAccessKeyId = null;
             string actualSecretKey = null;
+            string actualRegion = null;
 
             var coreApiMock = new Mock<CoreApi>();
             SaveAwsCredentialsResponse saveResponse = Response.Ok(new SaveAwsCredentialsResponse());
-            coreApiMock.Setup(target => target.SaveAwsCredentials(testProfileName, testAccessKeyId, testSecretKey))
+            coreApiMock.Setup(target => target.SaveAwsCredentials(testProfileName, testAccessKeyId, testSecretKey, testRegion))
                 .Returns(saveResponse)
-                .Callback<string, string, string>((profileName, accessKeyId, secretKey) =>
+                .Callback<string, string, string, string>((profileName, accessKeyId, secretKey, region) =>
                 {
                     actualProfileName = profileName;
                     actualAccessKeyId = accessKeyId;
                     actualSecretKey = secretKey;
+                    actualRegion = region;
                 })
                 .Verifiable();
 
@@ -221,6 +225,7 @@ namespace AmazonGameLiftPlugin.Editor.UnitTests
             coreApiMock.Setup(target => target.PutSetting(SettingsKeys.CurrentProfileName, testProfileName))
                 .Returns(writeResponse)
                 .Verifiable();
+            coreApiMock.Setup(target => target.ListAvailableRegions()).Returns(new List<string> { testRegion });
 
             AwsCredentialsCreation awsCredentials = GetAwsCredentials(coreApiMock.Object);
             awsCredentials.ProfileName = testProfileName;
@@ -236,11 +241,13 @@ namespace AmazonGameLiftPlugin.Editor.UnitTests
             Assert.AreEqual(testProfileName, actualProfileName);
             Assert.AreEqual(testAccessKeyId, actualAccessKeyId);
             Assert.AreEqual(testSecretKey, actualSecretKey);
+            Assert.AreEqual(testRegion, actualRegion);
         }
 
         [Test]
         public void OnCreated_WhenCreateSuccess_IsRaised()
         {
+            
             SetUpForCreateMethodSuccess(out Mock<CoreApi> coreApiMock, out AwsCredentialsCreation awsCredentials);
 
             bool isEventRaised = false;
@@ -248,7 +255,7 @@ namespace AmazonGameLiftPlugin.Editor.UnitTests
             {
                 isEventRaised = true;
             };
-
+            
             // Act
             awsCredentials.Create();
 
@@ -278,10 +285,12 @@ namespace AmazonGameLiftPlugin.Editor.UnitTests
             const string testProfileName = "TestProfile";
             const string testAccessKeyId = "TestKey";
             const string testSecretKey = "TestSecret";
+            const string testRegion = "eu-west-1";
 
             var coreApiMock = new Mock<CoreApi>();
+            coreApiMock.Setup(target => target.ListAvailableRegions()).Returns(new List<string> { testRegion });
             SaveAwsCredentialsResponse saveResponse = Response.Ok(new SaveAwsCredentialsResponse());
-            coreApiMock.Setup(target => target.SaveAwsCredentials(testProfileName, testAccessKeyId, testSecretKey))
+            coreApiMock.Setup(target => target.SaveAwsCredentials(testProfileName, testAccessKeyId, testSecretKey, testRegion))
                 .Returns(saveResponse)
                 .Verifiable();
 
@@ -311,10 +320,12 @@ namespace AmazonGameLiftPlugin.Editor.UnitTests
             const string testProfileName = "TestProfile";
             const string testAccessKeyId = "TestKey";
             const string testSecretKey = "TestSecret";
+            const string testRegion = "eu-west-1";
 
             var coreApiMock = new Mock<CoreApi>();
+            coreApiMock.Setup(target => target.ListAvailableRegions()).Returns(new List<string> { testRegion });
             SaveAwsCredentialsResponse saveResponse = Response.Fail(new SaveAwsCredentialsResponse());
-            coreApiMock.Setup(target => target.SaveAwsCredentials(testProfileName, testAccessKeyId, testSecretKey))
+            coreApiMock.Setup(target => target.SaveAwsCredentials(testProfileName, testAccessKeyId, testSecretKey, testRegion))
                 .Returns(saveResponse)
                 .Verifiable();
 
@@ -338,10 +349,13 @@ namespace AmazonGameLiftPlugin.Editor.UnitTests
             const string testProfileName = "TestProfile";
             const string testAccessKeyId = "TestKey";
             const string testSecretKey = "TestSecret";
+            const string testRegion = "eu-west-1";
 
             coreApiMock = new Mock<CoreApi>();
+            coreApiMock.Setup(target => target.ListAvailableRegions()).Returns(new List<string> { testRegion });
+            
             SaveAwsCredentialsResponse saveResponse = Response.Ok(new SaveAwsCredentialsResponse());
-            coreApiMock.Setup(target => target.SaveAwsCredentials(testProfileName, testAccessKeyId, testSecretKey))
+            coreApiMock.Setup(target => target.SaveAwsCredentials(testProfileName, testAccessKeyId, testSecretKey, testRegion))
                 .Returns(saveResponse)
                 .Verifiable();
 

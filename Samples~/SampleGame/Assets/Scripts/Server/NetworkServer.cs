@@ -84,7 +84,7 @@ public class NetworkServer
         // warn GameLift
         if (_gl.GameLift != null && _gl.GameLift.IsConnected)
         {
-            _gl.GameLift.TerminateGameSession(true);
+            _gl.GameLift.TerminateGameSession();
         }
         // process is terminating so no other state cleanup required
     }
@@ -213,7 +213,7 @@ public class NetworkServer
 
         if (_gl.GameLift != null && _gl.GameLift.IsConnected)
         {
-            _gl.GameLift.TerminateGameSession(false);
+            _gl.GameLift.TerminateGameSession();
         }
     }
 

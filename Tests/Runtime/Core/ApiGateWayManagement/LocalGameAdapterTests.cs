@@ -19,7 +19,7 @@ namespace AmazonGameLiftPlugin.Core.Tests.ApiGateWayManagement
         [Test]
         public void StartGame_WhenSearchGameSessionReturnsEmptySessions_IsSuccessful()
         {
-            var amazonGameLiftClientWrapperMock = new Mock<IAmazonGameLiftClientWrapper>();
+            var amazonGameLiftClientWrapperMock = new Mock<IAmazonGameLiftWrapper>();
 
             amazonGameLiftClientWrapperMock.Setup(x => x.CreateGameSessionAsync(It.IsAny<CreateGameSessionRequest>(), It.IsAny<CancellationToken>())).ReturnsAsync(new CreateGameSessionResponse { }).Verifiable();
             amazonGameLiftClientWrapperMock.Setup(x => x.DescribeGameSessions(It.IsAny<DescribeGameSessionsRequest>())).ReturnsAsync(new DescribeGameSessionsResponse { }).Verifiable();
@@ -35,7 +35,7 @@ namespace AmazonGameLiftPlugin.Core.Tests.ApiGateWayManagement
         [Test]
         public void StartGame_WhenSearchGameSessionReturnsExistingSession_IsSuccessful()
         {
-            var amazonGameLiftClientWrapperMock = new Mock<IAmazonGameLiftClientWrapper>();
+            var amazonGameLiftClientWrapperMock = new Mock<IAmazonGameLiftWrapper>();
 
             amazonGameLiftClientWrapperMock.Setup(x => x.DescribeGameSessions(It.IsAny<DescribeGameSessionsRequest>())).ReturnsAsync(new DescribeGameSessionsResponse
             {
@@ -56,7 +56,7 @@ namespace AmazonGameLiftPlugin.Core.Tests.ApiGateWayManagement
         [Test]
         public void StartGame_WhenExceptionThrows_IsNotSuccessful()
         {
-            var amazonGameLiftClientWrapperMock = new Mock<IAmazonGameLiftClientWrapper>();
+            var amazonGameLiftClientWrapperMock = new Mock<IAmazonGameLiftWrapper>();
 
             amazonGameLiftClientWrapperMock.Setup(x => x.DescribeGameSessions(It.IsAny<DescribeGameSessionsRequest>())).Throws(new Exception("Unknown Exception")).Verifiable();
 
@@ -72,7 +72,7 @@ namespace AmazonGameLiftPlugin.Core.Tests.ApiGateWayManagement
         [Test]
         public void GetGameConnection_WhenSearchGameSessionReturnsEmptySessions_IsNotSuccessful()
         {
-            var amazonGameLiftClientWrapperMock = new Mock<IAmazonGameLiftClientWrapper>();
+            var amazonGameLiftClientWrapperMock = new Mock<IAmazonGameLiftWrapper>();
 
             amazonGameLiftClientWrapperMock.Setup(x => x.DescribeGameSessions(It.IsAny<DescribeGameSessionsRequest>())).ReturnsAsync(new DescribeGameSessionsResponse { }).Verifiable();
 
@@ -88,7 +88,7 @@ namespace AmazonGameLiftPlugin.Core.Tests.ApiGateWayManagement
         [Test]
         public void GetGameConnection_WhenSearchGameSessionReturnsSession_IsSuccessful()
         {
-            var amazonGameLiftClientWrapperMock = new Mock<IAmazonGameLiftClientWrapper>();
+            var amazonGameLiftClientWrapperMock = new Mock<IAmazonGameLiftWrapper>();
 
             amazonGameLiftClientWrapperMock.Setup(x => x.DescribeGameSessions(It.IsAny<DescribeGameSessionsRequest>())).ReturnsAsync(new DescribeGameSessionsResponse
             {
@@ -128,7 +128,7 @@ namespace AmazonGameLiftPlugin.Core.Tests.ApiGateWayManagement
         [Test]
         public void GetGameConnection_WhenDescribeGameSessionsThrowsException_IsNotSuccessful()
         {
-            var amazonGameLiftClientWrapperMock = new Mock<IAmazonGameLiftClientWrapper>();
+            var amazonGameLiftClientWrapperMock = new Mock<IAmazonGameLiftWrapper>();
 
             amazonGameLiftClientWrapperMock.Setup(x => x.DescribeGameSessions(It.IsAny<DescribeGameSessionsRequest>())).Throws(new Exception("Unknown Exception")).Verifiable();
 
@@ -144,7 +144,7 @@ namespace AmazonGameLiftPlugin.Core.Tests.ApiGateWayManagement
         [Test]
         public void GetGameConnection_WhenCreatePlayerSessionThrowsException_IsNotSuccessful()
         {
-            var amazonGameLiftClientWrapperMock = new Mock<IAmazonGameLiftClientWrapper>();
+            var amazonGameLiftClientWrapperMock = new Mock<IAmazonGameLiftWrapper>();
 
             amazonGameLiftClientWrapperMock.Setup(x => x.DescribeGameSessions(It.IsAny<DescribeGameSessionsRequest>())).ReturnsAsync(new DescribeGameSessionsResponse
             {

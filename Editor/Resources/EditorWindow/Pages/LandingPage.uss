@@ -1,0 +1,24 @@
+/* Copyright Amazon.com, Inc. or its affiliates. All Rights Reserved. */
+/* SPDX-License-Identifier: Apache-2.0 */
+
+@import "../common.uss";
+@import "../Components/statusbox.uss";
+
+.sample__image {
+    --unity-image-size: stretch-to-fill;
+    width: 270px;
+    height: 220px;
+    flex: 0 0 auto;
+}
+
+Image#LandingPageNoAccountImage {
+    --unity-image: resource("Images/Icons/NoAccountIcon");
+}
+
+Image#LandingPageAccountImage {
+    --unity-image: resource("Images/Icons/AccountIcon");
+}
+
+Image#LandingPageSampleImage {
+    --unity-image: resource("Images/LandingPage/SampleGame");
+}

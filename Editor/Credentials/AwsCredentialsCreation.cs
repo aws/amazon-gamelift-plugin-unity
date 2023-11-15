@@ -89,7 +89,7 @@ namespace AmazonGameLift.Editor
                 return;
             }
 
-            Response response = _coreApi.SaveAwsCredentials(ProfileName, AccessKeyId, SecretKey);
+            Response response = _coreApi.SaveAwsCredentials(ProfileName, AccessKeyId, SecretKey, RegionBootstrap.AllRegions[RegionBootstrap.RegionIndex]);
 
             if (!response.Success)
             {

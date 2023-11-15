@@ -50,11 +50,6 @@ namespace AmazonGameLiftPlugin.Editor.UnitTests
             SetUpCoreApiWithSetting(coreApiMock, SettingsKeys.CurrentProfileName, success, profile);
         }
 
-        public static void SetUpCoreApiWithGameLiftLocalPath(this Mock<CoreApi> coreApiMock, bool success, string result = "X:/gl.exe")
-        {
-            SetUpCoreApiWithSetting(coreApiMock, SettingsKeys.GameLiftLocalPath, success, result);
-        }
-
         public static void SetUpCoreApiWithAccountId(this Mock<CoreApi> coreApiMock, bool success, string accountId = "test-id")
         {
             var accountIdResponse = new RetrieveAccountIdByCredentialsResponse()
@@ -116,9 +111,9 @@ namespace AmazonGameLiftPlugin.Editor.UnitTests
             return testProfiles;
         }
 
-        internal static void SetUpCoreApiWithSetting(this Mock<CoreApi> coreApiMock, string key, bool success, string successResult)
+        internal static void SetUpCoreApiWithSetting(this Mock<CoreApi> coreApiMock, SettingsKeys key, bool success, string successResult)
         {
-            var response = new GetSettingResponse() { Value = successResult };
+            var response = new GetSettingResponse() { Value = success ? successResult : null };
             response = success ? Response.Ok(response) : Response.Fail(response);
             coreApiMock.Setup(target => target.GetSetting(key))
                 .Returns(response);

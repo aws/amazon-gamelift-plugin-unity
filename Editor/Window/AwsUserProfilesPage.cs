@@ -1,0 +1,226 @@
+// Copyright Amazon.com, Inc. or its affiliates. All Rights Reserved.
+// SPDX-License-Identifier: Apache-2.0
+
+using System.Collections.Generic;
+using System.Linq;
+using UnityEngine;
+using UnityEngine.UIElements;
+using BucketErrorCode = AmazonGameLiftPlugin.Core.Shared.ErrorCode;
+
+namespace AmazonGameLift.Editor
+{
+    internal class AwsUserProfilesPage
+    {
+        private List<TextField> AccountDetailTextFields = new();
+
+        private readonly AwsCredentialsUpdate _awsCredentialsUpdateModel;
+        private readonly BootstrapSettings _bootstrapSettings;
+
+        private VisualElement _currentElement;
+
+        private const string hiddenClassName = "hidden";
+        private readonly StateManager _stateManager;
+        private readonly VisualElement _container;
+        private readonly UserProfileCreation _userProfileCreation;
+        private readonly List<VisualElement> _allMenus;
+        private readonly VisualElement _noAccountMenu;
+        private readonly VisualElement _createMenu;
+        private readonly VisualElement _bootstrapMenu;
+        private readonly VisualElement _completedMenu;
+        private StatusBox _statusBox;
+
+        public AwsUserProfilesPage(VisualElement container, StateManager stateManager)
+        {
+            var awsCredentials = AwsCredentialsFactory.Create();
+            _awsCredentialsUpdateModel = awsCredentials.Update;
+
+            _container = container;
+            var mVisualTreeAsset = Resources.Load<VisualTreeAsset>("EditorWindow/Pages/AwsUserProfilesPage");
+            var uxml = mVisualTreeAsset.Instantiate();
+
+            _container.Add(uxml);
+            SetupStatusBoxes();
+            LocalizeText();
+
+            _noAccountMenu = _container.Q<VisualElement>("UserProfilePageNoAccountMenu");
+            _createMenu = _container.Q<VisualElement>("UserProfilePageCreateMenu");
+            _bootstrapMenu = _container.Q<VisualElement>("UserProfilePageBootstrapMenu");
+            _completedMenu = _container.Q<VisualElement>("UserProfilePageCompletedMenu");
+            _allMenus = new List<VisualElement>()
+            {
+                _noAccountMenu,
+                _createMenu,
+                _bootstrapMenu,
+                _completedMenu,
+            };
+            AccountDetailTextFields = _createMenu.Query<TextField>().ToList();
+
+            _stateManager = stateManager;
+            _stateManager.OnUserProfileUpdated += () =>
+            {
+                _awsCredentialsUpdateModel.Refresh();
+                _awsCredentialsUpdateModel.Update();
+            };
+
+            var createProfileContainer = _container.Q("UserProfilePageCreateMenu");
+            _userProfileCreation = new UserProfileCreation(createProfileContainer, _stateManager);
+            _userProfileCreation.OnProfileCreated += () =>
+            {
+                ShowProfileMenu(_bootstrapMenu);
+            };
+            _bootstrapSettings = BootstrapSettingsFactory.Create(_stateManager);
+
+            RefreshProfiles();
+
+            container.Q<DropdownField>("UserProfilePageAccountNewProfileRegionDropdown").choices =
+                _stateManager.CoreApi.ListAvailableRegions().ToList();
+
+            UpdateGui();
+
+            _stateManager.OnUserProfileUpdated += UpdateGui;
+
+            ChooseProfileMenu();
+            SetupButtonCallbacks();
+        }
+
+        private void UpdateGui()
+        {
+            if (!_stateManager.IsBootstrapped)
+            {
+                _statusBox.Show(StatusBox.StatusBoxType.Warning, Strings.UserProfilePageStatusBoxWarningText);
+            }
+            else
+            {
+                _statusBox.Close();
+            }
+        }
+
+        private void LocalizeText()
+        {
+            var l = new ElementLocalizer(_container);
+            l.SetElementText("UserProfilePageTitle", Strings.UserProfilePageTitle);
+            l.SetElementText("UserProfilePageDescription", Strings.UserProfilePageDescription);
+            l.SetElementText("UserProfilePageAccountCardNoAccountTitle", Strings.UserProfilePageAccountCardNoAccountTitle);
+            l.SetElementText("UserProfilePageAccountCardNoAccountDescription", Strings.UserProfilePageAccountCardNoAccountDescription);
+            l.SetElementText("UserProfilePageAccountCardNewAccountTitle", Strings.UserProfilePageAccountCardNewAccountTitle);
+            l.SetElementText("UserProfilePageAccountCardNewAccountDescription", Strings.UserProfilePageAccountCardNewAccountDescription);
+            l.SetElementText("UserProfilePageAccountCardNoAccountLink", Strings.UserProfilePageAccountCardNoAccountLink);
+            l.SetElementText("UserProfilePageAccountCardNoAccountButtonLabel", Strings.UserProfilePageAccountCardNoAccountButtonLabel);
+            l.SetElementText("UserProfilePageAccountCardHasAccountButton", Strings.UserProfilePageAccountCardHasAccountButton);
+            l.SetElementText("UserProfilePageBootstrapTitle", Strings.UserProfilePageBootstrapTitle);
+            l.SetElementText("UserProfilePageBootstrapDescription", Strings.UserProfilePageBootstrapDescription);
+            l.SetElementText("LabelBootstrapRegion", Strings.LabelBootstrapRegion);
+            l.SetElementText("UserProfilePageBootstrapHelpLink", Strings.UserProfilePageBootstrapHelpLink);
+            l.SetElementText("UserProfilePageBootstrapStartButton", Strings.UserProfilePageBootstrapStartButton);
+            l.SetElementText("UserProfilePageBootstrapAnotherProfileButton", Strings.UserProfilePageBootstrapAnotherProfileButton);
+            l.SetElementText("UserProfilePageBootstrapAnotherBucketButton", Strings.UserProfilePageBootstrapAnotherBucketButton);
+            l.SetElementText("UserProfilePageAccountAddNewProfileButton", Strings.UserProfilePageBootstrapAnotherProfileButton);
+            l.SetElementText("UserProfilePageCompletedBootstrapHelpLink", Strings.UserProfilePageCompletedBootstrapHelpLink);
+        }
+
+        private void SetupButtonCallbacks()
+        {
+            _container.Q<Button>("UserProfilePageAccountCardNoAccountButton")
+                .RegisterCallback<ClickEvent>(_ => Application.OpenURL(Urls.CreateAwsAccountLearnMore));
+            _container.Q<VisualElement>("UserProfilePageBootstrapHelpLinkParent")
+                .RegisterCallback<ClickEvent>(_ => Application.OpenURL(Urls.S3BootstrapHelp));
+            _container.Q<VisualElement>("UserProfilePageCompletedBootstrapHelpLinkParent")
+                .RegisterCallback<ClickEvent>(_ => Application.OpenURL(Urls.S3BootstrapHelp));
+            _container.Q<VisualElement>("UserProfilePageAccountNewProfileHelpLinkParent")
+                .RegisterCallback<ClickEvent>(_ => Application.OpenURL(Urls.AwsIamDocumentation));
+
+            _container.Q<Button>("UserProfilePageAccountCardHasAccountButton").RegisterCallback<ClickEvent>(_ =>
+            {
+                var targetWizard = _container.Q<VisualElement>("UserProfilePageCreateMenu");
+                ShowProfileMenu(targetWizard);
+            });
+            _container.Q<Button>("UserProfilePageBootstrapAnotherProfileButton").RegisterCallback<ClickEvent>(_ =>
+            {
+                var targetWizard = _container.Q<VisualElement>("UserProfilePageCreateMenu");
+                ShowProfileMenu(targetWizard);
+            });
+            _container.Q<Button>("UserProfilePageAccountNewProfileCancelButton").RegisterCallback<ClickEvent>(_ =>
+            {
+                _userProfileCreation.Reset();
+                ChooseProfileMenu();
+            });
+            _container.Q<Button>("UserProfilePageBootstrapStartButton").RegisterCallback<ClickEvent>(_ =>
+            {
+                _bootstrapSettings.RefreshBucketName();
+                OpenS3Popup(_bootstrapSettings.BucketName);
+            });
+            _container.Q<Button>("UserProfilePageBootstrapAnotherBucketButton").RegisterCallback<ClickEvent>(_ =>
+            {
+                _bootstrapSettings.RefreshBucketName();
+                OpenS3Popup(_bootstrapSettings.BucketName);
+            });
+            _container.Q<Button>("UserProfilePageAccountAddNewProfileButton").RegisterCallback<ClickEvent>(_ =>
+            {
+                var targetWizard = _container.Q<VisualElement>("UserProfilePageCreateMenu");
+                ShowProfileMenu(targetWizard);
+            });
+        }
+
+        private void ChooseProfileMenu()
+        {
+            if (_stateManager.AllProfiles.Count == 0)
+            {
+                ShowProfileMenu(_noAccountMenu);
+            }
+            else if (_stateManager.SelectedProfile == null)
+            {
+                ShowProfileMenu(_createMenu);
+            }
+            else if (_stateManager.IsBootstrapped)
+            {
+                ShowProfileMenu(_completedMenu);
+            }
+            else
+            {
+                ShowProfileMenu(_bootstrapMenu);
+            }
+        }
+
+        private void ShowProfileMenu(VisualElement targetMenu)
+        {
+            _allMenus.ForEach(menu => menu.AddToClassList(hiddenClassName));
+            if (targetMenu != null)
+            {
+                targetMenu.RemoveFromClassList(hiddenClassName);
+            }
+        }
+
+        private void RefreshProfiles()
+        {
+            _awsCredentialsUpdateModel.Refresh();
+        }
+
+        private void BootstrapAccount(string bucketName)
+        {
+            var bucketResponse = _bootstrapSettings.CreateBucket(bucketName);
+            if (bucketResponse.Success || bucketResponse.ErrorCode == BucketErrorCode.BucketNameAlreadyExists)
+            {
+                _stateManager.SetBucketBootstrap(bucketName);
+                _statusBox.Show(StatusBox.StatusBoxType.Success, Strings.UserProfilePageStatusBoxSuccessText);
+            }
+            else
+            {
+                _statusBox.Show(StatusBox.StatusBoxType.Error, Strings.UserProfilePageBootstrapErrorText,
+                    bucketResponse.ErrorMessage, Urls.AwsS3Console, Strings.ViewS3LogsStatusBoxUrlTextButton);
+            }
+        }
+
+        private void OpenS3Popup(string bucketName)
+        {
+            var popup = ScriptableObject.CreateInstance<GameLiftPluginBucketPopup>();
+            popup.Init(bucketName);
+            popup.OnConfirm += BootstrapAccount;
+            popup.ShowModalUtility();
+        }
+
+        private void SetupStatusBoxes()
+        {
+            _statusBox = _container.Q<StatusBox>("UserProfilePageStatusBox");
+        }
+    }
+}

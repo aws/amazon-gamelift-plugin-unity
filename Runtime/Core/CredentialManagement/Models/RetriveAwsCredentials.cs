@@ -15,5 +15,7 @@ namespace AmazonGameLiftPlugin.Core.CredentialManagement.Models
         public string AccessKey { get; set; }
 
         public string SecretKey { get; set; }
+        
+        public string Region { get; set; }
     }
 }

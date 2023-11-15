@@ -3,7 +3,7 @@
 
 using System.Collections;
 using System.Globalization;
-using AmazonGameLift.Runtime;
+using AmazonGameLiftPlugin.Core;
 using NUnit.Framework;
 using UnityEngine;
 using UnityEngine.SceneManagement;
