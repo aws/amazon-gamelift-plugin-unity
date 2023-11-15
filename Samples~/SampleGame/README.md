@@ -48,11 +48,11 @@ In this mode, the client can be run directly from the editor or as a standalone 
 
 ## Integration with Amazon GameLift Anywhere
 
-The asset at `Assets\Settings\GameLiftClientSettings.asset` additionally stores a setting, `IsGameLiftAnywhere`, which generates setting YAML files when building the client and server executables.
+The asset at `Assets\Settings\GameLiftClientSettings.asset` additionally stores a setting, `IsGameLiftAnywhere`, which generates setting YAML files when building the client and server executables. After creating an Anywhere fleet and registering compute, this property is imported automatically when clicking 'Apply Anywhere Settings' from the 'Host with Anywhere' tab.
 
 The server settings are the parameters needed to call the [Amazon GameLift Server SDK API, InitSDK](https://docs.aws.amazon.com/gamelift/latest/developerguide/integration-server-sdk5-csharp-actions.html#integration-server-sdk5-csharp-initsdk-anywhere).
 
-The server additionally requires an AuthToken generated from the [GetComputeAuthToken GameLift API](https://docs.aws.amazon.com/gamelift/latest/apireference/API_GetComputeAuthToken.html). When you run the server through the Unity editor, this token is generated and used automatically. If you run the server from a standalone executable, get a valid token and start the server from a command line, providing the auth token as an argument.
+The server additionally requires an AuthToken generated from the [GetComputeAuthToken GameLift API](https://docs.aws.amazon.com/gamelift/latest/apireference/API_GetComputeAuthToken.html). When you run the server through the Unity editor, this token is generated and used automatically. If you run the server from a standalone executable, get a valid token and start the server from a command line, providing the auth token as the argument `--authToken`.
 
 The client settings are the parameters needed to call GameLift APIs from the AWS SDK (including a fleet ID, location, and AWS credential profile).
 
