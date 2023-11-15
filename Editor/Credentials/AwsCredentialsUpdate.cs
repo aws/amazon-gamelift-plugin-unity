@@ -148,7 +148,6 @@ namespace AmazonGameLift.Editor
                 _status.SetMessage(_textProvider.Get(Strings.StatusProfileUpdated), MessageType.Info);
             }
 
-            _coreApi.ClearSetting(SettingsKeys.CurrentBucketName);
             CurrentProfileIndex = SelectedProfileIndex;
             CurrentProfileName = profileName;
             _currentAccessKeyId = AccessKeyId;

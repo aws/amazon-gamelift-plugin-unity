@@ -7,6 +7,8 @@ namespace AmazonGameLiftPlugin.Core.BucketManagement.Models
 {
     public class CreateBucketRequest
     {
+        public string AccountId { get; set; }
+        
         public string BucketName { get; set; }
 
         public string Region { get; set; }

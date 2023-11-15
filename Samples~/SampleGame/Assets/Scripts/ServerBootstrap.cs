@@ -29,8 +29,9 @@ public sealed class ServerBootstrap : MonoBehaviour
     private void Start()
     {
         string logFilePath = ReadLogFilePathFromCmd();
+        string authToken = ReadAuthTokenFromCmd();
         int? port = ReadPortFromCmd();
-        _gameLift.StartServer(port ?? 33430, logFilePath);
+        _gameLift.StartServer(port ?? 33430, authToken, logFilePath);
         StartGame();
     }
 
@@ -61,6 +62,23 @@ public sealed class ServerBootstrap : MonoBehaviour
             }
 
             return value;
+        }
+
+        return null;
+    }
+
+    private string ReadAuthTokenFromCmd()
+    {
+        string[] args = Environment.GetCommandLineArgs();
+
+        for (int i = 0; i < args.Length - 1; i++)
+        {
+            if (args[i] != "-authToken")
+            {
+                continue;
+            }
+
+            return args[i + 1];
         }
 
         return null;

@@ -1,0 +1,43 @@
+﻿<!-- Copyright Amazon.com, Inc. or its affiliates. All Rights Reserved. -->
+<!-- SPDX-License-Identifier: Apache-2.0 -->
+
+<ui:UXML xmlns:ui="UnityEngine.UIElements" xmlns:gl="AmazonGameLift.Editor">
+    <ui:Style src="../common.uss"/>
+    <ui:VisualElement class="separator separator--vertical separator--large">
+        <gl:StatusBox name="AnywherePageConnectFleetStatusBox"/>
+        <ui:VisualElement name="AnywherePageCreateFleet" class="separator separator--vertical">
+            <ui:VisualElement name="AnywherePageCreateFleetName" class="form-row">
+                <ui:Label name="AnywherePageCreateFleetNameLabel" class="form-row__label" text="Fleet Name"/>
+                <ui:VisualElement class="form-row__input">
+                    <ui:TextField name="AnywherePageCreateFleetNameInput" class="text-input separator__single--tiny separator--vertical" value="GameName-AnywhereFleet"/>
+                    <ui:Label name="AnywherePageCreateFleetNameHint" class="input-hint" text="Fleet Name must have 1–1024 characters. Valid characters are A-Z, a-z, 0-9, _ and - (hyphen)"/>
+                </ui:VisualElement>
+            </ui:VisualElement>
+            <ui:VisualElement class="form-row">
+                <ui:VisualElement class="form-row__input form-row__input--no-label separator separator--horizontal">
+                    <ui:Button name="AnywherePageCreateFleetButton" class="button button--primary" text="Create Anywhere Fleet"/>
+                    <ui:Button name="AnywherePageCreateFleetCancelButton" class="button" text="Cancel"/>
+                </ui:VisualElement>
+            </ui:VisualElement>
+        </ui:VisualElement>
+        <ui:VisualElement name="AnywherePageConnectFleet" class="separator separator--vertical">
+            <ui:VisualElement name="AnywherePageConnectFleetName" class="form-row">
+                <ui:Label name="AnywherePageConnectFleetNameLabel" class="form-row__label" text="Fleet Name"/>
+                <ui:DropdownField name="AnywherePageConnectFleetNameDropdown" class="form-row__input dropdown"/>
+            </ui:VisualElement>
+            <ui:VisualElement name="AnywherePageConnectFleetID" class="form-row">
+                <ui:Label name="AnywherePageConnectFleetIDLabel" class="form-row__label" text="Fleet ID"/>
+                <ui:Label name="AnywherePageConnectFleetIDDisplay" class="form-row__text-display" text="1234567890"/>
+            </ui:VisualElement>
+            <ui:VisualElement name="AnywherePageConnectFleetStatus" class="form-row">
+                <ui:Label name="AnywherePageConnectFleetStatusLabel" class="form-row__label" text="Fleet status"/>
+                <gl:StatusIndicator/>
+            </ui:VisualElement>
+            <ui:VisualElement name="AnywherePageConnectFleetButtons" class="form-row">
+                <ui:VisualElement class="form-row__input form-row__input--no-label separator separator--horizontal">
+                    <ui:Button name="AnywherePageConnectFleetNewButton" class="button" text="Create New Anywhere Fleet"/>
+                </ui:VisualElement>
+            </ui:VisualElement>
+        </ui:VisualElement>
+    </ui:VisualElement>
+</ui:UXML>

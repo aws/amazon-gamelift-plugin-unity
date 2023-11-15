@@ -8,15 +8,17 @@ namespace AmazonGameLift.Editor
 {
     internal readonly struct DeploymentStackInfo : IEquatable<DeploymentStackInfo>
     {
+        public string StackId { get;  }
         public string Details { get; }
         public string Status { get; }
         public string StackStatus { get; }
         public string ApiGatewayEndpoint { get; }
         public string UserPoolClientId { get; }
 
-        public DeploymentStackInfo(string formatterdStatus, string stackStatus = null, string details = null, string apiGatewayEndpoint = null, string userPoolClientId = null)
+        public DeploymentStackInfo(string formatterdStatus, string stackStatus = null, string details = null, string apiGatewayEndpoint = null, string userPoolClientId = null, string stackId = null)
         {
             Status = formatterdStatus ?? throw new ArgumentNullException(nameof(formatterdStatus));
+            StackId = stackId;
             StackStatus = stackStatus;
             Details = details;
             ApiGatewayEndpoint = apiGatewayEndpoint;

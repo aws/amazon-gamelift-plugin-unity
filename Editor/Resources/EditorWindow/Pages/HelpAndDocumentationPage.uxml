@@ -1,0 +1,38 @@
+<!-- Copyright Amazon.com, Inc. or its affiliates. All Rights Reserved. -->
+<!-- SPDX-License-Identifier: Apache-2.0 -->
+
+<ui:UXML xmlns:ui="UnityEngine.UIElements" xmlns:gl="AmazonGameLift.Editor">
+    <ui:Style src="./HelpAndDocumentationPage.uss"/>
+    <ui:VisualElement class="separator separator--vertical separator--large">
+        <ui:VisualElement class="separator separator--vertical">
+            <ui:Label name="HelpPageTitle" class="page__title" text="Help &amp; Documentation"/>
+            <ui:Label name="HelpPageDescription" text="Learn how to integrate and deploy games for hosting on GameLift. The GameLift service manages game server deployment, operation, and scaling.&#10;You can deploy custom-built game servers or use GameLift Realtime Servers to configure lightweight game servers for your game."/>
+            <gl:InfoLinks/>
+        </ui:VisualElement>
+        <ui:VisualElement class="divider"/>
+        <ui:VisualElement class="separator separator--vertical">
+            <ui:Label name="HelpPageEstimatingPriceTitle" class="page__subtitle" text="Estimating Price"/>
+            <ui:Label name="HelpPageEstimatingPriceDescription" text="With AWS Pricing Calculator, you can create a pricing estimate for Amazon GameLift. You don&apos;t need an AWS account or in-depth knowledge of AWS to use the calculator."/>
+            <ui:VisualElement name="HelpPageEstimatingPriceLinkParent" class="external-link">
+                <ui:Label name="HelpPageEstimatingPriceLink" text="Learn More"/>
+                <ui:Image name="ExternalLinkIcon" class="icon icon--extrasmall"/>
+            </ui:VisualElement>
+        </ui:VisualElement>
+        <ui:VisualElement class="separator separator--vertical">
+            <ui:Label name="HelpPageFleetIQTitle" class="page__subtitle" text="Amazon GameLift FleetIQ"/>
+            <ui:Label name="HelpPageFleetIQDescription" text="Amazon GameLift FleetIQ optimizes the use of low-cost Amazon EC2 Spot Instances for cloud-based game hosting.&#10;With Amazon GameLift FleetIQ, you can work directly with your hosting resources in Amazon EC2 and Amazon EC2 Auto Scaling while taking advantage of Amazon GameLift optimizations to deliver inexpensive, resilient game hosting for your players."/>
+            <ui:VisualElement name="HelpPageFleetIQLinkParent" class="external-link">
+                <ui:Label name="HelpPageFleetIQLink" text="Learn More"/>
+                <ui:Image name="ExternalLinkIcon" class="icon icon--extrasmall"/>
+            </ui:VisualElement>
+        </ui:VisualElement>
+        <ui:VisualElement class="separator separator--vertical">
+            <ui:Label name="HelpPageFlexMatchTitle" class="page__subtitle" text="Amazon GameLift FlexMatch"/>
+            <ui:Label name="HelpPageFlexMatchDescription" text="Amazon GameLift FlexMatch is a customizable matchmaking service for multiplayer games.&#10;With FlexMatch, you can build a custom set of rules that defines what a multiplayer match looks like for your game, and determines how to evaluate and select compatible players for each match."/>
+            <ui:VisualElement name="HelpPageFlexMatchLinkParent" class="external-link">
+                <ui:Label name="HelpPageFlexMatchLink" text="Learn More"/>
+                <ui:Image name="ExternalLinkIcon" class="icon icon--extrasmall"/>
+            </ui:VisualElement>
+        </ui:VisualElement>
+    </ui:VisualElement>
+</ui:UXML>
