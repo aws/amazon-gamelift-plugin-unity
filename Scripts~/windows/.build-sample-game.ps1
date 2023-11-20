@@ -7,6 +7,9 @@ $EXPORT_START_TIME = Get-Date
 
 echo "Exporting Sample Game..."
 
+& "$PSScriptRoot\.verify-working-directory.ps1"
+if ($LASTEXITCODE -ne 0) { exit $LASTEXITCODE }
+
 if (Test-Path -Path $SAMPLE_GAME_OUTPUT_PATH)
 {
 	del $SAMPLE_GAME_OUTPUT_PATH
@@ -15,12 +18,6 @@ if (Test-Path -Path $SAMPLE_GAME_OUTPUT_PATH)
 if ((Get-Command "Unity.exe" -ErrorAction SilentlyContinue) -eq $null) {
 	echo "Cannot run Unity.exe. Please add the Unity editor folder (e.g. 'C:\Program Files\Unity\Hub\Editor\<version>\Editor\') to the Windows PATH environment variable."
 	echo "Export failed"
-	exit 1
-}
-
-if (-Not (Test-Path -Path $SAMPLE_GAME_PATH))
-{
-	echo "$SAMPLE_GAME_PATH directory is not found in the working directory. Make sure you are executing the script from the project root."
 	exit 1
 }
 

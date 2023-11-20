@@ -5,11 +5,8 @@ $CORE_LIBRARY_PLUGINS_PATH="$CORE_LIBRARY_PATH\Plugins"
 
 echo "Building core library dependencies..."
 
-if (-Not (Test-Path -Path $RUNTIME_PATH))
-{
-	echo "$RUNTIME_PATH is not found in the working directory. Make sure you are executing the script from the project root."
-	exit 1
-}
+& "$PSScriptRoot\.verify-working-directory.ps1"
+if ($LASTEXITCODE -ne 0) { exit $LASTEXITCODE }
 
 if ((Get-Command "dotnet" -ErrorAction SilentlyContinue) -eq $null) 
 { 
