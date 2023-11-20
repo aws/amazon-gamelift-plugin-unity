@@ -42,3 +42,5 @@ else
 	echo "Sample Game export failed! Check logs in $SAMPLE_GAME_BUILD_LOG_PATH to troubleshoot any issues."
 	exit 1
 }
+
+exit 0

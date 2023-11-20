@@ -20,3 +20,5 @@ else
 }
 
 echo "Exports clean up completed!"
+
+exit 0

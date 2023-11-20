@@ -16,3 +16,5 @@ if ((Get-Command "npm" -ErrorAction SilentlyContinue) -eq $null)
 }
 
 npm pack
+
+exit 0

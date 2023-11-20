@@ -42,3 +42,5 @@ else
 }
 
 echo "Builds clean up completed!"
+
+exit 0

@@ -20,3 +20,5 @@ if ((Get-Command "dotnet" -ErrorAction SilentlyContinue) -eq $null)
 dotnet build "$CORE_LIBRARY_PATH\AmazonGameLiftPlugin.Core.csproj"
 
 echo "Core library dependencies built and saved in $CORE_LIBRARY_PLUGINS_PATH"
+
+exit 0
