@@ -70,7 +70,7 @@ Complete the following steps to install and enable the plugin for your multiplay
 ### Modifying the plugin code
 
 1. Clone the [`amazon-gamelift-plugin-unity`](https://github.com/aws/amazon-gamelift-plugin-unity) repository from GitHub.
-1. Run `Scripts~\windows\release.ps1` in PowerShell to build the plugin and dependent libraries (only needed once).
+1. Run `Scripts~\windows\release.ps1 -Sdk <version>` in PowerShell to build the plugin and dependent libraries (only needed once).
 1. In Unity Hub, create a new project.
 1. Open Unity Package Manager, import project from disk, and select the `package.json` located in the plugin's root folder.
 1. Setup code debugging in Unity: https://docs.unity3d.com/Manual/ManagedCodeDebugging.html, and change Unity project to Debug Mode.
@@ -80,12 +80,12 @@ Complete the following steps to install and enable the plugin for your multiplay
 
 ### Packaging the plugin
 
-Run `Scripts~\windows\release.ps1` to clean, build and export the plugin into a tarball with a single command.
+Run `Scripts~\windows\release.ps1 -Sdk <version>` to clean, build, export, and package the plugin with the server SDK in a single command.
 
 Alternatively:
 1. Run `Scripts~\windows\clean.ps1` to delete all dlls and temp files (If you want to build faster, you can comment out `.clean-download-files` execution).
 1. Run `Scripts~\windows\build.ps1` to build dlls and sample game.
-1. Run `Scripts~\windows\export.ps1` to export the plugin into a tarball (.tgz) file stored in the project root folder.
+1. Run `Scripts~\windows\export.ps1 -Sdk <version>` to export the plugin into a tarball (.tgz) and package it with the server SDK in the project root folder.
 
 ### Testing the plugin
 
