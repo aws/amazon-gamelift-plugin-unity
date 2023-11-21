@@ -37,6 +37,6 @@ else
 	echo "$SAMPLE_GAME_PACKAGE_PATH not found. Continuing..."
 }
 
-echo "Builds clean up completed!"
+Write-Host "Builds clean up completed!" -ForegroundColor Yellow
 
 exit 0

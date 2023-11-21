@@ -15,7 +15,7 @@ echo "Getting version number from 'package.json'"
 
 $PLUGIN_VERSION=Select-String -LiteralPath package.json -Pattern '"version": ".*",' | % { $_.Matches.Value } | % { $_.substring(12, $_.length-14) }
 
-echo "Identified package version as $PLUGIN_VERSION"
+Write-Host "Identified package version as $PLUGIN_VERSION" -ForegroundColor DarkYellow
 
 $TARBALL_PATH="$ROOT_DIR\com.amazonaws.gamelift-$PLUGIN_VERSION.tgz"
 $DESTINATION_PATH="$ROOT_DIR\amazon-gamelift-plugin-unity-release-$PLUGIN_VERSION.zip"
@@ -30,6 +30,6 @@ echo "Packaging zip file for release..."
 
 Compress-Archive -Force -Path "$STAGING_PATH\*" -DestinationPath $DESTINATION_PATH -ErrorAction Stop
 
-echo "Packaging successful! Release artifact located at '$DESTINATION_PATH'"
+Write-Host "Packaging successful! Release artifact located at '$DESTINATION_PATH'" -ForegroundColor Green
 
 exit 0

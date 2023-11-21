@@ -16,14 +16,14 @@ if (Test-Path -Path $SAMPLE_GAME_OUTPUT_PATH)
 }
 
 if ((Get-Command "Unity.exe" -ErrorAction SilentlyContinue) -eq $null) {
-	echo "Cannot run Unity.exe. Please add the Unity editor folder (e.g. 'C:\Program Files\Unity\Hub\Editor\<version>\Editor\') to the Windows PATH environment variable."
-	echo "Export failed"
+	Write-Host "Cannot run Unity.exe. Please add the Unity editor folder (e.g. 'C:\Program Files\Unity\Hub\Editor\<version>\Editor\') to the Windows PATH environment variable." -ForegroundColor Red
+	Write-Host "Export failed" -ForegroundColor Red
 	exit 1
 }
 
 Unity.exe -batchmode -quit -projectPath $SAMPLE_GAME_PATH -logFile $SAMPLE_GAME_BUILD_LOG_PATH -executeMethod UnityPackageExporter.Export
 
-echo "Unity is exporting the sample game... The final build artifact will be saved in $SAMPLE_GAME_OUTPUT_PATH. Check log in $SAMPLE_GAME_BUILD_LOG_PATH to troubleshoot any issues."
+Write-Host "Unity is exporting the sample game... The final build artifact will be saved in $SAMPLE_GAME_OUTPUT_PATH. Check log in $SAMPLE_GAME_BUILD_LOG_PATH to troubleshoot any issues." -ForegroundColor DarkYellow
 
 echo "Waiting for export to complete..."
 while ((-not (Test-Path $SAMPLE_GAME_OUTPUT_PATH)) -and $EXPORT_START_TIME.AddSeconds($SAMPLE_GAME_EXPORT_TIMEOUT) -gt (Get-Date)) {
@@ -32,11 +32,11 @@ while ((-not (Test-Path $SAMPLE_GAME_OUTPUT_PATH)) -and $EXPORT_START_TIME.AddSe
 
 if (Test-Path -Path $SAMPLE_GAME_OUTPUT_PATH)
 {
-	echo "Sample Game export completed! The exported artifact is saved in $SAMPLE_GAME_OUTPUT_PATH"
+	Write-Host "Sample Game export completed! The exported artifact is saved in $SAMPLE_GAME_OUTPUT_PATH" -ForegroundColor Green
 }
 else
 {
-	echo "Sample Game export failed! Check logs in $SAMPLE_GAME_BUILD_LOG_PATH to troubleshoot any issues."
+	Write-Host "Sample Game export failed! Check logs in $SAMPLE_GAME_BUILD_LOG_PATH to troubleshoot any issues." -ForegroundColor DarkRed
 	exit 1
 }
 

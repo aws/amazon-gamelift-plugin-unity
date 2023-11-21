@@ -47,6 +47,6 @@ else
 	echo "$STAGING_DIRECTORY not found. Continuing..."
 }
 
-echo "Exports clean up completed!"
+Write-Host "Exports clean up completed!" -ForegroundColor Yellow
 
 exit 0

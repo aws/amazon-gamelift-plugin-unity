@@ -8,7 +8,7 @@ if ($LASTEXITCODE -ne 0) { exit $LASTEXITCODE }
 
 if ((Get-Command "npm" -ErrorAction SilentlyContinue) -eq $null)
 {
-	Write-Host "Unable to find 'npm' executable in your PATH. Please install nodejs first: https://nodejs.org/en/download/"
+	Write-Host "Unable to find 'npm' executable in your PATH. Please install nodejs first: https://nodejs.org/en/download/" -ForegroundColor Red
 	exit 1
 }
 

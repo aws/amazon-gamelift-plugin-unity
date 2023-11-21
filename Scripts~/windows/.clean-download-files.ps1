@@ -22,6 +22,6 @@ else
 	echo "$TEMP_EXTRACTED_PATH not found. Continuing..."
 }
 
-echo "Download file clean up completed!"
+Write-Host "Download file clean up completed!" -ForegroundColor Yellow
 
 exit 0

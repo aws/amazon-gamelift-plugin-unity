@@ -19,7 +19,7 @@ if ($LASTEXITCODE -ne 0) { exit $LASTEXITCODE }
 
 if (Test-Path -Path $DESTINATION_PATH)
 {
-	echo "Amazon GameLift Server SDK zip has already been prepared, skipping download and extraction."
+	Write-Host "Amazon GameLift Server SDK zip has already been prepared, skipping download and extraction." -ForegroundColor DarkYellow
 	exit 0
 }
 
@@ -43,5 +43,7 @@ Remove-Item -LiteralPath "$TEMP_EXTRACTED_PATH\LICENSE.txt" -Force -ErrorAction 
 echo "Re-packaging Server SDK zip into project directory..."
 
 Compress-Archive -Force -Path "$TEMP_EXTRACTED_PATH\*" -DestinationPath $DESTINATION_PATH -ErrorAction Stop
+
+Write-Host "Server SDK has been re-packaged without license file at '$DESTINATION_PATH'" -ForegroundColor Yellow
 
 exit 0
