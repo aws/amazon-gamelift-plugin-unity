@@ -2,12 +2,15 @@
 .idea/
 *.dll
 *.unitypackage
+*.zip
+*.zip.meta
 *.tgz
 *.tgz.meta
 *.iml
 *.iml.meta
 SampleGameBuildLog.txt
 /build/
+/staging-release/
 
 # Infra
 *.js

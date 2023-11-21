@@ -1,15 +1,11 @@
-$ROOT_DIR='.'
-$DESTINATION_PATH="$ROOT_DIR\.build"
+param(
+	[Parameter(Mandatory)]
+	[Alias("ServerSdk", "SdkVersion", "Sdk")]
+	[ValidatePattern("\d+\.\d+\.\d+")]
+	[string] $ServerSdkVersion
+)
 
-& "$PSScriptRoot\.verify-working-directory.ps1"
-if ($LASTEXITCODE -ne 0) { exit $LASTEXITCODE }
-
-if ((Get-Command "npm" -ErrorAction SilentlyContinue) -eq $null) 
-{ 
-	Write-Host "Unable to find 'npm' executable in your PATH. Please install nodejs first: https://nodejs.org/en/download/"
-	exit 1
-}
-
-npm pack
-
-exit 0
+& "$PSScriptRoot\.export-plugin-tarball.ps1"
+if ($LASTEXITCODE -eq 0) { & "$PSScriptRoot\.export-server-sdk.ps1" $ServerSdkVersion }
+if ($LASTEXITCODE -eq 0) { & "$PSScriptRoot\.export-release-zip.ps1" $ServerSdkVersion }
+exit $LASTEXITCODE
