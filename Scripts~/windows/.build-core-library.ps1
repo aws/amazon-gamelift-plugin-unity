@@ -3,7 +3,7 @@ $RUNTIME_PATH="$ROOT_DIR\Runtime"
 $CORE_LIBRARY_PATH="$RUNTIME_PATH\Core"
 $CORE_LIBRARY_PLUGINS_PATH="$CORE_LIBRARY_PATH\Plugins"
 
-echo "Building core library dependencies..."
+Write-Host "Building core library dependencies..."
 
 & "$PSScriptRoot\.verify-working-directory.ps1"
 if ($LASTEXITCODE -ne 0) { exit $LASTEXITCODE }

@@ -23,24 +23,26 @@ if (Test-Path -Path $DESTINATION_PATH)
 	exit 0
 }
 
-echo "Preparing Amazon GameLift Server SDK for release..."
+Write-Host "Preparing Amazon GameLift Server SDK for release..."
 
 if (-Not (Test-Path -Path $TEMP_ZIP_PATH) )
 {
-	echo "Downloading Amazon GameLift Server SDK $ServerSdkVersion..."
+	Write-Host "Downloading Amazon GameLift Server SDK $ServerSdkVersion..."
+	# Download link should be public and require no credentials
 	iwr $S3_SERVER_SDK_DOWNLOAD_LINK -OutFile $TEMP_ZIP_PATH
 }
 else
 {
-	echo "Amazon GameLift Server SDK is already downloaded and stored at $TEMP_ZIP_PATH, skipping download."
+	Write-Host "Amazon GameLift Server SDK is already downloaded and stored at $TEMP_ZIP_PATH, skipping download."
 }
 
-echo "Extracting and removing license file from Server SDK zip..."
+Write-Host "Extracting and removing license file from Server SDK zip..."
 
 Expand-Archive -LiteralPath $TEMP_ZIP_PATH -DestinationPath $TEMP_EXTRACTED_PATH -ErrorAction Stop
+# See internal runbook for details
 Remove-Item -LiteralPath "$TEMP_EXTRACTED_PATH\LICENSE.txt" -Force -ErrorAction Stop
 
-echo "Re-packaging Server SDK zip into project directory..."
+Write-Host "Re-packaging Server SDK zip into project directory..."
 
 Compress-Archive -Force -Path "$TEMP_EXTRACTED_PATH\*" -DestinationPath $DESTINATION_PATH -ErrorAction Stop
 

@@ -1,7 +1,7 @@
 $ROOT_DIR='.'
 $DESTINATION_PATH="$ROOT_DIR\.build"
 
-echo "Exporting plugin source to tarball..."
+Write-Host "Exporting plugin source to tarball..."
 
 & "$PSScriptRoot\.verify-working-directory.ps1"
 if ($LASTEXITCODE -ne 0) { exit $LASTEXITCODE }

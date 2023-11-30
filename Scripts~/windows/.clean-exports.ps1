@@ -9,42 +9,42 @@ if ($LASTEXITCODE -ne 0) { exit $LASTEXITCODE }
 
 if (Test-Path -Path $BUILD_ARTIFACT_PATH_PATTERN)
 {
-	echo "Removing plugin tarball file(s)"
-	rm -Recurse -Force $BUILD_ARTIFACT_PATH_PATTERN
+	Write-Host "Removing plugin tarball file(s)"
+	Remove-Item -Recurse -Force $BUILD_ARTIFACT_PATH_PATTERN
 }
 else
 {
-	echo "$BUILD_ARTIFACT_PATH_PATTERN not found. Continuing..."
+	Write-Host "$BUILD_ARTIFACT_PATH_PATTERN not found. Continuing..."
 }
 
 if (Test-Path -Path $SERVER_SDK_ARTIFACT_PATH_PATTERN)
 {
-	echo "Removing re-packaged server sdk zip file(s)"
-	rm -Recurse -Force $SERVER_SDK_ARTIFACT_PATH_PATTERN
+	Write-Host "Removing re-packaged server sdk zip file(s)"
+	Remove-Item -Recurse -Force $SERVER_SDK_ARTIFACT_PATH_PATTERN
 }
 else
 {
-	echo "$SERVER_SDK_ARTIFACT_PATH_PATTERN not found. Continuing..."
+	Write-Host "$SERVER_SDK_ARTIFACT_PATH_PATTERN not found. Continuing..."
 }
 
 if (Test-Path -Path $RELEASE_ARTIFACT_PATH_PATTERN)
 {
-	echo "Removing release zip file(s)"
-	rm -Recurse -Force $RELEASE_ARTIFACT_PATH_PATTERN
+	Write-Host "Removing release zip file(s)"
+	Remove-Item -Recurse -Force $RELEASE_ARTIFACT_PATH_PATTERN
 }
 else
 {
-	echo "$RELEASE_ARTIFACT_PATH_PATTERN not found. Continuing..."
+	Write-Host "$RELEASE_ARTIFACT_PATH_PATTERN not found. Continuing..."
 }
 
 if (Test-Path -Path $STAGING_DIRECTORY)
 {
-	echo "Removing release staging directory"
-	rm -Recurse -Force $STAGING_DIRECTORY
+	Write-Host "Removing release staging directory"
+	Remove-Item -Recurse -Force $STAGING_DIRECTORY
 }
 else
 {
-	echo "$STAGING_DIRECTORY not found. Continuing..."
+	Write-Host "$STAGING_DIRECTORY not found. Continuing..."
 }
 
 Write-Host "Exports clean up completed!" -ForegroundColor Yellow

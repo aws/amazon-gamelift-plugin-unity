@@ -5,14 +5,14 @@ $SAMPLE_GAME_BUILD_LOG_PATH="$SAMPLES_PATH\SampleGameBuildLog.txt"
 $SAMPLE_GAME_EXPORT_TIMEOUT=30
 $EXPORT_START_TIME = Get-Date
 
-echo "Exporting Sample Game..."
+Write-Host "Exporting Sample Game..."
 
 & "$PSScriptRoot\.verify-working-directory.ps1"
 if ($LASTEXITCODE -ne 0) { exit $LASTEXITCODE }
 
 if (Test-Path -Path $SAMPLE_GAME_OUTPUT_PATH)
 {
-	del $SAMPLE_GAME_OUTPUT_PATH
+	Remove-Item $SAMPLE_GAME_OUTPUT_PATH
 }
 
 if ((Get-Command "Unity.exe" -ErrorAction SilentlyContinue) -eq $null) {
@@ -25,7 +25,7 @@ Unity.exe -batchmode -quit -projectPath $SAMPLE_GAME_PATH -logFile $SAMPLE_GAME_
 
 Write-Host "Unity is exporting the sample game... The final build artifact will be saved in $SAMPLE_GAME_OUTPUT_PATH. Check log in $SAMPLE_GAME_BUILD_LOG_PATH to troubleshoot any issues." -ForegroundColor DarkYellow
 
-echo "Waiting for export to complete..."
+Write-Host "Waiting for export to complete..."
 while ((-not (Test-Path $SAMPLE_GAME_OUTPUT_PATH)) -and $EXPORT_START_TIME.AddSeconds($SAMPLE_GAME_EXPORT_TIMEOUT) -gt (Get-Date)) {
 	Start-Sleep -m 1000
 }
