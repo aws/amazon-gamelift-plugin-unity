@@ -7,13 +7,14 @@ param(
 
 $ROOT_DIR=Resolve-Path "$PSScriptRoot\..\.."
 $BUILD_DIR="$ROOT_DIR\build"
-$SERVER_SDK_FILENAME="GameLift-CSharp-ServerSDK-UnityPlugin-$ServerSdkVersion";
-$DESTINATION_PATH="$BUILD_DIR\$SERVER_SDK_FILENAME.zip"
+$SERVER_SDK_DIR="GameLift-CSharp-ServerSDK-UnityPlugin-$ServerSdkVersion";
+$SERVER_SDK_FILENAME="$SERVER_SDK_DIR.zip";
+$DESTINATION_PATH="$BUILD_DIR\$SERVER_SDK_FILENAME"
 $TEMP_PATH="C:\Temp\AmazonGameLiftPluginUnity"
-$TEMP_ZIP_PATH = "$TEMP_PATH\$SERVER_SDK_FILENAME.zip"
-$TEMP_EXTRACTED_PATH = "$TEMP_PATH\$SERVER_SDK_FILENAME"
+$TEMP_ZIP_PATH = "$TEMP_PATH\$SERVER_SDK_FILENAME"
+$TEMP_EXTRACTED_PATH = "$TEMP_PATH\$SERVER_SDK_DIR"
 $SERVER_SDK_S3_LINK_PREFIX="https://gamelift-server-sdk-release.s3.us-west-2.amazonaws.com/unity"
-$SERVER_SDK_S3_DOWNLOAD_LINK="$SERVER_SDK_S3_LINK_PREFIX/$SERVER_SDK_FILENAME.zip"
+$SERVER_SDK_S3_DOWNLOAD_LINK="$SERVER_SDK_S3_LINK_PREFIX/$SERVER_SDK_FILENAME"
 
 if (Test-Path -Path $DESTINATION_PATH)
 {
@@ -38,7 +39,6 @@ else
 Write-Host "Extracting and removing license file from Server SDK zip..."
 
 Expand-Archive -Force -LiteralPath $TEMP_ZIP_PATH -DestinationPath $TEMP_EXTRACTED_PATH -ErrorAction Stop
-# See internal runbook for details
 Remove-Item -Force -LiteralPath "$TEMP_EXTRACTED_PATH\LICENSE.txt" -ErrorAction Stop
 
 Write-Host "Re-packaging Server SDK zip into project directory..."
