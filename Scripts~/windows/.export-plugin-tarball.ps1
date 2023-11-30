@@ -1,5 +1,5 @@
 $ROOT_DIR=Resolve-Path "$PSScriptRoot\..\.."
-$DESTINATION_PATH="$ROOT_DIR\.build"
+$BUILD_DIR="$ROOT_DIR\build"
 
 Write-Host "Exporting plugin source to tarball..."
 
@@ -9,6 +9,6 @@ if ((Get-Command "npm" -ErrorAction SilentlyContinue) -eq $null)
 	exit 1
 }
 
-npm pack
+npm pack --pack-destination $BUILD_DIR
 
 exit 0

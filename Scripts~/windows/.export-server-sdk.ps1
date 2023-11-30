@@ -6,13 +6,14 @@ param(
 )
 
 $ROOT_DIR=Resolve-Path "$PSScriptRoot\..\.."
-$SERVER_SDK_FILENAME="GameLift-CSharp-ServerSDK-UnityPlugin-$ServerSdkVersion.zip";
-$DESTINATION_PATH="$ROOT_DIR\$SERVER_SDK_FILENAME"
-$TEMP_PATH="C:\Temp"
-$TEMP_ZIP_PATH = "$TEMP_PATH\GameLiftServerSDK.zip"
-$TEMP_EXTRACTED_PATH = "$TEMP_PATH\GameLiftServerSDK"
+$BUILD_DIR="$ROOT_DIR\build"
+$SERVER_SDK_FILENAME="GameLift-CSharp-ServerSDK-UnityPlugin-$ServerSdkVersion";
+$DESTINATION_PATH="$BUILD_DIR\$SERVER_SDK_FILENAME.zip"
+$TEMP_PATH="C:\Temp\AmazonGameLiftPluginUnity"
+$TEMP_ZIP_PATH = "$TEMP_PATH\$SERVER_SDK_FILENAME.zip"
+$TEMP_EXTRACTED_PATH = "$TEMP_PATH\$SERVER_SDK_FILENAME"
 $SERVER_SDK_S3_LINK_PREFIX="https://gamelift-server-sdk-release.s3.us-west-2.amazonaws.com/unity"
-$SERVER_SDK_S3_DOWNLOAD_LINK="$SERVER_SDK_S3_LINK_PREFIX/$SERVER_SDK_FILENAME"
+$SERVER_SDK_S3_DOWNLOAD_LINK="$SERVER_SDK_S3_LINK_PREFIX/$SERVER_SDK_FILENAME.zip"
 
 if (Test-Path -Path $DESTINATION_PATH)
 {
@@ -24,6 +25,7 @@ Write-Host "Preparing Amazon GameLift Server SDK for release..."
 
 if (-Not (Test-Path -Path $TEMP_ZIP_PATH) )
 {
+	New-Item -Force -Type Directory -Path $TEMP_PATH -ErrorAction Stop
 	Write-Host "Downloading Amazon GameLift Server SDK $ServerSdkVersion..."
 	# Download link should be public and require no credentials
 	iwr $SERVER_SDK_S3_DOWNLOAD_LINK -OutFile $TEMP_ZIP_PATH
@@ -35,9 +37,9 @@ else
 
 Write-Host "Extracting and removing license file from Server SDK zip..."
 
-Expand-Archive -LiteralPath $TEMP_ZIP_PATH -DestinationPath $TEMP_EXTRACTED_PATH -ErrorAction Stop
+Expand-Archive -Force -LiteralPath $TEMP_ZIP_PATH -DestinationPath $TEMP_EXTRACTED_PATH -ErrorAction Stop
 # See internal runbook for details
-Remove-Item -LiteralPath "$TEMP_EXTRACTED_PATH\LICENSE.txt" -Force -ErrorAction Stop
+Remove-Item -Force -LiteralPath "$TEMP_EXTRACTED_PATH\LICENSE.txt" -ErrorAction Stop
 
 Write-Host "Re-packaging Server SDK zip into project directory..."
 

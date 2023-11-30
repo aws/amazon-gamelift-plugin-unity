@@ -2,16 +2,9 @@
 .idea/
 .git/
 build/
-staging-release/
 infra/
 Scripts~/
-Samples~/SampleGameBuildLog.txt
 Temp~/
 
-*.tgz
-*.tgz.meta
-
-*.zip
-*.zip.meta
 build.meta
 infra.meta
