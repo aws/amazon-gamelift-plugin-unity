@@ -1,4 +1,5 @@
-$SAMPLES_PATH=".\Samples~"
+$ROOT_DIR=Resolve-Path "$PSScriptRoot\..\.."
+$SAMPLES_PATH="$ROOT_DIR\Samples~"
 $SAMPLE_GAME_PATH="$SAMPLES_PATH\SampleGame"
 $SAMPLE_GAME_OUTPUT_PATH="$SAMPLES_PATH\SampleGame.unitypackage"
 $SAMPLE_GAME_BUILD_LOG_PATH="$SAMPLES_PATH\SampleGameBuildLog.txt"
@@ -6,9 +7,6 @@ $SAMPLE_GAME_EXPORT_TIMEOUT=30
 $EXPORT_START_TIME = Get-Date
 
 Write-Host "Exporting Sample Game..."
-
-& "$PSScriptRoot\.verify-working-directory.ps1"
-if ($LASTEXITCODE -ne 0) { exit $LASTEXITCODE }
 
 if (Test-Path -Path $SAMPLE_GAME_OUTPUT_PATH)
 {

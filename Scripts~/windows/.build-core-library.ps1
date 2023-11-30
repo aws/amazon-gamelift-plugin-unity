@@ -1,12 +1,8 @@
-$ROOT_DIR="."
-$RUNTIME_PATH="$ROOT_DIR\Runtime"
-$CORE_LIBRARY_PATH="$RUNTIME_PATH\Core"
+$ROOT_DIR=Resolve-Path "$PSScriptRoot\..\.."
+$CORE_LIBRARY_PATH="$ROOT_DIR\Runtime\Core"
 $CORE_LIBRARY_PLUGINS_PATH="$CORE_LIBRARY_PATH\Plugins"
 
 Write-Host "Building core library dependencies..."
-
-& "$PSScriptRoot\.verify-working-directory.ps1"
-if ($LASTEXITCODE -ne 0) { exit $LASTEXITCODE }
 
 if ((Get-Command "dotnet" -ErrorAction SilentlyContinue) -eq $null) 
 { 

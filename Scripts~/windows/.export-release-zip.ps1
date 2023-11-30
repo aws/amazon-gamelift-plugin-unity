@@ -5,7 +5,7 @@ param(
 	[string] $ServerSdkVersion
 )
 
-$ROOT_DIR='.'
+$ROOT_DIR=Resolve-Path "$PSScriptRoot\..\.."
 $STAGING_PATH="$ROOT_DIR\staging-release"
 $README_PATH="$ROOT_DIR\Scripts~\PACKAGE_FOR_RELEASE.md"
 $SERVER_SDK_FILENAME="GameLift-CSharp-ServerSDK-UnityPlugin-$ServerSdkVersion.zip";

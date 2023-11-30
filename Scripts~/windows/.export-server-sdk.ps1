@@ -5,17 +5,14 @@ param(
 	[string] $ServerSdkVersion
 )
 
-$ROOT_DIR='.'
+$ROOT_DIR=Resolve-Path "$PSScriptRoot\..\.."
 $SERVER_SDK_FILENAME="GameLift-CSharp-ServerSDK-UnityPlugin-$ServerSdkVersion.zip";
 $DESTINATION_PATH="$ROOT_DIR\$SERVER_SDK_FILENAME"
 $TEMP_PATH="C:\Temp"
 $TEMP_ZIP_PATH = "$TEMP_PATH\GameLiftServerSDK.zip"
 $TEMP_EXTRACTED_PATH = "$TEMP_PATH\GameLiftServerSDK"
-$S3_SERVER_SDK_BUCKET="https://gamelift-server-sdk-release.s3.us-west-2.amazonaws.com/unity"
-$S3_SERVER_SDK_DOWNLOAD_LINK="$S3_SERVER_SDK_BUCKET/$SERVER_SDK_FILENAME"
-
-& "$PSScriptRoot\.verify-working-directory.ps1"
-if ($LASTEXITCODE -ne 0) { exit $LASTEXITCODE }
+$SERVER_SDK_S3_LINK_PREFIX="https://gamelift-server-sdk-release.s3.us-west-2.amazonaws.com/unity"
+$SERVER_SDK_S3_DOWNLOAD_LINK="$SERVER_SDK_S3_LINK_PREFIX/$SERVER_SDK_FILENAME"
 
 if (Test-Path -Path $DESTINATION_PATH)
 {
@@ -29,7 +26,7 @@ if (-Not (Test-Path -Path $TEMP_ZIP_PATH) )
 {
 	Write-Host "Downloading Amazon GameLift Server SDK $ServerSdkVersion..."
 	# Download link should be public and require no credentials
-	iwr $S3_SERVER_SDK_DOWNLOAD_LINK -OutFile $TEMP_ZIP_PATH
+	iwr $SERVER_SDK_S3_DOWNLOAD_LINK -OutFile $TEMP_ZIP_PATH
 }
 else
 {

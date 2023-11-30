@@ -1,11 +1,8 @@
-$ROOT_DIR="."
+$ROOT_DIR=Resolve-Path "$PSScriptRoot\..\.."
 $RUNTIME_PATH="$ROOT_DIR\Runtime"
 $CORE_LIBRARY_PLUGINS_PATH="$RUNTIME_PATH\Core\Plugins"
 $SERVER_SDK_PLUGINS_PATH="$RUNTIME_PATH\Plugins"
 $SAMPLE_GAME_PACKAGE_PATH="Samples~\SampleGame.unitypackage"
-
-& "$PSScriptRoot\.verify-working-directory.ps1"
-if ($LASTEXITCODE -ne 0) { exit $LASTEXITCODE }
 
 if (Test-Path -Path $CORE_LIBRARY_PLUGINS_PATH)
 {
