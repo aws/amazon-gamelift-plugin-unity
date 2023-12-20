@@ -16,7 +16,6 @@ You can use built-in templates to deploy your game for the following common scen
 * Spot fleet: Deploy your game server to a set of low-cost Spot fleets and a back-up On-Demand fleet. Use this scenario to experiment with a multi-fleet hosting structure that balances cost savings and durable game session availability.
 * FlexMatch fleet: Deploy your game server for hosting with a FlexMatch matchmaking solution. [Amazon GameLift FlexMatch](https://docs.aws.amazon.com/gamelift/latest/flexmatchguide/match-intro.html) is a highly scalable and customizable matchmaking service for multiplayer games. Use this scenario to set up basic matchmaking components (including a rule set) that you can customize.
 
-
 Each scenario uses an AWS CloudFormation template to deploy a resource stack for your game server solution. You can view and manage your resource stacks in the AWS Management Console for CloudFormation.
 
 - [Prerequisites](#prerequisites)
