@@ -15,7 +15,6 @@ You can use built-in templates to deploy your game for the following common scen
 * Single-region fleet: Deploy your game server to one fleet in a single AWS Region. Use this scenario to experiment with your install scripts and runtime deployment, as well as your integration.
 * Spot fleet: Deploy your game server to a set of low-cost Spot fleets and a back-up On-Demand fleet. Use this scenario to experiment with a multi-fleet hosting structure that balances cost savings and durable game session availability.
 * FlexMatch fleet: Deploy your game server for hosting with a FlexMatch matchmaking solution. [Amazon GameLift FlexMatch](https://docs.aws.amazon.com/gamelift/latest/flexmatchguide/match-intro.html) is a highly scalable and customizable matchmaking service for multiplayer games. Use this scenario to set up basic matchmaking components (including a rule set) that you can customize.
-* Windows Dedicated Server Build Support module installed by going to Unity Hub -> Installs -> click on the gear button on the right of your editor -> Add modules
 
 
 Each scenario uses an AWS CloudFormation template to deploy a resource stack for your game server solution. You can view and manage your resource stacks in the AWS Management Console for CloudFormation.
@@ -29,7 +28,7 @@ Each scenario uses an AWS CloudFormation template to deploy a resource stack for
 ## Prerequisites
 
 * Amazon GameLift plugin for Unity download package. Download a zip file from [the GitHub Releases page](https://github.com/aws/amazon-gamelift-plugin-unity/releases). Or clone the plugin from the [Github repo](https://github.com/aws/amazon-gamelift-plugin-unity).
-* A compatible Unity editor (2021.3 LTS, 2022.3 LTS)
+* A compatible Unity editor (2021.3 LTS, 2022.3 LTS) with Dedicated Server Build Support module for Windows (and Linux if desired).
 * (Optional) A C# multiplayer game project with game code.
 * An AWS account with access permissions to use Amazon GameLift, Amazon S3, and AWS CloudFormation. See [Set up programmatic access](https://docs.aws.amazon.com/gamelift/latest/developerguide/setting-up-aws-login.html) with long-term credentials.
 
