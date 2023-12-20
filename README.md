@@ -27,7 +27,7 @@ Each scenario uses an AWS CloudFormation template to deploy a resource stack for
 ## Prerequisites
 
 * Amazon GameLift plugin for Unity download package. Download a zip file from [the GitHub Releases page](https://github.com/aws/amazon-gamelift-plugin-unity/releases). Or clone the plugin from the [Github repo](https://github.com/aws/amazon-gamelift-plugin-unity).
-* A compatible Unity editor (2021.3 LTS, 2022.3 LTS)
+* A compatible Unity editor (2021.3 LTS, 2022.3 LTS) with Dedicated Server Build Support module for Windows (and Linux if desired).
 * (Optional) A C# multiplayer game project with game code.
 * An AWS account with access permissions to use Amazon GameLift, Amazon S3, and AWS CloudFormation. See [Set up programmatic access](https://docs.aws.amazon.com/gamelift/latest/developerguide/setting-up-aws-login.html) with long-term credentials.
 
