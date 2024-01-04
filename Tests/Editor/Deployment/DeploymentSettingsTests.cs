@@ -28,7 +28,7 @@ namespace AmazonGameLiftPlugin.Editor.UnitTests
         public void ScenarioIndex_WhenFormFilledAndRestore_IsExpected(bool coreSuccess)
         {
             var initialScenario = DeploymentScenarios.FlexMatch;
-            var storedScenario = DeploymentScenarios.SpotFleet;
+            var storedScenario = DeploymentScenarios.FlexMatch;
 
             var stateManagerMock = new Mock<StateManager>();
             stateManagerMock.Object.DeploymentScenario =

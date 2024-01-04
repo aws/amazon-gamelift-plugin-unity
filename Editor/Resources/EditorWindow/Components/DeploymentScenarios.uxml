@@ -14,16 +14,6 @@
                 </ui:VisualElement>
             </ui:VisualElement>
         </ui:VisualElement>
-        <ui:VisualElement name="ManagedEC2ScenarioSpotFleet" class="form-row">
-            <ui:Label name="ManagedEC2ScenarioSpotFleetLabel" class="form-row__label" text="Spot Fleet"/>
-            <ui:VisualElement class="form-row__input">
-                <ui:RadioButton name="ManagedEC2ScenarioSpotFleetRadio" class="form-row__radio-button" text="Forms matches by using Amazon GameLift queues and a custom matchmaker and configures three fleets."/>
-                <ui:VisualElement name="ManagedEC2ScenarioSpotFleetLinkParent" class="external-link form-row__radio-button-link">
-                    <ui:Label name="ManagedEC2ScenarioSpotFleetLink" class="form-row__text-display foldout__link" text="Learn More"/>
-                    <ui:Image name="ExternalLinkIcon" class="icon--extrasmall"/>
-                </ui:VisualElement>
-            </ui:VisualElement>
-        </ui:VisualElement>
         <ui:VisualElement name="ManagedEC2ScenarioFlexMatch" class="form-row">
             <ui:Label name="ManagedEC2ScenarioFlexMatchLabel" class="form-row__label" text="Flex Match"/>
             <ui:VisualElement class="form-row__input">
