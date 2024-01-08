@@ -16,7 +16,7 @@ Compatible with Amazon GameLift Plugin for Unity v2.x.
 This sample Unity project demonstrates the steps to integrate a game client and server with the Amazon GameLift Plugin for Unity.
 
 This sample project supports the following core features of the plugin:
-* Deployment scenarios (Single-region, Spot, and FlexMatch).
+* Deployment scenarios (Single-region and FlexMatch).
 * Local testing with Amazon GameLift Anywhere.
 * Running the client or server code within the Unity Editor.
 

@@ -200,7 +200,7 @@ namespace AmazonGameLift.Editor
                 _launchClientButton.RemoveFromClassList(_primaryButtonClassName);
             }
 
-            if (_deploymentSettings.Scenario == DeploymentScenarios.SpotFleet || _deploymentSettings.Scenario == DeploymentScenarios.FlexMatch)
+            if (_deploymentSettings.Scenario == DeploymentScenarios.FlexMatch)
             {
                 _launchClientButton.AddToClassList(_hiddenClassName);
                 _launchClientDescription.RemoveFromClassList(_hiddenClassName);
@@ -318,7 +318,6 @@ namespace AmazonGameLift.Editor
         private string GetScenarioType(ElementLocalizer l) => _deploymentSettings.Scenario switch
         {
             DeploymentScenarios.SingleRegion => l.GetText(Strings.ManagedEC2ScenarioSingleFleetLabel),
-            DeploymentScenarios.SpotFleet => l.GetText(Strings.ManagedEC2ScenarioSpotFleetLabel),
             DeploymentScenarios.FlexMatch => l.GetText(Strings.ManagedEC2ScenarioFlexMatchLabel),
             _ => throw new ArgumentOutOfRangeException()
         };
