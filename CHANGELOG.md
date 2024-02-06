@@ -1,5 +1,9 @@
 CHANGELOG
 
+# 2.0.1 (2/13/2023)
+
+- Updated the Server SDK to 5.1.2
+
 # 2.0.0 (11/16/2023)
 
 - Added support for Amazon GameLift Server SDK 5 and Amazon GameLift Anywhere.
