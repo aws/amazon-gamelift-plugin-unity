@@ -1,6 +1,6 @@
 CHANGELOG
 
-# 2.0.1 (2/13/2023)
+# 2.1.0 (2/13/2023)
 
 - Updated the Server SDK to 5.1.2
 - Removed Spot Fleet deployment scenario. For a deployment with Spot fleets and multi-location fleets, use the FlexMatch fleet scenario instead.
