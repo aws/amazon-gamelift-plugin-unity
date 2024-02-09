@@ -13,6 +13,7 @@ Amazon GameLift is a fully managed service that lets game developers to manage a
 
 You can use built-in templates to deploy your game for the following common scenarios. 
 * Single-region fleet: Deploy your game server to one fleet in a single AWS Region. Use this scenario to experiment with your install scripts and runtime deployment, as well as your integration.
+* Spot fleet: Deploy your game server to a set of low-cost Spot fleets and a back-up On-Demand fleet. Use this scenario to experiment with a multi-fleet hosting structure that balances cost savings and durable game session availability.
 * FlexMatch fleet: Deploy your game server for hosting with a FlexMatch matchmaking solution. [Amazon GameLift FlexMatch](https://docs.aws.amazon.com/gamelift/latest/flexmatchguide/match-intro.html) is a highly scalable and customizable matchmaking service for multiplayer games. Use this scenario to set up basic matchmaking components (including a rule set) that you can customize.
 
 Each scenario uses an AWS CloudFormation template to deploy a resource stack for your game server solution. You can view and manage your resource stacks in the AWS Management Console for CloudFormation.
@@ -26,7 +27,7 @@ Each scenario uses an AWS CloudFormation template to deploy a resource stack for
 ## Prerequisites
 
 * Amazon GameLift plugin for Unity download package. Download a zip file from [the GitHub Releases page](https://github.com/aws/amazon-gamelift-plugin-unity/releases). Or clone the plugin from the [Github repo](https://github.com/aws/amazon-gamelift-plugin-unity).
-* A compatible Unity editor (2021.3 LTS, 2022.3 LTS) with Dedicated Server Build Support module for Windows (and Linux if desired).
+* A compatible Unity editor (2021.3 LTS, 2022.3 LTS)
 * (Optional) A C# multiplayer game project with game code.
 * An AWS account with access permissions to use Amazon GameLift, Amazon S3, and AWS CloudFormation. See [Set up programmatic access](https://docs.aws.amazon.com/gamelift/latest/developerguide/setting-up-aws-login.html) with long-term credentials.
 
@@ -69,7 +70,7 @@ Complete the following steps to install and enable the plugin for your multiplay
 ### Modifying the plugin code
 
 1. Clone the [`amazon-gamelift-plugin-unity`](https://github.com/aws/amazon-gamelift-plugin-unity) repository from GitHub.
-1. Run `Scripts~\windows\release.ps1 -Sdk <version>` in PowerShell to build the plugin and dependent libraries (only needed once).
+1. Run `Scripts~\windows\release.ps1` in PowerShell to build the plugin and dependent libraries (only needed once).
 1. In Unity Hub, create a new project.
 1. Open Unity Package Manager, import project from disk, and select the `package.json` located in the plugin's root folder.
 1. Setup code debugging in Unity: https://docs.unity3d.com/Manual/ManagedCodeDebugging.html, and change Unity project to Debug Mode.
@@ -79,12 +80,12 @@ Complete the following steps to install and enable the plugin for your multiplay
 
 ### Packaging the plugin
 
-Run `Scripts~\windows\release.ps1 -Sdk <version>` to clean, build, export, and package the plugin with the server SDK in a single command.
+Run `Scripts~\windows\release.ps1` to clean, build and export the plugin into a tarball with a single command.
 
 Alternatively:
 1. Run `Scripts~\windows\clean.ps1` to delete all dlls and temp files (If you want to build faster, you can comment out `.clean-download-files` execution).
 1. Run `Scripts~\windows\build.ps1` to build dlls and sample game.
-1. Run `Scripts~\windows\export.ps1 -Sdk <version>` to export the plugin into a tarball (.tgz) and package it with the server SDK in the project root folder.
+1. Run `Scripts~\windows\export.ps1` to export the plugin into a tarball (.tgz) file stored in the project root folder.
 
 ### Testing the plugin
 

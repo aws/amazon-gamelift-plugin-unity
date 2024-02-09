@@ -1,0 +1,30 @@
+[
+  {
+    "ParameterKey": "GameNameParameter",
+    "ParameterValue": "Scene4Game"
+  },
+  {
+    "ParameterKey": "LaunchPathParameter",
+    "ParameterValue": "C:\\game\\amazon-gamelift-unity.exe"
+  },
+  {
+    "ParameterKey": "LaunchParametersParameter",
+    "ParameterValue": "-debug -logFile \"c:\\game\\server.log\""
+  },
+  {
+    "ParameterKey": "BuildVersionParameter",
+    "ParameterValue": "1"
+  },
+  {
+    "ParameterKey": "BuildOperatingSystemParameter",
+    "ParameterValue": "WINDOWS_2016"
+  },
+  {
+    "ParameterKey": "FleetNameParameter",
+    "ParameterValue": "SPOT Fleet"
+  },
+  {
+    "ParameterKey": "BuildNameParameter",
+    "ParameterValue": "SPOT Fleet Build"
+  }
+]

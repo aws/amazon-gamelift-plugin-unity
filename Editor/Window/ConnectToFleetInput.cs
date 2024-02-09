@@ -113,9 +113,9 @@ namespace AmazonGameLift.Editor
 
         private async void OnSelectFleetDropdown(string fleetSelection)
         {
-            var items = fleetSelection.Split(" (");
+            var items = fleetSelection.Split(" | ");
             var fleetName = items[0];
-            var fleetId = items[1].Remove(items[1].Length - 1, 1);
+            var fleetId = items[1];
             var currentFleet =
                 _fleetAttributes.FirstOrDefault(fleet => fleet.Name == fleetName && fleet.FleetId == fleetId);
             if (currentFleet != null)
@@ -167,7 +167,7 @@ namespace AmazonGameLift.Editor
                 var textProvider = new TextProvider();
 
                 _fleetNameDropdownContainer.choices =
-                    _fleetAttributes.Select(fleet => $"{fleet.Name} ({fleet.FleetId})").ToList();
+                    _fleetAttributes.Select(fleet => $"{fleet.Name} | {fleet.FleetId}").ToList();
                 if (string.IsNullOrWhiteSpace(_stateManager.AnywhereFleetId))
                 {
                     _fleetNameDropdownContainer.SetValueWithoutNotify(
@@ -176,7 +176,7 @@ namespace AmazonGameLift.Editor
                 else
                 {
                     _fleetNameDropdownContainer.value =
-                        $"{_stateManager.AnywhereFleetName} ({_stateManager.AnywhereFleetId})";
+                        $"{_stateManager.AnywhereFleetName} | {_stateManager.AnywhereFleetId}";
                 }
 
                 _fleetIdText.text = _stateManager.AnywhereFleetId;

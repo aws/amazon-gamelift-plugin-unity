@@ -1,16 +1,22 @@
-$ROOT_DIR=Resolve-Path "$PSScriptRoot\..\.."
-$BUILD_DIR="$ROOT_DIR\build"
+$ROOT_DIR="."
+$RUNTIME_PATH="$ROOT_DIR\Runtime"
+$BUILD_ARTIFACT_PATH_PATTERN="$ROOT_DIR\com.amazonaws.gamelift-*.tgz"
 
-if (Test-Path -Path $BUILD_DIR)
+if (-Not (Test-Path -Path $RUNTIME_PATH))
 {
-	Write-Host "Removing build directory to clear out release artifacts..."
-	Remove-Item -Recurse -Force $BUILD_DIR -ErrorAction Stop
+	echo "$RUNTIME_PATH directory is not found in the working directory. Make sure you are executing the script from the project root."
+	Read-Host -Prompt "Press ENTER to continue"
+	exit 1
+}
+
+if (Test-Path -Path $BUILD_ARTIFACT_PATH_PATTERN)
+{
+	echo "Removing build directory and tarball file(s)"
+	rm -Recurse -Force $BUILD_ARTIFACT_PATH_PATTERN
 }
 else
 {
-	Write-Host "$BUILD_DIR is already cleaned up. Continuing..."
+	echo "$BUILD_ARTIFACT_PATH_PATTERN not found. Continuing..."
 }
 
-Write-Host "Exports clean up completed!" -ForegroundColor Yellow
-
-exit 0
+echo "Exports clean up completed!"

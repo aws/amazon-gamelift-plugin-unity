@@ -15,6 +15,7 @@ namespace AmazonGameLift.Editor
         private DeploymentScenarios _deploymentScenarios;
 
         private readonly VisualElement _container;
+        private readonly VisualElement _spotFleetRadioGroup;
         private readonly VisualElement _flexMatchRadioGroup;
         private readonly Button _showMoreScenariosButton;
 
@@ -36,9 +37,11 @@ namespace AmazonGameLift.Editor
 
             _container.SetEnabled(_enabled);
 
+            _spotFleetRadioGroup = container.Q("ManagedEC2ScenarioSpotFleet");
             _flexMatchRadioGroup = container.Q("ManagedEC2ScenarioFlexMatch");
 
             SetupRadioButton("ManagedEC2ScenarioSingleFleetRadio", DeploymentScenarios.SingleRegion);
+            SetupRadioButton("ManagedEC2ScenarioSpotFleetRadio", DeploymentScenarios.SpotFleet);
             SetupRadioButton("ManagedEC2ScenarioFlexMatchRadio", DeploymentScenarios.FlexMatch);
 
             _showMoreScenariosButton = container.Q<Button>("ManagedEC2ScenarioShowMoreButton");
@@ -51,6 +54,8 @@ namespace AmazonGameLift.Editor
             stateManager.OnUserProfileUpdated += UpdateGUI;
             
             _container.Q<VisualElement>("ManagedEC2ScenarioSingleFleetLinkParent")
+                .RegisterCallback<ClickEvent>(_ => Application.OpenURL(Urls.ManagedEC2FleetLearnMore));
+            _container.Q<VisualElement>("ManagedEC2ScenarioSpotFleetLinkParent")
                 .RegisterCallback<ClickEvent>(_ => Application.OpenURL(Urls.ManagedEC2FleetLearnMore));
             _container.Q<VisualElement>("ManagedEC2ScenarioFlexMatchLinkParent")
                 .RegisterCallback<ClickEvent>(_ => Application.OpenURL(Urls.ManagedEC2FleetLearnMore));
@@ -86,6 +91,7 @@ namespace AmazonGameLift.Editor
             return new List<VisualElement>()
             {
                 _showMoreScenariosButton,
+                _spotFleetRadioGroup,
                 _flexMatchRadioGroup
             };
         }
@@ -94,7 +100,7 @@ namespace AmazonGameLift.Editor
             _isExpanded
                 ? new List<VisualElement>()
                 {
-                    _flexMatchRadioGroup
+                    _spotFleetRadioGroup, _flexMatchRadioGroup
                 }
                 : new List<VisualElement>() { _showMoreScenariosButton };
 
@@ -127,6 +133,9 @@ namespace AmazonGameLift.Editor
             l.SetElementText("ManagedEC2ScenarioSingleFleetLabel", Strings.ManagedEC2ScenarioSingleFleetLabel);
             l.SetElementText("ManagedEC2ScenarioSingleFleetRadio", Strings.ManagedEC2ScenarioSingleFleetRadio);
             l.SetElementText("ManagedEC2ScenarioSingleFleetLink", Strings.ManagedEC2ScenarioSingleFleetLink);
+            l.SetElementText("ManagedEC2ScenarioSpotFleetLabel", Strings.ManagedEC2ScenarioSpotFleetLabel);
+            l.SetElementText("ManagedEC2ScenarioSpotFleetRadio", Strings.ManagedEC2ScenarioSpotFleetRadio);
+            l.SetElementText("ManagedEC2ScenarioSpotFleetLink", Strings.ManagedEC2ScenarioSpotFleetLink);
             l.SetElementText("ManagedEC2ScenarioFlexMatchLabel", Strings.ManagedEC2ScenarioFlexMatchLabel);
             l.SetElementText("ManagedEC2ScenarioFlexMatchRadio", Strings.ManagedEC2ScenarioFlexMatchRadio);
             l.SetElementText("ManagedEC2ScenarioFlexMatchLink", Strings.ManagedEC2ScenarioFlexMatchLink);
