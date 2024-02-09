@@ -6,10 +6,5 @@ infra/
 Scripts~/
 Temp~/
 
-*.tgz
-*.tgz.meta
-
-artifact.zip
-artifact.zip.meta
 build.meta
 infra.meta

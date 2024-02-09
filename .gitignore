@@ -2,11 +2,9 @@
 .idea/
 *.dll
 *.unitypackage
-*.tgz
-*.tgz.meta
 *.iml
 *.iml.meta
-SampleGameBuildLog.txt
+build.meta
 /build/
 
 # Infra

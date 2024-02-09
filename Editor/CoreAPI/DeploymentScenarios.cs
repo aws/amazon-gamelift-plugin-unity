@@ -6,7 +6,6 @@ namespace AmazonGameLift.Editor
     public enum DeploymentScenarios
     {
         SingleRegion = 0,
-        SpotFleet = 1,
-        FlexMatch = 2
+        FlexMatch = 1
     }
 }

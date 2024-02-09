@@ -1,22 +1,17 @@
-$ROOT_DIR="."
-$RUNTIME_PATH="$ROOT_DIR\Runtime"
-$CORE_LIBRARY_PATH="$RUNTIME_PATH\Core"
+$ROOT_DIR=Resolve-Path "$PSScriptRoot\..\.."
+$CORE_LIBRARY_PATH="$ROOT_DIR\Runtime\Core"
 $CORE_LIBRARY_PLUGINS_PATH="$CORE_LIBRARY_PATH\Plugins"
 
-echo "Building core library dependencies..."
-
-if (-Not (Test-Path -Path $RUNTIME_PATH))
-{
-	echo "$RUNTIME_PATH is not found in the working directory. Make sure you are executing the script from the project root."
-	exit 1
-}
+Write-Host "Building core library dependencies..."
 
 if ((Get-Command "dotnet" -ErrorAction SilentlyContinue) -eq $null) 
 { 
-	Write-Host "Unable to find 'dotnet' executable in your PATH. See README on how to install the .NET 4.5 Developer Pack in order to build the Server SDK"
+	Write-Host "Unable to find 'dotnet' executable in your PATH. See README on how to install .NET in order to build the plugin" -ForegroundColor Red
 	exit 1
 }
 
 dotnet build "$CORE_LIBRARY_PATH\AmazonGameLiftPlugin.Core.csproj"
 
-echo "Core library dependencies built and saved in $CORE_LIBRARY_PLUGINS_PATH"
+Write-Host "Core library dependencies built and saved in $CORE_LIBRARY_PLUGINS_PATH" -ForegroundColor Yellow
+
+exit 0
