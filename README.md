@@ -62,7 +62,9 @@ Complete the following steps to install and enable the plugin for your multiplay
 * Administrator rights on a Microsoft Windows OS
 * A supported Unity version
     * You also need to add the Unity editor folder (e.g. `C:\Program Files\Unity\Hub\Editor\<version>\Editor\ `) to the Windows PATH environment variable.
-* Visual Studio 2019 (can be installed with Unity)
+* AWS CLI 2.x
+    * Ensure the AWS CLI is in the Windows PATH environment. This should be handled by the installation wizard. A restart may be required after installation is complete.
+* Visual Studio 2019 (can be installed with Unity) or Jetbrains Rider 2024
 * .NET Core 6 to build the core plugin source.
 * NodeJS/npm: https://nodejs.org/en/download/ to package the plugin.
 

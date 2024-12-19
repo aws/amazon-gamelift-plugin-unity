@@ -1,6 +1,14 @@
 CHANGELOG
 
-# 2.1.0 (2/13/2023)
+# 3.0.0 (12/19/2024)
+
+This version supports Unity 2021.3 LTS and 2022.3 LTS for Windows and Mac OS
+- Updated the server SDK to version 5.2.0.
+- Added support for creating container images and Amazon GameLift managed container fleets.
+- Added a new AWS user profile workflow.
+- Refreshed Amazon GameLift Anywhere and managed EC2 workflows with new progress indicators.
+
+# 2.1.0 (02/13/2024)
 
 - Updated the Server SDK to 5.1.2
 - Removed Spot Fleet deployment scenario. For a deployment with Spot fleets and multi-location fleets, use the FlexMatch fleet scenario instead.
