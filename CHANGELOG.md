@@ -2,7 +2,7 @@ CHANGELOG
 
 # 3.0.0 (12/19/2024)
 
-This version supports Unity 2021.3 LTS and 2022.3 LTS for Windows and Mac OS
+This version supports the LTS versions of Unity 6.0, 2021.3, and 2022.3.
 - Updated the server SDK to version 5.2.0.
 - Added support for creating container images and Amazon GameLift managed container fleets.
 - Added a new AWS user profile workflow.

@@ -5,7 +5,7 @@
 ![GitHub downloads all releases](https://img.shields.io/github/downloads/aws/amazon-gamelift-plugin-unity/total)
 ![GitHub downloads latest release (by date)](https://img.shields.io/github/downloads/aws/amazon-gamelift-plugin-unity/latest/total)
 
-Compatible with Unity 2021.3 LTS and 2022.3 LTS.
+See Releases page for compatible Unity versions.
 
 # Overview
 
