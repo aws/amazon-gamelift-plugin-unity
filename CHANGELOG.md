@@ -1,6 +1,6 @@
 CHANGELOG
 
-# 3.0.1 (03/12/2025)
+# 3.0.1 (03/13/2025)
 This version supports the LTS versions of Unity 6.0, 2021.3, and 2022.3.
 - Update the installation instructions to use the new registry URL for Unity NuGet in Package Manager
 
